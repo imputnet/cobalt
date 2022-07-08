@@ -39,7 +39,7 @@ This is my passion project, so update scheduele depends on my motivation. Don't 
 Code might be a little messy, but I promise to improve it over time.
 
 ### Requirements
-- Node.js 14.16 or newer
+- Node.js 14.16 or above
 - git
 
 ### npm modules
