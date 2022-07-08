@@ -15,7 +15,7 @@ cobalt doesn't remux any videos, so videos you get are max quality available (un
 - Reddit
 - VK
 
-## Stuff that has to be done
+## What still has to be done
 - [ ] Quality switching for bilibili and Twitter
 - [ ] Clean up the mess that localisation is right now
     - [ ] Sort contents of .json files
