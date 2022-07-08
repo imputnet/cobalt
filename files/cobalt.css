@@ -181,22 +181,20 @@ input[type="checkbox"] {
     cursor: not-allowed;
 }
 #footer {
-    bottom: 0.5rem;
+    bottom: 0rem;
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 0.9rem;
     text-align: center;
-    width: auto;
-}
-#footer-buttons {
-    display: block;
+    width: 90%;
 }
 .footer-button {
     cursor: pointer;
     color: var(--accent-unhover-2);
     border: 0.15rem var(--accent-unhover-2) solid;
     padding: 0.4rem 0.8rem 0.5rem;
+    margin-bottom: 0.5rem;
 }
 .footer-button:hover {
     color: var(--accent);
