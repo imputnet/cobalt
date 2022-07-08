@@ -61,4 +61,4 @@ Setup script installs all needed **npm** dependencies, but you have to install N
 4. Done.
 
 ## License
-cobalt is under [GPL-3.0 license]([https://github.com/wukko/cobalt/LICENSE](https://github.com/wukko/cobalt/blob/current/LICENSE)), keep that in mind when doing something with it.
+cobalt is under [GPL-3.0 license](https://github.com/wukko/cobalt/blob/current/LICENSE), keep that in mind when doing something with it.
