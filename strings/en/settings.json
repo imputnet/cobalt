@@ -1,0 +1,20 @@
+{
+    "category-appearance": "appearance",
+    "always-visible": "keep >> visible",
+    "picker": "always download max quality",
+    "format": "download format",
+    "format-info": "webm videos are usually higher quality but not all devices can play them. select webm only if you need max quality available. audio only downloads will always be max quality.",
+    "theme": "theme",
+    "theme-auto": "auto",
+    "theme-light": "light",
+    "theme-dark": "dark",
+    "misc": "miscellaneous",
+    "general": "downloads",
+    "quality": "quality",
+    "q-max": "max",
+    "q-hig": "high\n",
+    "q-mid": "medium\n",
+    "q-low": "low\n",
+    "q-los": "lowest",
+    "q-desc": "all resolutions listed here are max values. if there's no video of preferred quality closest one gets picked instead."
+}

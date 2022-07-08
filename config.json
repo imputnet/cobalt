@@ -1,0 +1,31 @@
+{
+    "appName": "cobalt",
+    "version": "2.1",
+    "streamLifespan": 1800000,
+    "maxVideoDuration": 1920000,
+    "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+    "repo": "https://github.com/wukko/cobalt",
+    "supportedLanguages": ["en"],
+    "authorInfo": {
+        "name": "wukko",
+        "link": "https://wukko.me/",
+        "contact": "https://wukko.me/contacts",
+        "twitter": "uwukko"
+    },
+    "internetExplorerRedirect": {
+        "newNT": ["6.1", "6.2", "6.3", "10.0"],
+        "old": "https://mypal-browser.org/",
+        "new": "https://vivaldi.com/"
+    },
+    "donations": {
+        "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
+        "bitcoin": "bc1q64amsn0wd60urem3jkhpywed8q8kqwssw6ta5j",
+        "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
+        "bitcoin cash": "bitcoincash:qph0d7d02mvg5xxqjwjv5ahjx2254yx5kv0zfg0xsj"
+    },
+    "quality": {
+        "hig": "1080",
+        "mid": "720",
+        "low": "480"
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "subtitle": "everything is new! (v.2.1)",
+    "text": "- added support for: bilibili.com, youtube, youtube music, reddit, vk;\n- remade the way downloads are handled;\n- added proper website branding;\n- added settings, donations, and changelog menu;\n- added manual theme picker;\n- added format picker for youtube;\n- added quality picker for youtube and vk downloads (bilibili and twitter later);\n- improved usability;\n- upgraded the download button to be adaptive depending on current status;\n- popups are now adaptive, too;\n- better scalability;\n- took out trash;\n- moved from commonjs to ems;\n- overall revamp of backend and frontend;\n- fixed various issues that were present in older version.",
+    "github": "&gt;&gt; see previous changes and contribute on github"
+}

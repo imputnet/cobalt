@@ -1,0 +1,72 @@
+{
+    "bilibili": {
+        "alias": "bilibili.com",
+        "patterns": ["video/:id"],
+        "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
+        "enabled": true
+    },
+    "reddit": {
+        "patterns": ["r/:sub/comments/:id/:title"],
+        "enabled": true
+    },
+    "twitter": {
+        "patterns": [":user/status/:id"],
+        "quality_match": ["1080", "720", "480", "360", "240", "144"],
+        "enabled": true,
+        "api": "api.twitter.com",
+        "token": "AAAAAAAAAAAAAAAAAAAAAIK1zgAAAAAA2tUWuhGZ2JceoId5GwYWU5GspY4%3DUq7gzFoCZs1QfwGoVdvSac3IniczZEYXIcDyumCauIXpcAPorE",
+        "apiURLs": {
+            "activate": "1.1/guest/activate.json",
+            "status_show": "1.1/statuses/show.json"
+        }
+    },
+    "vk": {
+        "patterns": ["video-:userId_:videoId"],
+        "quality_match": {
+            "2160": 7,
+            "1440": 6,
+            "1080": 5,
+            "720": 3,
+            "480": 2,
+            "360": 1,
+            "240": 0,
+            "144": 4
+        },
+        "quality": {
+            "1080": "hig",
+            "720": "mid",
+            "480": "low"
+        },
+        "enabled": true
+    },
+    "youtube": {
+        "patterns": ["watch?v=:id"],
+        "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
+        "quality": {
+            "1080": "hig",
+            "720": "mid",
+            "480": "low"
+        },
+        "enabled": true
+    },
+    "youtube music": {
+        "patterns": ["watch?v=:id"],
+        "enabled": true
+    },
+    "tumblr": {
+        "patterns": ["post/:id"],
+        "enabled": false
+    },
+    "facebook": {
+        "patterns": [":pageid/:type/:postid"],
+        "enabled": false
+    },
+    "instagram": {
+        "patterns": [":type/:id"],
+        "enabled": false
+    },
+    "tiktok": {
+        "patterns": [":pageid/:type/:postid", ":id"],
+        "enabled": false
+    }
+}
