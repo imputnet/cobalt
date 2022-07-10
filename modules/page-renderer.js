@@ -32,6 +32,8 @@ export default function(obj) {
         <meta property="og:title" content="${appName}" />
         <meta property="og:description" content="${loc(obj.lang, 'desc', 'embed')}" />
         <meta property="og:image" content="${process.env.selfURL}icons/generic.png" />
+        <meta name="title" content="${appName}" />
+        <meta name="description" content="${loc(obj.lang, 'desc', 'embed')}" />
         <meta name="theme-color" content="#000000" />
         <meta name="twitter:card" content="summary" />
 

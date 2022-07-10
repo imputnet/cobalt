@@ -1,6 +1,7 @@
 import "dotenv/config"
 
 import express from "express";
+import cors from "cors";
 import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
@@ -15,6 +16,8 @@ import stream from "./modules/stream/stream.js";
 
 const commitHash = currentCommit();
 const app = express();
+
+app.disable('x-powered-by');
 
 if (fs.existsSync('./.env') && fs.existsSync('./config.json')) {
     const apiLimiter = rateLimit({
@@ -36,12 +39,10 @@ if (fs.existsSync('./.env') && fs.existsSync('./config.json')) {
         }
     })
 
-    app.set('etag', 'strong');
     app.use('/api/', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/', express.static('files'));
 
-    // avoid the %% URIError
     app.use((req, res, next) => {
         try {
             decodeURIComponent(req.path)
@@ -52,7 +53,7 @@ if (fs.existsSync('./.env') && fs.existsSync('./config.json')) {
         next();
     });
 
-    app.get('/api/:type', async (req, res) => {
+    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
             switch (req.params.type) {
                 case 'json':

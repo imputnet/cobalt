@@ -17,6 +17,6 @@
     "liveVideo": "i can't download a live video. wait for stream to finish and try again.",
     "nothingToDownload": "it seems like there's nothing to download. try another link!",
     "cantConnectToAPI": "i couldn't connect to {s} api. seems like either {s} is down or server ip got blocked. try again later.",
-    "noStreamID": "there's no such stream id. you can't fool me!",
+    "noStreamID": "there's no such stream id.",
     "noType": "there's no such expected response type."
 }
