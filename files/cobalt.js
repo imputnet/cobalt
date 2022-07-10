@@ -147,7 +147,7 @@ async function download(url) {
     changeDownloadButton(2, '...');
     eid("url-input-area").disabled = true;
     let format = '';
-    if (url.includes(".youtube.com/") || url.includes("/youtu.be/")) {
+    if (url.includes("youtube.com/") || url.includes("/youtu.be/")) {
         format = `&format=${localStorage.getItem("youtubeFormat")}`
     }
     fetch(`/api/json?quality=${localStorage.getItem("quality")}${format}&url=${encodeURIComponent(url)}`).then(async (response) => {

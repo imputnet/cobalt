@@ -61,7 +61,7 @@ if (fs.existsSync('./.env') && fs.existsSync('./config.json')) {
                             req.query.url.trim(),
                             req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip,
                             req.header('Accept-Language') ? req.header('Accept-Language').slice(0, 2) : "en",
-                            req.query.format ? req.query.format.slice(0, 5) : "webm",
+                            req.query.format ? req.query.format.slice(0, 5) : "mp4",
                             req.query.quality ? req.query.quality.slice(0, 3) : "max"
                         )
                         res.status(j.status).json(j.body);

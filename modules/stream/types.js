@@ -40,8 +40,8 @@ export async function streamLiveRender(streamInfo, res) {
                 '-loglevel', '-8',
                 '-i', 'pipe:3',
                 '-i', 'pipe:4',
-                '-map', '0:a',
-                '-map', '1:v',
+                '-map', '0:v',
+                '-map', '1:a',
                 '-c:v', 'copy',
                 '-c:a', 'copy',
             ];
@@ -75,11 +75,11 @@ export async function streamLiveRender(streamInfo, res) {
             });
             res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
             ffmpegProcess.stdio[5].pipe(res);
-            audio.pipe(ffmpegProcess.stdio[3]).on('error', (err) => {
+            video.pipe(ffmpegProcess.stdio[3]).on('error', (err) => {
                 ffmpegProcess.kill();
                 internalError(res);
             });
-            video.pipe(ffmpegProcess.stdio[4]).on('error', (err) => {
+            audio.pipe(ffmpegProcess.stdio[4]).on('error', (err) => {
                 ffmpegProcess.kill();
                 internalError(res);
             });
