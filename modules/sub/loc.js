@@ -2,7 +2,7 @@ import { supportedLanguages, appName } from "../config.js";
 import loadJson from "./load-json.js";
 
 export default function(lang, cat, string, replacement) {
-    if (!lang in supportedLanguages) {
+    if (!supportedLanguages.includes(lang)) {
         lang = 'en'
     }
     try {
