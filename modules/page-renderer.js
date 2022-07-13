@@ -1,4 +1,5 @@
 import { services, appName, authorInfo, version, quality, repo, donations } from "./config.js";
+import { getCommitInfo } from "./sub/current-commit.js";
 import loc from "./sub/loc.js";
 
 let s = services
@@ -19,6 +20,7 @@ for (let i in donations) {
     donate += `<div class="subtitle">${i} (${loc("en", 'desc', 'clickToCopy').trim()})</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations[i]}</div>`
 }
 
+let com = getCommitInfo();
 export default function(obj) {
     let isIOS = obj.useragent.toLowerCase().match("iphone os")
     try {
@@ -85,10 +87,10 @@ export default function(obj) {
             <div id="popup-header" class="popup-header">
                 <button id="close" class="button mono" onclick="popup('changelog', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
                 <div id="title" class="popup-title">${loc(obj.lang, 'title', 'changelog')}</div>
-                <div id="desc" class="popup-subtitle">${loc(obj.lang, 'changelog', 'subtitle')}(${obj.hash})</div>
+                <div id="desc" class="popup-subtitle">${com[0]} (${obj.hash})</div>
             </div>
             <div id="content" class="popup-content">
-                <div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'changelog', 'text')}</div>
+                <div id="desc" class="popup-desc about-padding">${com[1]}</div>
                 <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}/commits">${loc(obj.lang, 'changelog', 'github')}</a></div>
             </div>
         </div>
