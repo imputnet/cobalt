@@ -91,7 +91,7 @@ export default function(obj) {
             </div>
             <div id="content" class="popup-content">
                 <div id="desc" class="popup-desc about-padding">${com[1]}</div>
-                <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}/commits">${loc(obj.lang, 'changelog', 'github')}</a></div>
+                <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}/commits">${loc(obj.lang, 'desc', 'github')}</a></div>
             </div>
         </div>
         <div id="popup-donate" class="popup scrollable center box" style="visibility: hidden;">

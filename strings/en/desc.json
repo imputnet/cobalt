@@ -14,5 +14,6 @@
     "normalDownload": "download button opens a new tab with requested video. you can disable this popup in settings.",
     "download": "download",
     "copy": "copy url",
-    "open": "open"
+    "open": "open",
+    "github": "&gt;&gt; see previous changes and contribute on github"
 }
