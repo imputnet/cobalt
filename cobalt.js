@@ -5,7 +5,7 @@ import cors from "cors";
 import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
-import currentCommit from "./modules/sub/current-commit.js";
+import { shortCommit } from "./modules/sub/current-commit.js";
 import { appName, genericUserAgent, version, internetExplorerRedirect } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/page-renderer.js";
@@ -14,7 +14,7 @@ import loc from "./modules/sub/loc.js";
 import { Bright, Cyan } from "./modules/sub/console-text.js";
 import stream from "./modules/stream/stream.js";
 
-const commitHash = currentCommit();
+const commitHash = shortCommit();
 const app = express();
 
 app.disable('x-powered-by');

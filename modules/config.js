@@ -14,5 +14,6 @@ let supportedLanguages = config.supportedLanguages
 let quality = config.quality
 let internetExplorerRedirect = config.internetExplorerRedirect
 let donations = config.donations
+let ffmpegArgs = config.ffmpegArgs 
 
-export {appName, version, streamLifespan, maxVideoDuration, genericUserAgent, repo, authorInfo, services, supportedLanguages, quality, internetExplorerRedirect, donations}
+export {appName, version, streamLifespan, maxVideoDuration, genericUserAgent, repo, authorInfo, services, supportedLanguages, quality, internetExplorerRedirect, donations, ffmpegArgs}

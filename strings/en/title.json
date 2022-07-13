@@ -1,7 +1,9 @@
 {
-    "about": "owo what's this?",
+    "about": "what's {appName}?",
     "settings": "settings",
     "error": "uh-oh...",
     "changelog": "what's new?",
-    "donate": "support {appName}"
+    "donate": "support {appName}",
+    "download": "download",
+    "pickDownload": "pick a way to save"
 }

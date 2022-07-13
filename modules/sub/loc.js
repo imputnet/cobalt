@@ -1,4 +1,4 @@
-import { supportedLanguages, appName } from "../config.js";
+import { supportedLanguages, appName, repo } from "../config.js";
 import loadJson from "./load-json.js";
 
 export default function(lang, cat, string, replacement) {
@@ -8,7 +8,7 @@ export default function(lang, cat, string, replacement) {
     try {
         let str = loadJson(`./strings/${lang}/${cat}.json`);
         if (str && str[string]) {
-            let s = str[string].replace(/\n/g, '<br/>').replace(/{appName}/g, appName)
+            let s = str[string].replace(/\n/g, '<br/>').replace(/{appName}/g, appName).replace(/{repo}/g, repo)
             if (replacement) {
                 s = s.replace(/{s}/g, replacement)
             }

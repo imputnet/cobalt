@@ -13,10 +13,12 @@ let enabledServices = Object.keys(s).filter((p) => {
         return p
     }
 }).join(', ')
+
 let donate = ``
 for (let i in donations) {
-    donate += `<div class="subtitle">${i} (${loc("en", 'desc', 'clicktocopy').trim()})</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations[i]}</div>`
+    donate += `<div class="subtitle">${i} (${loc("en", 'desc', 'clickToCopy').trim()})</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations[i]}</div>`
 }
+
 export default function(obj) {
     let isIOS = obj.useragent.toLowerCase().match("iphone os")
     try {
@@ -49,33 +51,48 @@ export default function(obj) {
         <noscript><div style="margin: 2rem;">${loc(obj.lang, 'desc', 'noScript')}</div></noscript>
     </head>
     <body id="cobalt-body">
-        <div id="popup-about" class="popup-narrow center box" style="visibility: hidden;">
+        <div id="popup-download" class="popup center box" style="visibility: hidden;">
+            <div id="popup-header" class="popup-header">
+                <button id="close" class="button mono" onclick="popup('download', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
+                <div id="title" class="popup-subtitle">${loc(obj.lang, 'title', 'download')}</div>
+            </div>
+            <div id="content" class="popup-content">
+            <div id="theme-switcher" class="switch-container small-padding">
+                <div class="subtitle">${loc(obj.lang, 'title', 'pickDownload')}</div>
+                <div class="switches">
+                    <a id="pd-download" class="switch full space-right" target="_blank"">${loc(obj.lang, 'desc', 'download')}</a>
+                    <div id="pd-copy" class="switch full">${loc(obj.lang, 'desc', 'copy')}</div>
+                </div>
+            </div>
+                <div id="desc" class="explanation about-padding">${isIOS ? loc(obj.lang, 'desc', 'iosDownload') : loc(obj.lang, 'desc', 'normalDownload')}</div>
+            </div>
+        </div>
+        <div id="popup-about" class="popup center box" style="visibility: hidden;">
             <div id="popup-header" class="popup-header">
                 <button id="close" class="button mono" onclick="popup('about', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
                 <div id="title" class="popup-title">${loc(obj.lang, 'title', 'about')}</div>
             </div>
             <div id="content" class="popup-content with-footer">
-                <div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'desc', 'about')}</div>
-                <div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'desc', 'support_1')} ${enabledServices}.</div>
-                ${isIOS ? `<div id="desc" class="popup-subtitle popup-desc"><span class="text-backdrop">${loc(obj.lang, 'desc', 'iosTitle')}</span></div><div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'desc', 'ios')}</div>`: ``}
-                <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}">${loc(obj.lang, 'desc', 'sourcecode')}</a></div>
+                <div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'desc', 'aboutSummary')}</div>
+                <div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'desc', 'supportedServices')} ${enabledServices}.</div>
+                <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}">${loc(obj.lang, 'desc', 'sourceCode')}</a></div>
             </div>
             <div id="popup-footer" class="popup-footer">
                 <a id="popup-bottom" class="popup-footer-content" href="${authorInfo.link}">${loc(obj.lang, 'desc', 'popupBottom')}</a>
             </div>
         </div>
-        <div id="popup-changelog" class="popup-narrow center box" style="visibility: hidden;">
+        <div id="popup-changelog" class="popup center box" style="visibility: hidden;">
             <div id="popup-header" class="popup-header">
                 <button id="close" class="button mono" onclick="popup('changelog', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
                 <div id="title" class="popup-title">${loc(obj.lang, 'title', 'changelog')}</div>
-                <div id="desc" class="popup-subtitle">${loc(obj.lang, 'changelog', 'subtitle')}</div>
+                <div id="desc" class="popup-subtitle">${loc(obj.lang, 'changelog', 'subtitle')}(${obj.hash})</div>
             </div>
             <div id="content" class="popup-content">
                 <div id="desc" class="popup-desc about-padding">${loc(obj.lang, 'changelog', 'text')}</div>
-                <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}">${loc(obj.lang, 'changelog', 'github')}</a></div>
+                <div id="desc" class="popup-desc"><a class="text-backdrop" href="${repo}/commits">${loc(obj.lang, 'changelog', 'github')}</a></div>
             </div>
         </div>
-        <div id="popup-donate" class="popup-narrow scrollable center box" style="visibility: hidden;">
+        <div id="popup-donate" class="popup scrollable center box" style="visibility: hidden;">
             <div id="popup-header" class="popup-header">
                 <button id="close" class="button mono" onclick="popup('donate', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
                 <div id="title" class="popup-title">${loc(obj.lang, 'title', 'donate')}</div>
@@ -87,7 +104,7 @@ export default function(obj) {
                 <div id="desc" class="popup-desc"><a class="text-backdrop" href="${authorInfo.contact}">${loc(obj.lang, 'desc', 'donateDm')}</a></div>
             </div>
         </div>
-        <div id="popup-settings" class="popup-narrow scrollable center box" style="visibility: hidden;">
+        <div id="popup-settings" class="popup scrollable center box" style="visibility: hidden;">
             <div id="popup-header" class="popup-header">
                 <button id="close" class="button mono" onclick="popup('settings', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
                 <div id="version" class="popup-above-title">v.${version} ~ ${obj.hash}</div>
@@ -95,35 +112,41 @@ export default function(obj) {
             </div>
             <div id="content" class="popup-content">
                 <div id="settings-appearance" class="settings-category">
-                    <div class="title">${loc(obj.lang, 'settings', 'category-appearance')}</div>
+                    <div class="title">${loc(obj.lang, 'settings', 'appearance')}</div>
                     <div class="settings-category-content">
                         <div id="theme-switcher" class="switch-container">
                             <div class="subtitle">${loc(obj.lang, 'settings', 'theme')}</div>
                             <div class="switches">
-                                <div id="theme-auto" class="switch full" onclick="changeSwitcher('theme', 'auto', 1)">${loc(obj.lang, 'settings', 'theme-auto')}</div>
-                                <div id="theme-dark" class="switch" onclick="changeSwitcher('theme', 'dark', 1)">${loc(obj.lang, 'settings', 'theme-dark')}</div>
-                                <div id="theme-light" class="switch full" onclick="changeSwitcher('theme', 'light', 1)">${loc(obj.lang, 'settings', 'theme-light')}</div>
+                                <div id="theme-auto" class="switch full" onclick="changeSwitcher('theme', 'auto', 1)">${loc(obj.lang, 'settings', 'themeAuto')}</div>
+                                <div id="theme-dark" class="switch" onclick="changeSwitcher('theme', 'dark', 1)">${loc(obj.lang, 'settings', 'themeDark')}</div>
+                                <div id="theme-light" class="switch full" onclick="changeSwitcher('theme', 'light', 1)">${loc(obj.lang, 'settings', 'themeLight')}</div>
                             </div>
                         </div>
                         <div class="subtitle">${loc(obj.lang, 'settings', 'misc')}</div>
                         <label class="checkbox"> 
-                            <input id="always-visible-button" type="checkbox" aria-label="${loc(obj.lang, 'accessibility', 'alwaysVisibleButton')}" onclick="checkbox('alwaysVisibleButton', 'always-visible-button')">${loc(obj.lang, 'settings', 'always-visible')}
+                            <input id="alwaysVisibleButton" type="checkbox" aria-label="${loc(obj.lang, 'accessibility', 'alwaysVisibleButton')}" onclick="checkbox('alwaysVisibleButton', 'always-visible-button')">
+                            <span>${loc(obj.lang, 'settings', 'alwaysVisibleButton')}</span>
                         </label>
                     </div>
                 </div>
-                <div id="settings-quality" class="settings-category">
+                <div id="settings-downloads" class="settings-category">
                     <div class="title">${loc(obj.lang, 'settings', 'general')}</div>
                     <div class="settings-category-content">
                         <div id="quality-switcher" class="switch-container">
                             <div class="subtitle">${loc(obj.lang, 'settings', 'quality')}</div>
                             <div class="switches">
-                                <div id="quality-max" class="switch full" onclick="changeSwitcher('quality', 'max', 1)">${loc(obj.lang, 'settings', 'q-max')}</div>
-                                <div id="quality-hig" class="switch" onclick="changeSwitcher('quality', 'hig', 1)">${loc(obj.lang, 'settings', 'q-hig')}(${quality.hig}p)</div>
-                                <div id="quality-mid" class="switch full" onclick="changeSwitcher('quality', 'mid', 1)">${loc(obj.lang, 'settings', 'q-mid')}(${quality.mid}p)</div>
-                                <div id="quality-low" class="switch right" onclick="changeSwitcher('quality', 'low', 1)">${loc(obj.lang, 'settings', 'q-low')}(${quality.low}p)</div>
+                                <div id="quality-max" class="switch full" onclick="changeSwitcher('quality', 'max', 1)">${loc(obj.lang, 'settings', 'qmax')}</div>
+                                <div id="quality-hig" class="switch" onclick="changeSwitcher('quality', 'hig', 1)">${loc(obj.lang, 'settings', 'qhig')}(${quality.hig}p)</div>
+                                <div id="quality-mid" class="switch full" onclick="changeSwitcher('quality', 'mid', 1)">${loc(obj.lang, 'settings', 'qmid')}(${quality.mid}p)</div>
+                                <div id="quality-low" class="switch right" onclick="changeSwitcher('quality', 'low', 1)">${loc(obj.lang, 'settings', 'qlow')}(${quality.low}p)</div>
                             </div>
-                            <div class="explanation">${loc(obj.lang, 'settings', 'q-desc')}</div>
+                            <div class="explanation">${loc(obj.lang, 'settings', 'qualityDesc')}</div>
                         </div>
+                        ${!isIOS ? `<div class="subtitle">${loc(obj.lang, 'settings', 'extra')}</div>
+                        <label class="checkbox"> 
+                            <input id="downloadPopup" type="checkbox" aria-label="${loc(obj.lang, 'accessibility', 'downloadPopup')}" onclick="checkbox('downloadPopup', 'always-visible-button')">
+                            <span>${loc(obj.lang, 'settings', 'downloadPopupButton')}</span>
+                        </label>` : ``}
                     </div>
                 </div>
                 <div id="settings-youtube" class="settings-category">
@@ -136,16 +159,20 @@ export default function(obj) {
                                 <div id="youtubeFormat-webm" class="switch" onclick="changeSwitcher('youtubeFormat', 'webm', 1)">webm</div>
                                 <div id="youtubeFormat-audio" class="switch full" onclick="changeSwitcher('youtubeFormat', 'audio', 1)">audio only</div>
                             </div>
-                            <div class="explanation">${loc(obj.lang, 'settings', 'format-info')}</div>
+                            <div class="explanation">${loc(obj.lang, 'settings', 'formatInfo')}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div id="popup-error" class="popup center box" style="visibility: hidden;">
-            <button id="close" class="button mono" onclick="popup('error', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
-            <div id="title" class="popup-title">${loc(obj.lang, 'title', 'error')}</div>
-            <div id="desc-error" class="popup-desc"></div>
+            <div id="popup-header" class="popup-header">
+                <button id="close" class="button mono" onclick="popup('error', 0)" aria-label="${loc(obj.lang, 'accessibility', 'close')}">x</button>
+                <div id="title" class="popup-title">${loc(obj.lang, 'title', 'error')}</div>
+            </div>
+            <div id="content" class="popup-content">
+                <div id="desc-error" class="popup-desc"></div>
+            </div>
         </div>
         <div id="popup-backdrop" style="visibility: hidden;"></div>
         <div id="cobalt-main-box" class="center box" style="visibility: hidden;">

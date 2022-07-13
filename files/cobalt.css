@@ -98,13 +98,22 @@ input {
 }
 button:hover,
 .switch:hover,
-.checkbox:hover {
+.checkbox:hover,
+.text-to-copy:hover {
     background: var(--accent-hover);
     cursor: pointer;
 }
+.switch.text-backdrop:hover,
+.switch.text-backdrop:active,
+.text-to-copy.text-backdrop:hover,
+.text-to-copy.text-backdrop:active {
+    background: var(--accent);
+    color: var(--background);
+}
 button:active,
 .switch:active,
-.checkbox:active {
+.checkbox:active,
+.text-to-copy:active {
     background: var(--accent-press);
     cursor: pointer;
 }
@@ -216,12 +225,15 @@ input[type="checkbox"] {
 .popup {
     visibility: hidden;
     position: fixed;
-    width: 55%;
     height: auto;
+    width: 30%;
     z-index: 999;
-    padding: 3rem;
+    padding: 3rem 2rem 2rem 2rem;
     font-size: 0.9rem;
     max-height: 80%;
+}
+.popup-big {
+    width: 55%;
 }
 #popup-backdrop {
     opacity: 0.5;
@@ -233,17 +245,7 @@ input[type="checkbox"] {
     height: 100%;
     z-index: 998;
 }
-.popup-narrow {
-    visibility: hidden;
-    position: fixed;
-    width: 30%;
-    height: auto;
-    z-index: 999;
-    padding: 3rem 2rem 2rem 2rem;
-    font-size: 0.9rem;
-    max-height: 80%;
-}
-.popup-narrow.scrollable {
+.popup.scrollable {
     height: 80%;
 }
 .nowrap {
@@ -288,7 +290,7 @@ input[type="checkbox"] {
     color: var(--accent-unhover-2);
     font-size: 0.8rem;
 }
-.popup-narrow .popup-content {
+.popup-content {
     overflow-x: hidden;
     overflow-y: auto;
     height: var(--without-padding);
@@ -305,11 +307,8 @@ input[type="checkbox"] {
 #close {
     cursor: pointer;
     float: right;
-    right: 3rem;
-    position: absolute;
-}
-.popup-narrow #close {
     right: 0rem;
+    position: absolute;
 }
 .settings-category {
     padding-bottom: 1.2rem;
@@ -348,6 +347,9 @@ input[type="checkbox"] {
     color: var(--accent);
     margin-top: 1rem;
 }
+.small-padding .subtitle {
+    margin-top: 0.5rem;
+}
 .explanation {
     padding-top: 1rem;
     width: 100%;
@@ -376,6 +378,9 @@ input[type="checkbox"] {
 }
 .switch.right {
     border-right: solid 0.1rem var(--accent);
+}
+.switch.space-right {
+    margin-right: 1rem
 }
 .switch[data-enabled="true"] {
     color: var(--background);
@@ -411,30 +416,28 @@ input[type="checkbox"] {
     }
 }
 @media screen and (max-width: 1440px) {
-    #cobalt-main-box,
-    .popup {
+    #cobalt-main-box {
         width: 65%;
     }
-    .popup-narrow {
-        width: 35%;
+    .popup {
+        width: 40%;
     }
 }
 @media screen and (max-width: 1024px) {
-    #cobalt-main-box,
-    .popup {
+    #cobalt-main-box {
         width: 75%;
     }
-    .popup-narrow {
-        width: 50%;
+    .popup {
+        width: 60%;
     }
 }
 @media screen and (max-height: 850px) {
-    .popup-narrow {
+    .popup {
         height: 80%
     }
 }
 /* mobile page */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 949px) {
     #logo-area {
         padding-right: 0;
         padding-top: 0;
@@ -450,9 +453,7 @@ input[type="checkbox"] {
         border: none;
         padding: 0;
     }
-    .popup,
-    .popup-narrow,
-    .popup-narrow.scrollable {
+    .popup, .popup.scrollable {
         border: none;
         width: 90%;
         height: 90%;
@@ -475,9 +476,7 @@ input[type="checkbox"] {
         border: none;
         padding: 0;
     }
-    .popup,
-    .popup-narrow,
-    .popup-narrow.scrollable {
+    .popup, .popup.scrollable {
         border: none;
         width: 90%;
         height: 90%;

@@ -1,3 +1,10 @@
+let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
+let switchers = {
+    "theme": ["auto", "light", "dark"],
+    "youtubeFormat": ["mp4", "webm", "audio"],
+    "quality": ["max", "hig", "mid", "low"]
+}
+
 function eid(id) {
     return document.getElementById(id)
 }
@@ -44,10 +51,10 @@ function button() {
     let regex = /https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(eid("url-input-area").value);
     regex ? changeDownloadButton(1, '>>') : changeDownloadButton(0, '>>');
 }
-function copy(id) {
+function copy(id, data) {
     let e = document.getElementById(id);
     e.classList.add("text-backdrop");
-    navigator.clipboard.writeText(e.innerText);
+    data ? navigator.clipboard.writeText(data) : navigator.clipboard.writeText(e.innerText);
     setTimeout(() => { e.classList.remove("text-backdrop") }, 600);
 }
 function detectColorScheme() {
@@ -65,53 +72,35 @@ function popup(type, action, text) {
     switch (type) {
         case "about":
             eid("popup-about").style.visibility = vis(action);
-            if (!localStorage.getItem("seenAbout")) {
-                localStorage.setItem("seenAbout", "true");
-            }
+            if (!localStorage.getItem("seenAbout")) localStorage.setItem("seenAbout", "true");
             break;
         case "error":
             eid("desc-error").innerHTML = text;
             eid("popup-error").style.visibility = vis(action);
             break;
-        case "settings":
-            eid("popup-settings").style.visibility = vis(action);
+        case "download":
+            if (action == 1) {
+                eid("pd-download").href = text;
+                eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')` );
+            }
+            eid("popup-download").style.visibility = vis(action);
             break;
-        case "changelog":
-            eid("popup-changelog").style.visibility = vis(action);
-            break;
-        case "donate":
-            eid("popup-donate").style.visibility = vis(action);
+        default:
+            eid(`popup-${type}`).style.visibility = vis(action);
             break;
     }
 }
 function changeSwitcher(li, b, u) {
-    if (u) {
-        localStorage.setItem(li, b);
-    }
-    let l = {
-        "theme": ["auto", "light", "dark"],
-        "youtubeFormat": ["mp4", "webm", "audio"],
-        "quality": ["max", "hig", "mid", "low"]
-    }
+    if (u) localStorage.setItem(li, b);
     if (b) {
-        for (i in l[li]) {
-            if (l[li][i] == b) {
-                enable(`${li}-${b}`)
-            } else {
-                disable(`${li}-${l[li][i]}`)
-            }
+        for (i in switchers[li]) {
+            (switchers[li][i] == b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
-        if (li == "theme") {
-            detectColorScheme();
-        }
+        if (li == "theme") detectColorScheme();
     } else {
-        localStorage.setItem(li, l[li][0]);
-        for (i in l[li]) {
-            if (l[li][i] == l[li][0]) {
-                enable(`${li}-${l[li][0]}`)
-            } else {
-                disable(`${li}-${l[li][i]}`)
-            }
+        localStorage.setItem(li, switchers[li][0]);
+        for (i in switchers[li]) {
+            (switchers[li][i] == switchers[li][0]) ? enable(`${li}-${switchers[li][0]}`) : disable(`${li}-${switchers[li][i]}`)
         }
     }
 }
@@ -121,23 +110,22 @@ function internetError() {
     popup("error", 1, loc.noInternet);
 }
 function checkbox(action) {
-    switch(action) {
-        case 'alwaysVisibleButton':
-            if (eid("always-visible-button").checked) {
-                localStorage.setItem("alwaysVisibleButton", "true");
-                button();
-            } else {
-                localStorage.setItem("alwaysVisibleButton", "false");
-                button();
-            }
-            break;
+    if (eid(action).checked) {
+        localStorage.setItem(action, "true");
+        if (action == "alwaysVisibleButton") button();
+    } else {
+        localStorage.setItem(action, "false");
+        if (action == "alwaysVisibleButton") button();
     }
 }
 function loadSettings() {
     if (localStorage.getItem("alwaysVisibleButton") == "true") {
-        eid("always-visible-button").checked = true;
+        eid("alwaysVisibleButton").checked = true;
         eid("download-button").value = '>>'
         eid("download-button").style.padding = '0 1rem';
+    }
+    if (localStorage.getItem("downloadPopup") == "true" && !isIOS) {
+        eid("downloadPopup").checked = true;
     }
     changeSwitcher("theme", localStorage.getItem("theme"))
     changeSwitcher("youtubeFormat", localStorage.getItem("youtubeFormat"))
@@ -160,8 +148,8 @@ async function download(url) {
                         changeDownloadButton(1, '>>')
                         eid("url-input-area").disabled = false
                     }, 3000)
-                    if (navigator.userAgent.toLowerCase().match("iphone os")) {
-                        window.location.href = j.url;
+                    if (localStorage.getItem("downloadPopup") == "true") {
+                        popup('download', 1, j.url)
                     } else {
                         window.open(j.url, '_blank');
                     }
@@ -182,9 +170,7 @@ async function download(url) {
                             changeDownloadButton(2, '!!')
                             popup("error", 1, jp.text);
                         }
-                    }).catch((error) => {
-                        internetError()
-                    });
+                    }).catch((error) => internetError());
                     break;
             }
         } else {
@@ -192,9 +178,7 @@ async function download(url) {
             changeDownloadButton(2, '!!')
             popup("error", 1, j.text);
         }
-    }).catch((error) => {
-        internetError()
-    });
+    }).catch((error) => internetError());
 }
 window.onload = function () {
     loadSettings();
@@ -203,9 +187,8 @@ window.onload = function () {
     eid("cobalt-main-box").style.visibility = 'visible';
     eid("footer").style.visibility = 'visible';
     eid("url-input-area").value = "";
-    if (!localStorage.getItem("seenAbout")) {
-        popup('about', 1)
-    }
+    if (!localStorage.getItem("seenAbout")) popup('about', 1);
+    if (isIOS) localStorage.setItem("downloadPopup", "true");
 }
 eid("url-input-area").addEventListener("keyup", (event) => {
     if (event.key === 'Enter') {

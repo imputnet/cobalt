@@ -1,15 +1,18 @@
 {
     "input": "paste the link here",
-    "about": "{appName} is your go-to place for social media downloads. zero ads or other creepy bullshit attached. simply paste a share link and you're ready to rock!",
+    "aboutSummary": "{appName} is your go-to place for social media downloads. zero ads or other creepy bullshit attached. simply paste a share link and you're ready to rock!",
     "embed": "save content from social media without creeps following you around",
-    "support_1": "currently supported services:",
-    "sourcecode": "&gt;&gt; report issues and check out the source code on github",
+    "supportedServices": "currently supported services:",
+    "sourceCode": "&gt;&gt; report issues and check out the source code on github",
     "popupBottom": "made with <3 by wukko",
-    "noScript": "{appName} uses javascript for api requests and interactive interface. you have to allow javascript to use this site. we don't have ads or any trackers, pinky promise.",
-    "ios": "it's impossible to download videos directly from browser on ios. you'll have to open share sheet and select \"save to files\" in order to save videos from twitter. if you don't see that option, you have to install the official \"files\" app from app store first.",
-    "iosTitle": "notice for ios users",
-    "donationsSub": "it's quite complicated to pay for hosting right now",
-    "donations": "you can currently donate only in crypto, because i live under dictatorship and can't use debit cards anywhere outside of country. i don't like crypto the way it is right now, but it's the only way for me to pay for anything (including hosting) online. everything else like paypal is no longer available.",
+    "noScript": "{appName} uses javascript for api requests and interactive interface. you have to allow javascript to use this site. we don't have any ads or trackers, pinky promise.",
+    "donationsSub": "it's a little complicated to pay for hosting right now",
+    "donations": "i don't like crypto how it is right now, but it's the only way for me to pay for anything (including hosting) online. services similar paypal are no longer available too.",
     "donateDm": "&gt;&gt; let me know if currency you want to donate isn't listed",
-    "clicktocopy": "click to copy"
+    "clickToCopy": "click to copy",
+    "iosDownload": "you have to press and hold the download button and then select \"download video\" in appeared popup to save the video. this is required because you have an ios device.",
+    "normalDownload": "download button opens a new tab with requested video. you can disable this popup in settings.",
+    "download": "download",
+    "copy": "copy url",
+    "open": "open"
 }
