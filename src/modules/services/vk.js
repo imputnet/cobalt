@@ -1,6 +1,6 @@
 import got from "got";
 import { xml2json } from "xml-js";
-import loc from "../sub/loc.js";
+import loc from "../sub/i18n.js";
 import { genericUserAgent, maxVideoDuration, services } from "../config.js";
 import selectQuality from "../stream/select-quality.js";
 

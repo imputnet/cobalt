@@ -1,6 +1,6 @@
 {
     "name": "cobalt",
-    "description": "easy to use social media downloader",
+    "description": "probably the friendliest social media downloader yet",
     "version": "2.2",
     "author": "wukko",
     "exports": "./cobalt.js",
@@ -9,8 +9,8 @@
         "node": ">=14.16"
     },
     "scripts": {
-        "start": "node cobalt",
-        "setup": "node modules/setup.js"
+        "start": "node src/cobalt",
+        "setup": "node src/modules/setup"
     },
     "repository": {
         "type": "git",

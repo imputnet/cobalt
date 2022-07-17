@@ -1,5 +1,5 @@
 import got from "got";
-import loc from "../sub/loc.js";
+import loc from "../sub/i18n.js";
 import { genericUserAgent, maxVideoDuration } from "../config.js";
 
 export default async function(obj) {

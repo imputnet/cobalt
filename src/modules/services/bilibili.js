@@ -1,5 +1,5 @@
 import got from "got";
-import loc from "../sub/loc.js";
+import loc from "../sub/i18n.js";
 import { genericUserAgent, maxVideoDuration } from "../config.js";
 
 export default async function(obj) {
@@ -15,14 +15,10 @@ export default async function(obj) {
             let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
             if (streamData.data.timelength <= maxVideoDuration) {
                 let video = streamData["data"]["dash"]["video"].filter((v) => {
-                    if (!v["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/") && v["height"] != 4320) {
-                        return true;
-                    }
+                    if (!v["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/") && v["height"] != 4320) return true;
                 }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
                 let audio = streamData["data"]["dash"]["audio"].filter((a) => {
-                    if (!a["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")) {
-                        return true;
-                    }
+                    if (!a["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")) return true;
                 }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
                 return { urls: [video[0]["baseUrl"], audio[0]["baseUrl"]], time: streamData.data.timelength, filename: `bilibili_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.mp4` };
             } else {

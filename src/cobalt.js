@@ -10,7 +10,7 @@ import { appName, genericUserAgent, version, internetExplorerRedirect } from "./
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/page-renderer.js";
 import { apiJSON } from "./modules/sub/api-helper.js";
-import loc from "./modules/sub/loc.js";
+import loc from "./modules/sub/i18n.js";
 import { Bright, Cyan } from "./modules/sub/console-text.js";
 import stream from "./modules/stream/stream.js";
 
@@ -19,7 +19,7 @@ const app = express();
 
 app.disable('x-powered-by');
 
-if (fs.existsSync('./.env') && fs.existsSync('./config.json')) {
+if (fs.existsSync('./.env')) {
     const apiLimiter = rateLimit({
         windowMs: 20 * 60 * 1000,
         max: 100,
@@ -41,7 +41,7 @@ if (fs.existsSync('./.env') && fs.existsSync('./config.json')) {
 
     app.use('/api/', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
-    app.use('/', express.static('files'));
+    app.use('/', express.static('./src/static'));
 
     app.use((req, res, next) => {
         try {

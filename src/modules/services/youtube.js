@@ -1,5 +1,5 @@
 import ytdl from "ytdl-core";
-import loc from "../sub/loc.js";
+import loc from "../sub/i18n.js";
 import { maxVideoDuration, quality as mq } from "../config.js";
 import selectQuality from "../stream/select-quality.js";
 

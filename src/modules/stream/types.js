@@ -4,7 +4,7 @@ import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { msToTime } from "../sub/api-helper.js";
 import { internalError } from "../sub/errors.js";
-import loc from "../sub/loc.js";
+import loc from "../sub/i18n.js";
 
 export async function streamDefault(streamInfo, res) {
     try {

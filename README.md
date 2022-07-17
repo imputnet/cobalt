@@ -1,7 +1,7 @@
 # cobalt
 Sleek and easy to use social media downloader built on JavaScript. Try it out live: [co.wukko.me](https://co.wukko.me/)!
 
-![cobalt logo](https://raw.githubusercontent.com/wukko/cobalt/current/files/icons/wide.png "cobalt logo")
+![cobalt logo](https://raw.githubusercontent.com/wukko/cobalt/current/src/static/icons/wide.png "cobalt logo")
 
 ## What is cobalt?
 Everyone is annoyed by the mess video downloaders are on the web, and cobalt aims to be the ultimate social media downloader, that is efficient, pretty, and doesn't bother you with ads or privacy invasion agreement popups.

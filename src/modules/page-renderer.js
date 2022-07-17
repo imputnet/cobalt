@@ -1,6 +1,6 @@
 import { services, appName, authorInfo, version, quality, repo, donations } from "./config.js";
 import { getCommitInfo } from "./sub/current-commit.js";
-import loc from "./sub/loc.js";
+import loc from "./sub/i18n.js";
 
 let s = services
 let enabledServices = Object.keys(s).filter((p) => {

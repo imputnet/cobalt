@@ -1,4 +1,4 @@
-import loc from "./loc.js";
+import loc from "./i18n.js";
 
 export function internalError(res) {
     res.status(501).json({ status: "error", text: "Internal Server Error" });

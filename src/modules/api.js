@@ -4,7 +4,7 @@ import { services as patterns } from "./config.js";
 
 import { cleanURL, apiJSON } from "./sub/api-helper.js";
 import { errorUnsupported } from "./sub/errors.js";
-import loc from "./sub/loc.js";
+import loc from "./sub/i18n.js";
 import match from "./match.js";
 
 export async function getJSON(originalURL, ip, lang, format, quality) {
