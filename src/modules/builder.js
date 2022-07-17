@@ -9,7 +9,6 @@ export async function buildJS () {
     return transformedJS.code
 }
 
-// TODO: Make it work with new fonts
 export async function buildCSS () {
     let mainCSS = await readFile('./src/static/cobalt.css', { encoding: 'utf-8' }),
         fontCSS = await readFile('./src/static/fonts/notosansmono/notosansmono.css', { encoding: 'utf-8' }),

@@ -9,7 +9,7 @@ import { shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version, internetExplorerRedirect } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/pageRender.js";
-import { apiJSON } from "./modules/sub/utils.js";
+import { apiJSON, deepCopy } from "./modules/sub/utils.js";
 import loc from "./modules/sub/i18n.js";
 import { Bright, Cyan } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
@@ -163,11 +163,7 @@ if (fs.existsSync('./.env')) {
             buildCSS()
         ]).then(([js, css]) => {
             let currentDistUUID = UUID(),
-                // TODO: Move deep copy to utils
-                currentDist = {
-                    uuid: currentDistUUID,
-                    files: JSON.parse(JSON.stringify(css.fontData))
-                };
+                currentDist = { uuid: currentDistUUID, files: deepCopy(css.fontData) };
             
             currentDist.files[`bundle.${commitHash}.js`] = js;
             currentDist.files[`bundle.${commitHash}.css`] = css.code;
