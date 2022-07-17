@@ -127,7 +127,7 @@ if (fs.existsSync('./.env')) {
             dist = req.app.get(`dist~${uuid}`);
         
         if (!dist || !dist.files.hasOwnProperty(file)) {
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
 
         res.setHeader('Content-Type', lookup(file));
@@ -142,7 +142,7 @@ if (fs.existsSync('./.env')) {
             dist = req.app.get(`dist~${uuid}`);
         
         if (!dist || !dist.files.hasOwnProperty(file)) {
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
 
         res.setHeader('Content-Type', lookup(file));
