@@ -135,7 +135,6 @@ if (fs.existsSync('./.env')) {
 
         res.status(204);
         res.end();
-        res.sendStatus(500);
     });
     app.get("/dist/:uuid/:file", (req, res) => {
         let { uuid, file } = req.params,
