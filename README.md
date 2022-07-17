@@ -22,7 +22,7 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
     - [x] Sort contents of .json files
     - [x] Rename each entry key to be less linked to specific service (entries like youtubeBroke are awful, I'm sorry)
 - [x] Add support for more languages when localisation clean up is done
-- [ ] Use esmbuild to minify frontend css and js
+- [x] Use esmbuild to minify frontend css and js
 - [ ] Make switch buttons in settings selectable with keyboard
 - [ ] Do something about changelog because the way it is right now is not really great
 - [ ] Remake page rendering module to be more versatile
