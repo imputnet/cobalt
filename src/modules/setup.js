@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import { existsSync, unlinkSync, appendFileSync } from "fs";
 import { createInterface } from "readline";
-import { Cyan, Bright, Green } from "./sub/console-text.js";
+import { Cyan, Bright, Green } from "./sub/consoleText.js";
 import { execSync } from "child_process";
 
 let envPath = './.env';

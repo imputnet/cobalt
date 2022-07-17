@@ -5,13 +5,13 @@ import cors from "cors";
 import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
-import { shortCommit } from "./modules/sub/current-commit.js";
+import { shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version, internetExplorerRedirect } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
-import renderPage from "./modules/page-renderer.js";
-import { apiJSON } from "./modules/sub/api-helper.js";
+import renderPage from "./modules/pageRender.js";
+import { apiJSON } from "./modules/sub/utils.js";
 import loc from "./modules/sub/i18n.js";
-import { Bright, Cyan } from "./modules/sub/console-text.js";
+import { Bright, Cyan } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 
 const commitHash = shortCommit();

@@ -1,5 +1,5 @@
 import { services, appName, authorInfo, version, quality, repo, donations } from "./config.js";
-import { getCommitInfo } from "./sub/current-commit.js";
+import { getCommitInfo } from "./sub/currentCommit.js";
 import loc from "./sub/i18n.js";
 
 let s = services

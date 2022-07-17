@@ -1,4 +1,4 @@
-import loadJson from "./sub/load-json.js";
+import loadJson from "./sub/loadJSON.js";
 const config = loadJson("./src/config.json");
 
 export const
