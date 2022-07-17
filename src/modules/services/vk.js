@@ -30,18 +30,18 @@ export default async function(obj) {
                     if (selectedQuality in js["player"]["params"][0]) {
                         return { url: js["player"]["params"][0][selectedQuality].replace(`type=${maxQuality}`, `type=${services.vk.quality_match[userQuality]}`), filename: `vk_${js["player"]["params"][0][selectedQuality].split("id=")[1]}_${attr['width']}x${attr['height']}.mp4` };
                     } else {
-                        return { error: loc('en', 'apiError', 'nothingToDownload') };
+                        return { error: loc(obj.lang, 'apiError', 'nothingToDownload') };
                     }
                 } else {
-                    return { error: loc('en', 'apiError', 'youtubeLimit', maxVideoDuration / 60000) };
+                    return { error: loc(obj.lang, 'apiError', 'lengthLimit', maxVideoDuration / 60000) };
                 }
             } else {
-                return { error: loc('en', 'apiError', 'liveVideo') };
+                return { error: loc(obj.lang, 'apiError', 'liveVideo') };
             }
         } else {
-            return { error: loc('en', 'apiError', 'nothingToDownload') };
+            return { error: loc(obj.lang, 'apiError', 'nothingToDownload') };
         }
     } catch (err) {
-        return { error: loc('en', 'apiError', 'youtubeFetch') };
+        return { error: loc(obj.lang, 'apiError', 'errorFetch') };
     }
 }

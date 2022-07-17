@@ -30,6 +30,6 @@ export async function getJSON(originalURL, ip, lang, format, quality) {
             return apiJSON(0, { t: errorUnsupported(lang) } )
         }
     } catch (e) {
-        return apiJSON(0, { t: loc(lang, 'apiError', 'generic') + loc(lang, 'apiError', 'letMeKnow') });
+        return apiJSON(0, { t: loc(lang, 'apiError', 'generic') });
     }
 }

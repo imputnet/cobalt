@@ -17,10 +17,11 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
 
 ## What still has to be done
 - [ ] Quality switching for bilibili and Twitter
-- [ ] Clean up the mess that localisation is right now
-    - [ ] Sort contents of .json files
-    - [ ] Rename each entry key to be less linked to specific service (entries like youtubeBroke are awful, I'm sorry)
-- [ ] Add support for more languages when localisation clean up is done
+- [ ] Language picker in settings
+- [x] Clean up the mess that localisation is right now
+    - [x] Sort contents of .json files
+    - [x] Rename each entry key to be less linked to specific service (entries like youtubeBroke are awful, I'm sorry)
+- [x] Add support for more languages when localisation clean up is done
 - [ ] Use esmbuild to minify frontend css and js
 - [ ] Make switch buttons in settings selectable with keyboard
 - [ ] Do something about changelog because the way it is right now is not really great

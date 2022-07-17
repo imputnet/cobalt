@@ -48,7 +48,7 @@ export default async function (obj) {
                             filename: `youtube_${obj.id}_${videoMatch[0]["width"]}x${videoMatch[0]["height"]}.${obj.format}` };
                             }
                         } else {
-                            return { error: loc('en', 'apiError', 'youtubeBroke') };
+                            return { error: loc('en', 'apiError', 'errorFetch') };
                         }
                     } else if (!obj.isAudioOnly) {
                         return { type: "render", urls: [video[0]["url"], audio[0]["url"]], time: video[0]["approxDurationMs"],
@@ -56,10 +56,10 @@ export default async function (obj) {
                     } else if (audio.length > 0) {
                         return { type: "render", isAudioOnly: true, urls: [audio[0]["url"]], filename: `youtube_${obj.id}_${audio[0]["audioBitrate"]}kbps.opus` };
                     } else {
-                        return { error: loc('en', 'apiError', 'youtubeBroke') };
+                        return { error: loc('en', 'apiError', 'errorFetch') };
                     }
                 } else {
-                    return { error: loc('en', 'apiError', 'youtubeLimit', maxVideoDuration / 60000) };
+                    return { error: loc('en', 'apiError', 'lengthLimit', maxVideoDuration / 60000) };
                 }
             } else {
                 return { error: loc('en', 'apiError', 'liveVideo') };

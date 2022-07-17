@@ -8,7 +8,7 @@ export default async function(obj) {
             headers: { "user-agent": genericUserAgent }
         });
         html.on('error', (err) => {
-            return { error: loc('en', 'apiError', 'youtubeFetch') };
+            return { error: loc(obj.lang, 'apiError', 'cantConnectToAPI', 'bilibili') };
         });
         html = html.body;
         if (html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"')) {
@@ -22,13 +22,13 @@ export default async function(obj) {
                 }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
                 return { urls: [video[0]["baseUrl"], audio[0]["baseUrl"]], time: streamData.data.timelength, filename: `bilibili_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.mp4` };
             } else {
-                return { error: loc('en', 'apiError', 'youtubeLimit', maxVideoDuration / 60000) };
+                return { error: loc(obj.lang, 'apiError', 'lengthLimit', maxVideoDuration / 60000) };
             }
         } else {
-            return { error: loc('en', 'apiError', 'youtubeFetch') };
+            return { error: loc(obj.lang, 'apiError', 'nothingToDownload') };
         }
     } catch (e) {
-        return { error: loc('en', 'apiError', 'youtubeFetch') };
+        return { error: loc(obj.lang, 'apiError', 'noFetch') };
     }
 }
 

@@ -34,7 +34,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                         lang: lang
                     });
                     return (!r.error) ? apiJSON(2, {
-                        type: "render", urls: r.urls,
+                        type: "render", urls: r.urls, lang: lang,
                         service: host, ip: ip,
                         filename: r.filename,
                         salt: process.env.streamSalt, time: r.time
@@ -73,7 +73,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                     let r = await reddit({
                         sub: patternMatch["sub"],
                         id: patternMatch["id"],
-                        title: patternMatch["title"]
+                        title: patternMatch["title"], lang: lang,
                     });
                     return (!r.error) ? apiJSON(2, {
                         type: "render", urls: r.urls,

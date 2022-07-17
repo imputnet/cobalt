@@ -68,7 +68,7 @@ export async function streamLiveRender(streamInfo, res) {
                 ffmpegProcess.kill();
             });
         } else {
-            res.status(400).json({ status: "error", text: loc('en', 'apiError', 'corruptedVideo') });
+            res.status(400).json({ status: "error", text: loc('en', 'apiError', 'corruptedStream') });
         }
     } catch (e) {
         internalError(res);

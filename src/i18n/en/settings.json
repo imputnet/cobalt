@@ -16,6 +16,7 @@
     "qmid": "medium\n",
     "qlow": "low\n",
     "qlos": "lowest",
-    "qualityDesc": "all resolutions listed here are max values. if there's no video of preferred quality, closest one gets picked instead.",
-    "extra": "extra"
+    "qualityDesc": "if selected resolution isn't available, closest one gets picked instead.",
+    "extra": "extra",
+    "audioOnly": "audio only"
 }
