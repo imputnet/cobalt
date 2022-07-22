@@ -42,7 +42,8 @@ export async function streamLiveRender(streamInfo, res) {
                 '-map', '1:a',
             ];
             args = args.concat(ffmpegArgs[format])
-            args.push('-t', msToTime(streamInfo.time), '-f', format, 'pipe:5');
+            if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
+            args.push('-f', format, 'pipe:5');
             const ffmpegProcess = spawn(ffmpeg, args, {
                 windowsHide: true,
                 stdio: [

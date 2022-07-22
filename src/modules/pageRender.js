@@ -193,7 +193,7 @@ export default function(obj) {
             </div>
         </footer>
     </body>
-    <script type="text/javascript">const loc = {noInternet:"${loc(obj.lang, 'apiError', 'noInternet')}"}</script>
+    <script type="text/javascript">const loc = {noInternet:"${loc(obj.lang, 'apiError', 'noInternet')}", noURLReturned: "${loc(obj.lang, 'apiError', 'errorFetch')}"}</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;
     } catch (err) {

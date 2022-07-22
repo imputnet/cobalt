@@ -15,7 +15,7 @@ export function createStream(obj) {
         id: streamUUID,
         service: obj.service,
         type: obj.type,
-        urls: obj.urls,
+        urls: obj.u,
         filename: obj.filename,
         hmac: ghmac,
         ip: iphmac,

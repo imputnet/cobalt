@@ -141,37 +141,43 @@ async function download(url) {
     fetch(`/api/json?quality=${localStorage.getItem("quality")}${format}&url=${encodeURIComponent(url)}`).then(async (response) => {
         let j = await response.json();
         if (j.status != "error" && j.status != "rate-limit") {
-            switch (j.status) {
-                case "redirect":
-                    changeDownloadButton(2, '>>>')
-                    setTimeout(() => {
-                        changeDownloadButton(1, '>>')
-                        eid("url-input-area").disabled = false
-                    }, 3000)
-                    if (localStorage.getItem("downloadPopup") == "true") {
-                        popup('download', 1, j.url)
-                    } else {
-                        window.open(j.url, '_blank');
-                    }
-                    break;
-                case "stream":
-                    changeDownloadButton(2, '?..')
-                    fetch(`${j.url}&p=1&origin=front`).then(async (response) => {
-                        let jp = await response.json();
-                        if (jp.status == "continue") {
-                            changeDownloadButton(2, '>>>')
-                            window.location.href = j.url
-                            setTimeout(() => {
-                                changeDownloadButton(1, '>>')
-                                eid("url-input-area").disabled = false
-                            }, 5000)
-                        } else {
+            if (j.url) {
+                switch (j.status) {
+                    case "redirect":
+                        changeDownloadButton(2, '>>>')
+                        setTimeout(() => {
+                            changeDownloadButton(1, '>>')
                             eid("url-input-area").disabled = false
-                            changeDownloadButton(2, '!!')
-                            popup("error", 1, jp.text);
+                        }, 3000)
+                        if (localStorage.getItem("downloadPopup") == "true") {
+                            popup('download', 1, j.url)
+                        } else {
+                            window.open(j.url, '_blank');
                         }
-                    }).catch((error) => internetError());
-                    break;
+                        break;
+                    case "stream":
+                        changeDownloadButton(2, '?..')
+                        fetch(`${j.url}&p=1&origin=front`).then(async (response) => {
+                            let jp = await response.json();
+                            if (jp.status == "continue") {
+                                changeDownloadButton(2, '>>>')
+                                window.location.href = j.url
+                                setTimeout(() => {
+                                    changeDownloadButton(1, '>>')
+                                    eid("url-input-area").disabled = false
+                                }, 5000)
+                            } else {
+                                eid("url-input-area").disabled = false
+                                changeDownloadButton(2, '!!')
+                                popup("error", 1, jp.text);
+                            }
+                        }).catch((error) => internetError());
+                        break;
+                }
+            } else {
+                eid("url-input-area").disabled = false
+                changeDownloadButton(2, '!!')
+                popup("error", 1, loc.noURLReturned);
             }
         } else {
             eid("url-input-area").disabled = false
