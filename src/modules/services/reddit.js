@@ -1,5 +1,5 @@
 import got from "got";
-import loc from "../sub/i18n.js";
+import loc from "../../localization/manager.js";
 import { genericUserAgent, maxVideoDuration } from "../config.js";
 
 export default async function(obj) {
@@ -20,9 +20,9 @@ export default async function(obj) {
                 return { typeId: 1, urls: video};
             }
         } else {
-            return { error: loc(obj.lang, 'apiError', 'nothingToDownload') };
+            return { error: loc(obj.lang, 'ErrorEmptyDownload') };
         }
     } catch (err) {
-        return { error: loc(obj.lang, 'apiError', 'noFetch') };
+        return { error: loc(obj.lang, 'ErrorBadFetch') };
     }
 }

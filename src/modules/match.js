@@ -25,7 +25,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                         videoId: patternMatch["videoId"],
                         lang: lang, quality: quality
                     });
-                    return (!r.error) ? apiJSON(2, { type: "bridge", u: r.url, filename: r.filename, service: host, ip: ip, salt: process.env.streamSalt }) : apiJSON(0, { t: r.error });
+                    return (!r.error) ? apiJSON(2, { type: "bridge", lang: lang, u: r.url, filename: r.filename, service: host, ip: ip, salt: process.env.streamSalt }) : apiJSON(0, { t: r.error });
                 } else throw Error()
             case "bilibili":
                 if (patternMatch["id"] && patternMatch["id"].length >= 12) {
@@ -62,7 +62,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                     }
                     let r = await youtube(fetchInfo);
                     return (!r.error) ? apiJSON(2, {
-                        type: r.type, u: r.urls, service: host, ip: ip,
+                        type: r.type, u: r.urls, lang: lang, service: host, ip: ip,
                         filename: r.filename, salt: process.env.streamSalt,
                         isAudioOnly: fetchInfo["isAudioOnly"] ? fetchInfo["isAudioOnly"] : false,
                         time: r.time,
@@ -76,7 +76,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                         title: patternMatch["title"], lang: lang,
                     });
                     return (!r.error) ? apiJSON(r.typeId, {
-                        type: r.type, u: r.urls,
+                        type: r.type, u: r.urls, lang: lang,
                         service: host, ip: ip,
                         filename: r.filename, salt: process.env.streamSalt
                     }) : apiJSON(0, { t: r.error });

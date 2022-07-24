@@ -1,6 +1,6 @@
 import got from "got";
 import { xml2json } from "xml-js";
-import loc from "../sub/i18n.js";
+import loc from "../../localization/manager.js";
 import { genericUserAgent, maxVideoDuration, services } from "../config.js";
 import selectQuality from "../stream/selectQuality.js";
 
@@ -30,18 +30,18 @@ export default async function(obj) {
                     if (selectedQuality in js["player"]["params"][0]) {
                         return { url: js["player"]["params"][0][selectedQuality].replace(`type=${maxQuality}`, `type=${services.vk.quality_match[userQuality]}`), filename: `vk_${js["player"]["params"][0][selectedQuality].split("id=")[1]}_${attr['width']}x${attr['height']}.mp4` };
                     } else {
-                        return { error: loc(obj.lang, 'apiError', 'nothingToDownload') };
+                        return { error: loc(obj.lang, 'ErrorEmptyDownload') };
                     }
                 } else {
-                    return { error: loc(obj.lang, 'apiError', 'lengthLimit', maxVideoDuration / 60000) };
+                    return { error: loc(obj.lang, 'ErrorLengthLimit', maxVideoDuration / 60000) };
                 }
             } else {
-                return { error: loc(obj.lang, 'apiError', 'liveVideo') };
+                return { error: loc(obj.lang, 'ErrorLiveVideo') };
             }
         } else {
-            return { error: loc(obj.lang, 'apiError', 'nothingToDownload') };
+            return { error: loc(obj.lang, 'ErrorEmptyDownload') };
         }
     } catch (err) {
-        return { error: loc(obj.lang, 'apiError', 'errorFetch') };
+        return { error: loc(obj.lang, 'ErrorBadFetch') };
     }
 }

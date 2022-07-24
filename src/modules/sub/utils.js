@@ -49,3 +49,6 @@ export function cleanURL(url, host) {
     }
     return url
 }
+export function languageCode(req) {
+    return req.header('Accept-Language') ? req.header('Accept-Language').slice(0, 2) : "en"
+}
