@@ -4,7 +4,7 @@ import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { msToTime } from "../sub/utils.js";
 import { internalError } from "../sub/errors.js";
-import loc from "../sub/i18n.js";
+import loc from "../../localization/manager.js";
 
 export async function streamDefault(streamInfo, res) {
     try {
@@ -42,7 +42,8 @@ export async function streamLiveRender(streamInfo, res) {
                 '-map', '1:a',
             ];
             args = args.concat(ffmpegArgs[format])
-            args.push('-t', msToTime(streamInfo.time), '-f', format, 'pipe:5');
+            if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
+            args.push('-f', format, 'pipe:5');
             const ffmpegProcess = spawn(ffmpeg, args, {
                 windowsHide: true,
                 stdio: [
@@ -68,7 +69,7 @@ export async function streamLiveRender(streamInfo, res) {
                 ffmpegProcess.kill();
             });
         } else {
-            res.status(400).json({ status: "error", text: loc('en', 'apiError', 'corruptedStream') });
+            res.status(400).json({ status: "error", text: loc(streamInfo.lang, 'ErrorCorruptedStream') });
         }
     } catch (e) {
         internalError(res);

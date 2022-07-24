@@ -4,7 +4,7 @@ import { services as patterns } from "./config.js";
 
 import { cleanURL, apiJSON } from "./sub/utils.js";
 import { errorUnsupported } from "./sub/errors.js";
-import loc from "./sub/i18n.js";
+import loc from "../localization/manager.js";
 import match from "./match.js";
 
 export async function getJSON(originalURL, ip, lang, format, quality) {
@@ -30,6 +30,6 @@ export async function getJSON(originalURL, ip, lang, format, quality) {
             return apiJSON(0, { t: errorUnsupported(lang) } )
         }
     } catch (e) {
-        return apiJSON(0, { t: loc(lang, 'apiError', 'generic') });
+        return apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') });
     }
 }
