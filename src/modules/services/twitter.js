@@ -1,11 +1,11 @@
 import got from "got";
-import loc from "../sub/i18n.js";
+import loc from "../../localization/manager.js";
 import { services } from "../config.js";
 
 const configSt = services.twitter;
 
 async function fetchTweetInfo(obj) {
-    let cantConnect = { error: loc('en', 'apiError', 'cantConnectToAPI', 'twitter') }
+    let cantConnect = { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'twitter') }
     try {
         let _headers = {
             "Authorization": `Bearer ${configSt.token}`,
@@ -28,11 +28,11 @@ async function fetchTweetInfo(obj) {
         })
         return JSON.parse(req_status.body);
     } catch (err) {
-        return { error: cantConnect };
+        return cantConnect;
     }
 }
 export default async function (obj) {
-    let nothing = { error: loc('en', 'apiError', 'nothingToDownload') }
+    let nothing = { error: loc(obj.lang, 'ErrorEmptyDownload') }
     try {
         let parsbod = await fetchTweetInfo(obj);
         if (!parsbod.error) {
@@ -52,6 +52,6 @@ export default async function (obj) {
             }
         } else return parsbod;
     } catch (err) {
-        return { error: loc("en", "apiError", "errorFetch") };
+        return { error: loc(obj.lang, 'ErrorBadFetch') };
     }
 }

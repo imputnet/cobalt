@@ -15,13 +15,14 @@ export function createStream(obj) {
         id: streamUUID,
         service: obj.service,
         type: obj.type,
-        urls: obj.urls,
+        urls: obj.u,
         filename: obj.filename,
         hmac: ghmac,
         ip: iphmac,
         exp: exp,
         isAudioOnly: obj.isAudioOnly ? true : false,
-        time: obj.time
+        time: obj.time,
+        lang: obj.lang
     });
     return `${process.env.selfURL}api/stream?t=${streamUUID}&e=${exp}&h=${ghmac}`;
 }

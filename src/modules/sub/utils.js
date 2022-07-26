@@ -1,5 +1,4 @@
 import { createStream } from "../stream/manage.js";
-import { execSync } from "child_process";
 
 export function apiJSON(type, obj) {
     try {
@@ -49,4 +48,7 @@ export function cleanURL(url, host) {
         }
     }
     return url
+}
+export function languageCode(req) {
+    return req.header('Accept-Language') ? req.header('Accept-Language').slice(0, 2) : "en"
 }
