@@ -6,6 +6,7 @@ import reddit from "./services/reddit.js";
 import twitter from "./services/twitter.js";
 import youtube from "./services/youtube.js";
 import vk from "./services/vk.js";
+import tiktok from "./services/tiktok.js";
 
 export default async function (host, patternMatch, url, ip, lang, format, quality) {
     try {
@@ -19,13 +20,16 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                     return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error })
                 } else throw Error()
             case "vk":
-                if (patternMatch["userId"] && patternMatch["videoId"] && patternMatch["userId"].length <= 10 && patternMatch["videoId"].length == 9) {
+                if (patternMatch["userId"] && patternMatch["videoId"] &&
+                    patternMatch["userId"].length <= 10 && patternMatch["videoId"].length == 9) {
                     let r = await vk({
                         userId: patternMatch["userId"],
                         videoId: patternMatch["videoId"],
                         lang: lang, quality: quality
                     });
-                    return (!r.error) ? apiJSON(2, { type: "bridge", lang: lang, u: r.url, filename: r.filename, service: host, ip: ip, salt: process.env.streamSalt }) : apiJSON(0, { t: r.error });
+                    return (!r.error) ? apiJSON(2, 
+                    { type: "bridge", lang: lang, u: r.url, filename:
+                    r.filename, service: host, ip: ip, salt: process.env.streamSalt }) : apiJSON(0, { t: r.error });
                 } else throw Error()
             case "bilibili":
                 if (patternMatch["id"] && patternMatch["id"].length >= 12) {
@@ -69,7 +73,8 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                     }) : apiJSON(0, { t: r.error });
                 } else throw Error()
             case "reddit":
-                if (patternMatch["sub"] && patternMatch["id"] && patternMatch["title"] && patternMatch["sub"].length <= 22 && patternMatch["id"].length <= 10 && patternMatch["title"].length <= 96) {
+                if (patternMatch["sub"] && patternMatch["id"] && patternMatch["title"] &&
+                    patternMatch["sub"].length <= 22 && patternMatch["id"].length <= 10 && patternMatch["title"].length <= 96) {
                     let r = await reddit({
                         sub: patternMatch["sub"],
                         id: patternMatch["id"],
@@ -77,6 +82,19 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                     });
                     return (!r.error) ? apiJSON(r.typeId, {
                         type: r.type, u: r.urls, lang: lang,
+                        service: host, ip: ip,
+                        filename: r.filename, salt: process.env.streamSalt
+                    }) : apiJSON(0, { t: r.error });
+                } else throw Error()
+            case "tiktok":
+                if ((patternMatch["user"] && patternMatch["type"] == "video" && patternMatch["postId"] && patternMatch["postId"].length <= 21) ||
+                    (patternMatch["id"] && patternMatch["id"].length <= 13)) {
+                    let r = await tiktok({
+                        postId: patternMatch["postId"],
+                        id: patternMatch["id"], lang: lang,
+                    });
+                    return (!r.error) ? apiJSON(2, {
+                        type: "bridge", u: r.urls, lang: lang,
                         service: host, ip: ip,
                         filename: r.filename, salt: process.env.streamSalt
                     }) : apiJSON(0, { t: r.error });

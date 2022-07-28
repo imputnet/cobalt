@@ -21,11 +21,12 @@ export async function getJSON(originalURL, ip, lang, format, quality) {
             if (host && host.length < 20 && host in patterns && patterns[host]["enabled"]) {
                 for (let i in patterns[host]["patterns"]) {
                     patternMatch = new UrlPattern(patterns[host]["patterns"][i]).match(cleanURL(url, host).split(".com/")[1]);
+                    if (patternMatch) break;
                 }
                 if (patternMatch) {
                     return await match(host, patternMatch, url, ip, lang, format, quality);
-                } else throw Error()
-            } else throw Error()
+                } return apiJSON(0, { t: errorUnsupported(lang) } )
+            } return apiJSON(0, { t: errorUnsupported(lang) } )
         } else {
             return apiJSON(0, { t: errorUnsupported(lang) } )
         }

@@ -93,8 +93,10 @@ button {
     color: var(--accent);
     font-size: 0.9rem;
 }
-input {
-    border-radius: none;
+input,
+input[type="text"],
+[type="text"] {
+    border-radius: 0;
 }
 button:hover,
 .switch:hover,
@@ -231,9 +233,6 @@ input[type="checkbox"] {
     padding: 3rem 2rem 2rem 2rem;
     font-size: 0.9rem;
     max-height: 80%;
-}
-.popup-big {
-    width: 55%;
 }
 #popup-backdrop {
     opacity: 0.5;

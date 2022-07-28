@@ -1,9 +1,9 @@
 {
     "name": "cobalt",
     "description": "probably the friendliest social media downloader yet",
-    "version": "2.2.5",
+    "version": "2.2.6",
     "author": "wukko",
-    "exports": "./cobalt.js",
+    "exports": "./src/cobalt.js",
     "type": "module",
     "engines": {
         "node": ">=14.16"
@@ -29,7 +29,7 @@
         "ffmpeg-static": "^5.0.0",
         "got": "^12.1.0",
         "node-cache": "^5.1.2",
-        "url-pattern": "^1.0.3",
+        "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",
         "ytdl-core": "4.11.0"
     }
