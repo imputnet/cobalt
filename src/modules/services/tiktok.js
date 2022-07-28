@@ -11,7 +11,11 @@ export default async function(obj) {
                 return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'tiktok') };
             });
             html = html.body
-            obj.postId = html.split('video/')[1].split('?')[0]
+            if (!html.includes('<!DOCTYPE html>')) {
+                obj.postId = html.split('video/')[1].split('?')[0]
+            } else {
+                obj.postId = html.split('aweme/detail/')[1].split('?')[0]
+            }
         }
         let url = `https://tiktok.com/@video/video/${obj.postId}`
         let html = await got.get(url, { headers: { "user-agent": genericUserAgent } });
