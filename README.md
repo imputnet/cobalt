@@ -20,7 +20,7 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
 - [ ] Instagram support
 - [ ] Quality switching for bilibili and Twitter
 - [ ] Language picker in settings
-- [ ] Use esmbuild to minify frontend css and js
+- [x] Use esmbuild to minify frontend css and js
 - [ ] Make switch buttons in settings selectable with keyboard
 - [ ] Remake page rendering module to be more versatile
 - [ ] Matching could be redone, I'll see what I can do
@@ -38,6 +38,7 @@ Code might be a little messy, but I do my best to improve it with every commit.
 ### npm modules
 - cors
 - dotenv
+- esbuild
 - express
 - express-rate-limit
 - ffmpeg-static
