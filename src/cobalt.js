@@ -13,9 +13,15 @@ import { apiJSON, languageCode } from "./modules/sub/utils.js";
 import { Bright, Cyan } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
+import { buildBundle } from "./modules/builder.js";
 
 const commitHash = shortCommit();
 const app = express();
+
+// generating the bundle if this is not exists
+if (!fs.existsSync(`./dist/${commitHash}/`)) {
+    buildBundle();
+}
 
 app.disable('x-powered-by');
 
@@ -42,6 +48,7 @@ if (fs.existsSync('./.env')) {
     app.use('/api/', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/', express.static('./src/static'));
+    app.use('/dist', express.static('./dist'));
 
     app.use((req, res, next) => {
         try {
