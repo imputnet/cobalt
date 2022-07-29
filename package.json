@@ -16,7 +16,7 @@
         "type": "git",
         "url": "git+https://github.com/wukko/cobalt.git"
     },
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "bugs": {
         "url": "https://github.com/wukko/cobalt/issues"
     },
