@@ -16,10 +16,10 @@ export async function streamDefault(streamInfo, res) {
             isStream: true
         });
         stream.pipe(res).on('error', (err) => {
-            throw Error("File stream pipe error.");
+            internalError(res);
         });
         stream.on('error', (err) => {
-            throw Error("File stream error.")
+            internalError(res);
         });
     } catch (e) {
         internalError(res);

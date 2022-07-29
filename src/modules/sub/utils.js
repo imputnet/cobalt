@@ -35,7 +35,7 @@ export function msToTime(d) {
     return r;
 }
 export function cleanURL(url, host) {
-    url = url.replace('}', '').replace('{', '').replace(')', '').replace('(', '').replace(' ', '');
+    url = url.replace('}', '').replace('{', '').replace(')', '').replace('(', '').replace(' ', '').replace('@', '');
     if (url.includes('youtube.com/shorts/')) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
     }
@@ -51,4 +51,9 @@ export function cleanURL(url, host) {
 }
 export function languageCode(req) {
     return req.header('Accept-Language') ? req.header('Accept-Language').slice(0, 2) : "en"
+}
+export function unicodeDecode(str) {
+    return str.replace(/\\u[\dA-F]{4}/gi, (unicode) => {
+        return String.fromCharCode(parseInt(unicode.replace(/\\u/g, ""), 16));
+    });
 }

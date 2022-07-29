@@ -163,7 +163,7 @@ export default function(obj) {
             <div id="theme-switcher" class="switch-container small-padding">
                 <div class="subtitle">${loc(obj.lang, 'DownloadPopupDescription')}</div>
                 <div class="switches">
-                    <a id="pd-download" class="switch full space-right" target="_blank"">${loc(obj.lang, 'Download')}</a>
+                    <a id="pd-download" class="switch full space-right" target="_blank" href="/">${loc(obj.lang, 'Download')}</a>
                     <div id="pd-copy" class="switch full">${loc(obj.lang, 'CopyURL')}</div>
                 </div>
             </div>

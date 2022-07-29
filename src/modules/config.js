@@ -1,14 +1,15 @@
 import loadJson from "./sub/loadJSON.js";
 const config = loadJson("./src/config.json");
+const packageJson = loadJson("./package.json");
 
 export const
 services = loadJson("./src/modules/services/_config.json"),
-appName = config.appName,
-version = config.version,
+appName = packageJson.name,
+version = packageJson.version,
 streamLifespan = config.streamLifespan,
 maxVideoDuration = config.maxVideoDuration,
 genericUserAgent = config.genericUserAgent,
-repo = config.repo,
+repo = packageJson["bugs"]["url"].replace('/issues', ''),
 authorInfo = config.authorInfo,
 supportedLanguages = config.supportedLanguages,
 quality = config.quality,
