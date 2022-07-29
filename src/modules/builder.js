@@ -22,7 +22,6 @@ export async function buildBundle () {
     await esbuild.build({
         entryPoints,
         outdir,
-        bundle: true,
         minify: true,
         loader: {".js": "js", ".css": "css", ".woff": "file", ".woff2": "file"}
     })

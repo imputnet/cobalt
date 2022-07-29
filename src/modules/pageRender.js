@@ -47,8 +47,8 @@ export default function(obj) {
         <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
 
         <link rel="manifest" href="cobalt.webmanifest" />
-        <link rel="stylesheet" href="cobalt.css" />
-        <link rel="stylesheet" href="fonts/notosansmono/notosansmono.css" />
+        <link rel="stylesheet" href="dist/${obj.hash}/cobalt.css" />
+        <link rel="stylesheet" href="dist/${obj.hash}/notosansmono/notosansmono.css" />
 
         <noscript><div style="margin: 2rem;">${loc(obj.lang, 'NoScriptMessage')}</div></noscript>
     </head>
@@ -197,7 +197,7 @@ export default function(obj) {
         </footer>
     </body>
     <script type="text/javascript">const loc = {noInternet:"${loc(obj.lang, 'ErrorNoInternet')}", noURLReturned: "${loc(obj.lang, 'ErrorBadFetch')}"}</script>
-    <script type="text/javascript" src="cobalt.js"></script>
+    <script type="text/javascript" src="dist/${obj.hash}/cobalt.js"></script>
 </html>`;
     } catch (err) {
         return `${loc(obj.lang, 'ErrorPageRenderFail', obj.hash)}`;
