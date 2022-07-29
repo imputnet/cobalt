@@ -1,0 +1,22 @@
+[
+    {
+        "extensions": ["js", "mjs"],
+        "mime": "text/javascript"
+    },
+    {
+        "extensions": ["json"],
+        "mime": "application/json"
+    },
+    {
+        "extensions": ["woff"],
+        "mime": "font/woff"
+    },
+    {
+        "extensions": ["woff2"],
+        "mime": "font/woff2"
+    },
+    {
+        "extensions": ["css"],
+        "mime": "text/css"
+    }
+]
