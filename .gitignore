@@ -1,6 +1,9 @@
+# npm
 node_modules
 package-lock.json
+
+# secrets
 .env
 
 # bundles
-dist/
+dist
