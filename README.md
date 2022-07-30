@@ -11,6 +11,7 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
 ## What's supported?
 - Twitter
 - TikTok
+- douyin
 - YouTube and YouTube Music
 - bilibili.com
 - Reddit
@@ -18,7 +19,6 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
 
 ## TO-DO
 - [ ] niconico support
-- [ ] douyin support
 - [ ] Instagram support
 - [ ] Quality switching for bilibili and Twitter
 - [ ] Language picker in settings
