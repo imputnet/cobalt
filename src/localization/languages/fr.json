@@ -60,7 +60,7 @@
         "AccessibilityEnableDownloadPopup": "demander comment sauvegarder",
         "SettingsFormatDescription": "sélectionne webm si tu veux la meilleure qualité possible. les vidéos webm sont habituellement de plus haute qualité, mais les appareils ios ne peuvent pas les jouer par défaut. tous les téléchargements «audio seulement» sont de qualité maximum.",
         "SettingsQualityDescription": "si la résolution sélectionnée n'est pas disponible, celle la plus proche est choisie à la place. si tu veux envoyer une vidéo youtube sur twitter, sélectionne 720p. twitter préfère les vidéos dans ce format.",
-        "DonateSubtitle": "c'est difficile de payer pour l'hébergement",
+        "DonateSubtitle": "parce que c'est difficile de payer pour l'hébergement",
         "DonateDescription": "je n'aime pas la crypto présentement, mais c'est présentement la seule manière pour moi de payer à l'international. les cartes mastercard/visa et services similaires à paypal ne sont présentement plus une option.",
         "LinkGitHubIssues": "&gt;&gt; signale des problèmes et examine le code source sur github",
         "LinkGitHubChanges": "&gt;&gt; examine les changements précédents et contribue sur github",
