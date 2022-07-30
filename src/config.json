@@ -2,7 +2,6 @@
     "streamLifespan": 1800000,
     "maxVideoDuration": 1920000,
     "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
-    "mobileUserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
     "authorInfo": {
         "name": "wukko",
         "link": "https://wukko.me/",
