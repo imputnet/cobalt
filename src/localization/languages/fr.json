@@ -5,7 +5,7 @@
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">fais-moi signe</a>"
     },
     "strings": {
-        "LinkInput": "copiez le lien ici",
+        "LinkInput": "copie ton lien ici",
         "AboutSummary": "{appName} est l'endroit parfait pour télécharger des vidéos sur les médias sociaux. zéro pubs et trackers. colle simplement le lien d'un post pour commencer!",
         "AboutSupportedServices": "services supportés:",
         "EmbedBriefDescription": "sauvegarde du contenu des médias sociaux facilement et sans tracking",
