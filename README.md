@@ -20,7 +20,7 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
 - [ ] Instagram support
 - [ ] Quality switching for bilibili and Twitter
 - [ ] Language picker in settings
-- [ ] Use esmbuild to minify frontend css and js
+- [ ] Make cobalt fully PWA compatible (add a service worker)
 - [ ] Make switch buttons in settings selectable with keyboard
 - [ ] Remake page rendering module to be more versatile
 - [ ] Matching could be redone, I'll see what I can do

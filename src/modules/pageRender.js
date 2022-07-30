@@ -46,9 +46,9 @@ export default function(obj) {
         <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
 
-        <link rel="manifest" href="cobalt.webmanifest" />
+        <link rel="manifest" href="manifest.webmanifest" />
         <link rel="stylesheet" href="cobalt.css" />
-        <link rel="stylesheet" href="fonts/notosansmono/notosansmono.css" />
+        <link rel="stylesheet" href="fonts/notosansmono.css" />
 
         <noscript><div style="margin: 2rem;">${loc(obj.lang, 'NoScriptMessage')}</div></noscript>
     </head>
