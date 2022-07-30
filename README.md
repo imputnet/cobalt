@@ -17,6 +17,8 @@ cobalt doesn't remux any videos, so you get videos of max quality available (unl
 - VK
 
 ## TO-DO
+- [ ] niconico support
+- [ ] douyin support
 - [ ] Instagram support
 - [ ] Quality switching for bilibili and Twitter
 - [ ] Language picker in settings
