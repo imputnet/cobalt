@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "probably the friendliest social media downloader yet",
-    "version": "2.2.7",
+    "version": "2.2.8",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
