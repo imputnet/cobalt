@@ -40,6 +40,7 @@ Code might be a little messy, but I do my best to improve it with every commit.
 ### npm modules
 - cors
 - dotenv
+- esbuild
 - express
 - express-rate-limit
 - ffmpeg-static
