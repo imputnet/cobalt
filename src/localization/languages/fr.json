@@ -1,5 +1,5 @@
 {
-    "name": "french",
+    "name": "français",
     "code": "fr",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">fais-moi signe</a>"
