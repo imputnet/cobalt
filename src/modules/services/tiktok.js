@@ -1,6 +1,6 @@
 import got from "got";
 import loc from "../../localization/manager.js";
-import { genericUserAgent} from "../config.js";
+import { genericUserAgent } from "../config.js";
 import { unicodeDecode } from "../sub/utils.js";
 
 export default async function(obj) {
@@ -17,8 +17,7 @@ export default async function(obj) {
                 obj.postId = html.split('aweme/detail/')[1].split('?')[0]
             }
         }
-        let url = `https://tiktok.com/@video/video/${obj.postId}`
-        let html = await got.get(url, { headers: { "user-agent": genericUserAgent } });
+        let html = await got.get(`https://tiktok.com/@video/video/${obj.postId}`, { headers: { "user-agent": genericUserAgent } });
         html.on('error', (err) => {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'tiktok') };
         });
