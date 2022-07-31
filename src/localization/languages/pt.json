@@ -1,8 +1,8 @@
 {
-    "name": "portuguese",
+    "name": "português",
     "code": "pt",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">deixa-me saber</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">informa-me</a>"
     },
     "strings": {
         "LinkInput": "cola o link aqui",
@@ -30,7 +30,7 @@
         "ErrorPageRenderFail": "algo correu mal e a página não pode ser apresentada. se for um erro recorrente ou crítico, por favor {ContactLink}. seria útil se mostrasses a commit hash atual ({s}) e os passos para recriar o erro. obrigado :D",
         "ErrorRateLimit": "estás a fazer demasiados pedidos. tem calma e volta a tentar daqui a uns minutos.",
         "ErrorCouldntFetch": "impossível obter metadados. verifica se o link está correto e tenta de novo.",
-        "ErrorLengthLimit": "o limite de duração é de {s} minutos. o que tentaste descarregar tem mais que {s} minutos. escolhe outra coisa para descarregar!",
+        "ErrorLengthLimit": "o limite de duração é de {s} minutos. o que tentaste descarregar tem mais do que {s} minutos. escolhe outra coisa para descarregar!",
         "ErrorBadFetch": "algo correu mal com a busca de informação. podes tentar um formato e resolução diferentes, ou repetir mais tarde.",
         "ErrorCorruptedStream": "o que tentaste descarregar está corrompido. tenta de novo ou com um formato e resolução diferentes.",
         "ErrorNoInternet": "não há internet ou o api {appName} está em baixo. verifica a tua conexão e tenta de novo.",
