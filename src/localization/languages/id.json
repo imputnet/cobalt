@@ -2,13 +2,13 @@
     "name": "bahasa indonesia",
     "code": "id",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">kasih tau saya</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">beri tau saya</a>"
     },
     "strings": {
         "LinkInput": "tempel link kamu disini",
-        "AboutSummary": "{appName} itu tempat #1 kamu untuk download video sosial media tanpa iklan, tracker, atau hal lain yang tidak dibutuhkan. Tinggal tempel link dan kamu udah siap deh",
+        "AboutSummary": "{appName} itu tempat terbaik kamu untuk download video sosial media tanpa iklan, tracker, atau hal lain yang tidak dibutuhkan. Tinggal tempel link dan kamu udah siap deh",
         "AboutSupportedServices": "layanan yang didukung:",
-        "EmbedBriefDescription": "simpan konten dari sosial media tanpa hal aneh ngikutin kamu",
+        "EmbedBriefDescription": "simpan konten dari sosial media tanpa hal aneh mengikuti kamu",
         "MadeWithLove": "dibuat dengan <3 oleh wukko, terjemahan oleh Lyfe",
         "AccessibilityInputArea": "tempat tempel link kamu",
         "AccessibilityOpenAbout": "buka bagian pengantar",
@@ -23,7 +23,7 @@
         "TitlePopupChangelog": "apa yang baru?",
         "TitlePopupDonate": "dukung {appName}",
         "TitlePopupDownload": "download",
-        "ErrorSomethingWentWrong": "ada yang tidak beres dan saya tidak bisa mendapatkan filenya untuk kamu. tolong coba lagi, tapi kalo masih ga bisa, tolong kontak {ContactLink}.", 
+        "ErrorSomethingWentWrong": "ada yang tidak beres dan saya tidak bisa mendapatkan apa-apa untuk kamu. tolong coba lagi, tapi kalo masih tidak bisa, tolong kontak {ContactLink}.", 
         "ErrorUnsupported": "sepertinya layanan atau sosial media kamu belom didukung oleh kita atau link kamu tidak sah.",
         "ErrorBrokenLink": "{s} sudah didukung kita, tapi ada sesuatu yang salah dengan link kamu, mungkin kamu belom salin sepenuhnya?",
         "ErrorNoLink": "tolong tempel link yang benar",
@@ -36,7 +36,7 @@
         "ErrorNoInternet": "tidak ada internet atau api {AppName} sedang tidak tersedia. coba cek internet kamu dan coba lagi.",
         "ErrorCantConnectToServiceAPI": "kita tidak bisa tidak bisa menghubungi api {s}. sepertinya {s} lagi tidak tersedia atau ip server {appName} diblokir. coba lagi nanti.",
         "ErrorEmptyDownload": "tidak ada apa apa untuk didownload. coba sesuatu yang lain!",
-        "ErrorLiveVideo": "kita tidak bisa mendownload video siaran langsung/livestream yang sedang berlangsung. tunggu untuk siaran langsungnya untuk selesai dan coba lagi.",
+        "ErrorLiveVideo": "kita tidak bisa mendownload video siaran langsung yang sedang berlangsung. tunggu untuk siaran langsungnya untuk selesai dan coba lagi.",
         "ErrorNoStreamID": "streamId itu tidak ditemukan/tidak ada.",
         "ErrorNoType": "tidak ada tipe respons yang ditemukan.",
         "SettingsAppearanceSubtitle": "penampilan",
