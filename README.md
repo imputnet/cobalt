@@ -15,6 +15,7 @@ cobalt aims to be the ultimate social media downloader, that is efficient, prett
 - douyin
 - Reddit
 - TikTok
+- Tumblr
 - Twitter
 - YouTube
 - YouTube Music
@@ -45,16 +46,17 @@ Take English or Russian localization from [this directory](https://github.com/wu
 ## TO-DO
 
 ### Services
-- [ ] Tumblr support
+- [x] Tumblr support
 - [ ] niconico support
 - [ ] Instagram support
-- [ ] SoundCloud support (?)
+- [ ] SoundCloud support
 - [ ] Add an option to save Twitter GIFs as `.gif` instead of `.mp4`
 - [ ] Quality switching for bilibili
 
 ### Other
 - [ ] Language picker in settings
 - [ ] Make switch buttons in settings selectable with keyboard
+- [ ] Option to save audios in formats other than original
 - [ ] Make cobalt fully PWA compatible (add a service worker)
 - [ ] Make page rendering module more versatile
 

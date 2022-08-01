@@ -54,12 +54,8 @@
         "enabled": true
     },
     "tumblr": {
-        "patterns": ["post/:id"],
-        "enabled": false
-    },
-    "facebook": {
-        "patterns": [":pageid/:type/:postid"],
-        "enabled": false
+        "patterns": ["post/:id", "blog/view/:user/:id"],
+        "enabled": true
     },
     "instagram": {
         "patterns": [":type/:id"],

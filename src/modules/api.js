@@ -18,6 +18,10 @@ export async function getJSON(originalURL, ip, lang, format, quality) {
                 host = "youtube";
                 url = `https://youtube.com/watch?v=${url.replace("youtu.be/", "").replace("https://", "")}`;
             }
+            if (host == "tumblr" && !url.includes("blog/view")) {
+                if (url.slice(-1) == '/') url = url.slice(0, -1);
+                url = url.replace(url.split('/')[5], '');
+            }
             if (host && host.length < 20 && host in patterns && patterns[host]["enabled"]) {
                 for (let i in patterns[host]["patterns"]) {
                     patternMatch = new UrlPattern(patterns[host]["patterns"][i]).match(cleanURL(url, host).split(".com/")[1]);

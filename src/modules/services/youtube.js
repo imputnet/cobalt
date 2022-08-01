@@ -54,7 +54,7 @@ export default async function (obj) {
                         return { type: "render", urls: [video[0]["url"], audio[0]["url"]], time: video[0]["approxDurationMs"],
                             filename: `youtube_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.${video[0]["container"]}` };
                     } else if (audio.length > 0) {
-                        return { type: "render", isAudioOnly: true, urls: [audio[0]["url"]], filename: `youtube_${obj.id}_${audio[0]["audioBitrate"]}kbps.opus` };
+                        return { type: "bridge", isAudioOnly: true, urls: audio[0]["url"], filename: `youtube_${obj.id}_${audio[0]["audioBitrate"]}kbps.${audio[0]["container"] == "webm" ? "opus" : "m4a"}` };
                     } else {
                         return { error: loc(obj.lang, 'ErrorBadFetch') };
                     }

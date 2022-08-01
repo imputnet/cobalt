@@ -8,6 +8,7 @@ import youtube from "./services/youtube.js";
 import vk from "./services/vk.js";
 import tiktok from "./services/tiktok.js";
 import douyin from "./services/douyin.js";
+import tumblr from "./services/tumblr.js";
 
 export default async function (host, patternMatch, url, ip, lang, format, quality) {
     try {
@@ -112,6 +113,16 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                         service: host, ip: ip,
                         filename: r.filename, salt: process.env.streamSalt
                     }) : apiJSON(0, { t: r.error });
+                } else throw Error()
+            case "tumblr":
+                if ((patternMatch["id"] && patternMatch["id"].length < 21) ||
+                    (patternMatch["id"] && patternMatch["id"].length < 21 &&
+                    patternMatch["user"] && patternMatch["user"].length <= 32)) {
+                    let r = await tumblr({
+                        id: patternMatch["id"], url: url, user: patternMatch["user"] ? patternMatch["user"] : false,
+                        lang: lang
+                    });
+                    return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error })
                 } else throw Error()
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) })

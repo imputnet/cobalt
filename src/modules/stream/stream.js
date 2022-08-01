@@ -6,7 +6,7 @@ export default function(res, ip, id, hmac, exp) {
     try {
         let streamInfo = verifyStream(ip, id, hmac, exp, process.env.streamSalt);
         if (!streamInfo.error) {
-            if (streamInfo.isAudioOnly) {
+            if (streamInfo.isAudioOnly && streamInfo.type == "render") {
                 streamAudioOnly(streamInfo, res);
             } else {
                 switch (streamInfo.type) {
