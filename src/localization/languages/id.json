@@ -6,7 +6,7 @@
     },
     "strings": {
         "LinkInput": "tempel link kamu disini",
-        "AboutSummary": "{appName} itu tempat terbaik kamu untuk download video sosial media tanpa iklan, tracker, atau omong kosong lainnya. Tinggal tempel link dan udah",
+        "AboutSummary": "{appName} itu tempat terbaik kamu untuk download video sosial media tanpa iklan, pelacak, atau omong kosong lainnya. Tinggal tempel link dan udah",
         "AboutSupportedServices": "layanan yang didukung:",
         "EmbedBriefDescription": "simpan konten dari sosial media tanpa hal aneh mengikuti kamu",
         "MadeWithLove": "dibuat dengan <3 oleh wukko, terjemahan oleh Lyfe",
@@ -65,7 +65,7 @@
         "LinkGitHubIssues": "&gt;&gt; laporkan masalah atau liat source code di github",
         "LinkGitHubChanges": "&gt;&gt; liat perubahan sebelumnya dan berkontribusi di github",
         "LinkDonateContact": "&gt;&gt; beri tau saya jika mata uang yg kamu mau donasi belom ada di atas",
-        "NoScriptMessage": "{appName} memakai javascript untuk permintaan api dan ui interaktif. kamu harus mengizinkan javascript  untuk menggunakan situs ini. kita tidak punya iklan atau tracker, saya janji.",
+        "NoScriptMessage": "{appName} memakai javascript untuk permintaan api dan ui interaktif. kamu harus mengizinkan javascript  untuk menggunakan situs ini. kita tidak punya iklan atau pelacak, saya janji.",
         "DownloadPopupDescriptionIOS": "karena kamu punya perangkat ios, kamu harus teken lama tombol download dan pilih \"download video\" di popup yang muncul untuk menyimpan videonya. ini akan diperlukan selama apple memaksa webview safari pada semua browser developer di ios.",
         "DownloadPopupDescription": "tombol download membuka tab baru dengan file yang diminta. kamu bisa menonaktifkan popup ini di pengaturan.",
         "DownloadPopupWayToSave": "pilih cara untuk disimpan",
