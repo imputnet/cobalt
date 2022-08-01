@@ -31,4 +31,3 @@ export default async function(obj) {
         return { error: loc(obj.lang, 'ErrorBadFetch') };
     }
 }
-
