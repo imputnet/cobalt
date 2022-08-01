@@ -62,7 +62,7 @@
         "enabled": false
     },
     "tiktok": {
-        "patterns": [":user/video/:postId", ":id"],
+        "patterns": [":user/video/:postId", ":id", "t/:id"],
         "enabled": true
     },
     "douyin": {
