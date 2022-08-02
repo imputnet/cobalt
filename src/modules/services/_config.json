@@ -63,7 +63,7 @@
     },
     "instagram": {
         "patterns": [":type/:id"],
-        "enabled": false
+        "enabled": true
     },
     "tiktok": {
         "patterns": [":user/video/:postId", ":id"],

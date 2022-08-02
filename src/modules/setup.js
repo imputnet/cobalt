@@ -4,6 +4,8 @@ import { createInterface } from "readline";
 import { Cyan, Bright, Green } from "./sub/consoleText.js";
 import { execSync } from "child_process";
 
+import { hiddenQuestion } from "./sub/hiddenQuestion.js";
+
 let envPath = './.env';
 let q = `${Cyan('?')} \x1b[1m`;
 let ob = { streamSalt: randomBytes(64).toString('hex') }
@@ -33,7 +35,24 @@ rl.question(q, r1 => {
         } else {
             ob['port'] = r2
         }
-        final()
+        //final()
+
+        console.log(Bright("\nWhat's the name of the instagram account to use for instagram media downloads? (none)"));
+        rl.question(q, r3 => {
+            if(r3){
+                ob["instagramUsername"] = r3;
+
+                console.log(Bright("\nWhat's the account's password?"));
+                hiddenQuestion(q).then(password => {
+                    ob["instagramPassword"] = password;
+                    final();
+                }); 
+            }
+            else{
+                console.log(Bright("\nNo instagram account was provided. Instagram download services will be disabled."));
+                final();
+            }
+        });
     });
 })
 
