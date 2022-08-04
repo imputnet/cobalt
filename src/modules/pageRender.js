@@ -2,7 +2,9 @@ import { services, appName, authorInfo, version, quality, repo, donations } from
 import { getCommitInfo } from "./sub/currentCommit.js";
 import loc from "../localization/manager.js";
 
-let s = services
+let s = services;
+let com = getCommitInfo();
+
 let enabledServices = Object.keys(s).filter((p) => {
     if (s[p].enabled) {
         return true
@@ -19,8 +21,6 @@ let donate = ``
 for (let i in donations) {
     donate += `<div class="subtitle">${i} (REPLACEME)</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations[i]}</div>`
 }
-
-let com = getCommitInfo();
 export default function(obj) {
     let isIOS = obj.useragent.toLowerCase().match("iphone os")
     try {
@@ -196,7 +196,7 @@ export default function(obj) {
             </div>
         </footer>
     </body>
-    <script type="text/javascript">const loc = {noInternet:"${loc(obj.lang, 'ErrorNoInternet')}", noURLReturned: "${loc(obj.lang, 'ErrorBadFetch')}"}</script>
+    <script type="text/javascript">const loc = {noInternet:"${loc(obj.lang, 'ErrorNoInternet')}", noURLReturned: "${loc(obj.lang, 'ErrorBadFetch')}"};</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;
     } catch (err) {

@@ -1,6 +1,8 @@
 import { apiJSON } from "./sub/utils.js";
 import { errorUnsupported, genericError } from "./sub/errors.js";
 
+import { testers } from "./servicesPatternTesters.js";
+
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
 import twitter from "./services/twitter.js";
@@ -12,120 +14,108 @@ import tumblr from "./services/tumblr.js";
 
 export default async function (host, patternMatch, url, ip, lang, format, quality) {
     try {
+        if (!testers[host]) return apiJSON(0, { t: errorUnsupported(lang) });
+        if (!(testers[host](patternMatch))) throw Error();
+
+        let r;
         switch (host) {
             case "twitter":
-                if (patternMatch["id"] && patternMatch["id"].length < 20) {
-                    let r = await twitter({
-                        id: patternMatch["id"],
-                        lang: lang
-                    });
-                    return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error })
-                } else throw Error()
+                r = await twitter({
+                    id: patternMatch["id"],
+                    lang: lang
+                });
+                return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error });
+
             case "vk":
-                if (patternMatch["userId"] && patternMatch["videoId"] &&
-                    patternMatch["userId"].length <= 10 && patternMatch["videoId"].length == 9) {
-                    let r = await vk({
-                        userId: patternMatch["userId"],
-                        videoId: patternMatch["videoId"],
-                        lang: lang, quality: quality
-                    });
-                    return (!r.error) ? apiJSON(2, 
-                    { type: "bridge", lang: lang, u: r.url, filename:
-                    r.filename, service: host, ip: ip, salt: process.env.streamSalt }) : apiJSON(0, { t: r.error });
-                } else throw Error()
+                r = await vk({
+                    userId: patternMatch["userId"],
+                    videoId: patternMatch["videoId"],
+                    lang: lang, quality: quality
+                });
+                return (!r.error) ? apiJSON(2, { type: "bridge", lang: lang, u: r.url, filename: r.filename,
+                service: host, ip: ip, salt: process.env.streamSalt }) : apiJSON(0, { t: r.error });
+                
             case "bilibili":
-                if (patternMatch["id"] && patternMatch["id"].length >= 12) {
-                    let r = await bilibili({
-                        id: patternMatch["id"].slice(0, 12),
-                        lang: lang
-                    });
-                    return (!r.error) ? apiJSON(2, {
-                        type: "render", u: r.urls, lang: lang,
-                        service: host, ip: ip,
-                        filename: r.filename,
-                        salt: process.env.streamSalt, time: r.time
-                    }) : apiJSON(0, { t: r.error });
-                } else throw Error()
+                r = await bilibili({
+                    id: patternMatch["id"].slice(0, 12),
+                    lang: lang
+                });
+                return (!r.error) ? apiJSON(2, {
+                    type: "render", u: r.urls, lang: lang,
+                    service: host, ip: ip,
+                    filename: r.filename,
+                    salt: process.env.streamSalt, time: r.time
+                }) : apiJSON(0, { t: r.error });
+
             case "youtube":
-                if (patternMatch["id"] && patternMatch["id"].length >= 11) {
-                    let fetchInfo = {
-                        id: patternMatch["id"].slice(0,11),
-                        lang: lang, quality: quality,
-                        format: "mp4"
-                    };
-                    if (url.match('music.youtube.com')) {
-                        format = "audio"
-                    }
-                    switch (format) {
-                        case "webm":
-                            fetchInfo["format"] = "webm";
-                            break;
-                        case "audio":
-                            fetchInfo["format"] = "webm";
-                            fetchInfo["isAudioOnly"] = true;
-                            fetchInfo["quality"] = "max";
-                            break;
-                    }
-                    let r = await youtube(fetchInfo);
-                    return (!r.error) ? apiJSON(2, {
-                        type: r.type, u: r.urls, lang: lang, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt,
-                        isAudioOnly: fetchInfo["isAudioOnly"] ? fetchInfo["isAudioOnly"] : false,
-                        time: r.time,
-                    }) : apiJSON(0, { t: r.error });
-                } else throw Error()
+                let fetchInfo = {
+                    id: patternMatch["id"].slice(0,11),
+                    lang: lang, quality: quality,
+                    format: "mp4"
+                };
+                if (url.match('music.youtube.com')) {
+                    format = "audio"
+                }
+                switch (format) {
+                    case "webm":
+                        fetchInfo["format"] = "webm";
+                        break;
+                    case "audio":
+                        fetchInfo["format"] = "webm";
+                        fetchInfo["isAudioOnly"] = true;
+                        fetchInfo["quality"] = "max";
+                        break;
+                }
+                r = await youtube(fetchInfo);
+                return (!r.error) ? apiJSON(2, {
+                    type: r.type, u: r.urls, lang: lang, service: host, ip: ip,
+                    filename: r.filename, salt: process.env.streamSalt,
+                    isAudioOnly: fetchInfo["isAudioOnly"] ? fetchInfo["isAudioOnly"] : false,
+                    time: r.time,
+                }) : apiJSON(0, { t: r.error });
+
             case "reddit":
-                if (patternMatch["sub"] && patternMatch["id"] && patternMatch["title"] &&
-                    patternMatch["sub"].length <= 22 && patternMatch["id"].length <= 10 && patternMatch["title"].length <= 96) {
-                    let r = await reddit({
-                        sub: patternMatch["sub"],
-                        id: patternMatch["id"],
-                        title: patternMatch["title"], lang: lang,
-                    });
-                    return (!r.error) ? apiJSON(r.typeId, {
-                        type: r.type, u: r.urls, lang: lang,
-                        service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
-                    }) : apiJSON(0, { t: r.error });
-                } else throw Error()
+                r = await reddit({
+                    sub: patternMatch["sub"],
+                    id: patternMatch["id"],
+                    title: patternMatch["title"], lang: lang,
+                });
+                return (!r.error) ? apiJSON(r.typeId, {
+                    type: r.type, u: r.urls, lang: lang,
+                    service: host, ip: ip,
+                    filename: r.filename, salt: process.env.streamSalt
+                }) : apiJSON(0, { t: r.error });
+
             case "tiktok":
-                if ((patternMatch["user"] && patternMatch["postId"] && patternMatch["postId"].length <= 21) ||
-                    (patternMatch["id"] && patternMatch["id"].length <= 13)) {
-                    let r = await tiktok({
-                        postId: patternMatch["postId"],
-                        id: patternMatch["id"], lang: lang,
-                    });
-                    return (!r.error) ? apiJSON(2, {
-                        type: "bridge", u: r.urls, lang: lang,
-                        service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
-                    }) : apiJSON(0, { t: r.error });
-                } else throw Error()
+                r = await tiktok({
+                    postId: patternMatch["postId"],
+                    id: patternMatch["id"], lang: lang,
+                });
+                return (!r.error) ? apiJSON(2, {
+                    type: "bridge", u: r.urls, lang: lang,
+                    service: host, ip: ip,
+                    filename: r.filename, salt: process.env.streamSalt
+                }) : apiJSON(0, { t: r.error });
+
             case "douyin":
-                if ((patternMatch["postId"] && patternMatch["postId"].length <= 21) ||
-                    (patternMatch["id"] && patternMatch["id"].length <= 13)) {
-                    let r = await douyin({
-                        postId: patternMatch["postId"],
-                        id: patternMatch["id"], lang: lang,
-                    });
-                    return (!r.error) ? apiJSON(2, {
-                        type: "bridge", u: r.urls, lang: lang,
-                        service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
-                    }) : apiJSON(0, { t: r.error });
-                } else throw Error()
+                r = await douyin({
+                    postId: patternMatch["postId"],
+                    id: patternMatch["id"], lang: lang,
+                });
+                return (!r.error) ? apiJSON(2, {
+                    type: "bridge", u: r.urls, lang: lang,
+                    service: host, ip: ip,
+                    filename: r.filename, salt: process.env.streamSalt
+                }) : apiJSON(0, { t: r.error });
+
             case "tumblr":
-                if ((patternMatch["id"] && patternMatch["id"].length < 21) ||
-                    (patternMatch["id"] && patternMatch["id"].length < 21 &&
-                    patternMatch["user"] && patternMatch["user"].length <= 32)) {
-                    let r = await tumblr({
-                        id: patternMatch["id"], url: url, user: patternMatch["user"] ? patternMatch["user"] : false,
-                        lang: lang
-                    });
-                    return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error })
-                } else throw Error()
+                r = await tumblr({
+                    id: patternMatch["id"], url: url, user: patternMatch["user"] ? patternMatch["user"] : false,
+                    lang: lang
+                });
+                return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error });
             default:
-                return apiJSON(0, { t: errorUnsupported(lang) })
+                return apiJSON(0, { t: errorUnsupported(lang) });
         }
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })

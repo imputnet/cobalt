@@ -41,7 +41,7 @@ function changeDownloadButton(action, text) {
             break;
     }
 }
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
     if (event.key == "Tab") {
         eid("download-button").value = '>>'
         eid("download-button").style.padding = '0 1rem'
@@ -81,7 +81,7 @@ function popup(type, action, text) {
         case "download":
             if (action == 1) {
                 eid("pd-download").href = text;
-                eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')` );
+                eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
             }
             eid("popup-download").style.visibility = vis(action);
             break;

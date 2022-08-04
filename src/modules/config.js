@@ -3,7 +3,7 @@ const config = loadJson("./src/config.json");
 const packageJson = loadJson("./package.json");
 
 export const
-services = loadJson("./src/modules/services/_config.json"),
+services = loadJson("./src/modules/servicesConfig.json"),
 appName = packageJson.name,
 version = packageJson.version,
 streamLifespan = config.streamLifespan,

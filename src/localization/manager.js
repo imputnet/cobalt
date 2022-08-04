@@ -3,6 +3,7 @@ import { appName, repo } from "../modules/config.js";
 import loadJson from "../modules/sub/loadJSON.js";
 
 const locPath = './src/localization/languages'
+
 let loc = {}
 
 export async function loadLoc() {
