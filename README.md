@@ -29,6 +29,7 @@ cobalt aims to be the ultimate social media downloader, that is efficient, prett
 - Spanish: [@adrigoomy](https://github.com/adrigoomy)
 - French: [@lexito-o](https://github.com/lexito-o)
 - Indonesian: [@LyfeV](https://github.com/LyfeV)
+- Polish: [@hexandcube](https://github.com/hexandcube)
 
 ## How you can help cobalt speak your language
 Take English or Russian localization from [this directory](https://github.com/wukko/cobalt/tree/current/src/localization/languages) and use it as a base for your translation. Then simply make a pull request and it'll be out for everyone upon review!
