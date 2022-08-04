@@ -2,6 +2,7 @@
     --transparent: rgba(0, 0, 0, 0);
     --without-padding: calc(100% - 4rem);
     --border-15: 0.15rem solid var(--accent);
+    --border-10: 0.1rem solid var(--accent);
     --font-mono: 'Noto Sans Mono', 'Consolas', 'SF Mono', monospace;
 }
 @media (prefers-color-scheme: dark) {
@@ -170,13 +171,13 @@ input[type="checkbox"] {
     color: var(--accent);
     border: 0;
     float: right;
-    border-bottom: 0.15rem solid var(--accent-unhover);
+    border-bottom: 0.1rem solid var(--accent-unhover);
     transition: border-bottom 0.2s;
     outline: none;
 }
 #url-input-area:focus {
     outline: none;
-    border-bottom: var(--border-15);
+    border-bottom: var(--border-10);
 }
 #download-button {
     height: 2.5rem;
@@ -335,7 +336,7 @@ input[type="checkbox"] {
     align-content: center;
     padding: 0.6rem;
     padding-right: 1rem;
-    border: var(--border-15);
+    border: var(--border-10);
     width: auto;
     margin: 0 0.5rem 0.5rem 0;
 }
@@ -365,8 +366,8 @@ input[type="checkbox"] {
     color: var(--accent-unhover-2);
 }
 .switch {
-    border-top: var(--border-15);
-    border-bottom: var(--border-15);
+    border-top: var(--border-10);
+    border-bottom: var(--border-10);
     padding: 0.8rem;
     width: 100%;
     text-align: center;
@@ -377,13 +378,13 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 .switch.full {
-    border: var(--border-15);
+    border: var(--border-10);
 }
 .switch.left {
-    border-left: var(--border-15);
+    border-left: var(--border-10);
 }
 .switch.right {
-    border-right: var(--border-15);
+    border-right: var(--border-10);
 }
 .switch.space-right {
     margin-right: 1rem
