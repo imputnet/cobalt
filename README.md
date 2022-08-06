@@ -1,12 +1,14 @@
 # cobalt
-Sleek and easy to use social media downloader built with JavaScript.
+Best way to save content you love.
 
-Try it now: [co.wukko.me](https://co.wukko.me/)
+[co.wukko.me](https://co.wukko.me/)
 
 ![cobalt logo](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/wide.png "cobalt logo")
 
 ## What's cobalt?
-cobalt aims to be the ultimate social media downloader, that is efficient, pretty, and doesn't bother you with ads or privacy invasion agreement popups. It also doesn't remux anything, so you get media in best quality possible (unless you change that in settings). 
+cobalt is social media downloader with zero bullshit. It's efficient, easy to use, and doesn't bother you with ads or privacy invasion "consent" popups.
+
+It preserves original media quality so you get best downloads possible (unless you change that in settings).
 
 ## Supported services
 
@@ -17,8 +19,7 @@ cobalt aims to be the ultimate social media downloader, that is efficient, prett
 - TikTok
 - Tumblr
 - Twitter
-- YouTube
-- YouTube Music
+- YouTube (with HDR support)
 - VK
 
 ### Audio
@@ -51,8 +52,9 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - [ ] niconico support
 - [ ] Instagram support
 - [ ] SoundCloud support
-- [ ] Add an option to save Twitter GIFs as `.gif` instead of `.mp4`
 - [ ] Quality switching for bilibili
+- [ ] Find a way to get TikTok videos without a watermark
+- [ ] Add an option to keep watermark on TikTok videos
 
 ### Other
 - [ ] Language picker in settings

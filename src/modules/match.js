@@ -24,7 +24,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                     id: patternMatch["id"],
                     lang: lang
                 });
-                return (!r.error) ? apiJSON(1, { u: r.split('?')[0] }) : apiJSON(0, { t: r.error });
+                return (!r.error) ? apiJSON(1, { u: r }) : apiJSON(0, { t: r.error });
 
             case "vk":
                 r = await vk({

@@ -26,6 +26,8 @@
     },
     "ffmpegArgs": {
         "webm": ["-c:v", "copy", "-c:a", "copy"],
-        "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "frag_keyframe+empty_moov"]
+        "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "frag_keyframe+empty_moov"],
+        "bst": ["-c:a", "copy"],
+        "mp3": ["-ar", "48000", "-ac", "2", "-b:a", "320k"]
     }
 }

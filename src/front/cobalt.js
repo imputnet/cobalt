@@ -1,8 +1,11 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
 let switchers = {
     "theme": ["auto", "light", "dark"],
-    "youtubeFormat": ["mp4", "webm", "audio"],
+    "youtubeFormat": ["webm", "mp4", "audio"],
     "quality": ["max", "hig", "mid", "low"]
+}
+let exceptions = {
+    "youtubeFormat": "mp4"
 }
 
 function eid(id) {
@@ -98,9 +101,11 @@ function changeSwitcher(li, b, u) {
         }
         if (li == "theme") detectColorScheme();
     } else {
-        localStorage.setItem(li, switchers[li][0]);
+        let pref = switchers[li][0];
+        if (isIOS && exceptions[li]) pref = exceptions[li];
+        localStorage.setItem(li, pref);
         for (i in switchers[li]) {
-            (switchers[li][i] == switchers[li][0]) ? enable(`${li}-${switchers[li][0]}`) : disable(`${li}-${switchers[li][i]}`)
+            (switchers[li][i] == pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
         }
     }
 }

@@ -82,14 +82,16 @@ export async function streamAudioOnly(streamInfo, res) {
             headers = { "user-agent": genericUserAgent };
         }
         const audio = got.get(streamInfo.urls, { isStream: true, headers: headers });
-        const ffmpegProcess = spawn(ffmpeg, [
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
             '-loglevel', '-8',
             '-i', 'pipe:3',
             '-vn',
-            '-c:a', 'copy',
-            '-f', `${streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1]}`,
-            'pipe:4',
-        ], {
+        ];
+        args = args.concat(ffmpegArgs[format])
+        if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
+        args.push('-f', format, 'pipe:4');
+
+        const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',

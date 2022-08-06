@@ -27,9 +27,9 @@ export default async function (obj) {
                     }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
                     if (obj.quality != "max") {
                         if (videoMatch.length == 0) {
-                            let ss = selectQuality("youtube", obj.quality, video[0]["height"])
+                            let ss = selectQuality("youtube", obj.quality, video[0]["qualityLabel"].slice(0, 5).replace('p', '').trim())
                             videoMatch = video.filter((a) => {
-                                if (a["height"] == ss) return true;
+                                if (a["qualityLabel"].slice(0, 5).replace('p', '').trim() == ss) return true;
                             })
                         } else if (fullVideoMatch.length > 0) {
                             videoMatch = [fullVideoMatch[0]]
