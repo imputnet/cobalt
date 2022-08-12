@@ -15,4 +15,5 @@ supportedLanguages = config.supportedLanguages,
 quality = config.quality,
 internetExplorerRedirect = config.internetExplorerRedirect,
 donations = config.donations,
-ffmpegArgs = config.ffmpegArgs
+ffmpegArgs = config.ffmpegArgs,
+supportedAudio = config.supportedAudio

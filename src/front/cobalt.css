@@ -8,7 +8,8 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --accent: rgb(225, 225, 225);
-        --accent-hover: rgb(20, 20, 20);
+        --accent-hover: rgb(25, 25, 25);
+        --accent-button-bg: rgb(20, 20, 20);
         --accent-press: rgb(10, 10, 10);
         --accent-unhover: rgb(100, 100, 100);
         --accent-unhover-2: rgb(110, 110, 110);
@@ -18,8 +19,9 @@
 @media (prefers-color-scheme: light) {
     :root {
         --accent: rgb(25, 25, 25);
-        --accent-hover: rgb(230 230 230);
-        --accent-press: rgb(240 240 240);
+        --accent-hover: rgb(225, 225, 225);
+        --accent-button-bg: rgb(230, 230, 230);
+        --accent-press: rgb(240, 240, 240);
         --accent-unhover: rgb(190, 190, 190);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(255, 255, 255);
@@ -27,7 +29,8 @@
 }
 [data-theme="dark"] {
     --accent: rgb(225, 225, 225);
-    --accent-hover: rgb(20, 20, 20);
+    --accent-hover: rgb(25, 25, 25);
+    --accent-button-bg: rgb(20, 20, 20);
     --accent-press: rgb(10, 10, 10);
     --accent-unhover: rgb(100, 100, 100);
     --accent-unhover-2: rgb(110, 110, 110);
@@ -35,8 +38,9 @@
 }
 [data-theme="light"] {
     --accent: rgb(25, 25, 25);
-    --accent-hover: rgb(230 230 230);
-    --accent-press: rgb(240 240 240);
+    --accent-hover: rgb(225, 225, 225);
+    --accent-button-bg: rgb(230, 230, 230);
+    --accent-press: rgb(240, 240, 240);
     --accent-unhover: rgb(190, 190, 190);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(255, 255, 255);
@@ -56,6 +60,7 @@ body {
 a {
     color: var(--accent);
     text-decoration: none;
+    user-select: none;
 }
 ::placeholder {
     color: var(--accent-unhover-2);
@@ -79,13 +84,13 @@ a {
     width: 15px;
     height: 15px;
     border: var(--border-15);
-    background-color: var(--background);
+    background-color: var(--accent-button-bg);
     display: block;
     z-index: 5;
     position: relative;
 }
 [type="checkbox"]:checked::before {
-    box-shadow: inset 0 0 0 0.2rem var(--background);
+    box-shadow: inset 0 0 0 0.2rem var(--accent-button-bg);
     background-color: var(--accent);
 }
 button {
@@ -120,6 +125,7 @@ button:active,
 .text-to-copy:active {
     background: var(--accent-press);
     cursor: pointer;
+    transform: scale(0.95)
 }
 input[type="checkbox"] {
     cursor: pointer;
@@ -202,12 +208,19 @@ input[type="checkbox"] {
     text-align: center;
     width: 90%;
 }
+#footer-buttons {
+    display: inline-flex;
+    align-items: center;
+}
 .footer-button {
     cursor: pointer;
     color: var(--accent-unhover-2);
-    border: 0.15rem var(--accent-unhover-2) solid;
+    border: 0.15rem solid var(--accent-unhover-2);
     padding: 0.4rem 0.8rem 0.5rem;
-    margin-bottom: 0.5rem;
+    margin: 0.4rem;
+    display: flex;
+    align-content: center;
+    align-items: center;
 }
 .footer-button:hover {
     color: var(--accent);
@@ -252,31 +265,38 @@ input[type="checkbox"] {
 .scrollable .bottom-link {
     padding-bottom: 2rem;
 }
+.changelog-subtitle {
+    font-size: 1.1rem;
+    padding-bottom: 0.7rem;
+}
 .nowrap {
     white-space: nowrap;
 }
-.about-padding {
+.no-top-padding {
+    padding-top: 0!important;
+}
+.desc-padding {
     padding-bottom: 1.5rem;
 }
-.popup-subtitle {
+#popup-subtitle {
     font-size: 1.1rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
 }
-.little-subtitle {
-    font-size: 1.05rem;
-}
-.popup-desc {
+#popup-desc,
+#desc-error {
     width: 100%;
     text-align: left;
     float: left;
     line-height: 1.7rem;
 }
-.popup-title {
+#popup-title {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     line-height: 1.85em;
+    display: flex;
+    align-items: center;
 }
-.popup-footer {
+#popup-footer {
     bottom: 0;
     position: fixed;
     margin-bottom: 1.5rem;
@@ -290,25 +310,25 @@ input[type="checkbox"] {
     border-top: 0.05rem solid var(--accent-unhover-2);
     padding-top: 0.4rem;
 }
-.popup-above-title {
+#popup-above-title {
     color: var(--accent-unhover-2);
     font-size: 0.8rem;
 }
-.popup-content {
+#popup-content {
     overflow-x: hidden;
     overflow-y: auto;
     height: var(--without-padding);
     scrollbar-width: none;
 }
-.popup-header {
+#popup-header {
     position: relative;
     background: var(--background);
     z-index: 999;
 }
-.popup-content.with-footer {
+#popup-content.with-footer {
     margin-bottom: 3rem;
 }
-#close {
+#popup-close {
     cursor: pointer;
     float: right;
     right: 0rem;
@@ -317,13 +337,14 @@ input[type="checkbox"] {
 .settings-category {
     padding-bottom: 1.2rem;
 }
-.title {
+.category-title {
     width: 100%;
     text-align: left;
     line-height: 1.7rem;
     color: var(--accent-unhover-2);
     border-bottom: 0.05rem solid var(--accent-unhover-2);
     padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
 }
 .bottom-margin {
     margin-bottom: 1rem;
@@ -336,9 +357,9 @@ input[type="checkbox"] {
     align-content: center;
     padding: 0.6rem;
     padding-right: 1rem;
-    border: var(--border-10);
     width: auto;
     margin: 0 0.5rem 0.5rem 0;
+    background: var(--accent-button-bg);
 }
 .checkbox-label {
     line-height: 1.3rem;
@@ -352,6 +373,8 @@ input[type="checkbox"] {
     line-height: 1.7rem;
     padding-bottom: 0.4rem;
     color: var(--accent);
+}
+.subtitle.extra {
     margin-top: 1rem;
 }
 .small-padding .subtitle {
@@ -362,29 +385,19 @@ input[type="checkbox"] {
     width: 100%;
     font-size: 0.8rem;
     text-align: left;
-    line-height: 1.3rem;
+    line-height: 1.3rem!important;
     color: var(--accent-unhover-2);
 }
 .switch {
-    border-top: var(--border-10);
-    border-bottom: var(--border-10);
     padding: 0.8rem;
     width: 100%;
     text-align: center;
     color: var(--accent);
-    background: var(--background);
-    display: grid;
+    background: var(--accent-button-bg);
+    display: flex;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
-}
-.switch.full {
-    border: var(--border-10);
-}
-.switch.left {
-    border-left: var(--border-10);
-}
-.switch.right {
-    border-right: var(--border-10);
 }
 .switch.space-right {
     margin-right: 1rem
@@ -399,12 +412,39 @@ input[type="checkbox"] {
     width: auto;
     flex-direction: row;
     flex-wrap: nowrap;
+    overflow-x: scroll;
+}
+.autowidth {
+    width: auto;
+}
+.bottom-space {
+    margin-bottom: 2rem;
 }
 .text-to-copy {
     user-select: text;
     border: var(--border-15);
     padding: 1rem;
     overflow: auto;
+}
+#close-bottom {
+    width: 18%;
+    margin-left: 1rem;
+    background: var(--background);
+    border: var(--border-15);
+    color: var(--accent);
+    padding: 0.3rem 0.75rem 0.5rem;
+}
+.popup-tab-content {
+    display: none;
+}
+#popup-tabs {
+    z-index: 999;
+    bottom: 0;
+    position: relative;
+    width: 100%;
+}
+.emoji {
+    margin-right: 0.4rem;
 }
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
@@ -430,7 +470,15 @@ input[type="checkbox"] {
         width: 40%;
     }
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1100px) {
+    #cobalt-main-box {
+        width: 70%;
+    }
+    .popup {
+        width: 50%;
+    }
+}
+@media screen and (max-width: 1025px) {
     #cobalt-main-box {
         width: 75%;
     }
@@ -458,7 +506,7 @@ input[type="checkbox"] {
         text-align: center;
     }
     #cobalt-main-box {
-        width: 80%;
+        width: 85%;
         display: flex;
         border: none;
         padding: 0;
@@ -473,7 +521,13 @@ input[type="checkbox"] {
         padding-bottom: 2rem;
     }
 }
-@media screen and (max-width: 524px) {
+@media screen and (max-width: 475px) {
+    .tab {
+        font-size: 0;
+    }
+    .tab .emoji {
+        margin-right: 0;
+    }
     #logo-area {
         padding-right: 0;
         padding-top: 0;

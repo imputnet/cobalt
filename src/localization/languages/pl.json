@@ -2,7 +2,7 @@
     "name": "polish",
     "code": "pl",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">daj mi znać</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">daj mi znać</a>"
     },
     "strings": {
         "LinkInput": "wklej link tutaj",
@@ -58,8 +58,8 @@
         "AccessibilityKeepDownloadButton": "pozostaw przycisk pobierania zawsze widoczny",
         "SettingsEnableDownloadPopup": "pytaj o sposób zapisu",
         "AccessibilityEnableDownloadPopup": "pytaj co zrobić z pobranymi plikami",
-        "SettingsFormatDescription": "wybierz webm jeżeli potrzebujesz najwyższej możliwej jakości. filmy webm są zwykle wyższej jakości ale urządzenia działające na systemie ios nie odtwarzają ich natywnie. wszystkie pliki \"tylko audio\" są maksymalnej jakości.",
-        "SettingsQualityDescription": "jeżeli wybrana rozdzielczość nie będzie dostępna, zostanie wybrana najbliższa pasująca. jeżeli chcesz wrzucić film z youtube'a na twittera, wybierz 720p. twitter bardziej lubi takie filmy.",
+        "SettingsFormatDescription": "wybierz webm jeżeli potrzebujesz najwyższej możliwej jakości. filmy webm są zwykle wyższej jakości ale urządzenia działające na systemie ios nie odtwarzają ich natywnie.",
+        "SettingsQualityDescription": "jeżeli wybrana rozdzielczość nie będzie dostępna, zostanie wybrana najbliższa pasująca. jeżeli chcesz wrzucić film z youtube'a na twittera, wybierz połączenie mp4 i 720p. twitter bardziej lubi takie filmy.",
         "DonateSubtitle": "ciężko się teraz płaci za hosting",
         "DonateDescription": "nie podoba mi się stan w jakim są teraz kryptowaluty, ale na razie jest to dla mnie jedyny sposób żeby płacić za coś za granicą. karty mastercard/visa i usługi takie jak paypal nie są już dostępną opcją.",
         "LinkGitHubIssues": "&gt;&gt; zgłoś problem lub zobacz kod źródłowy na githubie",

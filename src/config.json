@@ -13,21 +13,28 @@
         "new": "https://vivaldi.com/"
     },
     "donations": {
-        "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-        "bitcoin": "bc1q64amsn0wd60urem3jkhpywed8q8kqwssw6ta5j",
-        "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
-        "bitcoin cash": "bitcoincash:qph0d7d02mvg5xxqjwjv5ahjx2254yx5kv0zfg0xsj",
-        "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod"
+        "crypto": {
+            "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
+            "bitcoin": "bc1q64amsn0wd60urem3jkhpywed8q8kqwssw6ta5j",
+            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
+            "bitcoin cash": "bitcoincash:qph0d7d02mvg5xxqjwjv5ahjx2254yx5kv0zfg0xsj",
+            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod"
+        },
+        "other": {
+            "boosty": "https://boosty.to/wukko"
+        }
     },
     "quality": {
         "hig": "1080",
         "mid": "720",
         "low": "480"
     },
+    "supportedAudio": ["mp3", "ogg", "opus"],
     "ffmpegArgs": {
         "webm": ["-c:v", "copy", "-c:a", "copy"],
         "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "frag_keyframe+empty_moov"],
-        "bst": ["-c:a", "copy"],
-        "mp3": ["-ar", "48000", "-ac", "2", "-b:a", "320k"]
+        "copy": ["-c:a", "copy"],
+        "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
+        "m4a": ["-movflags", "frag_keyframe+empty_moov"]
     }
 }

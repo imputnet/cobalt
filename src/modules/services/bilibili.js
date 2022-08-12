@@ -20,7 +20,7 @@ export default async function(obj) {
                 let audio = streamData["data"]["dash"]["audio"].filter((a) => {
                     if (!a["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")) return true;
                 }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
-                return { urls: [video[0]["baseUrl"], audio[0]["baseUrl"]], time: streamData.data.timelength, filename: `bilibili_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.mp4` };
+                return { urls: [video[0]["baseUrl"], audio[0]["baseUrl"]], time: streamData.data.timelength, audioFilename: `bilibili_${obj.id}_audio`,  filename: `bilibili_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.mp4` };
             } else {
                 return { error: loc(obj.lang, 'ErrorLengthLimit', maxVideoDuration / 60000) };
             }

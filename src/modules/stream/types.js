@@ -8,7 +8,7 @@ import loc from "../../localization/manager.js";
 
 export async function streamDefault(streamInfo, res) {
     try {
-        res.setHeader('Content-disposition', `attachment; filename="${streamInfo.filename}"`);
+        res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : streamInfo.filename}"`);
         const stream = got.get(streamInfo.urls, {
             headers: {
                 "user-agent": genericUserAgent
@@ -25,7 +25,7 @@ export async function streamDefault(streamInfo, res) {
         internalError(res);
     }
 }
-export async function streamLiveRender(streamInfo, res) {
+export async function streamLiveRender(streamInfo, res, lang) {
     try {
         if (streamInfo.urls.length == 2) {
             let headers = {};
@@ -69,7 +69,7 @@ export async function streamLiveRender(streamInfo, res) {
                 ffmpegProcess.kill();
             });
         } else {
-            res.status(400).json({ status: "error", text: loc(streamInfo.lang, 'ErrorCorruptedStream') });
+            res.status(400).json({ status: "error", text: loc(lang, 'ErrorCorruptedStream') });
         }
     } catch (e) {
         internalError(res);
@@ -82,15 +82,15 @@ export async function streamAudioOnly(streamInfo, res) {
             headers = { "user-agent": genericUserAgent };
         }
         const audio = got.get(streamInfo.urls, { isStream: true, headers: headers });
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
+        let args = [
             '-loglevel', '-8',
             '-i', 'pipe:3',
-            '-vn',
-        ];
-        args = args.concat(ffmpegArgs[format])
-        if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
-        args.push('-f', format, 'pipe:4');
-
+            '-vn'
+        ]
+        let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"]
+        args = args.concat(arg)
+        if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
+        args.push('-f', streamInfo.audioFormat == "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:4');
         const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
             stdio: [
@@ -104,7 +104,7 @@ export async function streamAudioOnly(streamInfo, res) {
         audio.on('error', (err) => {
             ffmpegProcess.kill();
         });
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
+        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
         ffmpegProcess.stdio[4].pipe(res);
         audio.pipe(ffmpegProcess.stdio[3]).on('error', (err) => {
             ffmpegProcess.kill();

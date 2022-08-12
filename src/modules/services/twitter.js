@@ -39,7 +39,7 @@ export default async function (obj) {
             if (parsbod.hasOwnProperty("extended_entities") && parsbod["extended_entities"].hasOwnProperty("media")) {
                 if (parsbod["extended_entities"]["media"][0]["type"] === "video" || parsbod["extended_entities"]["media"][0]["type"] === "animated_gif") {
                     let variants = parsbod["extended_entities"]["media"][0]["video_info"]["variants"]
-                    return variants.filter((v) => { if (v["content_type"] == "video/mp4") return true; }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"].split('?')[0];
+                    return { urls: variants.filter((v) => { if (v["content_type"] == "video/mp4") return true; }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"].split('?')[0], audioFilename: `twitter_${obj.id}_audio` }
                 } else {
                     return nothing
                 }

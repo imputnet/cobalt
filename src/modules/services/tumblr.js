@@ -14,7 +14,7 @@ export default async function(obj) {
             if (html.includes('<!-- GOOGLE CAROUSEL --><script type="application/ld+json">')) {
                 let json = JSON.parse(html.split('<!-- GOOGLE CAROUSEL --><script type="application/ld+json">')[1].split('</script>')[0])
                 if (json["video"] && json["video"]["contentUrl"]) {
-                    return json["video"]["contentUrl"]
+                    return { urls: json["video"]["contentUrl"], audioFilename: `tumblr_${obj.id}_audio` }
                 } else return { error: loc(obj.lang, 'ErrorEmptyDownload') }
             } else return { error: loc(obj.lang, 'ErrorBrokenLink', 'tumblr') }
         } else return { error: loc(obj.lang, 'ErrorBrokenLink', 'tumblr') }

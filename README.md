@@ -43,12 +43,14 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - You can rephrase sentences as long as they keep the same sense.
 - You can add wordplays or puns if it feels natural to do so.
 - Even though I love cursing, keep that away from translations.
+- Always check if there are issues in UI with your localization.
+- There's no need to translate `ChangelogContentTitle` and `ChangelogContent`, because those are very often changed.
+- Add "(in english)" to `ChangelogLastCommit` and `ChangelogLastMajor`, because those are almost always kept exclusively in English. Remove that phrase if you do translate major update changelog.
 - Be nice.
 
 ## TO-DO
 
 ### Services
-- [x] Tumblr support
 - [ ] niconico support
 - [ ] Instagram support
 - [ ] SoundCloud support
@@ -57,11 +59,9 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - [ ] Add an option to keep watermark on TikTok videos
 
 ### Other
+- [ ] Add support for emoji in localization
 - [ ] Language picker in settings
-- [ ] Make switch buttons in settings selectable with keyboard
-- [ ] Option to save audios in formats other than original
 - [ ] Make cobalt fully PWA compatible (add a service worker)
-- [ ] Make page rendering module more versatile
 
 ## Host an instance yourself
 Code might be a little messy, but I do my best to improve it with every commit.
@@ -92,6 +92,9 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 
 ## Disclaimer
 This is my passion project, so update scheduele depends solely on my motivation. Don't expect any consistency in that.
+
+## Third party stuff
+[Fluent Emoji](https://github.com/microsoft/fluentui-emoji) by Microsoft.
 
 ## License
 cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).

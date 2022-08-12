@@ -2,19 +2,19 @@ import { apiJSON } from "../sub/utils.js";
 import { verifyStream } from "./manage.js";
 import { streamAudioOnly, streamDefault, streamLiveRender } from "./types.js";
 
-export default function(res, ip, id, hmac, exp) {
+export default function(res, ip, id, hmac, exp, lang) {
     try {
         let streamInfo = verifyStream(ip, id, hmac, exp, process.env.streamSalt);
         if (!streamInfo.error) {
-            if (streamInfo.isAudioOnly && streamInfo.type == "render") {
+            if (streamInfo.isAudioOnly && streamInfo.type != "bridge") {
                 streamAudioOnly(streamInfo, res);
             } else {
                 switch (streamInfo.type) {
                     case "render":
-                        streamLiveRender(streamInfo, res);
+                        streamLiveRender(streamInfo, res, lang);
                         break;
                     default:
-                        streamDefault(streamInfo, res);
+                        streamDefault(streamInfo, res, lang);
                         break;
                 }
             }

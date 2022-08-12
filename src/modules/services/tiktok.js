@@ -23,7 +23,7 @@ export default async function(obj) {
         });
         html = html.body;
         if (html.includes(',"preloadList":[{"url":"')) {
-            return { urls: unicodeDecode(html.split(',"preloadList":[{"url":"')[1].split('","id":"')[0].trim()), filename: `tiktok_${obj.postId}.mp4` };
+            return { urls: unicodeDecode(html.split(',"preloadList":[{"url":"')[1].split('","id":"')[0].trim()), audioFilename: `tiktok_${obj.postId}_audio`, filename: `tiktok_${obj.postId}.mp4` };
         } else {
             return { error: loc(obj.lang, 'ErrorEmptyDownload') };
         }

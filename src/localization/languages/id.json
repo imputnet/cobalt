@@ -2,7 +2,7 @@
     "name": "indonesia",
     "code": "id",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\">beri tau saya</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">beri tau saya</a>"
     },
     "strings": {
         "LinkInput": "tempel link kamu disini",
@@ -58,8 +58,8 @@
         "AccessibilityKeepDownloadButton": "biarkan tombol download selalu kelihatan",
         "SettingsEnableDownloadPopup": "tanya cara untuk simpan",
         "AccessibilityEnableDownloadPopup": "tanyakan apa yang dilakukan dengan file yang baru didownload",
-        "SettingsFormatDescription": "pilih webm kalo kamu butuh kualitas tertinggi. kualitas video webm biasanya lebih tinggi tapi perangkat ios tidak bisa menjalankannya secara native. semua download \"audio saja\" sudah kualitas tertinggi",
-        "SettingsQualityDescription": "jika resolusi yang dipilih tidak tersedia, resolusi yang dipilih akan diganti dengan resolusi tersedia yang terdekat. kalo kamu mau kirim video youtube di twitter, pilih 720p saja. twitter lebih suka video yang 720p.",
+        "SettingsFormatDescription": "pilih webm kalo kamu butuh kualitas tertinggi. kualitas video webm biasanya lebih tinggi tapi perangkat ios tidak bisa menjalankannya secara native.",
+        "SettingsQualityDescription": "jika resolusi yang dipilih tidak tersedia, resolusi yang dipilih akan diganti dengan resolusi tersedia yang terdekat. kalo kamu mau kirim video youtube di twitter, pilih kombinasi mp4 dan 720p. twitter lebih suka video seperti itu.",
         "DonateSubtitle": "sekarang lagi susah untuk bayar hosting bagi saya",
         "DonateDescription": "saya tidak suka crypto dengan keadaannya sekarang, tetapi saat ini itu adalah satu-satunya cara bagi saya untuk membayar apa pun yang di luar negeri. kartu mastercard/visa dan layanan yang mirip seperti paypal tidak lagi menjadi pilihan.",
         "LinkGitHubIssues": "&gt;&gt; laporkan masalah atau liat source code di github",
