@@ -62,7 +62,7 @@
         "AccessibilityEnableDownloadPopup": "ask what to do with downloads",
         "SettingsFormatDescription": "select webm if you need max quality available. webm videos are usually higher quality but ios devices can't play them natively.",
         "SettingsQualityDescription": "if selected resolution isn't available, closest one gets picked instead. if you want to post a youtube video on twitter, then select a combination of mp4 and 720p. twitter likes videos like that way more.",
-        "DonateSubtitle": "help me pay for hosting cobalt",
+        "DonateSubtitle": "help me pay for hosting",
         "DonateDescription": "i don't really like crypto in its current state, but it's the only reliable way for me to receive money and pay for anything abroad.",
         "LinkGitHubIssues": "&gt;&gt; report issues and check out the source code on github",
         "LinkGitHubChanges": "&gt;&gt; see previous changes and contribute on github",
