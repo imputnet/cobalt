@@ -20,9 +20,11 @@ It preserves original media quality so you get best downloads possible (unless y
 - Tumblr
 - Twitter
 - YouTube (with HDR support)
+
+### Only video
 - VK
 
-### Audio only
+### Only audio
 - YouTube Music
 
 ## Translations
