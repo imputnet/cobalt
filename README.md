@@ -12,7 +12,7 @@ It preserves original media quality so you get best downloads possible (unless y
 
 ## Supported services
 
-### Video
+### Video and audio
 - bilibili.com
 - douyin
 - Reddit
@@ -22,8 +22,7 @@ It preserves original media quality so you get best downloads possible (unless y
 - YouTube (with HDR support)
 - VK
 
-### Audio
-- YouTube
+### Audio only
 - YouTube Music
 
 ## Translations
