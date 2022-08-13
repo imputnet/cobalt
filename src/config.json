@@ -29,7 +29,7 @@
         "mid": "720",
         "low": "480"
     },
-    "supportedAudio": ["mp3", "ogg", "opus"],
+    "supportedAudio": ["mp3", "ogg", "wav", "opus"],
     "ffmpegArgs": {
         "webm": ["-c:v", "copy", "-c:a", "copy"],
         "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "frag_keyframe+empty_moov"],

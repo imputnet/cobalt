@@ -5,7 +5,7 @@ let switchers = {
     "theme": ["auto", "light", "dark"],
     "ytFormat": ["webm", "mp4"],
     "quality": ["max", "hig", "mid", "low"],
-    "audioFormat": ["best", "mp3", "ogg", "opus"]
+    "audioFormat": ["best", "mp3", "ogg", "wav", "opus"]
 }
 let exceptions = { // fuck you apple
     "ytFormat": "mp4",

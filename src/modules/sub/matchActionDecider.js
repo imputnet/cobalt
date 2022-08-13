@@ -41,6 +41,8 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                     })
                 case "tumblr":
                     return apiJSON(1, { u: r.urls }) 
+                case "vimeo":
+                    return apiJSON(1, { u: r.urls }) 
             }
         } else {
             let type = "render"
@@ -55,7 +57,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                     type = "bridge"
                 }
             }
-            if (host == "reddit" && r.typeId == 1 || host == "vk") return apiJSON(0, { t: r.audioFilename });
+            if (host == "reddit" && r.typeId == 1 || host == "vk" || host == "vimeo") return apiJSON(0, { t: r.audioFilename });
             return apiJSON(2, {
                 type: type,
                 u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,

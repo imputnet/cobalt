@@ -28,7 +28,7 @@ export default async function(obj) {
                     let userQuality = selectQuality('vk', obj.quality, Object.entries(services.vk.quality_match).reduce((r, [k, v]) => { r[v] = k; return r;})[maxQuality])
                     let id = js["player"]["params"][0][selectedQuality].split("id=")[1]
                     if (selectedQuality in js["player"]["params"][0]) {
-                        return { urls: js["player"]["params"][0][selectedQuality].replace(`type=${maxQuality}`, `type=${services.vk.quality_match[userQuality]}`), filename: `vk_${js["player"]["params"][0][selectedQuality].split("id=")[1]}_${attr['width']}x${attr['height']}.mp4`, audioFilename: loc(obj.lang, 'ErrorEmptyDownload') };
+                        return { urls: js["player"]["params"][0][selectedQuality].replace(`type=${maxQuality}`, `type=${services.vk.quality_match[userQuality]}`), filename: `vk_${id}_${attr['width']}x${attr['height']}.mp4`, audioFilename: loc(obj.lang, 'ErrorEmptyDownload') };
                     } else {
                         return { error: loc(obj.lang, 'ErrorEmptyDownload') };
                     }

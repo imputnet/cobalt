@@ -22,6 +22,7 @@ It preserves original media quality so you get best downloads possible (unless y
 - YouTube (with HDR support)
 
 ### Only video
+- Vimeo
 - VK
 
 ### Only audio
@@ -45,8 +46,8 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - You can add wordplays or puns if it feels natural to do so.
 - Even though I love cursing, keep that away from translations.
 - Always check if there are issues in UI with your localization.
-- There's no need to translate `ChangelogContentTitle` and `ChangelogContent`, because those are very often changed.
-- Add "(in english)" to `ChangelogLastCommit` and `ChangelogLastMajor`, because those are almost always kept exclusively in English. Remove that phrase if you do translate major update changelog.
+- There's no need to translate `ChangelogContentTitle` and `ChangelogContent`, because those are very often changed. You can remove both of them from your translation file.
+- Add "(in english)" in translation language to `ChangelogLastCommit` and `ChangelogLastMajor`, because those are almost always kept exclusively in English. Remove that phrase if you do translate major update changelog.
 - Be nice.
 
 ## TO-DO
@@ -60,6 +61,7 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - [ ] Add an option to keep watermark on TikTok videos
 
 ### Other
+- [ ] Remake video quality picking (do it more like I did in Vimeo module)
 - [ ] Add support for emoji in localization
 - [ ] Language picker in settings
 - [ ] Make cobalt fully PWA compatible (add a service worker)

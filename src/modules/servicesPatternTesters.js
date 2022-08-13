@@ -19,4 +19,6 @@ export let testers = {
 
     "tumblr": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length < 21) ||
     (patternMatch["id"] && patternMatch["id"].length < 21 && patternMatch["user"] && patternMatch["user"].length <= 32)),
+
+    "vimeo": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length <= 11)),
 };

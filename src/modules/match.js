@@ -12,6 +12,7 @@ import tiktok from "./services/tiktok.js";
 import douyin from "./services/douyin.js";
 import tumblr from "./services/tumblr.js";
 import matchActionDecider from "./sub/matchActionDecider.js";
+import vimeo from "./services/vimeo.js";
 
 export default async function (host, patternMatch, url, ip, lang, format, quality, audioFormat, isAudioOnly) {
     try {
@@ -81,6 +82,12 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
             case "tumblr":
                 r = await tumblr({
                     id: patternMatch["id"], url: url, user: patternMatch["user"] ? patternMatch["user"] : false,
+                    lang: lang
+                });
+                break;
+            case "vimeo":
+                r = await vimeo({
+                    id: patternMatch["id"], quality: quality,
                     lang: lang
                 });
                 break;
