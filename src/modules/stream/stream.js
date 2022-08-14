@@ -2,7 +2,7 @@ import { apiJSON } from "../sub/utils.js";
 import { verifyStream } from "./manage.js";
 import { streamAudioOnly, streamDefault, streamLiveRender } from "./types.js";
 
-export default function(res, ip, id, hmac, exp, lang) {
+export default function(res, ip, id, hmac, exp) {
     try {
         let streamInfo = verifyStream(ip, id, hmac, exp, process.env.streamSalt);
         if (!streamInfo.error) {
@@ -11,10 +11,10 @@ export default function(res, ip, id, hmac, exp, lang) {
             } else {
                 switch (streamInfo.type) {
                     case "render":
-                        streamLiveRender(streamInfo, res, lang);
+                        streamLiveRender(streamInfo, res);
                         break;
                     default:
-                        streamDefault(streamInfo, res, lang);
+                        streamDefault(streamInfo, res);
                         break;
                 }
             }

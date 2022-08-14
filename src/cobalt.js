@@ -81,7 +81,7 @@ if (fs.existsSync('./.env')) {
                         res.status(200).json({ "status": "continue" });
                     } else if (req.query.t) {
                         let ip = req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip
-                        stream(res, ip, req.query.t, req.query.h, req.query.e, languageCode(req));
+                        stream(res, ip, req.query.t, req.query.h, req.query.e);
                     } else {
                         let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorNoStreamID') })
                         res.status(j.status).json(j.body);
