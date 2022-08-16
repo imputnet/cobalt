@@ -14,9 +14,9 @@ It preserves original media quality so you get best downloads possible (unless y
 
 ### Video and audio
 - bilibili.com
-- douyin
+- douyin (with or without watermark, preference set by user)
 - Reddit
-- TikTok
+- TikTok (with or without watermark, preference set by user)
 - Tumblr
 - Twitter
 - YouTube (with HDR support)
@@ -57,8 +57,8 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - [ ] Instagram support
 - [ ] SoundCloud support
 - [ ] Quality switching for bilibili
-- [ ] Find a way to get TikTok videos without a watermark
-- [ ] Add an option to keep watermark on TikTok videos
+- [x] Find a way to get TikTok videos without a watermark
+- [x] Add an option to keep watermark on TikTok videos
 
 ### Other
 - [ ] Remake video quality picking

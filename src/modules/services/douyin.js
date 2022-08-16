@@ -30,7 +30,19 @@ export default async function(obj) {
         });
         iteminfo = JSON.parse(iteminfo.body);
         if (iteminfo['item_list'][0]['video']['play_addr']['url_list'][0]) {
-            return { urls: iteminfo['item_list'][0]['video']['play_addr']['url_list'][0].replace("playwm", "play"), audioFilename: `douyin_${obj.postId}_audio`, filename: `douyin_${obj.postId}.mp4` };
+            if (!obj.noWatermark) {
+                return {
+                    urls: iteminfo['item_list'][0]['video']['play_addr']['url_list'][0],
+                    audioFilename: `douyin_${obj.postId}_audio`, 
+                    filename: `douyin_${obj.postId}.mp4`
+                };
+            } else {
+                return {
+                    urls: iteminfo['item_list'][0]['video']['play_addr']['url_list'][0].replace("playwm", "play"),
+                    audioFilename: `douyin_${obj.postId}_audio`,
+                    filename: `douyin_${obj.postId}_nw.mp4`
+                };
+            }
         } else {
             return { error: loc(obj.lang, 'ErrorEmptyDownload') };
         }

@@ -196,6 +196,11 @@ export default function(obj) {
                             }]
                         })
                     })
+                    + settingsCategory({
+                        name: "tiktok",
+                        title: "tiktok & douyin",
+                        body: checkbox("disableTikTokWatermark", loc(obj.lang, 'SettingsRemoveWatermark'), loc(obj.lang, 'SettingsRemoveWatermark'))
+                    })
             }, {
                 name: "audio",
                 title: `${emoji("🎶")} ${loc(obj.lang, 'SettingsAudioTab')}`,

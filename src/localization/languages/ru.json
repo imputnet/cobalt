@@ -86,6 +86,7 @@
         "SettingsAudioFormatBest": "лучший",
         "SettingsAudioFormatDescription": "когда выбран \"лучший\" формат, ты получишь аудио максимально возможного качества, так как оно останется в оригинальном формате. если же выбрано что-то другое, то аудио будет немного сжато.",
         "Keyphrase": "сохраняй то, что любишь",
-        "SettingsDisableChangelogOnUpdate": "не показывать изменения после обновлений"
+        "SettingsDisableChangelogOnUpdate": "не показывать изменения после обновлений",
+        "SettingsRemoveWatermark": "убрать ватермарку"
     }
 }

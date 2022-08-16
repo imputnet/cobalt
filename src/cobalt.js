@@ -68,7 +68,8 @@ if (fs.existsSync('./.env')) {
                             req.query.format ? req.query.format.slice(0, 5) : "webm",
                             req.query.quality ? req.query.quality.slice(0, 3) : "max",
                             req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : false,
-                            req.query.audio ? true : false
+                            req.query.audio ? true : false,
+                            req.query.nw ? true : false
                         )
                         res.status(j.status).json(j.body);
                     } else {

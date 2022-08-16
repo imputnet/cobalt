@@ -288,6 +288,7 @@ input[type="checkbox"] {
     text-align: left;
     float: left;
     line-height: 1.7rem;
+    user-select: text;
 }
 #popup-title {
     font-size: 1.5rem;
