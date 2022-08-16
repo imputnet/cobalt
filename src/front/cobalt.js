@@ -1,5 +1,5 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 3
+let version = 4
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
