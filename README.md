@@ -11,21 +11,15 @@ cobalt is social media downloader with zero bullshit. It's efficient, easy to us
 It preserves original media quality so you get best downloads possible (unless you change that in settings).
 
 ## Supported services
-
-### Video and audio
 - bilibili.com
 - douyin (with or without watermark, preference set by user)
 - Reddit
 - TikTok (with or without watermark, preference set by user)
 - Tumblr
 - Twitter
-- YouTube (with HDR support)
-
-### Only video
 - Vimeo
 - VK
-
-### Only audio
+- YouTube (with HDR support)
 - YouTube Music
 
 ## Translations
