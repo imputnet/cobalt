@@ -55,27 +55,22 @@ export async function streamLiveRender(streamInfo, res) {
             ffmpegProcess.on('error', (err) => {
                 ffmpegProcess.kill();
                 res.end();
-                return;
             });
             video.pipe(ffmpegProcess.stdio[3]).on('error', (err) => {
                 ffmpegProcess.kill();
                 res.end();
-                return;
             });
             audio.pipe(ffmpegProcess.stdio[4]).on('error', (err) => {
                 ffmpegProcess.kill();
                 res.end();
-                return;
             });
             audio.on('error', (err) => {
                 ffmpegProcess.kill();
                 res.end();
-                return;
             });
             video.on('error', (err) => {
                 ffmpegProcess.kill();
                 res.end();
-                return;
             });
         } else {
             res.end();

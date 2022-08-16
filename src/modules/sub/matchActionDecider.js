@@ -40,9 +40,9 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                         filename: r.filename, salt: process.env.streamSalt
                     })
                 case "tumblr":
-                    return apiJSON(1, { u: r.urls }) 
+                    return apiJSON(1, { u: r.urls })
                 case "vimeo":
-                    return apiJSON(1, { u: r.urls }) 
+                    return apiJSON(1, { u: r.urls })
             }
         } else {
             let type = "render"

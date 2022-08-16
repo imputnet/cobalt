@@ -15,14 +15,16 @@ export default async function(obj) {
                 obj.postId = html.body.split('video/')[1].split('/?')[0]
             }
         }
-        let iteminfo = await got.get(`https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=${obj.postId}`, {headers: {
-            'authority': 'www.iesdouyin.com',
-            'user-agent': genericUserAgent,
-            'content-type': 'application/x-www-form-urlencoded',
-            'accept': '*/*',
-            'referer': `https://www.iesdouyin.com/share/video/${obj.postId}/?region=CN&u_code=15b9142gf&titleType=title&utm_source=copy_link&utm_campaign=client_share&utm_medium=android&app=aweme`,
-            'accept-language': 'zh-CN,zh;q=0.9,en-GB;q=0.8,en;q=0.7'
-        }});
+        let iteminfo = await got.get(`https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=${obj.postId}`, {
+            headers: {
+                'authority': 'www.iesdouyin.com',
+                'user-agent': genericUserAgent,
+                'content-type': 'application/x-www-form-urlencoded',
+                'accept': '*/*',
+                'referer': `https://www.iesdouyin.com/share/video/${obj.postId}/?region=CN&u_code=15b9142gf&titleType=title&utm_source=copy_link&utm_campaign=client_share&utm_medium=android&app=aweme`,
+                'accept-language': 'zh-CN,zh;q=0.9,en-GB;q=0.8,en;q=0.7'
+            }
+        });
         iteminfo.on('error', (err) => {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'douyin') };
         });

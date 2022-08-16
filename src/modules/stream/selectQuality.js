@@ -1,22 +1,19 @@
 import { services, quality as mq } from "../config.js";
 
 function closest(goal, array) {
-    return array.sort().reduce(function(prev, curr) {
+    return array.sort().reduce(function (prev, curr) {
         return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
     });
 }
 
 export default function(service, quality, maxQuality) {
-    if (quality == "max") {
-        return maxQuality
-    }
+    if (quality == "max") return maxQuality;
 
     quality = parseInt(mq[quality])
     maxQuality = parseInt(maxQuality)
 
-    if (quality >= maxQuality || quality == maxQuality) {
-        return maxQuality
-    }
+    if (quality >= maxQuality || quality == maxQuality) return maxQuality;
+
     if (quality < maxQuality) {
         if (services[service]["quality"][quality]) {
             return quality

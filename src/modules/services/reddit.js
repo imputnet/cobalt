@@ -18,7 +18,7 @@ export default async function(obj) {
             if (audio.length > 0) {
                 return { typeId: 2, type: "render", urls: [video, audio], audioFilename: `reddit_${id}_audio`, filename: `reddit_${id}.mp4` };
             } else {
-                return { typeId: 1, urls: video, audioFilename: loc(obj.lang, 'ErrorEmptyDownload')};
+                return { typeId: 1, urls: video, audioFilename: loc(obj.lang, 'ErrorEmptyDownload') };
             }
         } else {
             return { error: loc(obj.lang, 'ErrorEmptyDownload') };

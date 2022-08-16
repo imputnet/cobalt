@@ -40,9 +40,9 @@ export function popup(obj) {
         }
     }
     return `
-    ${!obj.embed ? `<div id="popup-${obj.name}" class="popup center box${classes.length > 0 ? ' ' + classes.join(' ') : ''}" style="visibility: hidden;">`: ''}
+    ${!obj.embed ? `<div id="popup-${obj.name}" class="popup center box${classes.length > 0 ? ' ' + classes.join(' ') : ''}" style="visibility: hidden;">` : ''}
         <div id="popup-header" class="popup-header">
-            ${!obj.embed ? `<button id="popup-close" class="button mono" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>`: ''}
+            ${!obj.embed ? `<button id="popup-close" class="button mono" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
             ${obj.header.aboveTitle ? `<a id="popup-above-title" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
             ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
             ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
@@ -51,7 +51,7 @@ export function popup(obj) {
         ${obj.footer ? `<div id="popup-footer" class="popup-footer">
             <a id="popup-bottom" class="popup-footer-content" href="${obj.footer.url}">${obj.footer.text}</a>
         </div>` : ''}
-    ${!obj.embed ? `</div>`: ''}`
+    ${!obj.embed ? `</div>` : ''}`
 }
 
 export function multiPagePopup(obj) {
@@ -68,7 +68,7 @@ export function multiPagePopup(obj) {
         <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
         ${obj.header.aboveTitle ? `<a id="popup-above-title" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
         ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
-        ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}</div>`: ''}${tabContent}</div>
+        ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}</div>` : ''}${tabContent}</div>
         <div id="popup-tabs" class="switches popup-tabs">${tabs}</div>
     </div>`
 }

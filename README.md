@@ -61,7 +61,7 @@ Take English or Russian localization from [this directory](https://github.com/wu
 - [ ] Add an option to keep watermark on TikTok videos
 
 ### Other
-- [ ] Remake video quality picking (do it more like I did in Vimeo module)
+- [ ] Remake video quality picking
 - [ ] Add support for emoji in localization
 - [ ] Language picker in settings
 - [ ] Make cobalt fully PWA compatible (add a service worker)
@@ -96,8 +96,6 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 ## Disclaimer
 This is my passion project, so update scheduele depends solely on my motivation. Don't expect any consistency in that.
 
-## Third party stuff
-[Fluent Emoji](https://github.com/microsoft/fluentui-emoji) by Microsoft.
-
 ## License
 cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
+[Fluent Emoji](https://github.com/microsoft/fluentui-emoji) by Microsoft is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE).

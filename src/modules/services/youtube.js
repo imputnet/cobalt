@@ -3,7 +3,7 @@ import loc from "../../localization/manager.js";
 import { maxVideoDuration, quality as mq } from "../config.js";
 import selectQuality from "../stream/selectQuality.js";
 
-export default async function (obj) {
+export default async function(obj) {
     try {
         let info = await ytdl.getInfo(obj.id);
         if (info) {
@@ -41,18 +41,24 @@ export default async function (obj) {
                     if (!obj.isAudioOnly && videoMatch.length > 0) {
                         if (video.length > 0 && audio.length > 0) {
                             if (videoMatch[0]["hasVideo"] && videoMatch[0]["hasAudio"]) {
-                                return { type: "bridge", urls: videoMatch[0]["url"], time: videoMatch[0]["approxDurationMs"],
-                            filename: `youtube_${obj.id}_${videoMatch[0]["width"]}x${videoMatch[0]["height"]}.${obj.format}` };
+                                return {
+                                    type: "bridge", urls: videoMatch[0]["url"], time: videoMatch[0]["approxDurationMs"],
+                                    filename: `youtube_${obj.id}_${videoMatch[0]["width"]}x${videoMatch[0]["height"]}.${obj.format}`
+                                };
                             } else {
-                                return { type: "render", urls: [videoMatch[0]["url"], audio[0]["url"]], time: videoMatch[0]["approxDurationMs"],
-                            filename: `youtube_${obj.id}_${videoMatch[0]["width"]}x${videoMatch[0]["height"]}.${obj.format}` };
+                                return {
+                                    type: "render", urls: [videoMatch[0]["url"], audio[0]["url"]], time: videoMatch[0]["approxDurationMs"],
+                                    filename: `youtube_${obj.id}_${videoMatch[0]["width"]}x${videoMatch[0]["height"]}.${obj.format}`
+                                };
                             }
                         } else {
                             return { error: loc(obj.lang, 'ErrorBadFetch') };
                         }
                     } else if (!obj.isAudioOnly) {
-                        return { type: "render", urls: [video[0]["url"], audio[0]["url"]], time: video[0]["approxDurationMs"],
-                            filename: `youtube_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.${video[0]["container"]}` };
+                        return {
+                            type: "render", urls: [video[0]["url"], audio[0]["url"]], time: video[0]["approxDurationMs"],
+                            filename: `youtube_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.${video[0]["container"]}`
+                        };
                     } else if (audio.length > 0) {
                         return { type: "bridge", isAudioOnly: true, urls: audio[0]["url"], audioFilename: `youtube_${obj.id}_audio` };
                     } else {

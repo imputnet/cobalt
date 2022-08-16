@@ -1,7 +1,7 @@
+import { backdropLink, checkbox, footerButtons, multiPagePopup, popup, settingsCategory, switcher } from "./elements.js";
 import { services, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
-import { backdropLink, checkbox, footerButtons, multiPagePopup, popup, settingsCategory, switcher } from "./elements.js";
 import emoji from "../emoji.js";
 
 let s = services;
@@ -16,7 +16,7 @@ let enabledServices = Object.keys(s).filter((p) => {
 let donate = ``
 let donateLinks = ``
 let audioFormats = supportedAudio.map((p) => {
-    return {"action": p}
+    return { "action": p }
 })
 audioFormats.unshift({ "action": "best" })
 for (let i in donations["other"]) {
@@ -183,19 +183,19 @@ export default function(obj) {
                         }]
                     })
                 }) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup')) : ''}`
-                + settingsCategory({
-                    name: "youtube",
-                    body: switcher({
-                        name: "ytFormat",
-                        subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
-                        explanation: loc(obj.lang, 'SettingsFormatDescription'),
-                        items: [{
-                            "action": "mp4"
-                        }, {
-                            "action": "webm"
-                        }]
+                    + settingsCategory({
+                        name: "youtube",
+                        body: switcher({
+                            name: "ytFormat",
+                            subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
+                            explanation: loc(obj.lang, 'SettingsFormatDescription'),
+                            items: [{
+                                "action": "mp4"
+                            }, {
+                                "action": "webm"
+                            }]
+                        })
                     })
-                })
             }, {
                 name: "audio",
                 title: `${emoji("🎶")} ${loc(obj.lang, 'SettingsAudioTab')}`,
@@ -221,10 +221,10 @@ export default function(obj) {
                         items: [{
                             "action": "auto",
                             "text": loc(obj.lang, 'SettingsThemeAuto')
-                        },{
+                        }, {
                             "action": "dark",
                             "text": loc(obj.lang, 'SettingsThemeDark')
-                        },{
+                        }, {
                             "action": "light",
                             "text": loc(obj.lang, 'SettingsThemeLight')
                         }]
@@ -264,21 +264,21 @@ export default function(obj) {
         </div>
         <footer id="footer" style="visibility: hidden;">
         ${footerButtons([{
-                name: "about",
-                type: "popup",
-                icon: "?",
-                aria: loc(obj.lang, 'AccessibilityOpenAbout')
-            }, {
-                name: "settings",
-                type: "popup",
-                icon: "+",
-                aria: loc(obj.lang, 'AccessibilityOpenSettings')
-            }, {
-                name: "audioMode",
-                type: "toggle",
-                icon: emoji("✨", 22, 1),
-                aria: loc(obj.lang, 'AccessibilityModeToggle')
-            }]
+            name: "about",
+            type: "popup",
+            icon: "?",
+            aria: loc(obj.lang, 'AccessibilityOpenAbout')
+        }, {
+            name: "settings",
+            type: "popup",
+            icon: "+",
+            aria: loc(obj.lang, 'AccessibilityOpenSettings')
+        }, {
+            name: "audioMode",
+            type: "toggle",
+            icon: emoji("✨", 22, 1),
+            aria: loc(obj.lang, 'AccessibilityModeToggle')
+        }]
         )}
         </footer>
     </body>

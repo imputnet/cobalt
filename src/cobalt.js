@@ -50,8 +50,8 @@ if (fs.existsSync('./.env')) {
         try {
             decodeURIComponent(req.path)
         }
-        catch(e) {
-            return res.redirect(process.env.selfURL);    
+        catch (e) {
+            return res.redirect(process.env.selfURL);
         }
         next();
     });

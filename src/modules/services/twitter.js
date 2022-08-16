@@ -31,7 +31,7 @@ async function fetchTweetInfo(obj) {
         return cantConnect;
     }
 }
-export default async function (obj) {
+export default async function(obj) {
     let nothing = { error: loc(obj.lang, 'ErrorEmptyDownload') }
     try {
         let parsbod = await fetchTweetInfo(obj);

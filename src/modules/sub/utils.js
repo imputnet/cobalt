@@ -7,7 +7,7 @@ export function apiJSON(type, obj) {
                 return { status: 400, body: { status: "error", text: obj.t } };
             case 1:
                 return { status: 200, body: { status: "redirect", url: obj.u } };
-            case 2: 
+            case 2:
                 return { status: 200, body: { status: "stream", url: createStream(obj) } };
             case 3:
                 return { status: 200, body: { status: "success", text: obj.t } };

@@ -29,10 +29,10 @@ export async function getJSON(originalURL, ip, lang, format, quality, audioForma
                 }
                 if (patternMatch) {
                     return await match(host, patternMatch, url, ip, lang, format, quality, audioFormat, isAudioOnly);
-                } return apiJSON(0, { t: errorUnsupported(lang) } )
-            } return apiJSON(0, { t: errorUnsupported(lang) } )
+                } return apiJSON(0, { t: errorUnsupported(lang) })
+            } return apiJSON(0, { t: errorUnsupported(lang) })
         } else {
-            return apiJSON(0, { t: errorUnsupported(lang) } )
+            return apiJSON(0, { t: errorUnsupported(lang) })
         }
     } catch (e) {
         return apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') });

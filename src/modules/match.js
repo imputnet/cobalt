@@ -42,7 +42,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                 break;
             case "youtube":
                 let fetchInfo = {
-                    id: patternMatch["id"].slice(0,11),
+                    id: patternMatch["id"].slice(0, 11),
                     lang: lang, quality: quality,
                     format: "webm"
                 };
@@ -87,7 +87,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                 break;
             case "vimeo":
                 r = await vimeo({
-                    id: patternMatch["id"], quality: quality,
+                    id: patternMatch["id"].slice(0, 11), quality: quality,
                     lang: lang
                 });
                 break;

@@ -6,7 +6,7 @@ export async function buildFront() {
             entryPoints: ['src/front/cobalt.js', 'src/front/cobalt.css'],
             outdir: `min/`,
             minify: true,
-            loader: {".js": "js", ".css": "css"}
+            loader: { ".js": "js", ".css": "css" }
         })
     } catch (e) {
         return;

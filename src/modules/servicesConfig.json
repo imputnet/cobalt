@@ -40,6 +40,7 @@
         "enabled": true
     },
     "youtube": {
+        "alias": "youtube, youtube music",
         "patterns": ["watch?v=:id"],
         "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
         "quality": {
@@ -49,17 +50,9 @@
         },
         "enabled": true
     },
-    "youtube music": {
-        "patterns": ["watch?v=:id"],
-        "enabled": true
-    },
     "tumblr": {
         "patterns": ["post/:id", "blog/view/:user/:id"],
         "enabled": true
-    },
-    "instagram": {
-        "patterns": [":type/:id"],
-        "enabled": false
     },
     "tiktok": {
         "patterns": [":user/video/:postId", ":id", "t/:id"],
