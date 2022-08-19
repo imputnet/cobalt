@@ -5,13 +5,15 @@
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">let me know</a>"
     },
     "strings": {
-        "ChangelogContentTitle": "small quality of life improvements (3.1)",
-        "ChangelogContent": "- tiktok videos can now be downloaded without watermark, you just have to enable it in video settings (+)!\n- you now can pass \"u\" query to main website to fill out the input area right away (co.wukko.me?u=your_link_here).\n- added ability to select text in certain areas of website.\n- some internal stuff has been cleaned up.\n\nfollow cobalt's twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>\n\nprevious version:\n\neverything what you've been waiting for. welcome to cobalt 3.0 :)\n\nstuff that you can notice:\n\n- you can now download audio from any supported service, in any format that you set in settings (+). yes, that includes mp3, which you all have been waiting for :D\n- it's now easier to switch between download modes (just a single toggle on the bottom).\n- your youtube download format has been reset, sorry, but that was required to implement all audio downloads.\n- default download format for youtube videos on all platforms is now webm. except for ios.\n\n- cobalt now has emoji, just to spice up the black and white ui. all of them have been tuned to look the best in both themes. isn't it cool?\n- about, changelog, and donation popups have been merged into just one, for covnenience.\n- changelog got a huge upgrade (as you can see), and now there are both major changes and latest commit info, just so commits can finally go back to being batshit insane.\n- changelog popup appears on every major update, but you can disable it in settings, if you want to.\n- changelog now opens by default when pressing \"?\" button. i don't think anyone reads \"about\" as often.\n- settings (+) have been split into three tabs, also for convenience and ease of use.\n\n- added support for donation links. you can now donate through boosty, not only via crypto :D\n- donate popup has been rearranged and tuned just a tiny bit. \n\n- you can now click away from any popup by pressing the void behind it.\n- you can also press \"escape\" key on keyboard to close any popup.\n\n- switchers and buttons are now way easier on eye. white border is gone from where it's unneeded.\n- buttons are now very satisfying to press.\n- switchers are scrollable if there's not enough space to fit all contents on screen.\n- scaling is now even better than before.\n\ninternal stuff:\n\n- frontend won't send video related stuff if audio mode is on.\n- matching has, yet again, gone through mitosis, and is now probably the cleanest it can get.\n- page rendering is now modular, something like what frameworks have but way lighter. this makes adding new features WAY easier.\n- removed some stuff that didn't make sense (like storing language of stream request).\n- cleaned up insides of cobalt, of course.\n- almost all links now open in new tab, just like they should have from the very beginning.\n\nknown issues:\n- impossible to download audio from vk. i'll try to fix it in the next update.\n- headers are not sticky in tabbed popups. maybe this is a good thing, i'll think about it.\n\nif you ever notice any issues, make sure to report them on github. your report doesn't have to sound professional, just do your best to describe the issue.",
+        "ChangelogContentTitle": "ukrainian localization and new error popup (3.2)",
+        "FollowTwitter": "follow cobalt's twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
+        "ChangelogContent": "- added ukrainian localization (thanks to löffel).\n- new error popup! it's now prettier, more compact, and has an easily accessible close button.\n- russian localization has been patched up a bit\n- cleaned up css a bit\n- added github contributors to made with love message.\n- emojis have been tuned to have the same shade of yellow.\n- updated translation guidelines in readme a bit.",
+
         "LinkInput": "paste the link here",
         "AboutSummary": "{appName} is your go-to place for social media downloads. zero ads, trackers, or any other creepy bullshit attached. simply paste a share link and you're ready to rock!",
         "AboutSupportedServices": "currently supported services:",
         "EmbedBriefDescription": "save content from social media without creeps following you around",
-        "MadeWithLove": "made with <3 by wukko",
+        "MadeWithLove": "made with <3 by wukko and all contributors on github",
         "AccessibilityInputArea": "link input area",
         "AccessibilityOpenAbout": "open about popup",
         "AccessibilityDownloadButton": "download button",
@@ -32,7 +34,7 @@
         "ErrorPageRenderFail": "something went wrong and page couldn't render. if it's a recurring or critical issue, please {ContactLink}. it'd be useful if you provided current commit hash ({s}) and error recreation steps. thank you :D",
         "ErrorRateLimit": "you're making way too many requests. calm down and try again in a few minutes.",
         "ErrorCouldntFetch": "couldn't fetch metadata. check if your link is correct and try again.",
-        "ErrorLengthLimit": "current length limit is {s} minutes. what you tried to download was longer than {s} minutes. pick something else to download!",
+        "ErrorLengthLimit": "current length limit is {s} minutes. what you tried to download is longer than {s} minutes. pick something else to download!",
         "ErrorBadFetch": "something went wrong with info fetching. you can try a different format and resolution or just try again later.",
         "ErrorCorruptedStream": "this download is unfortunately corrupted. try again or try a different format and resolution.",
         "ErrorNoInternet": "there's no internet or {appName} api is down. check your connection and try again.",
@@ -89,6 +91,7 @@
         "SettingsAudioFormatDescription": "when best format is selected, you get audio in best quality available, because audio is kept in its original format. if you select anything other than that, you'll get a slightly compressed file.",
         "Keyphrase": "save what you love",
         "SettingsDisableChangelogOnUpdate": "don't show changelog after major updates",
-        "SettingsRemoveWatermark": "disable watermark"
+        "SettingsRemoveWatermark": "disable watermark",
+        "ErrorPopupCloseButton": "got it"
     }
 }

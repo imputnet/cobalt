@@ -23,10 +23,11 @@ It preserves original media quality so you get best downloads possible (unless y
 - YouTube Music
 
 ## Translations
-- Spanish: [@adrigoomy](https://github.com/adrigoomy)
-- French: [@lexito-o](https://github.com/lexito-o)
-- Indonesian: [@LyfeV](https://github.com/LyfeV)
+- Spanish: [@adrigoomy](https://github.com/adrigoomy) (translation is outdated, update needed)
+- French: [@lexito-o](https://github.com/lexito-o) (translation is outdated, update needed)
+- Indonesian: [@LyfeV](https://github.com/LyfeV) (translation is outdated, update needed)
 - Polish: [@hexandcube](https://github.com/hexandcube)
+- Ukrainian: Löffel
 
 ## How you can help cobalt speak your language
 Take English or Russian localization from [this directory](https://github.com/wukko/cobalt/tree/current/src/localization/languages) and use it as a base for your translation. Then simply make a pull request and it'll be out for everyone upon review!
@@ -34,14 +35,15 @@ Take English or Russian localization from [this directory](https://github.com/wu
 ### What you should keep in mind:
 - Do **NOT** use formal language, that's boring and lame. Use informal language on all occasions.
 - Strings are **ALWAYS** lowercase unless it's an internal value like {ContactLink} or STRESSED LIKE THIS.
-- Keep translations as friendly and fun as possible.
-- Word-for-word translations from original language are not valid.
-- You can rephrase sentences as long as they keep the same sense.
+- Keep translations as friendly and fun as possible. Just as if cobalt user was your buddy.
+- Robotic translations from original language are not valid.
+- You can (and should) rephrase sentences as long as they keep the same sense, if you think it'd be better that way.
 - You can add wordplays or puns if it feels natural to do so.
-- Even though I love cursing, keep that away from translations.
+- Even though I love cursing, keep that to minimum in translations, and do **NOT** use offensive words.
 - Always check if there are issues in UI with your localization.
 - There's no need to translate `ChangelogContentTitle` and `ChangelogContent`, because those are very often changed. You can remove both of them from your translation file.
-- Add "(in english)" in translation language to `ChangelogLastCommit` and `ChangelogLastMajor`, because those are almost always kept exclusively in English. Remove that phrase if you do translate major update changelog.
+- Add "(in english)" translated to your language at the end of `ChangelogLastCommit` and `ChangelogLastMajor`. Those are almost always kept exclusively in English. Remove that phrase if you do translate major update changelog.
+    - Example: `"ChangelogLastCommit": "последний коммит (на английском)"`
 - Be nice.
 
 ## TO-DO

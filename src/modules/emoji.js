@@ -9,11 +9,13 @@ const names = {
     "🪄": "magic_wand",
     "🐲": "dragon_face",
     "💸": "money_with_wings",
-    "⚙️": "gear"
+    "⚙️": "gear",
+    "☹️": "frowning_face"
 }
 let sizing = {
     22: 0.4,
-    30: 0.7
+    30: 0.7,
+    48: 0.9
 }
 export default function(emoji, size, disablePadding) {
     if (!size) size = 22;

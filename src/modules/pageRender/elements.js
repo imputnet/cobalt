@@ -40,18 +40,21 @@ export function popup(obj) {
         }
     }
     return `
-    ${!obj.embed ? `<div id="popup-${obj.name}" class="popup center box${classes.length > 0 ? ' ' + classes.join(' ') : ''}" style="visibility: hidden;">` : ''}
+    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center box${classes.length > 0 ? ' ' + classes.join(' ') : ''}" style="visibility: hidden;">` : ''}
+    ${obj.buttonOnly ? obj.emoji : ``}
         <div id="popup-header" class="popup-header">
-            ${!obj.embed ? `<button id="popup-close" class="button mono" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
+            ${obj.standalone && !obj.buttonOnly ? `<button id="popup-close" class="button mono" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
             ${obj.header.aboveTitle ? `<a id="popup-above-title" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
             ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
             ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
         </div>
-        <div id="popup-content"${obj.footer ? ' class="with-footer"' : ''}>${body}</div>
+        <div id="popup-content"${obj.footer ? ' class="with-footer"' : ''}>
+            ${body}${obj.buttonOnly ? `<button id="close-error" class="switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
+        </div>
         ${obj.footer ? `<div id="popup-footer" class="popup-footer">
             <a id="popup-bottom" class="popup-footer-content" href="${obj.footer.url}">${obj.footer.text}</a>
         </div>` : ''}
-    ${!obj.embed ? `</div>` : ''}`
+    ${obj.standalone ? `</div>` : ''}`
 }
 
 export function multiPagePopup(obj) {

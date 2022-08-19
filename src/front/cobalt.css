@@ -249,6 +249,9 @@ input[type="checkbox"] {
     font-size: 0.9rem;
     max-height: 80%;
 }
+.popup.small {
+    width: 20%
+}
 #popup-backdrop {
     opacity: 0.5;
     background-color: var(--background);
@@ -375,7 +378,7 @@ input[type="checkbox"] {
     padding-bottom: 0.4rem;
     color: var(--accent);
 }
-.subtitle.extra {
+.extra {
     margin-top: 1rem;
 }
 .small-padding .subtitle {
@@ -387,6 +390,9 @@ input[type="checkbox"] {
     font-size: 0.8rem;
     text-align: left;
     line-height: 1.3rem!important;
+    color: var(--accent-unhover-2);
+}
+.subtext {
     color: var(--accent-unhover-2);
 }
 .switch {
@@ -463,9 +469,17 @@ input[type="checkbox"] {
         zoom: 300%;
     }
 }
+@media screen and (max-width: 1550px) {
+    .popup.small {
+        width: 25%
+    }
+}
 @media screen and (max-width: 1440px) {
     #cobalt-main-box {
         width: 65%;
+    }
+    .popup.small {
+        width: 30%
     }
     .popup {
         width: 40%;
@@ -475,6 +489,9 @@ input[type="checkbox"] {
     #cobalt-main-box {
         width: 70%;
     }
+    .popup.small {
+        width: 35%
+    }
     .popup {
         width: 50%;
     }
@@ -482,6 +499,9 @@ input[type="checkbox"] {
 @media screen and (max-width: 1025px) {
     #cobalt-main-box {
         width: 75%;
+    }
+    .popup.small {
+        width: 40%
     }
     .popup {
         width: 60%;
@@ -491,35 +511,22 @@ input[type="checkbox"] {
     .popup {
         height: 80%
     }
+    .popup.small {
+        height: auto;
+    }
     .bottom-link {
         padding-bottom: 2rem;
     }
 }
 /* mobile page */
 @media screen and (max-width: 949px) {
-    #logo-area {
-        padding-right: 0;
-        padding-top: 0;
-        position: fixed;
-        line-height: 0;
-        margin-top: -2rem;
-        width: 100%;
-        text-align: center;
-    }
     #cobalt-main-box {
         width: 85%;
-        display: flex;
-        border: none;
-        padding: 0;
     }
-    .popup, .popup.scrollable {
-        border: none;
-        width: 90%;
-        height: 90%;
-        max-height: 100%;
-    }
-    .bottom-link {
-        padding-bottom: 2rem;
+    #close-error {
+        bottom: 5%;
+        position: absolute;
+        width: var(--without-padding);
     }
 }
 @media screen and (max-width: 475px) {
@@ -529,6 +536,16 @@ input[type="checkbox"] {
     .tab .emoji {
         margin-right: 0;
     }
+    #cobalt-main-box {
+        width: 90%;
+    }
+}
+@media screen and (max-width: 949px) {
+    #close-error {
+        bottom: 5%;
+        position: absolute;
+        width: var(--without-padding);
+    }
     #logo-area {
         padding-right: 0;
         padding-top: 0;
@@ -539,12 +556,11 @@ input[type="checkbox"] {
         text-align: center;
     }
     #cobalt-main-box {
-        width: 90%;
         display: flex;
         border: none;
         padding: 0;
     }
-    .popup, .popup.scrollable {
+    .popup, .popup.scrollable, .popup.small {
         border: none;
         width: 90%;
         height: 90%;
