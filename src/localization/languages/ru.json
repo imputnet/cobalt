@@ -6,10 +6,10 @@
     },
     "strings": {
         "LinkInput": "вставь ссылку сюда",
-        "AboutSummary": "{appName} — твой друг при скачивании контента из соц. сетей. никакой рекламы или трекеров. вставляешь ссылку, получаешь файл, наслаждаешься жизнью.",
+        "AboutSummary": "{appName} — твой друг при скачивании контента из соц. сетей. никакой рекламы или трекеров. вставляешь ссылку и получаешь файл. ничего лишнего.",
         "AboutSupportedServices": "что поддерживается:",
         "EmbedBriefDescription": "сохраняй что хочешь, без мороки и вторжения в личное пространство",
-        "MadeWithLove": "сделано с <3 всеми контрибьюторами на гитхабе и wukko",
+        "MadeWithLove": "сделано с <3 контрибьюторами на гитхабе и wukko",
         "AccessibilityInputArea": "зона вставки ссылки",
         "AccessibilityOpenAbout": "открыть окно с информацией",
         "AccessibilityDownloadButton": "кнопка скачивания",
@@ -53,7 +53,6 @@
         "SettingsQualitySwitchMedium": "среднее\n",
         "SettingsQualitySwitchLow": "низкое\n",
         "SettingsQualitySwitchLowest": "худшее",
-        "SettingsFormatSwitchAudio": "только аудио",
         "SettingsKeepDownloadButton": "оставлять &gt;&gt; на экране",
         "AccessibilityKeepDownloadButton": "оставлять кнопку скачивания на экране",
         "SettingsEnableDownloadPopup": "спрашивать, как сохранять",
@@ -80,7 +79,6 @@
         "SettingsOtherTab": "другое",
         "ChangelogLastCommit": "последний коммит (на английском)",
         "ChangelogLastMajor": "последнее обновление (на английском)",
-        "ModeToggleDefault": "умный режим",
         "AccessibilityModeToggle": "переключить режим скачивания",
         "DonateLinksDescription": "ссылки на донаты открываются в новой вкладке. это лучший метод пожертвовать деньги, если ты хочешь, чтобы я получил их лично, а не в виде крипто.",
         "SettingsAudioFormatBest": "лучший",
@@ -88,6 +86,10 @@
         "Keyphrase": "сохраняй то, что любишь",
         "SettingsDisableChangelogOnUpdate": "не показывать изменения после обновлений",
         "SettingsRemoveWatermark": "убрать ватермарку",
-        "ErrorPopupCloseButton": "ясно"
+        "ErrorPopupCloseButton": "ясно",
+        "ModeToggle": "режим",
+        "ModeToggleSmart": "умный",
+        "PressToChange": "нажми, чтобы изменить",
+        "ErrorLengthAudioConvert": "я не могу конвертировать аудио дольше чем {s} минут(ы). выбери \"лучший\" формат аудио, чтобы скачать аудио такой продолжительности."
     }
 }

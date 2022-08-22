@@ -5,10 +5,10 @@
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">let me know</a>"
     },
     "strings": {
-        "ChangelogContentTitle": "ukrainian localization and new error popup (3.2)",
-        "FollowTwitter": "follow cobalt's twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
-        "ChangelogContent": "- added ukrainian localization (thanks to löffel).\n- new error popup! it's now prettier, more compact, and has an easily accessible close button.\n- russian localization has been patched up a bit\n- cleaned up css a bit\n- added github contributors to made with love message.\n- emojis have been tuned to have the same shade of yellow.\n- updated translation guidelines in readme a bit.",
+        "ChangelogContentTitle": "soundcloud and better usability (3.3)",
+        "ChangelogContent": "- full support for soundcloud is here. you now can save your favorite songs from there, if you want to.\n- did you know that there's an audio download mode in cobalt? if you didn't, there's now a tooltip that shows you how to switch between modes.\n- added length limit to conversion of audios, because converting a 3 hour audio to wav will give you a 4gb file, and that's just unreasonable. you can still download audio in original (best) format without any limits.\n- if best and preferred audio format match, cobalt won't needlessly convert the audio anymore.\n- fixed format override for ios, you still might have to toggle between them once.\n- increased input area length limit on frontend because some reddit and soundcloud links wouldn't fit.\n- version in settings now opens current commit page on github, instead of general commits page. it also opens in a new tab instead of replacing the current one.\n- fixed some localization stuff in english, russian, and ukrainian. it's now easier to understand what mode is on, and general cobalt description in russian doesn't sound awkward anymore.",
 
+        "FollowTwitter": "follow cobalt's twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "LinkInput": "paste the link here",
         "AboutSummary": "{appName} is your go-to place for social media downloads. zero ads, trackers, or any other creepy bullshit attached. simply paste a share link and you're ready to rock!",
         "AboutSupportedServices": "currently supported services:",
@@ -57,7 +57,6 @@
         "SettingsQualitySwitchMedium": "medium\n",
         "SettingsQualitySwitchLow": "low\n",
         "SettingsQualitySwitchLowest": "lowest",
-        "SettingsFormatSwitchAudio": "only audio",
         "SettingsKeepDownloadButton": "keep &gt;&gt; visible",
         "AccessibilityKeepDownloadButton": "keep the download button always visible",
         "SettingsEnableDownloadPopup": "ask for a way to save",
@@ -73,7 +72,7 @@
         "DownloadPopupDescriptionIOS": "since you have an ios device, you have to press and hold the download button and then select \"download video\" in appeared popup to save the video. this will be required for as long as apple forces safari webview upon all browser developers on ios.",
         "DownloadPopupDescription": "download button opens a new tab with requested file. you can disable this popup in settings.",
         "DownloadPopupWayToSave": "pick a way to save",
-        "ClickToCopy": "click to copy",
+        "ClickToCopy": "press to copy",
         "Download": "download",
         "CopyURL": "copy url",
         "AboutTab": "about",
@@ -84,7 +83,6 @@
         "SettingsOtherTab": "other",
         "ChangelogLastCommit": "last commit",
         "ChangelogLastMajor": "last major update",
-        "ModeToggleDefault": "smart mode",
         "AccessibilityModeToggle": "toggle download mode",
         "DonateLinksDescription": "donation links open in a new tab. this is the best way to donate money, if you want me to receive it directly.",
         "SettingsAudioFormatBest": "best",
@@ -92,6 +90,10 @@
         "Keyphrase": "save what you love",
         "SettingsDisableChangelogOnUpdate": "don't show changelog after major updates",
         "SettingsRemoveWatermark": "disable watermark",
-        "ErrorPopupCloseButton": "got it"
+        "ErrorPopupCloseButton": "got it",
+        "ModeToggle": "mode",
+        "ModeToggleSmart": "smart",
+        "PressToChange": "press to change",
+        "ErrorLengthAudioConvert": "current length limit for audio conversion is {s} minutes. pick \"best\" format instead!"
     }
 }

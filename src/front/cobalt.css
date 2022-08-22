@@ -453,6 +453,18 @@ input[type="checkbox"] {
 .emoji {
     margin-right: 0.4rem;
 }
+.tooltip {
+    position: absolute;
+    margin-top: -6rem;
+    margin-left: -0.5rem;
+    line-height: 1.2;
+    text-align: left;
+    pointer-events: none;
+    color: var(--accent-unhover-2)!important;
+}
+.button:active .tooltip {
+    display: none;
+}
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
     html {

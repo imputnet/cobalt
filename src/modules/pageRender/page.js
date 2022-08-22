@@ -153,7 +153,7 @@ export default function(obj) {
             header: {
                 aboveTitle: {
                     text: `v.${version} ~ ${obj.hash}`,
-                    url: repo
+                    url: `${repo}/commit/${obj.hash}`
                 },
                 title: `${emoji("⚙️", 30)} ${loc(obj.lang, 'TitlePopupSettings')}`
             },
@@ -268,7 +268,7 @@ export default function(obj) {
         <div id="cobalt-main-box" class="center box" style="visibility: hidden;">
             <div id="logo-area">${appName}</div>
             <div id="download-area" class="mobile-center">
-                <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="110" autocapitalize="off" placeholder="${loc(obj.lang, 'LinkInput')}" aria-label="${loc(obj.lang, 'AccessibilityInputArea')}" oninput="button()">
+                <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${loc(obj.lang, 'LinkInput')}" aria-label="${loc(obj.lang, 'AccessibilityInputArea')}" oninput="button()">
                 <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${loc(obj.lang, 'AccessibilityDownloadButton')}">
             </div>
         </div>
@@ -292,7 +292,13 @@ export default function(obj) {
         )}
         </footer>
     </body>
-    <script type="text/javascript">const loc = {noInternet:"${loc(obj.lang, 'ErrorNoInternet')}", noURLReturned: "${loc(obj.lang, 'ErrorBadFetch')}", toggleDefault:'${emoji("✨")} ${loc(obj.lang, "ModeToggleDefault")}', toggleAudio:'${emoji("🎶")} ${loc(obj.lang, "SettingsFormatSwitchAudio")}'};</script>
+    <script type="text/javascript">const loc = {
+        noInternet: "${loc(obj.lang, 'ErrorNoInternet')}",
+        noURLReturned: "${loc(obj.lang, 'ErrorBadFetch')}",
+        toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleSmart")} ${loc(obj.lang, "ModeToggle")}',
+        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "SettingsAudioTab")} ${loc(obj.lang, "ModeToggle")}',
+        pressToChange: '<div class="tooltip">▼ ${loc(obj.lang, 'PressToChange')}</div>'
+    };</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;
     } catch (err) {

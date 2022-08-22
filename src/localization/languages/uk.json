@@ -9,7 +9,7 @@
         "AboutSummary": "{appName} – твій помічник із завантаження контенту з соцмереж. ніякої реклами, ніяких трекерів. вставляєш лінк, отримаєш файл, і допиваєш у спокої свій смузі.",
         "AboutSupportedServices": "ось що підтримується:",
         "EmbedBriefDescription": "зберігай контент із соцмереж без реклами і трекерів",
-        "MadeWithLove": "зроблено з <3 всіма контриб'юторами на github и wukko <3",
+        "MadeWithLove": "зроблено з <3 контриб'юторами на github и wukko <3",
         "AccessibilityInputArea": "строка, щоб вставити в неї лінк",
         "AccessibilityOpenAbout": "відкрити інфу про {appName}",
         "AccessibilityDownloadButton": "кнопка завантаження",
@@ -53,7 +53,6 @@
         "SettingsQualitySwitchMedium": "середня\n",
         "SettingsQualitySwitchLow": "низька\n",
         "SettingsQualitySwitchLowest": "найнижча",
-        "SettingsFormatSwitchAudio": "тільки аудіо",
         "SettingsKeepDownloadButton": "зробити &gt;&gt; видимим",
         "AccessibilityKeepDownloadButton": "завжди показувати кнопку завантаження",
         "SettingsEnableDownloadPopup": "питати щодо засобу зберігання",
@@ -80,7 +79,6 @@
         "SettingsOtherTab": "інше",
         "ChangelogLastCommit": "останній коммит (англійською мовою)",
         "ChangelogLastMajor": "останнє велике оновлення (англійською мовою)",
-        "ModeToggleDefault": "розумний режим",
         "AccessibilityModeToggle": "змінити режим завантаження",
         "DonateLinksDescription": "лінки на донати відкриваються у нових вкладках. це найкращій спосіб донатити, якщо хочеш, щоб ми безпосередньо отримували гроші.",
         "SettingsAudioFormatBest": "найкращий",
@@ -88,6 +86,10 @@
         "Keyphrase": "збережи, що любиш",
         "SettingsDisableChangelogOnUpdate": "не показувати \"що нового\" після великих оновлень",
         "SettingsRemoveWatermark": "прибрати вотермарку",
-        "ErrorPopupCloseButton": "ясно"
+        "ErrorPopupCloseButton": "ясно",
+        "ModeToggle": "режим",
+        "ModeToggleSmart": "розумний",
+        "PressToChange": "натисни, щоб змінити",
+        "ErrorLengthAudioConvert": "я не можу конвертувати аудіо довше ніж {s} хвилин (и). вибери \"найкращий\" формат аудіо, щоб завантажити аудіо такої тривалості."
     }
 }

@@ -1,5 +1,5 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 4
+let version = 5;
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
@@ -7,7 +7,7 @@ let switchers = {
     "quality": ["max", "hig", "mid", "low"],
     "audioFormat": ["best", "mp3", "ogg", "wav", "opus"]
 }
-let exceptions = { // fuck you apple
+let exceptions = { // used solely for ios devices, because they're less capable than everything else.
     "ytFormat": "mp4",
     "audioFormat": "mp3"
 }
@@ -197,6 +197,7 @@ function toggle(toggle) {
     let state = sGet(toggle);
     if (state) {
         sSet(toggle, opposite(state))
+        if (opposite(state) == "true") sSet(`${toggle}ToggledOnce`, "true");
     } else {
         sSet(toggle, "false")
     }
@@ -208,7 +209,7 @@ function updateToggle(toggle, state) {
             eid(toggle).innerHTML = loc.toggleAudio;
             break;
         case "false":
-            eid(toggle).innerHTML = loc.toggleDefault;
+            eid(toggle).innerHTML = sGet(`${toggle}ToggledOnce`) == "true" ? loc.toggleDefault : loc.pressToChange + loc.toggleDefault;
             break;
     }
 }

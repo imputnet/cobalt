@@ -13,6 +13,7 @@ import douyin from "./services/douyin.js";
 import tumblr from "./services/tumblr.js";
 import matchActionDecider from "./sub/matchActionDecider.js";
 import vimeo from "./services/vimeo.js";
+import soundcloud from "./services/soundcloud.js";
 
 export default async function (host, patternMatch, url, ip, lang, format, quality, audioFormat, isAudioOnly, noWatermark) {
     try {
@@ -88,6 +89,15 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
             case "vimeo":
                 r = await vimeo({
                     id: patternMatch["id"].slice(0, 11), quality: quality,
+                    lang: lang
+                });
+                break;
+            case "soundcloud":
+                isAudioOnly = true;
+                r = await soundcloud({
+                    author: patternMatch["author"], song: patternMatch["song"], url: url,
+                    shortLink: patternMatch["shortLink"] ? patternMatch["shortLink"] : false,
+                    format: audioFormat,
                     lang: lang
                 });
                 break;

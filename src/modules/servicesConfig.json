@@ -43,6 +43,7 @@
         "alias": "youtube, youtube music",
         "patterns": ["watch?v=:id"],
         "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
+        "bestAudio": "opus",
         "quality": {
             "1080": "hig",
             "720": "mid",
@@ -64,6 +65,12 @@
     },
     "vimeo": {
         "patterns": [":id"],
+        "enabled": true
+    },
+    "soundcloud": {
+        "patterns": [":author/:song", ":shortLink"],
+        "bestAudio": "mp3",
+        "clientid": "lnFbWHXluNwOkW7TxTYUXrrse0qj1C72",
         "enabled": true
     }
 }

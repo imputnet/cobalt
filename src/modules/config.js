@@ -8,6 +8,7 @@ export const
     version = packageJson.version,
     streamLifespan = config.streamLifespan,
     maxVideoDuration = config.maxVideoDuration,
+    maxAudioDuration = config.maxAudioDuration,
     genericUserAgent = config.genericUserAgent,
     repo = packageJson["bugs"]["url"].replace('/issues', ''),
     authorInfo = config.authorInfo,

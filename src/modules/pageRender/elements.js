@@ -44,7 +44,7 @@ export function popup(obj) {
     ${obj.buttonOnly ? obj.emoji : ``}
         <div id="popup-header" class="popup-header">
             ${obj.standalone && !obj.buttonOnly ? `<button id="popup-close" class="button mono" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
-            ${obj.header.aboveTitle ? `<a id="popup-above-title" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+            ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
             ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
             ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
         </div>
@@ -52,7 +52,7 @@ export function popup(obj) {
             ${body}${obj.buttonOnly ? `<button id="close-error" class="switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
         ${obj.footer ? `<div id="popup-footer" class="popup-footer">
-            <a id="popup-bottom" class="popup-footer-content" href="${obj.footer.url}">${obj.footer.text}</a>
+            <a id="popup-bottom" class="popup-footer-content" target="_blank" href="${obj.footer.url}">${obj.footer.text}</a>
         </div>` : ''}
     ${obj.standalone ? `</div>` : ''}`
 }
@@ -69,7 +69,7 @@ export function multiPagePopup(obj) {
     <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
         
         <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
-        ${obj.header.aboveTitle ? `<a id="popup-above-title" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+        ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
         ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
         ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}</div>` : ''}${tabContent}</div>
         <div id="popup-tabs" class="switches popup-tabs">${tabs}</div>
@@ -90,8 +90,8 @@ export function settingsCategory(obj) {
 export function footerButtons(obj) {
     let items = ``
     for (let i = 0; i < obj.length; i++) {
-        let func = `${obj[i]["type"] == "toggle" ? `toggle('${obj[i]["name"]}')` : `popup('${obj[i]["name"]}', 1)`}`
-        items += `<button id="${obj[i]["name"]}" class="button footer-button" onclick="${func}" aria-label="${obj[i]["aria"]}">${obj[i]["icon"]}</button> `
+        let func = `${obj[i]["type"] == "toggle" ? `toggle('${obj[i]["name"]}')` : `popup('${obj[i]["name"]}', 1)`}`;
+        items += `<button id="${obj[i]["name"]}" class="button footer-button" onclick="${func}" aria-label="${obj[i]["aria"]}">${obj[i]["icon"]}</button>`;
     }
     return `
     <div id="footer-buttons">${items}</div>`

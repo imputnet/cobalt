@@ -1,4 +1,4 @@
-import { supportedAudio } from "../config.js"
+import { services, supportedAudio } from "../config.js"
 import { apiJSON } from "./utils.js"
 
 export default function(r, host, ip, audioFormat, isAudioOnly) {
@@ -48,14 +48,12 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
             let type = "render"
             let copy = false
             if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
-            if (audioFormat == "best") {
-                if (host != "youtube") {
-                    audioFormat = "m4a"
-                    copy = true
-                } else {
-                    audioFormat = "opus"
-                    type = "bridge"
-                }
+            if ((audioFormat == "best" && services[host]["bestAudio"]) || services[host]["bestAudio"] && (audioFormat == services[host]["bestAudio"])) {
+                audioFormat = services[host]["bestAudio"]
+                type = "bridge"
+            } else if (audioFormat == "best") {
+                audioFormat = "m4a"
+                copy = true
             }
             if (host == "reddit" && r.typeId == 1 || host == "vk" || host == "vimeo") return apiJSON(0, { t: r.audioFilename });
             return apiJSON(2, {

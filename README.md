@@ -29,6 +29,13 @@ It preserves original media quality so you get best downloads possible (unless y
 - Polish: [@hexandcube](https://github.com/hexandcube)
 - Ukrainian: Löffel
 
+## Languages that are always up to date
+- English
+- Russian
+- Ukrainian
+
+Other languages may be missing some strings or changes, you can help with updating those!
+
 ## How you can help cobalt speak your language
 Take English or Russian localization from [this directory](https://github.com/wukko/cobalt/tree/current/src/localization/languages) and use it as a base for your translation. Then simply make a pull request and it'll be out for everyone upon review!
 
