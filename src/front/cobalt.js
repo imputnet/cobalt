@@ -143,8 +143,8 @@ function changeSwitcher(li, b) {
         if (li == "theme") detectColorScheme();
     } else {
         let pref = switchers[li][0];
-        sSet(li, pref);
         if (isIOS && exceptions[li]) pref = exceptions[li];
+        sSet(li, pref);
         for (i in switchers[li]) {
             (switchers[li][i] == pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
         }
