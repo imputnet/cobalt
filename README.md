@@ -14,6 +14,7 @@ It preserves original media quality so you get best downloads possible (unless y
 - bilibili.com
 - douyin (with or without watermark, preference set by user)
 - Reddit
+- Soundcloud
 - TikTok (with or without watermark, preference set by user)
 - Tumblr
 - Twitter
