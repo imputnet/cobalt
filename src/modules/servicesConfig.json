@@ -1,76 +1,79 @@
 {
-    "bilibili": {
-        "alias": "bilibili.com",
-        "patterns": ["video/:id"],
-        "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
-        "enabled": true
-    },
-    "reddit": {
-        "patterns": ["r/:sub/comments/:id/:title"],
-        "enabled": true
-    },
-    "twitter": {
-        "patterns": [":user/status/:id"],
-        "quality_match": ["1080", "720", "480", "360", "240", "144"],
-        "enabled": true,
-        "api": "api.twitter.com",
-        "token": "AAAAAAAAAAAAAAAAAAAAAIK1zgAAAAAA2tUWuhGZ2JceoId5GwYWU5GspY4%3DUq7gzFoCZs1QfwGoVdvSac3IniczZEYXIcDyumCauIXpcAPorE",
-        "apiURLs": {
-            "activate": "1.1/guest/activate.json",
-            "status_show": "1.1/statuses/show.json"
+    "audioIgnore": ["vk", "vimeo"],
+    "config": {
+        "bilibili": {
+            "alias": "bilibili.com",
+            "patterns": ["video/:id"],
+            "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
+            "enabled": true
+        },
+        "reddit": {
+            "patterns": ["r/:sub/comments/:id/:title"],
+            "enabled": true
+        },
+        "twitter": {
+            "patterns": [":user/status/:id"],
+            "quality_match": ["1080", "720", "480", "360", "240", "144"],
+            "enabled": true,
+            "api": "api.twitter.com",
+            "token": "AAAAAAAAAAAAAAAAAAAAAIK1zgAAAAAA2tUWuhGZ2JceoId5GwYWU5GspY4%3DUq7gzFoCZs1QfwGoVdvSac3IniczZEYXIcDyumCauIXpcAPorE",
+            "apiURLs": {
+                "activate": "1.1/guest/activate.json",
+                "status_show": "1.1/statuses/show.json"
+            }
+        },
+        "vk": {
+            "patterns": ["video-:userId_:videoId"],
+            "quality_match": {
+                "2160": 7,
+                "1440": 6,
+                "1080": 5,
+                "720": 3,
+                "480": 2,
+                "360": 1,
+                "240": 0,
+                "144": 4
+            },
+            "quality": {
+                "1080": "hig",
+                "720": "mid",
+                "480": "low"
+            },
+            "enabled": true
+        },
+        "youtube": {
+            "alias": "youtube, youtube music",
+            "patterns": ["watch?v=:id"],
+            "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
+            "bestAudio": "opus",
+            "quality": {
+                "1080": "hig",
+                "720": "mid",
+                "480": "low"
+            },
+            "enabled": true
+        },
+        "tumblr": {
+            "patterns": ["post/:id", "blog/view/:user/:id"],
+            "enabled": true
+        },
+        "tiktok": {
+            "patterns": [":user/video/:postId", ":id", "t/:id"],
+            "enabled": true
+        },
+        "douyin": {
+            "patterns": ["video/:postId", ":id"],
+            "enabled": true
+        },
+        "vimeo": {
+            "patterns": [":id"],
+            "enabled": true
+        },
+        "soundcloud": {
+            "patterns": [":author/:song", ":shortLink"],
+            "bestAudio": "mp3",
+            "clientid": "lnFbWHXluNwOkW7TxTYUXrrse0qj1C72",
+            "enabled": true
         }
-    },
-    "vk": {
-        "patterns": ["video-:userId_:videoId"],
-        "quality_match": {
-            "2160": 7,
-            "1440": 6,
-            "1080": 5,
-            "720": 3,
-            "480": 2,
-            "360": 1,
-            "240": 0,
-            "144": 4
-        },
-        "quality": {
-            "1080": "hig",
-            "720": "mid",
-            "480": "low"
-        },
-        "enabled": true
-    },
-    "youtube": {
-        "alias": "youtube, youtube music",
-        "patterns": ["watch?v=:id"],
-        "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
-        "bestAudio": "opus",
-        "quality": {
-            "1080": "hig",
-            "720": "mid",
-            "480": "low"
-        },
-        "enabled": true
-    },
-    "tumblr": {
-        "patterns": ["post/:id", "blog/view/:user/:id"],
-        "enabled": true
-    },
-    "tiktok": {
-        "patterns": [":user/video/:postId", ":id", "t/:id"],
-        "enabled": true
-    },
-    "douyin": {
-        "patterns": ["video/:postId", ":id"],
-        "enabled": true
-    },
-    "vimeo": {
-        "patterns": [":id"],
-        "enabled": true
-    },
-    "soundcloud": {
-        "patterns": [":author/:song", ":shortLink"],
-        "bestAudio": "mp3",
-        "clientid": "lnFbWHXluNwOkW7TxTYUXrrse0qj1C72",
-        "enabled": true
-    }
+    }    
 }

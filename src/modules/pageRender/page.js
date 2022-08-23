@@ -212,6 +212,10 @@ export default function(obj) {
                         explanation: loc(obj.lang, 'SettingsAudioFormatDescription'),
                         items: audioFormats
                     })
+                }) + settingsCategory({
+                    name: "tiktok",
+                    title: "tiktok & douyin",
+                    body: checkbox("fullTikTokAudio", loc(obj.lang, 'SettingsAudioFullTikTok'), loc(obj.lang, 'SettingsAudioFullTikTok')) + `<div class="explanation">${loc(obj.lang, 'SettingsAudioFullTikTokDescription')}</div>`
                 })
             }, {
                 name: "other",

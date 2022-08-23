@@ -29,16 +29,31 @@ export default async function(obj) {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'douyin') };
         });
         iteminfo = JSON.parse(iteminfo.body);
-        if (iteminfo['item_list'][0]['video']['play_addr']['url_list'][0]) {
+        let video = iteminfo['item_list'][0]['video']['play_addr']['url_list'][0];
+        let audio = obj.isAudioOnly ? iteminfo['item_list'][0]["music"]["play_url"]["url_list"][0] : false;
+        if (audio && obj.fullAudio) {
+            return {
+                urls: audio,
+                audioFilename: `douyin_${obj.postId}_audio_full`,
+                isAudio: true
+            }
+        } else if (audio && audio.slice(-4) == ".mp3") {
+            return {
+                urls: audio,
+                audioFilename: `douyin_${obj.postId}_audio`,
+                isAudio: true,
+                isMp3: true,
+            };
+        } else if (video) {
             if (!obj.noWatermark) {
                 return {
-                    urls: iteminfo['item_list'][0]['video']['play_addr']['url_list'][0],
+                    urls: video,
                     audioFilename: `douyin_${obj.postId}_audio`, 
                     filename: `douyin_${obj.postId}.mp4`
                 };
             } else {
                 return {
-                    urls: iteminfo['item_list'][0]['video']['play_addr']['url_list'][0].replace("playwm", "play"),
+                    urls: video.replace("playwm", "play"),
                     audioFilename: `douyin_${obj.postId}_audio`,
                     filename: `douyin_${obj.postId}_nw.mp4`
                 };

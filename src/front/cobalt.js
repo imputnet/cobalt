@@ -7,6 +7,7 @@ let switchers = {
     "quality": ["max", "hig", "mid", "low"],
     "audioFormat": ["best", "mp3", "ogg", "wav", "opus"]
 }
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"]
 let exceptions = { // used solely for ios devices, because they're less capable than everything else.
     "ytFormat": "mp4",
     "audioFormat": "mp3"
@@ -176,8 +177,8 @@ function loadSettings() {
     if (!sGet("audioMode")) {
         toggle("audioMode")
     }
-    if (sGet("disableTikTokWatermark") == "true") {
-        eid("disableTikTokWatermark").checked = true;
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (sGet(checkboxes[i]) == "true") eid(checkboxes[i]).checked = true;
     }
     updateToggle("audioMode", sGet("audioMode"));
     for (let i in switchers) {
@@ -226,6 +227,7 @@ async function download(url) {
         }
     } else {
         format = `&nw=true`
+        if (sGet("fullTikTokAudio") == "true") format += `&ttfull=true`
     }
     let mode = (sGet("audioMode") == "true") ? `audio=true` : `quality=${sGet("quality")}`
     fetch(`/api/json?audioFormat=${sGet("audioFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (response) => {

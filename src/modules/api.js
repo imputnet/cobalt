@@ -7,7 +7,7 @@ import { errorUnsupported } from "./sub/errors.js";
 import loc from "../localization/manager.js";
 import match from "./match.js";
 
-export async function getJSON(originalURL, ip, lang, format, quality, audioFormat, isAudioOnly, noWatermark) {
+export async function getJSON(originalURL, lang, obj) {
     try {
         let url = decodeURI(originalURL);
         if (!url.includes('http://')) {
@@ -32,7 +32,7 @@ export async function getJSON(originalURL, ip, lang, format, quality, audioForma
                     if (patternMatch) break;
                 }
                 if (patternMatch) {
-                    return await match(host, patternMatch, url, ip, lang, format, quality, audioFormat, isAudioOnly, noWatermark);
+                    return await match(host, patternMatch, url, lang, obj);
                 } return apiJSON(0, { t: errorUnsupported(lang) })
             } return apiJSON(0, { t: errorUnsupported(lang) })
         } else {

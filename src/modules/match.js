@@ -15,7 +15,7 @@ import matchActionDecider from "./sub/matchActionDecider.js";
 import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 
-export default async function (host, patternMatch, url, ip, lang, format, quality, audioFormat, isAudioOnly, noWatermark) {
+export default async function (host, patternMatch, url, lang, obj) {
     try {
         if (!testers[host]) return apiJSON(0, { t: errorUnsupported(lang) });
         if (!(testers[host](patternMatch))) throw Error();
@@ -32,7 +32,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                 r = await vk({
                     userId: patternMatch["userId"],
                     videoId: patternMatch["videoId"],
-                    lang: lang, quality: quality
+                    lang: lang, quality: obj.quality
                 });
                 break;
             case "bilibili":
@@ -44,11 +44,11 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
             case "youtube":
                 let fetchInfo = {
                     id: patternMatch["id"].slice(0, 11),
-                    lang: lang, quality: quality,
+                    lang: lang, quality: obj.quality,
                     format: "webm"
                 };
-                if (url.match('music.youtube.com') || isAudioOnly == true) format = "audio";
-                switch (format) {
+                if (url.match('music.youtube.com') || obj.isAudioOnly == true) obj.format = "audio";
+                switch (obj.format) {
                     case "mp4":
                         fetchInfo["format"] = "mp4";
                         break;
@@ -56,7 +56,7 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                         fetchInfo["format"] = "webm";
                         fetchInfo["isAudioOnly"] = true;
                         fetchInfo["quality"] = "max";
-                        isAudioOnly = true;
+                        obj.isAudioOnly = true;
                         break;
                 }
                 r = await youtube(fetchInfo);
@@ -71,13 +71,17 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
             case "tiktok":
                 r = await tiktok({
                     postId: patternMatch["postId"],
-                    id: patternMatch["id"], lang: lang, noWatermark: noWatermark
+                    id: patternMatch["id"], lang: lang,
+                    noWatermark: obj.noWatermark, fullAudio: obj.fullAudio,
+                    isAudioOnly: obj.isAudioOnly
                 });
                 break;
             case "douyin":
                 r = await douyin({
                     postId: patternMatch["postId"],
-                    id: patternMatch["id"], lang: lang, noWatermark: noWatermark
+                    id: patternMatch["id"], lang: lang,
+                    noWatermark: obj.noWatermark, fullAudio: obj.fullAudio,
+                    isAudioOnly: obj.isAudioOnly
                 });
                 break;
             case "tumblr":
@@ -88,23 +92,23 @@ export default async function (host, patternMatch, url, ip, lang, format, qualit
                 break;
             case "vimeo":
                 r = await vimeo({
-                    id: patternMatch["id"].slice(0, 11), quality: quality,
+                    id: patternMatch["id"].slice(0, 11), quality: obj.quality,
                     lang: lang
                 });
                 break;
             case "soundcloud":
-                isAudioOnly = true;
+                obj.isAudioOnly = true;
                 r = await soundcloud({
                     author: patternMatch["author"], song: patternMatch["song"], url: url,
                     shortLink: patternMatch["shortLink"] ? patternMatch["shortLink"] : false,
-                    format: audioFormat,
+                    format: obj.audioFormat,
                     lang: lang
                 });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
-        return matchActionDecider(r, host, ip, audioFormat, isAudioOnly)
+        return matchActionDecider(r, host, obj.ip, obj.audioFormat, obj.isAudioOnly)
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

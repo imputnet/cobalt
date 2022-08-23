@@ -1,4 +1,4 @@
-import { services, supportedAudio } from "../config.js"
+import { audioIgnore, services, supportedAudio } from "../config.js"
 import { apiJSON } from "./utils.js"
 
 export default function(r, host, ip, audioFormat, isAudioOnly) {
@@ -55,7 +55,17 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                 audioFormat = "m4a"
                 copy = true
             }
-            if (host == "reddit" && r.typeId == 1 || host == "vk" || host == "vimeo") return apiJSON(0, { t: r.audioFilename });
+            if ((host == "tiktok" || host == "douyin") && r.isAudio) {
+                if (r.isMp3) {
+                    audioFormat = "mp3"
+                    type = "bridge"
+                    copy = false
+                } else {
+                    type = "bridge"
+                    copy = false
+                }
+            }
+            if (host == "reddit" && r.typeId == 1 || audioIgnore.includes(host)) return apiJSON(0, { t: r.audioFilename });
             return apiJSON(2, {
                 type: type,
                 u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,

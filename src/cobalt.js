@@ -61,16 +61,15 @@ if (fs.existsSync('./.env')) {
             switch (req.params.type) {
                 case 'json':
                     if (req.query.url && req.query.url.length < 150) {
-                        let j = await getJSON(
-                            req.query.url.trim(),
-                            req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip,
-                            languageCode(req),
-                            req.query.format ? req.query.format.slice(0, 5) : "webm",
-                            req.query.quality ? req.query.quality.slice(0, 3) : "max",
-                            req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : false,
-                            req.query.audio ? true : false,
-                            req.query.nw ? true : false
-                        )
+                        let j = await getJSON(req.query.url.trim(), languageCode(req), {
+                                ip: req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip,
+                                format: req.query.format ? req.query.format.slice(0, 5) : "webm",
+                                quality: req.query.quality ? req.query.quality.slice(0, 3) : "max",
+                                audioFormat: req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : false,
+                                isAudioOnly: req.query.audio ? true : false,
+                                noWatermark: req.query.nw ? true : false,
+                                fullAudio: req.query.ttfull ? true : false,
+                        })
                         res.status(j.status).json(j.body);
                     } else {
                         let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
