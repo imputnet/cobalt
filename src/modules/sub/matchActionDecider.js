@@ -55,7 +55,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                 audioFormat = "m4a"
                 copy = true
             }
-            if ((host == "tiktok" || host == "douyin") && r.isAudio) {
+            if ((host == "tiktok" || host == "douyin") && r.isAudio && audioFormat == "best") {
                 if (r.isMp3) {
                     audioFormat = "mp3"
                     type = "bridge"
