@@ -30,7 +30,7 @@ It preserves original media quality so you get best downloads possible (unless y
 - Polish: [@hexandcube](https://github.com/hexandcube)
 - Ukrainian: Löffel
 
-## Languages that are always up to date
+### Languages that are always up to date
 - English
 - Russian
 - Ukrainian
