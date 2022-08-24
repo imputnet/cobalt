@@ -54,22 +54,6 @@ Take English or Russian localization from [this directory](https://github.com/wu
     - Example: `"ChangelogLastCommit": "последний коммит (на английском)"`
 - Be nice.
 
-## TO-DO
-
-### Services
-- [ ] niconico support
-- [ ] Instagram support
-- [ ] SoundCloud support
-- [ ] Quality switching for bilibili
-- [x] Find a way to get TikTok videos without a watermark
-- [x] Add an option to keep watermark on TikTok videos
-
-### Other
-- [ ] Remake video quality picking
-- [ ] Add support for emoji in localization
-- [ ] Language picker in settings
-- [ ] Make cobalt fully PWA compatible (add a service worker)
-
 ## Host an instance yourself
 Code might be a little messy, but I do my best to improve it with every commit.
 
