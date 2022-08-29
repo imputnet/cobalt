@@ -1,12 +1,12 @@
 import got from "got";
 import loc from "../../localization/manager.js";
-import { genericUserAgent } from "../config.js";
+import { genericUserAgentTikTok } from "../config.js";
 import { unicodeDecode } from "../sub/utils.js";
 
 export default async function(obj) {
     try {
         if (!obj.postId) {
-            let html = await got.get(`https://vt.tiktok.com/${obj.id}`, { headers: { "user-agent": genericUserAgent } });
+            let html = await got.get(`https://vt.tiktok.com/${obj.id}`, { headers: { "user-agent": genericUserAgentTikTok } });
             html.on('error', (err) => {
                 return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'tiktok') };
             });
@@ -18,7 +18,7 @@ export default async function(obj) {
             }
         }
         if (!obj.noWatermark && !obj.isAudioOnly) {
-            let html = await got.get(`https://tiktok.com/@video/video/${obj.postId}`, { headers: { "user-agent": genericUserAgent } });
+            let html = await got.get(`https://tiktok.com/@video/video/${obj.postId}`, { headers: { "user-agent": genericUserAgentTikTok } });
             html.on('error', (err) => {
                 return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'tiktok') };
             });

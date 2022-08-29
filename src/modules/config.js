@@ -12,6 +12,7 @@ export const
     maxVideoDuration = config.maxVideoDuration,
     maxAudioDuration = config.maxAudioDuration,
     genericUserAgent = config.genericUserAgent,
+    genericUserAgentTikTok = config.genericUserAgentTikTok,
     repo = packageJson["bugs"]["url"].replace('/issues', ''),
     authorInfo = config.authorInfo,
     supportedLanguages = config.supportedLanguages,
@@ -19,4 +20,4 @@ export const
     internetExplorerRedirect = config.internetExplorerRedirect,
     donations = config.donations,
     ffmpegArgs = config.ffmpegArgs,
-    supportedAudio = config.supportedAudio
+    supportedAudio = config.supportedAudio;
