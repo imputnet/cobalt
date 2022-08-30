@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "3.3.5",
+    "version": "3.3.6",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -32,6 +32,6 @@
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",
-        "ytdl-core": "4.11.0"
+        "ytdl-core": "4.11.1"
     }
 }
