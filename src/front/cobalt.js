@@ -221,8 +221,8 @@ async function download(url) {
         if (sGet("fullTikTokAudio") == "true") format += `&ttfull=true`
     }
     let mode = (sGet("audioMode") == "true") ? `audio=true` : `quality=${sGet("quality")}`
-    fetch(`/api/json?audioFormat=${sGet("audioFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (response) => {
-        let j = await response.json();
+    await fetch(`/api/json?audioFormat=${sGet("audioFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (r) => {
+        let j = await r.json();
         if (j.status != "error" && j.status != "rate-limit") {
             if (j.url) {
                 switch (j.status) {
@@ -240,8 +240,8 @@ async function download(url) {
                         break;
                     case "stream":
                         changeDownloadButton(2, '?..')
-                        fetch(`${j.url}&p=1&origin=front`).then(async (response) => {
-                            let jp = await response.json();
+                        fetch(`${j.url}&p=1&origin=front`).then(async (res) => {
+                            let jp = await res.json();
                             if (jp.status == "continue") {
                                 changeDownloadButton(2, '>>>')
                                 window.location.href = j.url
