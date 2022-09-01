@@ -165,25 +165,25 @@ function checkbox(action) {
         if (action == "alwaysVisibleButton") button();
     }
 }
-function updateToggle(toggle, state) {
+function updateToggle(toggl, state) {
     switch(state) {
         case "true":
-            eid(toggle).innerHTML = loc.toggleAudio;
+            eid(toggl).innerHTML = loc.toggleAudio;
             break;
         case "false":
-            eid(toggle).innerHTML = sGet(`${toggle}ToggledOnce`) == "true" ? loc.toggleDefault : loc.pressToChange + loc.toggleDefault;
+            eid(toggl).innerHTML = sGet(`${toggl}ToggledOnce`) == "true" ? loc.toggleDefault : loc.pressToChange + loc.toggleDefault;
             break;
     }
 }
-function toggle(toggle) {
-    let state = sGet(toggle);
+function toggle(toggl) {
+    let state = sGet(toggl);
     if (state) {
-        sSet(toggle, opposite(state))
-        if (opposite(state) == "true") sSet(`${toggle}ToggledOnce`, "true");
+        sSet(toggl, opposite(state))
+        if (opposite(state) == "true") sSet(`${toggl}ToggledOnce`, "true");
     } else {
-        sSet(toggle, "false")
+        sSet(toggl, "false")
     }
-    updateToggle(toggle, sGet(toggle))
+    updateToggle(toggl, sGet(toggl))
 }
 function loadSettings() {
     if (sGet("alwaysVisibleButton") == "true") {
