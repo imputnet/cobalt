@@ -138,7 +138,7 @@ function popup(type, action, text) {
 function changeSwitcher(li, b) {
     if (b) {
         sSet(li, b);
-        for (i in switchers[li]) {
+        for (let i in switchers[li]) {
             (switchers[li][i] == b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
         if (li == "theme") detectColorScheme();
@@ -146,7 +146,7 @@ function changeSwitcher(li, b) {
         let pref = switchers[li][0];
         if (isIOS && exceptions[li]) pref = exceptions[li];
         sSet(li, pref);
-        for (i in switchers[li]) {
+        for (let i in switchers[li]) {
             (switchers[li][i] == pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
         }
     }
@@ -164,6 +164,26 @@ function checkbox(action) {
         sSet(action, "false");
         if (action == "alwaysVisibleButton") button();
     }
+}
+function updateToggle(toggle, state) {
+    switch(state) {
+        case "true":
+            eid(toggle).innerHTML = loc.toggleAudio;
+            break;
+        case "false":
+            eid(toggle).innerHTML = sGet(`${toggle}ToggledOnce`) == "true" ? loc.toggleDefault : loc.pressToChange + loc.toggleDefault;
+            break;
+    }
+}
+function toggle(toggle) {
+    let state = sGet(toggle);
+    if (state) {
+        sSet(toggle, opposite(state))
+        if (opposite(state) == "true") sSet(`${toggle}ToggledOnce`, "true");
+    } else {
+        sSet(toggle, "false")
+    }
+    updateToggle(toggle, sGet(toggle))
 }
 function loadSettings() {
     if (sGet("alwaysVisibleButton") == "true") {
@@ -183,26 +203,6 @@ function loadSettings() {
     updateToggle("audioMode", sGet("audioMode"));
     for (let i in switchers) {
         changeSwitcher(i, sGet(i))
-    }
-}
-function toggle(toggle) {
-    let state = sGet(toggle);
-    if (state) {
-        sSet(toggle, opposite(state))
-        if (opposite(state) == "true") sSet(`${toggle}ToggledOnce`, "true");
-    } else {
-        sSet(toggle, "false")
-    }
-    updateToggle(toggle, sGet(toggle))
-}
-function updateToggle(toggle, state) {
-    switch(state) {
-        case "true":
-            eid(toggle).innerHTML = loc.toggleAudio;
-            break;
-        case "false":
-            eid(toggle).innerHTML = sGet(`${toggle}ToggledOnce`) == "true" ? loc.toggleDefault : loc.pressToChange + loc.toggleDefault;
-            break;
     }
 }
 async function download(url) {
@@ -256,6 +256,11 @@ async function download(url) {
                             }
                         }).catch((error) => internetError());
                         break;
+                    default:
+                        eid("url-input-area").disabled = false
+                        changeDownloadButton(2, '!!')
+                        popup("error", 1, loc.noURLReturned);
+                        break;
                 }
             } else {
                 eid("url-input-area").disabled = false
@@ -283,7 +288,7 @@ window.onload = () => {
     }
     if (isIOS) sSet("downloadPopup", "true");
     let urlQuery = new URLSearchParams(window.location.search).get("u");
-    if (urlQuery != null) {
+    if (urlQuery !== null) {
         eid("url-input-area").value = urlQuery;
         button();
     }
