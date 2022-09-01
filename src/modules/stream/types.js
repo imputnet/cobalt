@@ -4,7 +4,7 @@ import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { msToTime } from "../sub/utils.js";
 
-export async function streamDefault(streamInfo, res) {
+export function streamDefault(streamInfo, res) {
     try {
         res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : streamInfo.filename}"`);
         const stream = got.get(streamInfo.urls, {
@@ -23,7 +23,7 @@ export async function streamDefault(streamInfo, res) {
         res.end();
     }
 }
-export async function streamLiveRender(streamInfo, res) {
+export function streamLiveRender(streamInfo, res) {
     try {
         if (streamInfo.urls.length == 2) {
             let headers = {};
@@ -79,7 +79,7 @@ export async function streamLiveRender(streamInfo, res) {
         res.end();
     }
 }
-export async function streamAudioOnly(streamInfo, res) {
+export function streamAudioOnly(streamInfo, res) {
     try {
         let headers = {};
         if (streamInfo.service == "bilibili") {

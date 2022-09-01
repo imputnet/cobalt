@@ -1,4 +1,4 @@
-export let testers = {
+export const testers = {
     "twitter": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length < 20),
 
     "vk": (patternMatch) => (patternMatch["userId"] && patternMatch["videoId"] &&

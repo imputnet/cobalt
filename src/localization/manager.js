@@ -6,7 +6,7 @@ const locPath = './src/localization/languages'
 
 let loc = {}
 
-export async function loadLoc() {
+export function loadLoc() {
     fs.readdir(locPath, (err, files) => {
         files.forEach(file => {
             loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`)

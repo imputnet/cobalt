@@ -9,6 +9,22 @@ let q = `${Cyan('?')} \x1b[1m`;
 let ob = { streamSalt: randomBytes(64).toString('hex') }
 let rl = createInterface({ input: process.stdin, output: process.stdout });
 
+let final = () => {
+    if (existsSync(envPath)) {
+        unlinkSync(envPath)
+    }
+    for (let i in ob) {
+        appendFileSync(envPath, `${i}=${ob[i]}\n`)
+    }
+    console.log(Bright("\nI've created a .env file with selfURL, port, and stream salt."))
+    console.log(`${Bright("Now I'll run")} ${Cyan("npm install")} ${Bright("to install all dependencies. It shouldn't take long.\n\n")}`)
+    execSync('npm install', { stdio: [0, 1, 2] });
+    console.log(`\n\n${Green("All done!\n")}`)
+    console.log("You can re-run this script any time to update the configuration.")
+    console.log("\nYou're now ready to start the main project.\nHave fun!")
+    rl.close()
+}
+
 console.log(
     `${Cyan("Welcome to cobalt!")}\n${Bright("We'll get you up and running in no time.\nLet's start by creating a ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
 )
@@ -36,19 +52,3 @@ rl.question(q, r1 => {
         final()
     });
 })
-
-let final = () => {
-    if (existsSync(envPath)) {
-        unlinkSync(envPath)
-    }
-    for (let i in ob) {
-        appendFileSync(envPath, `${i}=${ob[i]}\n`)
-    }
-    console.log(Bright("\nI've created a .env file with selfURL, port, and stream salt."))
-    console.log(`${Bright("Now I'll run")} ${Cyan("npm install")} ${Bright("to install all dependencies. It shouldn't take long.\n\n")}`)
-    execSync('npm install', { stdio: [0, 1, 2] });
-    console.log(`\n\n${Green("All done!\n")}`)
-    console.log("You can re-run this script any time to update the configuration.")
-    console.log("\nYou're now ready to start the main project.\nHave fun!")
-    rl.close()
-}

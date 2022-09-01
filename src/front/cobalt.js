@@ -185,15 +185,6 @@ function loadSettings() {
         changeSwitcher(i, sGet(i))
     }
 }
-function checkbox(action) {
-    if (eid(action).checked) {
-        sSet(action, "true");
-        if (action == "alwaysVisibleButton") button();
-    } else {
-        sSet(action, "false");
-        if (action == "alwaysVisibleButton") button();
-    }
-}
 function toggle(toggle) {
     let state = sGet(toggle);
     if (state) {

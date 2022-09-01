@@ -32,7 +32,7 @@ export function popup(obj) {
     if (Array.isArray(obj.body)) {
         body = ``
         for (let i = 0; i < obj.body.length; i++) {
-            let classes = obj.body[i]["classes"] ? obj.body[i]["classes"] : []
+            classes = obj.body[i]["classes"] ? obj.body[i]["classes"] : []
             if (i != obj.body.length - 1 && !obj.body[i]["nopadding"]) {
                 classes.push("desc-padding")
             }

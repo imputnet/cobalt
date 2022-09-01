@@ -22,6 +22,6 @@ export default function(res, ip, id, hmac, exp) {
             res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
         }
     } catch (e) {
-        internalError(res)
+        res.status(500).json({ status: "error", text: "Internal Server Error" });
     }
 }

@@ -16,9 +16,9 @@ export default async function(obj) {
                 let best = all[0]
                 try {
                     if (obj.quality != "max") {
-                        let pref = parseInt(quality[obj.quality])
+                        let pref = parseInt(quality[obj.quality], 10)
                         for (let i in all) {
-                            let currQuality = parseInt(all[i]["quality"].replace('p', ''))
+                            let currQuality = parseInt(all[i]["quality"].replace('p', ''), 10)
                             if (currQuality < pref) {
                                 break;
                             } else if (currQuality == pref) {

@@ -96,10 +96,10 @@ if (fs.existsSync('./.env')) {
             res.status(500).json({ 'status': 'error', 'text': 'something went wrong.' })
         }
     });
-    app.get("/api", async (req, res) => {
+    app.get("/api", (req, res) => {
         res.redirect('/api/json')
     });
-    app.get("/", async (req, res) => {
+    app.get("/", (req, res) => {
         // redirect masochists to a page where they can install a proper browser
         if (req.header("user-agent") && req.header("user-agent").includes("Trident")) {
             if (internetExplorerRedirect.newNT.includes(req.header("user-agent").split('NT ')[1].split(';')[0])) {
@@ -118,10 +118,10 @@ if (fs.existsSync('./.env')) {
             }))
         }
     });
-    app.get("/favicon.ico", async (req, res) => {
+    app.get("/favicon.ico", (req, res) => {
         res.redirect('/icons/favicon.ico');
     });
-    app.get("/*", async (req, res) => {
+    app.get("/*", (req, res) => {
         res.redirect('/')
     });
     app.listen(process.env.port, () => {
