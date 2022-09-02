@@ -82,7 +82,7 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 4. Done.
 
 ## Disclaimer
-This is my passion project, so update scheduele depends solely on my motivation. Don't expect any consistency in that.
+This is my passion project, so update schedule depends solely on my motivation. Don't expect any consistency in that.
 
 ## License
 cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
