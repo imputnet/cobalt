@@ -5,6 +5,9 @@
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">напиши об этом</a>"
     },
     "strings": {
+        "ChangelogContentTitle": "soundcloud and better usability (3.3)",
+        "ChangelogContent": "- full support for soundcloud is here. you now can save your favorite songs from there, if you want to.\n- added ability to download full audios from tiktok/douyin, and made tiktok audio downloads better in general.\n- did you know that there's an audio download mode in cobalt? if you didn't, there's now a tooltip that shows you how to switch between modes.\n- added length limit to conversion of audios, because converting a 3 hour audio to wav will give you a 4gb file, and that's just unreasonable. you can still download audio in original (best) format without any limits.\n- if best and preferred audio format match, cobalt won't needlessly convert the audio anymore.\n- fixed format override for ios, you still might have to toggle between them once.\n- increased input area length limit on frontend because some reddit and soundcloud links wouldn't fit.\n- version in settings now opens current commit page on github, instead of general commits page. it also opens in a new tab instead of replacing the current one.\n- fixed some localization stuff in english, russian, and ukrainian. it's now easier to understand what mode is on, and general cobalt description in russian doesn't sound awkward anymore.",
+        "FollowTwitter": "follow cobalt's twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "LinkInput": "вставь ссылку сюда",
         "AboutSummary": "{appName} — твой друг при скачивании контента из соц. сетей. никакой рекламы или трекеров. вставляешь ссылку и получаешь файл. ничего лишнего.",
         "AboutSupportedServices": "что поддерживается:",
