@@ -1,13 +1,9 @@
 {
     "name": "",
-    "code": "",
     "substrings": {
         "ContactLink": ""
     },
     "strings": {
-        "ChangelogContentTitle": "",
-        "ChangelogContent": "",
-        "FollowTwitter": "",
         "LinkInput": "",
         "AboutSummary": "",
         "AboutSupportedServices": "",
@@ -40,8 +36,6 @@
         "ErrorCantConnectToServiceAPI": "",
         "ErrorEmptyDownload": "",
         "ErrorLiveVideo": "",
-        "ErrorNoStreamID": "",
-        "ErrorNoType": "",
         "SettingsAppearanceSubtitle": "",
         "SettingsThemeSubtitle": "",
         "SettingsFormatSubtitle": "",
@@ -92,9 +86,16 @@
         "ErrorPopupCloseButton": "",
         "ModeToggle": "",
         "ModeToggleSmart": "",
-        "PressToChange": "",
         "ErrorLengthAudioConvert": "",
         "SettingsAudioFullTikTok": "",
-        "SettingsAudioFullTikTokDescription": ""
+        "SettingsAudioFullTikTokDescription": "",
+        "ErrorCantGetID": "",
+        "ErrorNoVideosInTweet": "",
+        "ImagePickerTitle": "",
+        "ImagePickerDownloadAudio": "",
+        "ImagePickerExplanationPC": "",
+        "ImagePickerExplanationPhone": "",
+        "ErrorNoUrlReturned": "",
+        "ErrorUnknownStatus": ""
     }
 }
