@@ -1,9 +1,9 @@
 import { audioIgnore, services, supportedAudio } from "../config.js"
 import { apiJSON } from "./utils.js"
 
-export default function(r, host, ip, audioFormat, isAudioOnly) {
+export default function(r, host, ip, audioFormat) {
     if (!r.error) {
-        if (!isAudioOnly) {
+        if (!r.isAudioOnly) {
             switch (host) {
                 case "twitter":
                     return apiJSON(1, { u: r.urls })
@@ -51,7 +51,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
             let copy = false;
             if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
 
-            if ((host == "tiktok" || host == "douyin") && r.isAudio && services.tiktok.audioFormats.includes(audioFormat)) {
+            if ((host == "tiktok" || host == "douyin") && r.isAudioOnly && services.tiktok.audioFormats.includes(audioFormat)) {
                 if (r.isMp3) {
                     if (audioFormat == "mp3" || audioFormat == "best") {
                         audioFormat = "mp3"
@@ -70,11 +70,20 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                 audioFormat = "m4a"
                 copy = true
             }
-            return apiJSON(2, {
-                type: type,
-                u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
-                filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: copy
-            })
+            if ((host == "tiktok" || host == "douyin") && r.images) {
+                return apiJSON(5, {
+                    type: type,
+                    images: r.images,
+                    u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
+                    filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: copy
+                })
+            } else {
+                return apiJSON(2, {
+                    type: type,
+                    u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
+                    filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: copy
+                })
+            }
         }
     } else {
         return apiJSON(0, { t: r.error });

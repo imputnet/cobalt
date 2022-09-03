@@ -67,7 +67,6 @@ export function multiPagePopup(obj) {
     tabs += `<button id="close-bottom" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
-        
         <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
         ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
         ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
@@ -76,6 +75,22 @@ export function multiPagePopup(obj) {
     </div>`
 }
 
+export function popupWithBottomButtons(obj) {
+    let tabs = ``
+    for (let i = 0; i < obj.buttons.length; i++) {
+        tabs += obj.buttons[i]
+    }
+    tabs += `<button id="close-bottom" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
+    return `
+    <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
+        <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
+        ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+        ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
+        ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
+        ${obj.header.explanation ? `<div class="explanation">${obj.header.explanation}</div>` : ''}</div>` : ''}${obj.content}</div>
+        <div id="popup-buttons" class="switches popup-tabs">${tabs}</div>
+    </div>`
+}
 export function backdropLink(link, text) {
     return `<a class="text-backdrop" href="${link}" target="_blank">${text}</a>`
 }

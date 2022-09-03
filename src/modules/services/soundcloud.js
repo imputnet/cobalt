@@ -36,7 +36,6 @@ export default async function(obj) {
             } else return { error: loc(obj.lang, 'ErrorEmptyDownload') }
         } else return { error: loc(obj.lang, 'ErrorBrokenLink', 'soundcloud') }
     } catch (e) {
-        console.log(e)
         return { error: loc(obj.lang, 'ErrorBadFetch') };
     }
 }

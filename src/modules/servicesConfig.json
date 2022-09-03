@@ -13,14 +13,7 @@
         },
         "twitter": {
             "patterns": [":user/status/:id"],
-            "quality_match": ["1080", "720", "480", "360", "240", "144"],
-            "enabled": true,
-            "api": "api.twitter.com",
-            "token": "AAAAAAAAAAAAAAAAAAAAAIK1zgAAAAAA2tUWuhGZ2JceoId5GwYWU5GspY4%3DUq7gzFoCZs1QfwGoVdvSac3IniczZEYXIcDyumCauIXpcAPorE",
-            "apiURLs": {
-                "activate": "1.1/guest/activate.json",
-                "status_show": "1.1/statuses/show.json"
-            }
+            "enabled": true
         },
         "vk": {
             "patterns": ["video-:userId_:videoId"],

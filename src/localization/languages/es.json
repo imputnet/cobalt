@@ -1,6 +1,5 @@
 {
     "name": "español",
-    "code": "es",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">hazme saber</a>"
     },
@@ -9,7 +8,6 @@
         "AboutSummary": "{appName} es tu lugar ideal para descargas de redes sociales. sin anuncios u otras mierdas sospechosas. ¡solo necesitas pegar un enlace y listo!",
         "AboutSupportedServices": "servicios compatibles:",
         "EmbedBriefDescription": "guarda contenido de redes sociales sin preocuparte por rastreadores",
-        "MadeWithLove": "hecho con <3 por wukko y todos los contribuyentes en github",
         "AccessibilityInputArea": "cuadro de captura",
         "AccessibilityOpenAbout": "abrir ventana emergente de acerca de",
         "AccessibilityDownloadButton": "botón de descarga",

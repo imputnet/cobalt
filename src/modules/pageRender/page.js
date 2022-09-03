@@ -1,4 +1,4 @@
-import { backdropLink, checkbox, footerButtons, multiPagePopup, popup, settingsCategory, switcher } from "./elements.js";
+import { backdropLink, checkbox, footerButtons, multiPagePopup, popup, popupWithBottomButtons, settingsCategory, switcher } from "./elements.js";
 import { services, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -29,7 +29,9 @@ for (let i in donations["crypto"]) {
 }
 export default function(obj) {
     audioFormats[0]["text"] = loc(obj.lang, 'SettingsAudioFormatBest')
-    let isIOS = obj.useragent.toLowerCase().match("iphone os")
+    let ua = obj.useragent.toLowerCase()
+    let isIOS = ua.match("iphone os")
+    let isMobile = ua.match("android") || ua.match("iphone os")
     try {
         return `<!DOCTYPE html>
 <html lang="en">
@@ -98,13 +100,13 @@ export default function(obj) {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
-                        text: loc('en', 'ChangelogContentTitle'),
+                        text: loc('changelog', 'ContentTitle'),
                         classes: ["changelog-subtitle"],
                         nopadding: true
                     }, {
-                        text: loc('en', 'FollowTwitter')
+                        text: loc('changelog', 'FollowTwitter')
                     }, {
-                        text: loc('en', 'ChangelogContent')
+                        text: loc('changelog', 'Content')
                     }, {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastCommit')}</div>`,
                         raw: true
@@ -255,6 +257,17 @@ export default function(obj) {
                 <div id="pd-copy" class="switch full">${loc(obj.lang, 'CopyURL')}</div>`
             })
         })}
+        ${popupWithBottomButtons({
+            name: "imagePicker",
+            closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
+            header: {
+                title: loc(obj.lang, 'ImagePickerTitle'),
+                explanation: isMobile ? loc(obj.lang, 'ImagePickerExplanationPhone') : loc(obj.lang, 'ImagePickerExplanationPC')
+            },
+            buttons: [`<a id="imagepicker-download" class="switch" target="_blank" href="/">${loc(obj.lang, 'ImagePickerDownloadAudio')}</a>`],
+            content: '<div id="imagepicker-holder"></div>'
+        })}
+        
         ${popup({
             name: "error",
             standalone: true,
@@ -297,11 +310,12 @@ export default function(obj) {
         </footer>
     </body>
     <script type="text/javascript">const loc = {
-        noInternet: "${loc(obj.lang, 'ErrorNoInternet')}",
-        noURLReturned: "${loc(obj.lang, 'ErrorBadFetch')}",
+        noInternet: ` + "`" + loc(obj.lang, 'ErrorNoInternet') + "`" + `,
+        noURLReturned: ` + "`" + loc(obj.lang, 'ErrorNoUrlReturned') + "`" + `,
+        unknownStatus: ` + "`" + loc(obj.lang, 'ErrorUnknownStatus') + "`" + `,
         toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleSmart")} ${loc(obj.lang, "ModeToggle")}',
         toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "SettingsAudioTab")} ${loc(obj.lang, "ModeToggle")}',
-        pressToChange: '<div class="tooltip">▼ ${loc(obj.lang, 'PressToChange')}</div>'
+        pressToChange: '<div class="tooltip">▼ ${loc(obj.lang, 'AccessibilityModeToggle')}</div>'
     };</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;

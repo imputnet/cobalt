@@ -9,7 +9,6 @@ import twitter from "./services/twitter.js";
 import youtube from "./services/youtube.js";
 import vk from "./services/vk.js";
 import tiktok from "./services/tiktok.js";
-import douyin from "./services/douyin.js";
 import tumblr from "./services/tumblr.js";
 import matchActionDecider from "./sub/matchActionDecider.js";
 import vimeo from "./services/vimeo.js";
@@ -68,16 +67,10 @@ export default async function (host, patternMatch, url, lang, obj) {
                     title: patternMatch["title"], lang: lang,
                 });
                 break;
+            case "douyin":
             case "tiktok":
                 r = await tiktok({
-                    postId: patternMatch["postId"],
-                    id: patternMatch["id"], lang: lang,
-                    noWatermark: obj.noWatermark, fullAudio: obj.fullAudio,
-                    isAudioOnly: obj.isAudioOnly
-                });
-                break;
-            case "douyin":
-                r = await douyin({
+                    host: host,
                     postId: patternMatch["postId"],
                     id: patternMatch["id"], lang: lang,
                     noWatermark: obj.noWatermark, fullAudio: obj.fullAudio,

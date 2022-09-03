@@ -1,6 +1,5 @@
 {
     "name": "українська",
-    "code": "uk",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">дай нам знати</a>"
     },
@@ -9,7 +8,6 @@
         "AboutSummary": "{appName} – твій помічник із завантаження контенту з соцмереж. ніякої реклами, ніяких трекерів. вставляєш лінк, отримаєш файл, і допиваєш у спокої свій смузі.",
         "AboutSupportedServices": "ось що підтримується:",
         "EmbedBriefDescription": "зберігай контент із соцмереж без реклами і трекерів",
-        "MadeWithLove": "зроблено з <3 контриб'юторами на github и wukko <3",
         "AccessibilityInputArea": "строка, щоб вставити в неї лінк",
         "AccessibilityOpenAbout": "відкрити інфу про {appName}",
         "AccessibilityDownloadButton": "кнопка завантаження",

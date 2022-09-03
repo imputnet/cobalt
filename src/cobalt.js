@@ -83,12 +83,12 @@ if (fs.existsSync('./.env')) {
                         let ip = req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip
                         stream(res, ip, req.query.t, req.query.h, req.query.e);
                     } else {
-                        let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorNoStreamID') })
+                        let j = apiJSON(0, { t: "no stream id" })
                         res.status(j.status).json(j.body);
                     }
                     break;
                 default:
-                    let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorNoType') })
+                    let j = apiJSON(0, { t: "wrong response type" })
                     res.status(j.status).json(j.body);
                     break;
             }

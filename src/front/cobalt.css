@@ -127,6 +127,10 @@ button:active,
     cursor: pointer;
     transform: scale(0.95)
 }
+.imagepicker-image:active {
+    cursor: pointer;
+    transform: scale(0.95)
+}
 input[type="checkbox"] {
     cursor: pointer;
 }
@@ -465,6 +469,30 @@ input[type="checkbox"] {
 .button:active .tooltip {
     display: none;
 }
+.imagepicker-image {
+    object-fit: cover;
+    width: inherit;
+    height: inherit;
+}
+.imagepicker-image-container {
+    width: 8rem;
+    height: 8rem;
+    margin-bottom: 1rem;
+    background-color: var(--accent-button-bg);
+    text-align: center;
+    letter-spacing: -0.2rem;
+    line-height: 8rem;
+}
+#imagepicker-holder {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+#popup-imagePicker .explanation {
+    padding-top: 0!important;
+    padding-bottom: 1rem;
+}
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
     html {
@@ -553,6 +581,11 @@ input[type="checkbox"] {
     }
 }
 @media screen and (max-width: 949px) {
+    .imagepicker-image-container {
+        height: 7rem;
+        width: 7rem;
+        line-height: 7rem;
+    }
     #close-error {
         bottom: 5%;
         position: absolute;
@@ -580,5 +613,15 @@ input[type="checkbox"] {
     }
     .bottom-link {
         padding-bottom: 2rem;
+    }
+}
+@media screen and (max-width: 400px) {
+    .popup-title {
+        line-height: inherit;
+    }
+    .imagepicker-image-container {
+        line-height: 6rem;
+        height: 6rem;
+        width: 6rem;
     }
 }

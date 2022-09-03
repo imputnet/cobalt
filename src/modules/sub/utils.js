@@ -13,6 +13,8 @@ export function apiJSON(type, obj) {
                 return { status: 200, body: { status: "success", text: obj.t } };
             case 4:
                 return { status: 429, body: { status: "rate-limit", text: obj.t } };
+            case 5:
+                return { status: 200, body: { status: "images", images: obj.images, url: createStream(obj) } };
             default:
                 return { status: 400, body: { status: "error", text: "Bad Request" } };
         }

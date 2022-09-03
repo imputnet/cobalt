@@ -1,6 +1,5 @@
 {
     "name": "français",
-    "code": "fr",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">fais-moi signe</a>"
     },
@@ -9,7 +8,6 @@
         "AboutSummary": "{appName} est l'endroit parfait pour télécharger des vidéos sur les médias sociaux. zéro pubs, trackers ou tout autre merde. colle simplement le lien d'un post pour commencer!",
         "AboutSupportedServices": "services supportés:",
         "EmbedBriefDescription": "sauvegarde du contenu des médias sociaux facilement et sans tracking",
-        "MadeWithLove": "fait avec <3 par wukko et tous les contributeurs sur github",
         "AccessibilityInputArea": "zone de saisie du lien",
         "AccessibilityOpenAbout": "ouvrir la fenêtre contextuelle de la section à propos",
         "AccessibilityDownloadButton": "bouton télécharger",

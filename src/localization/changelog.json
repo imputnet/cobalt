@@ -1,0 +1,5 @@
+{
+    "ContentTitle": "tiktok images and better localization (3.4)",
+    "Content": "- added ability to save images from tiktok conveniently, and without watermarks.\n- it's now way easier to contribute translations to cobalt. read more on how to do it <a class=\"text-backdrop\" href=\"https://github.com/wukko/cobalt#how-to-contribute-translations\" target=\"_blank\">on github</a>. in short, you don't need to fork the repo anymore, everything is handled through crowdin :D\n- updated readme in github repo to make it easier to read and understand.\n- began to add more descriptive errors, more to come soon.\n\ninternal stuff:\n- remade entirety of tiktok module and merged it with douyin one. now both (basically identical) platforms have perfect parity of download features.\n- cleaned up the twitter module, now it's way more compact and easy to read.\n- moved changelog out of english localization.\n- other small improvements and fixes.",
+    "FollowTwitter": "follow cobalt's twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>"
+}

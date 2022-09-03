@@ -1,5 +1,5 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 5;
+let version = 6;
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
@@ -101,6 +101,8 @@ function hideAllPopups() {
     for (let i = 0; i < filter.length; i++) {
         filter[i].style.visibility = "hidden";
     }
+    eid("imagepicker-holder").innerHTML = '';
+    eid("imagepicker-download").href = '/';
     eid("popup-backdrop").style.visibility = "hidden";
 }
 function popup(type, action, text) {
@@ -129,6 +131,21 @@ function popup(type, action, text) {
                 eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
             }
             eid("popup-download").style.visibility = vis(action);
+            break;
+        case "imagePicker":
+            switch (action) {
+                case 1:
+                    eid("imagepicker-download").href = text.url;
+                    for (let i in text.images) {
+                        eid("imagepicker-holder").innerHTML += `<div class="imagepicker-image-container"><img class="imagepicker-image" src="${text.images[i]}" onerror="this.style.display='none';this.parentNode.innerHTML=':('"></img></div>`
+                    }
+                    break;
+                case 0:
+                    eid("imagepicker-download").href = '/';
+                    eid("imagepicker-holder").innerHTML = ''
+                    break;
+            }
+            eid("popup-imagePicker").style.visibility = vis(action);
             break;
         default:
             eid(`popup-${type}`).style.visibility = vis(action);
@@ -238,13 +255,21 @@ async function download(url) {
                             window.open(j.url, '_blank');
                         }
                         break;
+                    case "images":
                     case "stream":
                         changeDownloadButton(2, '?..')
                         fetch(`${j.url}&p=1&origin=front`).then(async (res) => {
                             let jp = await res.json();
                             if (jp.status == "continue") {
                                 changeDownloadButton(2, '>>>')
-                                window.location.href = j.url
+                                if (j.status === "images") {
+                                    popup('imagePicker', 1, {
+                                        url: j.url,
+                                        images: j.images
+                                    })
+                                } else {
+                                    window.location.href = j.url
+                                }
                                 setTimeout(() => {
                                     changeDownloadButton(1, '>>')
                                     eid("url-input-area").disabled = false
@@ -259,7 +284,7 @@ async function download(url) {
                     default:
                         eid("url-input-area").disabled = false
                         changeDownloadButton(2, '!!')
-                        popup("error", 1, loc.noURLReturned);
+                        popup("error", 1, loc.unknownStatus);
                         break;
                 }
             } else {

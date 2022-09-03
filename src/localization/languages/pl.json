@@ -1,6 +1,5 @@
 {
     "name": "polish",
-    "code": "pl",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">daj mi znać</a>"
     },
@@ -9,7 +8,6 @@
         "AboutSummary": "{appName} to najlepsze miejsce na pobieranie z mediów społecznościowych. zero reklam, trackerów i innych podobnych głupot. po prostu wklejasz link do udostępniania i lecisz!",
         "AboutSupportedServices": "aktualnie wspierane strony:",
         "EmbedBriefDescription": "pobieraj rzeczy z social mediów bez reklam i trackerów",
-        "MadeWithLove": "wykonane z <3 przez wukko i wszystkich współtwórców na github",
         "AccessibilityInputArea": "pole wklejania linku",
         "AccessibilityOpenAbout": "otwórz okno informacji",
         "AccessibilityDownloadButton": "przycisk pobierania",

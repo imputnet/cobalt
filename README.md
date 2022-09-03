@@ -6,22 +6,23 @@ Best way to save content you love.
 ![cobalt logo](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/wide.png "cobalt logo")
 
 ## What's cobalt?
-cobalt is social media downloader with zero bullshit. It's efficient, easy to use, and doesn't bother you with ads or privacy invasion "consent" popups.
+cobalt is social media downloader with zero bullshit. It's friendly, efficient, works on anything with a browser, and doesn't bother you with porn ads or privacy invasion "consent" popups.
 
 It preserves original media quality so you get best downloads possible (unless you change that in settings).
 
-## Supported services
-- bilibili.com
-- douyin (with or without watermark, preference set by user)
-- Reddit
-- SoundCloud
-- TikTok (with or without watermark, preference set by user)
-- Tumblr
-- Twitter
-- Vimeo
-- VK
-- YouTube (with HDR support)
-- YouTube Music
+## Support status
+| Service | Video + Audio | Only audio | Additional features |
+| ------          | :-:   | :-: | :----- |
+| Twitter         | ✅    | ✅ |  |
+| YouTube         | ✅    | ✅ | Supports HDR and high FPS videos |
+| YouTube Music   | ❌    | ✅ |  |
+| Reddit          | ✅    | ✅ |  |
+| TikTok & douyin | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user. |
+| SoundCloud      | ❌    | ✅ |  |
+| bilibili.com    | ✅    | ✅ |  |
+| Tumblr          | ✅    | ✅ |  |
+| Vimeo           | ✅    | ⚒️ |  |
+| VK              | ✅    | ⚒️ |  |
 
 ## Translations
 - Spanish: [@adrigoomy](https://github.com/adrigoomy) (translation is outdated, update needed)
@@ -30,32 +31,26 @@ It preserves original media quality so you get best downloads possible (unless y
 - Polish: [@hexandcube](https://github.com/hexandcube)
 - Ukrainian: Löffel
 
-### Languages that are always up to date
-- English
-- Russian
-- Ukrainian
-
 Other languages may be missing some strings or changes, you can help with updating those!
 
-## How you can help cobalt speak your language
-Take English or Russian localization from [this directory](https://github.com/wukko/cobalt/tree/current/src/localization/languages) and use it as a base for your translation. Then simply make a pull request and it'll be out for everyone upon review!
+## How to contribute translations
+You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin.com/project/cobalt). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.
 
-### What you should keep in mind:
-- Do **NOT** use formal language, that's boring and lame. Use informal language on all occasions.
-- Strings are **ALWAYS** lowercase unless it's an internal value like {ContactLink} or STRESSED LIKE THIS.
-- Keep translations as friendly and fun as possible. Just as if cobalt user was your buddy.
-- Robotic translations from original language are not valid.
-- You can (and should) rephrase sentences as long as they keep the same sense, if you think it'd be better that way.
+### Translation guidelines:
+- Avoid formal language. Leave it for boring big tech companies. Use informal language on all occasions.
+- Strings are **ALWAYS** stylized as lowercase unless it's STRESSED LIKE THIS or is an internal value like `{ContactLink}`.
+- Keep translations lively, friendly, and fun. Translate strings as if cobalt user was your buddy.
+- Automatic translations from original language are not valid, and will be ignored.
+- You can (and should) rephrase sentences as long as they keep the same point, if you think it'd be better that way.
 - You can add wordplays or puns if it feels natural to do so.
-- Even though I love cursing, keep that to minimum in translations, and do **NOT** use offensive words.
-- Always check if there are issues in UI with your localization.
-- There's no need to translate `ChangelogContentTitle` and `ChangelogContent`, because those are very often changed. You can remove both of them from your translation file.
-- Add "(in english)" translated to your language at the end of `ChangelogLastCommit` and `ChangelogLastMajor`. Those are almost always kept exclusively in English. Remove that phrase if you do translate major update changelog.
-    - Example: `"ChangelogLastCommit": "последний коммит (на английском)"`
+- Even though I love cursing, keep that to minimum in translations, and do **NOT** use any offensive words.
+- Check if there are issues in UI with your localization, and optimize it accordingly, or open an issue.
+- Add "(in english)" translated to your language at the end of `ChangelogLastCommit` and `ChangelogLastMajor`. Those are always kept exclusively in English, due to how often changelog changes.
+    - Example of translation to Russian: `"ChangelogLastCommit": "последний коммит (на английском)"`
 - Be nice.
 
 ## Host an instance yourself
-Code might be a little messy, but I do my best to improve it with every commit.
+You might find cobalt's source code a bit messy, but I do my best to improve it with every commit.
 
 ### Requirements
 - Node.js 14.16 or above
@@ -82,7 +77,7 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 4. Done.
 
 ## Disclaimer
-This is my passion project, so update scheduele depends solely on my motivation. Don't expect any consistency in that.
+cobalt is my passion project, so new feature release schedule depends solely on my motivation and mood. Don't expect any consistency in that.
 
 ## License
 cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
