@@ -17,7 +17,7 @@ It preserves original media quality so you get best downloads possible (unless y
 | YouTube           | ✅    | ✅ | Supports HDR and high FPS videos |
 | YouTube Music     | ❌    | ✅ |  |
 | Reddit            | ✅    | ✅ |  |
-| TikTok & douyin   | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user. |
+| TikTok & douyin   | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user; image slideshow downloads are always without watermark. |
 | SoundCloud        | ❌    | ✅ |  |
 | bilibili.com      | ✅    | ✅ |  |
 | Tumblr            | ✅    | ✅ |  |
