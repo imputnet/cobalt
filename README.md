@@ -10,19 +10,19 @@ cobalt is social media downloader with zero bullshit. It's friendly, efficient, 
 
 It preserves original media quality so you get best downloads possible (unless you change that in settings).
 
-## Support status
+## Supported services
 | Service | Video + Audio | Only audio | Additional features |
-| ------          | :-:   | :-: | :----- |
-| Twitter         | ✅    | ✅ |  |
-| YouTube         | ✅    | ✅ | Supports HDR and high FPS videos |
-| YouTube Music   | ❌    | ✅ |  |
-| Reddit          | ✅    | ✅ |  |
-| TikTok & douyin | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user. |
-| SoundCloud      | ❌    | ✅ |  |
-| bilibili.com    | ✅    | ✅ |  |
-| Tumblr          | ✅    | ✅ |  |
-| Vimeo           | ✅    | ⚒️ |  |
-| VK              | ✅    | ⚒️ |  |
+| --------          | :---:  | :---: | :----- |
+| Twitter           | ✅    | ✅ |  |
+| YouTube           | ✅    | ✅ | Supports HDR and high FPS videos |
+| YouTube Music     | ❌    | ✅ |  |
+| Reddit            | ✅    | ✅ |  |
+| TikTok & douyin   | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user. |
+| SoundCloud        | ❌    | ✅ |  |
+| bilibili.com      | ✅    | ✅ |  |
+| Tumblr            | ✅    | ✅ |  |
+| Vimeo             | ✅    | ⚒️ |  |
+| VK                | ✅    | ⚒️ |  |
 
 ## Translations
 - Spanish: [@adrigoomy](https://github.com/adrigoomy) (translation is outdated, update needed)
