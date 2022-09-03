@@ -81,4 +81,5 @@ cobalt is my passion project, so new feature release schedule depends solely on 
 
 ## License
 cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
+
 [Fluent Emoji](https://github.com/microsoft/fluentui-emoji) by Microsoft is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE).
