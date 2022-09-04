@@ -23,7 +23,7 @@ export default async function(obj) {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'twitter') }
         })
         let parsbod = JSON.parse(req_status.body);
-        if (parsbod.hasOwnProperty("extended_entities") && parsbod["extended_entities"].hasOwnProperty("media")) {
+        if (parsbod["extended_entities"] && parsbod["extended_entities"]["media"]) {
             let media = parsbod["extended_entities"]["media"][0]
             if (media["type"] === "video" || media["type"] === "animated_gif") {
                 return { urls: media["video_info"]["variants"].filter((v) => { if (v["content_type"] == "video/mp4") return true; }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"].split('?')[0], audioFilename: `twitter_${obj.id}_audio` }
