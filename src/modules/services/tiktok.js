@@ -82,6 +82,14 @@ export default async function(obj) {
             urls: video,
             filename: videoFilename
         }
+        if (images && obj.isAudioOnly) {
+            return {
+                urls: audio,
+                audioFilename: audioFilename,
+                isAudioOnly: true,
+                isMp3: isMp3,
+            }
+        }
         if (images) {
             let imageLinks = [];
             for (let i in images) {
