@@ -1,9 +1,9 @@
 import { audioIgnore, services, supportedAudio } from "../config.js"
 import { apiJSON } from "./utils.js"
 
-export default function(r, host, ip, audioFormat) {
+export default function(r, host, ip, audioFormat, isAudioOnly) {
     if (!r.error) {
-        if (!r.isAudioOnly) {
+        if (!isAudioOnly) {
             switch (host) {
                 case "twitter":
                     return apiJSON(1, { u: r.urls })
@@ -51,7 +51,7 @@ export default function(r, host, ip, audioFormat) {
             let copy = false;
             if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
 
-            if ((host == "tiktok" || host == "douyin") && r.isAudioOnly && services.tiktok.audioFormats.includes(audioFormat)) {
+            if ((host == "tiktok" || host == "douyin") && isAudioOnly && services.tiktok.audioFormats.includes(audioFormat)) {
                 if (r.isMp3) {
                     if (audioFormat == "mp3" || audioFormat == "best") {
                         audioFormat = "mp3"

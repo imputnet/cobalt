@@ -76,6 +76,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                     noWatermark: obj.noWatermark, fullAudio: obj.fullAudio,
                     isAudioOnly: obj.isAudioOnly
                 });
+                if (r.isAudioOnly) obj.isAudioOnly = true
                 break;
             case "tumblr":
                 r = await tumblr({

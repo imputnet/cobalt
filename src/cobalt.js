@@ -73,7 +73,11 @@ if (fs.existsSync('./.env')) {
                         res.status(j.status).json(j.body);
                     } else {
                         let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
-                        res.status(j.status).json(j.body);
+                        if (!j === undefined && j.status && j.body) {
+                            res.status(j.status).json(j.body);
+                        } else {
+                            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorUnknownStatus') })
+                        }
                     }
                     break;
                 case 'stream':
