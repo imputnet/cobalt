@@ -137,7 +137,7 @@ function popup(type, action, text) {
                 case 1:
                     eid("imagepicker-download").href = text.url;
                     for (let i in text.images) {
-                        eid("imagepicker-holder").innerHTML += `<div class="imagepicker-image-container"><img class="imagepicker-image" src="${text.images[i]}" onerror="this.style.display='none';this.parentNode.innerHTML=':('"></img></div>`
+                        eid("imagepicker-holder").innerHTML += `<div class="imagepicker-image-container"><img class="imagepicker-image" src="${text.images[i]}" onerror="this.parentNode.style.display='none'"></img></div>`
                     }
                     break;
                 case 0:

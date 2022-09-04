@@ -438,7 +438,7 @@ input[type="checkbox"] {
     overflow: auto;
 }
 #close-bottom {
-    width: 18%;
+    max-width: 3rem;
     margin-left: 1rem;
     background: var(--background);
     border: var(--border-15);
@@ -492,6 +492,9 @@ input[type="checkbox"] {
 #popup-imagePicker .explanation {
     padding-top: 0!important;
     padding-bottom: 1rem;
+}
+#popup-imagePicker #popup-buttons {
+    padding-top: 1rem;
 }
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
