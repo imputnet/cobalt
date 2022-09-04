@@ -36,7 +36,7 @@ It preserves original media quality so you get best downloads possible (unless y
 Other languages may be missing some strings or changes, you can help with updating those!
 
 ## How to contribute translations
-You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin.com/project/cobalt). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.
+You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin-co.wukko.me/). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.
 
 ### Translation guidelines:
 - Avoid formal language. Leave it for boring big tech companies. Use informal language on all occasions.
