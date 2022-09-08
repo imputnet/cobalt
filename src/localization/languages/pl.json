@@ -96,6 +96,8 @@
         "ImagePickerExplanationPC": "kliknij prawym przyciskiem myszy na obraz, aby go zapisać",
         "ImagePickerExplanationPhone": "naciśnij i przytrzymaj obraz, aby go zapisać.",
         "ErrorNoUrlReturned": "serwer nie zwrócił linku do pobrania. to nie powinno się zdarzyć. odśwież stronę i spróbuj ponownie, ale jeśli to nie pomoże, {ContactLink}.",
-        "ErrorUnknownStatus": "otrzymano odpowiedź, której nie można przetworzyć. prawdopodobnie coś o statusie jest nieprawidłowe. to nigdy nie powinno się zdarzyć. odśwież stronę i spróbuj ponownie, ale jeśli to nie pomoże, {ContactLink}."
+        "ErrorUnknownStatus": "otrzymano odpowiedź, której nie można przetworzyć. prawdopodobnie coś o statusie jest nieprawidłowe. to nigdy nie powinno się zdarzyć. odśwież stronę i spróbuj ponownie, ale jeśli to nie pomoże, {ContactLink}.",
+        "PasteFromClipboard": "wklej ze schowka",
+        "SettingsDisableClipboard": "ukryj przycisk schowka"
     }
 }
