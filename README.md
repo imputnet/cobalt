@@ -16,15 +16,15 @@ It preserves original media quality so you get best downloads possible (unless y
 | Service | Video + Audio | Only audio | Additional features |
 | --------          | :---:  | :---: | :----- |
 | Twitter           | ✅    | ✅ |  |
-| YouTube           | ✅    | ✅ | Supports HDR and high FPS videos |
+| YouTube           | ✅    | ✅ | Supports HDR and high FPS videos; quality picking |
 | YouTube Music     | ❌    | ✅ |  |
 | Reddit            | ✅    | ✅ |  |
 | TikTok & douyin   | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user; image slideshow downloads are always without watermark. |
 | SoundCloud        | ❌    | ✅ |  |
 | bilibili.com      | ✅    | ✅ |  |
 | Tumblr            | ✅    | ✅ |  |
-| Vimeo             | ✅    | ⚒️ |  |
-| VK                | ✅    | ⚒️ |  |
+| Vimeo             | ✅    | ⚒️ | Quality picking |
+| VK                | ✅    | ⚒️ | Quality picking |
 
 ## Translations
 - Spanish: [@adrigoomy](https://github.com/adrigoomy) (translation is outdated, update needed)
