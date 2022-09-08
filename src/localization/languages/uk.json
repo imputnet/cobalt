@@ -5,7 +5,7 @@
     },
     "strings": {
         "LinkInput": "вставте посилання сюди",
-        "AboutSummary": "{appName} – твій помічник по завантаженню контенту з соцмереж. ніякої реклами, ніяких трекерів. вставляєш посилання, отримаєш файл, і допиваєш у спокої свій смузі.",
+        "AboutSummary": "{appName} - твій помічник по завантаженню контенту з соцмереж. ніякої реклами, ніяких трекерів. вставляєш посилання, отримаєш файл, і допиваєш у спокої свій смузі.",
         "AboutSupportedServices": "наразі підтриманні послуги:",
         "EmbedBriefDescription": "зберігай контент із соцмереж без реклами та трекерів",
         "MadeWithLove": "зроблено з <3 від wukko",
@@ -18,7 +18,7 @@
         "AccessibilityOpenDonate": "відкрити інфу про пожертви",
         "TitlePopupAbout": "що таке {appName}?",
         "TitlePopupSettings": "налаштування",
-        "TitlePopupError": "ой-ой...",
+        "TitlePopupError": "опаньки...",
         "TitlePopupChangelog": "що нового?",
         "TitlePopupDonate": "підтримай {appName}",
         "TitlePopupDownload": "завантажити",

@@ -5,7 +5,7 @@
     },
     "strings": {
         "LinkInput": "incolla qui il link",
-        "AboutSummary": "{appName} è il sito perfetto per scaricare media dai social. niente pubblicità, trackers, o altre minchiate. Incolla un link e via!",
+        "AboutSummary": "{appName} è il sito perfetto per scaricare media dai social. niente pubblicità, trackers, o altre minchiate. incolla un link e via!",
         "AboutSupportedServices": "servizi attualmente supportati:",
         "EmbedBriefDescription": "salva contenuti dai social media senza alcun fastidio",
         "MadeWithLove": "realizzato con <3 da wukko",
@@ -18,7 +18,7 @@
         "AccessibilityOpenDonate": "apri sezione donazioni",
         "TitlePopupAbout": "cos'è {appName}?",
         "TitlePopupSettings": "impostazioni",
-        "TitlePopupError": "oh oh...",
+        "TitlePopupError": "uh-oh...",
         "TitlePopupChangelog": "cosa c'è di nuovo?",
         "TitlePopupDonate": "supporta {appName}",
         "TitlePopupDownload": "scarica",
@@ -26,10 +26,10 @@
         "ErrorUnsupported": "il servizio non è ancora supportato, oppure il tuo link è invalido.",
         "ErrorBrokenLink": "{s} è supportato, ma c'è qualcosa che non va con il tuo link. forse non lo hai copiato completamente?",
         "ErrorNoLink": "non posso indovinare cosa vuoi scaricare! inserisci un link.",
-        "ErrorPageRenderFail": "qualcosa è andato storto e la pagina non è riuscita a renderizzare. se il problema persiste, contattaci -> {ContactLink}. se è possibile, specifica l'hash del commit attuale ({s}) e i passaggi per ricreare l'errore. grazie in anticipo :D",
+        "ErrorPageRenderFail": "qualcosa è andato storto e la pagina non è riuscita a renderizzare. se il problema persiste, {ContactLink}. se è possibile, specifica l'hash del commit attuale ({s}) e i passaggi per ricreare l'errore. grazie in anticipo :D",
         "ErrorRateLimit": "stai facendo troppe richieste! datti una calmata e riprova tra un po'.",
         "ErrorCouldntFetch": "non ho potuto ottenere informazioni sul tuo link. controlla di averlo inserito correttamente e riprova.",
-        "ErrorLengthLimit": "spiacenti! il limite di lunghezza attuale è di {s} minuti. Il video che hai provato a scaricare è più lungo di {s} minuti.",
+        "ErrorLengthLimit": "spiacenti! il limite di lunghezza attuale è di {s} minuti. il video che hai provato a scaricare è più lungo di {s} minuti.",
         "ErrorBadFetch": "si è verificato un errore quando ho cercato di ottenere informazioni sul tuo link. controlla se sia funzionante e riprova.",
         "ErrorCorruptedStream": "purtroppo questo download è corrotto. prova di nuovo, oppure prova a cambiare formato o risoluzione.",
         "ErrorNoInternet": "la connessione è assente oppure ci sono problemi con l'api di {appName}. controlla la tua connessione e riprova.",
@@ -95,7 +95,7 @@
         "ImagePickerDownloadAudio": "scarica l'audio",
         "ImagePickerExplanationPC": "fai clic destro su un'immagine per salvarla.",
         "ImagePickerExplanationPhone": "tieni premuto su un'immagine per salvarla.",
-        "ErrorNoUrlReturned": "il server non ha restituito un link di download. hmm.. questo.. non avrebbe dovuto succedere.. ricarica la pagina e riprova, ma se il problema persiste, {ContactLink}",
-        "ErrorUnknownStatus": "ho ricevuto una risposta che non posso elaborare. hmm.. questo.. non avrebbe dovuto succedere.. ricarica la pagina e riprova, ma se il problema persiste, {ContactLink}"
+        "ErrorNoUrlReturned": "il server non ha restituito un link di download. questo non avrebbe dovuto succedere. ricarica la pagina e riprova, ma se il problema persiste, {ContactLink}",
+        "ErrorUnknownStatus": "ho ricevuto una risposta che non posso elaborare. questo non avrebbe dovuto succedere. ricarica la pagina e riprova, ma se il problema persiste, {ContactLink}"
     }
 }
