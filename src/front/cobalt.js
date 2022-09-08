@@ -1,5 +1,7 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 6;
+let isFirefox = navigator.userAgent.toLowerCase().match("firefox/");
+let version = 7;
+let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
@@ -7,7 +9,8 @@ let switchers = {
     "quality": ["max", "hig", "mid", "low"],
     "audioFormat": ["best", "mp3", "ogg", "wav", "opus"]
 }
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"]
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"];
+if (!isFirefox) checkboxes.push("disableClipboardButton");
 let exceptions = { // used solely for ios devices, because they're less capable than everything else.
     "ytFormat": "mp4",
     "audioFormat": "mp3"
@@ -65,8 +68,17 @@ document.addEventListener("keydown", (event) => {
     }
 })
 function button() {
-    let regex = /https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(eid("url-input-area").value);
-    regex ? changeDownloadButton(1, '>>') : changeDownloadButton(0, '>>');
+    let regexTest = regex.test(eid("url-input-area").value);
+    if ((eid("url-input-area").value).length > 0) {
+        eid("url-clear").style.display = "block";
+    } else {
+        eid("url-clear").style.display = "none";
+    }
+    regexTest ? changeDownloadButton(1, '>>') : changeDownloadButton(0, '>>');
+}
+function clearInput() {
+    eid("url-input-area").value = '';
+    button();
 }
 function copy(id, data) {
     let e = document.getElementById(id);
@@ -106,6 +118,7 @@ function hideAllPopups() {
     eid("popup-backdrop").style.visibility = "hidden";
 }
 function popup(type, action, text) {
+    if (action == 1) hideAllPopups();
     eid("popup-backdrop").style.visibility = vis(action);
     switch (type) {
         case "about":
@@ -170,16 +183,18 @@ function changeSwitcher(li, b) {
 }
 function internetError() {
     eid("url-input-area").disabled = false
-    changeDownloadButton(2, '!!')
+    changeDownloadButton(2, '!!');
     popup("error", 1, loc.noInternet);
 }
 function checkbox(action) {
     if (eid(action).checked) {
         sSet(action, "true");
         if (action == "alwaysVisibleButton") button();
+        if (action == "disableClipboardButton") eid("pasteFromClipboard").style.display = "none";
     } else {
         sSet(action, "false");
         if (action == "alwaysVisibleButton") button();
+        if (action == "disableClipboardButton") eid("pasteFromClipboard").style.display = "flex";
     }
 }
 function updateToggle(toggl, state) {
@@ -188,7 +203,7 @@ function updateToggle(toggl, state) {
             eid(toggl).innerHTML = loc.toggleAudio;
             break;
         case "false":
-            eid(toggl).innerHTML = sGet(`${toggl}ToggledOnce`) == "true" ? loc.toggleDefault : loc.pressToChange + loc.toggleDefault;
+            eid(toggl).innerHTML = loc.toggleDefault;
             break;
     }
 }
@@ -203,6 +218,7 @@ function toggle(toggl) {
     updateToggle(toggl, sGet(toggl))
 }
 function loadSettings() {
+    if (sGet("disableClipboardButton") == "true") eid("pasteFromClipboard").style.display = "none";
     if (sGet("alwaysVisibleButton") == "true") {
         eid("alwaysVisibleButton").checked = true;
         eid("download-button").value = '>>'
@@ -222,8 +238,17 @@ function loadSettings() {
         changeSwitcher(i, sGet(i))
     }
 }
+async function pasteClipboard() {
+    let t = await navigator.clipboard.readText();
+    if (regex.test(t)) {
+        eid("url-input-area").value = t;
+        download(eid("url-input-area").value);
+    }
+    button();
+}
 async function download(url) {
     changeDownloadButton(2, '...');
+    eid("url-clear").style.display = "none";
     eid("url-input-area").disabled = true;
     let audioMode = sGet("audioMode");
     let format = ``;
@@ -246,7 +271,8 @@ async function download(url) {
                     case "redirect":
                         changeDownloadButton(2, '>>>')
                         setTimeout(() => {
-                            changeDownloadButton(1, '>>')
+                            changeDownloadButton(1, '>>');
+                            eid("url-clear").style.display = "block";
                             eid("url-input-area").disabled = false
                         }, 3000)
                         if (sGet("downloadPopup") == "true") {
@@ -271,29 +297,34 @@ async function download(url) {
                                     window.location.href = j.url
                                 }
                                 setTimeout(() => {
-                                    changeDownloadButton(1, '>>')
+                                    changeDownloadButton(1, '>>');
+                                    eid("url-clear").style.display = "block";
                                     eid("url-input-area").disabled = false
                                 }, 5000)
                             } else {
                                 eid("url-input-area").disabled = false
-                                changeDownloadButton(2, '!!')
+                                changeDownloadButton(2, '!!');
+                                eid("url-clear").style.display = "block";
                                 popup("error", 1, jp.text);
                             }
                         }).catch((error) => internetError());
                         break;
                     default:
                         eid("url-input-area").disabled = false
-                        changeDownloadButton(2, '!!')
+                        changeDownloadButton(2, '!!');
+                        eid("url-clear").style.display = "block";
                         popup("error", 1, loc.unknownStatus);
                         break;
                 }
             } else {
                 eid("url-input-area").disabled = false
+                eid("url-clear").style.display = "block";
                 changeDownloadButton(2, '!!')
                 popup("error", 1, loc.noURLReturned);
             }
         } else {
             eid("url-input-area").disabled = false
+            eid("url-clear").style.display = "block";
             changeDownloadButton(2, '!!')
             popup("error", 1, j.text);
         }
@@ -318,9 +349,14 @@ window.onload = () => {
         button();
     }
 }
+eid("url-input-area").addEventListener("keydown", (event) => {
+    if (event.key === 'Escape') eid("url-input-area").value = '';
+    button();
+})
 eid("url-input-area").addEventListener("keyup", (event) => {
     if (event.key === 'Enter') eid("download-button").click();
 })
 document.onkeydown = (event) => {
+    if (event.key == "Tab" || event.ctrlKey) eid("url-input-area").focus();
     if (event.key === 'Escape') hideAllPopups();
 };

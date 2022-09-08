@@ -105,8 +105,18 @@ export function settingsCategory(obj) {
 export function footerButtons(obj) {
     let items = ``
     for (let i = 0; i < obj.length; i++) {
-        let func = `${obj[i]["type"] == "toggle" ? `toggle('${obj[i]["name"]}')` : `popup('${obj[i]["name"]}', 1)`}`;
-        items += `<button id="${obj[i]["name"]}" class="button footer-button" onclick="${func}" aria-label="${obj[i]["aria"]}">${obj[i]["icon"]}</button>`;
+        switch (obj[i]["type"]) {
+            case "toggle": 
+                items += `<button id="${obj[i]["name"]}" class="switch footer-button" onclick="toggle('${obj[i]["name"]}')" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
+                break;
+            case "action":
+                items += `<button id="${obj[i]["name"]}" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
+                break;
+            case "popup":
+                items += `<div class="footer-pair"><button id="${obj[i]["name"]}" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1)" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button><button id="${obj[i+1]["name"]}" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1)" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button></div>`;
+                i++;
+                break;
+        }
     }
     return `
     <div id="footer-buttons">${items}</div>`

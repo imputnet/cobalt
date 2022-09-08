@@ -7,10 +7,11 @@ const names = {
     "✨": "sparkles",
     "🪅": "pinata",
     "🪄": "magic_wand",
-    "🐲": "dragon_face",
+    "🐲": "dragon_face_wukko",
     "💸": "money_with_wings",
     "⚙️": "gear",
-    "☹️": "frowning_face"
+    "☹️": "frowning_face",
+    "📋": "clipboard"
 }
 let sizing = {
     22: 0.4,

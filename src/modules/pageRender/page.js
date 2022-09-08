@@ -28,10 +28,11 @@ for (let i in donations["crypto"]) {
     extr = ' extra'
 }
 export default function(obj) {
-    audioFormats[0]["text"] = loc(obj.lang, 'SettingsAudioFormatBest')
-    let ua = obj.useragent.toLowerCase()
-    let isIOS = ua.match("iphone os")
-    let isMobile = ua.match("android") || ua.match("iphone os")
+    audioFormats[0]["text"] = loc(obj.lang, 'SettingsAudioFormatBest');
+    let ua = obj.useragent.toLowerCase();
+    let isIOS = ua.match("iphone os");
+    let isMobile = ua.match("android") || ua.match("iphone os");
+    let isFirefox = ua.match("firefox/");
     try {
         return `<!DOCTYPE html>
 <html lang="en">
@@ -239,7 +240,10 @@ export default function(obj) {
                             "text": loc(obj.lang, 'SettingsThemeLight')
                         }]
                     })
-                }) + checkbox("alwaysVisibleButton", loc(obj.lang, 'SettingsKeepDownloadButton'), loc(obj.lang, 'AccessibilityKeepDownloadButton')) + checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableChangelogOnUpdate'), loc(obj.lang, 'SettingsDisableChangelogOnUpdate'))
+                })
+                + checkbox("alwaysVisibleButton", loc(obj.lang, 'SettingsKeepDownloadButton'), loc(obj.lang, 'AccessibilityKeepDownloadButton'))
+                + checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableChangelogOnUpdate'), loc(obj.lang, 'SettingsDisableChangelogOnUpdate'))
+                + (!isFirefox ? checkbox("disableClipboardButton", loc(obj.lang, 'SettingsDisableClipboard'), loc(obj.lang, 'SettingsDisableClipboard')) : ``)
             }],
         })}
         ${popup({
@@ -267,7 +271,6 @@ export default function(obj) {
             buttons: [`<a id="imagepicker-download" class="switch" target="_blank" href="/">${loc(obj.lang, 'ImagePickerDownloadAudio')}</a>`],
             content: '<div id="imagepicker-holder"></div>'
         })}
-        
         ${popup({
             name: "error",
             standalone: true,
@@ -281,29 +284,49 @@ export default function(obj) {
             },
             body: `<div id="desc-error" class="desc-padding subtext"></div>`
         })}
+        ${popup({
+            name: "info",
+            standalone: true,
+            buttonOnly: true,
+            emoji: emoji("✨", 48, 1),
+            classes: ["small"],
+            buttonText: loc(obj.lang, 'ErrorPopupCloseButton'),
+            header: {
+                closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
+                title: "popup title"
+            },
+            body: `<div id="popup-info-desc" class="desc-padding subtext"></div>`
+        })}
         <div id="popup-backdrop" style="visibility: hidden;" onclick="hideAllPopups()"></div>
-        <div id="cobalt-main-box" class="center box" style="visibility: hidden;">
+        <div id="cobalt-main-box" class="center" style="visibility: hidden;">
             <div id="logo-area">${appName}</div>
             <div id="download-area" class="mobile-center">
-                <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${loc(obj.lang, 'LinkInput')}" aria-label="${loc(obj.lang, 'AccessibilityInputArea')}" oninput="button()">
-                <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${loc(obj.lang, 'AccessibilityDownloadButton')}">
+                <div id="top">
+                    <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${loc(obj.lang, 'LinkInput')}" aria-label="${loc(obj.lang, 'AccessibilityInputArea')}" oninput="button()"></input>
+                    <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
+                    <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${loc(obj.lang, 'AccessibilityDownloadButton')}">
+                </div>
+                ${!isFirefox ? `<div id="bottom">
+                <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="toggle download mode">${emoji("📋", 22)} ${loc(obj.lang, 'PasteFromClipboard')}</button>
+            </div>` : ''}
             </div>
         </div>
         <footer id="footer" style="visibility: hidden;">
-        ${footerButtons([{
+        ${/* big action buttons are ALWAYS either first or last, because usual buttons are bundled in pairs and are sandwiched between bigger buttons for mobile view */
+        footerButtons([{
             name: "about",
             type: "popup",
-            icon: "?",
+            text: `${emoji("🐲", 22)} ${loc(obj.lang, 'AboutTab')}`,
             aria: loc(obj.lang, 'AccessibilityOpenAbout')
         }, {
             name: "settings",
             type: "popup",
-            icon: "+",
+            text: `${emoji("⚙️", 22)} ${loc(obj.lang, 'TitlePopupSettings')}`,
             aria: loc(obj.lang, 'AccessibilityOpenSettings')
         }, {
             name: "audioMode",
             type: "toggle",
-            icon: emoji("✨", 22, 1),
+            text: emoji("✨", 22, 1),
             aria: loc(obj.lang, 'AccessibilityModeToggle')
         }]
         )}
@@ -314,8 +337,7 @@ export default function(obj) {
         noURLReturned: ` + "`" + loc(obj.lang, 'ErrorNoUrlReturned') + "`" + `,
         unknownStatus: ` + "`" + loc(obj.lang, 'ErrorUnknownStatus') + "`" + `,
         toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleSmart")} ${loc(obj.lang, "ModeToggle")}',
-        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "SettingsAudioTab")} ${loc(obj.lang, "ModeToggle")}',
-        pressToChange: '<div class="tooltip">▼ ${loc(obj.lang, 'AccessibilityModeToggle')}</div>'
+        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "SettingsAudioTab")} ${loc(obj.lang, "ModeToggle")}'
     };</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;

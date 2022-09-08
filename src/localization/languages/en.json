@@ -96,6 +96,8 @@
         "ImagePickerExplanationPC": "right click an image to save it.",
         "ImagePickerExplanationPhone": "press and hold an image to save it.",
         "ErrorNoUrlReturned": "server didn't return a download link. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
-        "ErrorUnknownStatus": "i received a response i can't process. most likely something with status is wrong. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}."
+        "ErrorUnknownStatus": "i received a response i can't process. most likely something with status is wrong. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
+        "PasteFromClipboard": "paste from clipboard",
+        "SettingsDisableClipboard": "hide clipboard button"
     }
 }
