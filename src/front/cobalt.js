@@ -218,7 +218,7 @@ function toggle(toggl) {
     updateToggle(toggl, sGet(toggl))
 }
 function loadSettings() {
-    if (sGet("disableClipboardButton") == "true") eid("pasteFromClipboard").style.display = "none";
+    if (sGet("disableClipboardButton") == "true" && !isFirefox) eid("pasteFromClipboard").style.display = "none";
     if (sGet("alwaysVisibleButton") == "true") {
         eid("alwaysVisibleButton").checked = true;
         eid("download-button").value = '>>'
