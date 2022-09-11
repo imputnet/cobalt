@@ -98,6 +98,9 @@
         "ErrorNoUrlReturned": "я не получил ссылку для скачивания от сервера. такого происходить не должно. перезагрузи страницу, а если не поможет, то {ContactLink}.",
         "ErrorUnknownStatus": "сервер ответил мне чем-то непонятным. такого происходить не должно. перезагрузи страницу, а если не поможет, то {ContactLink}.",
         "PasteFromClipboard": "вставить из буфера обмена",
-        "SettingsDisableClipboard": "скрыть кнопку буфера обмена"
+        "SettingsDisableClipboard": "скрыть кнопку буфера обмена",
+        "FollowTwitter": "а ещё, в твиттере {appName} есть опросы, новости, и многое другое: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
+        "ChangelogOlder": "предыдущие обновления (на английском)",
+        "ChangelogPressToExpand": "нажми, чтобы загрузить"
     }
 }
