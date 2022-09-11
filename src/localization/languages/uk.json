@@ -1,30 +1,30 @@
 {
     "name": "українська",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">зверніться до супроводжуючего</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">зверніться до творця</a>"
     },
     "strings": {
-        "LinkInput": "вставте посилання сюди",
-        "AboutSummary": "{appName} - твій помічник по завантаженню контенту з соцмереж. ніякої реклами, ніяких трекерів. вставляєш посилання, отримаєш файл, і допиваєш у спокої свій смузі.",
-        "AboutSupportedServices": "наразі підтриманні послуги:",
-        "EmbedBriefDescription": "зберігай контент із соцмереж без реклами та трекерів",
-        "MadeWithLove": "зроблено з <3 від wukko",
-        "AccessibilityInputArea": "місто для посилання",
-        "AccessibilityOpenAbout": "відкрити про {appName}",
+        "LinkInput": "встав посилання сюди",
+        "AboutSummary": "{appName} - твій помічник по завантаженню контенту з соцмереж. ніякої реклами, трекерів та іншого лайна. вставляєш посилання, отримуєш файл, і допиваєш свій смузі у спокої.",
+        "AboutSupportedServices": "сервіси, що підтримуються станом на зараз:",
+        "EmbedBriefDescription": "зберігай контент із соцмереж без роздратувань",
+        "MadeWithLove": "wukko створив це все з <3",
+        "AccessibilityInputArea": "місце для посилання",
+        "AccessibilityOpenAbout": "про {appName}",
         "AccessibilityDownloadButton": "кнопка завантаження",
         "AccessibilityOpenSettings": "відкрити налаштування",
-        "AccessibilityOpenChangelog": "відкрити \"що нового?\"",
+        "AccessibilityOpenChangelog": "відкрити список змін",
         "AccessibilityClosePopup": "закрити вікно",
-        "AccessibilityOpenDonate": "відкрити інфу про пожертви",
+        "AccessibilityOpenDonate": "відкрити інфу щодо пожертв",
         "TitlePopupAbout": "що таке {appName}?",
         "TitlePopupSettings": "налаштування",
-        "TitlePopupError": "опаньки...",
+        "TitlePopupError": "от халепа...",
         "TitlePopupChangelog": "що нового?",
         "TitlePopupDonate": "підтримай {appName}",
         "TitlePopupDownload": "завантажити",
-        "ErrorSomethingWentWrong": "щось пішло не так, і я нічого не можу отримати для вас. ви можете спробувати ще раз, але якщо проблема не зникне, будь ласка {ContactLink}",
-        "ErrorUnsupported": "схоже цей сервіс ще не підтримується, або ваше посилання недійсне.",
-        "ErrorBrokenLink": "{s} підтримується, але щось не так з вашим посиланням. можливо, ви не скопіювали його повністю?",
+        "ErrorSomethingWentWrong": "щось пішло не так, і нічого з того, що ви просили, отримати не вдалось. ви можете спробувати ще раз, але якщо проблема не зникне, будь ласка, {ContactLink}",
+        "ErrorUnsupported": "схоже, цей сервіс ще не підтримується, або ваше посилання недійсне.",
+        "ErrorBrokenLink": "{s} підтримується, але щось не так з вашим посиланням. можливо, ви не повністю його скопіювали?",
         "ErrorNoLink": "я не можу вгадати, що ви хочете завантажити! будь ласка, дайте мені посилання.",
         "ErrorPageRenderFail": "щось пішло не так і сторінку не вдалося зобразити. якщо ця проблема повторюється або критична, будь ласка, {ContactLink}. було б корисно, якби ви надали сучасний хеш коміту ({s}) та кроки відтворення помилки. наперед дякую :D",
         "ErrorRateLimit": "ви надсилаєте забагато запитів. заспокойтесь, і спробуйте ще раз через трохи часу.",
@@ -52,7 +52,7 @@
         "SettingsQualitySwitchLowest": "найнижча",
         "SettingsKeepDownloadButton": "зробити &gt;&gt; видимим",
         "AccessibilityKeepDownloadButton": "завжди показувати кнопку завантаження",
-        "SettingsEnableDownloadPopup": "питати щодо засобу зберігання",
+        "SettingsEnableDownloadPopup": "питати щодо методу зберігання",
         "AccessibilityEnableDownloadPopup": "питати, що робити з завантаженнями",
         "SettingsFormatDescription": "обери webm якщо ви бажаєте максимальної якості. webm частіше за все кращий за якістю, але пристрої на ios не можуть програвати їх без сторонніх програм.",
         "SettingsQualityDescription": "якщо вибрана роздільна здатність недоступна, замість неї вибирається найближча. якщо ви хочете опублікувати відео з youtube у twitter, виберіть комбінацію mp4 і 720p. з такими відео twitter працює найкраще.",
@@ -96,6 +96,8 @@
         "ImagePickerExplanationPC": "клацніть на зображення правою кнопкою миші, щоб зберегти.",
         "ImagePickerExplanationPhone": "натисніть та утримуйте зображення, щоб зберегти.",
         "ErrorNoUrlReturned": "сервер не повернув посилання для завантаження. цього ніколи не повинно статися. обновіть сторінку і спробуйте ще раз, але якщо не допоможе, {ContactLink}",
-        "ErrorUnknownStatus": "я отримав відповідь яку я не можу обробити. скоріш за все щось не так зі статусом. цього ніколи не повинно статися. обновіть сторінку і спробуйте ще раз, але якщо не допоможе, {ContactLink}"
+        "ErrorUnknownStatus": "я отримав відповідь яку я не можу обробити. скоріш за все щось не так зі статусом. цього ніколи не повинно статися. обновіть сторінку і спробуйте ще раз, але якщо не допоможе, {ContactLink}",
+        "PasteFromClipboard": "вставити з буфера обміну",
+        "SettingsDisableClipboard": "приховати кнопку буфера обміну"
     }
 }
