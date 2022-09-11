@@ -75,7 +75,7 @@
         "SettingsAudioTab": "audio",
         "SettingsOtherTab": "otros",
         "ChangelogLastCommit": "último commit (en inglés)",
-        "ChangelogLastMajor": "última actualización masiva (en inglés)",
+        "ChangelogLastMajor": "última actualización (en inglés)",
         "AccessibilityModeToggle": "cambiar el modo de descarga",
         "DonateLinksDescription": "los links de donación se abren en una nueva pestaña. esta es la mejor manera para donar dinero si quieres que lo reciba directamente.",
         "SettingsAudioFormatBest": "mejor",
@@ -98,6 +98,9 @@
         "ErrorNoUrlReturned": "el servidor no devolvió un enlace de descarga. Esto nunca debería suceder. recarga la página y vuelve a intentarlo, pero si eso no ayuda, {ContactLink}.",
         "ErrorUnknownStatus": "he recibido una respuesta que no puedo procesar. lo más probable es que algo con el status esté mal. esto nunca debería suceder. recarga la página y vuelve a intentarlo, pero si eso no ayuda, {ContactLink}.",
         "PasteFromClipboard": "pegar desde el portapapeles",
-        "SettingsDisableClipboard": "ocultar botón de portapapeles"
+        "SettingsDisableClipboard": "ocultar botón de portapapeles",
+        "FollowTwitter": "sigue la cuenta de {appName} en twitter para encuestas, actualizaciones y más: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
+        "ChangelogOlder": "actualizaciones anteriores (en inglés)",
+        "ChangelogPressToExpand": "presiona para cargar"
     }
 }
