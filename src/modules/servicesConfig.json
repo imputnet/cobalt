@@ -16,7 +16,8 @@
             "enabled": true
         },
         "vk": {
-            "patterns": ["video-:userId_:videoId"],
+            "alias": "vk clips, vk video",
+            "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:userId?z=clip-:userId_:videoId"],
             "quality_match": {
                 "2160": 7,
                 "1440": 6,
@@ -27,6 +28,16 @@
                 "240": 0,
                 "144": 4
             },
+            "representation_match": {
+                "2160": 7,
+                "1440": 6,
+                "1080": 5,
+                "720": 4,
+                "480": 3,
+                "360": 2,
+                "240": 1,
+                "144": 0
+            },
             "quality": {
                 "1080": "hig",
                 "720": "mid",
@@ -35,7 +46,7 @@
             "enabled": true
         },
         "youtube": {
-            "alias": "youtube, youtube music",
+            "alias": "youtube, youtube music, youtube shorts",
             "patterns": ["watch?v=:id"],
             "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
             "bestAudio": "opus",

@@ -3,6 +3,7 @@ import { services, appName, authorInfo, version, quality, repo, donations, suppo
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
+import changelogManager from "../changelog/changelogManager.js";
 
 let s = services;
 let com = getCommitInfo();
@@ -84,6 +85,8 @@ export default function(obj) {
                     }, {
                         text: `${loc(obj.lang, 'AboutSupportedServices')} ${enabledServices}.`
                     }, {
+                        text: `${loc(obj.lang, 'FollowTwitter')}`
+                    }, {
                         text: backdropLink(repo, loc(obj.lang, 'LinkGitHubIssues')),
                         classes: ["bottom-link"]
                     }]
@@ -101,13 +104,11 @@ export default function(obj) {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
-                        text: loc('changelog', 'ContentTitle'),
+                        text: changelogManager("title"),
                         classes: ["changelog-subtitle"],
                         nopadding: true
                     }, {
-                        text: loc('changelog', 'FollowTwitter')
-                    }, {
-                        text: loc('changelog', 'Content')
+                        text: changelogManager("content")
                     }, {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastCommit')}</div>`,
                         raw: true
@@ -120,6 +121,12 @@ export default function(obj) {
                     }, {
                         text: backdropLink(`${repo}/commits`, loc(obj.lang, 'LinkGitHubChanges')),
                         classes: ["bottom-link"]
+                    }, {
+                        text: `<div class="category-title">${loc(obj.lang, 'ChangelogOlder')}</div>`,
+                        raw: true
+                    }, {
+                        text: `<div id="changelog-history"><button class="switch bottom-margin" onclick="loadOnDemand('changelog-history', '0')">${loc(obj.lang, "ChangelogPressToExpand")}</button></div>`,
+                        raw: true
                     }]
                 })
             }, {

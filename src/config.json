@@ -11,7 +11,7 @@
     "internetExplorerRedirect": {
         "newNT": ["6.1", "6.2", "6.3", "10.0"],
         "old": "https://mypal-browser.org/",
-        "new": "https://www.mozilla.org/firefox/new/"
+        "new": "https://vivaldi.com/"
     },
     "donations": {
         "crypto": {

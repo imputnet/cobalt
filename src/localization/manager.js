@@ -5,7 +5,6 @@ import loadJson from "../modules/sub/loadJSON.js";
 const locPath = './src/localization/languages'
 
 let loc = {}
-let changelog = loadJson('./src/localization/changelog.json')
 
 export function loadLoc() {
     fs.readdir(locPath, (err, files) => {
@@ -30,7 +29,6 @@ export function replaceAll(lang, str, string, replacement) {
 }
 export default function(lang, string, replacement) {
     try {
-        if (lang === "changelog") return replaceBase(changelog[string]);
         if (!Object.keys(loc).includes(lang)) lang = 'en';
         let str = loc[lang]["strings"];
         if (str && str[string]) {

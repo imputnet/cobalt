@@ -29,6 +29,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "vk":
                 r = await vk({
+                    url: url,
                     userId: patternMatch["userId"],
                     videoId: patternMatch["videoId"],
                     lang: lang, quality: obj.quality

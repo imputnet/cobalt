@@ -47,8 +47,8 @@ You can translate cobalt to any language you want on [cobalt's crowdin](https://
 - You can add wordplays or puns if it feels natural to do so.
 - Even though I love cursing, keep that to minimum in translations, and do **NOT** use any offensive words.
 - Check if there are issues in UI with your localization, and optimize it accordingly, or open an issue.
-- Add "(in english)" translated to your language at the end of `ChangelogLastCommit` and `ChangelogLastMajor`. Those are always kept exclusively in English, due to how often changelog changes.
-    - Example of translation to Russian: `"ChangelogLastCommit": "последний коммит (на английском)"`
+- Add "(in english)" translated to your language at the end of `ChangelogLastCommit`, `ChangelogLastMajor`, and `ChangelogOlder`. Those are always kept exclusively in English (for now), due to how often changelog changes.
+    - Sample translation to Russian: `"ChangelogLastCommit": "последний коммит (на английском)"`
 - Be nice.
 
 ## Host an instance yourself

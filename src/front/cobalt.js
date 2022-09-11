@@ -1,6 +1,6 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
 let isFirefox = navigator.userAgent.toLowerCase().match("firefox/");
-let version = 7;
+let version = 8;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 
 let switchers = {
@@ -329,6 +329,25 @@ async function download(url) {
             popup("error", 1, j.text);
         }
     }).catch((error) => internetError());
+}
+async function loadOnDemand(elementId, blockId) {
+    let store = eid(elementId).innerHTML;
+    eid(elementId).innerHTML = "..."
+    await fetch(`/api/onDemand?blockId=${blockId}`).then(async (r) => {
+        let j = await r.json();
+        if (j.status == "success" && j.status != "rate-limit") {
+            if (j.text) {
+                eid(elementId).innerHTML = j.text;
+            } else {
+                throw new Error()
+            }
+        } else {
+            throw new Error()
+        }
+    }).catch((error) => {
+        eid(elementId).innerHTML = store;
+        internetError()
+    });
 }
 window.onload = () => {
     loadSettings();

@@ -7,7 +7,7 @@ const names = {
     "✨": "sparkles",
     "🪅": "pinata",
     "🪄": "magic_wand",
-    "🐲": "dragon_face_wukko",
+    "🐲": "dragon_face",
     "💸": "money_with_wings",
     "⚙️": "gear",
     "☹️": "frowning_face",

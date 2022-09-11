@@ -59,7 +59,7 @@
         "DonateSubtitle": "help me pay for hosting",
         "DonateDescription": "i don't really like crypto in its current state, but it's the only reliable way for me to receive money and pay for anything abroad.",
         "LinkGitHubIssues": "&gt;&gt; report issues and check out the source code on github",
-        "LinkGitHubChanges": "&gt;&gt; see previous changes and contribute on github",
+        "LinkGitHubChanges": "&gt;&gt; see previous commits and contribute on github",
         "LinkDonateContact": "&gt;&gt; let me know if currency you want to donate isn't listed",
         "NoScriptMessage": "{appName} uses javascript for api requests and interactive interface. you have to allow javascript to use this site. i don't have any ads or trackers, pinky promise.",
         "DownloadPopupDescriptionIOS": "because you have an ios device, you have to press and hold the download button and then select \"download video\" in appeared popup to save the video. this will be required for as long as apple forces safari webview upon all browser developers on ios.",
@@ -75,7 +75,7 @@
         "SettingsAudioTab": "audio",
         "SettingsOtherTab": "other",
         "ChangelogLastCommit": "last commit",
-        "ChangelogLastMajor": "last major update",
+        "ChangelogLastMajor": "last update",
         "AccessibilityModeToggle": "toggle download mode",
         "DonateLinksDescription": "donation links open in a new tab. this is the best way to donate money, if you want me to receive it directly.",
         "SettingsAudioFormatBest": "best",
@@ -98,6 +98,9 @@
         "ErrorNoUrlReturned": "server didn't return a download link. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "ErrorUnknownStatus": "i received a response i can't process. most likely something with status is wrong. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "PasteFromClipboard": "paste from clipboard",
-        "SettingsDisableClipboard": "hide clipboard button"
+        "SettingsDisableClipboard": "hide clipboard button",
+        "FollowTwitter": "follow {appName}'s twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
+        "ChangelogOlder": "previous updates",
+        "ChangelogPressToExpand": "press to load"
     }
 }

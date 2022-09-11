@@ -14,6 +14,7 @@ import { Bright, Cyan } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
 import { buildFront } from "./modules/build.js";
+import { changelogHistory } from "./modules/pageRender/onDemand.js";
 
 const commitHash = shortCommit();
 const app = express();
@@ -91,8 +92,27 @@ if (fs.existsSync('./.env')) {
                         res.status(j.status).json(j.body);
                     }
                     break;
+                case 'onDemand':
+                    if (req.query.blockId) {
+                        let blockId = req.query.blockId.slice(0, 3)
+                        let r, j;
+                        switch(blockId) {
+                            case "0":
+                                r = changelogHistory();
+                                j = r ? apiJSON(3, { t: r }) : apiJSON(0, { t: "couldn't render this block" })
+                                break;
+                            default:
+                                j = apiJSON(0, { t: "couldn't find a block with this id" })
+                                break;
+                        }
+                        res.status(j.status).json(j.body);
+                    } else {
+                        let j = apiJSON(0, { t: "no block id" })
+                        res.status(j.status).json(j.body);
+                    }
+                    break;
                 default:
-                    let j = apiJSON(0, { t: "wrong response type" })
+                    let j = apiJSON(0, { t: "unknown response type" })
                     res.status(j.status).json(j.body);
                     break;
             }
