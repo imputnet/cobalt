@@ -244,7 +244,6 @@ async function pasteClipboard() {
         eid("url-input-area").value = t;
         download(eid("url-input-area").value);
     }
-    button();
 }
 async function download(url) {
     changeDownloadButton(2, '...');
