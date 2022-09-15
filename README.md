@@ -8,7 +8,7 @@ Best way to save content you love.
 [![Crowdin](https://badges.crowdin.net/cobalt/localized.svg)](https://crowdin.com/project/cobalt) [![DeepSource](https://deepsource.io/gh/wukko/cobalt.svg/?label=active+issues&token=MsmsJ9zUOKwcQor0yaiFot84)](https://deepsource.io/gh/wukko/cobalt/?ref=repository-badge) [![DeepSource](https://deepsource.io/gh/wukko/cobalt.svg/?label=resolved+issues&token=MsmsJ9zUOKwcQor0yaiFot84)](https://deepsource.io/gh/wukko/cobalt/?ref=repository-badge)
 
 ## What's cobalt?
-cobalt is social media downloader with zero bullshit. It's friendly, efficient, works on anything with a browser, and doesn't bother you with porn ads or privacy invasion "consent" popups.
+cobalt is social media downloader with zero bullshit. It's friendly, accessible, efficient, and doesn't bother you with shock ads or privacy invasion "consent" popups.
 
 It preserves original media quality so you get best downloads possible (unless you change that in settings).
 
@@ -25,15 +25,6 @@ It preserves original media quality so you get best downloads possible (unless y
 | Tumblr            | ✅    | ✅ |  |
 | Vimeo             | ✅    | ⚒️ | Quality picking |
 | VK                | ✅    | ⚒️ | Quality picking |
-
-## Translations
-- Spanish: [@adrigoomy](https://github.com/adrigoomy) (translation is outdated, update needed)
-- French: [@lexito-o](https://github.com/lexito-o) (translation is outdated, update needed)
-- Indonesian: [@LyfeV](https://github.com/LyfeV) (translation is outdated, update needed)
-- Polish: [@hexandcube](https://github.com/hexandcube)
-- Ukrainian: Löffel
-
-Other languages may be missing some strings or changes, you can help with updating those!
 
 ## How to contribute translations
 You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin-co.wukko.me/). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.
