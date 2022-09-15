@@ -314,7 +314,7 @@ export default function(obj) {
                     <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${loc(obj.lang, 'AccessibilityDownloadButton')}">
                 </div>
                 ${!isFirefox ? `<div id="bottom">
-                <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="toggle download mode">${emoji("📋", 22)} ${loc(obj.lang, 'PasteFromClipboard')}</button>
+                <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="${loc(obj.lang, 'PasteFromClipboard')}">${emoji("📋", 22)} ${loc(obj.lang, 'PasteFromClipboard')}</button>
             </div>` : ''}
             </div>
         </div>
