@@ -64,7 +64,7 @@
         "tiktok": {
             "patterns": [":user/video/:postId", ":id", "t/:id"],
             "audioFormats": ["best", "m4a", "mp3"],
-            "enabled": false
+            "enabled": true
         },
         "douyin": {
             "patterns": ["video/:postId", ":id"],

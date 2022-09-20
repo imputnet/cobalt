@@ -1,23 +1,22 @@
 import got from "got";
 import loc from "../../localization/manager.js";
-import { genericUserAgent } from "../config.js";
 import { unicodeDecode } from "../sub/utils.js";
 
-let userAgent = genericUserAgent.split(' Chrome/1')[0]
+let userAgent = "Mozilla/5.0 (Linux; Android 10; Pixel 4 XL)"
 let config = {
-    tiktok: {
-        short: "https://vt.tiktok.com/",
-        api: "https://api.tiktokv.com/aweme/v1/aweme/detail/?aweme_id=",
-    },
-    douyin: {
-        short: "https://v.douyin.com/",
-        api: "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=",
-    }
-}
+  tiktok: {
+    short: "https://vt.tiktok.com/",
+    api: "https://api.tiktokv.com/aweme/v1/feed/?version_code=2613&device_type=pixel?aweme_id=",
+  },
+  douyin: {
+    short: "https://v.douyin.com/",
+    api: "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=",
+  },
+};
 function selector(j, h) {
     switch (h) {
         case "tiktok":
-            return j["aweme_detail"]
+            return j["aweme_list"][0];
         case "douyin":
             return j['item_list'][0]
     }
@@ -34,13 +33,11 @@ export default async function(obj) {
             if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) obj.postId = html.split('video/')[1].split('?')[0].replace("/", '')
         }
         if (!obj.postId) return { error: loc(obj.lang, 'ErrorCantGetID') };
-    
-        let detail = await got.get(`${config[obj.host]["api"]}${obj.postId}`);
+        let detail = await got.get(`${config[obj.host]["api"]}${obj.postId}`, { headers: { "user-agent": userAgent } });  
         detail.on('error', (err) => {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', obj.host) };
         });
         detail = selector(JSON.parse(detail.body), obj.host);
-
         let video, videoFilename, audioFilename, isMp3, audio,
         images = detail["image_post_info"] ? detail["image_post_info"]["images"] : false,
         filenameBase = `${obj.host}_${obj.postId}`;
