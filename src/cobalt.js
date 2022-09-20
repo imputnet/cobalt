@@ -21,7 +21,7 @@ const app = express();
 
 app.disable('x-powered-by');
 
-if (fs.existsSync('./.env')) {
+if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
         windowMs: 20 * 60 * 1000,
         max: 100,
@@ -124,7 +124,6 @@ if (fs.existsSync('./.env')) {
         res.redirect('/api/json')
     });
     app.get("/", (req, res) => {
-        // redirect masochists to a page where they can install a proper browser
         if (req.header("user-agent") && req.header("user-agent").includes("Trident")) {
             if (internetExplorerRedirect.newNT.includes(req.header("user-agent").split('NT ')[1].split(';')[0])) {
                 res.redirect(internetExplorerRedirect.new)
@@ -152,5 +151,5 @@ if (fs.existsSync('./.env')) {
         console.log(`\n${Bright(`${appName} (${version})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nCurrent commit: ${Bright(`${commitHash}`)}\nStart time: ${Bright(Math.floor(new Date().getTime()))}\n`)
     });
 } else {
-    console.log('Required config files are missing. Please run "npm run setup" first.')
+    console.log(`you can't run the server without generating a .env file. please run the setup script first: npm run setup`)
 }
