@@ -1,6 +1,6 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
 let isFirefox = navigator.userAgent.toLowerCase().match("firefox/");
-let version = 9;
+let version = 10;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 
 let switchers = {

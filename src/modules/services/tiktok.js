@@ -7,17 +7,17 @@ let userAgent = genericUserAgent.split(' Chrome/1')[0]
 let config = {
     tiktok: {
         short: "https://vt.tiktok.com/",
-        api: "https://api.tiktokv.com/aweme/v1/aweme/detail/?aweme_id=",
+        api: "https://api.tiktokv.com/aweme/v1/multi/aweme/detail/?aweme_ids=%5B{postId}%5D&version_code=26.2.0&app_name=musical_ly&channel=App&device_id=null&os_version=14.4.2&device_platform=iphone&device_type=iPhone9", // thanks to https://github.com/wukko/cobalt/pull/41#issue-1380090574
     },
     douyin: {
         short: "https://v.douyin.com/",
-        api: "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=",
+        api: "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={postId}",
     }
 }
 function selector(j, h) {
     switch (h) {
         case "tiktok":
-            return j["aweme_detail"]
+            return j["aweme_details"][0]
         case "douyin":
             return j['item_list'][0]
     }
@@ -35,7 +35,7 @@ export default async function(obj) {
         }
         if (!obj.postId) return { error: loc(obj.lang, 'ErrorCantGetID') };
     
-        let detail = await got.get(`${config[obj.host]["api"]}${obj.postId}`);
+        let detail = await got.get(config[obj.host]["api"].replace("{postId}", obj.postId), { headers: {"User-Agent":"TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"} });
         detail.on('error', (err) => {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', obj.host) };
         });

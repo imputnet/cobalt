@@ -1,7 +1,7 @@
 {
     "current": {
-        "title": "here's what's up with tiktok support",
-        "content": "recently tiktok pushed a breaking change to their api, and long story short: cobalt can't get tiktok video info anymore (for now).\ni had to disable support for tiktok until i figure out how to solve this issue. sorry for any caused inconvenience.\nactually, blame tiktok for this. they try to gatekeep access to content they don't own.\nby doing this, they force people to watch ads and give away personal information on their platform, along with making it impossible to archive content in any viable form.\n\nif you want to help me figure out the fix faster, you can do it on <a class=\"text-backdrop\" href=\"{repo}/blob/current/src/modules/services/tiktok.js\" target=\"_blank\">github</a>.\n\nbig tech companies really don't like it when people have freedom, huh?"
+        "title": "tiktok support is back :D (3.5.4)",
+        "content": "you can download videos, sounds, and images from tiktok again!\nhuge thank you to <a class=\"text-backdrop\" href=\"https://github.com/minzique\" target=\"_blank\">@minzique</a> for finding another api endpoint that works.\n\nif you don't want to see this popup anymore, you can disable it in settings > other."
     },
     "history": [{
         "title": "vk clips support, improved changelog system, and less bugs (3.5.2)",
