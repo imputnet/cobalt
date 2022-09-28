@@ -39,7 +39,6 @@
         "SettingsAppearanceSubtitle": "apariencia",
         "SettingsThemeSubtitle": "tema",
         "SettingsFormatSubtitle": "formato de descarga",
-        "SettingsMiscSubtitle": "otros ajustes",
         "SettingsDownloadsSubtitle": "descargas",
         "SettingsQualitySubtitle": "calidad",
         "SettingsThemeAuto": "auto",
@@ -84,8 +83,6 @@
         "SettingsDisableChangelogOnUpdate": "no mostrar el changelog después de una actualización masiva",
         "SettingsRemoveWatermark": "desactivar marca de agua",
         "ErrorPopupCloseButton": "vale",
-        "ModeToggle": "modo",
-        "ModeToggleSmart": "inteligente",
         "ErrorLengthAudioConvert": "el límite de duración actual para la conversión de audio es de {s} minutos. escoge el formato \"mejor\" !",
         "SettingsAudioFullTikTok": "descargar el audio completo",
         "SettingsAudioFullTikTokDescription": "se descarga el audio original o el sonido usado en el vídeo sin ningún cambio adicional por el autor del vídeo",
@@ -101,6 +98,9 @@
         "SettingsDisableClipboard": "ocultar botón de portapapeles",
         "FollowTwitter": "sigue la cuenta de {appName} en twitter para encuestas, actualizaciones y más: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "actualizaciones anteriores (en inglés)",
-        "ChangelogPressToExpand": "presiona para cargar"
+        "ChangelogPressToExpand": "presiona para cargar",
+        "Miscellaneous": "otros",
+        "ModeToggleAuto": "modo automático ",
+        "ModeToggleAudio": "modo audio"
     }
 }
