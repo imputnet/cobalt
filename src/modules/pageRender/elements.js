@@ -19,8 +19,20 @@ export function switcher(obj) {
         </div>`
 }
 
-export function checkbox(action, text, aria) {
-    return `<label class="checkbox">
+export function checkbox(action, text, aria, paddingType) {
+    let paddingClass = ` `
+    switch (paddingType) {
+        case 1:
+            paddingClass += "bottom-margin"
+            break;
+        case 2:
+            paddingClass += "top-margin"
+            break;
+        case 3:
+            paddingClass += "no-margin"
+            break;
+    }
+    return `<label id="${action}-chkbx" class="checkbox${paddingClass}">
         <input id="${action}" type="checkbox" ${aria ? `aria-label="${aria}"` : ''} onclick="checkbox('${action}')">
         <span>${text}</span>
     </label>`

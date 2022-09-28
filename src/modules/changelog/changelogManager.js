@@ -17,6 +17,8 @@ export default function(string) {
                         content: replaceBase(i["content"])
                     }
                 });
+            default:
+                return replaceBase(changelog[string])
         }
     } catch (e) {
         return `!!CHANGELOG_${string}!!`

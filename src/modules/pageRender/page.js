@@ -26,14 +26,13 @@ for (let i in donations["other"]) {
 let extr = ''
 for (let i in donations["crypto"]) {
     donate += `<div class="subtitle${extr}">${i} (REPLACEME)</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations["crypto"][i]}</div>`
-    extr = ' extra'
+    extr = ' top-margin'
 }
 export default function(obj) {
     audioFormats[0]["text"] = loc(obj.lang, 'SettingsAudioFormatBest');
     let ua = obj.useragent.toLowerCase();
     let isIOS = ua.match("iphone os");
     let isMobile = ua.match("android") || ua.match("iphone os");
-    let isFirefox = ua.match("firefox/");
     try {
         return `<!DOCTYPE html>
 <html lang="en">
@@ -108,7 +107,7 @@ export default function(obj) {
                         classes: ["changelog-subtitle"],
                         nopadding: true
                     }, {
-                        text: changelogManager("content")
+                        text: changelogManager("content") + changelogManager("DisableIfYouWant")
                     }, {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastCommit')}</div>`,
                         raw: true
@@ -191,7 +190,7 @@ export default function(obj) {
                             "text": `${loc(obj.lang, 'SettingsQualitySwitchLow')}(${quality.low}p)`
                         }]
                     })
-                }) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup')) : ''}`
+                }) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup'), 1) : ''}`
                     + settingsCategory({
                         name: "youtube",
                         body: switcher({
@@ -225,7 +224,7 @@ export default function(obj) {
                 }) + settingsCategory({
                     name: "tiktok",
                     title: "tiktok & douyin",
-                    body: checkbox("fullTikTokAudio", loc(obj.lang, 'SettingsAudioFullTikTok'), loc(obj.lang, 'SettingsAudioFullTikTok')) + `<div class="explanation">${loc(obj.lang, 'SettingsAudioFullTikTokDescription')}</div>`
+                    body: checkbox("fullTikTokAudio", loc(obj.lang, 'SettingsAudioFullTikTok'), loc(obj.lang, 'SettingsAudioFullTikTok'), 3) + `<div class="explanation">${loc(obj.lang, 'SettingsAudioFullTikTokDescription')}</div>`
                 })
             }, {
                 name: "other",
@@ -246,11 +245,13 @@ export default function(obj) {
                             "action": "light",
                             "text": loc(obj.lang, 'SettingsThemeLight')
                         }]
-                    })
+                    }) + checkbox("alwaysVisibleButton", loc(obj.lang, 'SettingsKeepDownloadButton'), loc(obj.lang, 'AccessibilityKeepDownloadButton'), 2)
+                }) + settingsCategory({
+                    name: "miscellaneous",
+                    title: loc(obj.lang, 'Miscellaneous'),
+                    body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableChangelogOnUpdate'), loc(obj.lang, 'SettingsDisableChangelogOnUpdate'))
+                        + checkbox("disableClipboardButton", loc(obj.lang, 'SettingsDisableClipboard'), loc(obj.lang, 'SettingsDisableClipboard'))
                 })
-                + checkbox("alwaysVisibleButton", loc(obj.lang, 'SettingsKeepDownloadButton'), loc(obj.lang, 'AccessibilityKeepDownloadButton'))
-                + checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableChangelogOnUpdate'), loc(obj.lang, 'SettingsDisableChangelogOnUpdate'))
-                + (!isFirefox ? checkbox("disableClipboardButton", loc(obj.lang, 'SettingsDisableClipboard'), loc(obj.lang, 'SettingsDisableClipboard')) : ``)
             }],
         })}
         ${popup({
@@ -313,9 +314,10 @@ export default function(obj) {
                     <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                     <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${loc(obj.lang, 'AccessibilityDownloadButton')}">
                 </div>
-                ${!isFirefox ? `<div id="bottom">
-                <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="${loc(obj.lang, 'PasteFromClipboard')}">${emoji("📋", 22)} ${loc(obj.lang, 'PasteFromClipboard')}</button>
-            </div>` : ''}
+                <div id="bottom">
+                    <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="${loc(obj.lang, 'PasteFromClipboard')}">${emoji("📋", 22)} ${loc(obj.lang, 'PasteFromClipboard')}</button>
+                    <button id="audioMode" class="switch" onclick="toggle('audioMode')" aria-label="${loc(obj.lang, 'AccessibilityModeToggle')}">${emoji("✨", 22, 1)}</button>
+                </div>
             </div>
         </div>
         <footer id="footer" style="visibility: hidden;">
@@ -330,11 +332,6 @@ export default function(obj) {
             type: "popup",
             text: `${emoji("⚙️", 22)} ${loc(obj.lang, 'TitlePopupSettings')}`,
             aria: loc(obj.lang, 'AccessibilityOpenSettings')
-        }, {
-            name: "audioMode",
-            type: "toggle",
-            text: emoji("✨", 22, 1),
-            aria: loc(obj.lang, 'AccessibilityModeToggle')
         }]
         )}
         </footer>
@@ -343,8 +340,8 @@ export default function(obj) {
         noInternet: ` + "`" + loc(obj.lang, 'ErrorNoInternet') + "`" + `,
         noURLReturned: ` + "`" + loc(obj.lang, 'ErrorNoUrlReturned') + "`" + `,
         unknownStatus: ` + "`" + loc(obj.lang, 'ErrorUnknownStatus') + "`" + `,
-        toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleSmart")} ${loc(obj.lang, "ModeToggle")}',
-        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "SettingsAudioTab")} ${loc(obj.lang, "ModeToggle")}'
+        toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleAuto")}',
+        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "ModeToggleAudio")}'
     };</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;

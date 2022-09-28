@@ -1,9 +1,13 @@
 {
     "current": {
-        "title": "tiktok support is back :D (3.5.4)",
-        "content": "you can download videos, sounds, and images from tiktok again!\nhuge thank you to <a class=\"text-backdrop\" href=\"https://github.com/minzique\" target=\"_blank\">@minzique</a> for finding another api endpoint that works.\n\nif you don't want to see this popup anymore, you can disable it in settings > other."
+        "title": "improvements all around! (3.6)",
+        "content": "- download mode switcher is moving places, it's now right next to link input area.\n- smart mode has been renamed to auto mode, because this name is easier to understand.\n- all spacings in ui have been evened out. no more eye strain.\n- clipboard button exception has been redone to prepare for adoption of readtext clipboard api in firefox.\n- cobalt is now using different tiktok api endpoint, because previous one got killed, just like the one before.\n- \"other\" settings tab has been cleaned up."
     },
+    "DisableIfYouWant": "\n\nif you don't want to see this popup after every major update, you can disable it in settings > other.",
     "history": [{
+        "title": "tiktok support is back :D (3.5.4)",
+        "content": "you can download videos, sounds, and images from tiktok again!\nhuge thank you to <a class=\"text-backdrop\" href=\"https://github.com/minzique\" target=\"_blank\">@minzique</a> for finding another api endpoint that works."
+    }, {
         "title": "vk clips support, improved changelog system, and less bugs (3.5.2)",
         "content": "new features: \n- added support for vk clips. {appName} now lets you download even more cringy videos!\n- added update history right to the changelog menu. it's not loaded by default to minimize page load time, but can be loaded upon pressing a button. probably someone will enjoy this.\n- as you've just read, cobalt now has on-demand blocks. they're rendered on server upon request and exist to prevent any unnecessary clutter by default. the first feature to use on-demand rendering is history of updates in changelog tab.\n\nchanges:\n- moved twitter entry to about tab and made it localized.\n- added clarity to what services exactly are supported in about tab.\n\nbug fixes:\n- cobalt should no longer crash to firefox users if they love to play around with user-agent switching.\n- vk videos of any resolution and aspect ratio should now be downloadable.\n- vk quality picking has been fixed after vk broke it for parsers on their side."
     }, {

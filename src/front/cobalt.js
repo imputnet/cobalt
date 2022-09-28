@@ -1,5 +1,4 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let isFirefox = navigator.userAgent.toLowerCase().match("firefox/");
 let version = 10;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 
@@ -9,9 +8,8 @@ let switchers = {
     "quality": ["max", "hig", "mid", "low"],
     "audioFormat": ["best", "mp3", "ogg", "wav", "opus"]
 }
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"];
-if (!isFirefox) checkboxes.push("disableClipboardButton");
-let exceptions = { // used solely for ios devices, because they're less capable than everything else.
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "disableClipboardButton"];
+let exceptions = { // used solely for ios devices, because they're generally less capable
     "ytFormat": "mp4",
     "audioFormat": "mp3"
 }
@@ -218,7 +216,13 @@ function toggle(toggl) {
     updateToggle(toggl, sGet(toggl))
 }
 function loadSettings() {
-    if (sGet("disableClipboardButton") == "true" && !isFirefox) eid("pasteFromClipboard").style.display = "none";
+    try {
+        typeof(navigator.clipboard.readText)
+    } catch (err) {
+        eid("disableClipboardButton-chkbx").style.display = "none";
+        sSet("disableClipboardButton", "true")
+    }
+    if (sGet("disableClipboardButton") == "true") eid("pasteFromClipboard").style.display = "none";
     if (sGet("alwaysVisibleButton") == "true") {
         eid("alwaysVisibleButton").checked = true;
         eid("download-button").value = '>>'

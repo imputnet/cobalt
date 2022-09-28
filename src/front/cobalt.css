@@ -175,6 +175,9 @@ input[type="checkbox"] {
 }
 #cobalt-main-box #bottom {
     padding-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 #cobalt-main-box #bottom button {
     width: auto!important;
@@ -224,13 +227,18 @@ input[type="checkbox"] {
     cursor: not-allowed;
 }
 #footer {
-    bottom: 0rem;
+    bottom: 0.8rem;
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 0.9rem;
     text-align: center;
     width: auto;
+}
+#cobalt-main-box #bottom,
+#footer-buttons,
+#footer-buttons, .footer-pair {
+    gap: 0.8rem;
 }
 #footer-buttons, .footer-pair {
     display: flex;
@@ -241,7 +249,6 @@ input[type="checkbox"] {
     width: auto!important;
     color: var(--accent-unhover-2);
     padding: 0.6rem 1.2rem!important;
-    margin: 0.4rem;
     align-content: center;
 }
 .text-backdrop {
@@ -370,7 +377,13 @@ input[type="checkbox"] {
     margin-bottom: 1rem;
 }
 .bottom-margin {
-    margin-bottom: 1rem;
+    margin-bottom: 1rem!important;
+}
+.top-margin {
+    margin-top: 1rem!important;
+}
+.no-margin {
+    margin: 0!important;
 }
 .checkbox {
     display: inline-flex;
@@ -396,9 +409,6 @@ input[type="checkbox"] {
     line-height: 1.7rem;
     padding-bottom: 0.4rem;
     color: var(--accent);
-}
-.extra {
-    margin-top: 1rem;
 }
 .small-padding .subtitle {
     margin-top: 0.5rem;
@@ -432,6 +442,7 @@ input[type="checkbox"] {
     color: var(--background);
     background: var(--accent);
     cursor: default;
+    z-index: 999
 }
 .switches {
     display: flex;
@@ -605,6 +616,9 @@ input[type="checkbox"] {
     }
 }
 @media screen and (max-width: 949px) {
+    #cobalt-main-box #bottom {
+        flex-direction: column;
+    }
     #cobalt-main-box #bottom button {
         width: 100%!important;
     }

@@ -39,7 +39,6 @@
         "SettingsAppearanceSubtitle": "appearance",
         "SettingsThemeSubtitle": "theme",
         "SettingsFormatSubtitle": "download format",
-        "SettingsMiscSubtitle": "more settings",
         "SettingsDownloadsSubtitle": "downloads",
         "SettingsQualitySubtitle": "quality",
         "SettingsThemeAuto": "auto",
@@ -84,8 +83,6 @@
         "SettingsDisableChangelogOnUpdate": "don't show changelog after major updates",
         "SettingsRemoveWatermark": "disable watermark",
         "ErrorPopupCloseButton": "got it",
-        "ModeToggle": "mode",
-        "ModeToggleSmart": "smart",
         "ErrorLengthAudioConvert": "current length limit for audio conversion is {s} minutes. pick \"best\" format if you want to avoid limitations.",
         "SettingsAudioFullTikTok": "download full audio",
         "SettingsAudioFullTikTokDescription": "downloads original audio or sound used in video without any additional changes by the video author.",
@@ -101,6 +98,9 @@
         "SettingsDisableClipboard": "hide clipboard button",
         "FollowTwitter": "follow {appName}'s twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "previous updates",
-        "ChangelogPressToExpand": "press to load"
+        "ChangelogPressToExpand": "press to load",
+        "Miscellaneous": "miscellaneous",
+        "ModeToggleAuto": "auto mode",
+        "ModeToggleAudio": "audio mode"
     }
 }
