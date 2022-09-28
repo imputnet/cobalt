@@ -1,7 +1,7 @@
 {
     "current": {
         "title": "improvements all around! (3.6)",
-        "content": "- download mode switcher is moving places, it's now right next to link input area.\n- smart mode has been renamed to auto mode, because this name is easier to understand.\n- all spacings in ui have been evened out. no more eye strain.\n- clipboard button exception has been redone to prepare for adoption of readtext clipboard api in firefox.\n- cobalt is now using different tiktok api endpoint, because previous one got killed, just like the one before.\n- \"other\" settings tab has been cleaned up."
+        "content": "- download mode switcher is moving places, it's now right next to link input area.\n- smart mode has been renamed to auto mode, because this name is easier to understand.\n- all spacings in ui have been evened out. no more eye strain.\n- added support for twitter /video/1 links\n- clipboard button exception has been redone to prepare for adoption of readtext clipboard api in firefox.\n- cobalt is now using different tiktok api endpoint, because previous one got killed, just like the one before.\n- \"other\" settings tab has been cleaned up."
     },
     "DisableIfYouWant": "\n\nif you don't want to see this popup after every major update, you can disable it in settings > other.",
     "history": [{
