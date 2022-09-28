@@ -30,7 +30,7 @@
         "ErrorRateLimit": "estás haciendo demasiadas solicitudes. cálmate y vuelve a intentarlo en unos minutos.",
         "ErrorCouldntFetch": "no se pudo obtener metadata. comprueba si tu enlace es correcto e inténtalo de nuevo.",
         "ErrorLengthLimit": "el limite de duración actual es de {s} minutos. lo que intentaste descargar es mas largo que eso. ¡escoge otra cosa que descargar!",
-        "ErrorBadFetch": "algo salió mal con la obtención de info. puedes probar con un formato y una resolución diferentes o simplemente intentarlo de nuevo más tarde.",
+        "ErrorBadFetch": "se ha producido un error cuando intenté obtener info sobre tu enlace. ¿estás seguro de que funciona? omprueba si funciona, e inténtalo de nuevo.",
         "ErrorCorruptedStream": "parece que esta descarga está corrupta. inténtalo de nuevo o intenta con otro formato o resolución.",
         "ErrorNoInternet": "parece que no hay internet o la api de {appName} no está disponible. revisa tu conexión e intenta de nuevo.",
         "ErrorCantConnectToServiceAPI": "no pude conectarme a la api de {s} . parace que {s} no está disponible o la ip del servidor de {appName} fue bloqueada. inténtalo de nuevo mas tarde.",
