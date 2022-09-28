@@ -217,7 +217,7 @@ function toggle(toggl) {
 }
 function loadSettings() {
     try {
-        typeof(navigator.clipboard.readText)
+        if (typeof(navigator.clipboard.readText) == "undefined") throw new Error();
     } catch (err) {
         eid("disableClipboardButton-chkbx").style.display = "none";
         sSet("disableClipboardButton", "true")
