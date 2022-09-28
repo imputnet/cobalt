@@ -30,7 +30,7 @@
         "ErrorRateLimit": "ты делаешь слишком много запросов. успокойся и попробуй ещё раз через несколько минут.",
         "ErrorCouldntFetch": "мне не удалось получить инфу о твоей ссылке. проверь её и попробуй ещё раз.",
         "ErrorLengthLimit": "твоё видео длиннее чем {s} минут(ы). это превышает текущий лимит. скачай что-нибудь покороче, а не экранизацию \"войны и мира\".",
-        "ErrorBadFetch": "произошла ошибка при получении инфы о твоей ссылке. ты уверен, что ссылка работает? проверь её, и попробуй ещё раз.",
+        "ErrorBadFetch": "произошла ошибка при получении инфы о твоей ссылке. ты уверен, что она работает? проверь её, и попробуй ещё раз.",
         "ErrorCorruptedStream": "этот файл сломан на стороне {s}. ты можешь попробовать ещё раз, но если не получится, то попробуй другой формат и разрешение.",
         "ErrorNoInternet": "кажется, нет подключения к интернету. возможно лежит сервер {appName}. в любом случае, проверь подключение к интернету и попробуй ещё раз.",
         "ErrorCantConnectToServiceAPI": "у меня не получилось подключиться к серверу {s}. скорее всего {s} лежит, или же ip адрес {appName} добавили в чёрный список. попробуй ещё раз чуть позже.",
@@ -39,7 +39,6 @@
         "SettingsAppearanceSubtitle": "внешний вид",
         "SettingsThemeSubtitle": "тема",
         "SettingsFormatSubtitle": "формат загрузок",
-        "SettingsMiscSubtitle": "дополнительные настройки",
         "SettingsDownloadsSubtitle": "загрузки",
         "SettingsQualitySubtitle": "качество",
         "SettingsThemeAuto": "авто",
@@ -84,8 +83,6 @@
         "SettingsDisableChangelogOnUpdate": "не показывать изменения после обновлений",
         "SettingsRemoveWatermark": "убрать ватермарку",
         "ErrorPopupCloseButton": "ясно",
-        "ModeToggle": "режим",
-        "ModeToggleSmart": "умный",
         "ErrorLengthAudioConvert": "я не могу конвертировать аудио дольше чем {s} минут(ы). выбери \"лучший\" формат аудио, чтобы избежать ограничения.",
         "SettingsAudioFullTikTok": "скачивать полное аудио",
         "SettingsAudioFullTikTokDescription": "скачивает оригинальный звук, который использован в видео, без каких-либо изменений от автора видео.",
@@ -101,6 +98,9 @@
         "SettingsDisableClipboard": "скрыть кнопку буфера обмена",
         "FollowTwitter": "а ещё, в твиттере {appName} есть опросы, новости, и многое другое: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "предыдущие обновления (на английском)",
-        "ChangelogPressToExpand": "нажми, чтобы загрузить"
+        "ChangelogPressToExpand": "нажми, чтобы загрузить",
+        "Miscellaneous": "разное",
+        "ModeToggleAuto": "авто режим",
+        "ModeToggleAudio": "аудио режим"
     }
 }
