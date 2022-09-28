@@ -12,7 +12,7 @@
             "enabled": true
         },
         "twitter": {
-            "patterns": [":user/status/:id"],
+            "patterns": [":user/status/:id", ":user/status/:id/video/1"],
             "enabled": true
         },
         "vk": {

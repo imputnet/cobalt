@@ -30,7 +30,7 @@
         "ErrorRateLimit": "you're making too many requests. calm down and try again in a bit.",
         "ErrorCouldntFetch": "couldn't get any info about your link. check if your link is correct and try again.",
         "ErrorLengthLimit": "current length limit is {s} minutes. video that you tried to download is longer than {s} minutes. pick something else!",
-        "ErrorBadFetch": "an error occured when i tried to get info about your link. are you sure it works? check if it does, and try again.",
+        "ErrorBadFetch": "an error occurred when i tried to get info about your link. are you sure it works? check if it does, and try again.",
         "ErrorCorruptedStream": "this download is unfortunately corrupted. try again or try a different format and resolution.",
         "ErrorNoInternet": "there's no internet or {appName} api is down. check your connection and try again.",
         "ErrorCantConnectToServiceAPI": "i couldn't connect to {s} api. seems like either {s} is down or {appName} server ip got blocked. try again later.",
