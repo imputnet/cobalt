@@ -39,7 +39,6 @@
         "SettingsAppearanceSubtitle": "вигляд",
         "SettingsThemeSubtitle": "тема",
         "SettingsFormatSubtitle": "формат завантаження",
-        "SettingsMiscSubtitle": "інші налаштування",
         "SettingsDownloadsSubtitle": "завантаження",
         "SettingsQualitySubtitle": "якість",
         "SettingsThemeAuto": "авто",
@@ -84,8 +83,6 @@
         "SettingsDisableChangelogOnUpdate": "не показувати \"що нового\" після суттєвих оновлень",
         "SettingsRemoveWatermark": "прибрати вотермарку",
         "ErrorPopupCloseButton": "зрозуміло",
-        "ModeToggle": "режим",
-        "ModeToggleSmart": "розумний",
         "ErrorLengthAudioConvert": "я не можу конвертувати аудіо, якщо воно довше ніж {s} хв. вибери \"найкращий\" формат аудіо, щоб завантажити аудіо такої тривалості.",
         "SettingsAudioFullTikTok": "завантажувати повне аудіо",
         "SettingsAudioFullTikTokDescription": "зазвичай таке аудіо - оригінальний звук або пісня, яке використовується у відео. тобто це аудіо без обрізань, голосу за кадром тощо.",
@@ -101,6 +98,9 @@
         "SettingsDisableClipboard": "приховати кнопку буфера обміну",
         "FollowTwitter": "читай твіттер акаунт {appName}, щоб слідкувати за опитуваннями, новинами та більше: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "попередні оновлення",
-        "ChangelogPressToExpand": "натисни, щоб завантажити"
+        "ChangelogPressToExpand": "натисни, щоб завантажити",
+        "Miscellaneous": "Інше",
+        "ModeToggleAuto": "Автоматичний режим",
+        "ModeToggleAudio": "Режим звуку"
     }
 }
