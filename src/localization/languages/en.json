@@ -101,6 +101,6 @@
         "Miscellaneous": "miscellaneous",
         "ModeToggleAuto": "auto mode",
         "ModeToggleAudio": "audio mode",
-        "SettingsDisableNotifications": "disable notification dots"
+        "SettingsDisableNotifications": "hide notification dots"
     }
 }
