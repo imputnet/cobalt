@@ -45,9 +45,9 @@
         "SettingsThemeLight": "світла",
         "SettingsThemeDark": "темна",
         "SettingsQualitySwitchMax": "макс",
-        "SettingsQualitySwitchHigh": "висока\n",
-        "SettingsQualitySwitchMedium": "середня\n",
-        "SettingsQualitySwitchLow": "низька\n",
+        "SettingsQualitySwitchHigh": "висока",
+        "SettingsQualitySwitchMedium": "середня",
+        "SettingsQualitySwitchLow": "низька",
         "SettingsQualitySwitchLowest": "найнижча",
         "SettingsKeepDownloadButton": "зробити &gt;&gt; видимим",
         "AccessibilityKeepDownloadButton": "завжди показувати кнопку завантаження",
@@ -80,7 +80,6 @@
         "SettingsAudioFormatBest": "найкращий",
         "SettingsAudioFormatDescription": "якщо вибрано найкращий формат, буде завантажено оригінал аудіо. якщо вибрано щось інше, завантажений файл буде трохи стисненим.",
         "Keyphrase": "зберігай те, що любиш",
-        "SettingsDisableChangelogOnUpdate": "не показувати \"що нового\" після суттєвих оновлень",
         "SettingsRemoveWatermark": "прибрати вотермарку",
         "ErrorPopupCloseButton": "зрозуміло",
         "ErrorLengthAudioConvert": "я не можу конвертувати аудіо, якщо воно довше ніж {s} хв. вибери \"найкращий\" формат аудіо, щоб завантажити аудіо такої тривалості.",
@@ -99,8 +98,9 @@
         "FollowTwitter": "читай твіттер акаунт {appName}, щоб слідкувати за опитуваннями, новинами та більше: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "попередні оновлення",
         "ChangelogPressToExpand": "натисни, щоб завантажити",
-        "Miscellaneous": "iнше",
-        "ModeToggleAuto": "автоматичний режим",
-        "ModeToggleAudio": "режим звуку"
+        "Miscellaneous": "Інше",
+        "ModeToggleAuto": "Автоматичний режим",
+        "ModeToggleAudio": "Режим звуку",
+        "SettingsDisableNotifications": "Прибрати позначки-сповіщення"
     }
 }
