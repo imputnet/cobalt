@@ -80,7 +80,6 @@
         "SettingsAudioFormatBest": "best",
         "SettingsAudioFormatDescription": "when best format is selected, you get audio in best quality available, because audio is kept in its original format. if you select anything other than that, you'll get a slightly compressed file.",
         "Keyphrase": "save what you love",
-        "SettingsDisableChangelogOnUpdate": "don't show changelog after major updates",
         "SettingsRemoveWatermark": "disable watermark",
         "ErrorPopupCloseButton": "got it",
         "ErrorLengthAudioConvert": "current length limit for audio conversion is {s} minutes. pick \"best\" format if you want to avoid limitations.",
@@ -101,6 +100,7 @@
         "ChangelogPressToExpand": "press to load",
         "Miscellaneous": "miscellaneous",
         "ModeToggleAuto": "auto mode",
-        "ModeToggleAudio": "audio mode"
+        "ModeToggleAudio": "audio mode",
+        "SettingsDisableNotifications": "disable in-app notifications"
     }
 }

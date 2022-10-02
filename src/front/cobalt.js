@@ -1,6 +1,7 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 11;
+let version = 12;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
+let notification = `<div class="notification-dot"></div>`
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
@@ -105,6 +106,35 @@ function changeTab(evnt, tabId, tabClass) {
     }
     eid(tabId).style.display = "block";
     evnt.currentTarget.dataset.enabled = "true";
+    if (tabId == "tab-about-changelog" && sGet("changelogStatus") != `${version}`) notificationCheck("changelog");
+    if (tabId == "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
+}
+function notificationCheck(type) {
+    let changed = true;
+    switch (type) {
+        case "about":
+            sSet("seenAbout", "true");
+            break;
+        case "changelog":
+            sSet("changelogStatus", version)
+            break;
+        default:
+            changed = false;
+            break;
+    }
+    if (changed && sGet("changelogStatus") == `${version}` || type == "disable") {
+        setTimeout(() => {
+            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(notification, '');
+            eid("tab-button-about-changelog").innerHTML = eid("tab-button-about-changelog").innerHTML.replace(notification, '')
+        }, 900)
+    }
+    if (sGet("disableChangelog") != "true") {
+        if (!sGet("seenAbout") && !eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
+        if (sGet("changelogStatus") != `${version}`) {
+            if (!eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
+            if (!eid("tab-button-about-changelog").innerHTML.includes(notification)) eid("tab-button-about-changelog").innerHTML = `${notification}${eid("tab-button-about-changelog").innerHTML}`;
+        }
+    }
 }
 function hideAllPopups() {
     let filter = document.getElementsByClassName('popup');
@@ -116,52 +146,40 @@ function hideAllPopups() {
     eid("popup-backdrop").style.visibility = "hidden";
 }
 function popup(type, action, text) {
-    if (action == 1) hideAllPopups();
-    eid("popup-backdrop").style.visibility = vis(action);
-    switch (type) {
-        case "about":
-            let tabId = text ? text : "changelog";
-            if (tabId == "changelog") {
-                sSet("changelogStatus", version)
-            }
-            eid(`tab-button-${type}-${tabId}`).click();
-            eid("popup-about").style.visibility = vis(action);
-            if (!sGet("seenAbout")) sSet("seenAbout", "true");
-            break;
-        case "settings":
-            eid(`tab-button-${type}-video`).click();
-            eid("popup-settings").style.visibility = vis(action);
-            break;
-        case "error":
-            eid("desc-error").innerHTML = text;
-            eid("popup-error").style.visibility = vis(action);
-            break;
-        case "download":
-            if (action == 1) {
+    if (action == 1) {
+        hideAllPopups(); // hide the previous popup before showing a new one
+        switch (type) {
+            case "about":
+                let tabId = sGet("seenAbout") ? "changelog" : "about";
+                eid(`tab-button-${type}-${tabId}`).click();
+                break;
+            case "settings":
+                eid(`tab-button-${type}-video`).click();
+                break;
+            case "error":
+                eid("desc-error").innerHTML = text;
+                break;
+            case "download":
                 eid("pd-download").href = text;
                 eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
-            }
-            eid("popup-download").style.visibility = vis(action);
-            break;
-        case "imagePicker":
-            switch (action) {
-                case 1:
-                    eid("imagepicker-download").href = text.url;
-                    for (let i in text.images) {
-                        eid("imagepicker-holder").innerHTML += `<div class="imagepicker-image-container"><img class="imagepicker-image" src="${text.images[i]}" onerror="this.parentNode.style.display='none'"></img></div>`
-                    }
-                    break;
-                case 0:
-                    eid("imagepicker-download").href = '/';
-                    eid("imagepicker-holder").innerHTML = ''
-                    break;
-            }
-            eid("popup-imagePicker").style.visibility = vis(action);
-            break;
-        default:
-            eid(`popup-${type}`).style.visibility = vis(action);
-            break;
+                break;
+            case "imagePicker":
+                eid("imagepicker-download").href = text.url;
+                for (let i in text.images) {
+                    eid("imagepicker-holder").innerHTML += `<div class="imagepicker-image-container"><img class="imagepicker-image" src="${text.images[i]}" onerror="this.parentNode.style.display='none'"></img></div>`
+                }
+                break;
+            default:
+                break;
+        }
+    } else {
+        if (type == "imagePicker") {
+            eid("imagepicker-download").href = '/';
+            eid("imagepicker-holder").innerHTML = ''
+        }
     }
+    eid("popup-backdrop").style.visibility = vis(action);
+    eid(`popup-${type}`).style.visibility = vis(action);
 }
 function changeSwitcher(li, b) {
     if (b) {
@@ -194,6 +212,7 @@ function checkbox(action) {
         if (action == "alwaysVisibleButton") button();
         if (action == "disableClipboardButton") eid("pasteFromClipboard").style.display = "flex";
     }
+    sGet(action) == "true" ? notificationCheck("disable") : notificationCheck();
 }
 function updateToggle(toggl, state) {
     switch(state) {
@@ -359,11 +378,7 @@ window.onload = () => {
     eid("cobalt-main-box").style.visibility = 'visible';
     eid("footer").style.visibility = 'visible';
     eid("url-input-area").value = "";
-    if (!sGet("seenAbout")) {
-        popup('about', 1, "about");
-    } else if (sGet("changelogStatus") != `${version}` && sGet("disableChangelog") != "true") {
-        popup('about', 1, "changelog");
-    }
+    notificationCheck();
     if (isIOS) sSet("downloadPopup", "true");
     let urlQuery = new URLSearchParams(window.location.search).get("u");
     if (urlQuery !== null) {

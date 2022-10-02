@@ -4,6 +4,7 @@
     --border-15: 0.15rem solid var(--accent);
     --border-10: 0.1rem solid var(--accent);
     --font-mono: 'Noto Sans Mono', 'Consolas', 'SF Mono', monospace;
+    --red: rgb(255, 0, 61);
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -251,6 +252,13 @@ input[type="checkbox"] {
     padding: 0.6rem 1.2rem!important;
     align-content: center;
 }
+.notification-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--red);
+    margin-right: 0.4rem;
+    border-radius: 99rem;
+}
 .text-backdrop {
     background: var(--accent);
     color: var(--background);
@@ -268,7 +276,7 @@ input[type="checkbox"] {
     visibility: hidden;
     position: fixed;
     height: auto;
-    width: 30%;
+    width: 32%;
     z-index: 999;
     padding: 3rem 2rem 2rem 2rem;
     font-size: 0.9rem;
@@ -542,6 +550,9 @@ input[type="checkbox"] {
     .popup.small {
         width: 25%
     }
+    .popup {
+        width: 35%;
+    }
 }
 @media screen and (max-width: 1440px) {
     #cobalt-main-box {
@@ -554,7 +565,12 @@ input[type="checkbox"] {
         width: 40%;
     }
 }
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1300px) {
+    .popup {
+        width: 46%;
+    }
+}
+@media screen and (max-width: 1200px) {
     #cobalt-main-box {
         width: 70%;
     }

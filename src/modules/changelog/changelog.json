@@ -1,10 +1,12 @@
 {
     "current": {
+        "title": "less disturbance (3.6.2)",
+        "content": "changelog no longer annoys you after a major update! this action has been replaced with a notification dot. if you see a red dot, then there's something new.\n\nyour old setting that disabled the changelog popup now applies to notifications.\n\nnew users will see a notification dot instead of an about popup, too. this was mostly done to prevent complications if your browser is set up to clean local storage when you close it.\n\nother changes:\n- popups are now a bit wider, just so more content fits at once.\n- better interface scaling.\n- code is a bit cleaner now."
+    },
+    "history": [{
         "title": "improvements all around! (3.6)",
         "content": "- download mode switcher is moving places, it's now right next to link input area.\n- smart mode has been renamed to auto mode, because this name is easier to understand.\n- all spacings in ui have been evened out. no more eye strain.\n- added support for twitter /video/1 links\n- clipboard button exception has been redone to prepare for adoption of readtext clipboard api in firefox.\n- cobalt is now using different tiktok api endpoint, because previous one got killed, just like the one before.\n- \"other\" settings tab has been cleaned up."
-    },
-    "DisableIfYouWant": "\n\nif you don't want to see this popup after every major update, you can disable it in settings > other.",
-    "history": [{
+    }, {
         "title": "tiktok support is back :D (3.5.4)",
         "content": "you can download videos, sounds, and images from tiktok again!\nhuge thank you to <a class=\"text-backdrop\" href=\"https://github.com/minzique\" target=\"_blank\">@minzique</a> for finding another api endpoint that works."
     }, {

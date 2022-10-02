@@ -107,7 +107,7 @@ export default function(obj) {
                         classes: ["changelog-subtitle"],
                         nopadding: true
                     }, {
-                        text: changelogManager("content") + changelogManager("DisableIfYouWant")
+                        text: changelogManager("content")
                     }, {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastCommit')}</div>`,
                         raw: true
@@ -207,7 +207,7 @@ export default function(obj) {
                     + settingsCategory({
                         name: "tiktok",
                         title: "tiktok & douyin",
-                        body: checkbox("disableTikTokWatermark", loc(obj.lang, 'SettingsRemoveWatermark'), loc(obj.lang, 'SettingsRemoveWatermark'))
+                        body: checkbox("disableTikTokWatermark", loc(obj.lang, 'SettingsRemoveWatermark'))
                     })
             }, {
                 name: "audio",
@@ -249,8 +249,8 @@ export default function(obj) {
                 }) + settingsCategory({
                     name: "miscellaneous",
                     title: loc(obj.lang, 'Miscellaneous'),
-                    body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableChangelogOnUpdate'), loc(obj.lang, 'SettingsDisableChangelogOnUpdate'))
-                        + checkbox("disableClipboardButton", loc(obj.lang, 'SettingsDisableClipboard'), loc(obj.lang, 'SettingsDisableClipboard'))
+                    body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableNotifications'))
+                        + checkbox("disableClipboardButton", loc(obj.lang, 'SettingsDisableClipboard'))
                 })
             }],
         })}

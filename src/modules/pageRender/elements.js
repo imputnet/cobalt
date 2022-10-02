@@ -33,7 +33,7 @@ export function checkbox(action, text, aria, paddingType) {
             break;
     }
     return `<label id="${action}-chkbx" class="checkbox${paddingClass}">
-        <input id="${action}" type="checkbox" ${aria ? `aria-label="${aria}"` : ''} onclick="checkbox('${action}')">
+        <input id="${action}" type="checkbox" ${aria ? `aria-label="${aria}"` : `aria-label="${text}"`} onclick="checkbox('${action}')">
         <span>${text}</span>
     </label>`
 }
@@ -119,13 +119,13 @@ export function footerButtons(obj) {
     for (let i = 0; i < obj.length; i++) {
         switch (obj[i]["type"]) {
             case "toggle": 
-                items += `<button id="${obj[i]["name"]}" class="switch footer-button" onclick="toggle('${obj[i]["name"]}')" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
+                items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="toggle('${obj[i]["name"]}')" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
                 break;
             case "action":
-                items += `<button id="${obj[i]["name"]}" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
+                items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
                 break;
             case "popup":
-                items += `<div class="footer-pair"><button id="${obj[i]["name"]}" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1)" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button><button id="${obj[i+1]["name"]}" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1)" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button></div>`;
+                items += `<div class="footer-pair"><button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1)" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button><button id="${obj[i+1]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1)" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button></div>`;
                 i++;
                 break;
         }
