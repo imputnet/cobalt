@@ -1,5 +1,5 @@
 {
-    "name": "Gaeilge",
+    "name": "gaeilge",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">teagmháil an cothabálach/a>"
     },
