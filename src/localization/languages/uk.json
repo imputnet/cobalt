@@ -99,8 +99,8 @@
         "FollowTwitter": "читай твіттер акаунт {appName}, щоб слідкувати за опитуваннями, новинами та більше: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "попередні оновлення",
         "ChangelogPressToExpand": "натисни, щоб завантажити",
-        "Miscellaneous": "Інше",
-        "ModeToggleAuto": "Автоматичний режим",
-        "ModeToggleAudio": "Режим звуку"
+        "Miscellaneous": "iнше",
+        "ModeToggleAuto": "автоматичний режим",
+        "ModeToggleAudio": "режим звуку"
     }
 }
