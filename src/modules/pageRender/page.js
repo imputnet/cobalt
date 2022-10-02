@@ -181,13 +181,13 @@ export default function(obj) {
                             "text": loc(obj.lang, 'SettingsQualitySwitchMax')
                         }, {
                             "action": "hig",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchHigh')}(${quality.hig}p)`
+                            "text": `${loc(obj.lang, 'SettingsQualitySwitchHigh')}<br/>(${quality.hig}p)`
                         }, {
                             "action": "mid",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchMedium')}(${quality.mid}p)`
+                            "text": `${loc(obj.lang, 'SettingsQualitySwitchMedium')}<br/>(${quality.mid}p)`
                         }, {
                             "action": "low",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchLow')}(${quality.low}p)`
+                            "text": `${loc(obj.lang, 'SettingsQualitySwitchLow')}<br/>(${quality.low}p)`
                         }]
                     })
                 }) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup'), 1) : ''}`
