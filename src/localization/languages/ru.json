@@ -45,9 +45,9 @@
         "SettingsThemeLight": "светлая",
         "SettingsThemeDark": "тёмная",
         "SettingsQualitySwitchMax": "макс",
-        "SettingsQualitySwitchHigh": "высокое\n",
-        "SettingsQualitySwitchMedium": "среднее\n",
-        "SettingsQualitySwitchLow": "низкое\n",
+        "SettingsQualitySwitchHigh": "высокое",
+        "SettingsQualitySwitchMedium": "среднее",
+        "SettingsQualitySwitchLow": "низкое",
         "SettingsQualitySwitchLowest": "худшее",
         "SettingsKeepDownloadButton": "оставлять &gt;&gt; на экране",
         "AccessibilityKeepDownloadButton": "оставлять кнопку скачивания на экране",
@@ -80,7 +80,6 @@
         "SettingsAudioFormatBest": "лучший",
         "SettingsAudioFormatDescription": "когда выбран \"лучший\" формат, ты получишь аудио максимально возможного качества, так как оно останется в оригинальном формате. если же выбрано что-то другое, то аудио будет немного сжато.",
         "Keyphrase": "сохраняй то, что любишь",
-        "SettingsDisableChangelogOnUpdate": "не показывать изменения после обновлений",
         "SettingsRemoveWatermark": "убрать ватермарку",
         "ErrorPopupCloseButton": "ясно",
         "ErrorLengthAudioConvert": "я не могу конвертировать аудио дольше чем {s} минут(ы). выбери \"лучший\" формат аудио, чтобы избежать ограничения.",
@@ -101,6 +100,7 @@
         "ChangelogPressToExpand": "нажми, чтобы загрузить",
         "Miscellaneous": "разное",
         "ModeToggleAuto": "авто режим",
-        "ModeToggleAudio": "аудио режим"
+        "ModeToggleAudio": "аудио режим",
+        "SettingsDisableNotifications": "скрыть уведомления"
     }
 }
