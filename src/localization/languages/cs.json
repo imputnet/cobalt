@@ -1,5 +1,5 @@
 {
-    "name": "angličtina",
+    "name": "čeština",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">kontaktujte správce/a>"
     },
