@@ -98,9 +98,9 @@
         "FollowTwitter": "читай твіттер акаунт {appName}, щоб слідкувати за опитуваннями, новинами та більше: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "попередні оновлення",
         "ChangelogPressToExpand": "натисни, щоб завантажити",
-        "Miscellaneous": "Інше",
-        "ModeToggleAuto": "Автоматичний режим",
-        "ModeToggleAudio": "Режим звуку",
-        "SettingsDisableNotifications": "Прибрати позначки-сповіщення"
+        "Miscellaneous": "інше",
+        "ModeToggleAuto": "автовибір",
+        "ModeToggleAudio": "тільки звук",
+        "SettingsDisableNotifications": "прибрати позначки-сповіщення"
     }
 }
