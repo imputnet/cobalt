@@ -1,10 +1,12 @@
 import got from "got";
 import loc from "../../localization/manager.js";
+import { genericUserAgent } from "../config.js";
 
 export default async function(obj) {
     try {
         let _headers = {
-            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAIK1zgAAAAAA2tUWuhGZ2JceoId5GwYWU5GspY4%3DUq7gzFoCZs1QfwGoVdvSac3IniczZEYXIcDyumCauIXpcAPorE",
+            "User-Agent": genericUserAgent,
+            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw",
             "Host": "api.twitter.com",
             "Content-Type": "application/json",
             "Content-Length": 0
