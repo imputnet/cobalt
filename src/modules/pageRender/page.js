@@ -84,7 +84,7 @@ export default function(obj) {
                     }, {
                         text: `${loc(obj.lang, 'AboutSupportedServices')} ${enabledServices}.`
                     }, {
-                        text: `${loc(obj.lang, 'FollowTwitter')}`
+                        text: obj.lang != "ru" ? loc(obj.lang, 'FollowTwitter') : ""
                     }, {
                         text: backdropLink(repo, loc(obj.lang, 'LinkGitHubIssues')),
                         classes: ["bottom-link"]
