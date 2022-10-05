@@ -4,22 +4,8 @@ import { genericUserAgent } from "../config.js";
 
 export default async function(obj) {
     try {
-        let _headers = {
-            "User-Agent": genericUserAgent,
-            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw",
-            "Host": "api.twitter.com",
-            "Content-Type": "application/json",
-            "Content-Length": 0
-        };
-        let req_act = await got.post("https://api.twitter.com/1.1/guest/activate.json", {
-            headers: _headers
-        });
-        req_act.on('error', (err) => {
-            return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'twitter') }
-        })
-        _headers["x-guest-token"] = req_act.body["guest_token"];
-        let req_status = await got.get(`https://api.twitter.com/1.1/statuses/show.json?id=${obj.id}&tweet_mode=extended`, {
-            headers: _headers
+        let req_status = await got.get(`https://cdn.syndication.twimg.com/tweet?id=${obj.id}&tweet_mode=extended`, {
+            headers: { "User-Agent": genericUserAgent }
         });
         req_status.on('error', (err) => {
             return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI', 'twitter') }
