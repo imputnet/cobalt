@@ -15,16 +15,16 @@ It preserves original media quality so you get best downloads possible (unless y
 ## Supported services
 | Service | Video + Audio | Only audio | Additional features |
 | --------          | :---:  | :---: | :----- |
-| Twitter           | ✅    | ✅ |  |
-| YouTube           | ✅    | ✅ | Supports HDR and high FPS videos; quality picking |
-| YouTube Music     | ❌    | ✅ |  |
+| Twitter           | ✅    | ✅ | Downloads of multi media tweets, such as 4 videos, 2 videos and 2 gifs, etc. You get the idea. |
+| YouTube           | ✅    | ✅ | Support for HDR and high FPS videos; quality picking. |
+| YouTube Music     | ❌    | ✅ | Audio conversion to any supported format. |
 | Reddit            | ✅    | ✅ |  |
 | TikTok & douyin   | ✅    | ✅ | Videos can be downloaded with or without watermark, preference is set by user; image slideshow downloads are always without watermark. |
-| SoundCloud        | ❌    | ✅ |  |
+| SoundCloud        | ❌    | ✅ | Audio conversion to any supported format. |
 | bilibili.com      | ✅    | ✅ |  |
 | Tumblr            | ✅    | ✅ |  |
-| Vimeo             | ✅    | ⚒️ | Quality picking |
-| VK                | ✅    | ⚒️ | Quality picking |
+| Vimeo             | ✅    | ⚒️ | Quality picking. |
+| VK                | ✅    | ⚒️ | Quality picking. |
 
 ## How to contribute translations
 You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin-co.wukko.me/). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.
