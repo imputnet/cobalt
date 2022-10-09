@@ -1,7 +1,7 @@
 {
     "name": "english",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">contact the maintainer/a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">contact the maintainer</a>"
     },
     "strings": {
         "LinkInput": "paste the link here",
@@ -61,7 +61,7 @@
         "LinkGitHubChanges": "&gt;&gt; see previous commits and contribute on github",
         "LinkDonateContact": "&gt;&gt; let me know if currency you want to donate isn't listed",
         "NoScriptMessage": "{appName} uses javascript for api requests and interactive interface. you have to allow javascript to use this site. i don't have any ads or trackers, pinky promise.",
-        "DownloadPopupDescriptionIOS": "because you have an ios device, you have to press and hold the download button and then select \"download video\" in appeared popup to save the video. this will be required for as long as apple forces safari webview upon all browser developers on ios.",
+        "DownloadPopupDescriptionIOS": "on ios devices, you have to press and hold the download button, hide the video preview, and then select \"download linked file\" in appeared popup to save the video. this will be required for as long as apple forces safari webview upon all browser developers on ios.",
         "DownloadPopupDescription": "download button opens a new tab with requested file. you can disable this popup in settings.",
         "DownloadPopupWayToSave": "pick a way to save",
         "ClickToCopy": "press to copy",
@@ -101,6 +101,10 @@
         "Miscellaneous": "miscellaneous",
         "ModeToggleAuto": "auto mode",
         "ModeToggleAudio": "audio mode",
-        "SettingsDisableNotifications": "hide notification dots"
+        "SettingsDisableNotifications": "hide notification dots",
+        "MediaPickerTitle": "pick what to save",
+        "MediaPickerExplanationPC": "click or right click to download what you want.",
+        "MediaPickerExplanationPhone": "press or press and hold to download what you want.",
+        "MediaPickerExplanationPhoneIOS": "press and hold, hide the preview, and then select \"download linked file\" to save."
     }
 }

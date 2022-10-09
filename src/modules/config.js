@@ -1,7 +1,7 @@
 import loadJson from "./sub/loadJSON.js";
 const config = loadJson("./src/config.json");
 const packageJson = loadJson("./package.json");
-const servicesConfigJson = loadJson("./src/modules/servicesConfig.json");
+const servicesConfigJson = loadJson("./src/modules/processing/servicesConfig.json");
 
 export const
     services = servicesConfigJson.config,

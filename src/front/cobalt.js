@@ -1,5 +1,5 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 12;
+let version = 13;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -141,8 +141,8 @@ function hideAllPopups() {
     for (let i = 0; i < filter.length; i++) {
         filter[i].style.visibility = "hidden";
     }
-    eid("imagepicker-holder").innerHTML = '';
-    eid("imagepicker-download").href = '/';
+    eid("picker-holder").innerHTML = '';
+    eid("picker-download").href = '/';
     eid("popup-backdrop").style.visibility = "hidden";
 }
 function popup(type, action, text) {
@@ -163,19 +163,44 @@ function popup(type, action, text) {
                 eid("pd-download").href = text;
                 eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
                 break;
-            case "imagePicker":
-                eid("imagepicker-download").href = text.url;
-                for (let i in text.images) {
-                    eid("imagepicker-holder").innerHTML += `<div class="imagepicker-image-container"><img class="imagepicker-image" src="${text.images[i]}" onerror="this.parentNode.style.display='none'"></img></div>`
+            case "picker":
+                switch (text.type) {
+                    case "images":
+                        eid("picker-title").innerHTML = loc.pickerImages;
+                        eid("picker-subtitle").innerHTML = loc.pickerImagesExpl;
+                        if (!eid("popup-picker").classList.contains("scrollable")) eid("popup-picker").classList.add("scrollable");
+                        if (eid("picker-holder").classList.contains("various")) eid("picker-holder").classList.remove("various");
+                        eid("picker-download").href = text.audio;
+                        eid("picker-download").style.visibility = "visible"
+                        for (let i in text.arr) {
+                            eid("picker-holder").innerHTML += `<a class="picker-image-container"><img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'"></img></a>`
+                        }
+                        break;
+                    default:
+                        eid("picker-title").innerHTML = loc.pickerDefault;
+                        eid("picker-subtitle").innerHTML = loc.pickerDefaultExpl;
+                        if (eid("popup-picker").classList.contains("scrollable")) eid("popup-picker").classList.remove("scrollable");
+                        if (!eid("picker-holder").classList.contains("various")) eid("picker-holder").classList.add("various");
+                        for (let i in text.arr) {
+                            let s = text.arr[i], item;
+                            switch (s.type) {
+                                case "video":
+                                    item = `<a class="picker-various-container" href="${text.arr[i]["url"]}" target="_blank"><div class="picker-element-name">VIDEO ${Number(i)+1}</div><div class="imageBlock"></div><img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'"></img></a>`
+                                    break;
+                            }
+                            eid("picker-holder").innerHTML += item
+                        }
+                        eid("picker-download").style.visibility = "hidden";
+                        break;
                 }
                 break;
             default:
                 break;
         }
     } else {
-        if (type == "imagePicker") {
-            eid("imagepicker-download").href = '/';
-            eid("imagepicker-holder").innerHTML = ''
+        if (type == "picker") {
+            eid("picker-download").href = '/';
+            eid("picker-holder").innerHTML = ''
         }
     }
     eid("popup-backdrop").style.visibility = vis(action);
@@ -261,6 +286,21 @@ function loadSettings() {
         changeSwitcher(i, sGet(i))
     }
 }
+function changeButton(type, text) {
+    switch (type) {
+        case 0: //error
+            eid("url-input-area").disabled = false
+            eid("url-clear").style.display = "block";
+            changeDownloadButton(2, '!!')
+            popup("error", 1, text);
+            break;
+        case 1: //enable back
+            changeDownloadButton(1, '>>');
+            eid("url-clear").style.display = "block";
+            eid("url-input-area").disabled = false
+            break;
+    }
+}
 async function pasteClipboard() {
     let t = await navigator.clipboard.readText();
     if (regex.test(t)) {
@@ -291,64 +331,52 @@ async function download(url) {
             if (j.url) {
                 switch (j.status) {
                     case "redirect":
-                        changeDownloadButton(2, '>>>')
-                        setTimeout(() => {
-                            changeDownloadButton(1, '>>');
-                            eid("url-clear").style.display = "block";
-                            eid("url-input-area").disabled = false
-                        }, 3000)
-                        if (sGet("downloadPopup") == "true") {
-                            popup('download', 1, j.url)
+                        changeDownloadButton(2, '>>>');
+                        setTimeout(() => { changeButton(1); }, 3000);
+                        sGet("downloadPopup") == "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
+                        break;
+                    case "picker":
+                        if (j.audio && j.url) {
+                            changeDownloadButton(2, '?..')
+                            fetch(`${j.audio}&p=1&origin=front`).then(async (res) => {
+                                let jp = await res.json();
+                                if (jp.status === "continue") {
+                                    changeDownloadButton(2, '>>>');
+                                    popup('picker', 1, { audio: j.audio, arr: j.url, type: j.pickerType });
+                                    setTimeout(() => { changeButton(1) }, 5000);
+                                } else {
+                                    changeButton(0, jp.text);
+                                }
+                            }).catch((error) => internetError());
+                        } else if (j.url) {
+                            changeDownloadButton(2, '>>>');
+                            popup('picker', 1, { arr: j.url, type: j.pickerType });
+                            setTimeout(() => { changeButton(1) }, 5000);
                         } else {
-                            window.open(j.url, '_blank');
+                            changeButton(0, loc.noURLReturned);
                         }
                         break;
-                    case "images":
                     case "stream":
                         changeDownloadButton(2, '?..')
                         fetch(`${j.url}&p=1&origin=front`).then(async (res) => {
                             let jp = await res.json();
-                            if (jp.status == "continue") {
-                                changeDownloadButton(2, '>>>')
-                                if (j.status === "images") {
-                                    popup('imagePicker', 1, {
-                                        url: j.url,
-                                        images: j.images
-                                    })
-                                } else {
-                                    window.location.href = j.url
-                                }
-                                setTimeout(() => {
-                                    changeDownloadButton(1, '>>');
-                                    eid("url-clear").style.display = "block";
-                                    eid("url-input-area").disabled = false
-                                }, 5000)
+                            if (jp.status === "continue") {
+                                changeDownloadButton(2, '>>>'); window.location.href = j.url;
+                                setTimeout(() => { changeButton(1) }, 5000);
                             } else {
-                                eid("url-input-area").disabled = false
-                                changeDownloadButton(2, '!!');
-                                eid("url-clear").style.display = "block";
-                                popup("error", 1, jp.text);
+                                changeButton(0, jp.text);
                             }
                         }).catch((error) => internetError());
                         break;
                     default:
-                        eid("url-input-area").disabled = false
-                        changeDownloadButton(2, '!!');
-                        eid("url-clear").style.display = "block";
-                        popup("error", 1, loc.unknownStatus);
+                        changeButton(0, loc.unknownStatus);
                         break;
                 }
             } else {
-                eid("url-input-area").disabled = false
-                eid("url-clear").style.display = "block";
-                changeDownloadButton(2, '!!')
-                popup("error", 1, loc.noURLReturned);
+                changeButton(0, loc.noURLReturned);
             }
         } else {
-            eid("url-input-area").disabled = false
-            eid("url-clear").style.display = "block";
-            changeDownloadButton(2, '!!')
-            popup("error", 1, j.text);
+            changeButton(0, j.text);
         }
     }).catch((error) => internetError());
 }

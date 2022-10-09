@@ -1,9 +1,9 @@
 import { audioIgnore, services, supportedAudio } from "../config.js"
-import { apiJSON } from "./utils.js"
+import { apiJSON } from "../sub/utils.js"
 
 export default function(r, host, ip, audioFormat, isAudioOnly) {
     if (!r.error) {
-        if (!isAudioOnly) {
+        if (!isAudioOnly && !r.picker) {
             switch (host) {
                 case "twitter":
                     return apiJSON(1, { u: r.urls });
@@ -44,13 +44,26 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                 case "vimeo":
                     return apiJSON(1, { u: r.urls });
             }
+        } else if (r.picker) {
+            switch (host) {
+                case "douyin":
+                case "tiktok":
+                    return apiJSON(5, {
+                        picker: r.picker,
+                        u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
+                        filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: audioFormat == "best" ? true : false
+                    })
+                case "twitter":
+                    return apiJSON(5, {
+                        picker: r.picker, service: host
+                    })
+            }
         } else {
             if (host == "reddit" && r.typeId == 1 || audioIgnore.includes(host)) return apiJSON(0, { t: r.audioFilename });
-
             let type = "render";
             let copy = false;
-            if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
 
+            if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
             if ((host == "tiktok" || host == "douyin") && isAudioOnly && services.tiktok.audioFormats.includes(audioFormat)) {
                 if (r.isMp3) {
                     if (audioFormat == "mp3" || audioFormat == "best") {
@@ -62,7 +75,6 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                     type = "bridge"
                 }
             }
-
             if ((audioFormat == "best" && services[host]["bestAudio"]) || services[host]["bestAudio"] && (audioFormat == services[host]["bestAudio"])) {
                 audioFormat = services[host]["bestAudio"]
                 type = "bridge"
@@ -70,20 +82,11 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                 audioFormat = "m4a"
                 copy = true
             }
-            if ((host == "tiktok" || host == "douyin") && r.images) {
-                return apiJSON(5, {
-                    type: type,
-                    images: r.images,
-                    u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
-                    filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: copy
-                })
-            } else {
-                return apiJSON(2, {
-                    type: type,
-                    u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
-                    filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: copy
-                })
-            }
+            return apiJSON(2, {
+                type: type,
+                u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
+                filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: copy
+            })
         }
     } else {
         return apiJSON(0, { t: r.error });

@@ -66,7 +66,7 @@ a {
 ::placeholder {
     color: var(--accent-unhover-2);
 }
-::-webkit-scrollbar {
+.switches::-webkit-scrollbar, #popup-content::-webkit-scrollbar {
     display: none;
 }
 :focus-visible {
@@ -128,7 +128,7 @@ button:active,
     cursor: pointer;
     transform: scale(0.95)
 }
-.imagepicker-image:active {
+.picker-image:active {
     cursor: pointer;
     transform: scale(0.95)
 }
@@ -422,7 +422,7 @@ input[type="checkbox"] {
     margin-top: 0.5rem;
 }
 .explanation {
-    padding-top: 1rem;
+    margin-top: 1rem;
     width: 100%;
     font-size: 0.8rem;
     text-align: left;
@@ -503,29 +503,54 @@ input[type="checkbox"] {
 .button:active .tooltip {
     display: none;
 }
-.imagepicker-image {
+.picker-image {
     object-fit: cover;
     width: inherit;
     height: inherit;
 }
-.imagepicker-image-container {
+.picker-image-container {
     width: 8rem;
     height: 8rem;
     margin-bottom: 1rem;
     background-color: var(--accent-button-bg);
-    text-align: center;
-    letter-spacing: -0.2rem;
-    line-height: 8rem;
 }
-#imagepicker-holder {
+.picker-various-container {
+    height: 20rem;
+    width: 25rem;
+    margin-bottom: 1rem;
+    background-color: var(--accent-button-bg);
+    position: relative;
+}
+#picker-holder {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-content: space-around;
 }
-#popup-imagePicker .explanation {
-    padding-top: 0!important;
-    padding-bottom: 1rem;
+#picker-holder.various {
+    justify-content: left;
+    flex-wrap: unset;
+    overflow-x: scroll;
+    gap: 2rem;
+}
+.imageBlock {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 9999;
+}
+.picker-element-name {
+    position: absolute;
+    background: var(--background);
+    color: var(--accent);
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin: 0.4rem;
+}
+#popup-picker .explanation {
+    margin-top: 0!important;
+    margin-bottom: 1rem;
 }
 .popup-tabs {
     padding-top: 0.5rem;
@@ -592,7 +617,7 @@ input[type="checkbox"] {
         width: 60%;
     }
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 605px) {
     .popup {
         height: 80%
     }
@@ -611,7 +636,7 @@ input[type="checkbox"] {
 }
 @media screen and (max-width: 475px) {
     .tab {
-        font-size: 0;
+        font-size: 0!important;
     }
     .tab .emoji {
         margin-right: 0;
@@ -621,17 +646,49 @@ input[type="checkbox"] {
     }
 }
 @media screen and (max-width: 320px) {
+    #popup-title {
+        font-size: 1.3rem;
+        line-height: 2rem;
+    }
     .footer-button {
-        font-size: 0;
+        font-size: 0!important;
     }
-    #cobalt-main-box #bottom button {
-        font-size: 0;
+    .switch, .checkbox, .category-title, .subtitle, #popup-desc {
+        font-size: .75rem;
     }
-    .footer-button .emoji, #cobalt-main-box #bottom button .emoji  {
+    .explanation {
+        font-size: .77rem;
+        margin-top: 0.8rem;
+    }
+    #popup-desc {
+        line-height: 1.4rem;
+    }
+    .changelog-subtitle, #popup-subtitle {
+        font-size: 0.9rem!important;
+    }
+    .category-title {
+        margin-bottom: 0.8rem;
+    }
+    .footer-button .emoji {
         margin-right: 0;
     }
 }
 @media screen and (max-width: 949px) {
+    #picker-holder::-webkit-scrollbar {
+        display: none;
+    }
+    #picker-holder.various {
+        flex-wrap: wrap;
+        align-content: left;
+        gap: 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    .picker-various-container {
+        width: 100%;
+        height: 20rem;
+        max-width: 100%;
+    }
     #cobalt-main-box #bottom {
         flex-direction: column;
     }
@@ -649,7 +706,7 @@ input[type="checkbox"] {
     .footer-pair .footer-button {
         width: 100%!important;
     }
-    .imagepicker-image-container {
+    .picker-image-container {
         height: 7rem;
         width: 7rem;
         line-height: 7rem;
@@ -687,7 +744,7 @@ input[type="checkbox"] {
     .popup-title {
         line-height: inherit;
     }
-    .imagepicker-image-container {
+    .picker-image-container {
         line-height: 6rem;
         height: 6rem;
         width: 6rem;

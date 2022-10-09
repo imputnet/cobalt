@@ -17,6 +17,9 @@
         },
         "vk": {
             "alias": "vk clips, vk video",
+            "localizedAlias": {
+                "ru": "vk видео, vk клипы"
+            },
             "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:userId?z=clip-:userId_:videoId"],
             "quality_match": {
                 "2160": 7,

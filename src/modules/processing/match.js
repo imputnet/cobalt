@@ -1,18 +1,18 @@
-import { apiJSON } from "./sub/utils.js";
-import { errorUnsupported, genericError } from "./sub/errors.js";
+import { apiJSON } from "../sub/utils.js";
+import { errorUnsupported, genericError } from "../sub/errors.js";
 
 import { testers } from "./servicesPatternTesters.js";
 
-import bilibili from "./services/bilibili.js";
-import reddit from "./services/reddit.js";
-import twitter from "./services/twitter.js";
-import youtube from "./services/youtube.js";
-import vk from "./services/vk.js";
-import tiktok from "./services/tiktok.js";
-import tumblr from "./services/tumblr.js";
-import matchActionDecider from "./sub/matchActionDecider.js";
-import vimeo from "./services/vimeo.js";
-import soundcloud from "./services/soundcloud.js";
+import bilibili from "../services/bilibili.js";
+import reddit from "../services/reddit.js";
+import twitter from "../services/twitter.js";
+import youtube from "../services/youtube.js";
+import vk from "../services/vk.js";
+import tiktok from "../services/tiktok.js";
+import tumblr from "../services/tumblr.js";
+import matchActionDecider from "./matchActionDecider.js";
+import vimeo from "../services/vimeo.js";
+import soundcloud from "../services/soundcloud.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {

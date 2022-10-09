@@ -44,11 +44,13 @@ export function popup(obj) {
     if (Array.isArray(obj.body)) {
         body = ``
         for (let i = 0; i < obj.body.length; i++) {
-            classes = obj.body[i]["classes"] ? obj.body[i]["classes"] : []
-            if (i != obj.body.length - 1 && !obj.body[i]["nopadding"]) {
-                classes.push("desc-padding")
+            if (obj.body[i]["text"].length > 0) {
+                classes = obj.body[i]["classes"] ? obj.body[i]["classes"] : []
+                if (i != obj.body.length - 1 && !obj.body[i]["nopadding"]) {
+                    classes.push("desc-padding")
+                }
+                body += obj.body[i]["raw"] ? obj.body[i]["text"] : `<div id="popup-desc" class="${classes.length > 0 ? classes.join(' ') : ''}">${obj.body[i]["text"]}</div>`
             }
-            body += obj.body[i]["raw"] ? obj.body[i]["text"] : `<div id="popup-desc" class="${classes.length > 0 ? classes.join(' ') : ''}">${obj.body[i]["text"]}</div>`
         }
     }
     return `

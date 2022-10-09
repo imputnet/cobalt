@@ -93,10 +93,10 @@ export default async function(obj) {
         if (images) {
             let imageLinks = [];
             for (let i in images) {
-                imageLinks.push(images[i]["display_image"]["url_list"][0])
+                imageLinks.push({url: images[i]["display_image"]["url_list"][0]})
             }
             return {
-                images: imageLinks,
+                picker: imageLinks,
                 urls: audio,
                 audioFilename: audioFilename,
                 isAudioOnly: true,

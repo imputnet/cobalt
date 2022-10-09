@@ -84,8 +84,7 @@ export default function(obj) {
                     }, {
                         text: `${loc(obj.lang, 'AboutSupportedServices')} ${enabledServices}.`
                     }, {
-                        text: obj.lang != "ru" ? `<div id="popup-desc" class="desc-padding">${loc(obj.lang, 'FollowTwitter')}</div>` : "",
-                        raw: true
+                        text: obj.lang != "ru" ? loc(obj.lang, 'FollowTwitter') : ""
                     }, {
                         text: backdropLink(repo, loc(obj.lang, 'LinkGitHubIssues')),
                         classes: ["bottom-link"]
@@ -271,14 +270,14 @@ export default function(obj) {
             })
         })}
         ${popupWithBottomButtons({
-            name: "imagePicker",
+            name: "picker",
             closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
             header: {
-                title: loc(obj.lang, 'ImagePickerTitle'),
-                explanation: isMobile ? loc(obj.lang, 'ImagePickerExplanationPhone') : loc(obj.lang, 'ImagePickerExplanationPC')
+                title: `<div id="picker-title"></div>`,
+                explanation: `<div id="picker-subtitle"></div>`,
             },
-            buttons: [`<a id="imagepicker-download" class="switch" target="_blank" href="/">${loc(obj.lang, 'ImagePickerDownloadAudio')}</a>`],
-            content: '<div id="imagepicker-holder"></div>'
+            buttons: [`<a id="picker-download" class="switch" target="_blank" href="/">${loc(obj.lang, 'ImagePickerDownloadAudio')}</a>`],
+            content: '<div id="picker-holder"></div>'
         })}
         ${popup({
             name: "error",
@@ -292,19 +291,6 @@ export default function(obj) {
                 title: loc(obj.lang, 'TitlePopupError')
             },
             body: `<div id="desc-error" class="desc-padding subtext"></div>`
-        })}
-        ${popup({
-            name: "info",
-            standalone: true,
-            buttonOnly: true,
-            emoji: emoji("✨", 48, 1),
-            classes: ["small"],
-            buttonText: loc(obj.lang, 'ErrorPopupCloseButton'),
-            header: {
-                closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
-                title: "popup title"
-            },
-            body: `<div id="popup-info-desc" class="desc-padding subtext"></div>`
         })}
         <div id="popup-backdrop" style="visibility: hidden;" onclick="hideAllPopups()"></div>
         <div id="cobalt-main-box" class="center" style="visibility: hidden;">
@@ -342,7 +328,11 @@ export default function(obj) {
         noURLReturned: ` + "`" + loc(obj.lang, 'ErrorNoUrlReturned') + "`" + `,
         unknownStatus: ` + "`" + loc(obj.lang, 'ErrorUnknownStatus') + "`" + `,
         toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleAuto")}',
-        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "ModeToggleAudio")}'
+        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "ModeToggleAudio")}',
+        pickerDefault: ` + "`" + loc(obj.lang, 'MediaPickerTitle') + "`" + `,
+        pickerImages: ` + "`" + loc(obj.lang, 'ImagePickerTitle') + "`" + `,
+        pickerImagesExpl: ` + "`" + loc(obj.lang, `ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
+        pickerDefaultExpl: ` + "`" + loc(obj.lang, `MediaPickerExplanation${isMobile ? `Phone${isIOS ? "IOS" : ""}` : "PC"}`) + "`" + `,
     };</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;
