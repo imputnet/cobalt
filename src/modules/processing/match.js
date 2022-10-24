@@ -23,9 +23,11 @@ export default async function (host, patternMatch, url, lang, obj) {
         switch (host) {
             case "twitter":
                 r = await twitter({
-                    id: patternMatch["id"],
+                    id: patternMatch["id"] ? patternMatch["id"] : false,
+                    spaceId: patternMatch["spaceId"] ? patternMatch["spaceId"] : false,
                     lang: lang
                 });
+                if (r.isAudioOnly) obj.isAudioOnly = true
                 break;
             case "vk":
                 r = await vk({

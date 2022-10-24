@@ -30,6 +30,14 @@ export function apiJSON(type, obj) {
         return { status: 500, body: { status: "error", text: "Internal Server Error" } };
     }
 }
+export function metadataManager(obj) {
+    let keys = Object.keys(obj);
+    let tags = ["album", "composer", "genre", "copyright", "encoded_by", "title", "language", "artist", "album_artist", "performer", "disc", "publisher", "track", "encoder", "compilation", "date", "creation_time", "comment"]
+    let commands = []
+
+    for (let i in keys) { if (tags.includes(keys[i])) commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`) }
+    return commands;
+}
 export function msToTime(d) {
     let milliseconds = parseInt((d % 1000) / 100, 10),
         seconds = parseInt((d / 1000) % 60, 10),
@@ -49,11 +57,11 @@ export function cleanURL(url, host) {
     if (url.includes('youtube.com/shorts/')) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
     }
-    if (host == "youtube") {
+    if (host === "youtube") {
         url = url.split('&')[0];
     } else {
         url = url.split('?')[0];
-        if (url.substring(url.length - 1) == "/") {
+        if (url.substring(url.length - 1) === "/") {
             url = url.substring(0, url.length - 1);
         }
     }

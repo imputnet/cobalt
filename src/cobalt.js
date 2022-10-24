@@ -67,9 +67,9 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                                 format: req.query.format ? req.query.format.slice(0, 5) : "webm",
                                 quality: req.query.quality ? req.query.quality.slice(0, 3) : "max",
                                 audioFormat: req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : false,
-                                isAudioOnly: req.query.audio ? true : false,
-                                noWatermark: req.query.nw ? true : false,
-                                fullAudio: req.query.ttfull ? true : false,
+                                isAudioOnly: !!req.query.audio,
+                                noWatermark: !!req.query.nw,
+                                fullAudio: !!req.query.ttfull,
                         })
                         res.status(j.status).json(j.body);
                     } else {
@@ -127,10 +127,8 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         if (req.header("user-agent") && req.header("user-agent").includes("Trident")) {
             if (internetExplorerRedirect.newNT.includes(req.header("user-agent").split('NT ')[1].split(';')[0])) {
                 res.redirect(internetExplorerRedirect.new)
-                return
             } else {
                 res.redirect(internetExplorerRedirect.old)
-                return
             }
         } else {
             res.send(renderPage({

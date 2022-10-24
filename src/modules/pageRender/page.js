@@ -84,7 +84,7 @@ export default function(obj) {
                     }, {
                         text: `${loc(obj.lang, 'AboutSupportedServices')} ${enabledServices}.`
                     }, {
-                        text: obj.lang != "ru" ? loc(obj.lang, 'FollowTwitter') : ""
+                        text: obj.lang !== "ru" ? loc(obj.lang, 'FollowTwitter') : ""
                     }, {
                         text: backdropLink(repo, loc(obj.lang, 'LinkGitHubIssues')),
                         classes: ["bottom-link"]
@@ -216,7 +216,7 @@ export default function(obj) {
                     name: "general",
                     title: loc(obj.lang, 'SettingsAudioTab'),
                     body: switcher({
-                        name: "audioFormat",
+                        name: "defaultAudioFormat",
                         subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
                         explanation: loc(obj.lang, 'SettingsAudioFormatDescription'),
                         items: audioFormats
@@ -250,7 +250,6 @@ export default function(obj) {
                     name: "miscellaneous",
                     title: loc(obj.lang, 'Miscellaneous'),
                     body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableNotifications'))
-                        + checkbox("disableClipboardButton", loc(obj.lang, 'SettingsDisableClipboard'))
                 })
             }],
         })}

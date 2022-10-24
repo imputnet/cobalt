@@ -1,5 +1,5 @@
 let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
-let version = 13;
+let version = 14;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -7,12 +7,12 @@ let switchers = {
     "theme": ["auto", "light", "dark"],
     "ytFormat": ["webm", "mp4"],
     "quality": ["max", "hig", "mid", "low"],
-    "audioFormat": ["best", "mp3", "ogg", "wav", "opus"]
+    "defaultAudioFormat": ["mp3", "best", "ogg", "wav", "opus"]
 }
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "disableClipboardButton"];
-let exceptions = { // used solely for ios devices, because they're generally less capable
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"];
+let exceptions = { // used solely for ios devices
     "ytFormat": "mp4",
-    "audioFormat": "mp3"
+    "defaultAudioFormat": "mp3"
 }
 
 function eid(id) {
@@ -34,13 +34,13 @@ function vis(state) {
     return (state === 1) ? "visible" : "hidden";
 }
 function opposite(state) {
-    return state == "true" ? "false" : "true";
+    return state === "true" ? "false" : "true";
 }
 function changeDownloadButton(action, text) {
     switch (action) {
         case 0:
             eid("download-button").disabled = true
-            if (sGet("alwaysVisibleButton") == "true") {
+            if (sGet("alwaysVisibleButton") === "true") {
                 eid("download-button").value = text
                 eid("download-button").style.padding = '0 1rem'
             } else {
@@ -61,7 +61,7 @@ function changeDownloadButton(action, text) {
     }
 }
 document.addEventListener("keydown", (event) => {
-    if (event.key == "Tab") {
+    if (event.key === "Tab") {
         eid("download-button").value = '>>'
         eid("download-button").style.padding = '0 1rem'
     }
@@ -106,8 +106,8 @@ function changeTab(evnt, tabId, tabClass) {
     }
     eid(tabId).style.display = "block";
     evnt.currentTarget.dataset.enabled = "true";
-    if (tabId == "tab-about-changelog" && sGet("changelogStatus") != `${version}`) notificationCheck("changelog");
-    if (tabId == "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
+    if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
+    if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
 }
 function notificationCheck(type) {
     let changed = true;
@@ -122,15 +122,15 @@ function notificationCheck(type) {
             changed = false;
             break;
     }
-    if (changed && sGet("changelogStatus") == `${version}` || type == "disable") {
+    if (changed && sGet("changelogStatus") === `${version}` || type === "disable") {
         setTimeout(() => {
             eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(notification, '');
             eid("tab-button-about-changelog").innerHTML = eid("tab-button-about-changelog").innerHTML.replace(notification, '')
         }, 900)
     }
-    if (sGet("disableChangelog") != "true") {
+    if (sGet("disableChangelog") !== "true") {
         if (!sGet("seenAbout") && !eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
-        if (sGet("changelogStatus") != `${version}`) {
+        if (sGet("changelogStatus") !== `${version}`) {
             if (!eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
             if (!eid("tab-button-about-changelog").innerHTML.includes(notification)) eid("tab-button-about-changelog").innerHTML = `${notification}${eid("tab-button-about-changelog").innerHTML}`;
         }
@@ -143,10 +143,11 @@ function hideAllPopups() {
     }
     eid("picker-holder").innerHTML = '';
     eid("picker-download").href = '/';
+    eid("picker-download").style.visibility = "hidden";
     eid("popup-backdrop").style.visibility = "hidden";
 }
 function popup(type, action, text) {
-    if (action == 1) {
+    if (action === 1) {
         hideAllPopups(); // hide the previous popup before showing a new one
         switch (type) {
             case "about":
@@ -198,8 +199,9 @@ function popup(type, action, text) {
                 break;
         }
     } else {
-        if (type == "picker") {
+        if (type === "picker") {
             eid("picker-download").href = '/';
+            eid("picker-download").style.visibility = "hidden"
             eid("picker-holder").innerHTML = ''
         }
     }
@@ -210,15 +212,15 @@ function changeSwitcher(li, b) {
     if (b) {
         sSet(li, b);
         for (let i in switchers[li]) {
-            (switchers[li][i] == b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
+            (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
-        if (li == "theme") detectColorScheme();
+        if (li === "theme") detectColorScheme();
     } else {
         let pref = switchers[li][0];
         if (isIOS && exceptions[li]) pref = exceptions[li];
         sSet(li, pref);
         for (let i in switchers[li]) {
-            (switchers[li][i] == pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
+            (switchers[li][i] === pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
         }
     }
 }
@@ -230,14 +232,12 @@ function internetError() {
 function checkbox(action) {
     if (eid(action).checked) {
         sSet(action, "true");
-        if (action == "alwaysVisibleButton") button();
-        if (action == "disableClipboardButton") eid("pasteFromClipboard").style.display = "none";
+        if (action === "alwaysVisibleButton") button();
     } else {
         sSet(action, "false");
-        if (action == "alwaysVisibleButton") button();
-        if (action == "disableClipboardButton") eid("pasteFromClipboard").style.display = "flex";
+        if (action === "alwaysVisibleButton") button();
     }
-    sGet(action) == "true" ? notificationCheck("disable") : notificationCheck();
+    sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
 }
 function updateToggle(toggl, state) {
     switch(state) {
@@ -253,7 +253,7 @@ function toggle(toggl) {
     let state = sGet(toggl);
     if (state) {
         sSet(toggl, opposite(state))
-        if (opposite(state) == "true") sSet(`${toggl}ToggledOnce`, "true");
+        if (opposite(state) === "true") sSet(`${toggl}ToggledOnce`, "true");
     } else {
         sSet(toggl, "false")
     }
@@ -263,23 +263,21 @@ function loadSettings() {
     try {
         if (typeof(navigator.clipboard.readText) == "undefined") throw new Error();
     } catch (err) {
-        eid("disableClipboardButton-chkbx").style.display = "none";
-        sSet("disableClipboardButton", "true")
+        eid("pasteFromClipboard").style.display = "none"
     }
-    if (sGet("disableClipboardButton") == "true") eid("pasteFromClipboard").style.display = "none";
-    if (sGet("alwaysVisibleButton") == "true") {
+    if (sGet("alwaysVisibleButton") === "true") {
         eid("alwaysVisibleButton").checked = true;
         eid("download-button").value = '>>'
         eid("download-button").style.padding = '0 1rem';
     }
-    if (sGet("downloadPopup") == "true" && !isIOS) {
+    if (sGet("downloadPopup") === "true" && !isIOS) {
         eid("downloadPopup").checked = true;
     }
     if (!sGet("audioMode")) {
         toggle("audioMode")
     }
     for (let i = 0; i < checkboxes.length; i++) {
-        if (sGet(checkboxes[i]) == "true") eid(checkboxes[i]).checked = true;
+        if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
     }
     updateToggle("audioMode", sGet("audioMode"));
     for (let i in switchers) {
@@ -314,26 +312,26 @@ async function download(url) {
     eid("url-input-area").disabled = true;
     let audioMode = sGet("audioMode");
     let format = ``;
-    if (audioMode == "false") {
+    if (audioMode === "false") {
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) {
             format = `&format=${sGet("ytFormat")}`
-        } else if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") == "true") {
+        } else if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") {
             format = `&nw=true`
         }
     } else {
         format = `&nw=true`
-        if (sGet("fullTikTokAudio") == "true") format += `&ttfull=true`
+        if (sGet("fullTikTokAudio") === "true") format += `&ttfull=true`
     }
-    let mode = (sGet("audioMode") == "true") ? `audio=true` : `quality=${sGet("quality")}`
-    await fetch(`/api/json?audioFormat=${sGet("audioFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (r) => {
+    let mode = (sGet("audioMode") === "true") ? `audio=true` : `quality=${sGet("quality")}`
+    await fetch(`/api/json?audioFormat=${sGet("defaultAudioFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (r) => {
         let j = await r.json();
-        if (j.status != "error" && j.status != "rate-limit") {
+        if (j.status !== "error" && j.status !== "rate-limit") {
             if (j.url) {
                 switch (j.status) {
                     case "redirect":
                         changeDownloadButton(2, '>>>');
                         setTimeout(() => { changeButton(1); }, 3000);
-                        sGet("downloadPopup") == "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
+                        sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
                         break;
                     case "picker":
                         if (j.audio && j.url) {
@@ -385,7 +383,7 @@ async function loadOnDemand(elementId, blockId) {
     eid(elementId).innerHTML = "..."
     await fetch(`/api/onDemand?blockId=${blockId}`).then(async (r) => {
         let j = await r.json();
-        if (j.status == "success" && j.status != "rate-limit") {
+        if (j.status === "success" && j.status !== "rate-limit") {
             if (j.text) {
                 eid(elementId).innerHTML = j.text;
             } else {
@@ -422,6 +420,6 @@ eid("url-input-area").addEventListener("keyup", (event) => {
     if (event.key === 'Enter') eid("download-button").click();
 })
 document.onkeydown = (event) => {
-    if (event.key == "Tab" || event.ctrlKey) eid("url-input-area").focus();
+    if (event.key === "Tab" || event.ctrlKey) eid("url-input-area").focus();
     if (event.key === 'Escape') hideAllPopups();
 };

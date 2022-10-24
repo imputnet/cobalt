@@ -1,8 +1,8 @@
 export const testers = {
-    "twitter": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length < 20),
+    "twitter": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length < 20) || (patternMatch["spaceId"] && patternMatch["spaceId"].length === 13),
 
     "vk": (patternMatch) => (patternMatch["userId"] && patternMatch["videoId"] &&
-        patternMatch["userId"].length <= 10 && patternMatch["videoId"].length == 9),
+        patternMatch["userId"].length <= 10 && patternMatch["videoId"].length === 9),
 
     "bilibili": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length >= 12),
 

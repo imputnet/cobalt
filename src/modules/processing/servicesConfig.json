@@ -12,14 +12,12 @@
             "enabled": true
         },
         "twitter": {
-            "patterns": [":user/status/:id", ":user/status/:id/video/1"],
+            "alias": "twitter, twitter spaces",
+            "patterns": [":user/status/:id", ":user/status/:id/video/1", "i/spaces/:spaceId"],
             "enabled": true
         },
         "vk": {
             "alias": "vk clips, vk video",
-            "localizedAlias": {
-                "ru": "vk видео, vk клипы"
-            },
             "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:userId?z=clip-:userId_:videoId"],
             "quality_match": {
                 "2160": 7,
@@ -79,8 +77,8 @@
         },
         "soundcloud": {
             "patterns": [":author/:song", ":shortLink"],
-            "bestAudio": "mp3",
-            "clientid": "lnFbWHXluNwOkW7TxTYUXrrse0qj1C72",
+            "bestAudio": "none",
+            "clientid": "1TLciEOiKE0PThutYu5Xj0kc8R4twD9p",
             "enabled": true
         }
     }    

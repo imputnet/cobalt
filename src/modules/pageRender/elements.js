@@ -46,7 +46,7 @@ export function popup(obj) {
         for (let i = 0; i < obj.body.length; i++) {
             if (obj.body[i]["text"].length > 0) {
                 classes = obj.body[i]["classes"] ? obj.body[i]["classes"] : []
-                if (i != obj.body.length - 1 && !obj.body[i]["nopadding"]) {
+                if (i !== obj.body.length - 1 && !obj.body[i]["nopadding"]) {
                     classes.push("desc-padding")
                 }
                 body += obj.body[i]["raw"] ? obj.body[i]["text"] : `<div id="popup-desc" class="${classes.length > 0 ? classes.join(' ') : ''}">${obj.body[i]["text"]}</div>`

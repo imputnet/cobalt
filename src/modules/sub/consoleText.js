@@ -1,4 +1,4 @@
-export function t(color, tt) {
+function t(color, tt) {
     return color + tt + "\x1b[0m"
 }
 export function Reset(tt) {

@@ -89,7 +89,7 @@
         "SettingsAudioFullTikTok": "скачивать полное аудио",
         "SettingsAudioFullTikTokDescription": "скачивает оригинальный звук, который использован в видео, без каких-либо изменений от автора видео.",
         "ErrorCantGetID": "у меня не получилось достать инфу по этой короткой ссылке. попробуй полную ссылку, или же попробуй позже.",
-        "ErrorNoVideosInTweet": "у этого твита нет ни видео, ни гифок. попробуй другой!",
+        "ErrorNoVideosInTweet": "в этом твите нет ни видео, ни гифок. попробуй другой!",
         "ImagePickerTitle": "выбери картинки для скачивания",
         "ImagePickerDownloadAudio": "скачать аудио",
         "ImagePickerExplanationPC": "нажми правой кнопкой мыши на изображение, чтобы его сохранить.",
@@ -97,7 +97,6 @@
         "ErrorNoUrlReturned": "я не получил ссылку для скачивания от сервера. такого происходить не должно. перезагрузи страницу, а если не поможет, то {ContactLink}.",
         "ErrorUnknownStatus": "сервер ответил мне чем-то непонятным. такого происходить не должно. перезагрузи страницу, а если не поможет, то {ContactLink}.",
         "PasteFromClipboard": "вставить из буфера обмена",
-        "SettingsDisableClipboard": "скрыть кнопку буфера обмена",
         "FollowTwitter": "а ещё, в твиттере {appName} есть опросы, новости, и многое другое: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "предыдущие обновления (на английском)",
         "ChangelogPressToExpand": "нажми, чтобы загрузить",
@@ -108,6 +107,7 @@
         "MediaPickerTitle": "выбери, что сохранить",
         "MediaPickerExplanationPC": "кликни, чтобы скачать. также можно скачать через контекстное меню правой кнопки мыши.",
         "MediaPickerExplanationPhone": "нажми, или нажми и удерживай, чтобы скачать.",
-        "MediaPickerExplanationPhoneIOS": "нажми и удерживай, затем скрой превью, и наконец выбери \"загрузить файл по ссылке\"."
+        "MediaPickerExplanationPhoneIOS": "нажми и удерживай, затем скрой превью, и наконец выбери \"загрузить файл по ссылке\".",
+        "TwitterSpaceWasntRecorded": "this twitter space wasn't recorded, so there's nothing to download. try another one!"
     }
 }

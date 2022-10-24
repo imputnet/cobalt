@@ -14,15 +14,15 @@ export async function getJSON(originalURL, lang, obj) {
             let hostname = url.replace("https://", "").replace(' ', '').split('&')[0].split("/")[0].split("."),
                 host = hostname[hostname.length - 2],
                 patternMatch;
-            if (host == "youtu") {
+            if (host === "youtu") {
                 host = "youtube";
                 url = `https://youtube.com/watch?v=${url.replace("youtu.be/", "").replace("https://", "")}`;
             }
-            if (host == "goo" && url.substring(0, 30) == "https://soundcloud.app.goo.gl/") {
+            if (host === "goo" && url.substring(0, 30) === "https://soundcloud.app.goo.gl/") {
                 host = "soundcloud"
                 url = `https://soundcloud.com/${url.replace("https://soundcloud.app.goo.gl/", "").split('/')[0]}`
             }
-            if (host == "tumblr" && !url.includes("blog/view")) {
+            if (host === "tumblr" && !url.includes("blog/view")) {
                 if (url.slice(-1) == '/') url = url.slice(0, -1);
                 url = url.replace(url.split('/')[5], '');
             }

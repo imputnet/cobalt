@@ -7,14 +7,15 @@ export default function(string) {
     try {
         switch (string) {
             case "title":
-                return replaceBase(changelog["current"]["title"]);
+                return `${replaceBase(changelog["current"]["title"])} (${changelog["current"]["version"]})` ;
             case "content":
                 return replaceBase(changelog["current"]["content"]);
             case "history":
                 return changelog["history"].map((i) => {
                     return {
                         title: replaceBase(i["title"]),
-                        content: replaceBase(i["content"])
+                        content: replaceBase(i["content"]),
+                        version: i["version"],
                     }
                 });
             default:

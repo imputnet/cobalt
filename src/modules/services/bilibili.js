@@ -15,7 +15,7 @@ export default async function(obj) {
             let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
             if (streamData.data.timelength <= maxVideoDuration) {
                 let video = streamData["data"]["dash"]["video"].filter((v) => {
-                    if (!v["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/") && v["height"] != 4320) return true;
+                    if (!v["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/") && v["height"] !== 4320) return true;
                 }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
                 let audio = streamData["data"]["dash"]["audio"].filter((a) => {
                     if (!a["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")) return true;

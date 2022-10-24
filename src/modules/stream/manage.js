@@ -9,8 +9,7 @@ export function createStream(obj) {
     let streamUUID = UUID(),
         exp = Math.floor(new Date().getTime()) + streamLifespan,
         ghmac = encrypt(`${streamUUID},${obj.url},${obj.ip},${exp}`, obj.salt),
-        iphmac = encrypt(`${obj.ip}`, obj.salt);
-
+        iphmac = encrypt(`${obj.ip}`, obj.salt)
     streamCache.set(streamUUID, {
         id: streamUUID,
         service: obj.service,
@@ -20,10 +19,11 @@ export function createStream(obj) {
         hmac: ghmac,
         ip: iphmac,
         exp: exp,
-        isAudioOnly: obj.isAudioOnly ? true : false,
+        isAudioOnly: !!obj.isAudioOnly,
         audioFormat: obj.audioFormat,
         time: obj.time,
-        copy: obj.copy
+        copy: obj.copy,
+        metadata: obj.fileMetadata
     });
     return `${process.env.selfURL}api/stream?t=${streamUUID}&e=${exp}&h=${ghmac}`;
 }

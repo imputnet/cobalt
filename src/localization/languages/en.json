@@ -86,7 +86,7 @@
         "SettingsAudioFullTikTok": "download full audio",
         "SettingsAudioFullTikTokDescription": "downloads original audio or sound used in video without any additional changes by the video author.",
         "ErrorCantGetID": "i couldn't get the full info from the shortened link. make sure it works or try a full one.",
-        "ErrorNoVideosInTweet": "this tweet doesn't have videos or gifs. try another one!",
+        "ErrorNoVideosInTweet": "i couldn't find any videos or gifs in this tweet. try another one!",
         "ImagePickerTitle": "pick images to download",
         "ImagePickerDownloadAudio": "download audio",
         "ImagePickerExplanationPC": "right click an image to save it.",
@@ -94,7 +94,6 @@
         "ErrorNoUrlReturned": "server didn't return a download link. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "ErrorUnknownStatus": "i received a response i can't process. most likely something with status is wrong. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "PasteFromClipboard": "paste from clipboard",
-        "SettingsDisableClipboard": "hide clipboard button",
         "FollowTwitter": "follow {appName}'s twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "previous updates",
         "ChangelogPressToExpand": "press to load",
@@ -105,6 +104,7 @@
         "MediaPickerTitle": "pick what to save",
         "MediaPickerExplanationPC": "click or right click to download what you want.",
         "MediaPickerExplanationPhone": "press or press and hold to download what you want.",
-        "MediaPickerExplanationPhoneIOS": "press and hold, hide the preview, and then select \"download linked file\" to save."
+        "MediaPickerExplanationPhoneIOS": "press and hold, hide the preview, and then select \"download linked file\" to save.",
+        "TwitterSpaceWasntRecorded": "this twitter space wasn't recorded, so there's nothing to download. try another one!"
     }
 }

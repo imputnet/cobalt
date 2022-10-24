@@ -205,7 +205,7 @@ input[type="checkbox"] {
     padding: 0 1.1rem;
     font-size: 1rem;
     transform: none;
-    line-height: 0rem;
+    line-height: 0;
     height: 1.6rem;
     margin-top: .4rem;
 }
@@ -369,7 +369,7 @@ input[type="checkbox"] {
 #popup-close {
     cursor: pointer;
     float: right;
-    right: 0rem;
+    right: 0;
     position: absolute;
 }
 .settings-category {
@@ -399,8 +399,7 @@ input[type="checkbox"] {
     flex-direction: row;
     flex-wrap: nowrap;
     align-content: center;
-    padding: 0.6rem;
-    padding-right: 1rem;
+    padding: 0.6rem 1rem 0.6rem 0.6rem;
     width: auto;
     margin: 0 0.5rem 0.5rem 0;
     background: var(--accent-button-bg);
