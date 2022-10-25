@@ -40,6 +40,7 @@ export default async function(obj) {
         try {
             detail = await got.get(config[obj.host]["api"].replace("{postId}", obj.postId), { headers: {"User-Agent":"TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"} });
             detail = selector(JSON.parse(detail.body), obj.host, obj.postId);
+            if (!detail) throw new Error()
         } catch (e) {
             if (obj.host === "tiktok") {
                 let html = await got.get(`https://tiktok.com/@video/video/${obj.postId}`, { headers: { "user-agent": userAgent } });
@@ -52,7 +53,6 @@ export default async function(obj) {
                 } else throw new Error()
             } else throw new Error()
         }
-        if (!detail) return { error: loc(obj.lang, 'ErrorEmptyDownload') };
         let video, videoFilename, audioFilename, isMp3, audio,
         images = detail["image_post_info"] ? detail["image_post_info"]["images"] : false,
         filenameBase = `${obj.host}_${obj.postId}`;
