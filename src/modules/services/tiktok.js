@@ -14,10 +14,13 @@ let config = {
         api: "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={postId}",
     }
 }
-function selector(j, h) {
+function selector(j, h, id) {
     switch (h) {
         case "tiktok":
-            return j["aweme_list"][0]
+            let t = j["aweme_list"].filter((v) => {
+                if (v["aweme_id"] == id) return true
+            })
+            return t[0]
         case "douyin":
             return j['item_list'][0]
     }
@@ -34,7 +37,7 @@ export default async function(obj) {
         let detail;
         try {
             detail = await got.get(config[obj.host]["api"].replace("{postId}", obj.postId), { headers: {"User-Agent":"TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"} });
-            detail = selector(JSON.parse(detail.body), obj.host);
+            detail = selector(JSON.parse(detail.body), obj.host, obj.postId);
         } catch (e) {
             if (obj.host === "tiktok") {
                 let html = await got.get(`https://tiktok.com/@video/video/${obj.postId}`, { headers: { "user-agent": userAgent } });
