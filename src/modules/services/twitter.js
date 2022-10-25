@@ -11,7 +11,7 @@ export default async function(obj) {
     try {
         let _headers = {
             "User-Agent": genericUserAgent,
-            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw",
+            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
             "Host": "api.twitter.com",
             "Content-Type": "application/json",
             "Content-Length": 0
@@ -26,7 +26,6 @@ export default async function(obj) {
                 `${apiURL}/statuses/show/${obj.id}.json?tweet_mode=extended&include_user_entities=0&trim_user=1&include_entities=0&cards_platform=Web-12&include_cards=1`,
                 { headers: _headers }
             );
-
             req_status = JSON.parse(req_status.body);
             if (req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
                 let single, multiple = [], media = req_status["extended_entities"]["media"];
