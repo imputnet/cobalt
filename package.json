@@ -32,6 +32,6 @@
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",
-        "ytdl-core": "4.11.1"
+        "ytdl-core": "^4.11.2"
     }
 }
