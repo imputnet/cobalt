@@ -20,7 +20,9 @@ function selector(j, h, id) {
             let t = j["aweme_list"].filter((v) => {
                 if (v["aweme_id"] == id) return true
             })
-            return t[0]
+            if (t.length > 0) {
+                return t[0]
+            } else return false
         case "douyin":
             return j['item_list'][0]
     }
@@ -50,7 +52,7 @@ export default async function(obj) {
                 } else throw new Error()
             } else throw new Error()
         }
-
+        if (!detail) return { error: loc(obj.lang, 'ErrorEmptyDownload') };
         let video, videoFilename, audioFilename, isMp3, audio,
         images = detail["image_post_info"] ? detail["image_post_info"]["images"] : false,
         filenameBase = `${obj.host}_${obj.postId}`;
