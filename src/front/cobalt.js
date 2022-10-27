@@ -336,7 +336,7 @@ async function download(url) {
                     case "picker":
                         if (j.audio && j.url) {
                             changeDownloadButton(2, '?..')
-                            fetch(`${j.audio}&p=1&origin=front`).then(async (res) => {
+                            fetch(`${j.audio}&p=1`).then(async (res) => {
                                 let jp = await res.json();
                                 if (jp.status === "continue") {
                                     changeDownloadButton(2, '>>>');
@@ -356,7 +356,7 @@ async function download(url) {
                         break;
                     case "stream":
                         changeDownloadButton(2, '?..')
-                        fetch(`${j.url}&p=1&origin=front`).then(async (res) => {
+                        fetch(`${j.url}&p=1`).then(async (res) => {
                             let jp = await res.json();
                             if (jp.status === "continue") {
                                 changeDownloadButton(2, '>>>'); window.location.href = j.url;

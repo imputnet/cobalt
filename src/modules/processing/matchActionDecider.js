@@ -48,10 +48,16 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
             switch (host) {
                 case "douyin":
                 case "tiktok":
+                    let type = "render";
+                    if (audioFormat === "mp3" || audioFormat === "best") {
+                        audioFormat = "mp3"
+                        type = "bridge"
+                    }
                     return apiJSON(5, {
+                        type: type,
                         picker: r.picker,
                         u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
-                        filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: audioFormat === "best" ? true : false
+                        filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: audioFormat === "best" ? true : false,
                     })
                 case "twitter":
                     return apiJSON(5, {
@@ -64,7 +70,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
             let copy = false;
 
             if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
-            if ((host === "tiktok" || host === "douyin") && isAudioOnly && services.tiktok.audioFormats.includes(audioFormat)) {
+            if ((host == "tiktok" || host == "douyin") && isAudioOnly && services.tiktok.audioFormats.includes(audioFormat)) {
                 if (r.isMp3) {
                     if (audioFormat === "mp3" || audioFormat === "best") {
                         audioFormat = "mp3"

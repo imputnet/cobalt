@@ -1,3 +1,5 @@
+import { celebrations } from "../config.js";
+
 export function switcher(obj) {
     let items = ``;
     switch(obj.name) {
@@ -134,4 +136,10 @@ export function footerButtons(obj) {
     }
     return `
     <div id="footer-buttons">${items}</div>`
+}
+
+export function celebrationsEmoji() {
+    let n = new Date().toISOString().split('T')[0].split('-');
+    let dm = `${n[1]}-${n[2]}`;
+    return Object.keys(celebrations).includes(dm) ? celebrations[dm] : "🐲";
 }

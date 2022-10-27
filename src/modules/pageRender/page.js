@@ -1,11 +1,10 @@
-import { backdropLink, checkbox, footerButtons, multiPagePopup, popup, popupWithBottomButtons, settingsCategory, switcher } from "./elements.js";
-import { services, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
+import { backdropLink, celebrationsEmoji, checkbox, footerButtons, multiPagePopup, popup, popupWithBottomButtons, settingsCategory, switcher } from "./elements.js";
+import { services as s, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
 import changelogManager from "../changelog/changelogManager.js";
 
-let s = services;
 let com = getCommitInfo();
 
 let enabledServices = Object.keys(s).filter((p) => {
@@ -311,7 +310,7 @@ export default function(obj) {
         footerButtons([{
             name: "about",
             type: "popup",
-            text: `${emoji("🐲", 22)} ${loc(obj.lang, 'AboutTab')}`,
+            text: `${emoji(celebrationsEmoji() , 22)} ${loc(obj.lang, 'AboutTab')}`,
             aria: loc(obj.lang, 'AccessibilityOpenAbout')
         }, {
             name: "settings",

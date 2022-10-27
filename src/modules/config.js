@@ -19,4 +19,5 @@ export const
     internetExplorerRedirect = config.internetExplorerRedirect,
     donations = config.donations,
     ffmpegArgs = config.ffmpegArgs,
-    supportedAudio = config.supportedAudio
+    supportedAudio = config.supportedAudio,
+    celebrations = config.celebrations

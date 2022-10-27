@@ -8,10 +8,16 @@ const names = {
     "🪅": "pinata",
     "🪄": "magic_wand",
     "🐲": "dragon_face",
+    "🀄": "dragon_face_wukko",
     "💸": "money_with_wings",
     "⚙️": "gear",
     "☹️": "frowning_face",
-    "📋": "clipboard"
+    "📋": "clipboard",
+    "🎃": "pumpkin",
+    "🎄": "christmas_tree",
+    "🕯️": "candle",
+    "😺": "cat",
+    "🐶": "dog"
 }
 let sizing = {
     22: 0.4,

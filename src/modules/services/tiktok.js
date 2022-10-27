@@ -15,17 +15,16 @@ let config = {
     }
 }
 function selector(j, h, id) {
+    let t;
     switch (h) {
         case "tiktok":
-            let t = j["aweme_list"].filter((v) => {
-                if (v["aweme_id"] == id) return true
-            })
-            if (t.length > 0) {
-                return t[0]
-            } else return false
+            t = j["aweme_list"].filter((v) => { if (v["aweme_id"] == id) return true })
+            break;
         case "douyin":
-            return j['item_list'][0]
+            t = j['item_list'].filter((v) => { if (v["aweme_id"] == id) return true })
+            break;
     }
+    if (t.length > 0) { return t[0] } else return false
 }
 
 export default async function(obj) {
@@ -53,10 +52,13 @@ export default async function(obj) {
                 } else throw new Error()
             } else throw new Error()
         }
-        let video, videoFilename, audioFilename, isMp3, audio,
-        images = detail["image_post_info"] ? detail["image_post_info"]["images"] : false,
+        let video, videoFilename, audioFilename, isMp3, audio, images,
         filenameBase = `${obj.host}_${obj.postId}`;
-
+        if (obj.host == "tiktok") {
+            images = detail["image_post_info"] ? detail["image_post_info"]["images"] : false
+        } else {
+            images = detail["images"] ? detail["images"] : false
+        }
         if (!obj.isAudioOnly && !images) {
             video = obj.host === "tiktok" ? detail["video"]["play_addr"]["url_list"][0] : detail["video"]["play_addr"]["url_list"][0].replace("playwm", "play");
             videoFilename = `${filenameBase}_video_nw.mp4` // nw - no watermark
@@ -98,7 +100,9 @@ export default async function(obj) {
         if (images) {
             let imageLinks = [];
             for (let i in images) {
-                imageLinks.push({url: images[i]["display_image"]["url_list"][0]})
+                let selector = obj.host == "tiktok" ? images[i]["display_image"]["url_list"] : images[i]["url_list"];
+                selector = selector.filter((i) => { if (i.includes(".jpeg?")) return true; })
+                imageLinks.push({url: selector[0]})
             }
             return {
                 picker: imageLinks,

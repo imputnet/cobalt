@@ -23,7 +23,7 @@ export function createStream(obj) {
         audioFormat: obj.audioFormat,
         time: obj.time,
         copy: obj.copy,
-        metadata: obj.fileMetadata
+        metadata: obj.fileMetadata ? obj.fileMetadata : false
     });
     return `${process.env.selfURL}api/stream?t=${streamUUID}&e=${exp}&h=${ghmac}`;
 }
