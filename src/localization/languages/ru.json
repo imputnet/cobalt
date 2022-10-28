@@ -108,6 +108,6 @@
         "MediaPickerExplanationPC": "кликни, чтобы скачать. также можно скачать через контекстное меню правой кнопки мыши.",
         "MediaPickerExplanationPhone": "нажми, или нажми и удерживай, чтобы скачать.",
         "MediaPickerExplanationPhoneIOS": "нажми и удерживай, затем скрой превью, и наконец выбери \"загрузить файл по ссылке\".",
-        "TwitterSpaceWasntRecorded": "this twitter space wasn't recorded, so there's nothing to download. try another one!"
+        "TwitterSpaceWasntRecorded": "этот twitter space не был записан, поэтому я не могу его скачать. попробуй другой!"
     }
 }
