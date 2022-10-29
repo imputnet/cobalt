@@ -1,7 +1,6 @@
 import got from "got";
 import loc from "../../localization/manager.js";
 import { genericUserAgent } from "../config.js";
-import { unicodeDecode } from "../sub/utils.js";
 
 let userAgent = genericUserAgent.split(' Chrome/1')[0]
 let config = {
@@ -52,7 +51,7 @@ export default async function(obj) {
                 } else {
                     return { error: loc(obj.lang, 'ErrorCouldntFetch') }
                 }
-            } catch (e) {
+            } catch (err) {
                 return { error: loc(obj.lang, 'ErrorCouldntFetch') }
             }
         }
@@ -106,9 +105,9 @@ export default async function(obj) {
         if (images) {
             let imageLinks = [];
             for (let i in images) {
-                let selector = obj.host == "tiktok" ? images[i]["display_image"]["url_list"] : images[i]["url_list"];
-                selector = selector.filter((i) => { if (i.includes(".jpeg?")) return true; })
-                imageLinks.push({url: selector[0]})
+                let sel = obj.host == "tiktok" ? images[i]["display_image"]["url_list"] : images[i]["url_list"];
+                sel = sel.filter((p) => { if (p.includes(".jpeg?")) return true; })
+                imageLinks.push({url: sel[0]})
             }
             return {
                 picker: imageLinks,
