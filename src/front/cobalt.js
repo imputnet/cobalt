@@ -1,18 +1,19 @@
-let isIOS = navigator.userAgent.toLowerCase().match("iphone os");
+let ua = navigator.userAgent.toLowerCase();
+let isIOS = ua.match("iphone os");
+let isMobile = ua.match("android") || ua.match("iphone os");
 let version = 14;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
-    "ytFormat": ["webm", "mp4"],
-    "quality": ["max", "hig", "mid", "low"],
-    "defaultAudioFormat": ["mp3", "best", "ogg", "wav", "opus"]
+    "vFormat": ["mp4", "webm"],
+    "vQuality": ["hig", "max", "mid", "low"],
+    "aFormat": ["mp3", "best", "ogg", "wav", "opus"]
 }
 let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"];
-let exceptions = { // used solely for ios devices
-    "ytFormat": "mp4",
-    "defaultAudioFormat": "mp3"
+let exceptions = { // used for mobile devices
+    "vQuality": "mid"
 }
 
 function eid(id) {
@@ -208,6 +209,9 @@ function popup(type, action, text) {
     eid("popup-backdrop").style.visibility = vis(action);
     eid(`popup-${type}`).style.visibility = vis(action);
 }
+function updateMP4Text() {
+    eid("vFormat-mp4").innerHTML = sGet("vQuality") === "mid" ? "mp4 (h264/av1)" : "mp4 (av1)";
+}
 function changeSwitcher(li, b) {
     if (b) {
         sSet(li, b);
@@ -215,9 +219,10 @@ function changeSwitcher(li, b) {
             (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
         if (li === "theme") detectColorScheme();
+        if (li === "vQuality") updateMP4Text();
     } else {
         let pref = switchers[li][0];
-        if (isIOS && exceptions[li]) pref = exceptions[li];
+        if (isMobile && exceptions[li]) pref = exceptions[li];
         sSet(li, pref);
         for (let i in switchers[li]) {
             (switchers[li][i] === pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
@@ -299,6 +304,10 @@ function changeButton(type, text) {
             break;
     }
 }
+function resetSettings() {
+    localStorage.clear();
+    window.location.reload();
+}
 async function pasteClipboard() {
     let t = await navigator.clipboard.readText();
     if (regex.test(t)) {
@@ -314,7 +323,7 @@ async function download(url) {
     let format = ``;
     if (audioMode === "false") {
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) {
-            format = `&format=${sGet("ytFormat")}`
+            format = `&format=${sGet("vFormat")}`
         } else if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") {
             format = `&nw=true`
         }
@@ -322,8 +331,8 @@ async function download(url) {
         format = `&nw=true`
         if (sGet("fullTikTokAudio") === "true") format += `&ttfull=true`
     }
-    let mode = (sGet("audioMode") === "true") ? `audio=true` : `quality=${sGet("quality")}`
-    await fetch(`/api/json?audioFormat=${sGet("defaultAudioFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (r) => {
+    let mode = (sGet("audioMode") === "true") ? `audio=true` : `quality=${sGet("vQuality")}`
+    await fetch(`/api/json?audioFormat=${sGet("aFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (r) => {
         let j = await r.json();
         if (j.status !== "error" && j.status !== "rate-limit") {
             if (j.url) {

@@ -7,12 +7,12 @@ function closest(goal, array) {
 }
 
 export default function(service, quality, maxQuality) {
-    if (quality === "max") return maxQuality;
+    if (quality == "max") return maxQuality;
 
     quality = parseInt(mq[quality], 10)
     maxQuality = parseInt(maxQuality, 10)
 
-    if (quality >= maxQuality || quality === maxQuality) return maxQuality;
+    if (quality >= maxQuality || quality == maxQuality) return maxQuality;
 
     if (quality < maxQuality) {
         if (services[service]["quality"][quality]) {

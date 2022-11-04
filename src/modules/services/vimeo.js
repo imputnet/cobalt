@@ -15,7 +15,7 @@ export default async function(obj) {
                 let all = api["request"]["files"]["progressive"].sort((a, b) => Number(b.width) - Number(a.width));
                 let best = all[0]
                 try {
-                    if (obj.quality !== "max") {
+                    if (obj.quality != "max") {
                         let pref = parseInt(quality[obj.quality], 10)
                         for (let i in all) {
                             let currQuality = parseInt(all[i]["quality"].replace('p', ''), 10)

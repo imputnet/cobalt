@@ -10,32 +10,32 @@ export default async function(obj) {
             let info = infoInitial.formats;
             if (!info[0]["isLive"]) {
                 let videoMatch = [], fullVideoMatch = [], video = [], audio = info.filter((a) => {
-                    if (!a["isHLS"] && !a["isDashMPD"] && a["hasAudio"] && !a["hasVideo"] && a["container"] === obj.format) return true;
+                    if (!a["isHLS"] && !a["isDashMPD"] && a["hasAudio"] && !a["hasVideo"] && a["container"] == obj.format) return true;
                 }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
                 if (!obj.isAudioOnly) {
                     video = info.filter((a) => {
-                        if (!a["isHLS"] && !a["isDashMPD"] && a["hasVideo"] && a["container"] === obj.format && a["height"] !== 4320) {
-                            if (obj.quality !== "max") {
-                                if (a["hasAudio"] && mq[obj.quality] === a["height"]) {
+                        if (!a["isHLS"] && !a["isDashMPD"] && a["hasVideo"] && a["container"] == obj.format) {
+                            if (obj.quality != "max") {
+                                if (a["hasAudio"] && mq[obj.quality] == a["height"]) {
                                     fullVideoMatch.push(a)
-                                } else if (!a["hasAudio"] && mq[obj.quality] === a["height"]) {
+                                } else if (!a["hasAudio"] && mq[obj.quality] == a["height"]) {
                                     videoMatch.push(a);
                                 }
                             }
                             return true
                         }
                     }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
-                    if (obj.quality !== "max") {
-                        if (videoMatch.length === 0) {
+                    if (obj.quality != "max") {
+                        if (videoMatch.length == 0) {
                             let ss = selectQuality("youtube", obj.quality, video[0]["qualityLabel"].slice(0, 5).replace('p', '').trim())
                             videoMatch = video.filter((a) => {
-                                if (a["qualityLabel"].slice(0, 5).replace('p', '').trim() === ss) return true;
+                                if (a["qualityLabel"].slice(0, 5).replace('p', '').trim() == ss) return true;
                             })
                         } else if (fullVideoMatch.length > 0) {
                             videoMatch = [fullVideoMatch[0]]
                         }
                     } else videoMatch = [video[0]];
-                    if (obj.quality === "los") videoMatch = [video[video.length - 1]];
+                    if (obj.quality == "los") videoMatch = [video[video.length - 1]];
                 }
                 let generalMeta = {
                     title: infoInitial.videoDetails.title,

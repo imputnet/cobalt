@@ -17,7 +17,7 @@ It preserves original media quality so you get best downloads possible (unless y
 | --------          | :---:  | :---: | :----- |
 | Twitter           | ✅    | ✅ | Ability to save multiple videos/GIFs from a single tweet. |
 | Twitter Spaces    | ❌️    | ✅ | Audio metadata. |
-| YouTube & Shorts  | ✅    | ✅ | Support for 4K, HDR and high FPS videos. |
+| YouTube & Shorts  | ✅    | ✅ | Support for 8K, 4K, HDR, and high FPS videos. |
 | YouTube Music     | ❌    | ✅ | Audio metadata. |
 | Reddit            | ✅    | ✅ |  |
 | TikTok & douyin   | ✅    | ✅ | Video downloads with or without watermark; image slideshow downloads without watermarks. |

@@ -64,9 +64,9 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                     if (req.query.url && req.query.url.length < 150) {
                         let j = await getJSON(req.query.url.trim(), languageCode(req), {
                                 ip: req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip,
-                                format: req.query.format ? req.query.format.slice(0, 5) : "webm",
-                                quality: req.query.quality ? req.query.quality.slice(0, 3) : "max",
-                                audioFormat: req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : false,
+                                format: req.query.format ? req.query.format.slice(0, 5) : "mp4",
+                                quality: req.query.quality ? req.query.quality.slice(0, 3) : "mid",
+                                audioFormat: req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : "mp3",
                                 isAudioOnly: !!req.query.audio,
                                 noWatermark: !!req.query.nw,
                                 fullAudio: !!req.query.ttfull,

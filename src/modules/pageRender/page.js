@@ -172,12 +172,12 @@ export default function(obj) {
                     name: "downloads",
                     title: loc(obj.lang, 'SettingsDownloadsSubtitle'),
                     body: switcher({
-                        name: "quality",
+                        name: "vQuality",
                         subtitle: loc(obj.lang, 'SettingsQualitySubtitle'),
                         explanation: loc(obj.lang, 'SettingsQualityDescription'),
                         items: [{
                             "action": "max",
-                            "text": loc(obj.lang, 'SettingsQualitySwitchMax')
+                            "text": `${loc(obj.lang, 'SettingsQualitySwitchMax')}<br/>(2160p+)`
                         }, {
                             "action": "hig",
                             "text": `${loc(obj.lang, 'SettingsQualitySwitchHigh')}<br/>(${quality.hig}p)`
@@ -193,13 +193,15 @@ export default function(obj) {
                     + settingsCategory({
                         name: "youtube",
                         body: switcher({
-                            name: "ytFormat",
+                            name: "vFormat",
                             subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
                             explanation: loc(obj.lang, 'SettingsFormatDescription'),
                             items: [{
-                                "action": "mp4"
+                                "action": "mp4",
+                                "text": "mp4 (av1)"
                             }, {
-                                "action": "webm"
+                                "action": "webm",
+                                "text": "webm (vp9)"
                             }]
                         })
                     })
@@ -215,7 +217,7 @@ export default function(obj) {
                     name: "general",
                     title: loc(obj.lang, 'SettingsAudioTab'),
                     body: switcher({
-                        name: "defaultAudioFormat",
+                        name: "aFormat",
                         subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
                         explanation: loc(obj.lang, 'SettingsAudioFormatDescription'),
                         items: audioFormats
