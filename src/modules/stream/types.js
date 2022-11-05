@@ -28,10 +28,10 @@ export function streamLiveRender(streamInfo, res) {
         if (streamInfo.urls.length === 2) {
             let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
                 '-loglevel', '-8',
-                '-i', streamInfo.urls[0],
                 '-i', streamInfo.urls[1],
-                '-map', '0:v',
-                '-map', '1:a',
+                '-i', streamInfo.urls[0],
+                '-map', '0:a',
+                '-map', '1:v',
             ];
             args = args.concat(ffmpegArgs[format])
             if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
