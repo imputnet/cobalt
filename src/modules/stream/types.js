@@ -28,23 +28,24 @@ export function streamLiveRender(streamInfo, res) {
         if (streamInfo.urls.length === 2) {
             let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
                 '-loglevel', '-8',
-                '-i', streamInfo.urls[1],
                 '-i', streamInfo.urls[0],
-                '-map', '0:a',
-                '-map', '1:v',
+                '-i', streamInfo.urls[1],
+                '-map', '0:v',
+                '-map', '1:a',
             ];
             args = args.concat(ffmpegArgs[format])
             if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
-            args.push('-f', format, 'pipe:4');
+            args.push('-f', format, 'pipe:3');
             const ffmpegProcess = spawn(ffmpeg, args, {
                 windowsHide: true,
                 stdio: [
                     'inherit', 'inherit', 'inherit',
-                    'pipe', 'pipe',
+                    'pipe'
                 ],
             });
+            res.setHeader('Connection', 'keep-alive');
             res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
-            ffmpegProcess.stdio[4].pipe(res);
+            ffmpegProcess.stdio[3].pipe(res);
 
             ffmpegProcess.on('error', (err) => {
                 ffmpegProcess.kill();
@@ -75,21 +76,22 @@ export function streamAudioOnly(streamInfo, res) {
         args = args.concat(arg)
         if (streamInfo.metadata.cover) args.push("-c:v", "mjpeg")
         if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
-        args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:4');
+        args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
         const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
-                'pipe', 'pipe'
+                'pipe'
             ],
         });
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
+        ffmpegProcess.stdio[3].pipe(res);
+        
         ffmpegProcess.on('error', (err) => {
             ffmpegProcess.kill();
             res.end();
         });
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
-        ffmpegProcess.stdio[4].pipe(res);
-
     } catch (e) {
         res.end();
     }
