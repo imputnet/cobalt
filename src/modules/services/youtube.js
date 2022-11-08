@@ -76,7 +76,7 @@ export default async function(obj) {
                             let descItems = infoInitial.videoDetails.description.split("\n\n")
                             r.fileMetadata.album = descItems[2]
                             r.fileMetadata.copyright = descItems[3]
-                            r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim()
+                            if (descItems[4].startsWith("Released on:")) r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
                         }
                         return r
                     } else {
