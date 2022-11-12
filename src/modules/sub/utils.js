@@ -88,7 +88,6 @@ export function checkJSONPost(obj) {
     try {
         let objKeys = Object.keys(obj);
         if (objKeys.length < 8) {
-            let objKeys = Object.keys(obj);
             let defKeys = Object.keys(def);
             for (let i in objKeys) {
                 if (defKeys.includes(objKeys[i])) {
