@@ -9,12 +9,13 @@ import { shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version, internetExplorerRedirect } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/pageRender/page.js";
-import { apiJSON, languageCode } from "./modules/sub/utils.js";
+import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
 import { Bright, Cyan } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
 import { buildFront } from "./modules/build.js";
 import { changelogHistory } from "./modules/pageRender/onDemand.js";
+import { encrypt } from "./modules/sub/crypto.js";
 
 const commitHash = shortCommit();
 const app = express();
@@ -24,7 +25,7 @@ app.disable('x-powered-by');
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
         windowMs: 20 * 60 * 1000,
-        max: 100,
+        max: 800,
         standardHeaders: true,
         legacyHeaders: false,
         handler: (req, res, next, opt) => {
@@ -33,7 +34,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     })
     const apiLimiterStream = rateLimit({
         windowMs: 6 * 60 * 1000,
-        max: 24,
+        max: 600,
         standardHeaders: true,
         legacyHeaders: false,
         handler: (req, res, next, opt) => {
@@ -56,36 +57,81 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
         next();
     });
-
-    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
+    app.use('/api/json', express.json({
+        verify: (req, res, buf) => {
+            try {
+                JSON.parse(buf);
+                if (buf.length > 720) throw new Error();
+                if (req.header('Content-Type') != "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid content type header' })
+                if (req.header('Accept') != "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid accept header' })
+            } catch(e) {
+                res.status(500).json({ 'status': 'error', 'text': 'invalid json body.' })
+            }
+        }
+    }));
+    app.post('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
+            let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
                 case 'json':
-                    if (req.query.url && req.query.url.length < 150) {
-                        let j = await getJSON(req.query.url.trim(), languageCode(req), {
-                                ip: req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip,
-                                format: req.query.format ? req.query.format.slice(0, 5) : "mp4",
-                                quality: req.query.quality ? req.query.quality.slice(0, 3) : "mid",
-                                audioFormat: req.query.audioFormat ? req.query.audioFormat.slice(0, 4) : "mp3",
-                                isAudioOnly: !!req.query.audio,
-                                noWatermark: !!req.query.nw,
-                                fullAudio: !!req.query.ttfull,
-                        })
-                        res.status(j.status).json(j.body);
-                    } else {
-                        let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
-                        if (!typeof j === "undefined" && j.status && j.body) {
+                    try {
+                        let request = req.body;
+                        let chck = checkJSONPost(request);
+                        if (request.url && chck) {
+                            chck["ip"] = ip;
+                            let j = await getJSON(request.url.trim(), languageCode(req), chck)
                             res.status(j.status).json(j.body);
                         } else {
-                            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorUnknownStatus') })
+                            try {
+                                let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
+                                res.status(j.status).json(j.body);
+                            }
+                            catch (e) {
+                                res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorUnknownStatus') })
+                            }
                         }
+                    } catch (e) {
+                        res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
                     }
                     break;
+                default:
+                    let j = apiJSON(0, { t: "unknown response type" })
+                    res.status(j.status).json(j.body);
+                    break;
+            }
+        } catch (e) {
+            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
+        }
+    });
+    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
+        try {
+            let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            switch (req.params.type) {
+                // **
+                // json GET method will be deprecated by 4.5! make sure to move your shortcuts to POST method.
+                // **
+                case 'json':
+                    try {
+                        if (req.query.url && req.query.url.length < 150) {
+                            let chck = checkJSONPost({});
+                            chck["ip"] = ip;
+                            let j = await getJSON(req.query.url.trim(), languageCode(req), chck)
+                            res.status(j.status).json(j.body);
+                        } else {
+                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
+                            res.status(j.status).json(j.body);
+                        }
+                    } catch (e) {
+                        res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
+                    }
+                    break;
+                // **
+                // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ will be removed soon ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                // **
                 case 'stream':
                     if (req.query.p) {
                         res.status(200).json({ "status": "continue" });
-                    } else if (req.query.t) {
-                        let ip = req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip
+                    } else if (req.query.t && req.query.h && req.query.e) {
                         stream(res, ip, req.query.t, req.query.h, req.query.e);
                     } else {
                         let j = apiJSON(0, { t: "no stream id" })
@@ -117,7 +163,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                     break;
             }
         } catch (e) {
-            res.status(500).json({ 'status': 'error', 'text': 'something went wrong.' })
+            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
     });
     app.get("/api", (req, res) => {

@@ -22,7 +22,7 @@ export function apiJSON(type, obj) {
                         pickerType = "images"
                         break;
                 }
-                return { status: 200, body: { status: "picker", pickerType: pickerType, url: obj.picker, audio: audio } };
+                return { status: 200, body: { status: "picker", pickerType: pickerType, picker: obj.picker, audio: audio } };
             default:
                 return { status: 400, body: { status: "error", text: "Bad Request" } };
         }
@@ -74,4 +74,36 @@ export function unicodeDecode(str) {
     return str.replace(/\\u[\dA-F]{4}/gi, (unicode) => {
         return String.fromCharCode(parseInt(unicode.replace(/\\u/g, ""), 16));
     });
+}
+export function checkJSONPost(obj) {
+    let def = {
+        vFormat: "mp4",
+        vQuality: "hig",
+        aFormat: "mp3",
+        isAudioOnly: false,
+        isNoTTWatermark: false,
+        isTTFullAudio: false
+    }
+    let booleanOnly = ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio"]
+    try {
+        let objKeys = Object.keys(obj);
+        if (objKeys.length < 8) {
+            let objKeys = Object.keys(obj);
+            let defKeys = Object.keys(def);
+            for (let i in objKeys) {
+                if (defKeys.includes(objKeys[i])) {
+                    if (booleanOnly.includes(objKeys[i])) {
+                        def[objKeys[i]] = obj[objKeys[i]] ? true : false
+                    } else {
+                        def[objKeys[i]] = obj[objKeys[i]]
+                    }
+                }
+            }
+            return def
+        } else {
+            return false
+        }
+    } catch (e) {
+        return false;
+    }
 }

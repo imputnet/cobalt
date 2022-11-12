@@ -4,7 +4,7 @@ import { streamAudioOnly, streamDefault, streamLiveRender } from "./types.js";
 
 export default function(res, ip, id, hmac, exp) {
     try {
-        let streamInfo = verifyStream(ip, id, hmac, exp, process.env.streamSalt);
+        let streamInfo = verifyStream(ip, id, hmac, exp);
         if (!streamInfo.error) {
             if (streamInfo.isAudioOnly && streamInfo.type !== "bridge") {
                 streamAudioOnly(streamInfo, res);

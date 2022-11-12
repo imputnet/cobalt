@@ -71,12 +71,14 @@ export default async function(obj) {
                             audioFilename: `youtube_${obj.id}_audio`,
                             fileMetadata: generalMeta
                         };
-                        let isAutoGenAudio = infoInitial.videoDetails.description.startsWith("Provided to YouTube by");
-                        if (isAutoGenAudio) {
-                            let descItems = infoInitial.videoDetails.description.split("\n\n")
-                            r.fileMetadata.album = descItems[2]
-                            r.fileMetadata.copyright = descItems[3]
-                            if (descItems[4].startsWith("Released on:")) r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
+                        if (infoInitial.videoDetails.description) {
+                            let isAutoGenAudio = infoInitial.videoDetails.description.startsWith("Provided to YouTube by");
+                            if (isAutoGenAudio) {
+                                let descItems = infoInitial.videoDetails.description.split("\n\n")
+                                r.fileMetadata.album = descItems[2]
+                                r.fileMetadata.copyright = descItems[3]
+                                if (descItems[4].startsWith("Released on:")) r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
+                            }
                         }
                         return r
                     } else {

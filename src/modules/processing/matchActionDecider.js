@@ -10,34 +10,34 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                 case "vk":
                     return apiJSON(2, {
                         type: "bridge", u: r.urls, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
+                        filename: r.filename,
                     });
                 case "bilibili":
                     return apiJSON(2, {
                         type: "render", u: r.urls, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt,
+                        filename: r.filename,
                         time: r.time
                     });
                 case "youtube":
                     return apiJSON(2, {
                         type: r.type, u: r.urls, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt,
+                        filename: r.filename,
                         time: r.time,
                     });
                 case "reddit":
                     return apiJSON(r.typeId, {
                         type: r.type, u: r.urls, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
+                        filename: r.filename,
                     });
                 case "tiktok":
                     return apiJSON(2, {
                         type: "bridge", u: r.urls, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
+                        filename: r.filename,
                     });
                 case "douyin":
                     return apiJSON(2, {
                         type: "bridge", u: r.urls, service: host, ip: ip,
-                        filename: r.filename, salt: process.env.streamSalt
+                        filename: r.filename,
                     });
                 case "tumblr":
                     return apiJSON(1, { u: r.urls });
@@ -57,7 +57,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
                         type: type,
                         picker: r.picker,
                         u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
-                        filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true, audioFormat: audioFormat, copy: audioFormat === "best" ? true : false,
+                        filename: r.audioFilename, isAudioOnly: true, audioFormat: audioFormat, copy: audioFormat === "best" ? true : false,
                     })
                 case "twitter":
                     return apiJSON(5, {
@@ -95,7 +95,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly) {
             return apiJSON(2, {
                 type: type,
                 u: Array.isArray(r.urls) ? r.urls[1] : r.urls, service: host, ip: ip,
-                filename: r.audioFilename, salt: process.env.streamSalt, isAudioOnly: true,
+                filename: r.audioFilename, isAudioOnly: true,
                 audioFormat: audioFormat, copy: copy, fileMetadata: r.fileMetadata ? r.fileMetadata : false
             })
         }

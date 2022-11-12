@@ -9,7 +9,7 @@ import match from "./processing/match.js";
 
 export async function getJSON(originalURL, lang, obj) {
     try {
-        let url = decodeURI(originalURL);
+        let url = decodeURIComponent(originalURL);
         if (!url.includes('http://')) {
             let hostname = url.replace("https://", "").replace(' ', '').split('&')[0].split("/")[0].split("."),
                 host = hostname[hostname.length - 2],
@@ -33,11 +33,9 @@ export async function getJSON(originalURL, lang, obj) {
                 }
                 if (patternMatch) {
                     return await match(host, patternMatch, url, lang, obj);
-                } return apiJSON(0, { t: errorUnsupported(lang) })
-            } return apiJSON(0, { t: errorUnsupported(lang) })
-        } else {
-            return apiJSON(0, { t: errorUnsupported(lang) })
-        }
+                } else return apiJSON(0, { t: errorUnsupported(lang) });
+            } else return apiJSON(0, { t: errorUnsupported(lang) });
+        } else return apiJSON(0, { t: errorUnsupported(lang) });
     } catch (e) {
         return apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') });
     }

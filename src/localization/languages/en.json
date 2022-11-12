@@ -105,6 +105,7 @@
         "MediaPickerExplanationPC": "click or right click to download what you want.",
         "MediaPickerExplanationPhone": "press or press and hold to download what you want.",
         "MediaPickerExplanationPhoneIOS": "press and hold, hide the preview, and then select \"download linked file\" to save.",
-        "TwitterSpaceWasntRecorded": "this twitter space wasn't recorded, so there's nothing to download. try another one!"
+        "TwitterSpaceWasntRecorded": "this twitter space wasn't recorded, so there's nothing to download. try another one!",
+        "ErrorCantProcess": "i couldn't process your request :(\nyou can try again, but if issue persists, please {ContactLink}."
     }
 }

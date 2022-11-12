@@ -34,7 +34,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                     url: url,
                     userId: patternMatch["userId"],
                     videoId: patternMatch["videoId"],
-                    lang: lang, quality: obj.quality
+                    lang: lang, quality: obj.vQuality
                 });
                 break;
             case "bilibili":
@@ -46,11 +46,11 @@ export default async function (host, patternMatch, url, lang, obj) {
             case "youtube":
                 let fetchInfo = {
                     id: patternMatch["id"].slice(0, 11),
-                    lang: lang, quality: obj.quality,
+                    lang: lang, quality: obj.vQuality,
                     format: "webm"
                 };
-                if (url.match('music.youtube.com') || obj.isAudioOnly == true) obj.format = "audio";
-                switch (obj.format) {
+                if (url.match('music.youtube.com') || obj.isAudioOnly == true) obj.vFormat = "audio";
+                switch (obj.vFormat) {
                     case "mp4":
                         fetchInfo["format"] = "mp4";
                         break;
@@ -76,7 +76,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                     host: host,
                     postId: patternMatch["postId"],
                     id: patternMatch["id"], lang: lang,
-                    noWatermark: obj.noWatermark, fullAudio: obj.fullAudio,
+                    noWatermark: obj.isNoTTWatermark, fullAudio: obj.isTTFullAudio,
                     isAudioOnly: obj.isAudioOnly
                 });
                 if (r.isAudioOnly) obj.isAudioOnly = true
@@ -89,7 +89,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "vimeo":
                 r = await vimeo({
-                    id: patternMatch["id"].slice(0, 11), quality: obj.quality,
+                    id: patternMatch["id"].slice(0, 11), quality: obj.vQuality,
                     lang: lang
                 });
                 break;
@@ -98,14 +98,14 @@ export default async function (host, patternMatch, url, lang, obj) {
                 r = await soundcloud({
                     author: patternMatch["author"], song: patternMatch["song"], url: url,
                     shortLink: patternMatch["shortLink"] ? patternMatch["shortLink"] : false,
-                    format: obj.audioFormat,
+                    format: obj.aFormat,
                     lang: lang
                 });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
-        return matchActionDecider(r, host, obj.ip, obj.audioFormat, obj.isAudioOnly)
+        return matchActionDecider(r, host, obj.ip, obj.aFormat, obj.isAudioOnly)
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

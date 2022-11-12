@@ -7,7 +7,9 @@ export default function(string) {
     try {
         switch (string) {
             case "title":
-                return `${replaceBase(changelog["current"]["title"])} (${changelog["current"]["version"]})` ;
+                return `${replaceBase(changelog["current"]["title"])} (${changelog["current"]["version"]})`;
+            case "banner":
+                return changelog["current"]["banner"] ? `updateBanners/${changelog["current"]["banner"]}` : false;
             case "content":
                 return replaceBase(changelog["current"]["content"]);
             case "history":

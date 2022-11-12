@@ -102,6 +102,9 @@ export default function(obj) {
                         text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
+                        text: changelogManager("banner") ? `<div class="changelog-banner"><img class="changelog-img" src="${changelogManager("banner")}" onerror="this.style.display='none'"></img></div>`: '',
+                        raw: true
+                    }, {
                         text: changelogManager("title"),
                         classes: ["changelog-subtitle"],
                         nopadding: true

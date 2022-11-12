@@ -1,7 +1,7 @@
 let ua = navigator.userAgent.toLowerCase();
 let isIOS = ua.match("iphone os");
 let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 15;
+let version = 16;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -288,6 +288,7 @@ function loadSettings() {
     for (let i in switchers) {
         changeSwitcher(i, sGet(i))
     }
+    updateMP4Text();
 }
 function changeButton(type, text) {
     switch (type) {
@@ -298,6 +299,12 @@ function changeButton(type, text) {
             popup("error", 1, text);
             break;
         case 1: //enable back
+            changeDownloadButton(1, '>>');
+            eid("url-clear").style.display = "block";
+            eid("url-input-area").disabled = false
+            break;
+        case 2: //enable back + information popup
+            popup("error", 1, text);
             changeDownloadButton(1, '>>');
             eid("url-clear").style.display = "block";
             eid("url-input-area").disabled = false
@@ -319,23 +326,23 @@ async function download(url) {
     changeDownloadButton(2, '...');
     eid("url-clear").style.display = "none";
     eid("url-input-area").disabled = true;
-    let audioMode = sGet("audioMode");
-    let format = ``;
-    if (audioMode === "false") {
-        if (url.includes("youtube.com/") || url.includes("/youtu.be/")) {
-            format = `&format=${sGet("vFormat")}`
-        } else if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") {
-            format = `&nw=true`
-        }
-    } else {
-        format = `&nw=true`
-        if (sGet("fullTikTokAudio") === "true") format += `&ttfull=true`
+    let req = {
+        url: encodeURIComponent(url.split("&")[0].split('%')[0]),
+        aFormat: sGet("aFormat").slice(0, 4),
     }
-    let mode = (sGet("audioMode") === "true") ? `audio=true` : `quality=${sGet("vQuality")}`
-    await fetch(`/api/json?audioFormat=${sGet("aFormat")}&${mode}${format}&url=${encodeURIComponent(url)}`).then(async (r) => {
+    if (sGet("audioMode") === "true") {
+        req["isAudioOnly"] = true;
+        req["isNoTTWatermark"] = true; // video tiktok no watermark
+        if (sGet("fullTikTokAudio") === "true") req["isTTFullAudio"] = true; // audio tiktok full
+    } else {
+        req["vQuality"] = sGet("vQuality").slice(0, 4);
+        if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req["vFormat"] = sGet("vFormat").slice(0, 4);
+        if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req["isNoTTWatermark"] = true;
+    }
+    await fetch('/api/json', { method: "POST", body: JSON.stringify(req), headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } }).then(async (r) => {
         let j = await r.json();
         if (j.status !== "error" && j.status !== "rate-limit") {
-            if (j.url) {
+            if (j.url || j.picker) {
                 switch (j.status) {
                     case "redirect":
                         changeDownloadButton(2, '>>>');
@@ -343,21 +350,21 @@ async function download(url) {
                         sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
                         break;
                     case "picker":
-                        if (j.audio && j.url) {
+                        if (j.audio && j.picker) {
                             changeDownloadButton(2, '?..')
                             fetch(`${j.audio}&p=1`).then(async (res) => {
                                 let jp = await res.json();
                                 if (jp.status === "continue") {
                                     changeDownloadButton(2, '>>>');
-                                    popup('picker', 1, { audio: j.audio, arr: j.url, type: j.pickerType });
+                                    popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
                                     setTimeout(() => { changeButton(1) }, 5000);
                                 } else {
                                     changeButton(0, jp.text);
                                 }
                             }).catch((error) => internetError());
-                        } else if (j.url) {
+                        } else if (j.picker) {
                             changeDownloadButton(2, '>>>');
-                            popup('picker', 1, { arr: j.url, type: j.pickerType });
+                            popup('picker', 1, { arr: j.picker, type: j.pickerType });
                             setTimeout(() => { changeButton(1) }, 5000);
                         } else {
                             changeButton(0, loc.noURLReturned);
@@ -375,12 +382,17 @@ async function download(url) {
                             }
                         }).catch((error) => internetError());
                         break;
+                    case "success":
+                        changeButton(2, j.text);
+                        break;
                     default:
                         changeButton(0, loc.unknownStatus);
                         break;
                 }
             } else {
-                changeButton(0, loc.noURLReturned);
+                if (j.status === "success") {
+                    changeButton(2, j.text)
+                } else changeButton(0, loc.noURLReturned);
             }
         } else {
             changeButton(0, j.text);

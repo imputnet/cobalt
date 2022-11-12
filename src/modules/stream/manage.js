@@ -4,12 +4,13 @@ import { UUID, encrypt } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 
 const streamCache = new NodeCache({ stdTTL: streamLifespan, checkperiod: 120 });
+const salt = process.env.streamSalt;
 
 export function createStream(obj) {
     let streamUUID = UUID(),
         exp = Math.floor(new Date().getTime()) + streamLifespan,
-        ghmac = encrypt(`${streamUUID},${obj.url},${obj.ip},${exp}`, obj.salt),
-        iphmac = encrypt(`${obj.ip}`, obj.salt)
+        ghmac = encrypt(`${streamUUID},${obj.service},${obj.ip},${exp}`, salt)
+
     streamCache.set(streamUUID, {
         id: streamUUID,
         service: obj.service,
@@ -17,7 +18,7 @@ export function createStream(obj) {
         urls: obj.u,
         filename: obj.filename,
         hmac: ghmac,
-        ip: iphmac,
+        ip: obj.ip,
         exp: exp,
         isAudioOnly: !!obj.isAudioOnly,
         audioFormat: obj.audioFormat,
@@ -28,12 +29,12 @@ export function createStream(obj) {
     return `${process.env.selfURL}api/stream?t=${streamUUID}&e=${exp}&h=${ghmac}`;
 }
 
-export function verifyStream(ip, id, hmac, exp, salt) {
+export function verifyStream(ip, id, hmac, exp) {
     try {
         let streamInfo = streamCache.get(id);
         if (streamInfo) {
-            let ghmac = encrypt(`${id},${streamInfo.url},${ip},${exp}`, salt);
-            if (hmac == ghmac && encrypt(`${ip}`, salt) == streamInfo.ip && ghmac == streamInfo.hmac && exp > Math.floor(new Date().getTime()) && exp == streamInfo.exp) {
+            let ghmac = encrypt(`${id},${streamInfo.service},${ip},${exp}`, salt);
+            if (hmac == ghmac && ip == streamInfo.ip && ghmac == streamInfo.hmac && exp > Math.floor(new Date().getTime()) && exp == streamInfo.exp) {
                 return streamInfo;
             } else {
                 return { error: 'Unauthorized', status: 401 };

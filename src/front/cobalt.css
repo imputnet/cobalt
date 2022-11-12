@@ -305,6 +305,18 @@ input[type="checkbox"] {
     font-size: 1.1rem;
     padding-bottom: 0.7rem;
 }
+.changelog-banner {
+    width: 100%;
+    background-color: var(--accent-button-bg);
+    max-height: 300px;
+    margin-bottom: 2rem;
+}
+.changelog-img {
+    object-fit: cover;
+    width: inherit;
+    height: inherit;
+    max-height: inherit;
+}
 .nowrap {
     white-space: nowrap;
 }
