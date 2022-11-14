@@ -54,7 +54,7 @@
         "SettingsEnableDownloadPopup": "pytaj o sposób zapisu",
         "AccessibilityEnableDownloadPopup": "pytaj co zrobić z pobranymi plikami",
         "SettingsFormatDescription": "wybierz webm, jeżeli potrzebujesz najwyższej możliwej jakości. filmy webm są zwykle wyższej jakości, ale urządzenia z ios nie odtwarzają ich natywnie.",
-        "SettingsQualityDescription": "jeżeli wybrana rozdzielczość nie będzie dostępna, zostanie wybrana najbliższa pasująca. jeżeli chcesz wrzucić film z youtube'a na twittera, wybierz połączenie mp4 i 720p. twitter bardziej lubi takie filmy.",
+        "SettingsQualityDescription": "jeżeli wybrana jakość nie będzie dostępna, zostanie wybrana najbliższa pasująca.\njeżeli chcesz wrzucić film z youtube na social media, wybierz połączenie mp4 i 720p. te filmy zazwyczaj nie używają kodeka av1, więc powinny się odtwarzać w zasadzie wszędzie.",
         "DonateSubtitle": "ciężko się teraz płaci za hosting",
         "DonateDescription": "nie podoba mi się stan w jakim są teraz kryptowaluty, ale na razie jest to dla mnie jedyny sposób żeby płacić za coś za granicą. karty mastercard/visa i usługi takie jak paypal nie są już dostępną opcją.",
         "LinkGitHubIssues": "&gt;&gt; zgłoś problem lub zobacz kod źródłowy na githubie",
@@ -67,7 +67,7 @@
         "ClickToCopy": "kliknij, aby skopiować",
         "Download": "pobierz",
         "CopyURL": "skopiuj url",
-        "AboutTab": "o programie",
+        "AboutTab": "o aplikacji",
         "ChangelogTab": "lista zmian",
         "DonationsTab": "darowizny",
         "SettingsVideoTab": "wideo",
@@ -105,6 +105,7 @@
         "MediaPickerExplanationPC": "kliknij lub kliknij prawym przyciskiem, aby pobrać to, co chcesz",
         "MediaPickerExplanationPhone": "naciśnij lub naciśnij i przytrzymaj, aby zapisać to, co chcesz",
         "MediaPickerExplanationPhoneIOS": "naciśnij i przytrzymaj, ukryj podgląd i wybierz \"odnośnik pobierania\", aby zapisać.",
-        "TwitterSpaceWasntRecorded": "ten pokój na twitterze nie był nagrywany, więc nie mogę nic pobrać. spróbuj inny!"
+        "TwitterSpaceWasntRecorded": "ten pokój na twitterze nie był nagrywany, więc nie mogę nic pobrać. spróbuj inny!",
+        "ErrorCantProcess": "no i chuj, nie udało się :(\nmożesz spróbować ponownie, ale jeśli problem będzie się powtarzał, {ContactLink}."
     }
 }
