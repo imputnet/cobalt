@@ -33,7 +33,7 @@ export default async function(obj) {
                     req_act = JSON.parse(req_act.body)
                     _headers["x-guest-token"] = req_act["guest_token"];
                     req_status = await got.get(showURL, { headers: _headers });
-                } catch(e) {}
+                } catch(err) {}
             }
             req_status = JSON.parse(req_status.body);
             if (req_status == {}) return { error: loc(obj.lang, 'ErrorCouldntFetch') }
