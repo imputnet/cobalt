@@ -111,10 +111,7 @@ export default function(obj) {
                     }, {
                         text: changelogManager("content")
                     }, {
-                        text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastCommit')}</div>`,
-                        raw: true
-                    }, {
-                        text: `${com[0]} (${obj.hash})`,
+                        text: `<div class="separator"></div><span class="text-backdrop">${obj.hash}:</span> ${com[0]}`,
                         classes: ["changelog-subtitle"],
                         nopadding: true
                     }, {
@@ -330,6 +327,7 @@ export default function(obj) {
         noInternet: ` + "`" + loc(obj.lang, 'ErrorNoInternet') + "`" + `,
         noURLReturned: ` + "`" + loc(obj.lang, 'ErrorNoUrlReturned') + "`" + `,
         unknownStatus: ` + "`" + loc(obj.lang, 'ErrorUnknownStatus') + "`" + `,
+        collapseHistory: ` + "`" + loc(obj.lang, 'ChangelogPressToHide') + "`" + `,
         toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleAuto")}',
         toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "ModeToggleAudio")}',
         pickerDefault: ` + "`" + loc(obj.lang, 'MediaPickerTitle') + "`" + `,

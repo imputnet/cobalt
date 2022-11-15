@@ -1,9 +1,11 @@
 let ua = navigator.userAgent.toLowerCase();
 let isIOS = ua.match("iphone os");
 let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 16;
+let version = 17;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
+
+let store = {}
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
@@ -346,7 +348,7 @@ async function download(url) {
                 switch (j.status) {
                     case "redirect":
                         changeDownloadButton(2, '>>>');
-                        setTimeout(() => { changeButton(1); }, 3000);
+                        setTimeout(() => { changeButton(1); }, 1500);
                         sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
                         break;
                     case "picker":
@@ -357,7 +359,7 @@ async function download(url) {
                                 if (jp.status === "continue") {
                                     changeDownloadButton(2, '>>>');
                                     popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
-                                    setTimeout(() => { changeButton(1) }, 5000);
+                                    setTimeout(() => { changeButton(1) }, 2500);
                                 } else {
                                     changeButton(0, jp.text);
                                 }
@@ -365,7 +367,7 @@ async function download(url) {
                         } else if (j.picker) {
                             changeDownloadButton(2, '>>>');
                             popup('picker', 1, { arr: j.picker, type: j.pickerType });
-                            setTimeout(() => { changeButton(1) }, 5000);
+                            setTimeout(() => { changeButton(1) }, 2500);
                         } else {
                             changeButton(0, loc.noURLReturned);
                         }
@@ -376,7 +378,7 @@ async function download(url) {
                             let jp = await res.json();
                             if (jp.status === "continue") {
                                 changeDownloadButton(2, '>>>'); window.location.href = j.url;
-                                setTimeout(() => { changeButton(1) }, 5000);
+                                setTimeout(() => { changeButton(1) }, 2500);
                             } else {
                                 changeButton(0, jp.text);
                             }
@@ -400,23 +402,34 @@ async function download(url) {
     }).catch((error) => internetError());
 }
 async function loadOnDemand(elementId, blockId) {
-    let store = eid(elementId).innerHTML;
+    store.historyButton = eid(elementId).innerHTML;
+    let j = {}
     eid(elementId).innerHTML = "..."
-    await fetch(`/api/onDemand?blockId=${blockId}`).then(async (r) => {
-        let j = await r.json();
+    try {
+        if (store.historyContent) {
+            j = store.historyContent;
+        } else {
+            await fetch(`/api/onDemand?blockId=${blockId}`).then(async (r) => {
+                j = await r.json();
+                if (j.status === "success") store.historyContent = j;
+            })
+        }
         if (j.status === "success" && j.status !== "rate-limit") {
             if (j.text) {
-                eid(elementId).innerHTML = j.text;
+                eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.collapseHistory}</button>${j.text}`;
             } else {
                 throw new Error()
             }
         } else {
             throw new Error()
         }
-    }).catch((error) => {
-        eid(elementId).innerHTML = store;
+    } catch (e) {
+        eid(elementId).innerHTML = store.historyButton;
         internetError()
-    });
+    }
+}
+function restoreUpdateHistory() {
+    eid("changelog-history").innerHTML = store.historyButton;
 }
 window.onload = () => {
     loadSettings();

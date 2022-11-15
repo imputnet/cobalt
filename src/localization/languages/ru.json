@@ -73,8 +73,7 @@
         "SettingsVideoTab": "видео",
         "SettingsAudioTab": "аудио",
         "SettingsOtherTab": "другое",
-        "ChangelogLastCommit": "последний коммит (на английском)",
-        "ChangelogLastMajor": "последнее обновление (на английском)",
+        "ChangelogLastMajor": "текущая версия и коммит (на английском)",
         "AccessibilityModeToggle": "переключить режим скачивания",
         "DonateLinksDescription": "ссылки на донаты открываются в новой вкладке. это лучший метод пожертвовать деньги, если ты хочешь, чтобы я получил их лично, а не в виде крипто.",
         "SettingsAudioFormatBest": "лучший",
@@ -95,7 +94,7 @@
         "ErrorUnknownStatus": "сервер ответил мне чем-то непонятным. такого происходить не должно. перезагрузи страницу, а если не поможет, то {ContactLink}.",
         "PasteFromClipboard": "вставить из буфера обмена",
         "FollowTwitter": "а ещё, в твиттере {appName} есть опросы, новости, и многое другое: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
-        "ChangelogOlder": "предыдущие обновления (на английском)",
+        "ChangelogOlder": "предыдущие версии (на английском)",
         "ChangelogPressToExpand": "нажми, чтобы загрузить",
         "Miscellaneous": "разное",
         "ModeToggleAuto": "авто режим",
@@ -106,6 +105,7 @@
         "MediaPickerExplanationPhone": "нажми, или нажми и удерживай, чтобы скачать.",
         "MediaPickerExplanationPhoneIOS": "нажми и удерживай, затем скрой превью, и наконец выбери \"загрузить файл по ссылке\".",
         "TwitterSpaceWasntRecorded": "этот twitter space не был записан, поэтому я не могу его скачать. попробуй другой!",
-        "ErrorCantProcess": "я не смог обработать твой запрос :(\nты можешь попробовать ещё раз, но если не поможет, то {ContactLink}."
+        "ErrorCantProcess": "я не смог обработать твой запрос :(\nты можешь попробовать ещё раз, но если не поможет, то {ContactLink}.",
+        "ChangelogPressToHide": "нажми, чтобы скрыть"
     }
 }

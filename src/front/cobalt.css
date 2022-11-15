@@ -387,14 +387,20 @@ input[type="checkbox"] {
 .settings-category {
     padding-bottom: 1.2rem;
 }
+.separator {
+    float: left;
+}
+.separator,
 .category-title {
     width: 100%;
-    text-align: left;
-    line-height: 1.7rem;
     color: var(--accent-unhover-2);
     border-bottom: 0.05rem solid var(--accent-unhover-2);
     padding-bottom: 0.25rem;
     margin-bottom: 1rem;
+}
+.category-title {
+    text-align: left;
+    line-height: 1.7rem;
 }
 .bottom-margin {
     margin-bottom: 1rem!important;

@@ -7,7 +7,7 @@ export default function(string) {
     try {
         switch (string) {
             case "title":
-                return `${replaceBase(changelog["current"]["title"])} (${changelog["current"]["version"]})`;
+                return `<span class="text-backdrop">${changelog["current"]["version"]}:</span> ${replaceBase(changelog["current"]["title"])}`;
             case "banner":
                 return changelog["current"]["banner"] ? `updateBanners/${changelog["current"]["banner"]}` : false;
             case "content":
@@ -15,9 +15,10 @@ export default function(string) {
             case "history":
                 return changelog["history"].map((i) => {
                     return {
-                        title: replaceBase(i["title"]),
+                        title: `<span class="text-backdrop">${i["version"]}:</span> ${replaceBase(i["title"])}`,
                         content: replaceBase(i["content"]),
                         version: i["version"],
+                        banner: i["banner"] ? `updateBanners/${i["banner"]}` : false,
                     }
                 });
             default:

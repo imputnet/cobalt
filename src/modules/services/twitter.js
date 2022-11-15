@@ -16,17 +16,27 @@ export default async function(obj) {
             "Content-Type": "application/json",
             "Content-Length": 0
         };
-        let req_act = await got.post(`${apiURL}/guest/activate.json`, {
-            headers: _headers
-        });
+        let req_act = await got.post(`${apiURL}/guest/activate.json`, { headers: _headers });
         req_act = JSON.parse(req_act.body)
         _headers["x-guest-token"] = req_act["guest_token"];
+        let showURL = `${apiURL}/statuses/show/${obj.id}.json?tweet_mode=extended&include_user_entities=0&trim_user=1&include_entities=0&cards_platform=Web-12&include_cards=1`
         if (!obj.spaceId) {
-            let req_status = await got.get(
-                `${apiURL}/statuses/show/${obj.id}.json?tweet_mode=extended&include_user_entities=0&trim_user=1&include_entities=0&cards_platform=Web-12&include_cards=1`,
-                { headers: _headers }
-            );
+            // kind of wonky but it works :D
+            let req_status = {}
+            try {
+                req_status = await got.get(showURL, { headers: _headers });
+            } catch (e) {
+                try {
+                    _headers.Authorization = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
+                    delete _headers["x-guest-token"]
+                    req_act = await got.post(`${apiURL}/guest/activate.json`, { headers: _headers });
+                    req_act = JSON.parse(req_act.body)
+                    _headers["x-guest-token"] = req_act["guest_token"];
+                    req_status = await got.get(showURL, { headers: _headers });
+                } catch(e) {}
+            }
             req_status = JSON.parse(req_status.body);
+            if (req_status == {}) return { error: loc(obj.lang, 'ErrorCouldntFetch') }
             if (req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
                 let single, multiple = [], media = req_status["extended_entities"]["media"];
                 media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true })

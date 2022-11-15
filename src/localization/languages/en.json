@@ -73,8 +73,7 @@
         "SettingsVideoTab": "video",
         "SettingsAudioTab": "audio",
         "SettingsOtherTab": "other",
-        "ChangelogLastCommit": "last commit",
-        "ChangelogLastMajor": "last update",
+        "ChangelogLastMajor": "current version & commit",
         "AccessibilityModeToggle": "toggle download mode",
         "DonateLinksDescription": "donation links open in a new tab. this is the best way to donate money, if you want me to receive it directly.",
         "SettingsAudioFormatBest": "best",
@@ -95,7 +94,7 @@
         "ErrorUnknownStatus": "i received a response i can't process. most likely something with status is wrong. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "PasteFromClipboard": "paste from clipboard",
         "FollowTwitter": "follow {appName}'s twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
-        "ChangelogOlder": "previous updates",
+        "ChangelogOlder": "previous versions",
         "ChangelogPressToExpand": "press to load",
         "Miscellaneous": "miscellaneous",
         "ModeToggleAuto": "auto mode",
@@ -106,6 +105,7 @@
         "MediaPickerExplanationPhone": "press or press and hold to download what you want.",
         "MediaPickerExplanationPhoneIOS": "press and hold, hide the preview, and then select \"download linked file\" to save.",
         "TwitterSpaceWasntRecorded": "this twitter space wasn't recorded, so there's nothing to download. try another one!",
-        "ErrorCantProcess": "i couldn't process your request :(\nyou can try again, but if issue persists, please {ContactLink}."
+        "ErrorCantProcess": "i couldn't process your request :(\nyou can try again, but if issue persists, please {ContactLink}.",
+        "ChangelogPressToHide": "press to hide"
     }
 }
