@@ -40,20 +40,7 @@ export default async function(obj) {
             detail = selector(JSON.parse(detail.body), obj.host, obj.postId);
             if (!detail) throw new Error()
         } catch (e) {
-            try {
-                if (obj.host === "tiktok") {
-                    let webAppDetail = await got.get(`https://m.tiktok.com/api/item/detail/?itemId=${obj.postId}`, { headers: { "user-agent": userAgent } });
-                    webAppDetail = JSON.parse(webAppDetail.body);
-                    return {
-                        urls: webAppDetail.itemInfo.itemStruct.video.downloadAddr,
-                        filename: `${obj.host}_${obj.postId}_video.mp4`
-                    }
-                } else {
-                    return { error: loc(obj.lang, 'ErrorCouldntFetch') }
-                }
-            } catch (err) {
-                return { error: loc(obj.lang, 'ErrorCouldntFetch') }
-            }
+            return { error: loc(obj.lang, 'ErrorCouldntFetch') }
         }
         let video, videoFilename, audioFilename, isMp3, audio, images,
         filenameBase = `${obj.host}_${obj.postId}`;
@@ -66,17 +53,7 @@ export default async function(obj) {
             video = obj.host === "tiktok" ? detail["video"]["play_addr"]["url_list"][0] : detail["video"]["play_addr"]["url_list"][0].replace("playwm", "play");
             videoFilename = `${filenameBase}_video_nw.mp4` // nw - no watermark
             if (!obj.noWatermark) {
-                if (obj.host === "tiktok") {
-                    try {
-                        let webAppDetail = await got.get(`https://m.tiktok.com/api/item/detail/?itemId=${obj.postId}`, { headers: { "user-agent": userAgent } });
-                        webAppDetail = JSON.parse(webAppDetail.body);
-                        video = webAppDetail.itemInfo.itemStruct.video.downloadAddr;
-                    } catch (e) {
-                        video = detail["video"]["download_addr"]["url_list"][0]
-                    }
-                } else {
-                    video = detail['video']['play_addr']['url_list'][0]
-                }
+                video = obj.host === "tiktok" ? detail["video"]["download_addr"]["url_list"][0] : detail['video']['play_addr']['url_list'][0]
                 videoFilename = `${filenameBase}_video.mp4`
             }
         } else {
