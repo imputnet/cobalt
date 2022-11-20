@@ -155,6 +155,7 @@ function popup(type, action, text) {
         switch (type) {
             case "about":
                 let tabId = sGet("seenAbout") ? "changelog" : "about";
+                if (text) tabId = text;
                 eid(`tab-button-${type}-${tabId}`).click();
                 break;
             case "settings":

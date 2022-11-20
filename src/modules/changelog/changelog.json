@@ -1,10 +1,15 @@
 {
     "current": {
+        "version": "4.4",
+        "title": "over 1 million monthly requests. thank you.",
+        "banner": "onemillionr.webp",
+        "content": "this is a huge milestone for me, i cannot express enough how grateful i am for each and every one of you.\nthank you for using cobalt, and thank you for showing that people love the web that's friendly and bullshit-free. i'm hoping to never disappoint you in the future and keep up the good work.\n\nthank you <3\n\nif you want to thank ME, check out the renovated donations tab, which now is also linked alongside bottom action buttons."
+    },
+    "history": [{
         "version": "4.3.2",
         "title": "twitter improvements & changelog overhaul",
         "content": "- you can download explicit content from twitter.\n- direct video links from twitter are properly supported (video/1, video/2, etc.).\n- changelog history got support for banners.\n- changelog categories are not messy anymore.\n- {appName} version in changelogs is now highlighted.\n- changelog history got separators to make text easier to read.\n- changelog history can be collapsed after loading.\n- download button takes less time to change back to pressable state.\n\nif you're a developer and would like to play around with cobalt's api, then read more about it in older changelogs below!"
-    },
-    "history": [{
+    }, {
         "version": "4.3",
         "title": "developers, developers, developers, developers",
         "banner": "developersdevelopersdevelopers.webp",

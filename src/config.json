@@ -15,12 +15,11 @@
     },
     "donations": {
         "crypto": {
+            "bitcoin": "bc1q59jyyjvrzj4c22rkk3ljeecq6jmpyscgz9spnd",
             "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-            "bitcoin": "bc1q64amsn0wd60urem3jkhpywed8q8kqwssw6ta5j",
-            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
-            "bitcoin cash": "bitcoincash:qph0d7d02mvg5xxqjwjv5ahjx2254yx5kv0zfg0xsj"
+            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna"
         },
-        "other": {
+        "links": {
             "boosty": "https://boosty.to/wukko"
         }
     },
@@ -34,7 +33,7 @@
         "02-17": "😺",
         "02-22": "😺",
         "03-01": "😺",
-        "05-26": "🀄",
+        "05-26": "🎂",
         "08-08": "😺",
         "08-26": "🐶",
         "10-29": "😺",

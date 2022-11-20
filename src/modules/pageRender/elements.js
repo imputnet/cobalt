@@ -129,7 +129,13 @@ export function footerButtons(obj) {
                 items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
                 break;
             case "popup":
-                items += `<div class="footer-pair"><button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1)" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button><button id="${obj[i+1]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1)" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button></div>`;
+                let context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : ''
+                let context2 = obj[i+1] && obj[i+1]["context"] ? `, '${obj[i+1]["context"]}'` : ''
+                items += `
+                <div class="footer-pair">
+                    <button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
+                    ${obj[i+1] ? `<button id="${obj[i+1]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1${context2})" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button>`: ''}
+                </div>`;
                 i++;
                 break;
         }

@@ -19,8 +19,8 @@ let audioFormats = supportedAudio.map((p) => {
     return { "action": p }
 })
 audioFormats.unshift({ "action": "best" })
-for (let i in donations["other"]) {
-    donateLinks += `<a id="don-${i}" class="switch autowidth" href="${donations["other"][i]}" target="_blank">${i}</a>`
+for (let i in donations["links"]) {
+    donateLinks += `<a id="don-${i}" class="switch autowidth" href="${donations["links"][i]}" target="_blank">REPLACEME ${i}</a>`
 }
 let extr = ''
 for (let i in donations["crypto"]) {
@@ -135,22 +135,31 @@ export default function(obj) {
                     header: {
                         closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
                         title: emoji("💸", 30) + loc(obj.lang, 'TitlePopupDonate'),
-                        subtitle: loc(obj.lang, 'DonateSubtitle')
+                        subtitle: loc(obj.lang, 'DonateSub')
                     },
                     body: [{
-                        text: donateLinks,
+                        text: `<div class="changelog-banner"><img class="changelog-img" src="updateBanners/catsleep.webp" onerror="this.style.display='none'"></img></div>`,
+                        raw: true
+                    },{
+                        text: loc(obj.lang, 'DonateExplanation')
+                    }, {
+                        text: donateLinks.replace(/REPLACEME/g, loc(obj.lang, 'DonateVia')),
                         raw: true
                     }, {
                         text: loc(obj.lang, 'DonateLinksDescription'),
                         classes: ["explanation"]
                     }, {
-                        text: donate.replace(/REPLACEME/g, loc(obj.lang, 'ClickToCopy'))
+                        text: `<div class="separator"></div>`,
+                        raw: true
                     }, {
-                        text: loc(obj.lang, 'DonateDescription'),
-                        classes: ["explanation", "no-top-padding"]
+                        text: donate.replace(/REPLACEME/g, loc(obj.lang, 'ClickToCopy')),
+                        classes: ["desc-padding"]
                     }, {
-                        text: backdropLink(authorInfo.contact, loc(obj.lang, 'LinkDonateContact')),
-                        classes: ["bottom-link"]
+                        text: `<div class="separator"></div>`,
+                        raw: true
+                    }, {
+                        text: loc(obj.lang, 'DonateHireMe', authorInfo.link),
+                        classes: ["desc-padding"]
                     }]
                 })
             }],
@@ -314,6 +323,12 @@ export default function(obj) {
             type: "popup",
             text: `${emoji(celebrationsEmoji() , 22)} ${loc(obj.lang, 'AboutTab')}`,
             aria: loc(obj.lang, 'AccessibilityOpenAbout')
+        }, {
+            name: "about",
+            type: "popup",
+            context: "donate",
+            text: `${emoji("💰", 22)} ${loc(obj.lang, 'Donate')}`,
+            aria: loc(obj.lang, 'AccessibilityOpenDonate')
         }, {
             name: "settings",
             type: "popup",

@@ -17,7 +17,8 @@ const names = {
     "🎄": "christmas_tree",
     "🕯️": "candle",
     "😺": "cat",
-    "🐶": "dog"
+    "🐶": "dog",
+    "🎂": "cake"
 }
 let sizing = {
     22: 0.4,
