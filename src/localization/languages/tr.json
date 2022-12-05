@@ -1,5 +1,5 @@
 {
-    "name": "turkish",
+    "name": "türk",
     "substrings": {
         "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">geliştiriciye ulaş</a>"
     },
