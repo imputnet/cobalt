@@ -106,6 +106,6 @@
         "MediaPickerExplanationPhoneIOS": "basılı tut, önizlemeyi gizle ve \"bağlantıdaki dosyayı indir\" seçeneğine tıklayarak dosyayı kaydet.",
         "TwitterSpaceWasntRecorded": "bu twitter space'i kaydedilmemiş, indirilebilecek bir şey yok. başka bir şey dene!",
         "ErrorCantProcess": "isteğini işleyemedim :(\nistersen bir daha dene ama problem hala devam ederse lütfen buradan iletişime geçin {ContactLink}.",
-        "ChangelogPressToHide": "Gizlemek için basın"
+        "ChangelogPressToHide": "gizlemek için basın"
     }
 }
