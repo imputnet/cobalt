@@ -1,36 +1,16 @@
-import got from "got";
 import { xml2json } from "xml-js";
-import loc from "../../localization/manager.js";
 import { genericUserAgent, maxVideoDuration, services } from "../config.js";
 import selectQuality from "../stream/selectQuality.js";
 
 export default async function(obj) {
     try {
         let html;
-        let isClip = obj.url.includes("vk.com/clip");
-
-        if (isClip) {
-            html = await got.post("https://vk.com/al_video.php?act=show", {
-                headers: {
-                    "user-agent": genericUserAgent,
-                    "referer": `https://vk.com/clips-${obj.userId}?z=clip-${obj.userId}_${obj.videoId}`
-                },
-                body: `_nol={"0":"clips-${obj.userId}","z":"clip-${obj.userId}_${obj.videoId}"}&act=show&al=1&autoplay=0&list=&module=&video=-${obj.userId}_${obj.videoId}`
-            });
-            html.on('error', (err) => {
-                return { error: loc(obj.lang, 'ErrorCouldntFetch', 'vk') };
-            });
-            html = html.body;
-        } else {
-            html = await got.get(`https://vk.com/video-${obj.userId}_${obj.videoId}`, { headers: { "user-agent": genericUserAgent } });
-            html.on('error', (err) => {
-                return { error: loc(obj.lang, 'ErrorCouldntFetch', 'vk') };
-            });
-            html = html.body;
-        }
-        
+        html = await fetch(`https://vk.com/video-${obj.userId}_${obj.videoId}`, {
+            headers: {"user-agent": genericUserAgent}
+        }).then(async (r) => {return await r.text()}).catch(() => {return false});
+        if (!html) return { error: 'ErrorCouldntFetch' };
         if (html.includes(`{"lang":`)) {
-            let js = isClip ? JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']],"static":')[0]) : JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
+            let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
             if (js["mvData"]["is_active_live"] == '0') {
                 if (js["mvData"]["duration"] <= maxVideoDuration / 1000) {
                     let mpd = JSON.parse(xml2json(js["player"]["params"][0]["manifest"], { compact: true, spaces: 4 }));
@@ -58,22 +38,21 @@ export default async function(obj) {
                     if (selectedQuality in js["player"]["params"][0]) {
                         return {
                             urls: js["player"]["params"][0][`url${userQuality}`],
-                            filename: `vk_${obj.userId}_${obj.videoId}_${userRepr["width"]}x${userRepr['height']}.mp4`,
-                            audioFilename: loc(obj.lang, 'ErrorEmptyDownload')
+                            filename: `vk_${obj.userId}_${obj.videoId}_${userRepr["width"]}x${userRepr['height']}.mp4`
                         };
                     } else {
-                        return { error: loc(obj.lang, 'ErrorEmptyDownload') };
+                        return { error: 'ErrorEmptyDownload' };
                     }
                 } else {
-                    return { error: loc(obj.lang, 'ErrorLengthLimit', maxVideoDuration / 60000) };
+                    return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
                 }
             } else {
-                return { error: loc(obj.lang, 'ErrorLiveVideo') };
+                return { error: 'ErrorLiveVideo' };
             }
         } else {
-            return { error: loc(obj.lang, 'ErrorEmptyDownload') };
+            return { error: 'ErrorEmptyDownload' };
         }
     } catch (err) {
-        return { error: loc(obj.lang, 'ErrorBadFetch') };
+        return { error: 'ErrorBadFetch' };
     }
 }

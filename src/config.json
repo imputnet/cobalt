@@ -54,7 +54,7 @@
     "supportedAudio": ["mp3", "ogg", "wav", "opus"],
     "ffmpegArgs": {
         "webm": ["-c:v", "copy", "-c:a", "copy"],
-        "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "frag_keyframe+empty_moov"],
+        "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
         "copy": ["-c:a", "copy"],
         "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
         "m4a": ["-movflags", "frag_keyframe+empty_moov"]

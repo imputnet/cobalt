@@ -24,23 +24,23 @@ app.disable('x-powered-by');
 
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
-        windowMs: 20 * 60 * 1000,
-        max: 800,
+        windowMs: 1 * 60 * 1000,
+        max: 12,
         standardHeaders: true,
         legacyHeaders: false,
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
         }
-    })
+    });
     const apiLimiterStream = rateLimit({
-        windowMs: 6 * 60 * 1000,
-        max: 600,
+        windowMs: 1 * 60 * 1000,
+        max: 12,
         standardHeaders: true,
         legacyHeaders: false,
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
         }
-    })
+    });
 
     await buildFront();
     app.use('/api/', apiLimiter);
@@ -79,16 +79,14 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                         let chck = checkJSONPost(request);
                         if (request.url && chck) {
                             chck["ip"] = ip;
-                            let j = await getJSON(request.url.trim(), languageCode(req), chck)
+                            let j = await getJSON(chck["url"], languageCode(req), chck)
+                            res.status(j.status).json(j.body);
+                        } else if (request.url && !chck) {
+                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorCouldntFetch') });
                             res.status(j.status).json(j.body);
                         } else {
-                            try {
-                                let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
-                                res.status(j.status).json(j.body);
-                            }
-                            catch (e) {
-                                res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorUnknownStatus') })
-                            }
+                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink') })
+                            res.status(j.status).json(j.body);
                         }
                     } catch (e) {
                         res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })

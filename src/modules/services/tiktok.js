@@ -1,12 +1,10 @@
-import got from "got";
-import loc from "../../localization/manager.js";
 import { genericUserAgent } from "../config.js";
 
 let userAgent = genericUserAgent.split(' Chrome/1')[0]
 let config = {
     tiktok: {
         short: "https://vt.tiktok.com/",
-        api: "https://api2.musical.ly/aweme/v1/feed/?aweme_id={postId}&version_code=262&app_name=musical_ly&channel=App&device_id=null&os_version=14.4.2&device_platform=iphone&device_type=iPhone9&region=US&carrier_region=US", // ill always find more endpoints lmfao
+        api: "https://api2.musical.ly/aweme/v1/feed/?aweme_id={postId}&version_code=262&app_name=musical_ly&channel=App&device_id=null&os_version=14.4.2&device_platform=iphone&device_type=iPhone9&region=US&carrier_region=US",
     },
     douyin: {
         short: "https://v.douyin.com/",
@@ -14,34 +12,46 @@ let config = {
     }
 }
 function selector(j, h, id) {
-    let t;
-    switch (h) {
-        case "tiktok":
-            t = j["aweme_list"].filter((v) => { if (v["aweme_id"] == id) return true })
-            break;
-        case "douyin":
-            t = j['item_list'].filter((v) => { if (v["aweme_id"] == id) return true })
-            break;
-    }
-    if (t.length > 0) { return t[0] } else return false
+    if (j) {
+        let t;
+        switch (h) {
+            case "tiktok":
+                t = j["aweme_list"].filter((v) => { if (v["aweme_id"] == id) return true })
+                break;
+            case "douyin":
+                t = j['item_list'].filter((v) => { if (v["aweme_id"] == id) return true })
+                break;
+        }
+        if (t.length > 0) { return t[0] } else return false
+    } else return false
 }
 
 export default async function(obj) {
     try {
         if (!obj.postId) {
-            let html = await got.get(`${config[obj.host]["short"]}${obj.id}`, { followRedirect: false, headers: { "user-agent": userAgent } });
-            html = html.body;
-            if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) obj.postId = html.split('video/')[1].split('?')[0].replace("/", '')
+            let html = await fetch(`${config[obj.host]["short"]}${obj.id}`, {
+                redirect: "manual",
+                headers: { "user-agent": userAgent }
+            }).then(async (r) => {return await r.text()}).catch(() => {return false});
+            if (!html) return { error: 'ErrorCouldntFetch' };
+            
+            if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) {
+                obj.postId = html.split('/video/')[1].split('?')[0].replace("/", '')
+            } else if (html.slice(0, 32) === '<a href="https://m.tiktok.com/v/' && html.includes('/v/')) {
+                obj.postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
+            }
         }
-        if (!obj.postId) return { error: loc(obj.lang, 'ErrorCantGetID') };
+        if (!obj.postId) return { error: 'ErrorCantGetID' };
+
         let detail;
-        try {
-            detail = await got.get(config[obj.host]["api"].replace("{postId}", obj.postId), { headers: {"User-Agent":"TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"} });
-            detail = selector(JSON.parse(detail.body), obj.host, obj.postId);
-            if (!detail) throw new Error()
-        } catch (e) {
-            return { error: loc(obj.lang, 'ErrorCouldntFetch') }
-        }
+        detail = await fetch(config[obj.host]["api"].replace("{postId}", obj.postId), {
+            headers: {"user-agent": "TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"}
+        }).then(async (r) => {return await r.json()}).catch(() => {return false});
+        
+        detail = selector(detail, obj.host, obj.postId);
+
+        if (!detail) return { error: 'ErrorCouldntFetch' }
+
         let video, videoFilename, audioFilename, isMp3, audio, images,
         filenameBase = `${obj.host}_${obj.postId}`;
         if (obj.host == "tiktok") {
@@ -101,6 +111,6 @@ export default async function(obj) {
             isMp3: isMp3,
         }
     } catch (e) {
-        return { error: loc(obj.lang, 'ErrorBadFetch') };
+        return { error: 'ErrorBadFetch' };
     }
 }

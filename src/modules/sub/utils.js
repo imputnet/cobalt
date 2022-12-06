@@ -1,5 +1,14 @@
 import { createStream } from "../stream/manage.js";
 
+let apiVar = {
+    allowed: {
+        vFormat: ["mp4", "webm"],
+        vQuality: ["max", "hig", "mid", "low", "los"],
+        aFormat: ["best", "mp3", "ogg", "wav", "opus"]
+    },
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio"]
+}
+
 export function apiJSON(type, obj) {
     try {
         switch (type) {
@@ -53,7 +62,11 @@ export function msToTime(d) {
     return r;
 }
 export function cleanURL(url, host) {
-    url = url.replace('}', '').replace('{', '').replace(')', '').replace('(', '').replace(' ', '').replace('@', '');
+    let forbiddenChars = ['}', '{', '(', ')', '\\', '@', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'"]
+    for (let i in forbiddenChars) {
+        url = url.replaceAll(forbiddenChars[i], '')
+    }
+    url = url.replace('https//', 'https://')
     if (url.includes('youtube.com/shorts/')) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
     }
@@ -65,7 +78,7 @@ export function cleanURL(url, host) {
             url = url.substring(0, url.length - 1);
         }
     }
-    return url
+    return url.slice(0, 128)
 }
 export function languageCode(req) {
     return req.header('Accept-Language') ? req.header('Accept-Language').slice(0, 2) : "en"
@@ -84,20 +97,23 @@ export function checkJSONPost(obj) {
         isNoTTWatermark: false,
         isTTFullAudio: false
     }
-    let booleanOnly = ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio"]
     try {
         let objKeys = Object.keys(obj);
-        if (objKeys.length < 8) {
+        if (objKeys.length < 8 && obj.url) {
             let defKeys = Object.keys(def);
             for (let i in objKeys) {
-                if (defKeys.includes(objKeys[i])) {
-                    if (booleanOnly.includes(objKeys[i])) {
-                        def[objKeys[i]] = obj[objKeys[i]] ? true : false
+                if (String(objKeys[i]) !== "url" && defKeys.includes(objKeys[i])) {
+                    if (apiVar.booleanOnly.includes(objKeys[i])) {
+                        def[objKeys[i]] = obj[objKeys[i]] ? true : false;
                     } else {
-                        def[objKeys[i]] = obj[objKeys[i]]
+                        if (apiVar.allowed[objKeys[i]].includes(obj[objKeys[i]])) def[objKeys[i]] = String(obj[objKeys[i]])
                     }
                 }
             }
+            obj["url"] = decodeURIComponent(String(obj["url"]))
+            let hostname = obj["url"].replace("https://", "").replace(' ', '').split('&')[0].split("/")[0].split("."),
+                host = hostname[hostname.length - 2]
+            def["url"] = encodeURIComponent(cleanURL(obj["url"], host))
             return def
         } else {
             return false

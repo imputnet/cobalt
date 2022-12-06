@@ -1,5 +1,4 @@
-import ytdl from "ytdl-core";
-import loc from "../../localization/manager.js";
+import ytdl from "better-ytdl-core";
 import { maxVideoDuration, quality as mq } from "../config.js";
 import selectQuality from "../stream/selectQuality.js";
 
@@ -56,7 +55,7 @@ export default async function(obj) {
                                 };
                             }
                         } else {
-                            return { error: loc(obj.lang, 'ErrorBadFetch') };
+                            return { error: 'ErrorBadFetch' };
                         }
                     } else if (!obj.isAudioOnly) {
                         return {
@@ -82,18 +81,18 @@ export default async function(obj) {
                         }
                         return r
                     } else {
-                        return { error: loc(obj.lang, 'ErrorBadFetch') };
+                        return { error: 'ErrorBadFetch' };
                     }
                 } else {
-                    return { error: loc(obj.lang, 'ErrorLengthLimit', maxVideoDuration / 60000) };
+                    return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
                 }
             } else {
-                return { error: loc(obj.lang, 'ErrorLiveVideo') };
+                return { error: 'ErrorLiveVideo' };
             }
         } else {
-            return { error: loc(obj.lang, 'ErrorCantConnectToServiceAPI') };
+            return { error: 'ErrorCantConnectToServiceAPI' };
         }
     } catch (e) {
-        return { error: loc(obj.lang, 'ErrorBadFetch') };
+        return { error: 'ErrorBadFetch' };
     }
 }

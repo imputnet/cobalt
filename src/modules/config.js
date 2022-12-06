@@ -14,7 +14,6 @@ export const
     genericUserAgent = config.genericUserAgent,
     repo = packageJson["bugs"]["url"].replace('/issues', ''),
     authorInfo = config.authorInfo,
-    supportedLanguages = config.supportedLanguages,
     quality = config.quality,
     internetExplorerRedirect = config.internetExplorerRedirect,
     donations = config.donations,

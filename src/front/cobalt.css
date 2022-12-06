@@ -310,6 +310,7 @@ input[type="checkbox"] {
     background-color: var(--accent-button-bg);
     max-height: 300px;
     margin-bottom: 2rem;
+    float: left;
 }
 .changelog-img {
     object-fit: cover;
@@ -369,6 +370,9 @@ input[type="checkbox"] {
     overflow-y: auto;
     height: var(--without-padding);
     scrollbar-width: none;
+}
+.bullpadding {
+    padding-left: 0.58rem;
 }
 #popup-header {
     position: relative;

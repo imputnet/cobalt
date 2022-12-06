@@ -10,8 +10,8 @@ let com = getCommitInfo();
 let enabledServices = Object.keys(s).filter((p) => {
     if (s[p].enabled) return true;
 }).sort().map((p) => {
-    return s[p].alias ? s[p].alias : p
-}).join(', ')
+    return `<br>&bull; ${s[p].alias ? s[p].alias : p}`
+}).join(';').substring(4)
 
 let donate = ``
 let donateLinks = ``
@@ -81,9 +81,13 @@ export default function(obj) {
                     body: [{
                         text: loc(obj.lang, 'AboutSummary')
                     }, {
-                        text: `${loc(obj.lang, 'AboutSupportedServices')} ${enabledServices}.`
+                        text: `${loc(obj.lang, 'AboutSupportedServices')}`,
+                        nopadding: true
                     }, {
-                        text: obj.lang !== "ru" ? loc(obj.lang, 'FollowTwitter') : ""
+                        text: `<div class="bullpadding">${enabledServices}.</div>`
+                    }, {
+                        text: obj.lang !== "ru" ? loc(obj.lang, 'FollowTwitter') : "",
+                        classes: ["desc-padding"]
                     }, {
                         text: backdropLink(repo, loc(obj.lang, 'LinkGitHubIssues')),
                         classes: ["bottom-link"]

@@ -1,12 +1,12 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "4.4",
+    "version": "4.5",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
     "engines": {
-        "node": ">=14.16"
+        "node": ">=17.5"
     },
     "scripts": {
         "start": "node src/cobalt",
@@ -22,6 +22,7 @@
     },
     "homepage": "https://github.com/wukko/cobalt#readme",
     "dependencies": {
+        "better-ytdl-core": "^1.0.1",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "esbuild": "^0.14.51",
@@ -31,7 +32,6 @@
         "got": "^12.1.0",
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
-        "xml-js": "^1.6.11",
-        "ytdl-core": "^4.11.2"
+        "xml-js": "^1.6.11"
     }
 }

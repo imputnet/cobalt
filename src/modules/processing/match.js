@@ -1,6 +1,8 @@
 import { apiJSON } from "../sub/utils.js";
 import { errorUnsupported, genericError } from "../sub/errors.js";
 
+import loc from "../../localization/manager.js";
+
 import { testers } from "./servicesPatternTesters.js";
 
 import bilibili from "../services/bilibili.js";
@@ -105,7 +107,9 @@ export default async function (host, patternMatch, url, lang, obj) {
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
-        return matchActionDecider(r, host, obj.ip, obj.aFormat, obj.isAudioOnly)
+        return !r.error ? matchActionDecider(r, host, obj.ip, obj.aFormat, obj.isAudioOnly, lang) : apiJSON(0, {
+            t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error)
+        });
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

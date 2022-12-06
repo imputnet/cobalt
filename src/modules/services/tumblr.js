@@ -1,24 +1,16 @@
-import got from "got";
-import loc from "../../localization/manager.js";
 import { genericUserAgent } from "../config.js";
 
 export default async function(obj) {
     try {
         let user = obj.user ? obj.user : obj.url.split('.')[0].replace('https://', '');
-        if (user.length <= 32) {
-            let html = await got.get(`https://${user}.tumblr.com/post/${obj.id}`, { headers: { "user-agent": genericUserAgent } });
-            html.on('error', (err) => {
-                return { error: loc(obj.lang, 'ErrorCouldntFetch', 'tumblr') };
-            });
-            html = html.body
-            if (html.includes('<!-- GOOGLE CAROUSEL --><script type="application/ld+json">')) {
-                let json = JSON.parse(html.split('<!-- GOOGLE CAROUSEL --><script type="application/ld+json">')[1].split('</script>')[0])
-                if (json["video"] && json["video"]["contentUrl"]) {
-                    return { urls: json["video"]["contentUrl"], audioFilename: `tumblr_${obj.id}_audio` }
-                } else return { error: loc(obj.lang, 'ErrorEmptyDownload') }
-            } else return { error: loc(obj.lang, 'ErrorBrokenLink', 'tumblr') }
-        } else return { error: loc(obj.lang, 'ErrorBrokenLink', 'tumblr') }
+        let html = await fetch(`https://${user}.tumblr.com/post/${obj.id}`, {
+            headers: {"user-agent": genericUserAgent}
+        }).then(async (r) => {return await r.text()}).catch(() => {return false});
+        if (!html) return { error: 'ErrorCouldntFetch' };
+        if (html.includes('property="og:video" content="https://va.media.tumblr.com/')) {
+            return { urls: `https://va.media.tumblr.com/${html.split('property="og:video" content="https://va.media.tumblr.com/')[1].split('"/>')[0]}`, audioFilename: `tumblr_${obj.id}_audio` }
+        } else return { error: 'ErrorEmptyDownload' }
     } catch (e) {
-        return { error: loc(obj.lang, 'ErrorBadFetch') };
+        return { error: 'ErrorBadFetch' };
     }
 }
