@@ -172,7 +172,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         res.redirect('/')
     });
     app.listen(process.env.port, () => {
-        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nStart time: ${Bright(new Date().getUTCDate())}\n`)
+        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nStart time: ${Bright(new Date().toUTCString())}\n`)
     });
 } else {
     console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))
