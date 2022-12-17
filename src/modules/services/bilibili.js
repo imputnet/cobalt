@@ -4,7 +4,7 @@ export default async function(obj) {
     try {
         let html = await fetch(`https://bilibili.com/video/${obj.id}`, {
             headers: {"user-agent": genericUserAgent}
-        }).then(async (r) => {return r.text()}).catch(() => {return false});
+        }).then((r) => {return r.text()}).catch(() => {return false});
         if (!html) return { error: 'ErrorCouldntFetch' };
 
         if (html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"')) {

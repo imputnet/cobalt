@@ -7,7 +7,7 @@ export default async function(obj) {
         let html;
         html = await fetch(`https://vk.com/video-${obj.userId}_${obj.videoId}`, {
             headers: {"user-agent": genericUserAgent}
-        }).then(async (r) => {return r.text()}).catch(() => {return false});
+        }).then((r) => {return r.text()}).catch(() => {return false});
         if (!html) return { error: 'ErrorCouldntFetch' };
         if (html.includes(`{"lang":`)) {
             let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);

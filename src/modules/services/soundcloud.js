@@ -4,7 +4,7 @@ let cachedID = {}
 
 async function findClientID() {
     try {
-        let sc = await fetch('https://soundcloud.com/').then(async (r) => {return r.text()}).catch(() => {return false});
+        let sc = await fetch('https://soundcloud.com/').then((r) => {return r.text()}).catch(() => {return false});
         let sc_version = String(sc.match(/<script>window\.__sc_version="[0-9]{10}"<\/script>/)[0].match(/[0-9]{10}/));
 
         if (cachedID.version == sc_version) {
@@ -17,7 +17,7 @@ async function findClientID() {
     
                 if (url && !url.startsWith('https://a-v2.sndcdn.com')) return;
     
-                let scrf = await fetch(url).then(async (r) => {return r.text()}).catch(() => {return false});
+                let scrf = await fetch(url).then((r) => {return r.text()}).catch(() => {return false});
                 let id = scrf.match(/\("client_id=[A-Za-z0-9]{32}"\)/);
     
                 if (id && typeof id[0] === 'string') {
@@ -41,12 +41,12 @@ export default async function(obj) {
         if (!obj.author && !obj.song && obj.shortLink) {
             html = await fetch(`https://soundcloud.app.goo.gl/${obj.shortLink}/`, {
                 headers: {"user-agent": genericUserAgent}
-            }).then(async (r) => {return r.text()}).catch(() => {return false});
+            }).then((r) => {return r.text()}).catch(() => {return false});
         }
         if (obj.author && obj.song) {
             html = await fetch(`https://soundcloud.com/${obj.author}/${obj.song}`, {
                 headers: {"user-agent": genericUserAgent}
-            }).then(async (r) => {return r.text()}).catch(() => {return false});
+            }).then((r) => {return r.text()}).catch(() => {return false});
         }
         if (!html) return { error: 'ErrorCouldntFetch'};
         if (html.includes('<script>window.__sc_hydration = ') && html.includes('"format":{"protocol":"progressive","mime_type":"audio/mpeg"},') && html.includes('{"hydratable":"sound","data":')) {

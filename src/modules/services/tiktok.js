@@ -32,7 +32,7 @@ export default async function(obj) {
             let html = await fetch(`${config[obj.host]["short"]}${obj.id}`, {
                 redirect: "manual",
                 headers: { "user-agent": userAgent }
-            }).then(async (r) => {return r.text()}).catch(() => {return false});
+            }).then((r) => {return r.text()}).catch(() => {return false});
             if (!html) return { error: 'ErrorCouldntFetch' };
             
             if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) {
@@ -46,7 +46,7 @@ export default async function(obj) {
         let detail;
         detail = await fetch(config[obj.host]["api"].replace("{postId}", obj.postId), {
             headers: {"user-agent": "TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"}
-        }).then(async (r) => {return r.json()}).catch(() => {return false});
+        }).then((r) => {return r.json()}).catch(() => {return false});
         
         detail = selector(detail, obj.host, obj.postId);
 
