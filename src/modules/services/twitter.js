@@ -15,13 +15,13 @@ export default async function(obj) {
         let req_act = await fetch(`${apiURL}/guest/activate.json`, {
             method: "POST",
             headers: _headers
-        }).then(async (r) => { return r.status == 200 ? await r.json() : false;}).catch(() => {return false});
+        }).then(async (r) => { return r.status == 200 ? r.json() : false;}).catch(() => {return false});
         
         if (!req_act) return { error: 'ErrorCouldntFetch' };
         _headers["x-guest-token"] = req_act["guest_token"];
         let showURL = `${apiURL}/statuses/show/${obj.id}.json?tweet_mode=extended&include_user_entities=0&trim_user=1&include_entities=0&cards_platform=Web-12&include_cards=1`
         if (!obj.spaceId) {
-            let req_status = await fetch(showURL, { headers: _headers }).then(async (r) => { return r.status == 200 ? await r.json() : false;}).catch((e) => { return false});
+            let req_status = await fetch(showURL, { headers: _headers }).then(async (r) => { return r.status == 200 ? r.json() : false;}).catch((e) => { return false});
             if (!req_status) {
                 _headers.authorization = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
                 delete _headers["x-guest-token"]
@@ -29,11 +29,11 @@ export default async function(obj) {
                 req_act = await fetch(`${apiURL}/guest/activate.json`, {
                     method: "POST",
                     headers: _headers
-                }).then(async (r) => { return r.status == 200 ? await r.json() : false;}).catch(() => {return false});
+                }).then(async (r) => { return r.status == 200 ? r.json() : false;}).catch(() => {return false});
                 if (!req_act) return { error: 'ErrorCouldntFetch' };
 
                 _headers["x-guest-token"] = req_act["guest_token"];
-                req_status = await fetch(showURL, { headers: _headers }).then(async (r) => { return r.status == 200 ? await r.json() : false;}).catch(() => {return false});
+                req_status = await fetch(showURL, { headers: _headers }).then(async (r) => { return r.status == 200 ? r.json() : false;}).catch(() => {return false});
             }
             if (!req_status) return { error: 'ErrorCouldntFetch' }
             if (req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
@@ -47,7 +47,7 @@ export default async function(obj) {
                     return { error: 'ErrorNoVideosInTweet' }
                 }
                 if (single) {
-                    return { urls: single, audioFilename: `twitter_${obj.id}_audio` }
+                    return { urls: single, filename: `twitter_${obj.id}.mp4`, audioFilename: `twitter_${obj.id}_audio` }
                 } else if (multiple) {
                     return { picker: multiple }
                 } else {
@@ -64,12 +64,12 @@ export default async function(obj) {
             }
 
             let AudioSpaceById = await fetch(`https://twitter.com/i/api/graphql/wJ5g4zf7v8qPHSQbaozYuw/AudioSpaceById?variables=${new URLSearchParams(JSON.stringify(query.variables)).toString().slice(0, -1)}&features=${new URLSearchParams(JSON.stringify(query.features)).toString().slice(0, -1)}`, { headers: _headers }).then(async (r) => {
-                return r.status == 200 ? await r.json() : false;
+                return r.status == 200 ? r.json() : false;
             }).catch((e) => {return false});
 
             if (AudioSpaceById) {
                 if (AudioSpaceById.data.audioSpace.metadata.is_space_available_for_replay === true) {
-                    let streamStatus = await fetch(`https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { headers: _headers }).then(async (r) => {return r.status == 200 ? await r.json() : false;}).catch(() => {return false;});
+                    let streamStatus = await fetch(`https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { headers: _headers }).then(async (r) => {return r.status == 200 ? r.json() : false;}).catch(() => {return false;});
                     if (!streamStatus) return { error: 'ErrorCouldntFetch' };
     
                     let participants = AudioSpaceById.data.audioSpace.participants.speakers

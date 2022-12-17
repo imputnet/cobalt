@@ -1,4 +1,4 @@
-import { backdropLink, celebrationsEmoji, checkbox, footerButtons, multiPagePopup, popup, popupWithBottomButtons, settingsCategory, switcher } from "./elements.js";
+import { backdropLink, celebrationsEmoji, checkbox, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher } from "./elements.js";
 import { services as s, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -115,7 +115,7 @@ export default function(obj) {
                     }, {
                         text: changelogManager("content")
                     }, {
-                        text: `<div class="separator"></div><span class="text-backdrop">${obj.hash}:</span> ${com[0]}`,
+                        text: `${sep()}<span class="text-backdrop">${obj.hash}:</span> ${com[0]}`,
                         classes: ["changelog-subtitle"],
                         nopadding: true
                     }, {
@@ -153,13 +153,13 @@ export default function(obj) {
                         text: loc(obj.lang, 'DonateLinksDescription'),
                         classes: ["explanation"]
                     }, {
-                        text: `<div class="separator"></div>`,
+                        text: sep(),
                         raw: true
                     }, {
                         text: donate.replace(/REPLACEME/g, loc(obj.lang, 'ClickToCopy')),
                         classes: ["desc-padding"]
                     }, {
-                        text: `<div class="separator"></div>`,
+                        text: sep(),
                         raw: true
                     }, {
                         text: loc(obj.lang, 'DonateHireMe', authorInfo.link),
@@ -173,7 +173,7 @@ export default function(obj) {
             closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
             header: {
                 aboveTitle: {
-                    text: `v.${version} ~ ${obj.hash}`,
+                    text: `v.${version}-${obj.hash}`,
                     url: `${repo}/commit/${obj.hash}`
                 },
                 title: `${emoji("⚙️", 30)} ${loc(obj.lang, 'TitlePopupSettings')}`
@@ -183,7 +183,7 @@ export default function(obj) {
                 title: `${emoji("🎬")} ${loc(obj.lang, 'SettingsVideoTab')}`,
                 content: settingsCategory({
                     name: "downloads",
-                    title: loc(obj.lang, 'SettingsDownloadsSubtitle'),
+                    title: loc(obj.lang, 'SettingsVideoGeneral'),
                     body: switcher({
                         name: "vQuality",
                         subtitle: loc(obj.lang, 'SettingsQualitySubtitle'),
@@ -202,8 +202,7 @@ export default function(obj) {
                             "text": `${loc(obj.lang, 'SettingsQualitySwitchLow')}<br/>(${quality.low}p)`
                         }]
                     })
-                }) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup'), 1) : ''}`
-                    + settingsCategory({
+                }) + settingsCategory({
                         name: "youtube",
                         body: switcher({
                             name: "vFormat",
@@ -234,7 +233,7 @@ export default function(obj) {
                         subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
                         explanation: loc(obj.lang, 'SettingsAudioFormatDescription'),
                         items: audioFormats
-                    })
+                    }) + sep(0) + checkbox("muteAudio", loc(obj.lang, 'SettingsVideoMute'), loc(obj.lang, 'SettingsVideoMute'), 3) + explanation(loc(obj.lang, 'SettingsVideoMuteExplanation'))
                 }) + settingsCategory({
                     name: "tiktok",
                     title: "tiktok & douyin",
@@ -263,7 +262,7 @@ export default function(obj) {
                 }) + settingsCategory({
                     name: "miscellaneous",
                     title: loc(obj.lang, 'Miscellaneous'),
-                    body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableNotifications'))
+                    body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableNotifications')) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup'), 1) : ''}`
                 })
             }],
         })}

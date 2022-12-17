@@ -1,7 +1,7 @@
 {
     "name": "english",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">contact the maintainer</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">file an issue on github</a>"
     },
     "strings": {
         "LinkInput": "paste the link here",
@@ -38,7 +38,6 @@
         "SettingsAppearanceSubtitle": "appearance",
         "SettingsThemeSubtitle": "theme",
         "SettingsFormatSubtitle": "download format",
-        "SettingsDownloadsSubtitle": "downloads",
         "SettingsQualitySubtitle": "quality",
         "SettingsThemeAuto": "auto",
         "SettingsThemeLight": "light",
@@ -108,6 +107,9 @@
         "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but hey! turns out keeping up a web service used by hundreds of thousands of people is somewhat costly.\n\nif you ever found {appName} useful and want to keep it online, or simply want to thank the developer, consider chipping in! each and every cent helps and is VERY appreciated.",
         "DonateVia": "donate via",
         "DonateHireMe": "or, as an alternative, you can <a class=\"text-backdrop\" href=\"{s}\" target=\"_blank\">hire me</a>.",
-        "DiscordServer": "join the live conversation about {appName} on the <a class=\"text-backdrop\" href=\"{discord}\" target=\"_blank\">official discord server</a>"
+        "SettingsVideoMute": "mute audio",
+        "SettingsVideoMuteExplanation": "disables audio in downloaded video when possible. you'll get the source video file if video and audio channels are served in two files by the origin service. ignored when audio mode is on or service only supports audio.",
+        "SettingsVideoGeneral": "general",
+        "ErrorSoundCloudNoClientId": "couldn't find client_id that is required to fetch audio data from soundcloud. try again, and if issue persists, {ContactLink}."
     }
 }

@@ -107,7 +107,7 @@ export default async function (host, patternMatch, url, lang, obj) {
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
-        return !r.error ? matchActionDecider(r, host, obj.ip, obj.aFormat, obj.isAudioOnly, lang) : apiJSON(0, {
+        return !r.error ? matchActionDecider(r, host, obj.ip, obj.aFormat, obj.isAudioOnly, lang, obj.isAudioMuted) : apiJSON(0, {
             t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error)
         });
     } catch (e) {

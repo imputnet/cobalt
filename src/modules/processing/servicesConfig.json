@@ -86,7 +86,6 @@
         "soundcloud": {
             "patterns": [":author/:song", ":shortLink"],
             "bestAudio": "none",
-            "clientid": "YeTcsotswIIc4sse5WZsXszVxMtP6eLc",
             "enabled": true
         }
     }    

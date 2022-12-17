@@ -6,7 +6,9 @@ import { metadataManager, msToTime } from "../sub/utils.js";
 
 export function streamDefault(streamInfo, res) {
     try {
-        res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : streamInfo.filename}"`);
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1]
+        let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`
+        res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
         const stream = got.get(streamInfo.urls, {
             headers: {
                 "user-agent": genericUserAgent
@@ -86,6 +88,34 @@ export function streamAudioOnly(streamInfo, res) {
         });
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
+        ffmpegProcess.stdio[3].pipe(res);
+        
+        ffmpegProcess.on('error', (err) => {
+            ffmpegProcess.kill();
+            res.end();
+        });
+    } catch (e) {
+        res.end();
+    }
+}
+export function streamVideoOnly(streamInfo, res) {
+    try {
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
+            '-loglevel', '-8',
+            '-i', streamInfo.urls,
+            '-c', 'copy', '-an'
+        ]
+        if (format == "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
+        args.push('-f', format, 'pipe:3');
+        const ffmpegProcess = spawn(ffmpeg, args, {
+            windowsHide: true,
+            stdio: [
+                'inherit', 'inherit', 'inherit',
+                'pipe'
+            ],
+        });
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}_mute.${format}"`);
         ffmpegProcess.stdio[3].pipe(res);
         
         ffmpegProcess.on('error', (err) => {

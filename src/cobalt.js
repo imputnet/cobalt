@@ -10,7 +10,7 @@ import { appName, genericUserAgent, version, internetExplorerRedirect } from "./
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/pageRender/page.js";
 import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
-import { Bright, Cyan } from "./modules/sub/consoleText.js";
+import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
 import { buildFront } from "./modules/build.js";
@@ -190,8 +190,8 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         res.redirect('/')
     });
     app.listen(process.env.port, () => {
-        console.log(`\n${Bright(`${appName} (${version})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nCurrent commit: ${Bright(`${commitHash}`)}\nStart time: ${Bright(Math.floor(new Date().getTime()))}\n`)
+        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nStart time: ${Bright(Math.floor(new Date().getTime()))}\n`)
     });
 } else {
-    console.log(`you can't run the server without generating a .env file. please run the setup script first: npm run setup`)
+    console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))
 }

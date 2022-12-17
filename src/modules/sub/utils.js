@@ -6,7 +6,7 @@ let apiVar = {
         vQuality: ["max", "hig", "mid", "low", "los"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted"]
 }
 
 export function apiJSON(type, obj) {
@@ -95,7 +95,8 @@ export function checkJSONPost(obj) {
         aFormat: "mp3",
         isAudioOnly: false,
         isNoTTWatermark: false,
-        isTTFullAudio: false
+        isTTFullAudio: false,
+        isAudioMuted: false,
     }
     try {
         let objKeys = Object.keys(obj);
@@ -106,7 +107,7 @@ export function checkJSONPost(obj) {
                     if (apiVar.booleanOnly.includes(objKeys[i])) {
                         def[objKeys[i]] = obj[objKeys[i]] ? true : false;
                     } else {
-                        if (apiVar.allowed[objKeys[i]].includes(obj[objKeys[i]])) def[objKeys[i]] = String(obj[objKeys[i]])
+                        if (apiVar.allowed[objKeys[i]] && apiVar.allowed[objKeys[i]].includes(obj[objKeys[i]])) def[objKeys[i]] = String(obj[objKeys[i]])
                     }
                 }
             }

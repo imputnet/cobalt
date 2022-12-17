@@ -2,7 +2,7 @@ import { maxVideoDuration } from "../config.js";
 
 export default async function(obj) {
     try {
-        let data = await fetch(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}/${obj.name}.json`).then(async (r) => {return await r.json()}).catch(() => {return false});
+        let data = await fetch(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}/${obj.name}.json`).then(async (r) => {return r.json()}).catch(() => {return false});
         if (!data) return { error: 'ErrorCouldntFetch' };
         data = data[0]["data"]["children"][0]["data"];
 

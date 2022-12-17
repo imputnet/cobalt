@@ -2,7 +2,7 @@ import { quality, services } from "../config.js";
 
 export default async function(obj) {
     try {
-        let api = await fetch(`https://player.vimeo.com/video/${obj.id}/config`).then(async (r) => {return await r.json()}).catch(() => {return false});
+        let api = await fetch(`https://player.vimeo.com/video/${obj.id}/config`).then(async (r) => {return r.json()}).catch(() => {return false});
         if (!api) return { error: 'ErrorCouldntFetch' };
 
         let downloadType = "";
@@ -29,10 +29,10 @@ export default async function(obj) {
                 } catch (e) {
                     best = all[0]
                 }
-                return { urls: best["url"] };
+                return { urls: best["url"], filename: `tumblr_${obj.id}.mp4` };
             case "dash":
                 let masterJSONURL = api["request"]["files"]["dash"]["cdns"]["akfire_interconnect_quic"]["url"];
-                let masterJSON = await fetch(masterJSONURL).then(async (r) => {return await r.json()}).catch(() => {return false});
+                let masterJSON = await fetch(masterJSONURL).then(async (r) => {return r.json()}).catch(() => {return false});
                 if (!masterJSON) return { error: 'ErrorCouldntFetch' };
                 if (masterJSON.video) {
                     let type = "";

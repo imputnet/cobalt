@@ -2,8 +2,8 @@ import { audioIgnore, services, supportedAudio } from "../config.js"
 import { apiJSON } from "../sub/utils.js"
 import loc from "../../localization/manager.js";
 
-export default function(r, host, ip, audioFormat, isAudioOnly, lang) {
-    if (!isAudioOnly && !r.picker) {
+export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMuted) {
+    if (!isAudioOnly && !r.picker && !isAudioMuted) {
         switch (host) {
             case "twitter":
                 return apiJSON(1, { u: r.urls });
@@ -42,7 +42,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang) {
             case "tumblr":
                 return apiJSON(1, { u: r.urls });
             case "vimeo":
-                if (r.filename) {
+                if (Array.isArray(r.urls)) {
                     return apiJSON(2, {
                         type: "render", u: r.urls, service: host, ip: ip,
                         filename: r.filename
@@ -51,6 +51,16 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang) {
                     return apiJSON(1, { u: r.urls });
                 }
         }
+    } else if (isAudioMuted) {
+        let isSplit = Array.isArray(r.urls);
+        return apiJSON(2, {
+            type: isSplit ? "bridge" : "mute",
+            u: isSplit ? r.urls[0] : r.urls,
+            service: host,
+            ip: ip,
+            filename: r.filename,
+            mute: true,
+        });
     } else if (r.picker) {
         switch (host) {
             case "douyin":

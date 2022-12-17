@@ -39,7 +39,15 @@ export function checkbox(action, text, aria, paddingType) {
         <span>${text}</span>
     </label>`
 }
-
+export function sep(paddingType) {
+    let paddingClass = ``
+    switch(paddingType) {
+        case 0: 
+            paddingClass += ` top-margin`;
+            break;
+    }
+    return `<div class="separator${paddingClass}"></div>`
+}
 export function popup(obj) {
     let classes = obj.classes ? obj.classes : []
     let body = obj.body;
@@ -143,7 +151,9 @@ export function footerButtons(obj) {
     return `
     <div id="footer-buttons">${items}</div>`
 }
-
+export function explanation(text) {
+    return `<div class="explanation">${text}</div>`
+}
 export function celebrationsEmoji() {
     let n = new Date().toISOString().split('T')[0].split('-');
     let dm = `${n[1]}-${n[2]}`;

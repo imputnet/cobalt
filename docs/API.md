@@ -21,6 +21,7 @@ Response Body Type: ``application/json``
 | isAudioOnly     | boolean | ``true / false``                  | ``false``  |                                                                       |
 | isNoTTWatermark | boolean | ``true / false``                  | ``false``  | Changes whether downloaded TikTok & Douyin videos have watermarks.    |
 | isTTFullAudio   | boolean | ``true / false``                  | ``false``  | Enables download of original sound used in a TikTok video.            |
+| isAudioMuted    | boolean | ``true / false``                  | ``false``  | Disables audio track in video downloads.                              |
 
 ### Response Body Variables
 | key        | type   | variables                                                     |
