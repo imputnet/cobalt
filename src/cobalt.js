@@ -105,27 +105,9 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         try {
             let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
-                // **
-                // json GET method will be deprecated by 4.5! make sure to move your shortcuts to POST method.
-                // **
                 case 'json':
-                    try {
-                        if (req.query.url && req.query.url.length < 150) {
-                            let chck = checkJSONPost({});
-                            chck["ip"] = ip;
-                            let j = await getJSON(req.query.url.trim(), languageCode(req), chck)
-                            res.status(j.status).json(j.body);
-                        } else {
-                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
-                            res.status(j.status).json(j.body);
-                        }
-                    } catch (e) {
-                        res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
-                    }
+                    res.status(405).json({ 'status': 'error', 'text': 'GET method for this request has been deprecated. see https://github.com/wukko/cobalt/blob/current/docs/API.md for up-to-date API documentation.' });
                     break;
-                // **
-                // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ will be removed soon ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                // **
                 case 'stream':
                     if (req.query.p) {
                         res.status(200).json({ "status": "continue" });
@@ -190,7 +172,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         res.redirect('/')
     });
     app.listen(process.env.port, () => {
-        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nStart time: ${Bright(Math.floor(new Date().getTime()))}\n`)
+        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nStart time: ${Bright(new Date().getUTCDate())}\n`)
     });
 } else {
     console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))
