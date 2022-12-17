@@ -1,7 +1,7 @@
 {
     "name": "русский",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">напиши об этом мейнтейнеру</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">напиши об этом на github</a>"
     },
     "strings": {
         "LinkInput": "вставь ссылку сюда",
@@ -38,7 +38,6 @@
         "SettingsAppearanceSubtitle": "внешний вид",
         "SettingsThemeSubtitle": "тема",
         "SettingsFormatSubtitle": "формат загрузок",
-        "SettingsDownloadsSubtitle": "загрузки",
         "SettingsQualitySubtitle": "качество",
         "SettingsThemeAuto": "авто",
         "SettingsThemeLight": "светлая",
@@ -108,6 +107,9 @@
         "DonateExplanation": "{appName} не пихает рекламу тебе в лицо и не продаёт твои личные данные, а значит работает <span class=\"text-backdrop\">совершенно бесплатно</span>. но оказывается, что хостинг сервиса, которым пользуются сотни тысяч людей, обходится довольно дорого.\n\nесли ты хочешь, чтобы твой любимый загрузчик оставался онлайн, а разработчик не помер с голоду вместе с двумя котами, то подумай над тем, чтобы задонатить. каждый рубль поможет мне, моим котам, и {appName}!",
         "DonateVia": "открыть",
         "DonateHireMe": "или же ты можешь <a class=\"text-backdrop\" href=\"{s}\" target=\"_blank\">пригласить меня на работу</a>.",
-        "DiscordServer": "присоединяйся к живой беседе о {appName} прямо на его <a class=\"text-backdrop\" href=\"{discord}\" target=\"_blank\">официальном discord сервере</a>"
+        "SettingsVideoMute": "отключить аудио",
+        "SettingsVideoMuteExplanation": "убирает аудио при загрузке видео, когда это возможно. ты получишь исходное видео напрямую от сервиса, если видео и аудио каналы разбиты по файлам. игнорируется если включен режим аудио или сервис поддерживает только аудио загрузки.",
+        "SettingsVideoGeneral": "основные",
+        "ErrorSoundCloudNoClientId": "мне не удалось достать client_id, который необходим для получения аудио из soundcloud. попробуй ещё раз, но если так и не получится, {ContactLink}."
     }
 }
