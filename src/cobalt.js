@@ -101,7 +101,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
     });
-    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
+    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), (req, res) => {
         try {
             let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
