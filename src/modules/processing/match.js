@@ -81,7 +81,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                     noWatermark: obj.isNoTTWatermark, fullAudio: obj.isTTFullAudio,
                     isAudioOnly: obj.isAudioOnly
                 });
-                if (r.isAudioOnly) obj.isAudioOnly = true
+                if (r.isAudioOnly) obj.isAudioOnly = true;
                 break;
             case "tumblr":
                 r = await tumblr({
@@ -100,6 +100,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                 r = await soundcloud({
                     author: patternMatch["author"], song: patternMatch["song"], url: url,
                     shortLink: patternMatch["shortLink"] ? patternMatch["shortLink"] : false,
+                    accessKey: patternMatch["accessKey"] ? patternMatch["accessKey"] : false,
                     format: obj.aFormat,
                     lang: lang
                 });

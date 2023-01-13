@@ -84,7 +84,7 @@
             "enabled": true
         },
         "soundcloud": {
-            "patterns": [":author/:song", ":shortLink"],
+            "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
             "bestAudio": "none",
             "enabled": true
         }

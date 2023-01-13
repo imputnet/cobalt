@@ -44,7 +44,7 @@ export default async function(obj) {
             }).then((r) => {return r.text()}).catch(() => {return false});
         }
         if (obj.author && obj.song) {
-            html = await fetch(`https://soundcloud.com/${obj.author}/${obj.song}`, {
+            html = await fetch(`https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`, {
                 headers: {"user-agent": genericUserAgent}
             }).then((r) => {return r.text()}).catch(() => {return false});
         }
@@ -54,7 +54,8 @@ export default async function(obj) {
             if (json["media"]["transcodings"]) {
                 let clientId = await findClientID();
                 if (clientId) {
-                    let fileUrl = `${json.media.transcodings[0]["url"].replace("/hls", "/progressive")}?client_id=${clientId}&track_authorization=${json.track_authorization}`;
+                    let fileUrlBase = json.media.transcodings[0]["url"].replace("/hls", "/progressive")
+                    let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
                     if (fileUrl.substring(0, 54) === "https://api-v2.soundcloud.com/media/soundcloud:tracks:") {
                         if (json.duration < maxAudioDuration) {
                             let file = await fetch(fileUrl).then(async (r) => {return (await r.json()).url}).catch(() => {return false});

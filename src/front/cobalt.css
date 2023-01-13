@@ -72,13 +72,13 @@ a {
 :focus-visible {
     outline: var(--border-15);
 }
-[type=checkbox] {
-    margin-right: 0.8rem;
-}
 [type="checkbox"] {
     -webkit-appearance: none;
-    margin-right: 0.8rem;
+    appearance: none;
+    margin-right: 1rem;
     z-index: 0;
+    border: 0;
+    height: 15px;
 }
 [type="checkbox"]::before {
     content: "";
@@ -91,8 +91,11 @@ a {
     position: relative;
 }
 [type="checkbox"]:checked::before {
-    box-shadow: inset 0 0 0 0.2rem var(--accent-button-bg);
+    box-shadow: inset 0 0 0 0.14rem var(--accent-button-bg);
     background-color: var(--accent);
+}
+.checkbox span {
+    margin-top: 0.21rem;
 }
 button {
     background: none;
@@ -421,7 +424,7 @@ input[type="checkbox"] {
     flex-direction: row;
     flex-wrap: nowrap;
     align-content: center;
-    padding: 0.6rem 1rem 0.6rem 0.6rem;
+    padding: 0.55rem 1rem 0.8rem 0.7rem;
     width: auto;
     margin: 0 0.5rem 0.5rem 0;
     background: var(--accent-button-bg);
@@ -454,7 +457,7 @@ input[type="checkbox"] {
     color: var(--accent-unhover-2);
 }
 .switch {
-    padding: 0.8rem;
+    padding: 0.7rem;
     width: 100%;
     text-align: center;
     color: var(--accent);
@@ -508,6 +511,9 @@ input[type="checkbox"] {
     bottom: 0;
     position: relative;
     width: 100%;
+}
+.popup-tabs {
+    margin-top: 0.5rem;
 }
 .emoji {
     margin-right: 0.4rem;
@@ -572,9 +578,6 @@ input[type="checkbox"] {
 #popup-picker .explanation {
     margin-top: 0!important;
     margin-bottom: 1rem;
-}
-.popup-tabs {
-    padding-top: 0.5rem;
 }
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
@@ -754,7 +757,7 @@ input[type="checkbox"] {
     .popup, .popup.scrollable, .popup.small {
         border: none;
         width: 90%;
-        height: 90%;
+        height: 92%;
         max-height: 100%;
     }
     .bottom-link {

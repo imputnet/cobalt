@@ -15,7 +15,7 @@ import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
 import { buildFront } from "./modules/build.js";
 import { changelogHistory } from "./modules/pageRender/onDemand.js";
-import { encrypt } from "./modules/sub/crypto.js";
+import { sha256 } from "./modules/sub/crypto.js";
 
 const commitHash = shortCommit();
 const app = express();
@@ -71,7 +71,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     }));
     app.post('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
-            let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
                 case 'json':
                     try {
@@ -103,7 +103,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     });
     app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), (req, res) => {
         try {
-            let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
                 case 'json':
                     res.status(405).json({ 'status': 'error', 'text': 'GET method for this request has been deprecated. see https://github.com/wukko/cobalt/blob/current/docs/API.md for up-to-date API documentation.' });

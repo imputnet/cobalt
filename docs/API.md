@@ -45,12 +45,12 @@ Item type: ``object``
 Content live render streaming endpoint.<br>
 
 ### Request Query Variables
-| key | variables        | description                                                                                                                   |
-|:----|:-----------------|:------------------------------------------------------------------------------------------------------------------------------|
-| p   | ``1``            | Used for checking the rate limit.                                                                                             |
-| t   | Stream UUID      | Unique stream identificator by which cobalt finds stored stream info data.                                                    |
-| h   | HMAC             | Hashed combination of: (hashed) ip address, stream uuid, expiry timestamp, and service name. Used for verification of stream. |
-| e   | Expiry timestamp |                                                                                                                               |
+| key | variables        | description                                                                                                                    |
+|:----|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------|
+| p   | ``1``            | Used for checking the rate limit.                                                                                              |
+| t   | Stream token     | Unique stream identificator which is used for retrieving cached stream info data.                                              |
+| h   | HMAC             | Hashed combination of: (hashed) ip address, stream token, expiry timestamp, and service name. Used for verification of stream. |
+| e   | Expiry timestamp |                                                                                                                                |
 
 ## GET: ``/api/onDemand``
 On-demand website element loading. Currently used only for older changelogs.<br>

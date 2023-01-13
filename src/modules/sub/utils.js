@@ -62,21 +62,24 @@ export function msToTime(d) {
     return r;
 }
 export function cleanURL(url, host) {
-    let forbiddenChars = ['}', '{', '(', ')', '\\', '@', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'"]
+    let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
+    switch(host) {
+        case "youtube":
+            url = url.split('&')[0];
+            break;
+        case "tiktok":
+            url = url.replace(/@([a-zA-Z]+(\.[a-zA-Z]+)+)/, "@a")
+        default:
+            url = url.split('?')[0];
+            if (url.substring(url.length - 1) === "/") url = url.substring(0, url.length - 1);
+            break;
+    }
     for (let i in forbiddenChars) {
         url = url.replaceAll(forbiddenChars[i], '')
     }
     url = url.replace('https//', 'https://')
     if (url.includes('youtube.com/shorts/')) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
-    }
-    if (host === "youtube") {
-        url = url.split('&')[0];
-    } else {
-        url = url.split('?')[0];
-        if (url.substring(url.length - 1) === "/") {
-            url = url.substring(0, url.length - 1);
-        }
     }
     return url.slice(0, 128)
 }

@@ -27,11 +27,14 @@ for (let i in donations["crypto"]) {
     donate += `<div class="subtitle${extr}">${i} (REPLACEME)</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations["crypto"][i]}</div>`
     extr = ' top-margin'
 }
+
 export default function(obj) {
-    audioFormats[0]["text"] = loc(obj.lang, 'SettingsAudioFormatBest');
+    const t = (str, replace) => { return loc(obj.lang, str, replace) };
     let ua = obj.useragent.toLowerCase();
     let isIOS = ua.match("iphone os");
     let isMobile = ua.match("android") || ua.match("iphone os");
+    audioFormats[0]["text"] = t('SettingsAudioFormatBest');
+
     try {
         return `<!DOCTYPE html>
 <html lang="en">
@@ -43,10 +46,10 @@ export default function(obj) {
 
         <meta property="og:url" content="${process.env.selfURL}" />
         <meta property="og:title" content="${appName}" />
-        <meta property="og:description" content="${loc(obj.lang, 'EmbedBriefDescription')}" />
+        <meta property="og:description" content="${t('EmbedBriefDescription')}" />
         <meta property="og:image" content="${process.env.selfURL}icons/generic.png" />
         <meta name="title" content="${appName}" />
-        <meta name="description" content="${loc(obj.lang, 'AboutSummary')}" />
+        <meta name="description" content="${t('AboutSummary')}" />
         <meta name="theme-color" content="#000000" />
         <meta name="twitter:card" content="summary" />
 
@@ -59,51 +62,51 @@ export default function(obj) {
         <link rel="stylesheet" href="cobalt.css" />
         <link rel="stylesheet" href="fonts/notosansmono.css" />
 
-        <noscript><div style="margin: 2rem;">${loc(obj.lang, 'NoScriptMessage')}</div></noscript>
+        <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
     <body id="cobalt-body" data-nosnippet>
         ${multiPagePopup({
             name: "about",
-            closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
+            closeAria: t('AccessibilityClosePopup'),
             tabs: [{
                 name: "about",
-                title: `${emoji("🐲")} ${loc(obj.lang, 'AboutTab')}`,
+                title: `${emoji("🐲")} ${t('AboutTab')}`,
                 content: popup({
                     name: "about",
                     header: {
                         aboveTitle: {
-                            text: loc(obj.lang, 'MadeWithLove'),
+                            text: t('MadeWithLove'),
                             url: authorInfo.link
                         },
-                        closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
-                        title: loc(obj.lang, 'TitlePopupAbout')
+                        closeAria: t('AccessibilityClosePopup'),
+                        title: t('TitlePopupAbout')
                     },
                     body: [{
-                        text: loc(obj.lang, 'AboutSummary')
+                        text: t('AboutSummary')
                     }, {
-                        text: `${loc(obj.lang, 'AboutSupportedServices')}`,
+                        text: `${t('AboutSupportedServices')}`,
                         nopadding: true
                     }, {
                         text: `<div class="bullpadding">${enabledServices}.</div>`
                     }, {
-                        text: obj.lang !== "ru" ? loc(obj.lang, 'FollowTwitter') : "",
+                        text: obj.lang !== "ru" ? t('FollowTwitter') : "",
                         classes: ["desc-padding"]
                     }, {
-                        text: backdropLink(repo, loc(obj.lang, 'LinkGitHubIssues')),
+                        text: backdropLink(repo, t('LinkGitHubIssues')),
                         classes: ["bottom-link"]
                     }]
                 })
             }, {
                 name: "changelog",
-                title: `${emoji("🎉")} ${loc(obj.lang, 'ChangelogTab')}`,
+                title: `${emoji("🎉")} ${t('ChangelogTab')}`,
                 content: popup({
                     name: "changelog",
                     header: {
-                        closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
-                        title: `${emoji("🪄", 30)} ${loc(obj.lang, 'TitlePopupChangelog')}`
+                        closeAria: t('AccessibilityClosePopup'),
+                        title: `${emoji("🪄", 30)} ${t('TitlePopupChangelog')}`
                     },
                     body: [{
-                        text: `<div class="category-title">${loc(obj.lang, 'ChangelogLastMajor')}</div>`,
+                        text: `<div class="category-title">${t('ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
                         text: changelogManager("banner") ? `<div class="changelog-banner"><img class="changelog-img" src="${changelogManager("banner")}" onerror="this.style.display='none'"></img></div>`: '',
@@ -121,48 +124,50 @@ export default function(obj) {
                     }, {
                         text: com[1]
                     }, {
-                        text: backdropLink(`${repo}/commits`, loc(obj.lang, 'LinkGitHubChanges')),
+                        text: backdropLink(`${repo}/commits`, t('LinkGitHubChanges')),
                         classes: ["bottom-link"]
                     }, {
-                        text: `<div class="category-title">${loc(obj.lang, 'ChangelogOlder')}</div>`,
+                        text: `<div class="category-title">${t('ChangelogOlder')}</div>`,
                         raw: true
                     }, {
-                        text: `<div id="changelog-history"><button class="switch bottom-margin" onclick="loadOnDemand('changelog-history', '0')">${loc(obj.lang, "ChangelogPressToExpand")}</button></div>`,
+                        text: `<div id="changelog-history"><button class="switch bottom-margin" onclick="loadOnDemand('changelog-history', '0')">${t("ChangelogPressToExpand")}</button></div>`,
                         raw: true
                     }]
                 })
             }, {
                 name: "donate",
-                title: `${emoji("💰")} ${loc(obj.lang, 'DonationsTab')}`,
+                title: `${emoji("💰")} ${t('DonationsTab')}`,
                 content: popup({
                     name: "donate",
                     header: {
-                        closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
-                        title: emoji("💸", 30) + loc(obj.lang, 'TitlePopupDonate'),
-                        subtitle: loc(obj.lang, 'DonateSub')
+                        closeAria: t('AccessibilityClosePopup'),
+                        title: emoji("💸", 30) + t('TitlePopupDonate')
                     },
                     body: [{
+                        text: `<div class="category-title">${t('DonateSub')}</div>`,
+                        raw: true
+                    }, {
                         text: `<div class="changelog-banner"><img class="changelog-img" src="updateBanners/catsleep.webp" onerror="this.style.display='none'"></img></div>`,
                         raw: true
-                    },{
-                        text: loc(obj.lang, 'DonateExplanation')
                     }, {
-                        text: donateLinks.replace(/REPLACEME/g, loc(obj.lang, 'DonateVia')),
+                        text: t('DonateExplanation')
+                    }, {
+                        text: donateLinks.replace(/REPLACEME/g, t('DonateVia')),
                         raw: true
                     }, {
-                        text: loc(obj.lang, 'DonateLinksDescription'),
+                        text: t('DonateLinksDescription'),
                         classes: ["explanation"]
                     }, {
                         text: sep(),
                         raw: true
                     }, {
-                        text: donate.replace(/REPLACEME/g, loc(obj.lang, 'ClickToCopy')),
+                        text: donate.replace(/REPLACEME/g, t('ClickToCopy')),
                         classes: ["desc-padding"]
                     }, {
                         text: sep(),
                         raw: true
                     }, {
-                        text: loc(obj.lang, 'DonateHireMe', authorInfo.link),
+                        text: t('DonateHireMe', authorInfo.link),
                         classes: ["desc-padding"]
                     }]
                 })
@@ -170,99 +175,100 @@ export default function(obj) {
         })}
         ${multiPagePopup({
             name: "settings",
-            closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
+            closeAria: t('AccessibilityClosePopup'),
             header: {
                 aboveTitle: {
                     text: `v.${version}-${obj.hash}`,
                     url: `${repo}/commit/${obj.hash}`
                 },
-                title: `${emoji("⚙️", 30)} ${loc(obj.lang, 'TitlePopupSettings')}`
+                title: `${emoji("⚙️", 30)} ${t('TitlePopupSettings')}`
             },
             tabs: [{
                 name: "video",
-                title: `${emoji("🎬")} ${loc(obj.lang, 'SettingsVideoTab')}`,
+                title: `${emoji("🎬")} ${t('SettingsVideoTab')}`,
                 content: settingsCategory({
                     name: "downloads",
-                    title: loc(obj.lang, 'SettingsVideoGeneral'),
+                    title: t('SettingsVideoGeneral'),
                     body: switcher({
                         name: "vQuality",
-                        subtitle: loc(obj.lang, 'SettingsQualitySubtitle'),
-                        explanation: loc(obj.lang, 'SettingsQualityDescription'),
+                        subtitle: t('SettingsQualitySubtitle'),
+                        explanation: t('SettingsQualityDescription'),
                         items: [{
                             "action": "max",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchMax')}<br/>(2160p+)`
+                            "text": `${t('SettingsQualitySwitchMax')}<br/>(2160p+)`
                         }, {
                             "action": "hig",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchHigh')}<br/>(${quality.hig}p)`
+                            "text": `${t('SettingsQualitySwitchHigh')}<br/>(${quality.hig}p)`
                         }, {
                             "action": "mid",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchMedium')}<br/>(${quality.mid}p)`
+                            "text": `${t('SettingsQualitySwitchMedium')}<br/>(${quality.mid}p)`
                         }, {
                             "action": "low",
-                            "text": `${loc(obj.lang, 'SettingsQualitySwitchLow')}<br/>(${quality.low}p)`
+                            "text": `${t('SettingsQualitySwitchLow')}<br/>(${quality.low}p)`
                         }]
                     })
-                }) + settingsCategory({
-                        name: "youtube",
-                        body: switcher({
-                            name: "vFormat",
-                            subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
-                            explanation: loc(obj.lang, 'SettingsFormatDescription'),
-                            items: [{
-                                "action": "mp4",
-                                "text": "mp4 (av1)"
-                            }, {
-                                "action": "webm",
-                                "text": "webm (vp9)"
-                            }]
-                        })
+                })
+                + settingsCategory({
+                    name: "tiktok",
+                    title: "tiktok & douyin",
+                    body: checkbox("disableTikTokWatermark", t('SettingsRemoveWatermark'))
+                })
+                + settingsCategory({
+                    name: "youtube",
+                    body: switcher({
+                        name: "vFormat",
+                        subtitle: t('SettingsFormatSubtitle'),
+                        explanation: t('SettingsFormatDescription'),
+                        items: [{
+                            "action": "mp4",
+                            "text": "mp4 (av1)"
+                        }, {
+                            "action": "webm",
+                            "text": "webm (vp9)"
+                        }]
                     })
-                    + settingsCategory({
-                        name: "tiktok",
-                        title: "tiktok & douyin",
-                        body: checkbox("disableTikTokWatermark", loc(obj.lang, 'SettingsRemoveWatermark'))
-                    })
+                })
             }, {
                 name: "audio",
-                title: `${emoji("🎶")} ${loc(obj.lang, 'SettingsAudioTab')}`,
+                title: `${emoji("🎶")} ${t('SettingsAudioTab')}`,
                 content: settingsCategory({
                     name: "general",
-                    title: loc(obj.lang, 'SettingsAudioTab'),
+                    title: t('SettingsAudioTab'),
                     body: switcher({
                         name: "aFormat",
-                        subtitle: loc(obj.lang, 'SettingsFormatSubtitle'),
-                        explanation: loc(obj.lang, 'SettingsAudioFormatDescription'),
+                        subtitle: t('SettingsFormatSubtitle'),
+                        explanation: t('SettingsAudioFormatDescription'),
                         items: audioFormats
-                    }) + sep(0) + checkbox("muteAudio", loc(obj.lang, 'SettingsVideoMute'), loc(obj.lang, 'SettingsVideoMute'), 3) + explanation(loc(obj.lang, 'SettingsVideoMuteExplanation'))
+                    }) + sep(0) + checkbox("muteAudio", t('SettingsVideoMute'), t('SettingsVideoMute'), 3) + explanation(t('SettingsVideoMuteExplanation'))
                 }) + settingsCategory({
                     name: "tiktok",
                     title: "tiktok & douyin",
-                    body: checkbox("fullTikTokAudio", loc(obj.lang, 'SettingsAudioFullTikTok'), loc(obj.lang, 'SettingsAudioFullTikTok'), 3) + `<div class="explanation">${loc(obj.lang, 'SettingsAudioFullTikTokDescription')}</div>`
+                    body: checkbox("fullTikTokAudio", t('SettingsAudioFullTikTok'), t('SettingsAudioFullTikTok'), 3) + `<div class="explanation">${t('SettingsAudioFullTikTokDescription')}</div>`
                 })
             }, {
                 name: "other",
-                title: `${emoji("🪅")} ${loc(obj.lang, 'SettingsOtherTab')}`,
+                title: `${emoji("🪅")} ${t('SettingsOtherTab')}`,
                 content: settingsCategory({
                     name: "appearance",
-                    title: loc(obj.lang, 'SettingsAppearanceSubtitle'),
+                    title: t('SettingsAppearanceSubtitle'),
                     body: switcher({
                         name: "theme",
-                        subtitle: loc(obj.lang, 'SettingsThemeSubtitle'),
+                        subtitle: t('SettingsThemeSubtitle'),
                         items: [{
                             "action": "auto",
-                            "text": loc(obj.lang, 'SettingsThemeAuto')
+                            "text": t('SettingsThemeAuto')
                         }, {
                             "action": "dark",
-                            "text": loc(obj.lang, 'SettingsThemeDark')
+                            "text": t('SettingsThemeDark')
                         }, {
                             "action": "light",
-                            "text": loc(obj.lang, 'SettingsThemeLight')
+                            "text": t('SettingsThemeLight')
                         }]
-                    }) + checkbox("alwaysVisibleButton", loc(obj.lang, 'SettingsKeepDownloadButton'), loc(obj.lang, 'AccessibilityKeepDownloadButton'), 2)
+                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), t('AccessibilityKeepDownloadButton'), 2)
                 }) + settingsCategory({
                     name: "miscellaneous",
-                    title: loc(obj.lang, 'Miscellaneous'),
-                    body: checkbox("disableChangelog", loc(obj.lang, 'SettingsDisableNotifications')) + `${!isIOS ? checkbox("downloadPopup", loc(obj.lang, 'SettingsEnableDownloadPopup'), loc(obj.lang, 'AccessibilityEnableDownloadPopup'), 1) : ''}`
+                    title: t('Miscellaneous'),
+                    body: checkbox("disableChangelog", t('SettingsDisableNotifications')) + `${!isIOS ? checkbox("downloadPopup", t('SettingsEnableDownloadPopup'), t('AccessibilityEnableDownloadPopup'), 1) : ''}`
                 })
             }],
         })}
@@ -270,25 +276,25 @@ export default function(obj) {
             name: "download",
             standalone: true,
             header: {
-                closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
-                subtitle: loc(obj.lang, 'TitlePopupDownload')
+                closeAria: t('AccessibilityClosePopup'),
+                subtitle: t('TitlePopupDownload')
             },
             body: switcher({
                 name: "download",
-                subtitle: loc(obj.lang, 'DownloadPopupWayToSave'),
-                explanation: `${!isIOS ? loc(obj.lang, 'DownloadPopupDescription') : loc(obj.lang, 'DownloadPopupDescriptionIOS')}`,
-                items: `<a id="pd-download" class="switch full space-right" target="_blank" href="/">${loc(obj.lang, 'Download')}</a>
-                <div id="pd-copy" class="switch full">${loc(obj.lang, 'CopyURL')}</div>`
+                subtitle: t('DownloadPopupWayToSave'),
+                explanation: `${!isIOS ? t('DownloadPopupDescription') : t('DownloadPopupDescriptionIOS')}`,
+                items: `<a id="pd-download" class="switch full space-right" target="_blank" href="/">${t('Download')}</a>
+                <div id="pd-copy" class="switch full">${t('CopyURL')}</div>`
             })
         })}
         ${popupWithBottomButtons({
             name: "picker",
-            closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
+            closeAria: t('AccessibilityClosePopup'),
             header: {
                 title: `<div id="picker-title"></div>`,
                 explanation: `<div id="picker-subtitle"></div>`,
             },
-            buttons: [`<a id="picker-download" class="switch" target="_blank" href="/">${loc(obj.lang, 'ImagePickerDownloadAudio')}</a>`],
+            buttons: [`<a id="picker-download" class="switch" target="_blank" href="/">${t('ImagePickerDownloadAudio')}</a>`],
             content: '<div id="picker-holder"></div>'
         })}
         ${popup({
@@ -297,10 +303,10 @@ export default function(obj) {
             buttonOnly: true,
             emoji: emoji("☹️", 48, 1),
             classes: ["small"],
-            buttonText: loc(obj.lang, 'ErrorPopupCloseButton'),
+            buttonText: t('ErrorPopupCloseButton'),
             header: {
-                closeAria: loc(obj.lang, 'AccessibilityClosePopup'),
-                title: loc(obj.lang, 'TitlePopupError')
+                closeAria: t('AccessibilityClosePopup'),
+                title: t('TitlePopupError')
             },
             body: `<div id="desc-error" class="desc-padding subtext"></div>`
         })}
@@ -309,13 +315,13 @@ export default function(obj) {
             <div id="logo-area">${appName}</div>
             <div id="download-area" class="mobile-center">
                 <div id="top">
-                    <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${loc(obj.lang, 'LinkInput')}" aria-label="${loc(obj.lang, 'AccessibilityInputArea')}" oninput="button()"></input>
+                    <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
                     <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
-                    <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${loc(obj.lang, 'AccessibilityDownloadButton')}">
+                    <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
                 </div>
                 <div id="bottom">
-                    <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="${loc(obj.lang, 'PasteFromClipboard')}">${emoji("📋", 22)} ${loc(obj.lang, 'PasteFromClipboard')}</button>
-                    <button id="audioMode" class="switch" onclick="toggle('audioMode')" aria-label="${loc(obj.lang, 'AccessibilityModeToggle')}">${emoji("✨", 22, 1)}</button>
+                    <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
+                    <button id="audioMode" class="switch" onclick="toggle('audioMode')" aria-label="${t('AccessibilityModeToggle')}">${emoji("✨", 22, 1)}</button>
                 </div>
             </div>
         </div>
@@ -324,38 +330,37 @@ export default function(obj) {
         footerButtons([{
             name: "about",
             type: "popup",
-            text: `${emoji(celebrationsEmoji() , 22)} ${loc(obj.lang, 'AboutTab')}`,
-            aria: loc(obj.lang, 'AccessibilityOpenAbout')
+            text: `${emoji(celebrationsEmoji() , 22)} ${t('AboutTab')}`,
+            aria: t('AccessibilityOpenAbout')
         }, {
             name: "about",
             type: "popup",
             context: "donate",
-            text: `${emoji("💰", 22)} ${loc(obj.lang, 'Donate')}`,
-            aria: loc(obj.lang, 'AccessibilityOpenDonate')
+            text: `${emoji("💰", 22)} ${t('Donate')}`,
+            aria: t('AccessibilityOpenDonate')
         }, {
             name: "settings",
             type: "popup",
-            text: `${emoji("⚙️", 22)} ${loc(obj.lang, 'TitlePopupSettings')}`,
-            aria: loc(obj.lang, 'AccessibilityOpenSettings')
-        }]
-        )}
+            text: `${emoji("⚙️", 22)} ${t('TitlePopupSettings')}`,
+            aria: t('AccessibilityOpenSettings')
+        }])}
         </footer>
     </body>
     <script type="text/javascript">const loc = {
-        noInternet: ` + "`" + loc(obj.lang, 'ErrorNoInternet') + "`" + `,
-        noURLReturned: ` + "`" + loc(obj.lang, 'ErrorNoUrlReturned') + "`" + `,
-        unknownStatus: ` + "`" + loc(obj.lang, 'ErrorUnknownStatus') + "`" + `,
-        collapseHistory: ` + "`" + loc(obj.lang, 'ChangelogPressToHide') + "`" + `,
-        toggleDefault: '${emoji("✨")} ${loc(obj.lang, "ModeToggleAuto")}',
-        toggleAudio: '${emoji("🎶")} ${loc(obj.lang, "ModeToggleAudio")}',
-        pickerDefault: ` + "`" + loc(obj.lang, 'MediaPickerTitle') + "`" + `,
-        pickerImages: ` + "`" + loc(obj.lang, 'ImagePickerTitle') + "`" + `,
-        pickerImagesExpl: ` + "`" + loc(obj.lang, `ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-        pickerDefaultExpl: ` + "`" + loc(obj.lang, `MediaPickerExplanation${isMobile ? `Phone${isIOS ? "IOS" : ""}` : "PC"}`) + "`" + `,
+        noInternet: ` + "`" + t('ErrorNoInternet') + "`" + `,
+        noURLReturned: ` + "`" + t('ErrorNoUrlReturned') + "`" + `,
+        unknownStatus: ` + "`" + t('ErrorUnknownStatus') + "`" + `,
+        collapseHistory: ` + "`" + t('ChangelogPressToHide') + "`" + `,
+        toggleDefault: '${emoji("✨")} ${t("ModeToggleAuto")}',
+        toggleAudio: '${emoji("🎶")} ${t("ModeToggleAudio")}',
+        pickerDefault: ` + "`" + t('MediaPickerTitle') + "`" + `,
+        pickerImages: ` + "`" + t('ImagePickerTitle') + "`" + `,
+        pickerImagesExpl: ` + "`" + t(`ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
+        pickerDefaultExpl: ` + "`" + t(`MediaPickerExplanation${isMobile ? `Phone${isIOS ? "IOS" : ""}` : "PC"}`) + "`" + `,
     };</script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;
     } catch (err) {
-        return `${loc(obj.lang, 'ErrorPageRenderFail', obj.hash)}`;
+        return `${t('ErrorPageRenderFail', obj.hash)}`;
     }
 }
