@@ -21,7 +21,7 @@ It preserves original media quality so you get best downloads possible (unless y
 | YouTube Music     | ❌           | ✅         | Audio metadata.                                                                          |
 | Reddit            | ✅           | ✅         |                                                                                          |
 | TikTok & douyin   | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermarks. |
-| SoundCloud        | ❌           | ✅         | Audio metadata.                                                                          |
+| SoundCloud        | ❌           | ✅         | Audio metadata, downloads from private links                                             |
 | bilibili.com      | ✅           | ✅         |                                                                                          |
 | Tumblr            | ✅           | ✅         |                                                                                          |
 | Vimeo             | ✅           | ❌️         |                                                                                          |
