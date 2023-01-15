@@ -281,9 +281,9 @@ input[type="checkbox"] {
     height: auto;
     width: 32%;
     z-index: 999;
-    padding: 3rem 2rem 2rem 2rem;
+    padding: 2rem;
     font-size: 0.9rem;
-    max-height: 80%;
+    max-height: 85%;
 }
 .popup.small {
     width: 20%
@@ -299,7 +299,7 @@ input[type="checkbox"] {
     z-index: 998;
 }
 .popup.scrollable {
-    height: 80%;
+    height: 85%;
 }
 .scrollable .bottom-link {
     padding-bottom: 2rem;
@@ -381,6 +381,7 @@ input[type="checkbox"] {
     position: relative;
     background: var(--background);
     z-index: 999;
+    padding-top: 0.8rem;
 }
 #popup-content.with-footer {
     margin-bottom: 3rem;
@@ -496,7 +497,7 @@ input[type="checkbox"] {
     overflow: auto;
 }
 #close-bottom {
-    max-width: 3rem;
+    max-width: 2.8rem;
     margin-left: 1rem;
     background: var(--background);
     border: var(--border-15);
@@ -513,7 +514,7 @@ input[type="checkbox"] {
     width: 100%;
 }
 .popup-tabs {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
 }
 .emoji {
     margin-right: 0.4rem;
@@ -720,7 +721,7 @@ input[type="checkbox"] {
         width: 100%!important;
     }
     #footer {
-        bottom: 2rem;
+        bottom: 1.7rem;
         transform: translate(-50%, 0%);
     }
     #footer-buttons {
@@ -729,6 +730,12 @@ input[type="checkbox"] {
     }
     .footer-pair .footer-button {
         width: 100%!important;
+    }
+    #popup-header {
+        padding-top: 1.2rem;
+    }
+    #popup-settings #popup-header {
+        padding-top: 0.8rem;
     }
     .picker-image-container {
         height: 7rem;
@@ -757,11 +764,14 @@ input[type="checkbox"] {
     .popup, .popup.scrollable, .popup.small {
         border: none;
         width: 90%;
-        height: 92%;
+        height: 95%;
         max-height: 100%;
     }
     .bottom-link {
         padding-bottom: 2rem;
+    }
+    .popup-tabs {
+        margin-top: .3rem;
     }
 }
 @media screen and (max-width: 400px) {
