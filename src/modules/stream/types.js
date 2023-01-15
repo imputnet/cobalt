@@ -48,7 +48,7 @@ export function streamLiveRender(streamInfo, res) {
             res.setHeader('Connection', 'keep-alive');
             res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
             ffmpegProcess.stdio[3].pipe(res);
-
+            ffmpegProcess.on('end', () => ffmpegProcess.kill());
             ffmpegProcess.on('error', (err) => {
                 ffmpegProcess.kill();
                 res.end();
@@ -89,7 +89,7 @@ export function streamAudioOnly(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
         ffmpegProcess.stdio[3].pipe(res);
-        
+        ffmpegProcess.on('end', () => ffmpegProcess.kill());
         ffmpegProcess.on('error', (err) => {
             ffmpegProcess.kill();
             res.end();
@@ -117,7 +117,7 @@ export function streamVideoOnly(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}_mute.${format}"`);
         ffmpegProcess.stdio[3].pipe(res);
-        
+        ffmpegProcess.on('end', () => ffmpegProcess.kill());
         ffmpegProcess.on('error', (err) => {
             ffmpegProcess.kill();
             res.end();
