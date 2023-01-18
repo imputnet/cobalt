@@ -483,6 +483,7 @@ input[type="checkbox"] {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: scroll;
+    scrollbar-width: none;
 }
 .autowidth {
     width: auto;
