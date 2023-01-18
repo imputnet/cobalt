@@ -1,5 +1,5 @@
 {
-    "streamLifespan": 3600000,
+    "streamLifespan": 120000,
     "maxVideoDuration": 7500000,
     "maxAudioDuration": 7500000,
     "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
@@ -41,6 +41,9 @@
         "10-31": "🎃",
         "11-01": "🕯️",
         "11-02": "🕯️",
+        "12-20": "🎄",
+        "12-21": "🎄",
+        "12-22": "🎄",
         "12-23": "🎄",
         "12-24": "🎄",
         "12-25": "🎄",
@@ -56,7 +59,7 @@
         "webm": ["-c:v", "copy", "-c:a", "copy"],
         "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
         "copy": ["-c:a", "copy"],
-        "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
+        "audio": ["-vn", "-ar", "48000", "-ac", "2", "-b:a", "320k"],
         "m4a": ["-movflags", "frag_keyframe+empty_moov"]
     }
 }

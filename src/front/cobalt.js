@@ -1,7 +1,7 @@
 let ua = navigator.userAgent.toLowerCase();
 let isIOS = ua.match("iphone os");
 let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 19;
+let version = 21;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -13,7 +13,7 @@ let switchers = {
     "vQuality": ["hig", "max", "mid", "low"],
     "aFormat": ["mp3", "best", "ogg", "wav", "opus"]
 }
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio"];
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
 let exceptions = { // used for mobile devices
     "vQuality": "mid"
 }
@@ -339,6 +339,7 @@ async function download(url) {
         if (sGet("fullTikTokAudio") === "true") req["isTTFullAudio"] = true; // audio tiktok full
     } else {
         req["vQuality"] = sGet("vQuality").slice(0, 4);
+        if (sGet("muteAudio") === "true") req["isAudioMuted"] = true;
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req["vFormat"] = sGet("vFormat").slice(0, 4);
         if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req["isNoTTWatermark"] = true;
     }

@@ -13,19 +13,22 @@ cobalt is social media downloader with zero bullshit. It's friendly, accessible,
 It preserves original media quality so you get best downloads possible (unless you change that in settings).
 
 ## Supported services
-| Service | Video + Audio | Only audio | Additional features |
-| --------          | :---:  | :---: | :----- |
-| Twitter           | ✅    | ✅ | Ability to save multiple videos/GIFs from a single tweet. |
-| Twitter Spaces    | ❌️    | ✅ | Audio metadata. |
-| YouTube & Shorts  | ✅    | ✅ | Support for 8K, 4K, HDR, and high FPS videos. |
-| YouTube Music     | ❌    | ✅ | Audio metadata. |
-| Reddit            | ✅    | ✅ |  |
-| TikTok & douyin   | ✅    | ✅ | Video downloads with or without watermark; image slideshow downloads without watermarks. |
-| SoundCloud        | ❌    | ✅ | Audio metadata. |
-| bilibili.com      | ✅    | ✅ |  |
-| Tumblr            | ✅    | ✅ |  |
-| Vimeo             | ✅    | ❌️ |  |
-| VK Videos & Clips | ✅    | ❌️ |  |
+| Service           | Video + Audio | Only audio | Additional features                                                                      |
+| --------          | :---:         | :---:      | :-----                                                                                   |
+| Twitter           | ✅           | ✅         | Ability to save multiple videos/GIFs from a single tweet.                                |
+| Twitter Spaces    | ❌️           | ✅         | Audio metadata.                                                                          |
+| YouTube & Shorts  | ✅           | ✅         | Support for 8K, 4K, HDR, and high FPS videos.                                            |
+| YouTube Music     | ❌           | ✅         | Audio metadata.                                                                          |
+| Reddit            | ✅           | ✅         |                                                                                          |
+| TikTok & douyin   | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermarks. |
+| SoundCloud        | ❌           | ✅         | Audio metadata, downloads from private links                                             |
+| bilibili.com      | ✅           | ✅         |                                                                                          |
+| Tumblr            | ✅           | ✅         |                                                                                          |
+| Vimeo             | ✅           | ❌️         |                                                                                          |
+| VK Videos & Clips | ✅           | ❌️         |                                                                                          |
+
+## cobalt API
+cobalt has an open API that you can use for free. It's pretty straightforward in use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/API.md) and see for yourself.
 
 ## How to contribute translations
 You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin-co.wukko.me/). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.

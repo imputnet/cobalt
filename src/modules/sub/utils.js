@@ -6,7 +6,7 @@ let apiVar = {
         vQuality: ["max", "hig", "mid", "low", "los"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted"]
 }
 
 export function apiJSON(type, obj) {
@@ -62,21 +62,24 @@ export function msToTime(d) {
     return r;
 }
 export function cleanURL(url, host) {
-    let forbiddenChars = ['}', '{', '(', ')', '\\', '@', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'"]
+    let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
+    switch(host) {
+        case "youtube":
+            url = url.split('&')[0];
+            break;
+        case "tiktok":
+            url = url.replace(/@([a-zA-Z]+(\.[a-zA-Z]+)+)/, "@a")
+        default:
+            url = url.split('?')[0];
+            if (url.substring(url.length - 1) === "/") url = url.substring(0, url.length - 1);
+            break;
+    }
     for (let i in forbiddenChars) {
         url = url.replaceAll(forbiddenChars[i], '')
     }
     url = url.replace('https//', 'https://')
     if (url.includes('youtube.com/shorts/')) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
-    }
-    if (host === "youtube") {
-        url = url.split('&')[0];
-    } else {
-        url = url.split('?')[0];
-        if (url.substring(url.length - 1) === "/") {
-            url = url.substring(0, url.length - 1);
-        }
     }
     return url.slice(0, 128)
 }
@@ -95,7 +98,8 @@ export function checkJSONPost(obj) {
         aFormat: "mp3",
         isAudioOnly: false,
         isNoTTWatermark: false,
-        isTTFullAudio: false
+        isTTFullAudio: false,
+        isAudioMuted: false,
     }
     try {
         let objKeys = Object.keys(obj);
@@ -106,7 +110,7 @@ export function checkJSONPost(obj) {
                     if (apiVar.booleanOnly.includes(objKeys[i])) {
                         def[objKeys[i]] = obj[objKeys[i]] ? true : false;
                     } else {
-                        if (apiVar.allowed[objKeys[i]].includes(obj[objKeys[i]])) def[objKeys[i]] = String(obj[objKeys[i]])
+                        if (apiVar.allowed[objKeys[i]] && apiVar.allowed[objKeys[i]].includes(obj[objKeys[i]])) def[objKeys[i]] = String(obj[objKeys[i]])
                     }
                 }
             }

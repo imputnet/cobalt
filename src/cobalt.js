@@ -10,12 +10,12 @@ import { appName, genericUserAgent, version, internetExplorerRedirect } from "./
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/pageRender/page.js";
 import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
-import { Bright, Cyan } from "./modules/sub/consoleText.js";
+import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
 import { buildFront } from "./modules/build.js";
 import { changelogHistory } from "./modules/pageRender/onDemand.js";
-import { encrypt } from "./modules/sub/crypto.js";
+import { sha256 } from "./modules/sub/crypto.js";
 
 const commitHash = shortCommit();
 const app = express();
@@ -71,7 +71,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     }));
     app.post('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
-            let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
                 case 'json':
                     try {
@@ -101,31 +101,13 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
     });
-    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
+    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), (req, res) => {
         try {
-            let ip = encrypt(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
-                // **
-                // json GET method will be deprecated by 4.5! make sure to move your shortcuts to POST method.
-                // **
                 case 'json':
-                    try {
-                        if (req.query.url && req.query.url.length < 150) {
-                            let chck = checkJSONPost({});
-                            chck["ip"] = ip;
-                            let j = await getJSON(req.query.url.trim(), languageCode(req), chck)
-                            res.status(j.status).json(j.body);
-                        } else {
-                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink', process.env.selfURL) })
-                            res.status(j.status).json(j.body);
-                        }
-                    } catch (e) {
-                        res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
-                    }
+                    res.status(405).json({ 'status': 'error', 'text': 'GET method for this request has been deprecated. see https://github.com/wukko/cobalt/blob/current/docs/API.md for up-to-date API documentation.' });
                     break;
-                // **
-                // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ will be removed soon ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                // **
                 case 'stream':
                     if (req.query.p) {
                         res.status(200).json({ "status": "continue" });
@@ -190,8 +172,9 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         res.redirect('/')
     });
     app.listen(process.env.port, () => {
-        console.log(`\n${Bright(`${appName} (${version})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\nCurrent commit: ${Bright(`${commitHash}`)}\nStart time: ${Bright(Math.floor(new Date().getTime()))}\n`)
+        let startTime = new Date();
+        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${Math.floor(new Date().getTime())})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\n`)
     });
 } else {
-    console.log(`you can't run the server without generating a .env file. please run the setup script first: npm run setup`)
+    console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))
 }

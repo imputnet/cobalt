@@ -21,6 +21,7 @@ Response Body Type: ``application/json``
 | isAudioOnly     | boolean | ``true / false``                  | ``false``  |                                                                       |
 | isNoTTWatermark | boolean | ``true / false``                  | ``false``  | Changes whether downloaded TikTok & Douyin videos have watermarks.    |
 | isTTFullAudio   | boolean | ``true / false``                  | ``false``  | Enables download of original sound used in a TikTok video.            |
+| isAudioMuted    | boolean | ``true / false``                  | ``false``  | Disables audio track in video downloads.                              |
 
 ### Response Body Variables
 | key        | type   | variables                                                     |
@@ -44,12 +45,12 @@ Item type: ``object``
 Content live render streaming endpoint.<br>
 
 ### Request Query Variables
-| key | variables        | description                                                                                                                   |
-|:----|:-----------------|:------------------------------------------------------------------------------------------------------------------------------|
-| p   | ``1``            | Used for checking the rate limit.                                                                                             |
-| t   | Stream UUID      | Unique stream identificator by which cobalt finds stored stream info data.                                                    |
-| h   | HMAC             | Hashed combination of: (hashed) ip address, stream uuid, expiry timestamp, and service name. Used for verification of stream. |
-| e   | Expiry timestamp |                                                                                                                               |
+| key | variables        | description                                                                                                                    |
+|:----|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------|
+| p   | ``1``            | Used for checking the rate limit.                                                                                              |
+| t   | Stream token     | Unique stream identificator which is used for retrieving cached stream info data.                                              |
+| h   | HMAC             | Hashed combination of: (hashed) ip address, stream token, expiry timestamp, and service name. Used for verification of stream. |
+| e   | Expiry timestamp |                                                                                                                                |
 
 ## GET: ``/api/onDemand``
 On-demand website element loading. Currently used only for older changelogs.<br>

@@ -1,6 +1,6 @@
 import { apiJSON } from "../sub/utils.js";
 import { verifyStream } from "./manage.js";
-import { streamAudioOnly, streamDefault, streamLiveRender } from "./types.js";
+import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly } from "./types.js";
 
 export default function(res, ip, id, hmac, exp) {
     try {
@@ -12,6 +12,9 @@ export default function(res, ip, id, hmac, exp) {
                 switch (streamInfo.type) {
                     case "render":
                         streamLiveRender(streamInfo, res);
+                        break;
+                    case "mute":
+                        streamVideoOnly(streamInfo, res);
                         break;
                     default:
                         streamDefault(streamInfo, res);

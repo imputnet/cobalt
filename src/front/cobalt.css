@@ -72,13 +72,13 @@ a {
 :focus-visible {
     outline: var(--border-15);
 }
-[type=checkbox] {
-    margin-right: 0.8rem;
-}
 [type="checkbox"] {
     -webkit-appearance: none;
-    margin-right: 0.8rem;
+    appearance: none;
+    margin-right: 1rem;
     z-index: 0;
+    border: 0;
+    height: 15px;
 }
 [type="checkbox"]::before {
     content: "";
@@ -91,8 +91,11 @@ a {
     position: relative;
 }
 [type="checkbox"]:checked::before {
-    box-shadow: inset 0 0 0 0.2rem var(--accent-button-bg);
+    box-shadow: inset 0 0 0 0.14rem var(--accent-button-bg);
     background-color: var(--accent);
+}
+.checkbox span {
+    margin-top: 0.21rem;
 }
 button {
     background: none;
@@ -278,9 +281,9 @@ input[type="checkbox"] {
     height: auto;
     width: 32%;
     z-index: 999;
-    padding: 3rem 2rem 2rem 2rem;
+    padding: 2rem;
     font-size: 0.9rem;
-    max-height: 80%;
+    max-height: 85%;
 }
 .popup.small {
     width: 20%
@@ -296,7 +299,7 @@ input[type="checkbox"] {
     z-index: 998;
 }
 .popup.scrollable {
-    height: 80%;
+    height: 85%;
 }
 .scrollable .bottom-link {
     padding-bottom: 2rem;
@@ -378,6 +381,7 @@ input[type="checkbox"] {
     position: relative;
     background: var(--background);
     z-index: 999;
+    padding-top: 0.8rem;
 }
 #popup-content.with-footer {
     margin-bottom: 3rem;
@@ -421,7 +425,7 @@ input[type="checkbox"] {
     flex-direction: row;
     flex-wrap: nowrap;
     align-content: center;
-    padding: 0.6rem 1rem 0.6rem 0.6rem;
+    padding: 0.55rem 1rem 0.8rem 0.7rem;
     width: auto;
     margin: 0 0.5rem 0.5rem 0;
     background: var(--accent-button-bg);
@@ -454,7 +458,7 @@ input[type="checkbox"] {
     color: var(--accent-unhover-2);
 }
 .switch {
-    padding: 0.8rem;
+    padding: 0.7rem;
     width: 100%;
     text-align: center;
     color: var(--accent);
@@ -479,6 +483,7 @@ input[type="checkbox"] {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: scroll;
+    scrollbar-width: none;
 }
 .autowidth {
     width: auto;
@@ -493,7 +498,7 @@ input[type="checkbox"] {
     overflow: auto;
 }
 #close-bottom {
-    max-width: 3rem;
+    max-width: 2.8rem;
     margin-left: 1rem;
     background: var(--background);
     border: var(--border-15);
@@ -508,6 +513,9 @@ input[type="checkbox"] {
     bottom: 0;
     position: relative;
     width: 100%;
+}
+.popup-tabs {
+    margin-top: 0.8rem;
 }
 .emoji {
     margin-right: 0.4rem;
@@ -572,9 +580,6 @@ input[type="checkbox"] {
 #popup-picker .explanation {
     margin-top: 0!important;
     margin-bottom: 1rem;
-}
-.popup-tabs {
-    padding-top: 0.5rem;
 }
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
@@ -717,7 +722,7 @@ input[type="checkbox"] {
         width: 100%!important;
     }
     #footer {
-        bottom: 2rem;
+        bottom: 1.7rem;
         transform: translate(-50%, 0%);
     }
     #footer-buttons {
@@ -726,6 +731,12 @@ input[type="checkbox"] {
     }
     .footer-pair .footer-button {
         width: 100%!important;
+    }
+    #popup-header {
+        padding-top: 1.2rem;
+    }
+    #popup-settings #popup-header {
+        padding-top: 0.8rem;
     }
     .picker-image-container {
         height: 7rem;
@@ -754,11 +765,14 @@ input[type="checkbox"] {
     .popup, .popup.scrollable, .popup.small {
         border: none;
         width: 90%;
-        height: 90%;
+        height: 95%;
         max-height: 100%;
     }
     .bottom-link {
         padding-bottom: 2rem;
+    }
+    .popup-tabs {
+        margin-top: .3rem;
     }
 }
 @media screen and (max-width: 400px) {

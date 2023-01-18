@@ -1,39 +1,50 @@
 import NodeCache from "node-cache";
 
-import { UUID, encrypt } from "../sub/crypto.js";
+import { sha256 } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 
-const streamCache = new NodeCache({ stdTTL: streamLifespan, checkperiod: 120 });
+const streamCache = new NodeCache({ stdTTL: streamLifespan/1000, checkperiod: 10, deleteOnExpire: true });
 const salt = process.env.streamSalt;
 
-export function createStream(obj) {
-    let streamUUID = UUID(),
-        exp = Math.floor(new Date().getTime()) + streamLifespan,
-        ghmac = encrypt(`${streamUUID},${obj.service},${obj.ip},${exp}`, salt)
+streamCache.on("expired", (key) => {
+    streamCache.del(key);
+});
 
-    streamCache.set(streamUUID, {
-        id: streamUUID,
-        service: obj.service,
-        type: obj.type,
-        urls: obj.u,
-        filename: obj.filename,
-        hmac: ghmac,
-        ip: obj.ip,
-        exp: exp,
-        isAudioOnly: !!obj.isAudioOnly,
-        audioFormat: obj.audioFormat,
-        time: obj.time,
-        copy: obj.copy,
-        metadata: obj.fileMetadata ? obj.fileMetadata : false
-    });
-    return `${process.env.selfURL}api/stream?t=${streamUUID}&e=${exp}&h=${ghmac}`;
+export function createStream(obj) {
+    let streamID = sha256(`${obj.ip},${obj.service},${obj.filename},${obj.audioFormat},${obj.mute}`, salt),
+        exp = Math.floor(new Date().getTime()) + streamLifespan,
+        ghmac = sha256(`${streamID},${obj.service},${obj.ip},${exp}`, salt);
+
+    if (!streamCache.has(streamID)) {
+        streamCache.set(streamID, {
+            id: streamID,
+            service: obj.service,
+            type: obj.type,
+            urls: obj.u,
+            filename: obj.filename,
+            hmac: ghmac,
+            ip: obj.ip,
+            exp: exp,
+            isAudioOnly: !!obj.isAudioOnly,
+            audioFormat: obj.audioFormat,
+            time: obj.time ? obj.time : false,
+            copy: !!obj.copy,
+            mute: !!obj.mute,
+            metadata: obj.fileMetadata ? obj.fileMetadata : false
+        });
+    } else {
+        let streamInfo = streamCache.get(streamID);
+        exp = streamInfo.exp;
+        ghmac = streamInfo.hmac;
+    }
+    return `${process.env.selfURL}api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
 }
 
 export function verifyStream(ip, id, hmac, exp) {
     try {
         let streamInfo = streamCache.get(id);
         if (streamInfo) {
-            let ghmac = encrypt(`${id},${streamInfo.service},${ip},${exp}`, salt);
+            let ghmac = sha256(`${id},${streamInfo.service},${ip},${exp}`, salt);
             if (hmac == ghmac && ip == streamInfo.ip && ghmac == streamInfo.hmac && exp > Math.floor(new Date().getTime()) && exp == streamInfo.exp) {
                 return streamInfo;
             } else {
