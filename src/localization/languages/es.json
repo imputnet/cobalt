@@ -1,7 +1,7 @@
 {
     "name": "español",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">hazme saber</a>"
+        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">presenta un problema en github</a>"
     },
     "strings": {
         "LinkInput": "pega tu enlace aquí",
@@ -13,7 +13,6 @@
         "AccessibilityOpenAbout": "abrir ventana emergente de acerca de",
         "AccessibilityDownloadButton": "botón de descarga",
         "AccessibilityOpenSettings": "abrir ventana emergente de ajustes",
-        "AccessibilityOpenChangelog": "abrir ventana emergente del changelog",
         "AccessibilityClosePopup": "cerrar la ventana emergente",
         "AccessibilityOpenDonate": "abrir ventana emergente de donación",
         "TitlePopupAbout": "¿qué es {appName}?",
@@ -28,7 +27,7 @@
         "ErrorNoLink": "¡no puedo adivinar qué quieres descargar! por favor introduce un enlace.",
         "ErrorPageRenderFail": "algo salió mal y la página no se pudo procesar. si quieres que solucione esto, por favor {ContactLink}. sería útil si proporcionas el commit hash ({s}) junto con pasos de recreación, gracias :D",
         "ErrorRateLimit": "estás haciendo demasiadas solicitudes. cálmate y vuelve a intentarlo en unos minutos.",
-        "ErrorCouldntFetch": "no se pudo obtener metadata. comprueba si tu enlace es correcto e inténtalo de nuevo.",
+        "ErrorCouldntFetch": "no se pudo obtener ninguna información sobre tu enlace. comprueba si tu enlace es correcto e inténtalo de nuevo.",
         "ErrorLengthLimit": "el limite de duración actual es de {s} minutos. lo que intentaste descargar es mas largo que eso. ¡escoge otra cosa que descargar!",
         "ErrorBadFetch": "algo salió mal con la obtención de info. puedes probar con un formato y una resolución diferentes o simplemente intentarlo de nuevo más tarde.",
         "ErrorCorruptedStream": "parece que esta descarga está corrupta. inténtalo de nuevo o intenta con otro formato o resolución.",
@@ -39,7 +38,6 @@
         "SettingsAppearanceSubtitle": "apariencia",
         "SettingsThemeSubtitle": "tema",
         "SettingsFormatSubtitle": "formato de descarga",
-        "SettingsDownloadsSubtitle": "descargas",
         "SettingsQualitySubtitle": "calidad",
         "SettingsThemeAuto": "auto",
         "SettingsThemeLight": "claro",
@@ -55,11 +53,8 @@
         "AccessibilityEnableDownloadPopup": "preguntar qué hacer con las descargas",
         "SettingsFormatDescription": "selecciona webm si necesitas la máxima calidad disponible. los videos webm suelen tener un mayor bitrate, pero los dispositivos ios no pueden reproducirlos de forma nativa.",
         "SettingsQualityDescription": "si la calidad seleccionada no está disponible, la más cercana es elegida en su lugar.\nsi quieres publicar un vídeo de youtube en las redes sociales, selecciona una combinación de mp4 y 720p. esos videos normalmente no están en el códec av1, por lo que deberían reproducirse bien básicamente en todas partes.",
-        "DonateSubtitle": "pagar por hosting es un poco complicado ahora mismo",
-        "DonateDescription": "no me gusta cómo está crypto ahora mismo, pero es la única forma que tengo para pagar cualquier cosa en línea. las tarjetas mastercard/visa y los servicios similares a paypal ya no están disponibles.",
         "LinkGitHubIssues": "&gt;&gt; informa sobre problemas y consulta el código fuente en github",
         "LinkGitHubChanges": "&gt;&gt; mira los cambios anteriores y contribuye en github",
-        "LinkDonateContact": "&gt;&gt; hazme saber si la moneda en la que deseas donar no está en la lista",
         "NoScriptMessage": "{appName} usa javascript para las solicitudes de api y para la interfaz interactiva. tienes que permitir javascript en tu navegador para usar este sitio. no tenemos ningún anuncio ni rastreadores, lo prometo con el meñique.",
         "DownloadPopupDescriptionIOS": "como tienes un dispositivo ios, debes mantener presionado el botón de descarga y luego seleccionar \"descargar video\" en la ventana emergente que aparece para guardar el video. esto será necesario mientras apple obligue a todos los desarrolladores de navegadores en ios a usar safari webview",
         "DownloadPopupDescription": "el botón de descarga abre una nueva pestaña con el archivo solicitado. puedes desactivar esta ventana emergente en los ajustes.",
@@ -73,10 +68,9 @@
         "SettingsVideoTab": "vídeo",
         "SettingsAudioTab": "audio",
         "SettingsOtherTab": "otros",
-        "ChangelogLastCommit": "último commit (en inglés)",
-        "ChangelogLastMajor": "última actualización (en inglés)",
+        "ChangelogLastMajor": "versión actual y commit",
         "AccessibilityModeToggle": "cambiar el modo de descarga",
-        "DonateLinksDescription": "los links de donación se abren en una nueva pestaña. esta es la mejor manera para donar dinero si quieres que lo reciba directamente.",
+        "DonateLinksDescription": "los enlaces de donación se abren en una nueva pestaña. esta es la mejor manera para donar dinero si quieres que lo reciba directamente.",
         "SettingsAudioFormatBest": "mejor",
         "SettingsAudioFormatDescription": "cuando seleccionas el formato mejor, obtienes audio en la mejor calidad disponible, porque el audio se mantiene en su formato original. si seleccionas otro formato obtendrás un archivo ligeramente comprimido",
         "Keyphrase": "guarda lo que amas",
@@ -95,8 +89,8 @@
         "ErrorUnknownStatus": "he recibido una respuesta que no puedo procesar. lo más probable es que algo con el status esté mal. esto nunca debería suceder. recarga la página y vuelve a intentarlo, pero si eso no ayuda, {ContactLink}.",
         "PasteFromClipboard": "pegar desde el portapapeles",
         "FollowTwitter": "sigue la cuenta de {appName} en twitter para encuestas, actualizaciones y más: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
-        "ChangelogOlder": "actualizaciones anteriores (en inglés)",
-        "ChangelogPressToExpand": "presiona para cargar",
+        "ChangelogOlder": "versiones anteriores",
+        "ChangelogPressToExpand": "presiona para expandir",
         "Miscellaneous": "otros",
         "ModeToggleAuto": "modo automático ",
         "ModeToggleAudio": "modo audio",
@@ -106,6 +100,16 @@
         "MediaPickerExplanationPhone": "presiona o presiona y mantén pulsado para descargar lo que quieras.",
         "MediaPickerExplanationPhoneIOS": "mantén presionado, oculta la vista previa, y luego selecciona \"descargar archivo enlazado\" para guardar.",
         "TwitterSpaceWasntRecorded": "este espacio de twitter no fue grabado, así que no hay nada que descargar. ¡prueba con otro!",
-        "ErrorCantProcess": "no he podido procesar tu solicitud :(\npuedes intentarlo de nuevo, pero si el problema persiste, por favor {ContactLink}."
+        "ErrorCantProcess": "no he podido procesar tu solicitud :(\npuedes intentarlo de nuevo, pero si el problema persiste, por favor {ContactLink}.",
+        "ChangelogPressToHide": "presiona para ocultar",
+        "Donate": "donar",
+        "DonateSub": "ayúdame a mantenerlo",
+        "DonateExplanation": "{appName} no muestra anuncios (y nunca lo hará) o vende tus datos, por lo tanto es <span class=\"text-backdrop\">completamente gratis de usar</span>. pero resulta ser que mantener un servicio web usado por miles de personas es más o menos costoso\n\nsi alguna vez has encontrado que {appName} te es útil y quieres mantenerlo en línea, o simplemente quieres darle las gracias al desarrollador, ¡concidera aportar algo! cada centavo ayuda y es MUY apreciado\n",
+        "DonateVia": "donar vía",
+        "DonateHireMe": "o, como alternativa, puedes <a class=\"text-backdrop\" href=\"{s}\" target=\"_blank\">contratarme</a>.",
+        "SettingsVideoMute": "silenciar audio",
+        "SettingsVideoMuteExplanation": "deshabilita el audio en el vídeo descargado cuando sea posible. obtendrás el archivo de vídeo fuente si los canales de vídeo y audio se sirven en dos archivos por el servicio de origen. se ignora cuando el modo de audio está encendido o si el servicio solo soporta audio.",
+        "SettingsVideoGeneral": "general",
+        "ErrorSoundCloudNoClientId": "no se pudo encontrar el client_id necesario para obtener datos de audio de soundcloud. Inténtalo de nuevo, y si el problema persiste, {ContactLink}."
     }
 }
