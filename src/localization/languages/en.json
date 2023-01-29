@@ -1,12 +1,11 @@
 {
     "name": "english",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">file an issue on github</a>"
+        "ContactLink": "<a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">file an issue on github</a>"
     },
     "strings": {
         "LinkInput": "paste the link here",
         "AboutSummary": "{appName} is your go-to place for social media downloads. zero ads, trackers, or any other creepy bullshit. simply paste a share link and you're ready to rock!",
-        "AboutSupportedServices": "currently supported services:",
         "EmbedBriefDescription": "save content from social media without annoyances",
         "MadeWithLove": "made with <3 by wukko",
         "AccessibilityInputArea": "link input area",
@@ -53,7 +52,6 @@
         "AccessibilityEnableDownloadPopup": "ask what to do with downloads",
         "SettingsFormatDescription": "select webm if you want max quality available. webm videos are usually higher bitrate, but ios devices can't play them natively.",
         "SettingsQualityDescription": "if selected quality isn't available, closest one gets picked instead.\nif you want to post a youtube video on social media, select a combination of mp4 and 720p.",
-        "LinkGitHubIssues": "&gt;&gt; report issues and check out the source code on github",
         "LinkGitHubChanges": "&gt;&gt; see previous commits and contribute on github",
         "NoScriptMessage": "{appName} uses javascript for api requests and interactive interface. you have to allow javascript to use this site. i don't have any ads or trackers, pinky promise.",
         "DownloadPopupDescriptionIOS": "press and hold the download button, hide the video preview, and then select \"download linked file\" to save.",
@@ -88,7 +86,6 @@
         "ErrorNoUrlReturned": "server didn't return a download link. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "ErrorUnknownStatus": "i received a response i can't process. most likely something with status is wrong. this should never happen. reload the page and try again, but if it doesn't help, {ContactLink}.",
         "PasteFromClipboard": "paste from clipboard",
-        "FollowTwitter": "follow {appName}'s twitter account for polls, updates, and more: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "previous versions",
         "ChangelogPressToExpand": "press to expand",
         "Miscellaneous": "miscellaneous",
@@ -104,12 +101,20 @@
         "ChangelogPressToHide": "press to collapse",
         "Donate": "donate",
         "DonateSub": "help me keep it up",
-        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but hey! turns out keeping up a web service used by hundreds of thousands of people is somewhat costly.\n\nif you ever found {appName} useful and want to keep it online, or simply want to thank the developer, consider chipping in! each and every cent helps and is VERY appreciated.",
+        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but turns out keeping up a web service used by thousands of people is somewhat costly.\n\nif you ever found {appName} useful and want to keep it online, or simply want to thank the developer, consider chipping in! each and every cent helps and is VERY appreciated.",
         "DonateVia": "donate via",
-        "DonateHireMe": "or, as an alternative, you can <a class=\"text-backdrop\" href=\"{s}\" target=\"_blank\">hire me</a>.",
+        "DonateHireMe": "or, as an alternative, you can <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">hire me</a>.",
         "SettingsVideoMute": "mute audio",
         "SettingsVideoMuteExplanation": "disables audio in downloaded video when possible. ignored when audio mode is on or service only supports audio.",
         "SettingsVideoGeneral": "general",
-        "ErrorSoundCloudNoClientId": "couldn't find client_id that is required to fetch audio data from soundcloud. try again, and if issue persists, {ContactLink}."
+        "ErrorSoundCloudNoClientId": "couldn't find client_id that is required to fetch audio data from soundcloud. try again, and if issue persists, {ContactLink}.",
+        "CollapseServices": "supported services",
+        "CollapseSupport": "support & source code",
+        "CollapsePrivacy": "privacy policy",
+        "ServicesNote": "this list is not final and keeps expanding over time, make sure to check it once in a while!",
+        "FollowSupport": "follow {appName} on mastodon or twitter for support, polls, news, and more:",
+        "SupportNote": "please note that questions and issues may take a while to respond to, there's only one person managing everything.",
+        "SourceCode": "report issues, explore source code, star or fork the repo:",
+        "PrivacyPolicy": "{appName}'s privacy policy is simple: no data about you is collected or stored. zero, zilch, nada, nothing.\nwhat you download is your business, not mine.\n\nsome non-backtraceable data does get temporarily stored when requested download requires live render. it's necessary for that feature to function.\n\nin that case, <span class=\"text-backdrop\">salted sha256 hash of your ip address</span> and information about requested stream are temporarily stored in server's RAM for <span class=\"text-backdrop\">2 minutes</span>. after 2 minutes all previously stored information is permanently removed. hash of your ip address is <span class=\"text-backdrop\">used for limiting stream access only to you</span>.\nno one (even me) has access to this data, because official cobalt codebase doesn't provide a way to read it outside of processing functions in the first place.\n\nyou can check {appName}'s <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">github repo</a> for yourself and see that indeed nothing is stored permanently."
     }
 }

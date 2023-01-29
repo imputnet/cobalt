@@ -15,7 +15,7 @@ export function loadLoc() {
 }
 loadLoc();
 export function replaceBase(s) {
-    return s.replace(/\n/g, '<br/>').replace(/{appName}/g, appName).replace(/{repo}/g, repo).replace(/{bS}/g, '<div class=\"bullpadding\">').replace(/{bE}/g, '</div>').replace(/\*;/g, "&bull;");
+    return s.replace(/\n/g, '<br/>').replace(/{appName}/g, appName).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
 }
 export function replaceAll(lang, str, string, replacement) {
     let s = replaceBase(str[string])

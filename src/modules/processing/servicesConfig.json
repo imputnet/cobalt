@@ -2,7 +2,7 @@
     "audioIgnore": ["vk"],
     "config": {
         "bilibili": {
-            "alias": "bilibili.com",
+            "alias": "bilibili (.com only)",
             "patterns": ["video/:id"],
             "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
             "enabled": true
@@ -63,13 +63,13 @@
             "enabled": true
         },
         "tiktok": {
-            "alias": "tiktok videos & slideshow & audio",
+            "alias": "tiktok videos & photos & audio",
             "patterns": [":user/video/:postId", ":id", "t/:id"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
         },
         "douyin": {
-            "alias": "douyin videos & slideshow & audio",
+            "alias": "douyin videos & photos & audio",
             "patterns": ["video/:postId", ":id"],
             "enabled": true
         },

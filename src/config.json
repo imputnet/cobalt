@@ -6,7 +6,17 @@
     "authorInfo": {
         "name": "wukko",
         "link": "https://wukko.me/",
-        "contact": "https://wukko.me/contacts"
+        "contact": "https://wukko.me/contacts",
+        "support": {
+            "twitter": {
+                "url": "https://twitter.com/justusecobalt",
+                "handle": "@justusecobalt"
+            },
+            "mastodon": {
+                "url": "https://wetdry.world/@cobalt",
+                "handle": "@cobalt@wetdry.world"
+            }
+        }
     },
     "internetExplorerRedirect": {
         "newNT": ["6.1", "6.2", "6.3", "10.0"],

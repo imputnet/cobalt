@@ -1,7 +1,7 @@
 let ua = navigator.userAgent.toLowerCase();
 let isIOS = ua.match("iphone os");
 let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 21;
+let version = 22;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -85,8 +85,8 @@ function clearInput() {
 function copy(id, data) {
     let e = document.getElementById(id);
     e.classList.add("text-backdrop");
-    data ? navigator.clipboard.writeText(data) : navigator.clipboard.writeText(e.innerText);
     setTimeout(() => { e.classList.remove("text-backdrop") }, 600);
+    data ? navigator.clipboard.writeText(data) : navigator.clipboard.writeText(e.innerText);
 }
 function detectColorScheme() {
     let theme = "auto";
@@ -112,6 +112,11 @@ function changeTab(evnt, tabId, tabClass) {
     if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
     if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
 }
+function expandCollapsible(evnt) {
+    let classlist = evnt.currentTarget.parentNode.classList;
+    let c = "expanded";
+    !classlist.contains(c) ? classlist.add(c) : classlist.remove(c);
+}
 function notificationCheck(type) {
     let changed = true;
     switch (type) {
@@ -123,7 +128,6 @@ function notificationCheck(type) {
             break;
         default:
             changed = false;
-            break;
     }
     if (changed && sGet("changelogStatus") === `${version}` || type === "disable") {
         setTimeout(() => {

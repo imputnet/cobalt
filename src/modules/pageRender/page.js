@@ -1,4 +1,4 @@
-import { backdropLink, celebrationsEmoji, checkbox, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher } from "./elements.js";
+import { backdropLink, celebrationsEmoji, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink } from "./elements.js";
 import { services as s, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -11,7 +11,7 @@ let enabledServices = Object.keys(s).filter((p) => {
     if (s[p].enabled) return true;
 }).sort().map((p) => {
     return `<br>&bull; ${s[p].alias ? s[p].alias : p}`
-}).join(';').substring(4)
+}).join('').substring(4)
 
 let donate = ``
 let donateLinks = ``
@@ -79,21 +79,29 @@ export default function(obj) {
                             url: authorInfo.link
                         },
                         closeAria: t('AccessibilityClosePopup'),
-                        title: t('TitlePopupAbout')
+                        title: `${emoji("🔮", 30)} ${t('TitlePopupAbout')}`
                     },
                     body: [{
                         text: t('AboutSummary')
                     }, {
-                        text: `${t('AboutSupportedServices')}`,
-                        nopadding: true
-                    }, {
-                        text: `<div class="bullpadding">${enabledServices}.</div>`
-                    }, {
-                        text: obj.lang !== "ru" ? t('FollowTwitter') : "",
-                        classes: ["desc-padding"]
-                    }, {
-                        text: backdropLink(repo, t('LinkGitHubIssues')),
-                        classes: ["bottom-link"]
+                        text: collapsibleList([{
+                            "name": "services",
+                            "title": t("CollapseServices"),
+                            "body": `${enabledServices}<br/><br/>${t("ServicesNote")}`
+                        }, {
+                            "name": "support",
+                            "title": t("CollapseSupport"),
+                            "body": `${t("FollowSupport")}<br/>
+                            ${socialLink(emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url)}
+                            ${socialLink(emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url)}<br/>
+                            ${t("SourceCode")}<br/>
+                            ${socialLink(emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo)}<br/>
+                            ${t("SupportNote")}`
+                        }, {
+                            "name": "privacy",
+                            "title": t("CollapsePrivacy"),
+                            "body": t("PrivacyPolicy")
+                        }])
                     }]
                 })
             }, {
@@ -211,7 +219,7 @@ export default function(obj) {
                 + settingsCategory({
                     name: "tiktok",
                     title: "tiktok & douyin",
-                    body: checkbox("disableTikTokWatermark", t('SettingsRemoveWatermark'))
+                    body: checkbox("disableTikTokWatermark", t('SettingsRemoveWatermark'), 3)
                 })
                 + settingsCategory({
                     name: "youtube",
@@ -239,11 +247,11 @@ export default function(obj) {
                         subtitle: t('SettingsFormatSubtitle'),
                         explanation: t('SettingsAudioFormatDescription'),
                         items: audioFormats
-                    }) + sep(0) + checkbox("muteAudio", t('SettingsVideoMute'), t('SettingsVideoMute'), 3) + explanation(t('SettingsVideoMuteExplanation'))
+                    }) + sep(0) + checkbox("muteAudio", t('SettingsVideoMute'), 3) + explanation(t('SettingsVideoMuteExplanation'))
                 }) + settingsCategory({
                     name: "tiktok",
                     title: "tiktok & douyin",
-                    body: checkbox("fullTikTokAudio", t('SettingsAudioFullTikTok'), t('SettingsAudioFullTikTok'), 3) + `<div class="explanation">${t('SettingsAudioFullTikTokDescription')}</div>`
+                    body: checkbox("fullTikTokAudio", t('SettingsAudioFullTikTok'), 3) + `<div class="explanation">${t('SettingsAudioFullTikTokDescription')}</div>`
                 })
             }, {
                 name: "other",
@@ -264,11 +272,11 @@ export default function(obj) {
                             "action": "light",
                             "text": t('SettingsThemeLight')
                         }]
-                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), t('AccessibilityKeepDownloadButton'), 2)
+                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), 4, t('AccessibilityKeepDownloadButton'))
                 }) + settingsCategory({
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
-                    body: checkbox("disableChangelog", t('SettingsDisableNotifications')) + `${!isIOS ? checkbox("downloadPopup", t('SettingsEnableDownloadPopup'), t('AccessibilityEnableDownloadPopup'), 1) : ''}`
+                    body: checkbox("disableChangelog", t('SettingsDisableNotifications')) + `${!isIOS ? checkbox("downloadPopup", t('SettingsEnableDownloadPopup'), 1, t('AccessibilityEnableDownloadPopup')) : ''}`
                 })
             }],
         })}
@@ -301,12 +309,12 @@ export default function(obj) {
             name: "error",
             standalone: true,
             buttonOnly: true,
-            emoji: emoji("☹️", 48, 1),
             classes: ["small"],
             buttonText: t('ErrorPopupCloseButton'),
             header: {
                 closeAria: t('AccessibilityClosePopup'),
-                title: t('TitlePopupError')
+                title: t('TitlePopupError'),
+                emoji: emoji("☹️", 64, 1),
             },
             body: `<div id="desc-error" class="desc-padding subtext"></div>`
         })}

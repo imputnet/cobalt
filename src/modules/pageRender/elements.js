@@ -2,26 +2,22 @@ import { celebrations } from "../config.js";
 
 export function switcher(obj) {
     let items = ``;
-    switch(obj.name) {
-        case "download":
-            items = obj.items;
-            break;
-        default:
-            for (let i = 0; i < obj.items.length; i++) {
-                let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : []
-                items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
-            }
-            break;
+    if (obj.name == "download") {
+        items = obj.times;
+    } else {
+        for (let i = 0; i < obj.items.length; i++) {
+            let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : []
+            items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
+        }
     }
-    return `
-        <div id="${obj.name}-switcher" class="switch-container">
+    return `<div id="${obj.name}-switcher" class="switch-container">
             ${obj.subtitle ? `<div class="subtitle">${obj.subtitle}</div>` : ``}
             <div class="switches">${items}</div>
             ${obj.explanation ? `<div class="explanation">${obj.explanation}</div>` : ``}
         </div>`
 }
 
-export function checkbox(action, text, aria, paddingType) {
+export function checkbox(action, text, paddingType, aria) {
     let paddingClass = ` `
     switch (paddingType) {
         case 1:
@@ -33,6 +29,8 @@ export function checkbox(action, text, aria, paddingType) {
         case 3:
             paddingClass += "no-margin"
             break;
+        case 4:
+            paddingClass += "top-margin-only"
     }
     return `<label id="${action}-chkbx" class="checkbox${paddingClass}">
         <input id="${action}" type="checkbox" ${aria ? `aria-label="${aria}"` : `aria-label="${text}"`} onclick="checkbox('${action}')">
@@ -65,9 +63,9 @@ export function popup(obj) {
     }
     return `
     ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center box${classes.length > 0 ? ' ' + classes.join(' ') : ''}" style="visibility: hidden;">` : ''}
-    ${obj.buttonOnly ? obj.emoji : ``}
         <div id="popup-header" class="popup-header">
-            ${obj.standalone && !obj.buttonOnly ? `<button id="popup-close" class="button mono" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
+            ${obj.standalone && !obj.buttonOnly ? `<button id="close-button" class="switch up" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
+            ${obj.buttonOnly ? obj.header.emoji : ``}
             ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
             ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
             ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
@@ -88,7 +86,7 @@ export function multiPagePopup(obj) {
         tabs += `<button id="tab-button-${obj.name}-${obj.tabs[i]["name"]}" class="switch tab tab-${obj.name}" onclick="changeTab(event, 'tab-${obj.name}-${obj.tabs[i]["name"]}', '${obj.name}')">${obj.tabs[i]["title"]}</button>`
         tabContent += `<div id="tab-${obj.name}-${obj.tabs[i]["name"]}" class="popup-tab-content tab-content-${obj.name}">${obj.tabs[i]["content"]}</div>`
     }
-    tabs += `<button id="close-bottom" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
+    tabs += `<button id="close-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
         <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
@@ -98,13 +96,25 @@ export function multiPagePopup(obj) {
         <div id="popup-tabs" class="switches popup-tabs">${tabs}</div>
     </div>`
 }
-
+export function collapsibleList(arr) {
+    let items = ``
+    for (let i = 0; i < arr.length; i++) {
+        items += `<div id="${arr[i]["name"]}-collapse" class="collapse-list">
+            <div class="collapse-header" onclick="expandCollapsible(event)">
+                <div class="collapse-title">${arr[i]["title"]}</div>
+                <div class="collapse-indicator">^</div>
+            </div>
+            <div id="${arr[i]["name"]}-body" class="collapse-body">${arr[i]["body"]}</div>
+        </div>`
+    }
+    return items;
+}
 export function popupWithBottomButtons(obj) {
     let tabs = ``
     for (let i = 0; i < obj.buttons.length; i++) {
         tabs += obj.buttons[i]
     }
-    tabs += `<button id="close-bottom" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
+    tabs += `<button id="close-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
         <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
@@ -116,13 +126,15 @@ export function popupWithBottomButtons(obj) {
     </div>`
 }
 export function backdropLink(link, text) {
-    return `<a class="text-backdrop" href="${link}" target="_blank">${text}</a>`
+    return `<a class="text-backdrop italic" href="${link}" target="_blank">${text}</a>`
 }
-
+export function socialLink(emoji, name, handle, url) {
+    return `<div class="social-link">${emoji} ${name}: <a class="text-backdrop italic" href="${url}" target="_blank">${handle}</a></div>`
+}
 export function settingsCategory(obj) {
     return `<div id="settings-${obj.name}" class="settings-category">
         <div class="category-title">${obj.title ? obj.title : obj.name}</div>
-        <div class="settings-category-content">${obj.body}</div>
+        <div class="category-content">${obj.body}</div>
     </div>`
 }
 

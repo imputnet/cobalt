@@ -45,7 +45,7 @@ export function verifyStream(ip, id, hmac, exp) {
         let streamInfo = streamCache.get(id);
         if (streamInfo) {
             let ghmac = sha256(`${id},${streamInfo.service},${ip},${exp}`, salt);
-            if (hmac == ghmac && ip == streamInfo.ip && ghmac == streamInfo.hmac && exp > Math.floor(new Date().getTime()) && exp == streamInfo.exp) {
+            if (hmac == ghmac && exp.toString() == streamInfo.exp && ghmac == streamInfo.hmac && ip == streamInfo.ip && exp > Math.floor(new Date().getTime())) {
                 return streamInfo;
             } else {
                 return { error: 'Unauthorized', status: 401 };
