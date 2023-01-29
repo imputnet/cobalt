@@ -1,16 +1,16 @@
 # cobalt
 Best way to save content you love.
 
-[co.wukko.me](https://co.wukko.me/)
+Live: [co.wukko.me](https://co.wukko.me/)
 
 ![cobalt logo](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/wide.png "cobalt logo")
 
 [![Crowdin](https://badges.crowdin.net/cobalt/localized.svg)](https://crowdin.com/project/cobalt) [![DeepSource](https://deepsource.io/gh/wukko/cobalt.svg/?label=active+issues&token=MsmsJ9zUOKwcQor0yaiFot84)](https://deepsource.io/gh/wukko/cobalt/?ref=repository-badge) [![DeepSource](https://deepsource.io/gh/wukko/cobalt.svg/?label=resolved+issues&token=MsmsJ9zUOKwcQor0yaiFot84)](https://deepsource.io/gh/wukko/cobalt/?ref=repository-badge)
 
 ## What's cobalt?
-cobalt is social media downloader with zero bullshit. It's friendly, accessible, efficient, and doesn't bother you with shock ads or privacy invasion "consent" popups.
+cobalt is a social media downloader with zero bullshit. It's friendly, efficient, and doesn't bother you with shock ads or privacy invasion "consent" popups.
 
-It preserves original media quality so you get best downloads possible (unless you change that in settings).
+It tries to preserve original media quality, and in most instances you get best downloads possible (you can set your preferences in settings).
 
 ## Supported services
 | Service           | Video + Audio | Only audio | Additional features                                                                      |
@@ -20,7 +20,7 @@ It preserves original media quality so you get best downloads possible (unless y
 | YouTube & Shorts  | ✅           | ✅         | Support for 8K, 4K, HDR, and high FPS videos.                                            |
 | YouTube Music     | ❌           | ✅         | Audio metadata.                                                                          |
 | Reddit            | ✅           | ✅         |                                                                                          |
-| TikTok & douyin   | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermarks. |
+| TikTok & douyin   | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermark.  |
 | SoundCloud        | ❌           | ✅         | Audio metadata, downloads from private links                                             |
 | bilibili.com      | ✅           | ✅         |                                                                                          |
 | Tumblr            | ✅           | ✅         |                                                                                          |
@@ -28,15 +28,15 @@ It preserves original media quality so you get best downloads possible (unless y
 | VK Videos & Clips | ✅           | ❌️         |                                                                                          |
 
 ## cobalt API
-cobalt has an open API that you can use for free. It's pretty straightforward in use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/API.md) and see for yourself.
+cobalt has an open API that you can use for free. It's pretty straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/API.md) and see for yourself.
 
 ## How to contribute translations
 You can translate cobalt to any language you want on [cobalt's crowdin](https://crowdin-co.wukko.me/). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to crowdin.
 
 ### Translation guidelines:
-- Avoid formal language. Leave it for boring big tech companies. Use informal language on all occasions.
+- Avoid formal language. Leave it for big and classy tech companies. Use informal language wherever possible.
 - Strings are **ALWAYS** stylized as lowercase unless it's STRESSED LIKE THIS or is an internal value like `{ContactLink}`.
-- Keep translations lively, friendly, and fun. Translate strings as if cobalt user was your buddy.
+- Keep translations lively, friendly, and fun. Translate strings as if the user was your buddy.
 - Automatic translations from original language are not valid, and will be ignored.
 - You can (and should) rephrase sentences as long as they keep the same point, if you think it'd be better that way.
 - You can add wordplays or puns if it feels natural to do so.
@@ -64,7 +64,7 @@ You might find cobalt's source code a bit messy, but I do my best to improve it 
 - node-cache
 - url-pattern
 - xml-js
-- ytdl-core
+- better-ytdl-core
 
 Setup script installs all needed `npm` dependencies, but you have to install `Node.js` and `git` yourself.
 
@@ -74,9 +74,9 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 4. Done.
 
 ## Disclaimer
-cobalt is my passion project, so new feature release schedule depends solely on my motivation and mood. Don't expect any consistency in that.
+cobalt is my passion project, so update release schedule depends solely on my motivation, free time, and mood. Don't expect any consistency in that.
 
 ## License
-cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
+cobalt is under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE) license.
 
-[Fluent Emoji](https://github.com/microsoft/fluentui-emoji) by Microsoft is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE).
+[Fluent Emoji](https://github.com/microsoft/fluentui-emoji) used in the project is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE) license.
