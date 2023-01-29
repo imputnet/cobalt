@@ -3,7 +3,7 @@ import { celebrations } from "../config.js";
 export function switcher(obj) {
     let items = ``;
     if (obj.name == "download") {
-        items = obj.times;
+        items = obj.items;
     } else {
         for (let i = 0; i < obj.items.length; i++) {
             let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : []
