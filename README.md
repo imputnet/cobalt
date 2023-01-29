@@ -3,7 +3,7 @@ Best way to save content you love.
 
 Live: [co.wukko.me](https://co.wukko.me/)
 
-![cobalt logo](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/wide.png "cobalt logo")
+![cobalt logo with repeated logo pattern background](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/pattern.png "cobalt logo with repeated logo pattern background")
 
 [![Crowdin](https://badges.crowdin.net/cobalt/localized.svg)](https://crowdin.com/project/cobalt) [![DeepSource](https://deepsource.io/gh/wukko/cobalt.svg/?label=active+issues&token=MsmsJ9zUOKwcQor0yaiFot84)](https://deepsource.io/gh/wukko/cobalt/?ref=repository-badge) [![DeepSource](https://deepsource.io/gh/wukko/cobalt.svg/?label=resolved+issues&token=MsmsJ9zUOKwcQor0yaiFot84)](https://deepsource.io/gh/wukko/cobalt/?ref=repository-badge)
 
