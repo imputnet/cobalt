@@ -43,16 +43,14 @@ export function createStream(obj) {
 export function verifyStream(ip, id, hmac, exp) {
     try {
         let streamInfo = streamCache.get(id);
-        if (streamInfo) {
-            let ghmac = sha256(`${id},${streamInfo.service},${ip},${exp}`, salt);
-            if (hmac == ghmac && exp.toString() == streamInfo.exp && ghmac == streamInfo.hmac && ip == streamInfo.ip && exp > Math.floor(new Date().getTime())) {
-                return streamInfo;
-            } else {
-                return { error: 'Unauthorized', status: 401 };
-            }
-        } else {
+        if (!streamInfo) {
             return { error: 'this stream token does not exist', status: 400 };
         }
+        let ghmac = sha256(`${id},${streamInfo.service},${ip},${exp}`, salt);
+        if (hmac == ghmac && exp.toString() == streamInfo.exp && ghmac == streamInfo.hmac && ip == streamInfo.ip && exp > Math.floor(new Date().getTime())) {
+            return streamInfo;
+        }
+        return { error: 'Unauthorized', status: 401 };
     } catch (e) {
         return { status: 500, body: { status: "error", text: "Internal Server Error" } };
     }

@@ -36,23 +36,22 @@ export default async function(obj) {
                 req_status = await fetch(showURL, { headers: _headers }).then((r) => { return r.status == 200 ? r.json() : false;}).catch(() => {return false});
             }
             if (!req_status) return { error: 'ErrorCouldntFetch' }
-            if (req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
-                let single, multiple = [], media = req_status["extended_entities"]["media"];
-                media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true })
-                if (media.length > 1) {
-                    for (let i in media) { multiple.push({type: "video", thumb: media[i]["media_url_https"], url: bestQuality(media[i]["video_info"]["variants"])}) }
-                } else if (media.length > 0) {
-                    single = bestQuality(media[0]["video_info"]["variants"])
-                } else {
-                    return { error: 'ErrorNoVideosInTweet' }
-                }
-                if (single) {
-                    return { urls: single, filename: `twitter_${obj.id}.mp4`, audioFilename: `twitter_${obj.id}_audio` }
-                } else if (multiple) {
-                    return { picker: multiple }
-                } else {
-                    return { error: 'ErrorNoVideosInTweet' }
-                }
+            if (!req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
+                return { error: 'ErrorNoVideosInTweet' }
+            }
+            let single, multiple = [], media = req_status["extended_entities"]["media"];
+            media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true })
+            if (media.length > 1) {
+                for (let i in media) { multiple.push({type: "video", thumb: media[i]["media_url_https"], url: bestQuality(media[i]["video_info"]["variants"])}) }
+            } else if (media.length === 1) {
+                single = bestQuality(media[0]["video_info"]["variants"])
+            } else {
+                return { error: 'ErrorNoVideosInTweet' }
+            }
+            if (single) {
+                return { urls: single, filename: `twitter_${obj.id}.mp4`, audioFilename: `twitter_${obj.id}_audio` }
+            } else if (multiple) {
+                return { picker: multiple }
             } else {
                 return { error: 'ErrorNoVideosInTweet' }
             }
@@ -67,33 +66,32 @@ export default async function(obj) {
                 return r.status == 200 ? r.json() : false;
             }).catch((e) => {return false});
 
-            if (AudioSpaceById) {
-                if (AudioSpaceById.data.audioSpace.metadata.is_space_available_for_replay === true) {
-                    let streamStatus = await fetch(`https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { headers: _headers }).then((r) => {return r.status == 200 ? r.json() : false;}).catch(() => {return false;});
-                    if (!streamStatus) return { error: 'ErrorCouldntFetch' };
-    
-                    let participants = AudioSpaceById.data.audioSpace.participants.speakers
-                    let listOfParticipants = `Twitter Space speakers: `
-                    for (let i in participants) {
-                        listOfParticipants += `@${participants[i]["twitter_screen_name"]}, `
-                    }
-                    listOfParticipants = listOfParticipants.slice(0, -2);
-                    return {
-                        urls: streamStatus.source.noRedirectPlaybackUrl,
-                        audioFilename: `twitterspaces_${obj.spaceId}`,
-                        isAudioOnly: true,
-                        fileMetadata: {
-                            title: AudioSpaceById.data.audioSpace.metadata.title,
-                            artist: `Twitter Space by @${AudioSpaceById.data.audioSpace.metadata.creator_results.result.legacy.screen_name}`,
-                            comment: listOfParticipants,
-                            // cover: AudioSpaceById.data.audioSpace.metadata.creator_results.result.legacy.profile_image_url_https.replace("_normal", "")
-                        }
-                    }
-                } else {
-                    return { error: 'TwitterSpaceWasntRecorded' };
-                }
-            } else {
+            if (!AudioSpaceById) {
                 return { error: 'ErrorEmptyDownload' }
+            }
+            if (!AudioSpaceById.data.audioSpace.metadata.is_space_available_for_replay === true) {
+                return { error: 'TwitterSpaceWasntRecorded' };
+            }
+            let streamStatus = await fetch(`https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`,
+                { headers: _headers }).then((r) =>{return r.status == 200 ? r.json() : false;}).catch(() => {return false;});
+            if (!streamStatus) return { error: 'ErrorCouldntFetch' };
+    
+            let participants = AudioSpaceById.data.audioSpace.participants.speakers
+            let listOfParticipants = `Twitter Space speakers: `
+            for (let i in participants) {
+                listOfParticipants += `@${participants[i]["twitter_screen_name"]}, `
+            }
+            listOfParticipants = listOfParticipants.slice(0, -2);
+            return {
+                urls: streamStatus.source.noRedirectPlaybackUrl,
+                audioFilename: `twitterspaces_${obj.spaceId}`,
+                isAudioOnly: true,
+                fileMetadata: {
+                    title: AudioSpaceById.data.audioSpace.metadata.title,
+                    artist: `Twitter Space by @${AudioSpaceById.data.audioSpace.metadata.creator_results.result.legacy.screen_name}`,
+                    comment: listOfParticipants,
+                    // cover: AudioSpaceById.data.audioSpace.metadata.creator_results.result.legacy.profile_image_url_https.replace("_normal", "")
+                }
             }
         }
     } catch (err) {

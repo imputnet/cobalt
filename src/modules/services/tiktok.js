@@ -12,18 +12,18 @@ let config = {
     }
 }
 function selector(j, h, id) {
-    if (j) {
-        let t;
-        switch (h) {
-            case "tiktok":
-                t = j["aweme_list"].filter((v) => { if (v["aweme_id"] == id) return true })
-                break;
-            case "douyin":
-                t = j['item_list'].filter((v) => { if (v["aweme_id"] == id) return true })
-                break;
-        }
-        if (t.length > 0) { return t[0] } else return false
-    } else return false
+    if (!j) return false
+    let t;
+    switch (h) {
+        case "tiktok":
+            t = j["aweme_list"].filter((v) => { if (v["aweme_id"] == id) return true })
+            break;
+        case "douyin":
+            t = j['item_list'].filter((v) => { if (v["aweme_id"] == id) return true })
+            break;
+    }
+    if (!t.length > 0) return false
+    return t[0]
 }
 
 export default async function(obj) {
@@ -32,7 +32,7 @@ export default async function(obj) {
             let html = await fetch(`${config[obj.host]["short"]}${obj.id}`, {
                 redirect: "manual",
                 headers: { "user-agent": userAgent }
-            }).then((r) => {return r.text()}).catch(() => {return false});
+            }).then((r) => { return r.text() }).catch(() => { return false });
             if (!html) return { error: 'ErrorCouldntFetch' };
             
             if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) {
@@ -41,12 +41,14 @@ export default async function(obj) {
                 obj.postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
             }
         }
-        if (!obj.postId) return { error: 'ErrorCantGetID' };
+        if (!obj.postId) {
+            return { error: 'ErrorCantGetID' };
+        }
 
         let detail;
         detail = await fetch(config[obj.host]["api"].replace("{postId}", obj.postId), {
             headers: {"user-agent": "TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"}
-        }).then((r) => {return r.json()}).catch(() => {return false});
+        }).then((r) => { return r.json() }).catch(() => { return false });
         
         detail = selector(detail, obj.host, obj.postId);
 
@@ -60,20 +62,19 @@ export default async function(obj) {
             images = detail["images"] ? detail["images"] : false
         }
         if (!obj.isAudioOnly && !images) {
-            video = obj.host === "tiktok" ? detail["video"]["play_addr"]["url_list"][0] : detail["video"]["play_addr"]["url_list"][0].replace("playwm", "play");
-            videoFilename = `${filenameBase}_video_nw.mp4` // nw - no watermark
-            if (!obj.noWatermark) {
-                video = obj.host === "tiktok" ? detail["video"]["download_addr"]["url_list"][0] : detail['video']['play_addr']['url_list'][0]
-                videoFilename = `${filenameBase}_video.mp4`
+            video = obj.host === "tiktok" ? detail["video"]["download_addr"]["url_list"][0] : detail['video']['play_addr']['url_list'][0]
+            videoFilename = `${filenameBase}_video.mp4`
+            if (obj.noWatermark) {
+                video = obj.host === "tiktok" ? detail["video"]["play_addr"]["url_list"][0] : detail["video"]["play_addr"]["url_list"][0].replace("playwm", "play");
+                videoFilename = `${filenameBase}_video_nw.mp4` // nw - no watermark
             }
         } else {
             let fallback = obj.host === "douyin" ? detail["video"]["play_addr"]["url_list"][0].replace("playwm", "play") : detail["video"]["play_addr"]["url_list"][0];
+            audio = fallback;
+            audioFilename = `${filenameBase}_audio_fv`;  // fv - from video
             if (obj.fullAudio || fallback.includes("music")) {
                 audio = detail["music"]["play_url"]["url_list"][0]
                 audioFilename = `${filenameBase}_audio`
-            } else {
-                audio = fallback
-                audioFilename = `${filenameBase}_audio_fv` // fv - from video
             }
             if (audio.slice(-4) === ".mp3") isMp3 = true;
         }

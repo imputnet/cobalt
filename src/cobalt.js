@@ -6,7 +6,7 @@ import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
 import { shortCommit } from "./modules/sub/currentCommit.js";
-import { appName, genericUserAgent, version, internetExplorerRedirect } from "./modules/config.js";
+import { appName, genericUserAgent, version } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/pageRender/page.js";
 import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
@@ -57,6 +57,13 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
         next();
     });
+    app.use((req, res, next) => {
+        if (req.header("user-agent") && req.header("user-agent").includes("Trident")) {
+            res.destroy()
+        }
+        next();
+    });
+
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
             try {
@@ -150,20 +157,12 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         res.redirect('/api/json')
     });
     app.get("/", (req, res) => {
-        if (req.header("user-agent") && req.header("user-agent").includes("Trident")) {
-            if (internetExplorerRedirect.newNT.includes(req.header("user-agent").split('NT ')[1].split(';')[0])) {
-                res.redirect(internetExplorerRedirect.new)
-            } else {
-                res.redirect(internetExplorerRedirect.old)
-            }
-        } else {
-            res.send(renderPage({
-                "hash": commitHash,
-                "type": "default",
-                "lang": languageCode(req),
-                "useragent": req.header('user-agent') ? req.header('user-agent') : genericUserAgent
-            }))
-        }
+        res.send(renderPage({
+            "hash": commitHash,
+            "type": "default",
+            "lang": languageCode(req),
+            "useragent": req.header('user-agent') ? req.header('user-agent') : genericUserAgent
+        }))
     });
     app.get("/favicon.ico", (req, res) => {
         res.redirect('/icons/favicon.ico');

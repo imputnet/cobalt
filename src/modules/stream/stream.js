@@ -5,24 +5,24 @@ import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly } fro
 export default function(res, ip, id, hmac, exp) {
     try {
         let streamInfo = verifyStream(ip, id, hmac, exp);
-        if (!streamInfo.error) {
-            if (streamInfo.isAudioOnly && streamInfo.type !== "bridge") {
-                streamAudioOnly(streamInfo, res);
-            } else {
-                switch (streamInfo.type) {
-                    case "render":
-                        streamLiveRender(streamInfo, res);
-                        break;
-                    case "mute":
-                        streamVideoOnly(streamInfo, res);
-                        break;
-                    default:
-                        streamDefault(streamInfo, res);
-                        break;
-                }
-            }
-        } else {
+        if (streamInfo.error) {
             res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
+            return;
+        }
+        if (streamInfo.isAudioOnly && streamInfo.type !== "bridge") {
+            streamAudioOnly(streamInfo, res);
+            return;
+        }
+        switch (streamInfo.type) {
+            case "render":
+                streamLiveRender(streamInfo, res);
+                break;
+            case "mute":
+                streamVideoOnly(streamInfo, res);
+                break;
+            default:
+                streamDefault(streamInfo, res);
+                break;
         }
     } catch (e) {
         res.status(500).json({ status: "error", text: "Internal Server Error" });

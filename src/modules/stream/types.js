@@ -27,39 +27,41 @@ export function streamDefault(streamInfo, res) {
 }
 export function streamLiveRender(streamInfo, res) {
     try {
-        if (streamInfo.urls.length === 2) {
-            let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
-                '-loglevel', '-8',
-                '-i', streamInfo.urls[0],
-                '-i', streamInfo.urls[1],
-                '-map', '0:v',
-                '-map', '1:a',
-            ];
-            args = args.concat(ffmpegArgs[format])
-            if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
-            args.push('-f', format, 'pipe:3');
-            const ffmpegProcess = spawn(ffmpeg, args, {
-                windowsHide: true,
-                stdio: [
-                    'inherit', 'inherit', 'inherit',
-                    'pipe'
-                ],
-            });
-            res.setHeader('Connection', 'keep-alive');
-            res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
-            ffmpegProcess.stdio[3].pipe(res);
-            ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
-            ffmpegProcess.on('close', () => ffmpegProcess.kill());
-            ffmpegProcess.on('exit', () => ffmpegProcess.kill());
-            res.on('finish', () => ffmpegProcess.kill());
-            res.on('close', () => ffmpegProcess.kill());
-            ffmpegProcess.on('error', (err) => {
-                ffmpegProcess.kill();
-                res.end();
-            });
-        } else {
+        if (!streamInfo.urls.length === 2) {
             res.end();
+            return;
         }
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
+            '-loglevel', '-8',
+            '-i', streamInfo.urls[0],
+            '-i', streamInfo.urls[1],
+            '-map', '0:v',
+            '-map', '1:a',
+        ];
+        args = args.concat(ffmpegArgs[format])
+        if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
+        args.push('-f', format, 'pipe:3');
+        const ffmpegProcess = spawn(ffmpeg, args, {
+            windowsHide: true,
+            stdio: [
+                'inherit', 'inherit', 'inherit',
+                'pipe'
+            ],
+        });
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
+        ffmpegProcess.stdio[3].pipe(res);
+
+        ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
+        ffmpegProcess.on('close', () => ffmpegProcess.kill());
+        ffmpegProcess.on('exit', () => ffmpegProcess.kill());
+        res.on('finish', () => ffmpegProcess.kill());
+        res.on('close', () => ffmpegProcess.kill());
+        ffmpegProcess.on('error', (err) => {
+            ffmpegProcess.kill();
+            res.end();
+        });
+
     } catch (e) {
         res.end();
     }
@@ -93,6 +95,7 @@ export function streamAudioOnly(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
         ffmpegProcess.stdio[3].pipe(res);
+
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
         ffmpegProcess.on('close', () => ffmpegProcess.kill());
         ffmpegProcess.on('exit', () => ffmpegProcess.kill());
@@ -125,6 +128,7 @@ export function streamVideoOnly(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}_mute.${format}"`);
         ffmpegProcess.stdio[3].pipe(res);
+
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
         ffmpegProcess.on('close', () => ffmpegProcess.kill());
         ffmpegProcess.on('exit', () => ffmpegProcess.kill());

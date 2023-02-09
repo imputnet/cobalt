@@ -2,7 +2,7 @@
     "streamLifespan": 120000,
     "maxVideoDuration": 7500000,
     "maxAudioDuration": 7500000,
-    "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+    "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
     "authorInfo": {
         "name": "wukko",
         "link": "https://wukko.me/",
@@ -17,11 +17,6 @@
                 "handle": "@cobalt@wetdry.world"
             }
         }
-    },
-    "internetExplorerRedirect": {
-        "newNT": ["6.1", "6.2", "6.3", "10.0"],
-        "old": "https://mypal-browser.org/",
-        "new": "https://www.mozilla.org/firefox/new/"
     },
     "donations": {
         "crypto": {
