@@ -124,7 +124,6 @@ export default async function (host, patternMatch, url, lang, obj) {
 
         return matchActionDecider(r, host, obj.ip, obj.aFormat, isAudioOnly, lang, isAudioMuted);
     } catch (e) {
-        console.log(e)
         return apiJSON(0, { t: genericError(lang, host) })
     }
 }
