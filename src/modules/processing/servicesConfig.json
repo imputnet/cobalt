@@ -8,6 +8,7 @@
             "enabled": true
         },
         "reddit": {
+            "alias": "reddit videos & gifs",
             "patterns": ["r/:sub/comments/:id/:title"],
             "enabled": true
         },

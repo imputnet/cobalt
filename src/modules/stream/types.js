@@ -116,7 +116,7 @@ export function streamVideoOnly(streamInfo, res) {
             '-i', streamInfo.urls,
             '-c', 'copy', '-an'
         ]
-        if (format == "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
+        if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
         args.push('-f', format, 'pipe:3');
         const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,

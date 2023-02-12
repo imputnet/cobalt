@@ -1,0 +1,256 @@
+{
+    "twitter": [{
+        "name": "regular video",
+        "url": "https://twitter.com/TwitterSpaces/status/1526955853743546372?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "embedded twitter video",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "mixed media (image + gif)",
+        "url": "https://twitter.com/Twitter/status/1580661436132757506?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "picker: mixed media (3 gifs + image)",
+        "url": "https://twitter.com/emerald_pedrod/status/1582418163521581063?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
+        "name": "audio from embedded twitter video (mp3, isAudioOnly)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "audio from embedded twitter video (best, isAudioOnly)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": true,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "audio from embedded twitter video (ogg, isAudioOnly, isAudioMuted)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "muted embedded twitter video",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent post",
+        "url": "https://twitter.com/test/status/9487653",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "post with no media content",
+        "url": "https://twitter.com/elonmusk/status/1604617643973124097?s=20",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "recorded space by nyc (best)",
+        "url": "https://twitter.com/i/spaces/1gqxvyLoYQkJB",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "recorded space by nyc (mp3)",
+        "url": "https://twitter.com/i/spaces/1gqxvyLoYQkJB",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "recorded space by nyc (wav, isAudioMuted)",
+        "url": "https://twitter.com/i/spaces/1gqxvyLoYQkJB",
+        "params": {
+            "aFormat": "wav",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "recorded space by service95 & dualipa (mp3, isAudioMuted, isAudioOnly)",
+        "url": "https://twitter.com/i/spaces/1nAJErvvVXgxL",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "unavailable space",
+        "url": "https://twitter.com/i/spaces/1OwGWwjRjVVGQ?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "inexistent space",
+        "url": "https://twitter.com/i/spaces/10Wkie2j29iiI",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "soundcloud": [{
+        "name": "public song (best)",
+        "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "public song (mp3, isAudioMuted)",
+        "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private song",
+        "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private song (wav, isAudioMuted)",
+        "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+        "params": {
+            "aFormat": "wav",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private song (ogg, isAudioMuted, isAudioOnly)",
+        "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+        "params": {
+            "aFormat": "ogg",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }]
+}

@@ -47,7 +47,8 @@ export function verifyStream(ip, id, hmac, exp) {
             return { error: 'this stream token does not exist', status: 400 };
         }
         let ghmac = sha256(`${id},${streamInfo.service},${ip},${exp}`, salt);
-        if (hmac == ghmac && exp.toString() == streamInfo.exp && ghmac == streamInfo.hmac && ip == streamInfo.ip && exp > Math.floor(new Date().getTime())) {
+        if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
+            && String(ip) === streamInfo.ip && Number(exp) > Math.floor(new Date().getTime())) {
             return streamInfo;
         }
         return { error: 'Unauthorized', status: 401 };

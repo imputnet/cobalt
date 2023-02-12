@@ -31,7 +31,7 @@ export async function getJSON(originalURL, lang, obj) {
                 break;
             case "tumblr":
                 if (!url.includes("blog/view")) {
-                    if (url.slice(-1) == '/') url = url.slice(0, -1);
+                    if (url.slice(-1) === '/') url = url.slice(0, -1);
                     url = url.replace(url.split('/')[5], '');
                 }
                 break;

@@ -273,7 +273,7 @@ function toggle(toggl) {
 }
 function loadSettings() {
     try {
-        if (typeof(navigator.clipboard.readText) == "undefined") throw new Error();
+        if (typeof(navigator.clipboard.readText) === undefined) throw new Error();
     } catch (err) {
         eid("pasteFromClipboard").style.display = "none"
     }

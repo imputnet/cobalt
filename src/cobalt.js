@@ -1,11 +1,11 @@
-import "dotenv/config"
+import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
 import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
-import { shortCommit } from "./modules/sub/currentCommit.js";
+import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
 import renderPage from "./modules/pageRender/page.js";
@@ -18,13 +18,14 @@ import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
 
 const commitHash = shortCommit();
+const branch = getCurrentBranch();
 const app = express();
 
 app.disable('x-powered-by');
 
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
-        windowMs: 1 * 60 * 1000,
+        windowMs: 60000,
         max: 12,
         standardHeaders: true,
         legacyHeaders: false,
@@ -33,7 +34,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
     });
     const apiLimiterStream = rateLimit({
-        windowMs: 1 * 60 * 1000,
+        windowMs: 60000,
         max: 12,
         standardHeaders: true,
         legacyHeaders: false,
@@ -63,7 +64,6 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
         next();
     });
-
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
             try {
@@ -76,6 +76,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             }
         }
     }));
+
     app.post('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
@@ -89,10 +90,10 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                             let j = await getJSON(chck["url"], languageCode(req), chck)
                             res.status(j.status).json(j.body);
                         } else if (request.url && !chck) {
-                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorCouldntFetch') });
+                            let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorCouldntFetch') });
                             res.status(j.status).json(j.body);
                         } else {
-                            let j = apiJSON(3, { t: loc(languageCode(req), 'ErrorNoLink') })
+                            let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorNoLink') })
                             res.status(j.status).json(j.body);
                         }
                     } catch (e) {
@@ -108,12 +109,16 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
     });
+
     app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), (req, res) => {
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
                 case 'json':
-                    res.status(405).json({ 'status': 'error', 'text': 'GET method for this request has been deprecated. see https://github.com/wukko/cobalt/blob/current/docs/API.md for up-to-date API documentation.' });
+                    res.status(405).json({
+                        'status': 'error',
+                        'text': 'GET method for this endpoint has been deprecated. see https://github.com/wukko/cobalt/blob/current/docs/API.md for up-to-date API documentation.'
+                    });
                     break;
                 case 'stream':
                     if (req.query.p) {
@@ -153,6 +158,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
     });
+
     app.get("/api", (req, res) => {
         res.redirect('/api/json')
     });
@@ -161,7 +167,8 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             "hash": commitHash,
             "type": "default",
             "lang": languageCode(req),
-            "useragent": req.header('user-agent') ? req.header('user-agent') : genericUserAgent
+            "useragent": req.header('user-agent') ? req.header('user-agent') : genericUserAgent,
+            "branch": branch
         }))
     });
     app.get("/favicon.ico", (req, res) => {
@@ -170,9 +177,10 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     app.get("/*", (req, res) => {
         res.redirect('/')
     });
+
     app.listen(process.env.port, () => {
         let startTime = new Date();
-        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash}`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${Math.floor(new Date().getTime())})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\n`)
+        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash} (${branch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${Math.floor(new Date().getTime())})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\n`)
     });
 } else {
     console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))

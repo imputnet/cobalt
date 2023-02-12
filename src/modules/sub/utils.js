@@ -103,10 +103,9 @@ export function checkJSONPost(obj) {
     }
     try {
         let objKeys = Object.keys(obj);
-        if (!(objKeys.length < 8 && obj.url)) {
-            return false
-        }
+        if (!(objKeys.length <= 8 && obj.url)) return false;
         let defKeys = Object.keys(def);
+
         for (let i in objKeys) {
             if (String(objKeys[i]) !== "url" && defKeys.includes(objKeys[i])) {
                 if (apiVar.booleanOnly.includes(objKeys[i])) {
@@ -116,12 +115,14 @@ export function checkJSONPost(obj) {
                 }
             }
         }
-        obj["url"] = decodeURIComponent(String(obj["url"]))
+
+        obj["url"] = decodeURIComponent(String(obj["url"]));
         let hostname = obj["url"].replace("https://", "").replace(' ', '').split('&')[0].split("/")[0].split("."),
-            host = hostname[hostname.length - 2]
-        def["url"] = encodeURIComponent(cleanURL(obj["url"], host))
+            host = hostname[hostname.length - 2];
+        def["url"] = encodeURIComponent(cleanURL(obj["url"], host));
+
         return def
     } catch (e) {
-        return false;
+        return false
     }
 }

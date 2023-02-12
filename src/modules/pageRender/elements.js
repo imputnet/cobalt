@@ -2,7 +2,7 @@ import { celebrations } from "../config.js";
 
 export function switcher(obj) {
     let items = ``;
-    if (obj.name == "download") {
+    if (obj.name === "download") {
         items = obj.items;
     } else {
         for (let i = 0; i < obj.items.length; i++) {
