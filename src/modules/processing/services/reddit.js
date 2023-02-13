@@ -8,7 +8,7 @@ export default async function(obj) {
 
     if (data.url.endsWith('.gif')) return { typeId: 1, urls: data.url };
 
-    if (!"reddit_video" in data["secure_media"]) return { error: 'ErrorEmptyDownload' };
+    if (!("reddit_video" in data["secure_media"])) return { error: 'ErrorEmptyDownload' };
     if (data["secure_media"]["reddit_video"]["duration"] * 1000 > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
     let video = data["secure_media"]["reddit_video"]["fallback_url"].split('?')[0],

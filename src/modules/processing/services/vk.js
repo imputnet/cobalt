@@ -36,7 +36,7 @@ export default async function(obj) {
     let maxQuality = js["player"]["params"][0][selectedQuality].split('type=')[1].slice(0, 1);
     let userQuality = selectQuality('vk', obj.quality, Object.entries(services.vk.quality_match).reduce((r, [k, v]) => { r[v] = k; return r; })[maxQuality]);
     let userRepr = repr[services.vk.representation_match[userQuality]]["_attributes"];
-    if (!selectedQuality in js["player"]["params"][0]) return { error: 'ErrorEmptyDownload' };
+    if (!(selectedQuality in js["player"]["params"][0])) return { error: 'ErrorEmptyDownload' };
 
     return {
         urls: js["player"]["params"][0][`url${userQuality}`],

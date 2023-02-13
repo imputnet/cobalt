@@ -1,5 +1,5 @@
 import { apiJSON } from "../sub/utils.js";
-import { errorUnsupported, genericError } from "../sub/errors.js";
+import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
 
 import loc from "../../localization/manager.js";
 

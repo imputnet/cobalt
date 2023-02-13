@@ -28,7 +28,9 @@ function selector(j, h, id) {
 }
 
 export default async function(obj) {
-    if (!obj.postId) {
+    let postId = obj.postId ? obj.postId : false;
+
+    if (!postId) {
         let html = await fetch(`${config[obj.host]["short"]}${obj.id}`, {
             redirect: "manual",
             headers: { "user-agent": userAgent }
@@ -36,22 +38,22 @@ export default async function(obj) {
         if (!html) return { error: 'ErrorCouldntFetch' };
 
         if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) {
-            obj.postId = html.split('/video/')[1].split('?')[0].replace("/", '')
+            postId = html.split('/video/')[1].split('?')[0].replace("/", '')
         } else if (html.slice(0, 32) === '<a href="https://m.tiktok.com/v/' && html.includes('/v/')) {
-            obj.postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
+            postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
         }
     }
-    if (!obj.postId) return { error: 'ErrorCantGetID' };
+    if (!postId) return { error: 'ErrorCantGetID' };
 
     let detail;
-    detail = await fetch(config[obj.host]["api"].replace("{postId}", obj.postId), {
+    detail = await fetch(config[obj.host]["api"].replace("{postId}", postId), {
         headers: {"user-agent": "TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"}
     }).then((r) => { return r.json() }).catch(() => { return false });
 
-    detail = selector(detail, obj.host, obj.postId);
+    detail = selector(detail, obj.host, postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
 
-    let video, videoFilename, audioFilename, isMp3, audio, images, filenameBase = `${obj.host}_${obj.postId}`;
+    let video, videoFilename, audioFilename, isMp3, audio, images, filenameBase = `${obj.host}_${postId}`;
     if (obj.host === "tiktok") {
         images = detail["image_post_info"] ? detail["image_post_info"]["images"] : false
     } else {
