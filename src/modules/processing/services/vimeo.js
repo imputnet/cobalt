@@ -13,7 +13,7 @@ export default async function(obj) {
             let best = all[0];
 
             try {
-                if (obj.quality != "max") {
+                if (obj.quality !== "max") {
                     let pref = parseInt(quality[obj.quality], 10)
                     for (let i in all) {
                         let currQuality = parseInt(all[i]["quality"].replace('p', ''), 10)
@@ -50,7 +50,7 @@ export default async function(obj) {
 
             switch (type) {
                 case "parcel":
-                    if (obj.quality != "max") {
+                    if (obj.quality !== "max") {
                         let pref = parseInt(quality[obj.quality], 10)
                         for (let i in masterJSON_Video) {
                             let currQuality = parseInt(services.vimeo.resolutionMatch[masterJSON_Video[i]["width"]], 10)

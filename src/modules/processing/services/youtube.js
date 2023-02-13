@@ -12,7 +12,7 @@ export default async function(obj) {
 
     let videoMatch = [], fullVideoMatch = [], video = [],
     audio = info.filter((a) => {
-        if (!a["isHLS"] && !a["isDashMPD"] && a["hasAudio"] && !a["hasVideo"] && a["container"] == obj.format) return true
+        if (!a["isHLS"] && !a["isDashMPD"] && a["hasAudio"] && !a["hasVideo"] && a["container"] === obj.format) return true
     }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
     if (audio.length === 0) return { error: 'ErrorBadFetch' };
@@ -20,11 +20,11 @@ export default async function(obj) {
 
     if (!isAudioOnly) {
         video = info.filter((a) => {
-            if (!a["isHLS"] && !a["isDashMPD"] && a["hasVideo"] && a["container"] == obj.format) {
-                if (obj.quality != "max") {
-                    if (a["hasAudio"] && mq[obj.quality] == a["height"]) {
+            if (!a["isHLS"] && !a["isDashMPD"] && a["hasVideo"] && a["container"] === obj.format) {
+                if (obj.quality !== "max") {
+                    if (a["hasAudio"] && String(mq[obj.quality]) === String(a["height"])) {
                         fullVideoMatch.push(a)
-                    } else if (!a["hasAudio"] && mq[obj.quality] == a["height"]) {
+                    } else if (!a["hasAudio"] && String(mq[obj.quality]) === String(a["height"])) {
                         videoMatch.push(a)
                     }
                 }
@@ -32,11 +32,11 @@ export default async function(obj) {
             }
         }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
-        if (obj.quality != "max") {
+        if (obj.quality !== "max") {
             if (videoMatch.length === 0) {
                 let ss = selectQuality("youtube", obj.quality, video[0]["qualityLabel"].slice(0, 5).replace('p', '').trim());
                 videoMatch = video.filter((a) => {
-                    if (a["qualityLabel"].slice(0, 5).replace('p', '').trim() == ss) return true
+                    if (a["qualityLabel"].slice(0, 5).replace('p', '').trim() === String(ss)) return true
                 })
             } else if (fullVideoMatch.length > 0) {
                 videoMatch = [fullVideoMatch[0]]

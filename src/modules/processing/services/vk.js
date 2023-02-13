@@ -12,7 +12,7 @@ export default async function(obj) {
 
     let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
 
-    if (!Number(js["mvData"]["is_active_live"]) === 0) return { error: 'ErrorLiveVideo' };
+    if (Number(js["mvData"]["is_active_live"]) !== 0) return { error: 'ErrorLiveVideo' };
     if (js["mvData"]["duration"] > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
     let mpd = JSON.parse(xml2json(js["player"]["params"][0]["manifest"], { compact: true, spaces: 4 }));

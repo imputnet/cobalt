@@ -69,8 +69,8 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             try {
                 JSON.parse(buf);
                 if (buf.length > 720) throw new Error();
-                if (req.header('Content-Type') != "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid content type header' })
-                if (req.header('Accept') != "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid accept header' })
+                if (String(req.header('Content-Type')) !== "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid content type header' })
+                if (String(req.header('Accept')) !== "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid accept header' })
             } catch(e) {
                 res.status(500).json({ 'status': 'error', 'text': 'invalid json body.' })
             }

@@ -27,7 +27,7 @@ export function streamDefault(streamInfo, res) {
 }
 export function streamLiveRender(streamInfo, res) {
     try {
-        if (!streamInfo.urls.length === 2) {
+        if (streamInfo.urls.length !== 2) {
             res.end();
             return;
         }

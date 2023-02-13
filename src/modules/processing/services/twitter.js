@@ -74,7 +74,7 @@ export default async function(obj) {
         if (!AudioSpaceById) return { error: 'ErrorEmptyDownload' };
 
         if (!AudioSpaceById.data.audioSpace.metadata) return { error: 'ErrorEmptyDownload' };
-        if (!AudioSpaceById.data.audioSpace.metadata.is_space_available_for_replay === true) return { error: 'TwitterSpaceWasntRecorded' };
+        if (AudioSpaceById.data.audioSpace.metadata.is_space_available_for_replay !== true) return { error: 'TwitterSpaceWasntRecorded' };
 
         let streamStatus = await fetch(
             `https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { headers: _headers }
