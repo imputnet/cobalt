@@ -1,6 +1,6 @@
 import { genericUserAgent } from "../../config.js";
 
-let userAgent = genericUserAgent.split(' Chrome/1')[0],
+const userAgent = genericUserAgent.split(' Chrome/1')[0],
     config = {
     tiktok: {
         short: "https://vt.tiktok.com/",

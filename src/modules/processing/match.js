@@ -4,6 +4,7 @@ import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
 import loc from "../../localization/manager.js";
 
 import { testers } from "./servicesPatternTesters.js";
+import matchActionDecider from "./matchActionDecider.js";
 
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
@@ -12,7 +13,6 @@ import youtube from "./services/youtube.js";
 import vk from "./services/vk.js";
 import tiktok from "./services/tiktok.js";
 import tumblr from "./services/tumblr.js";
-import matchActionDecider from "./matchActionDecider.js";
 import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 

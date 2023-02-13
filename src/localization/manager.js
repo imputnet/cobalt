@@ -8,6 +8,7 @@ let loc = {}
 
 export function loadLoc() {
     fs.readdir(locPath, (err, files) => {
+        if (err) return false;
         files.forEach(file => {
             loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`)
         });
