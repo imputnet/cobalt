@@ -15,10 +15,10 @@ export function streamDefault(streamInfo, res) {
             },
             isStream: true
         });
-        stream.pipe(res).on('error', (err) => {
+        stream.pipe(res).on('error', () => {
             res.end();
         });
-        stream.on('error', (err) => {
+        stream.on('error', () => {
             res.end();
         });
     } catch (e) {
@@ -57,7 +57,7 @@ export function streamLiveRender(streamInfo, res) {
         ffmpegProcess.on('exit', () => ffmpegProcess.kill());
         res.on('finish', () => ffmpegProcess.kill());
         res.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('error', (err) => {
+        ffmpegProcess.on('error', () => {
             ffmpegProcess.kill();
             res.end();
         });
@@ -101,7 +101,7 @@ export function streamAudioOnly(streamInfo, res) {
         ffmpegProcess.on('exit', () => ffmpegProcess.kill());
         res.on('finish', () => ffmpegProcess.kill());
         res.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('error', (err) => {
+        ffmpegProcess.on('error', () => {
             ffmpegProcess.kill();
             res.end();
         });
@@ -134,7 +134,7 @@ export function streamVideoOnly(streamInfo, res) {
         ffmpegProcess.on('exit', () => ffmpegProcess.kill());
         res.on('finish', () => ffmpegProcess.kill());
         res.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('error', (err) => {
+        ffmpegProcess.on('error', () => {
             ffmpegProcess.kill();
             res.end();
         });
