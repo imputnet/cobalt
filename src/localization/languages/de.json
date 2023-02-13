@@ -25,7 +25,7 @@
         "ErrorBrokenLink": "{s} ist unterstützt, aber irgendwas stimmt mit dem Link nicht. Ist der Link vollständig?",
         "ErrorNoLink": "Ich kann nicht erraten, was du herunterladen möchtest! Bitte gib mir einen Link.",
         "ErrorPageRenderFail": "Etwas ist schiefgelaufen und die Seite konnte nicht gerendert werden. Wenn es sich hierbei um ein wiederkehrendes oder kritisches Problem handelt, bitte {ContactLink}. Es wäre nützlich, wenn du den aktuellen Commit-Hash ({s}) und die Fehlererstellung angegeben hast. Vielen Dank im Voraus! :D",
-        "ErrorRateLimit": "du stellst zu viele anfragen. versuche es in einer minute erneut!",
+        "ErrorRateLimit": "Du stellst zu viele anfragen. Versuch es in einer Minute wieder!",
         "ErrorCouldntFetch": "Ich konnte keine Informationen über diesen Link finden. Bitte überprüfe, ob der Link korrekt ist und versuche es noch einmal. ",
         "ErrorLengthLimit": "Die aktuelle Längenbegrenzung ist {s} Minuten. Das Video, das du herunterladen wolltest, ist länger als {s} Minuten. Wähle bitte etwas anderes.",
         "ErrorBadFetch": "Ein Fehler ist aufgetreten, als ich versucht habe, Informationen über den Link zu erhalten. Sind Sie sicher, dass er funktioniert? Überprüfen Sie, ob er funktioniert, und versuchen Sie es erneut.",
