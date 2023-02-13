@@ -278,7 +278,7 @@ input[type="checkbox"] {
 .italic {
     font-style: italic;
 }
-.social-link {
+.cobalt-support-link {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;

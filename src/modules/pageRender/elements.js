@@ -129,7 +129,7 @@ export function backdropLink(link, text) {
     return `<a class="text-backdrop italic" href="${link}" target="_blank">${text}</a>`
 }
 export function socialLink(emoji, name, handle, url) {
-    return `<div class="social-link">${emoji} ${name}: <a class="text-backdrop italic" href="${url}" target="_blank">${handle}</a></div>`
+    return `<div class="cobalt-support-link">${emoji} ${name}: <a class="text-backdrop italic" href="${url}" target="_blank">${handle}</a></div>`
 }
 export function settingsCategory(obj) {
     return `<div id="settings-${obj.name}" class="settings-category">
