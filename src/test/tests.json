@@ -1,0 +1,742 @@
+{
+    "twitter": [{
+        "name": "regular video",
+        "url": "https://twitter.com/TwitterSpaces/status/1526955853743546372?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "embedded twitter video",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "mixed media (image + gif)",
+        "url": "https://twitter.com/Twitter/status/1580661436132757506?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "picker: mixed media (3 gifs + image)",
+        "url": "https://twitter.com/emerald_pedrod/status/1582418163521581063?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
+        "name": "audio from embedded twitter video (mp3, isAudioOnly)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "audio from embedded twitter video (best, isAudioOnly)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": true,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "audio from embedded twitter video (ogg, isAudioOnly, isAudioMuted)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "muted embedded twitter video",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent post",
+        "url": "https://twitter.com/test/status/9487653",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "post with no media content",
+        "url": "https://twitter.com/elonmusk/status/1604617643973124097?s=20",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "recorded space by nyc (best)",
+        "url": "https://twitter.com/i/spaces/1gqxvyLoYQkJB",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "recorded space by nyc (mp3)",
+        "url": "https://twitter.com/i/spaces/1gqxvyLoYQkJB",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "recorded space by nyc (wav, isAudioMuted)",
+        "url": "https://twitter.com/i/spaces/1gqxvyLoYQkJB",
+        "params": {
+            "aFormat": "wav",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "recorded space by service95 & dualipa (mp3, isAudioMuted, isAudioOnly)",
+        "url": "https://twitter.com/i/spaces/1nAJErvvVXgxL",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "unavailable space",
+        "url": "https://twitter.com/i/spaces/1OwGWwjRjVVGQ?s=20",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "inexistent space",
+        "url": "https://twitter.com/i/spaces/10Wkie2j29iiI",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "soundcloud": [{
+        "name": "public song (best)",
+        "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+        "params": {
+            "aFormat": "best",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "public song (mp3, isAudioMuted)",
+        "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private song",
+        "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private song (wav, isAudioMuted)",
+        "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+        "params": {
+            "aFormat": "wav",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private song (ogg, isAudioMuted, isAudioOnly)",
+        "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+        "params": {
+            "aFormat": "ogg",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "youtube": [{
+        "name": "4k video (mp4, hig)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "mp4",
+            "vQuality": "hig",
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (webm, mid)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "webm",
+            "vQuality": "mid",
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (mp4, max)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "mp4",
+            "vQuality": "max",
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (webm, max)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "webm",
+            "vQuality": "max",
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (webm, max, isAudioMuted)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "webm",
+            "vQuality": "max",
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (mp4, max, isAudioMuted)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "webm",
+            "vQuality": "max",
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (mp4, max, isAudioMuted, isAudioOnly, mp3)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "webm",
+            "vQuality": "max",
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (mp4, max, isAudioMuted, isAudioOnly, best)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vFormat": "webm",
+            "vQuality": "max",
+            "aFormat": "best",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "music (mp3, isAudioOnly, isAudioMuted)",
+        "url": "https://music.youtube.com/watch?v=5rGTsvZCEdk&feature=share",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": true,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "music (mp3)",
+        "url": "https://music.youtube.com/watch?v=5rGTsvZCEdk&feature=share",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": false
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short, defaults",
+        "url": "https://www.youtube.com/shorts/r5FpeOJItbw",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent video",
+        "url": "https://youtube.com/watch?v=gnjuHYWGEW",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "vk": [{
+        "name": "clip, defaults",
+        "url": "https://vk.com/clip-57274055_456239788",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "clip, low",
+        "url": "https://vk.com/clip-57274055_456239788",
+        "params": {
+            "vQuality": "low"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "clip different link, max",
+        "url": "https://vk.com/clips-57274055?z=clip-57274055_456239788",
+        "params": {
+            "vQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "video, defaults",
+        "url": "https://vk.com/video-57274055_456239399",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent video",
+        "url": "https://vk.com/video-53333333_456233333",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "douyin": [{
+        "name": "short link video, with watermark",
+        "url": "https://v.douyin.com/2p4Aya7/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short link video (isNoTTWatermark)",
+        "url": "https://v.douyin.com/2p4Aya7/",
+        "params": {
+            "isNoTTWatermark": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short link video (isAudioOnly)",
+        "url": "https://v.douyin.com/2p4Aya7/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short link video (isAudioOnly, isTTFullAudio)",
+        "url": "https://v.douyin.com/2p4Aya7/",
+        "params": {
+            "isAudioOnly": true,
+            "isTTFullAudio": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "long link video (isNoTTWatermark)",
+        "url": "https://www.douyin.com/video/7120601033314716968",
+        "params": {
+            "isNoTTWatermark": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "images",
+        "url": "https://v.douyin.com/MdVwo31/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
+        "name": "long link inexistent",
+        "url": "https://www.douyin.com/video/7120851458451417478",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "short link inexistent",
+        "url": "https://v.douyin.com/2p4ewa7/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "tiktok": [{
+        "name": "short link (vt) video, with watermark",
+        "url": "https://vt.tiktok.com/ZS85U86aa/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short link (vt) video (isNoTTWatermark)",
+        "url": "https://vt.tiktok.com/ZS85U86aa/",
+        "params": {
+            "isNoTTWatermark": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short link (vm) video (isAudioOnly)",
+        "url": "https://vm.tiktok.com/ZMYrYAf34/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "short link (vm) video (isAudioOnly, isTTFullAudio)",
+        "url": "https://vm.tiktok.com/ZMYrYAf34/",
+        "params": {
+            "isAudioOnly": true,
+            "isTTFullAudio": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "long link video (isNoTTWatermark)",
+        "url": "https://www.tiktok.com/@fatfatmillycat/video/7195741644585454894",
+        "params": {
+            "isNoTTWatermark": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "images",
+        "url": "https://vt.tiktok.com/ZS8JP89eB/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
+        "name": "long link inexistent",
+        "url": "https://www.tiktok.com/@blablabla/video/7120851458451417478",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "short link inexistent",
+        "url": "https://vt.tiktok.com/2p4ewa7/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "bilibili": [{
+        "name": "1080p video",
+        "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "1080p video muted",
+        "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "1080p vertical video",
+        "url": "https://www.bilibili.com/video/BV1uu411z7VV/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "1080p vertical video muted",
+        "url": "https://www.bilibili.com/video/BV1uu411z7VV/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "tumblr": [{
+        "name": "at.tumblr link",
+        "url": "https://at.tumblr.com/music/704177038274281472/n7x7pr7x4w2b",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "user subdomain link",
+        "url": "https://garfield-69.tumblr.com/post/696499862852780032",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "web app link",
+        "url": "https://www.tumblr.com/rongzhi/707729381162958848/english-added-by-me?source=share",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }],
+    "vimeo": [{
+        "name": "4k progressive",
+        "url": "https://vimeo.com/288386543",
+        "params": {
+            "vQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "720p progressive",
+        "url": "https://vimeo.com/288386543",
+        "params": {
+            "vQuality": "mid"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "1080p dash parcel",
+        "url": "https://vimeo.com/774694040",
+        "params": {
+            "vQuality": "hig"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "720p dash parcel",
+        "url": "https://vimeo.com/774694040",
+        "params": {
+            "vQuality": "mid"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "reddit": [{
+        "name": "video with audio",
+        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "video with audio (isAudioOnly)",
+        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "video with audio (isAudioMuted)",
+        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "video without audio",
+        "url": "https://www.reddit.com/r/catvideos/comments/ftoeo7/luna_doesnt_want_to_be_bothered_while_shes_napping/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "actual gif, not looping video",
+        "url": "https://www.reddit.com/r/whenthe/comments/109wqy1/god_really_did_some_trolling/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }]
+}

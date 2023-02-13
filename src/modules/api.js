@@ -36,16 +36,14 @@ export async function getJSON(originalURL, lang, obj) {
                 }
                 break;
         }
-        if (!(host && host.length < 20 && host in patterns && patterns[host]["enabled"])) {
-            return apiJSON(0, { t: errorUnsupported(lang) });
-        }
+        if (!(host && host.length < 20 && host in patterns && patterns[host]["enabled"])) return apiJSON(0, { t: errorUnsupported(lang) });
+
         for (let i in patterns[host]["patterns"]) {
             patternMatch = new UrlPattern(patterns[host]["patterns"][i]).match(cleanURL(url, host).split(".com/")[1]);
             if (patternMatch) break;
         }
-        if (!patternMatch) {
-            return apiJSON(0, { t: errorUnsupported(lang) });
-        }
+        if (!patternMatch) return apiJSON(0, { t: errorUnsupported(lang) });
+
         return await match(host, patternMatch, url, lang, obj);
     } catch (e) {
         return apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') });

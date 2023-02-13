@@ -5,17 +5,18 @@ import { services } from "../modules/config.js";
 import loadJSON from "../modules/sub/loadJSON.js";
 import { checkJSONPost } from "../modules/sub/utils.js";
 
-let tests = loadJSON('./src/test/services.json');
+let tests = loadJSON('./src/test/tests.json');
 
 let noTest = [];
 let failed = [];
 let success = 0;
 
-function addToFail(service, testName, url, response) {
+function addToFail(service, testName, url, status, response) {
     failed.push({
         service: service,
         name: testName,
         url: url,
+        status: status,
         response: response
     })
 }
@@ -41,11 +42,11 @@ for (let i in services) {
                     success++
                 } else {
                     console.log(`\n❌ Fail. Expected: ${test.expected.code} & ${test.expected.status}, received: ${j.status} & ${j.body.status}\n`);
-                    addToFail(i, test.name, test.url, j)
+                    addToFail(i, test.name, test.url, j.body.status, j)
                 }
             } else {
                 console.log("\n❌ couldn't validate the request JSON.\n");
-                addToFail(i, test.name, test.url, {})
+                addToFail(i, test.name, test.url, "unknown", {})
             }
         }
         console.log("\n\n")
@@ -55,12 +56,16 @@ for (let i in services) {
     }
 }
 
-console.log(`\n✅ ${success} tests succeeded.`);
+console.log(`✅ ${success} tests succeeded.`);
 console.log(`❌ ${failed.length} tests failed.`);
 console.log(`❔ ${noTest.length} services weren't tested.`);
 
-console.log(`\nFailed tests:`);
-console.log(failed)
+if (failed.length > 0) {
+    console.log(`\nFailed tests:`);
+    console.log(failed)
+}
 
-console.log(`\nMissing tests:`);
-console.log(noTest)
+if (noTest.length > 0) {
+    console.log(`\nMissing tests:`);
+    console.log(noTest)
+}

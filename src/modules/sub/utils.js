@@ -64,6 +64,7 @@ export function msToTime(d) {
 export function cleanURL(url, host) {
     let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
     switch(host) {
+        case "vk":
         case "youtube":
             url = url.split('&')[0];
             break;

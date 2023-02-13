@@ -12,11 +12,11 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
             filename: r.filename,
         },
         params = {}
-
-    if (isAudioMuted) action = "muteVideo";
+    
     if (!isAudioOnly && !r.picker && !isAudioMuted) action = "video";
+    if (isAudioOnly && !r.picker) action = "audio";
     if (r.picker) action = "picker";
-    if (isAudioOnly) action = "audio";
+    if (isAudioMuted) action = "muteVideo";
 
     if (action === "picker" || action === "audio") {
         defaultParams.filename = r.audioFilename;

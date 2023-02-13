@@ -1,6 +1,6 @@
 import { genericUserAgent, maxVideoDuration } from "../../config.js";
 
-// TO-DO: quality picking & bilibili.tv support
+// TO-DO: quality picking, bilibili.tv support, and higher quality downloads (currently requires an account)
 export default async function(obj) {
     let html = await fetch(`https://bilibili.com/video/${obj.id}`, {
         headers: { "user-agent": genericUserAgent }
