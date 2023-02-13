@@ -1,15 +1,14 @@
 {
     "name": "deutsch",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop\" href=\"{repo}\" target=\"_blank\">Maintainer kontaktieren</a>"
+        "ContactLink": "<a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">melde ein Problem auf GitHub</a>"
     },
     "strings": {
         "LinkInput": "Link hier einfügen",
         "AboutSummary": "{appName} ist der richtige Ort für Social Media-Downloads. Keine Werbung, Tracker oder anderer gruseliger Bullshit. Füge einfach einen Teilen-Link ein und du bist bereit zu rocken!",
-        "AboutSupportedServices": "derzeit unterstützte Dienste:",
         "EmbedBriefDescription": "speichern Sie Inhalte aus sozialen Medien ohne Ärgernisse",
         "MadeWithLove": "made with <3 by wukko",
-        "AccessibilityInputArea": "Linkeingabefeld",
+        "AccessibilityInputArea": "linkeingabefeld",
         "AccessibilityOpenAbout": "Über-Popup öffnen",
         "AccessibilityDownloadButton": "Downloadbutton",
         "AccessibilityOpenSettings": "Einstellungen öffnen",
@@ -26,7 +25,7 @@
         "ErrorBrokenLink": "{s} ist unterstützt, aber irgendwas stimmt mit dem Link nicht. Ist der Link vollständig?",
         "ErrorNoLink": "Ich kann nicht erraten, was du herunterladen möchtest! Bitte gib mir einen Link.",
         "ErrorPageRenderFail": "Etwas ist schiefgelaufen und die Seite konnte nicht gerendert werden. Wenn es sich hierbei um ein wiederkehrendes oder kritisches Problem handelt, bitte {ContactLink}. Es wäre nützlich, wenn du den aktuellen Commit-Hash ({s}) und die Fehlererstellung angegeben hast. Vielen Dank im Voraus! :D",
-        "ErrorRateLimit": "Du stellst zu viele Anfragen. Beruhigst dich und versuche es ein wenig später erneut.",
+        "ErrorRateLimit": "du stellst zu viele anfragen. versuche es in einer minute erneut!",
         "ErrorCouldntFetch": "Ich konnte keine Informationen über diesen Link finden. Bitte überprüfe, ob der Link korrekt ist und versuche es noch einmal. ",
         "ErrorLengthLimit": "Die aktuelle Längenbegrenzung ist {s} Minuten. Das Video, das du herunterladen wolltest, ist länger als {s} Minuten. Wähle bitte etwas anderes.",
         "ErrorBadFetch": "Ein Fehler ist aufgetreten, als ich versucht habe, Informationen über den Link zu erhalten. Sind Sie sicher, dass er funktioniert? Überprüfen Sie, ob er funktioniert, und versuchen Sie es erneut.",
@@ -53,7 +52,6 @@
         "AccessibilityEnableDownloadPopup": "nach Verfahrensweise mit Downloads fragen",
         "SettingsFormatDescription": "Wähle webm für maximale Qualität. Webm-Videos haben i.d.R. eine höhere Bitrate, aber iOS-Geräte können sie nicht nativ abspielen.",
         "SettingsQualityDescription": "Wenn die gewählte Qualitätsstufe nicht verfügbar ist, wird eine möglichst ähnliche gewählt.\nUm ein YouTube Video auf sozialen Medien zu posten, wähle mp4 und 720p.",
-        "LinkGitHubIssues": "&gt;&gt; melde Probleme und schaue dir den Quellcode auf GitHub an",
         "LinkGitHubChanges": "&gt;&gt; vorherige Commits ansehen und auf GitHub beitragen",
         "NoScriptMessage": "{appName} verwendet Javascript für API-Anfragen und die interaktive Schnittstelle. Ich nutze keine Werbung oder Tracker, Ehrenwort.",
         "DownloadPopupDescriptionIOS": "Drücke und halte den Download-Button, verstecke die Video-Vorschau, und wähle \"lade verlinkte Datei herunter\" um zu speichern.",
@@ -88,7 +86,6 @@
         "ErrorNoUrlReturned": "Der Server hat keinen Download-Link zurückgegeben. Das sollte nie passieren. Laden Sie die Seite neu und versuchen Sie es erneut, aber wenn es nicht hilft, {ContactLink}.",
         "ErrorUnknownStatus": "Ich habe eine Antwort erhalten, die ich nicht verarbeiten kann. Wahrscheinlich ist etwas mit dem Status falsch. Dies sollte nie passieren. Laden Sie die Seite neu und versuchen Sie es erneut. Wenn das aber nicht hilft, {ContactLink}.",
         "PasteFromClipboard": "aus Zwischenablage einfügen",
-        "FollowTwitter": "folge {appName} auf Twitter-für Umfragen, Updates und mehr: <a class=\"text-backdrop\" href=\"https://twitter.com/justusecobalt\" target=\"_blank\">@justusecobalt</a>",
         "ChangelogOlder": "vorherige Version",
         "ChangelogPressToExpand": "drücke zum ausklappen",
         "Miscellaneous": "Sonstiges",
@@ -104,12 +101,20 @@
         "ChangelogPressToHide": "drücke zum einklappen",
         "Donate": "Spende",
         "DonateSub": "Hilf mir, es am laufen zu halten.",
-        "DonateExplanation": "{appName} zeigt dir keine Werbung an und verkauft nicht deine Daten (und wird es auch niemals tun) , daher ist es <span class=\"text-backdrop\">völlig frei,</span> zu verwenden. Aber hey! Stellt sich heraus, dass es etwas kostspielig ist, einen Webservice zu betreiben, den hunderttausende Menschen nutzen.\n\nWenn du jemals {appName} nützlich gefunden hast und es in Betrieb halten willst oder einfach nur dem Entwickler Danke sagen möchtest, erwäge etwas finanziell beizutragen! Jeder Cent hilft und wird SEHR geschätzt.",
+        "DonateExplanation": "{appName} schaltet keine werbung und wird auch niemals deine daten verkaufen, daher ist <span class=\"text-backdrop\">die nutzung völlig kostenlos</span>. aber es stellt sich heraus, dass die aufrechterhaltung eines webdienstes, der von tausenden von menschen genutzt wird, ziemlich kostspielig ist.\n\nwenn du {appName} nützlich findest und es online halten willst, oder einfach dem entwickler danken willst, solltest du einen beitrag leisten! jeder cent hilft und wird SEHR geschätzt.",
         "DonateVia": "Spenden via",
-        "DonateHireMe": "oder alternativ kannst du mich <a class=\"text-backdrop\" href=\"{s}\" target=\"_blank\">anheuern</a>.",
+        "DonateHireMe": "alternativ kannst du mich auch <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">beauftragen</a>.",
         "SettingsVideoMute": "Ton stummschalten",
         "SettingsVideoMuteExplanation": "Deaktiviert Ton im heruntergeladenen Video wenn möglich. Wird ignoriert, wenn der Audiomodus aktiv ist oder der Dienst nur Audio unterstützt.",
         "SettingsVideoGeneral": "allgemein",
-        "ErrorSoundCloudNoClientId": "Konnte client_id nicht finden, die benötigt wird, um Audiodaten von Soundcloud zu laden. Versuche es noch einmal, und falls das Problem weiterhin besteht, {ContactLink}."
+        "ErrorSoundCloudNoClientId": "Konnte client_id nicht finden, die benötigt wird, um Audiodaten von Soundcloud zu laden. Versuche es noch einmal, und falls das Problem weiterhin besteht, {ContactLink}.",
+        "CollapseServices": "unterstützte dienste",
+        "CollapseSupport": "support & quellcode",
+        "CollapsePrivacy": "datenschutzrichtlinie",
+        "ServicesNote": "diese liste ist nicht vollständig und erweitert sich im laufe der zeit, denke daran nochmal nachzuschauen!",
+        "FollowSupport": "folge {appName} auf mastodon oder twitter für support, umfragen, neuigkeiten, und mehr:",
+        "SupportNote": "bitte beachte, dass das beantworten von fragen und fehlermeldungen eine weile dauert, es gibt nur eine Person die alles managed.",
+        "SourceCode": "melde Probleme, erkundige den Quellcode, sterne oder forke das Repo:",
+        "PrivacyPolicy": "{appName}s datenschutzrichtlinie ist einfach: keine deiner daten werden gesammelt oder gespeichter. null, nada, niente, nichts.\nwas du herunterlädst ist dein ding, nicht meins.\n\neinige nicht zurückverfolgbare daten werden vorübergehend gespeichert, wenn ein angeforderter download live rendering erfordert. das ist notwendig, damit diese funktion funktioniert.\n\nin diesem fall werden, <span class=\"text-backdrop\">der salted sha256 hash deiner ip-adresse</span> und informationen über den angeforderten stream temporär im RAM des servers für <span class=\"text-backdrop\">2 minutes</span> gespeichert. nach 2 minuten werden alle zuvor gespeicherten informationen dauerhaft gelöscht. der hash deiner ip-adresse wird verwendet, <span class=\"text-backdrop\">um den zugang zum stream auf dich zu beschränken</span>.\nniemand (nichtmals ich) hat zugriff auf diese daten, da die offizielle cobalt-codebasis keine möglichkeit bietet, sie außerhalb der verarbeitungsfunktionen zu lesen.\n\ndu kannst {appName}s <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">github repo</a> selbst überprüfen und sehen, dass tatsächlich nichts dauerhaft gespeichert wird."
     }
 }
