@@ -15,7 +15,6 @@ export const
     repo = packageJson["bugs"]["url"].replace('/issues', ''),
     authorInfo = config.authorInfo,
     quality = config.quality,
-    internetExplorerRedirect = config.internetExplorerRedirect,
     donations = config.donations,
     ffmpegArgs = config.ffmpegArgs,
     supportedAudio = config.supportedAudio,

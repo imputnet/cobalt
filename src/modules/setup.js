@@ -33,22 +33,15 @@ console.log(
 )
 
 rl.question(q, r1 => {
-    if (r1) {
-        ob['selfURL'] = `https://${r1}/`
-    } else {
-        ob['selfURL'] = `http://localhost`
-    }
+    ob['selfURL'] = `http://localhost:9000/`
+    ob['port'] = 9000
+    if (r1) ob['selfURL'] = `https://${r1}/`
+
     console.log(Bright("\nGreat! Now, what's the port it'll be running on? (9000)"))
+
     rl.question(q, r2 => {
-        if (!r1 && !r2) {
-            ob['selfURL'] = `http://localhost:9000/`
-            ob['port'] = 9000
-        } else if (!r1 && r2) {
-            ob['selfURL'] = `http://localhost:${r2}/`
-            ob['port'] = r2
-        } else {
-            ob['port'] = r2
-        }
+        if (r2) ob['port'] = r2
+        if (!r1 && r2) ob['selfURL'] = `http://localhost:${r2}/`
         final()
     });
 })

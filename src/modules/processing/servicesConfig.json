@@ -8,17 +8,18 @@
             "enabled": true
         },
         "reddit": {
+            "alias": "reddit videos & gifs",
             "patterns": ["r/:sub/comments/:id/:title"],
             "enabled": true
         },
         "twitter": {
-            "alias": "twitter posts & spaces",
+            "alias": "twitter posts & spaces & voice",
             "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
             "enabled": true
         },
         "vk": {
             "alias": "vk video & clips",
-            "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:userId?z=clip-:userId_:videoId"],
+            "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:duplicate?z=clip-:userId_:videoId"],
             "quality_match": {
                 "2160": 7,
                 "1440": 6,
@@ -69,7 +70,7 @@
             "enabled": true
         },
         "douyin": {
-            "alias": "douyin videos & photos & audio",
+            "alias": "douyin videos & audio",
             "patterns": ["video/:postId", ":id"],
             "enabled": true
         },

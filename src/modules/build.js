@@ -4,9 +4,9 @@ export async function buildFront() {
     try {
         await esbuild.build({
             entryPoints: ['src/front/cobalt.js', 'src/front/cobalt.css'],
-            outdir: `min/`,
+            outdir: 'min/',
             minify: true,
-            loader: { ".js": "js", ".css": "css" }
+            loader: { '.js': 'js', '.css': 'css' }
         })
     } catch (e) {
         return;

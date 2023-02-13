@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "4.8",
+    "version": "5.0",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -10,7 +10,8 @@
     },
     "scripts": {
         "start": "node src/cobalt",
-        "setup": "node src/modules/setup"
+        "setup": "node src/modules/setup",
+        "test": "node src/test/test"
     },
     "repository": {
         "type": "git",
