@@ -2,12 +2,7 @@
 This document provides info about methods and acceptable variables for all cobalt API requests.<br>
 ## POST: ``/api/json``
 Main processing endpoint.<br>
-```
-⚠️ GET method for this endpoint is deprecated and will be removed entirely soon.
 
-Make sure to update your shortcuts and scripts.
-Only url query can be used with this method.
-```
 Request Body Type: ``application/json``<br>
 Response Body Type: ``application/json``
 
