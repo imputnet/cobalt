@@ -1,5 +1,5 @@
 import { backdropLink, celebrationsEmoji, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink } from "./elements.js";
-import { services as s, appName, authorInfo, version, quality, repo, donations, supportedAudio } from "../config.js";
+import { services as s, appName, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
@@ -196,23 +196,31 @@ export default function(obj) {
                 title: `${emoji("🎬")} ${t('SettingsVideoTab')}`,
                 content: settingsCategory({
                     name: "downloads",
-                    title: t('SettingsVideoGeneral'),
+                    title: t('SettingsQualitySubtitle'),
                     body: switcher({
                         name: "vQuality",
-                        subtitle: t('SettingsQualitySubtitle'),
                         explanation: t('SettingsQualityDescription'),
                         items: [{
                             "action": "max",
-                            "text": `${t('SettingsQualitySwitchMax')}<br/>(2160p+)`
+                            "text": "4320p+"
                         }, {
-                            "action": "hig",
-                            "text": `${t('SettingsQualitySwitchHigh')}<br/>(${quality.hig}p)`
+                            "action": "2160",
+                            "text": "2160p"
                         }, {
-                            "action": "mid",
-                            "text": `${t('SettingsQualitySwitchMedium')}<br/>(${quality.mid}p)`
+                            "action": "1440",
+                            "text": "1440p"
                         }, {
-                            "action": "low",
-                            "text": `${t('SettingsQualitySwitchLow')}<br/>(${quality.low}p)`
+                            "action": "1080",
+                            "text": "1080p"
+                        }, {
+                            "action": "720",
+                            "text": "720p"
+                        }, {
+                            "action": "480",
+                            "text": "480p"
+                        }, {
+                            "action": "360",
+                            "text": "360p"
                         }]
                     })
                 })
@@ -222,17 +230,19 @@ export default function(obj) {
                     body: checkbox("disableTikTokWatermark", t('SettingsRemoveWatermark'), 3)
                 })
                 + settingsCategory({
-                    name: "youtube",
+                    name: t('SettingsCodecSubtitle'),
                     body: switcher({
-                        name: "vFormat",
-                        subtitle: t('SettingsFormatSubtitle'),
-                        explanation: t('SettingsFormatDescription'),
+                        name: "vCodec",
+                        explanation: t('SettingsCodecDescription'),
                         items: [{
-                            "action": "mp4",
-                            "text": "mp4 (av1)"
+                            "action": "h264",
+                            "text": "h264 (mp4)"
                         }, {
-                            "action": "webm",
-                            "text": "webm (vp9)"
+                            "action": "av1",
+                            "text": "av1 (mp4)"
+                        }, {
+                            "action": "vp9",
+                            "text": "vp9 (webm)"
                         }]
                     })
                 })
@@ -241,18 +251,32 @@ export default function(obj) {
                 title: `${emoji("🎶")} ${t('SettingsAudioTab')}`,
                 content: settingsCategory({
                     name: "general",
-                    title: t('SettingsAudioTab'),
-                    body: switcher({
-                        name: "aFormat",
-                        subtitle: t('SettingsFormatSubtitle'),
-                        explanation: t('SettingsAudioFormatDescription'),
-                        items: audioFormats
-                    }) + sep(0) + checkbox("muteAudio", t('SettingsVideoMute'), 3) + explanation(t('SettingsVideoMuteExplanation'))
-                }) + settingsCategory({
-                    name: "tiktok",
-                    title: "tiktok & douyin",
-                    body: checkbox("fullTikTokAudio", t('SettingsAudioFullTikTok'), 3) + `<div class="explanation">${t('SettingsAudioFullTikTokDescription')}</div>`
-                })
+                    title: t('SettingsFormatSubtitle'),
+                    body:
+                        switcher({
+                            name: "aFormat",
+                            explanation: t('SettingsAudioFormatDescription'),
+                            items: audioFormats
+                        }) + sep(0) + checkbox("muteAudio", t('SettingsVideoMute'), 3) + explanation(t('SettingsVideoMuteExplanation'))
+                        }) + settingsCategory({
+                            name: "dub",
+                            title: t("SettingsAudioDub"),
+                            body: switcher({
+                                name: "dubLang",
+                                explanation: t('SettingsAudioDubDescription'),
+                                items: [{
+                                    "action": "original",
+                                    "text": t('SettingsDubDefault')
+                                }, {
+                                    "action": "auto",
+                                    "text": t('SettingsDubAuto')
+                                }]
+                            })
+                        }) + settingsCategory({
+                            name: "tiktok",
+                            title: "tiktok & douyin",
+                            body: checkbox("fullTikTokAudio", t('SettingsAudioFullTikTok'), 3) + explanation(t('SettingsAudioFullTikTokDescription'))
+                        })
             }, {
                 name: "other",
                 title: `${emoji("🪅")} ${t('SettingsOtherTab')}`,

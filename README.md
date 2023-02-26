@@ -10,22 +10,22 @@ Live: [co.wukko.me](https://co.wukko.me/)
 ## What's cobalt?
 cobalt is a social media downloader with zero bullshit. It's friendly, efficient, and doesn't bother you with shock ads or privacy invasion "consent" popups.
 
-It tries to preserve original media quality, and in most instances you get best downloads possible (you can set your preferences in settings).
+It tries to preserve original media quality, and in most cases you get best quality possible (you can set your preferences in settings).
 
 ## Supported services
-| Service           | Video + Audio | Only audio | Additional features                                                                      |
-| --------          | :---:         | :---:      | :-----                                                                                   |
-| Twitter           | ✅           | ✅         | Ability to save multiple videos/GIFs from a single tweet.                                |
-| Twitter Spaces    | ❌️           | ✅         | Audio metadata.                                                                          |
-| YouTube & Shorts  | ✅           | ✅         | Support for 8K, 4K, HDR, and high FPS videos.                                            |
-| YouTube Music     | ❌           | ✅         | Audio metadata.                                                                          |
-| Reddit            | ✅           | ✅         |                                                                                          |
-| TikTok & douyin   | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermark.  |
-| SoundCloud        | ❌           | ✅         | Audio metadata, downloads from private links                                             |
-| bilibili.com      | ✅           | ✅         |                                                                                          |
-| Tumblr            | ✅           | ✅         |                                                                                          |
-| Vimeo             | ✅           | ❌️         |                                                                                          |
-| VK Videos & Clips | ✅           | ❌️         |                                                                                          |
+| Service           | Video + Audio | Only audio | Additional features                                                                       |
+| --------          | :---:         | :---:      | :-----                                                                                    |
+| Twitter           | ✅           | ✅         | Ability to save multiple videos/GIFs from a single tweet.                                 |
+| Twitter Spaces    | ❌️           | ✅         | Audio metadata.                                                                           |
+| YouTube & Shorts  | ✅           | ✅         | Support for 8K, 4K, HDR, and high FPS videos. Audio metadata & dubs. h264/av1/vp9 codecs. |
+| YouTube Music     | ❌           | ✅         | Audio metadata.                                                                           |
+| Reddit            | ✅           | ✅         | GIFs and videos.                                                                          |
+| TikTok & douyin   | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermark.   |
+| SoundCloud        | ❌           | ✅         | Audio metadata, downloads from private links.                                             |
+| bilibili.com      | ✅           | ✅         |                                                                                           |
+| Tumblr            | ✅           | ✅         |                                                                                           |
+| Vimeo             | ✅           | ❌️         |                                                                                           |
+| VK Videos & Clips | ✅           | ❌️         |                                                                                           |
 
 ## cobalt API
 cobalt has an open API that you can use for free. It's pretty straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/API.md) and see for yourself.
@@ -64,7 +64,7 @@ You might find cobalt's source code a bit messy, but I do my best to improve it 
 - node-cache
 - url-pattern
 - xml-js
-- better-ytdl-core
+- youtubei.js
 
 Setup script installs all needed `npm` dependencies, but you have to install `Node.js` and `git` yourself.
 

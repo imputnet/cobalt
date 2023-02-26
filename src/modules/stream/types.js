@@ -6,8 +6,8 @@ import { metadataManager, msToTime } from "../sub/utils.js";
 
 export function streamDefault(streamInfo, res) {
     try {
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1]
-        let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
+        let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`;
         res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
         const stream = got.get(streamInfo.urls, {
             headers: {
@@ -31,26 +31,39 @@ export function streamLiveRender(streamInfo, res) {
             res.end();
             return;
         }
+        let audio = got.get(streamInfo.urls[1], { isStream: true });
+
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
             '-loglevel', '-8',
             '-i', streamInfo.urls[0],
-            '-i', streamInfo.urls[1],
+            '-i', 'pipe:3',
             '-map', '0:v',
             '-map', '1:a',
         ];
         args = args.concat(ffmpegArgs[format])
         if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
-        args.push('-f', format, 'pipe:3');
-        const ffmpegProcess = spawn(ffmpeg, args, {
+        args.push('-f', format, 'pipe:4');
+        let ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
-                'pipe'
+                'pipe', 'pipe'
             ],
         });
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
-        ffmpegProcess.stdio[3].pipe(res);
+        res.on('error', () => {
+            ffmpegProcess.kill();
+            res.end();
+        });
+        ffmpegProcess.stdio[4].pipe(res).on('error', () => {
+            ffmpegProcess.kill();
+            res.end();
+        });;
+        audio.pipe(ffmpegProcess.stdio[3]).on('error', () => {
+            ffmpegProcess.kill();
+            res.end();
+        });
 
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
         ffmpegProcess.on('close', () => ffmpegProcess.kill());
@@ -73,8 +86,8 @@ export function streamAudioOnly(streamInfo, res) {
             '-i', streamInfo.urls
         ]
         if (streamInfo.metadata) {
-            if (streamInfo.metadata.cover) { // doesn't work on the server but works locally, no idea why
-                args.push('-i', streamInfo.metadata.cover, '-map', '0:a', '-map', '1:0', '-filter:v', 'scale=w=400:h=400,format=yuvj420p')
+            if (streamInfo.metadata.cover) { // currently corrupts the audio
+                args.push('-i', streamInfo.metadata.cover, '-map', '0:a', '-map', '1:0')
             } else {
                 args.push('-vn')
             }
@@ -82,7 +95,6 @@ export function streamAudioOnly(streamInfo, res) {
         }
         let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"]
         args = args.concat(arg)
-        if (streamInfo.metadata.cover) args.push("-c:v", "mjpeg")
         if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
         const ffmpegProcess = spawn(ffmpeg, args, {

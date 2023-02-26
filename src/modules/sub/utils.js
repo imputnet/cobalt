@@ -2,11 +2,11 @@ import { createStream } from "../stream/manage.js";
 
 let apiVar = {
     allowed: {
-        vFormat: ["mp4", "webm"],
-        vQuality: ["max", "hig", "mid", "low", "los"],
+        vCodec: ["h264", "av1", "vp9"],
+        vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang"]
 }
 
 export function apiJSON(type, obj) {
@@ -84,8 +84,11 @@ export function cleanURL(url, host) {
     }
     return url.slice(0, 128)
 }
+export function verifyLanguageCode(code) {
+    return RegExp(/[a-z]{2}/).test(String(code.slice(0, 2).toLowerCase())) ? String(code.slice(0, 2).toLowerCase()) : "en"
+}
 export function languageCode(req) {
-    return req.header('Accept-Language') ? req.header('Accept-Language').slice(0, 2) : "en"
+    return req.header('Accept-Language') ? verifyLanguageCode(req.header('Accept-Language')) : "en"
 }
 export function unicodeDecode(str) {
     return str.replace(/\\u[\dA-F]{4}/gi, (unicode) => {
@@ -94,13 +97,14 @@ export function unicodeDecode(str) {
 }
 export function checkJSONPost(obj) {
     let def = {
-        vFormat: "mp4",
-        vQuality: "hig",
+        vCodec: "h264",
+        vQuality: "720",
         aFormat: "mp3",
         isAudioOnly: false,
         isNoTTWatermark: false,
         isTTFullAudio: false,
         isAudioMuted: false,
+        dubLang: false
     }
     try {
         let objKeys = Object.keys(obj);
@@ -116,6 +120,8 @@ export function checkJSONPost(obj) {
                 }
             }
         }
+
+        if (def.dubLang) def.dubLang = verifyLanguageCode(obj.dubLang);
 
         obj["url"] = decodeURIComponent(String(obj["url"]));
         let hostname = obj["url"].replace("https://", "").replace(' ', '').split('&')[0].split("/")[0].split("."),

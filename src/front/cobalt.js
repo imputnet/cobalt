@@ -1,7 +1,7 @@
 let ua = navigator.userAgent.toLowerCase();
 let isIOS = ua.match("iphone os");
 let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 23;
+let version = 24;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -9,13 +9,14 @@ let store = {}
 
 let switchers = {
     "theme": ["auto", "light", "dark"],
-    "vFormat": ["mp4", "webm"],
-    "vQuality": ["hig", "max", "mid", "low"],
-    "aFormat": ["mp3", "best", "ogg", "wav", "opus"]
+    "vCodec": ["h264", "av1", "vp9"],
+    "vQuality": ["1080", "max", "2160", "1440", "720", "480", "360"],
+    "aFormat": ["mp3", "best", "ogg", "wav", "opus"],
+    "dubLang": ["original", "auto"]
 }
 let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
 let exceptions = { // used for mobile devices
-    "vQuality": "mid"
+    "vQuality": "720"
 }
 
 function eid(id) {
@@ -216,17 +217,14 @@ function popup(type, action, text) {
     eid("popup-backdrop").style.visibility = vis(action);
     eid(`popup-${type}`).style.visibility = vis(action);
 }
-function updateMP4Text() {
-    eid("vFormat-mp4").innerHTML = sGet("vQuality") === "mid" ? "mp4 (h264/av1)" : "mp4 (av1)";
-}
 function changeSwitcher(li, b) {
     if (b) {
+        if (!switchers[li].includes(b)) b = switchers[li][0];
         sSet(li, b);
         for (let i in switchers[li]) {
             (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
         if (li === "theme") detectColorScheme();
-        if (li === "vQuality") updateMP4Text();
     } else {
         let pref = switchers[li][0];
         if (isMobile && exceptions[li]) pref = exceptions[li];
@@ -295,7 +293,6 @@ function loadSettings() {
     for (let i in switchers) {
         changeSwitcher(i, sGet(i))
     }
-    updateMP4Text();
 }
 function changeButton(type, text) {
     switch (type) {
@@ -336,16 +333,22 @@ async function download(url) {
     let req = {
         url: encodeURIComponent(url.split("&")[0].split('%')[0]),
         aFormat: sGet("aFormat").slice(0, 4),
+        dubLang: false
+    }
+    if (sGet("dubLang") === "auto") {
+        req.dubLang = true
+    } else if (sGet("dubLang") === "custom") {
+        req.dubLang = true
     }
     if (sGet("audioMode") === "true") {
-        req["isAudioOnly"] = true;
-        req["isNoTTWatermark"] = true; // video tiktok no watermark
-        if (sGet("fullTikTokAudio") === "true") req["isTTFullAudio"] = true; // audio tiktok full
+        req.isAudioOnly = true;
+        req.isNoTTWatermark = true; // video tiktok no watermark
+        if (sGet("fullTikTokAudio") === "true") req.isTTFullAudio = true; // audio tiktok full
     } else {
-        req["vQuality"] = sGet("vQuality").slice(0, 4);
-        if (sGet("muteAudio") === "true") req["isAudioMuted"] = true;
-        if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req["vFormat"] = sGet("vFormat").slice(0, 4);
-        if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req["isNoTTWatermark"] = true;
+        req.vQuality = sGet("vQuality").slice(0, 4);
+        if (sGet("muteAudio") === "true") req.isAudioMuted = true;
+        if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
+        if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
     await fetch('/api/json', { method: "POST", body: JSON.stringify(req), headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } }).then(async (r) => {
         let j = await r.json();

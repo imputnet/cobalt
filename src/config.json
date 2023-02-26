@@ -28,11 +28,6 @@
             "boosty": "https://boosty.to/wukko"
         }
     },
-    "quality": {
-        "hig": "1440",
-        "mid": "720",
-        "low": "480"
-    },
     "celebrations": {
         "01-01": "🎄",
         "02-17": "😺",
@@ -64,7 +59,7 @@
         "webm": ["-c:v", "copy", "-c:a", "copy"],
         "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
         "copy": ["-c:a", "copy"],
-        "audio": ["-vn", "-ar", "48000", "-ac", "2", "-b:a", "320k"],
+        "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
         "m4a": ["-movflags", "frag_keyframe+empty_moov"]
     }
 }

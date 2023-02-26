@@ -7,16 +7,17 @@ Request Body Type: ``application/json``<br>
 Response Body Type: ``application/json``
 
 ### Request Body Variables
-| key             | type    | variables                         | default    | description                                                           |
-|:----------------|:--------|:----------------------------------|:-----------|:----------------------------------------------------------------------|
-| url             | string  | Sharable URL encoded as URI       | ``null``   | **Must** be included in every request.                                |
-| vFormat         | string  | ``mp4 / webm``                    | ``mp4``    | Applies only to YouTube downloads. ``mp4`` is recommended for phones. |
-| vQuality        | string  | ``los / low / mid / hig / max``   | ``hig``    | ``mid`` quality is recommended for phones.                            |
-| aFormat         | string  | ``best / mp3 / ogg / wav / opus`` | ``mp3``    |                                                                       |
-| isAudioOnly     | boolean | ``true / false``                  | ``false``  |                                                                       |
-| isNoTTWatermark | boolean | ``true / false``                  | ``false``  | Changes whether downloaded TikTok & Douyin videos have watermarks.    |
-| isTTFullAudio   | boolean | ``true / false``                  | ``false``  | Enables download of original sound used in a TikTok video.            |
-| isAudioMuted    | boolean | ``true / false``                  | ``false``  | Disables audio track in video downloads.                              |
+| key             | type    | variables                         | default   | description                                                                    |
+|:----------------|:--------|:----------------------------------|:----------|:-------------------------------------------------------------------------------|
+| url             | string  | Sharable URL encoded as URI       | ``null``  | **Must** be included in every request.                                         |
+| vCodec          | string  | ``h264 / av1 / vp9``              | ``h264``  | Applies only to YouTube downloads. ``h264`` is recommended for phones.         |
+| vQuality        | string  | ``los / low / mid / hig / max``   | ``720``   | ``720`` quality is recommended for phones.                                     |
+| aFormat         | string  | ``best / mp3 / ogg / wav / opus`` | ``mp3``   |                                                                                |
+| isAudioOnly     | boolean | ``true / false``                  | ``false`` |                                                                                |
+| isNoTTWatermark | boolean | ``true / false``                  | ``false`` | Changes whether downloaded TikTok & Douyin videos have watermarks.             |
+| isTTFullAudio   | boolean | ``true / false``                  | ``false`` | Enables download of original sound used in a TikTok video.                     |
+| isAudioMuted    | boolean | ``true / false``                  | ``false`` | Disables audio track in video downloads.                                       |
+| dubLang         | boolean | ``true / false``                  | ``false`` | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
 
 ### Response Body Variables
 | key        | type   | variables                                                     |

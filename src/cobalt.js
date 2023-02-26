@@ -80,24 +80,26 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     app.post('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let lang = languageCode(req);
             switch (req.params.type) {
                 case 'json':
                     try {
                         let request = req.body;
+                        request.dubLang = request.dubLang ? lang : false;
                         let chck = checkJSONPost(request);
                         if (request.url && chck) {
                             chck["ip"] = ip;
-                            let j = await getJSON(chck["url"], languageCode(req), chck)
+                            let j = await getJSON(chck["url"], lang, chck)
                             res.status(j.status).json(j.body);
                         } else if (request.url && !chck) {
-                            let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorCouldntFetch') });
+                            let j = apiJSON(0, { t: loc(lang, 'ErrorCouldntFetch') });
                             res.status(j.status).json(j.body);
                         } else {
-                            let j = apiJSON(0, { t: loc(languageCode(req), 'ErrorNoLink') })
+                            let j = apiJSON(0, { t: loc(lang, 'ErrorNoLink') })
                             res.status(j.status).json(j.body);
                         }
                     } catch (e) {
-                        res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
+                        res.status(500).json({ 'status': 'error', 'text': loc(lang, 'ErrorCantProcess') })
                     }
                     break;
                 default:
@@ -114,12 +116,6 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
-                case 'json':
-                    res.status(405).json({
-                        'status': 'error',
-                        'text': 'GET method for this endpoint has been deprecated. see https://github.com/wukko/cobalt/blob/current/docs/API.md for up-to-date API documentation.'
-                    });
-                    break;
                 case 'stream':
                     if (req.query.p) {
                         res.status(200).json({ "status": "continue" });

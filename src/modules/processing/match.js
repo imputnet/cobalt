@@ -27,8 +27,7 @@ export default async function (host, patternMatch, url, lang, obj) {
             case "twitter":
                 r = await twitter({
                     id: patternMatch["id"] ? patternMatch["id"] : false,
-                    spaceId: patternMatch["spaceId"] ? patternMatch["spaceId"] : false,
-                    lang: lang
+                    spaceId: patternMatch["spaceId"] ? patternMatch["spaceId"] : false
                 });
                 break;
             case "vk":
@@ -36,34 +35,27 @@ export default async function (host, patternMatch, url, lang, obj) {
                     url: url,
                     userId: patternMatch["userId"],
                     videoId: patternMatch["videoId"],
-                    lang: lang,
                     quality: obj.vQuality
                 });
                 break;
             case "bilibili":
                 r = await bilibili({
-                    id: patternMatch["id"].slice(0, 12),
-                    lang: lang
+                    id: patternMatch["id"].slice(0, 12)
                 });
                 break;
             case "youtube":
                 let fetchInfo = {
                     id: patternMatch["id"].slice(0, 11),
-                    lang: lang,
                     quality: obj.vQuality,
-                    format: "webm"
-                };
-                if (url.match('music.youtube.com') || isAudioOnly === true) obj.vFormat = "audio";
-                switch (obj.vFormat) {
-                    case "mp4":
-                        fetchInfo["format"] = "mp4";
-                        break;
-                    case "audio":
-                        fetchInfo["format"] = "webm";
-                        fetchInfo["isAudioOnly"] = true;
-                        fetchInfo["quality"] = "max";
-                        isAudioOnly = true;
-                        break;
+                    format: obj.vCodec,
+                    isAudioOnly: isAudioOnly,
+                    isAudioMuted: obj.isAudioMuted,
+                    dubLang: obj.dubLang
+                }
+                if (url.match('music.youtube.com') || isAudioOnly === true) {
+                    fetchInfo.quality = "max";
+                    fetchInfo.format = "vp9";
+                    fetchInfo.isAudioOnly = true
                 }
                 r = await youtube(fetchInfo);
                 break;
@@ -71,8 +63,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                 r = await reddit({
                     sub: patternMatch["sub"],
                     id: patternMatch["id"],
-                    title: patternMatch["title"],
-                    lang: lang,
+                    title: patternMatch["title"]
                 });
                 break;
             case "douyin":
@@ -81,7 +72,6 @@ export default async function (host, patternMatch, url, lang, obj) {
                     host: host,
                     postId: patternMatch["postId"],
                     id: patternMatch["id"],
-                    lang: lang,
                     noWatermark: obj.isNoTTWatermark,
                     fullAudio: obj.isTTFullAudio,
                     isAudioOnly: isAudioOnly
@@ -91,15 +81,13 @@ export default async function (host, patternMatch, url, lang, obj) {
                 r = await tumblr({
                     id: patternMatch["id"],
                     url: url,
-                    user: patternMatch["user"] ? patternMatch["user"] : false,
-                    lang: lang
+                    user: patternMatch["user"] ? patternMatch["user"] : false
                 });
                 break;
             case "vimeo":
                 r = await vimeo({
                     id: patternMatch["id"].slice(0, 11),
-                    quality: obj.vQuality,
-                    lang: lang
+                    quality: obj.vQuality
                 });
                 break;
             case "soundcloud":
@@ -109,8 +97,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                     song: patternMatch["song"], url: url,
                     shortLink: patternMatch["shortLink"] ? patternMatch["shortLink"] : false,
                     accessKey: patternMatch["accessKey"] ? patternMatch["accessKey"] : false,
-                    format: obj.aFormat,
-                    lang: lang
+                    format: obj.aFormat
                 });
                 break;
             default:

@@ -246,69 +246,55 @@
         }
     }],
     "youtube": [{
-        "name": "4k video (mp4, hig)",
+        "name": "4k video (h264, 1440)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
         "params": {
-            "vFormat": "mp4",
-            "vQuality": "hig",
-            "aFormat": "mp3",
-            "isAudioOnly": false,
-            "isAudioMuted": false
+            "vCodec": "h264",
+            "vQuality": "1440"
         },
         "expected": {
             "code": 200,
             "status": "stream"
         }
     }, {
-        "name": "4k video (webm, mid)",
+        "name": "4k video (vp9, 720)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
         "params": {
-            "vFormat": "webm",
-            "vQuality": "mid",
-            "aFormat": "mp3",
-            "isAudioOnly": false,
-            "isAudioMuted": false
+            "vCodec": "vp9",
+            "vQuality": "720"
         },
         "expected": {
             "code": 200,
             "status": "stream"
         }
     }, {
-        "name": "4k video (mp4, max)",
+        "name": "4k video (av1, max)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
         "params": {
-            "vFormat": "mp4",
+            "vCodec": "av1",
+            "vQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (h264, 720)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vCodec": "h264",
+            "vQuality": "720"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (vp9, max, isAudioMuted)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vCodec": "vp9",
             "vQuality": "max",
-            "aFormat": "mp3",
-            "isAudioOnly": false,
-            "isAudioMuted": false
-        },
-        "expected": {
-            "code": 200,
-            "status": "stream"
-        }
-    }, {
-        "name": "4k video (webm, max)",
-        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
-        "params": {
-            "vFormat": "webm",
-            "vQuality": "max",
-            "aFormat": "mp3",
-            "isAudioOnly": false,
-            "isAudioMuted": false
-        },
-        "expected": {
-            "code": 200,
-            "status": "stream"
-        }
-    }, {
-        "name": "4k video (webm, max, isAudioMuted)",
-        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
-        "params": {
-            "vFormat": "webm",
-            "vQuality": "max",
-            "aFormat": "mp3",
-            "isAudioOnly": false,
             "isAudioMuted": true
         },
         "expected": {
@@ -316,10 +302,22 @@
             "status": "stream"
         }
     }, {
-        "name": "4k video (mp4, max, isAudioMuted)",
+        "name": "4k video (h264, max, isAudioMuted)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
         "params": {
-            "vFormat": "webm",
+            "vCodec": "h264",
+            "vQuality": "max",
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "4k video (av1, max, isAudioMuted, isAudioOnly, mp3)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "vCodec": "av1",
             "vQuality": "max",
             "aFormat": "mp3",
             "isAudioOnly": true,
@@ -330,24 +328,10 @@
             "status": "stream"
         }
     }, {
-        "name": "4k video (mp4, max, isAudioMuted, isAudioOnly, mp3)",
+        "name": "4k video (av1, max, isAudioMuted, isAudioOnly, best)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
         "params": {
-            "vFormat": "webm",
-            "vQuality": "max",
-            "aFormat": "mp3",
-            "isAudioOnly": true,
-            "isAudioMuted": true
-        },
-        "expected": {
-            "code": 200,
-            "status": "stream"
-        }
-    }, {
-        "name": "4k video (mp4, max, isAudioMuted, isAudioOnly, best)",
-        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
-        "params": {
-            "vFormat": "webm",
+            "vCodec": "av1",
             "vQuality": "max",
             "aFormat": "best",
             "isAudioOnly": true,
@@ -407,10 +391,10 @@
             "status": "stream"
         }
     }, {
-        "name": "clip, low",
+        "name": "clip, 360",
         "url": "https://vk.com/clip-57274055_456239788",
         "params": {
-            "vQuality": "low"
+            "vQuality": "360"
         },
         "expected": {
             "code": 200,
@@ -657,7 +641,7 @@
         "name": "4k progressive",
         "url": "https://vimeo.com/288386543",
         "params": {
-            "vQuality": "max"
+            "vQuality": "2160"
         },
         "expected": {
             "code": 200,
@@ -667,7 +651,7 @@
         "name": "720p progressive",
         "url": "https://vimeo.com/288386543",
         "params": {
-            "vQuality": "mid"
+            "vQuality": "720"
         },
         "expected": {
             "code": 200,
@@ -677,7 +661,7 @@
         "name": "1080p dash parcel",
         "url": "https://vimeo.com/774694040",
         "params": {
-            "vQuality": "hig"
+            "vQuality": "1440"
         },
         "expected": {
             "code": 200,
@@ -687,7 +671,7 @@
         "name": "720p dash parcel",
         "url": "https://vimeo.com/774694040",
         "params": {
-            "vQuality": "mid"
+            "vQuality": "360"
         },
         "expected": {
             "code": 200,

@@ -1,4 +1,11 @@
-import { maxVideoDuration, quality, services } from "../../config.js";
+import { maxVideoDuration } from "../../config.js";
+
+const resolutionMatch = {
+    "3840": "2160",
+    "1920": "1080",
+    "1280": "720",
+    "960": "480"
+}
 
 export default async function(obj) {
     let api = await fetch(`https://player.vimeo.com/video/${obj.id}/config`).then((r) => { return r.json() }).catch(() => { return false });
@@ -14,7 +21,7 @@ export default async function(obj) {
 
             try {
                 if (obj.quality !== "max") {
-                    let pref = parseInt(quality[obj.quality], 10)
+                    let pref = parseInt(obj.quality, 10)
                     for (let i in all) {
                         let currQuality = parseInt(all[i]["quality"].replace('p', ''), 10)
                         if (currQuality === pref) {
@@ -51,9 +58,9 @@ export default async function(obj) {
             switch (type) {
                 case "parcel":
                     if (obj.quality !== "max") {
-                        let pref = parseInt(quality[obj.quality], 10)
+                        let pref = parseInt(obj.quality, 10)
                         for (let i in masterJSON_Video) {
-                            let currQuality = parseInt(services.vimeo.resolutionMatch[masterJSON_Video[i]["width"]], 10)
+                            let currQuality = parseInt(resolutionMatch[masterJSON_Video[i]["width"]], 10)
                             if (currQuality < pref) {
                                 break;
                             } else if (String(currQuality) === String(pref)) {

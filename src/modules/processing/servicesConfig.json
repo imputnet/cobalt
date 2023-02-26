@@ -4,7 +4,6 @@
         "bilibili": {
             "alias": "bilibili (.com only)",
             "patterns": ["video/:id"],
-            "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
             "enabled": true
         },
         "reddit": {
@@ -20,43 +19,12 @@
         "vk": {
             "alias": "vk video & clips",
             "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:duplicate?z=clip-:userId_:videoId"],
-            "quality_match": {
-                "2160": 7,
-                "1440": 6,
-                "1080": 5,
-                "720": 3,
-                "480": 2,
-                "360": 1,
-                "240": 0,
-                "144": 4
-            },
-            "representation_match": {
-                "2160": 7,
-                "1440": 6,
-                "1080": 5,
-                "720": 4,
-                "480": 3,
-                "360": 2,
-                "240": 1,
-                "144": 0
-            },
-            "quality": {
-                "1080": "hig",
-                "720": "mid",
-                "480": "low"
-            },
             "enabled": true
         },
         "youtube": {
             "alias": "youtube videos & shorts & music",
             "patterns": ["watch?v=:id"],
-            "quality_match": ["2160", "1440", "1080", "720", "480", "360", "240", "144"],
             "bestAudio": "opus",
-            "quality": {
-                "1080": "hig",
-                "720": "mid",
-                "480": "low"
-            },
             "enabled": true
         },
         "tumblr": {
@@ -76,12 +44,6 @@
         },
         "vimeo": {
             "patterns": [":id"],
-            "resolutionMatch": {
-                "3840": "2160",
-                "1920": "1080",
-                "1280": "720",
-                "960": "480"
-            },
             "enabled": true
         },
         "soundcloud": {

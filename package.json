@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "5.0",
+    "version": "5.1",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -23,7 +23,6 @@
     },
     "homepage": "https://github.com/wukko/cobalt#readme",
     "dependencies": {
-        "better-ytdl-core": "^1.0.1",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "esbuild": "^0.14.51",
@@ -33,6 +32,7 @@
         "got": "^12.1.0",
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
-        "xml-js": "^1.6.11"
+        "xml-js": "^1.6.11",
+        "youtubei.js": "^3.0.0"
     }
 }
