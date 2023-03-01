@@ -1,4 +1,4 @@
-import { maxAudioDuration } from "../../config.js";
+import { maxVideoDuration } from "../../config.js";
 
 let cachedID = {};
 
@@ -58,7 +58,7 @@ export default async function(obj) {
     let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
 
-    if (json.duration > maxAudioDuration) return { error: ['ErrorLengthAudioConvert', maxAudioDuration / 60000] };
+    if (json.duration > maxVideoDuration) return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };
 
     let file = await fetch(fileUrl).then(async (r) => { return (await r.json()).url }).catch(() => { return false });
     if (!file) return { error: 'ErrorCouldntFetch' };

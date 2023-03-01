@@ -33,27 +33,20 @@ export default async function(o) {
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
-    let adaptive_formats = info.streaming_data.adaptive_formats.filter((e) => {
+    let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter((e) => {
         if (e["mime_type"].includes(c[o.format].codec) || e["mime_type"].includes(c[o.format].aCodec)) return true
     }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
-    let bestQuality = adaptive_formats[0]['quality_label'].split('p')[0];
 
-    let checkSingle = (i) => ((i['quality_label'].split('p')[0] === quality || i['quality_label'].split('p')[0] === bestQuality) && i["mime_type"].includes(c[o.format].codec));
-    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]);
-    let checkBestVideo = (i) => (i['quality_label'].split('p')[0] === bestQuality && !i["has_audio"] && i["has_video"]);
-    let checkRightVideo = (i) => (i['quality_label'].split('p')[0] === quality && !i["has_audio"] && i["has_video"]);
+    bestQuality = adaptive_formats.find(i => i["has_video"]);
+    hasAudio = adaptive_formats.find(i => i["has_audio"]);
 
-    if (!o.isAudioOnly && !o.isAudioMuted) {
-        let single = info.streaming_data.formats.find(i => checkSingle(i));
-        if (single) return {
-            type: "bridge",
-            urls: single.url,
-            filename: `youtube_${o.id}_${single.width}x${single.height}_${o.format}.${c[o.format].container}`
-        }
-    };
-
+    if (bestQuality) bestQuality = bestQuality['quality_label'].split('p')[0];
+    if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+
+    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]);
     let audio = adaptive_formats.find(i => checkBestAudio(i) && i["is_original"]);
+
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i => checkBestAudio(i) && i["language"] === o.dubLang);
         if (dubbedAudio) {
@@ -61,7 +54,7 @@ export default async function(o) {
             isDubbed = true
         }
     }
-    if (o.isAudioOnly) {
+    if (hasAudio && o.isAudioOnly) {
         let r = {
             type: "render",
             isAudioOnly: true,
@@ -79,6 +72,19 @@ export default async function(o) {
             if (descItems[4].startsWith("Released on:")) r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
         };
         return r
+    }
+
+    let checkSingle = (i) => ((i['quality_label'].split('p')[0] === quality || i['quality_label'].split('p')[0] === bestQuality) && i["mime_type"].includes(c[o.format].codec));
+    let checkBestVideo = (i) => (i['quality_label'].split('p')[0] === bestQuality && !i["has_audio"] && i["has_video"]);
+    let checkRightVideo = (i) => (i['quality_label'].split('p')[0] === quality && !i["has_audio"] && i["has_video"]);
+
+    if (!o.isAudioOnly && !o.isAudioMuted) {
+        let single = info.streaming_data.formats.find(i => checkSingle(i));
+        if (single) return {
+            type: "bridge",
+            urls: single.url,
+            filename: `youtube_${o.id}_${single.width}x${single.height}_${o.format}.${c[o.format].container}`
+        }
     };
 
     let video = adaptive_formats.find(i => ((Number(quality) > Number(bestQuality)) ? checkBestVideo(i) : checkRightVideo(i)));

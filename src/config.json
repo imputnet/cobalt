@@ -1,7 +1,6 @@
 {
     "streamLifespan": 120000,
-    "maxVideoDuration": 7500000,
-    "maxAudioDuration": 7500000,
+    "maxVideoDuration": 10800000,
     "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
     "authorInfo": {
         "name": "wukko",
