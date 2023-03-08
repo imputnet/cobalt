@@ -18,7 +18,7 @@
         },
         "vk": {
             "alias": "vk video & clips",
-            "patterns": ["video-:userId_:videoId", "clip-:userId_:videoId", "clips-:duplicate?z=clip-:userId_:videoId"],
+            "patterns": ["video:userId_:videoId", "clip:userId_:videoId", "clips:duplicate?z=clip:userId_:videoId"],
             "enabled": true
         },
         "youtube": {

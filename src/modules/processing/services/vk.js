@@ -24,7 +24,7 @@ const resolutionMatch = {
 
 export default async function(o) {
     let html;
-    html = await fetch(`https://vk.com/video-${o.userId}_${o.videoId}`, {
+    html = await fetch(`https://vk.com/video${o.userId}_${o.videoId}`, {
         headers: { "user-agent": genericUserAgent }
     }).then((r) => { return r.text() }).catch(() => { return false });
     if (!html) return { error: 'ErrorCouldntFetch' };
