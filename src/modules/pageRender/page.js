@@ -33,6 +33,10 @@ export default function(obj) {
     let ua = obj.useragent.toLowerCase();
     let isIOS = ua.match("iphone os");
     let isMobile = ua.match("android") || ua.match("iphone os");
+
+    let platform = isMobile ? "m" : "p";
+    if (isMobile && isIOS) platform = "i";
+
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
 
     try {
@@ -186,7 +190,7 @@ export default function(obj) {
             closeAria: t('AccessibilityClosePopup'),
             header: {
                 aboveTitle: {
-                    text: `v.${version}-${obj.hash} (${obj.branch})`,
+                    text: `v.${version}-${obj.hash}${platform} (${obj.branch})`,
                     url: `${repo}/commit/${obj.hash}`
                 },
                 title: `${emoji("⚙️", 30)} ${t('TitlePopupSettings')}`

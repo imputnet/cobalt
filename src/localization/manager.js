@@ -5,16 +5,19 @@ import loadJson from "../modules/sub/loadJSON.js";
 const locPath = './src/localization/languages'
 
 let loc = {}
+let languages = [];
 
 export function loadLoc() {
     fs.readdir(locPath, (err, files) => {
         if (err) return false;
         files.forEach(file => {
-            loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`)
+            loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`);
+            languages.push(file.split('.')[0])
         });
     })
 }
 loadLoc();
+
 export function replaceBase(s) {
     return s.replace(/\n/g, '<br/>').replace(/{appName}/g, appName).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
 }
@@ -42,3 +45,4 @@ export default function(lang, string, replacement) {
         return `!!${string}!!`
     }
 }
+export let languageList = languages;

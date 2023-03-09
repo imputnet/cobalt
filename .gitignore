@@ -7,3 +7,6 @@ package-lock.json
 
 # esbuild
 min
+
+#page build
+build

@@ -5,10 +5,14 @@ import cors from "cors";
 import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename).slice(0, -4); // go up another level (get rid of src/)
+
 import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
-import renderPage from "./modules/pageRender/page.js";
 import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
 import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
@@ -16,6 +20,7 @@ import loc from "./localization/manager.js";
 import { buildFront } from "./modules/build.js";
 import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
+import findRendered from "./modules/pageRender/findRendered.js";
 
 const commitHash = shortCommit();
 const branch = getCurrentBranch();
@@ -26,42 +31,38 @@ app.disable('x-powered-by');
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
         windowMs: 60000,
-        max: 12,
-        standardHeaders: true,
+        max: 18,
+        standardHeaders: false,
         legacyHeaders: false,
+        keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
         }
     });
     const apiLimiterStream = rateLimit({
         windowMs: 60000,
-        max: 12,
-        standardHeaders: true,
+        max: 18,
+        standardHeaders: false,
         legacyHeaders: false,
+        keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
         }
     });
 
-    await buildFront();
+    await buildFront(commitHash, branch);
+
     app.use('/api/', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/', express.static('./min'));
     app.use('/', express.static('./src/front'));
 
     app.use((req, res, next) => {
-        try {
-            decodeURIComponent(req.path)
-        }
-        catch (e) {
-            return res.redirect(process.env.selfURL);
-        }
+        try { decodeURIComponent(req.path) } catch (e) { return res.redirect(process.env.selfURL) }
         next();
     });
     app.use((req, res, next) => {
-        if (req.header("user-agent") && req.header("user-agent").includes("Trident")) {
-            res.destroy()
-        }
+        if (req.header("user-agent") && req.header("user-agent").includes("Trident")) res.destroy();
         next();
     });
     app.use('/api/json', express.json({
@@ -77,36 +78,25 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
     }));
 
-    app.post('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
+    app.post('/api/json', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             let lang = languageCode(req);
-            switch (req.params.type) {
-                case 'json':
-                    try {
-                        let request = req.body;
-                        request.dubLang = request.dubLang ? lang : false;
-                        let chck = checkJSONPost(request);
-                        if (request.url && chck) {
-                            chck["ip"] = ip;
-                            let j = await getJSON(chck["url"], lang, chck)
-                            res.status(j.status).json(j.body);
-                        } else if (request.url && !chck) {
-                            let j = apiJSON(0, { t: loc(lang, 'ErrorCouldntFetch') });
-                            res.status(j.status).json(j.body);
-                        } else {
-                            let j = apiJSON(0, { t: loc(lang, 'ErrorNoLink') })
-                            res.status(j.status).json(j.body);
-                        }
-                    } catch (e) {
-                        res.status(500).json({ 'status': 'error', 'text': loc(lang, 'ErrorCantProcess') })
-                    }
-                    break;
-                default:
-                    let j = apiJSON(0, { t: "unknown response type" })
-                    res.status(j.status).json(j.body);
-                    break;
+            let j = apiJSON(0, { t: "Bad request" });
+            try {
+                let request = req.body;
+                if (request.url) {
+                    request.dubLang = request.dubLang ? lang : false;
+                    let chck = checkJSONPost(request);
+                    if (chck) chck["ip"] = ip;
+                    j = chck ? await getJSON(chck["url"], lang, chck) : apiJSON(0, { t: loc(lang, 'ErrorCouldntFetch') });
+                } else {
+                    j = apiJSON(0, { t: loc(lang, 'ErrorNoLink') });
+                }
+            } catch (e) {
+                j = apiJSON(0, { t: loc(lang, 'ErrorCantProcess') });
             }
+            res.status(j.status).json(j.body);
         } catch (e) {
             res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
@@ -154,18 +144,11 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
         }
     });
-
     app.get("/api", (req, res) => {
         res.redirect('/api/json')
     });
     app.get("/", (req, res) => {
-        res.send(renderPage({
-            "hash": commitHash,
-            "type": "default",
-            "lang": languageCode(req),
-            "useragent": req.header('user-agent') ? req.header('user-agent') : genericUserAgent,
-            "branch": branch
-        }))
+        res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`);
     });
     app.get("/favicon.ico", (req, res) => {
         res.redirect('/icons/favicon.ico');
