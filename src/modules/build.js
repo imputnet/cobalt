@@ -4,7 +4,7 @@ import { languageList } from "../localization/manager.js";
 import page from "./pageRender/page.js";
 
 function cleanHTML(html) {
-    let clean = html.replace(/    /g, '');
+    let clean = html.replace(/ {4}/g, '');
     clean = clean.replace(/\n/g, '');
     return clean
 }

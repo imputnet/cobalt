@@ -45,4 +45,4 @@ export default function(lang, string, replacement) {
         return `!!${string}!!`
     }
 }
-export let languageList = languages;
+export const languageList = languages;
