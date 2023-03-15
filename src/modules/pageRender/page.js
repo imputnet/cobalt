@@ -250,6 +250,20 @@ export default function(obj) {
                         }]
                     })
                 })
+                + settingsCategory({
+                    name: t('SettingsVimeoPrefer'),
+                    body: switcher({
+                        name: "vimeoDash",
+                        explanation: t('SettingsVimeoPreferDescription'),
+                        items: [{
+                            "action": "false",
+                            "text": "progressive"
+                        }, {
+                            "action": "true",
+                            "text": "dash"
+                        }]
+                    })
+                })
             }, {
                 name: "audio",
                 title: `${emoji("🎶")} ${t('SettingsAudioTab')}`,

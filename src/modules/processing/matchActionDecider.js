@@ -14,6 +14,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
         params = {}
     
     if (!isAudioOnly && !r.picker && !isAudioMuted) action = "video";
+    if (r.isM3U8) action = "singleM3U8";
     if (isAudioOnly && !r.picker) action = "audio";
     if (r.picker) action = "picker";
     if (isAudioMuted) action = "muteVideo";
@@ -57,7 +58,9 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                     break;
             }
             break;
-
+        case "singleM3U8":
+            params = { type: "videoM3U8" }
+            break;
         case "muteVideo":
             params = {
                 type: Array.isArray(r.urls) ? "bridge" : "mute",
@@ -89,7 +92,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
             break;
 
         case "audio": 
-            if ((host === "reddit" && r.typeId === 1) || (host === "vimeo" && !r.filename) || audioIgnore.includes(host)) return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') });
+            if ((host === "reddit" && r.typeId === 1) || audioIgnore.includes(host)) return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') });
 
             let processType = "render";
             let copy = false;
@@ -119,6 +122,10 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                     audioFormat = "mp3"
                     copy = false
                 }
+            }
+            if (r.isM3U8 || host === "vimeo") {
+                copy = false;
+                processType = "render"
             }
 
             params = {

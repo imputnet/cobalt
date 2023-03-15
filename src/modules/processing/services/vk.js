@@ -10,8 +10,7 @@ const representationMatch = {
     "360": 2,
     "240": 1,
     "144": 0
-}
-const resolutionMatch = {
+}, resolutionMatch = {
     "3840": "2160",
     "2560": "1440",
     "1920": "1080",
@@ -30,16 +29,16 @@ export default async function(o) {
     if (!html) return { error: 'ErrorCouldntFetch' };
     if (!html.includes(`{"lang":`)) return { error: 'ErrorEmptyDownload' };
 
-    let quality = o.quality === "max" ? 7 : representationMatch[o.quality];
-    let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
+    let quality = o.quality === "max" ? 7 : representationMatch[o.quality],
+        js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
 
     if (Number(js.mvData.is_active_live) !== 0) return { error: 'ErrorLiveVideo' };
     if (js.mvData.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let mpd = JSON.parse(xml2json(js.player.params[0]["manifest"], { compact: true, spaces: 4 }));
-    let repr = mpd.MPD.Period.AdaptationSet.Representation ? mpd.MPD.Period.AdaptationSet.Representation : mpd.MPD.Period.AdaptationSet[0]["Representation"];
-    let bestQuality = repr[repr.length - 1];
-    let resolutionPick = Number(bestQuality._attributes.width) > Number(bestQuality._attributes.height) ? 'width': 'height'
+    let mpd = JSON.parse(xml2json(js.player.params[0]["manifest"], { compact: true, spaces: 4 })),
+        repr = mpd.MPD.Period.AdaptationSet.Representation ? mpd.MPD.Period.AdaptationSet.Representation : mpd.MPD.Period.AdaptationSet[0]["Representation"],
+        bestQuality = repr[repr.length - 1],
+        resolutionPick = Number(bestQuality._attributes.width) > Number(bestQuality._attributes.height) ? 'width': 'height';
     if (Number(bestQuality._attributes.id) > Number(quality)) bestQuality = repr[quality];
 
     if (bestQuality) return {

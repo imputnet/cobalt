@@ -112,10 +112,12 @@
         "ErrorYTUnavailable": "this youtube video is unavailable or age restricted. i am currently unable to download videos with sensitive content. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nnote: youtube api sometimes acts unexpectedly. blame google for this, not me.",
         "SettingsCodecSubtitle": "youtube codec",
-        "SettingsCodecDescription": "h264: generally better player support, but quality tops out at 1080p.\nav1: low player support, but supports 8k & HDR.\nvp9: usually highest bitrate, preserves most detail. supports 4k & HDR.\n\nif you want best editor/player/social media compatibility, pick h264.",
+        "SettingsCodecDescription": "h264: generally better player support, but quality tops out at 1080p.\nav1: low player support, but supports 8k & HDR.\nvp9: usually highest bitrate, preserves most detail. supports 4k & HDR.\n\npick h264 if you want best editor/player/social media compatibility.",
         "SettingsAudioDub": "youtube audio track",
         "SettingsAudioDubDescription": "defines which audio track will be used. if dubbed track isn't available, original video language is used instead.\n\noriginal: original video language is used.\nauto: default browser (and {appName}) language is used.",
         "SettingsDubDefault": "original",
-        "SettingsDubAuto": "auto"
+        "SettingsDubAuto": "auto",
+        "SettingsVimeoPrefer": "vimeo downloads type",
+        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick progressive if you want best editor/player/social media compatibility. sometimes progressive downloads aren't available, and then dash is used instead."
     }
 }

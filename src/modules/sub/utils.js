@@ -6,7 +6,7 @@ let apiVar = {
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash"]
 }
 
 export function apiJSON(type, obj) {
@@ -104,7 +104,8 @@ export function checkJSONPost(obj) {
         isNoTTWatermark: false,
         isTTFullAudio: false,
         isAudioMuted: false,
-        dubLang: false
+        dubLang: false,
+        vimeoDash: false
     }
     try {
         let objKeys = Object.keys(obj);

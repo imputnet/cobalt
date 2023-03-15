@@ -40,11 +40,12 @@
         "douyin": {
             "alias": "douyin videos & audio",
             "patterns": ["video/:postId", ":id"],
-            "enabled": true
+            "enabled": false
         },
         "vimeo": {
             "patterns": [":id"],
-            "enabled": true
+            "enabled": true,
+            "bestAudio": "mp3"
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],

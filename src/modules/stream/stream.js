@@ -17,6 +17,7 @@ export default function(res, ip, id, hmac, exp) {
             case "render":
                 streamLiveRender(streamInfo, res);
                 break;
+            case "videoM3U8":
             case "mute":
                 streamVideoOnly(streamInfo, res);
                 break;

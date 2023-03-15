@@ -54,8 +54,8 @@ export default async function(obj) {
     let clientId = await findClientID();
     if (!clientId) return { error: 'ErrorSoundCloudNoClientId' };
 
-    let fileUrlBase = json.media.transcodings[0]["url"].replace("/hls", "/progressive")
-    let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
+    let fileUrlBase = json.media.transcodings[0]["url"].replace("/hls", "/progressive"),
+        fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
 
     if (json.duration > maxVideoDuration) return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };

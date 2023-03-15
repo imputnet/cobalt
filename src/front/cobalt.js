@@ -12,7 +12,8 @@ let switchers = {
     "vCodec": ["h264", "av1", "vp9"],
     "vQuality": ["1080", "max", "2160", "1440", "720", "480", "360"],
     "aFormat": ["mp3", "best", "ogg", "wav", "opus"],
-    "dubLang": ["original", "auto"]
+    "dubLang": ["original", "auto"],
+    "vimeoDash": ["false", "true"]
 }
 let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
 let exceptions = { // used for mobile devices
@@ -340,6 +341,7 @@ async function download(url) {
     } else if (sGet("dubLang") === "custom") {
         req.dubLang = true
     }
+    if (sGet("vimeoDash") === "true") req.vimeoDash = true;
     if (sGet("audioMode") === "true") {
         req.isAudioOnly = true;
         req.isNoTTWatermark = true; // video tiktok no watermark

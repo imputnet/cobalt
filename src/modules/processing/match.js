@@ -21,7 +21,7 @@ export default async function (host, patternMatch, url, lang, obj) {
         let r, isAudioOnly = !!obj.isAudioOnly;
 
         if (!testers[host]) return apiJSON(0, { t: errorUnsupported(lang) });
-        if (!(testers[host](patternMatch))) return apiJSON(0, { t: brokenLink(lang) });
+        if (!(testers[host](patternMatch))) return apiJSON(0, { t: brokenLink(lang, host) });
 
         switch (host) {
             case "twitter":
@@ -87,7 +87,9 @@ export default async function (host, patternMatch, url, lang, obj) {
             case "vimeo":
                 r = await vimeo({
                     id: patternMatch["id"].slice(0, 11),
-                    quality: obj.vQuality
+                    quality: obj.vQuality,
+                    isAudioOnly: isAudioOnly,
+                    forceDash: isAudioOnly ? true : obj.vimeoDash
                 });
                 break;
             case "soundcloud":

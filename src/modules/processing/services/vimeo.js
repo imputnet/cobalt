@@ -2,83 +2,84 @@ import { maxVideoDuration } from "../../config.js";
 
 const resolutionMatch = {
     "3840": "2160",
+    "2732": "1440",
+    "2048": "1080",
     "1920": "1080",
+    "1366": "720",
     "1280": "720",
-    "960": "480"
+    "960": "480",
+    "640": "360",
+    "426": "240"
+}
+// ^ vimeo you're fucked in the head for this ^
+
+const qualityMatch = {
+    "2160": "4K",
+    "1440": "2K",
+    "480": "540",
+
+    "4K": "2160",
+    "2K": "1440",
+    "540": "480"
 }
 
 export default async function(obj) {
+    let quality = obj.quality === "max" ? "9000" : obj.quality;
+    if (!quality || obj.isAudioOnly) quality = "9000";
+
     let api = await fetch(`https://player.vimeo.com/video/${obj.id}/config`).then((r) => { return r.json() }).catch(() => { return false });
     if (!api) return { error: 'ErrorCouldntFetch' };
 
     let downloadType = "dash";
-    if (JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
+    if (!obj.forceDash && JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
 
-    switch(downloadType) {
-        case "progressive":
-            let all = api["request"]["files"]["progressive"].sort((a, b) => Number(b.width) - Number(a.width));
-            let best = all[0];
+    if (downloadType !== "dash") {
+        if (qualityMatch[quality]) quality = qualityMatch[quality];
+        let all = api["request"]["files"]["progressive"].sort((a, b) => Number(b.width) - Number(a.width));
+        let best = all[0];
 
-            try {
-                if (obj.quality !== "max") {
-                    let pref = parseInt(obj.quality, 10)
-                    for (let i in all) {
-                        let currQuality = parseInt(all[i]["quality"].replace('p', ''), 10)
-                        if (currQuality === pref) {
-                            best = all[i];
-                            break
-                        }
-                        if (currQuality < pref) {
-                            best = all[i-1];
-                            break
-                        }
-                    }
-                }
-            } catch (e) {
-                best = all[0]
-            }
+        let bestQuality = all[0]["quality"].split('p')[0];
+        bestQuality = qualityMatch[bestQuality] ? qualityMatch[bestQuality] : bestQuality;
+        if (Number(quality) < Number(bestQuality)) best = all.find(i => i["quality"].split('p')[0] === quality);
 
-            return { urls: best["url"], filename: `tumblr_${obj.id}.mp4` };
-        case "dash":
-            if (api.video.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
-
-            let masterJSONURL = api["request"]["files"]["dash"]["cdns"]["akfire_interconnect_quic"]["url"];
-            let masterJSON = await fetch(masterJSONURL).then((r) => { return r.json() }).catch(() => { return false });
-
-            if (!masterJSON) return { error: 'ErrorCouldntFetch' };
-            if (!masterJSON.video) return { error: 'ErrorEmptyDownload' };
-
-            let type = "parcel";
-            if (masterJSON.base_url === "../") type = "chop";
-
-            let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width));
-            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter((a)=> {if (a['mime_type'] === "audio/mp4") return true;});
-            let bestVideo = masterJSON_Video[0], bestAudio = masterJSON_Audio[0];
-
-            switch (type) {
-                case "parcel":
-                    if (obj.quality !== "max") {
-                        let pref = parseInt(obj.quality, 10)
-                        for (let i in masterJSON_Video) {
-                            let currQuality = parseInt(resolutionMatch[masterJSON_Video[i]["width"]], 10)
-                            if (currQuality < pref) {
-                                break;
-                            } else if (String(currQuality) === String(pref)) {
-                                bestVideo = masterJSON_Video[i]
-                            }
-                        }
-                    }
-
-                    let baseUrl = masterJSONURL.split("/sep/")[0];
-                    let videoUrl = `${baseUrl}/parcel/video/${bestVideo.index_segment.split('?')[0]}`,
-                        audioUrl = `${baseUrl}/parcel/audio/${bestAudio.index_segment.split('?')[0]}`;
-
-                    return { urls: [videoUrl, audioUrl], audioFilename: `vimeo_${obj.id}_audio`, filename: `vimeo_${obj.id}_${bestVideo["width"]}x${bestVideo["height"]}.mp4` }
-                case "chop": // TO-DO: support for chop stream type
-                default:
-                    return { error: 'ErrorEmptyDownload' }
-            }
-        default:
-            return { error: 'ErrorEmptyDownload' }
+        if (!best) return { error: 'ErrorEmptyDownload' };
+        return { urls: best["url"], audioFilename: `vimeo_${obj.id}_audio`, filename: `vimeo_${obj.id}_${best["width"]}x${best["height"]}.mp4` }
     }
+
+    if (api.video.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+
+    let masterJSONURL = api["request"]["files"]["dash"]["cdns"]["akfire_interconnect_quic"]["url"];
+    let masterJSON = await fetch(masterJSONURL).then((r) => { return r.json() }).catch(() => { return false });
+
+    if (!masterJSON) return { error: 'ErrorCouldntFetch' };
+    if (!masterJSON.video) return { error: 'ErrorEmptyDownload' };
+
+    let type = "parcel";
+    if (masterJSON.base_url === "../") type = "chop";
+
+    let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)),
+        bestVideo = masterJSON_Video[0];
+    if (Number(quality) < Number(resolutionMatch[bestVideo["width"]])) bestVideo = masterJSON_Video.find(i => resolutionMatch[i["width"]] === quality);
+
+    let videoUrl, audioUrl, baseUrl = masterJSONURL.split("/sep/")[0];
+    switch (type) {
+        case "parcel":
+            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter((a) => { if (a['mime_type'] === "audio/mp4") return true }),
+                bestAudio = masterJSON_Audio[0];
+            videoUrl = `${baseUrl}/parcel/video/${bestVideo.index_segment.split('?')[0]}`,
+            audioUrl = `${baseUrl}/parcel/audio/${bestAudio.index_segment.split('?')[0]}`;
+            break;
+        case "chop":
+            videoUrl = `${baseUrl}/sep/video/${bestVideo.id}/master.m3u8`;
+            break;
+    }
+    if (videoUrl) {
+        return {
+            urls: audioUrl ? [videoUrl, audioUrl] : videoUrl,
+            isM3U8: audioUrl ? false : true,
+            audioFilename: `vimeo_${obj.id}_audio`,
+            filename: `vimeo_${obj.id}_${bestVideo["width"]}x${bestVideo["height"]}.mp4`
+        }
+    }
+    return { error: 'ErrorEmptyDownload' }
 }

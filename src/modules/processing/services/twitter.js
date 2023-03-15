@@ -81,8 +81,8 @@ export default async function(obj) {
         ).then((r) =>{ return r.status === 200 ? r.json() : false }).catch(() => { return false });
         if (!streamStatus) return { error: 'ErrorCouldntFetch' };
 
-        let participants = AudioSpaceById.data.audioSpace.participants.speakers;
-        let listOfParticipants = `Twitter Space speakers: `;
+        let participants = AudioSpaceById.data.audioSpace.participants.speakers,
+            listOfParticipants = `Twitter Space speakers: `;
         for (let i in participants) { listOfParticipants += `@${participants[i]["twitter_screen_name"]}, ` }
         listOfParticipants = listOfParticipants.slice(0, -2);
 

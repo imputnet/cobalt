@@ -44,8 +44,8 @@ export default async function(o) {
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]);
-    let audio = adaptive_formats.find(i => checkBestAudio(i) && i["is_original"]);
+    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]),
+        audio = adaptive_formats.find(i => checkBestAudio(i) && i["is_original"]);
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i => checkBestAudio(i) && i["language"] === o.dubLang);
@@ -74,11 +74,11 @@ export default async function(o) {
         return r
     }
 
-    let checkSingle = (i) => ((i['quality_label'].split('p')[0] === quality || i['quality_label'].split('p')[0] === bestQuality) && i["mime_type"].includes(c[o.format].codec));
-    let checkBestVideo = (i) => (i['quality_label'].split('p')[0] === bestQuality && !i["has_audio"] && i["has_video"]);
-    let checkRightVideo = (i) => (i['quality_label'].split('p')[0] === quality && !i["has_audio"] && i["has_video"]);
+    let checkSingle = (i) => ((i['quality_label'].split('p')[0] === quality || i['quality_label'].split('p')[0] === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
+        checkBestVideo = (i) => (i['quality_label'].split('p')[0] === bestQuality && !i["has_audio"] && i["has_video"]),
+        checkRightVideo = (i) => (i['quality_label'].split('p')[0] === quality && !i["has_audio"] && i["has_video"]);
 
-    if (!o.isAudioOnly && !o.isAudioMuted) {
+    if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         let single = info.streaming_data.formats.find(i => checkSingle(i));
         if (single) return {
             type: "bridge",

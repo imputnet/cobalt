@@ -92,11 +92,15 @@ export function streamAudioOnly(streamInfo, res) {
                 args.push('-vn')
             }
             args = args.concat(metadataManager(streamInfo.metadata))
+        } else {
+            args.push('-vn')
         }
-        let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"]
-        args = args.concat(arg)
+        let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"];
+        args = args.concat(arg);
+
         if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
+
         const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
             stdio: [
@@ -126,9 +130,11 @@ export function streamVideoOnly(streamInfo, res) {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
             '-loglevel', '-8',
             '-i', streamInfo.urls,
-            '-c', 'copy', '-an'
+            '-c', 'copy'
         ]
-        if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
+        if (streamInfo.mute) args.push('-an');
+        if (streamInfo.service === "vimeo") args.push('-bsf:a', 'aac_adtstoasc');
+        if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
         args.push('-f', format, 'pipe:3');
         const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
@@ -138,7 +144,7 @@ export function streamVideoOnly(streamInfo, res) {
             ],
         });
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}_mute.${format}"`);
+        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}${streamInfo.mute ? '_mute' : ''}.${format}"`);
         ffmpegProcess.stdio[3].pipe(res);
 
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
