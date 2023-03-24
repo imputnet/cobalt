@@ -31,7 +31,7 @@ app.disable('x-powered-by');
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
         windowMs: 60000,
-        max: 18,
+        max: 25,
         standardHeaders: false,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
@@ -41,7 +41,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     });
     const apiLimiterStream = rateLimit({
         windowMs: 60000,
-        max: 18,
+        max: 28,
         standardHeaders: false,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
@@ -52,8 +52,10 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
 
     await buildFront(commitHash, branch);
 
-    app.use('/api/', apiLimiter);
+    app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
+    app.use('/api/onDemand', apiLimiter);
+
     app.use('/', express.static('./min'));
     app.use('/', express.static('./src/front'));
 
