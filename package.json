@@ -33,6 +33,6 @@
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",
-        "youtubei.js": "^3.3.0"
+        "youtubei.js": "4.1.0"
     }
 }

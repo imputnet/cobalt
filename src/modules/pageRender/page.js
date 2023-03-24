@@ -68,7 +68,7 @@ export default function(obj) {
 
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
-    <body id="cobalt-body" data-nosnippet>
+    <body id="cobalt-body" data-nosnippet ontouchstart>
         ${multiPagePopup({
             name: "about",
             closeAria: t('AccessibilityClosePopup'),

@@ -8,5 +8,8 @@ package-lock.json
 # esbuild
 min
 
-#page build
+# page build
 build
+
+# stuff i already made but delayed
+future

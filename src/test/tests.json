@@ -96,6 +96,18 @@
             "status": "stream"
         }
     }, {
+        "name": "retweeted video",
+        "url": "https://twitter.com/winload_exe/status/1633091769482063874",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": false,
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "inexistent post",
         "url": "https://twitter.com/test/status/9487653",
         "params": {

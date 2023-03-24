@@ -39,9 +39,16 @@ export default async function(obj) {
             req_status = await fetch(showURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
         }
         if (!req_status) return { error: 'ErrorCouldntFetch' };
-        if (!req_status["extended_entities"] || !req_status["extended_entities"]["media"]) return { error: 'ErrorNoVideosInTweet' };
 
-        let single, multiple = [], media = req_status["extended_entities"]["media"];
+        let baseStatus;
+        if (req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
+            baseStatus = req_status["extended_entities"]
+        } else if (req_status["retweeted_status"] && req_status["retweeted_status"]["extended_entities"] && req_status["retweeted_status"]["extended_entities"]["media"]) {
+            baseStatus = req_status["retweeted_status"]["extended_entities"]
+        }
+        if (!baseStatus) return { error: 'ErrorNoVideosInTweet' };
+
+        let single, multiple = [], media = baseStatus["media"];
         media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true })
         if (media.length > 1) {
             for (let i in media) { multiple.push({type: "video", thumb: media[i]["media_url_https"], url: bestQuality(media[i]["video_info"]["variants"])}) }
@@ -59,16 +66,16 @@ export default async function(obj) {
             return { error: 'ErrorNoVideosInTweet' }
         }
     } else {
-        _headers["host"] = "twitter.com"
-        _headers["content-type"] = "application/json"
+        _headers["host"] = "twitter.com";
+        _headers["content-type"] = "application/json";
 
         let query = {
-            variables: {"id": obj.spaceId,"isMetatagsQuery":true,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true,"withReplays":true},
-            features: {"spaces_2022_h2_clipping":true,"spaces_2022_h2_spaces_communities":true,"verified_phone_label_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}
+            variables: {"id": obj.spaceId,"isMetatagsQuery":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withReplays":true},
+            features: {"spaces_2022_h2_clipping":true,"spaces_2022_h2_spaces_communities":true,"responsive_web_twitter_blue_verified_badge_is_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false}
         }
         query.variables = new URLSearchParams(JSON.stringify(query.variables)).toString().slice(0, -1);
         query.features = new URLSearchParams(JSON.stringify(query.features)).toString().slice(0, -1);
-        query = `https://twitter.com/i/api/graphql/wJ5g4zf7v8qPHSQbaozYuw/AudioSpaceById?variables=${query.variables}&features=${query.features}`
+        query = `https://twitter.com/i/api/graphql/Gdz2uCtmIGMmhjhHG3V7nA/AudioSpaceById?variables=${query.variables}&features=${query.features}`;
 
         let AudioSpaceById = await fetch(query, { headers: _headers }).then((r) => {return r.status === 200 ? r.json() : false}).catch((e) => { return false });
         if (!AudioSpaceById) return { error: 'ErrorEmptyDownload' };
