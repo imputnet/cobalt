@@ -545,6 +545,7 @@ input[type="checkbox"] {
     margin-right: 0.4rem;
     user-select: none;
     -webkit-user-select: none;
+    pointer-events: none;
 }
 .picker-image {
     object-fit: cover;
