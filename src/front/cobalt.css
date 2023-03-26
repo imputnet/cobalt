@@ -53,9 +53,10 @@ body {
     margin: 0;
     background: var(--background);
     color: var(--accent);
+    -webkit-tap-highlight-color: var(--transparent);
     font-family: var(--font-mono);
     user-select: none;
-    -webkit-tap-highlight-color: var(--transparent);
+    -webkit-user-select: none;
     overflow: hidden;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -64,6 +65,7 @@ a {
     color: var(--accent);
     text-decoration: none;
     user-select: none;
+    -webkit-user-select: none;
 }
 ::placeholder {
     color: var(--accent-unhover-2);
@@ -281,6 +283,7 @@ input[type="checkbox"] {
     gap: 0.3rem;
     margin-top: 0.5rem;
     user-select: none;
+    -webkit-user-select: none;
 }
 ::-moz-selection {
     background-color: var(--accent);
@@ -357,6 +360,7 @@ input[type="checkbox"] {
     float: left;
     line-height: var(--line-height);
     user-select: text;
+    -webkit-user-select: text;
 }
 #popup-title {
     font-size: 1.5rem;
@@ -506,6 +510,7 @@ input[type="checkbox"] {
 }
 .text-to-copy {
     user-select: text;
+    -webkit-user-select: text;
     border: var(--border-15);
     padding: var(--padding-1);
     overflow: auto;
@@ -539,6 +544,7 @@ input[type="checkbox"] {
 .emoji {
     margin-right: 0.4rem;
     user-select: none;
+    -webkit-user-select: none;
 }
 .picker-image {
     object-fit: cover;
@@ -596,6 +602,7 @@ input[type="checkbox"] {
 .collapse-list {
     background: var(--accent-press);
     user-select: none;
+    -webkit-user-select: none;
 }
 .collapse-header {
     padding: var(--padding-1);
@@ -623,6 +630,7 @@ input[type="checkbox"] {
     display: none;
     padding: var(--padding-1);
     user-select: text;
+    -webkit-user-select: text;
 }
 .expanded .collapse-body {
     display: block
