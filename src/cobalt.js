@@ -27,6 +27,7 @@ const branch = getCurrentBranch();
 const app = express();
 
 app.disable('x-powered-by');
+app.use('/api/:type', cors())
 
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
@@ -80,7 +81,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
     }));
 
-    app.post('/api/json', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), async (req, res) => {
+    app.post('/api/json', async (req, res) => {
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             let lang = languageCode(req);
@@ -104,7 +105,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         }
     });
 
-    app.get('/api/:type', cors({ origin: process.env.selfURL, optionsSuccessStatus: 200 }), (req, res) => {
+    app.get('/api/:type', (req, res) => {
         try {
             let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
             switch (req.params.type) {
