@@ -117,6 +117,7 @@
         "SettingsDubDefault": "оригинал",
         "SettingsDubAuto": "авто",
         "SettingsVimeoPrefer": "тип загрузок с vimeo",
-        "SettingsVimeoPreferDescription": "progressive: прямая ссылка на файл с сервера vimeo. максимальное качество: 1080p.\ndash: {appName} совмещает видео и аудио в один файл. максимальное качество: 4k.\n\nвыбирай \"progressive\", если тебе нужна наилучшая совместимость с плеерами/редакторами/соцсетями. если \"progressive\" файл недоступен, {appName} скачает \"dash\"."
+        "SettingsVimeoPreferDescription": "progressive: прямая ссылка на файл с сервера vimeo. максимальное качество: 1080p.\ndash: {appName} совмещает видео и аудио в один файл. максимальное качество: 4k.\n\nвыбирай \"progressive\", если тебе нужна наилучшая совместимость с плеерами/редакторами/соцсетями. если \"progressive\" файл недоступен, {appName} скачает \"dash\".",
+        "LeftHanded": "режим левши"
     }
 }

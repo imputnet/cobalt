@@ -68,7 +68,7 @@ export default function(obj) {
 
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
-    <body id="cobalt-body" data-nosnippet ontouchstart>
+    <body id="cobalt-body" ${platform === "p" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
         ${multiPagePopup({
             name: "about",
             closeAria: t('AccessibilityClosePopup'),
@@ -314,7 +314,7 @@ export default function(obj) {
                             "action": "light",
                             "text": t('SettingsThemeLight')
                         }]
-                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), 4, t('AccessibilityKeepDownloadButton'))
+                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), 4, t('AccessibilityKeepDownloadButton')) + checkbox("leftHandedLayout", t('LeftHanded'), 4)
                 }) + settingsCategory({
                     name: "miscellaneous",
                     title: t('Miscellaneous'),

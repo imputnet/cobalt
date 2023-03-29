@@ -15,7 +15,7 @@ let switchers = {
     "dubLang": ["original", "auto"],
     "vimeoDash": ["false", "true"]
 }
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio", "leftHandedLayout"];
 let exceptions = { // used for mobile devices
     "vQuality": "720"
 }
@@ -241,12 +241,12 @@ function internetError() {
     popup("error", 1, loc.noInternet);
 }
 function checkbox(action) {
-    if (eid(action).checked) {
-        sSet(action, "true");
-        if (action === "alwaysVisibleButton") button();
-    } else {
-        sSet(action, "false");
-        if (action === "alwaysVisibleButton") button();
+    sSet(action, !!eid(action).checked);
+    switch(action) {
+        case "alwaysVisibleButton": button(); break;
+        case "leftHandedLayout":
+            eid("bottom").setAttribute("data-lefthanded", sGet("leftHandedLayout"));
+            break;
     }
     sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
 }
@@ -321,11 +321,13 @@ function resetSettings() {
     window.location.reload();
 }
 async function pasteClipboard() {
-    let t = await navigator.clipboard.readText();
-    if (regex.test(t)) {
-        eid("url-input-area").value = t;
-        download(eid("url-input-area").value);
-    }
+    try {
+        let t = await navigator.clipboard.readText();
+        if (regex.test(t)) {
+            eid("url-input-area").value = t;
+            download(eid("url-input-area").value);
+        }
+    } catch (e) {}
 }
 async function download(url) {
     changeDownloadButton(2, '...');
@@ -449,6 +451,7 @@ window.onload = () => {
     eid("cobalt-main-box").style.visibility = 'visible';
     eid("footer").style.visibility = 'visible';
     eid("url-input-area").value = "";
+    eid("bottom").setAttribute("data-lefthanded", sGet("leftHandedLayout"));
     notificationCheck();
     if (isIOS) sSet("downloadPopup", "true");
     let urlQuery = new URLSearchParams(window.location.search).get("u");

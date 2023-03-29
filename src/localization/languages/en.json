@@ -94,7 +94,7 @@
         "ChangelogPressToHide": "collapse",
         "Donate": "donate",
         "DonateSub": "help me keep it up",
-        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but turns out keeping up a web service used by over 40 thousand of people is somewhat costly.\n\nif you ever found {appName} useful and want to keep it online, or simply want to thank the developer, consider chipping in! each and every cent helps and is VERY appreciated :D",
+        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but turns out keeping up a web service used by over 40 thousand people is somewhat costly.\n\nif you ever found {appName} useful and want to keep it online, or simply want to thank the developer, consider chipping in! each and every cent helps and is VERY appreciated :D",
         "DonateVia": "donate via",
         "DonateHireMe": "or you can <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">hire me</a>",
         "SettingsVideoMute": "mute audio",
@@ -117,6 +117,7 @@
         "SettingsDubDefault": "original",
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "vimeo downloads type",
-        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead."
+        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
+        "LeftHanded": "left-handed layout"
     }
 }

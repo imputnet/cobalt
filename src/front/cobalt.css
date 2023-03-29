@@ -4,9 +4,10 @@
     --border-15: 0.15rem solid var(--accent);
     --border-10: 0.1rem solid var(--accent);
     --font-mono: 'Noto Sans Mono', 'Consolas', 'SF Mono', monospace;
-    --red: rgb(255, 0, 61);
     --padding-1: 0.75rem;
     --line-height: 1.65rem;
+    --red: rgb(255, 0, 61);
+    --color: rgb(107, 67, 139);
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -17,6 +18,7 @@
         --accent-unhover: rgb(100, 100, 100);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(0, 0, 0);
+        --checkmark: url(vectorIcons/checkmark_b.svg);
     }
 }
 @media (prefers-color-scheme: light) {
@@ -28,6 +30,7 @@
         --accent-unhover: rgb(190, 190, 190);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(255, 255, 255);
+        --checkmark: url(vectorIcons/checkmark.svg);
     }
 }
 [data-theme="dark"] {
@@ -38,6 +41,7 @@
     --accent-unhover: rgb(100, 100, 100);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(0, 0, 0);
+    --checkmark: url(vectorIcons/checkmark_b.svg);
 }
 [data-theme="light"] {
     --accent: rgb(25, 25, 25);
@@ -47,6 +51,7 @@
     --accent-unhover: rgb(190, 190, 190);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(255, 255, 255);
+    --checkmark: url(vectorIcons/checkmark.svg);
 }
 html,
 body {
@@ -89,15 +94,20 @@ a {
     content: "";
     width: 15px;
     height: 15px;
-    border: var(--border-15);
-    background-color: var(--accent-button-bg);
+    border: 0.15rem solid var(--accent);
     display: block;
     z-index: 5;
     position: relative;
 }
 [type="checkbox"]:checked::before {
-    box-shadow: inset 0 0 0 0.14rem var(--accent-button-bg);
+    background: var(--checkmark);
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+[type="checkbox"]:checked::before {
     background-color: var(--accent);
+    border: 0.15rem solid var(--accent);
 }
 .checkbox span {
     margin-top: 0.21rem;
@@ -115,11 +125,12 @@ input[type="text"],
 [type="text"] {
     border-radius: 0;
 }
-button:hover,
-.switch:hover,
-.checkbox:hover,
-.text-to-copy:hover,
-.collapse-header:hover {
+.desktop button:hover,
+.desktop .switch:hover,
+.desktop .checkbox:hover,
+.desktop .text-to-copy:hover,
+.desktop .collapse-header:hover,
+.desktop #close-button:hover {
     background: var(--accent-hover);
     cursor: pointer;
 }
@@ -135,9 +146,9 @@ button:active,
     background: var(--accent-press);
     cursor: pointer;
 }
-.switch.text-backdrop:hover,
+.desktop .switch.text-backdrop:hover,
 .switch.text-backdrop:active,
-.text-to-copy.text-backdrop:hover,
+.desktop .text-to-copy.text-backdrop:hover,
 .text-to-copy.text-backdrop:active {
     background: var(--accent);
     color: var(--background);
@@ -494,6 +505,9 @@ input[type="checkbox"] {
     cursor: default;
     z-index: 999
 }
+.switch[data-enabled="true"]:hover {
+    background: var(--accent);
+}
 .switches {
     display: flex;
     width: auto;
@@ -709,13 +723,18 @@ input[type="checkbox"] {
         padding-bottom: 2rem;
     }
 }
+@media screen and (min-width: 720px) {
+    #leftHandedLayout-chkbx {
+        display: none;
+    }
+}
 /* mobile page */
 @media screen and (max-width: 720px) {
     #cobalt-main-box, #footer {
         width: 90%;
     }
 }
-@media screen and (max-width: 475px) {
+@media screen and (max-width: 499px) {
     .tab {
         font-size: 0!important;
     }
@@ -724,6 +743,9 @@ input[type="checkbox"] {
     }
     #cobalt-main-box, #footer {
         width: 90%;
+    }
+    .checkbox {
+        width: 100%;
     }
 }
 @media screen and (max-width: 320px) {
@@ -758,12 +780,17 @@ input[type="checkbox"] {
     #cobalt-main-box #bottom button {
         width: 100%;
     }
+    #cobalt-main-box #bottom {
+        flex-direction: row-reverse;
+    }
+    #cobalt-main-box #bottom[data-lefthanded="true"] {
+        flex-direction: row;
+    }
     #pasteFromClipboard .emoji {
         margin-right: 0;
     }
     #pasteFromClipboard {
         width: 20%!important;
-        min-width: 15%;
         font-size: 0;
     }
     #footer {
