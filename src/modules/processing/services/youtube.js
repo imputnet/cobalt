@@ -90,7 +90,10 @@ export default async function(o) {
     let video = adaptive_formats.find(i => ((Number(quality) > Number(bestQuality)) ? checkBestVideo(i) : checkRightVideo(i)));
     if (video && audio) return {
         type: "render",
-        urls: [video.url, audio.url],
+        urls: [
+            video.url + '&cpn=' + info.cpn + '&__clen=' + video.content_length, 
+            audio.url + '&cpn=' + info.cpn + '&__clen=' + audio.content_length
+        ],
         filename: `youtube_${o.id}_${video.width}x${video.height}_${o.format}${isDubbed ? `_${o.dubLang}`:''}.${c[o.format].container}`
     };
 
