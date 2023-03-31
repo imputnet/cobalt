@@ -38,6 +38,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
+            return;
         }
     });
     const apiLimiterStream = rateLimit({
@@ -48,6 +49,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
+            return;
         }
     });
 
@@ -73,10 +75,17 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             try {
                 JSON.parse(buf);
                 if (buf.length > 720) throw new Error();
-                if (String(req.header('Content-Type')) !== "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid content type header' })
-                if (String(req.header('Accept')) !== "application/json") res.status(500).json({ 'status': 'error', 'text': 'invalid accept header' })
+                if (String(req.header('Content-Type')) !== "application/json") {
+                    res.status(400).json({ 'status': 'error', 'text': 'invalid content type header' });
+                    return;
+                }
+                if (String(req.header('Accept')) !== "application/json") {
+                    res.status(400).json({ 'status': 'error', 'text': 'invalid accept header' });
+                    return;
+                }
             } catch(e) {
-                res.status(500).json({ 'status': 'error', 'text': 'invalid json body.' })
+                res.status(400).json({ 'status': 'error', 'text': 'invalid json body.' });
+                return;
             }
         }
     }));
@@ -100,8 +109,10 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                 j = apiJSON(0, { t: loc(lang, 'ErrorCantProcess') });
             }
             res.status(j.status).json(j.body);
+            return;
         } catch (e) {
-            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
+            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') });
+            return;
         }
     });
 
@@ -112,11 +123,13 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                 case 'stream':
                     if (req.query.p) {
                         res.status(200).json({ "status": "continue" });
+                        return;
                     } else if (req.query.t && req.query.h && req.query.e) {
                         stream(res, ip, req.query.t, req.query.h, req.query.e);
                     } else {
                         let j = apiJSON(0, { t: "no stream id" })
                         res.status(j.status).json(j.body);
+                        return;
                     }
                     break;
                 case 'onDemand':
@@ -144,7 +157,8 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
                     break;
             }
         } catch (e) {
-            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') })
+            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') });
+            return;
         }
     });
     app.get("/api", (req, res) => {
