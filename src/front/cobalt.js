@@ -354,11 +354,6 @@ async function download(url) {
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
         if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
-    if (url.includes("https://pornhub.com") || url.includes("https://www.pornhub.com")) {
-        req.url = "https://www.youtube.com/watch?v=yPYZpwSpKmA";
-        req.vQuality = "720";
-        req.vCodec = "h264"
-    }
     await fetch('/api/json', { method: "POST", body: JSON.stringify(req), headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } }).then(async (r) => {
         let j = await r.json();
         if (j.status !== "error" && j.status !== "rate-limit") {

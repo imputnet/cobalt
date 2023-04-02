@@ -111,8 +111,8 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(j.status).json(j.body);
             return;
         } catch (e) {
-            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') });
-            return;
+            res.destroy();
+            return
         }
     });
 
