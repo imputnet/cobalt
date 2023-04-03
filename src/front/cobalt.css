@@ -212,7 +212,8 @@ input[type="checkbox"] {
 }
 #url-input-area {
     background: var(--background);
-    padding: 1.2rem 1rem;
+    height: 2.5rem;
+    padding: 0 1rem;
     width: 100%;
     color: var(--accent);
     border: 0;
