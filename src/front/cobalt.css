@@ -195,12 +195,12 @@ input[type="checkbox"] {
 }
 #cobalt-main-box #top {
     display: inline-flex;
-    height: 2rem;
+    height: 2.5rem;
     margin-top: -0.6rem;
     flex-direction: row;
 }
 #cobalt-main-box #bottom {
-    padding-top: 1.5rem;
+    padding-top: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -212,7 +212,6 @@ input[type="checkbox"] {
 }
 #url-input-area {
     background: var(--background);
-    height: 2.5rem;
     padding: 0 1rem;
     width: 100%;
     color: var(--accent);
