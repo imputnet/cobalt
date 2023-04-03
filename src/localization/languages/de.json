@@ -78,7 +78,7 @@
         "ImagePickerExplanationPhone": "Drücken und halten Sie ein Bild, um es zu speichern.",
         "ErrorNoUrlReturned": "ich habe keinen download-link vom server erhalten. versuche es bitte noch einmal. wenn das problem weiterhin besteht, {ContactLink}",
         "ErrorUnknownStatus": "ich habe eine antwort erhalten, die ich nicht verarbeiten kann. das sollte niemals passieren. versuche es nochmal. falls es dann immer noch nicht geht, {ContactLink}",
-        "PasteFromClipboard": "einfügen",
+        "PasteFromClipboard": "einfügen und herunterladen",
         "ChangelogOlder": "vorherige Version",
         "ChangelogPressToExpand": "aufklappen",
         "Miscellaneous": "Sonstiges",
@@ -117,7 +117,6 @@
         "SettingsDubDefault": "German (de-de)",
         "SettingsDubAuto": "Auto",
         "SettingsVimeoPrefer": "Vimeo Download-Typ",
-        "SettingsVimeoPreferDescription": "progressive: direkter link zu vimeo's cdn. maximal 1080p.\ndash: video und audio werden durch {appName} zu einer datei kombiniert. maximal 4k.\n\nwähle \"progressive\" für bessere kompabilität mit editoren/wiedergabe/sozialen medien. falls progressive nicht funktioniert, wird automatisch dash genutzt. ",
-        "LeftHanded": "linkshändiges Layout"
+        "SettingsVimeoPreferDescription": "progressive: direkter link zu vimeo's cdn. maximal 1080p.\ndash: video und audio werden durch {appName} zu einer datei kombiniert. maximal 4k.\n\nwähle \"progressive\" für bessere kompabilität mit editoren/wiedergabe/sozialen medien. falls progressive nicht funktioniert, wird automatisch dash genutzt. "
     }
 }
