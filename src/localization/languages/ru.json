@@ -78,7 +78,7 @@
         "ImagePickerExplanationPhone": "зажми и удерживай картинку, чтобы её сохранить.",
         "ErrorNoUrlReturned": "я не получил ссылку для скачивания от сервера. такого происходить не должно. попробуй ещё раз, а если не поможет, то {ContactLink}.",
         "ErrorUnknownStatus": "сервер ответил мне чем-то непонятным. такого происходить не должно. попробуй ещё раз, а если не поможет, то {ContactLink}.",
-        "PasteFromClipboard": "вставить",
+        "PasteFromClipboard": "вставить и скачать",
         "ChangelogOlder": "предыдущие версии (на английском)",
         "ChangelogPressToExpand": "раскрыть",
         "Miscellaneous": "разное",
@@ -117,7 +117,6 @@
         "SettingsDubDefault": "оригинал",
         "SettingsDubAuto": "авто",
         "SettingsVimeoPrefer": "тип загрузок с vimeo",
-        "SettingsVimeoPreferDescription": "progressive: прямая ссылка на файл с сервера vimeo. максимальное качество: 1080p.\ndash: {appName} совмещает видео и аудио в один файл. максимальное качество: 4k.\n\nвыбирай \"progressive\", если тебе нужна наилучшая совместимость с плеерами/редакторами/соцсетями. если \"progressive\" файл недоступен, {appName} скачает \"dash\".",
-        "LeftHanded": "режим левши"
+        "SettingsVimeoPreferDescription": "progressive: прямая ссылка на файл с сервера vimeo. максимальное качество: 1080p.\ndash: {appName} совмещает видео и аудио в один файл. максимальное качество: 4k.\n\nвыбирай \"progressive\", если тебе нужна наилучшая совместимость с плеерами/редакторами/соцсетями. если \"progressive\" файл недоступен, {appName} скачает \"dash\"."
     }
 }

@@ -8,6 +8,7 @@
     --line-height: 1.65rem;
     --red: rgb(255, 0, 61);
     --color: rgb(107, 67, 139);
+    --gap: 0.6rem;
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -179,14 +180,17 @@ input[type="checkbox"] {
     position: fixed;
     width: 60%;
     height: auto;
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
 }
-#logo-area {
-    padding-right: 3rem;
-    padding-top: 0.1rem;
+#logo {
     text-align: left;
     font-size: 1rem;
     white-space: nowrap;
+    width: 7rem;
+    height: 2.5rem;
+    align-items: center;
+    display: flex;
 }
 #download-area {
     display: flex;
@@ -196,7 +200,6 @@ input[type="checkbox"] {
 #cobalt-main-box #top {
     display: inline-flex;
     height: 2.5rem;
-    margin-top: -0.6rem;
     flex-direction: row;
 }
 #cobalt-main-box #bottom {
@@ -222,13 +225,11 @@ input[type="checkbox"] {
     font-size: 0.8rem;
 }
 #url-clear {
+    height: 100%;
     background: none;
-    padding: 0 1.1rem;
-    font-size: 1rem;
+    padding: 0 1rem 0.2rem;
     transform: none;
-    line-height: 0;
-    height: 1.6rem;
-    margin-top: .4rem;
+    font-size: 1rem;
 }
 #url-input-area:focus {
     outline: none;
@@ -260,7 +261,7 @@ input[type="checkbox"] {
 #cobalt-main-box #bottom,
 #footer-buttons,
 #footer-buttons, .footer-pair {
-    gap: 0.6rem;
+    gap: var(--gap);
 }
 #footer-buttons, .footer-pair {
     display: flex;
@@ -270,7 +271,7 @@ input[type="checkbox"] {
 .footer-button {
     width: auto!important;
     color: var(--accent-unhover-2);
-    padding: 0.6rem 1.2rem!important;
+    padding: var(--gap) 1.2rem!important;
     align-content: center;
 }
 .notification-dot {
@@ -339,7 +340,6 @@ input[type="checkbox"] {
 }
 .changelog-banner {
     width: 100%;
-    background-color: var(--accent-button-bg);
     max-height: 300px;
     margin-bottom: 1.65rem;
     float: left;
@@ -488,7 +488,7 @@ input[type="checkbox"] {
 .switch {
     padding: 0.7rem;
     width: 100%;
-    text-align: center;
+    text-align: left;
     color: var(--accent);
     background: var(--accent-button-bg);
     display: flex;
@@ -601,7 +601,7 @@ input[type="checkbox"] {
     position: absolute;
     background: var(--background);
     color: var(--accent);
-    padding: 0.3rem 0.6rem;
+    padding: 0.3rem var(--gap);
     font-size: 0.8rem;
     opacity: 0.7;
     margin: 0.4rem;
@@ -612,7 +612,7 @@ input[type="checkbox"] {
 }
 #cobalt-main-box #bottom button {
     width: auto;
-    padding: 0.6rem 1.2rem;
+    padding: var(--gap) 1.2rem;
 }
 .collapse-list {
     background: var(--accent-press);
@@ -723,11 +723,6 @@ input[type="checkbox"] {
         padding-bottom: 2rem;
     }
 }
-@media screen and (min-width: 720px) {
-    #leftHandedLayout-chkbx {
-        display: none;
-    }
-}
 /* mobile page */
 @media screen and (max-width: 720px) {
     #cobalt-main-box, #footer {
@@ -753,8 +748,17 @@ input[type="checkbox"] {
         font-size: 1.3rem;
         line-height: 2rem;
     }
-    .footer-button {
+    .footer-button,
+    #audioMode-false,
+    #audioMode-true,
+    #paste {
         font-size: 0!important;
+    }
+    .footer-button .emoji,
+    #audioMode-false .emoji,
+    #audioMode-true .emoji,
+    #paste .emoji {
+        margin-right: 0;
     }
     .switch, .checkbox, .category-title, .subtitle, #popup-desc {
         font-size: .75rem;
@@ -772,26 +776,13 @@ input[type="checkbox"] {
     .category-title {
         margin-bottom: 0.8rem;
     }
-    .footer-button .emoji {
-        margin-right: 0;
-    }
 }
 @media screen and (max-width: 720px) {
+    #cobalt-main-box #bottom {
+        flex-direction: column-reverse;
+    }
     #cobalt-main-box #bottom button {
         width: 100%;
-    }
-    #cobalt-main-box #bottom {
-        flex-direction: row-reverse;
-    }
-    #cobalt-main-box #bottom[data-lefthanded="true"] {
-        flex-direction: row;
-    }
-    #pasteFromClipboard .emoji {
-        margin-right: 0;
-    }
-    #pasteFromClipboard {
-        width: 20%!important;
-        font-size: 0;
     }
     #footer {
         bottom: 4%;
@@ -804,19 +795,17 @@ input[type="checkbox"] {
     .footer-pair .footer-button {
         width: 100%!important;
     }
-    #logo-area {
-        padding-right: 0;
-        padding-top: 0;
-        position: fixed;
-        line-height: 0;
-        margin-top: -2rem;
+    #logo {
         width: 100%;
-        text-align: center;
+        height: auto;
+        justify-content: center;
     }
     #cobalt-main-box {
         display: flex;
         border: none;
         padding: 0;
+        flex-direction: column;
+        gap: var(--gap);
     }
 }
 @media screen and (max-width: 949px) {

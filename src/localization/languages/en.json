@@ -78,7 +78,7 @@
         "ImagePickerExplanationPhone": "press and hold an image to save it.",
         "ErrorNoUrlReturned": "i didn't get a download link from the server. this should never happen. try again, but if it still doesn't work, {ContactLink}.",
         "ErrorUnknownStatus": "i received a response i can't process. this should never happen. try again, but if it still doesn't work, {ContactLink}.",
-        "PasteFromClipboard": "paste",
+        "PasteFromClipboard": "paste and download",
         "ChangelogOlder": "previous versions",
         "ChangelogPressToExpand": "expand",
         "Miscellaneous": "miscellaneous",
@@ -117,7 +117,6 @@
         "SettingsDubDefault": "original",
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "vimeo downloads type",
-        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
-        "LeftHanded": "left-handed layout"
+        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead."
     }
 }
