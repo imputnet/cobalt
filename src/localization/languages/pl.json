@@ -78,7 +78,7 @@
         "ImagePickerExplanationPhone": "naciśnij i przytrzymaj zdjęcie by go zapisać.",
         "ErrorNoUrlReturned": "nie otrzymałem linku do pobrania pliku z serwera. to nigdy nie powinno się zdarzyć. spróbuj ponownie, jeśli wciąż pojawia się problem, {ContactLink}",
         "ErrorUnknownStatus": "odebrałem odpowiedź, którą nie jestem w stanie przetworzyć. to nigdy nie powinno się zdarzyć. spróbuj ponownie, jeśli wciąż pojawia się problem, {ContactLink}",
-        "PasteFromClipboard": "wkleić następnie pobrać",
+        "PasteFromClipboard": "wklej i pobierz",
         "ChangelogOlder": "poprzednie wersje",
         "ChangelogPressToExpand": "rozwiń",
         "Miscellaneous": "pozostałe",
