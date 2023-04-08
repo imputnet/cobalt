@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "5.3.1",
+    "version": "5.3.2",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -30,6 +30,7 @@
         "express-rate-limit": "^6.3.0",
         "ffmpeg-static": "^5.1.0",
         "got": "^12.1.0",
+        "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",

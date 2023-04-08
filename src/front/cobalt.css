@@ -147,8 +147,10 @@ button:active,
     background: var(--accent-press);
     cursor: pointer;
 }
+.switch.text-backdrop,
 .switch.text-backdrop:hover,
 .switch.text-backdrop:active,
+.text-to-copy.text-backdrop,
 .text-to-copy.text-backdrop:hover,
 .text-to-copy.text-backdrop:active {
     background: var(--accent);
@@ -648,7 +650,13 @@ input[type="checkbox"] {
     -webkit-user-select: text;
 }
 .expanded .collapse-body {
-    display: block
+    display: block;
+}
+#download-switcher .switches {
+    gap: var(--gap);
+}
+#pd-share {
+    display: none;
 }
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
