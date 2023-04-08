@@ -91,6 +91,9 @@ function copy(id, data) {
     setTimeout(() => { e.classList.remove("text-backdrop") }, 600);
     data ? navigator.clipboard.writeText(data) : navigator.clipboard.writeText(e.innerText);
 }
+async function share(url) {
+    try { await navigator.share({url: url}) } catch (e) {}
+}
 function detectColorScheme() {
     let theme = "auto";
     let localTheme = sGet("theme");
@@ -174,6 +177,8 @@ function popup(type, action, text) {
             case "download":
                 eid("pd-download").href = text;
                 eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
+                eid("pd-share").setAttribute("onClick", `share('${text}')`);
+                if (navigator.canShare) eid("pd-share").style.display = "flex";
                 break;
             case "picker":
                 switch (text.type) {

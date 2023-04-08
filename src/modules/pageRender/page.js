@@ -333,7 +333,8 @@ export default function(obj) {
                 name: "download",
                 subtitle: t('DownloadPopupWayToSave'),
                 explanation: `${!isIOS ? t('DownloadPopupDescription') : t('DownloadPopupDescriptionIOS')}`,
-                items: `<a id="pd-download" class="switch full space-right" target="_blank" href="/">${t('Download')}</a>
+                items: `<a id="pd-download" class="switch full" target="_blank" href="/">${t('Download')}</a>
+                <div id="pd-share" class="switch full">${t('ShareURL')}</div>
                 <div id="pd-copy" class="switch full">${t('CopyURL')}</div>`
             })
         })}

@@ -52,7 +52,7 @@
         "DownloadPopupWayToSave": "pick a way to save",
         "ClickToCopy": "press to copy",
         "Download": "download",
-        "CopyURL": "copy url",
+        "CopyURL": "copy",
         "AboutTab": "about",
         "ChangelogTab": "changelog",
         "DonationsTab": "donations",
@@ -117,6 +117,7 @@
         "SettingsDubDefault": "original",
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "vimeo downloads type",
-        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead."
+        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
+        "ShareURL": "share"
     }
 }
