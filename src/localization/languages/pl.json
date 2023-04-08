@@ -52,7 +52,7 @@
         "DownloadPopupWayToSave": "wybierz sposób zapisu",
         "ClickToCopy": "kliknij aby skopiować",
         "Download": "pobierz",
-        "CopyURL": "skopiuj url",
+        "CopyURL": "kopiuj",
         "AboutTab": "o aplikacji",
         "ChangelogTab": "lista zmian",
         "DonationsTab": "darowizny",
@@ -117,6 +117,7 @@
         "SettingsDubDefault": "oryginalne",
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "typ pobieranych plików z vimeo",
-        "SettingsVimeoPreferDescription": "progresywny: bezpośredni link do cdn vimeo. maksymalna jakość to 1080p.\ndash: filmik i audio są scalane przez {appName} w jeden plik. maksymalna jakość to 4k.\n\nwybierz \"progresywny\" jak celujesz w najlepszą kompatybilność z edytorami/odtwarzaczami/mediami społecznościowymi. jeśli progresywne pobieranie nie jest dostępne, użyj \"dash\"."
+        "SettingsVimeoPreferDescription": "progresywny: bezpośredni link do cdn vimeo. maksymalna jakość to 1080p.\ndash: filmik i audio są scalane przez {appName} w jeden plik. maksymalna jakość to 4k.\n\nwybierz \"progresywny\" jak celujesz w najlepszą kompatybilność z edytorami/odtwarzaczami/mediami społecznościowymi. jeśli progresywne pobieranie nie jest dostępne, użyj \"dash\".",
+        "ShareURL": "udostępnij"
     }
 }
