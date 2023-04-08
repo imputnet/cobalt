@@ -6,6 +6,7 @@ const locPath = './src/localization/languages'
 
 let loc = {}
 let languages = [];
+let languageNames = [];
 
 export function loadLoc() {
     fs.readdir(locPath, (err, files) => {
@@ -13,6 +14,7 @@ export function loadLoc() {
         files.forEach(file => {
             loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`);
             languages.push(file.split('.')[0])
+            languageNames.push({value: file.split('.')[0], name: loc[file.split('.')[0]].name })
         });
     })
 }
@@ -46,3 +48,4 @@ export default function(lang, string, replacement) {
     }
 }
 export const languageList = languages;
+export const languagePickerNames = languageNames;

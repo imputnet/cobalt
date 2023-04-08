@@ -84,11 +84,24 @@ export function cleanURL(url, host) {
     }
     return url.slice(0, 128)
 }
+export function getCookie(req, id) {
+    if(!req.headers.cookie) return undefined;
+    let cookies = {};
+    for(let i of req.headers.cookie.split(';')) {
+        const [key, value] = i.trim().split('=');
+        cookies[key] = value;
+    }
+    return cookies[id]
+}
 export function verifyLanguageCode(code) {
     return RegExp(/[a-z]{2}/).test(String(code.slice(0, 2).toLowerCase())) ? String(code.slice(0, 2).toLowerCase()) : "en"
 }
 export function languageCode(req) {
-    return req.header('Accept-Language') ? verifyLanguageCode(req.header('Accept-Language')) : "en"
+    const overrideLanguage = getCookie(req, 'language');
+    let language;
+    if(overrideLanguage) language = overrideLanguage
+    else language = req.header('Accept-Language');
+    return language ? verifyLanguageCode(language) : 'en';
 }
 export function unicodeDecode(str) {
     return str.replace(/\\u[\dA-F]{4}/gi, (unicode) => {

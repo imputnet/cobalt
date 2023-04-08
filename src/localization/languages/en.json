@@ -117,6 +117,8 @@
         "SettingsDubDefault": "original",
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "vimeo downloads type",
-        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead."
+        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
+        "SettingsAccessibilitySubtitle": "accessibility",
+        "SettingsAccessibilityLanguage": "interface language:"
     }
 }

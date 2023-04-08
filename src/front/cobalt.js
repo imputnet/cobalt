@@ -20,6 +20,7 @@ let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
 let exceptions = { // used for mobile devices
     "vQuality": "720"
 }
+let dropdowns = ["language"]
 
 function eid(id) {
     return document.getElementById(id)
@@ -29,6 +30,19 @@ function sGet(id) {
 }
 function sSet(id, value) {
     localStorage.setItem(id, value)
+}
+function setCookie(id, value, expire = 730, path = "/") { // by default expire in 2 years
+    const d = new Date();
+    d.setTime(d.getTime() + (expire * 24 * 60 * 60 * 1000));
+    document.cookie = `${id}=${value};expires=${d.toUTCString()};path=${path}`;
+}
+function getCookie(id) {
+    const cookies = {};
+    for(let i of document.cookie.split(';')) {
+        const [key, value] = i.split('=');
+        cookies[key] = value;
+    }
+    return cookies[id];
 }
 function enable(id) {
     eid(id).dataset.enabled = "true";
@@ -248,6 +262,15 @@ function checkbox(action) {
     }
     action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
 }
+function dropdownSelect(action) {
+    let value = eid(`${action}-select`).value;
+    if(action === "language") { // language has to be a cookie because the server needs to read the value
+        setCookie(action, value);
+        window.location.reload();
+    } else {
+        sSet(action, value)
+    }
+}
 function loadSettings() {
     try {
         if (typeof(navigator.clipboard.readText) == "undefined") throw new Error();
@@ -267,6 +290,13 @@ function loadSettings() {
     }
     for (let i in switchers) {
         changeSwitcher(i, sGet(i))
+    }
+    for (let i of dropdowns) {
+        if(i == 'language') {
+            eid(`${i}-select`).value = getCookie(i) || document.documentElement.lang;
+        } else{
+            eid(`${i}-select`).value = sGet(i);
+        }
     }
 }
 function changeButton(type, text) {

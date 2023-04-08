@@ -1,7 +1,7 @@
-import { backdropLink, celebrationsEmoji, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink } from "./elements.js";
+import { backdropLink, celebrationsEmoji, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, dropdownSelect } from "./elements.js";
 import { services as s, appName, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
-import loc from "../../localization/manager.js";
+import loc, { languagePickerNames } from "../../localization/manager.js";
 import emoji from "../emoji.js";
 import changelogManager from "../changelog/changelogManager.js";
 
@@ -319,6 +319,10 @@ export default function(obj) {
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
                     body: checkbox("disableChangelog", t('SettingsDisableNotifications')) + `${!isIOS ? checkbox("downloadPopup", t('SettingsEnableDownloadPopup'), 1, t('AccessibilityEnableDownloadPopup')) : ''}`
+                }) + settingsCategory({
+                    name: "accessibility",
+                    title: t('SettingsAccessibilitySubtitle'),
+                    body: dropdownSelect(t('SettingsAccessibilityLanguage'), 'language', languagePickerNames)
                 })
             }],
         })}

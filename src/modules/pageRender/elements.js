@@ -173,3 +173,16 @@ export function celebrationsEmoji() {
     let dm = `${n[1]}-${n[2]}`;
     return Object.keys(celebrations).includes(dm) ? celebrations[dm] : "🐲";
 }
+
+export function dropdownSelect(label, action, options) {
+    let items = `
+    <div class="dropdown-select">
+        <label for="${action}-select">${label}</label>
+        <select name="${action}-select" id="${action}-select" onchange="dropdownSelect('${action}');">`;
+
+    for (let i of options) {
+        items += `<option value="${i.value}">${i.name}</option>`;
+    }
+    items += '</select></div>';
+    return items;
+}

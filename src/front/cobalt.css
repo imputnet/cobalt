@@ -863,3 +863,36 @@ input[type="checkbox"] {
         width: 6rem;
     }
 }
+.dropdown-select {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    /* padding: 0.55rem 1rem 0.8rem 0.7rem; */
+    width: fit-content;
+    background: var(--accent-button-bg);
+    font-size: 0.9rem;
+}
+.dropdown-select label {
+    margin: 0.55rem var(--padding-1) 0.8rem 0.7rem;
+}
+.dropdown-select select {
+    background: var(--accent-button-bg);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    line-height: 1.35rem;
+    height: 2.65rem;
+    border: none;
+}
+.dropdown-select select:hover {
+    background: var(--accent-hover);
+}
+
+.dropdown-select select option:hover {
+    background: var(--accent-hover);
+}
+
+.dropdown-select select option {
+    line-height: 0.9rem;
+    height: 2.25rem;
+}
