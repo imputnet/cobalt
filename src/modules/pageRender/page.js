@@ -41,7 +41,7 @@ export default function(obj) {
 
     try {
         return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${obj.lang}">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}" />
