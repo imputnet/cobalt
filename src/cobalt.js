@@ -26,8 +26,9 @@ const commitHash = shortCommit();
 const branch = getCurrentBranch();
 const app = express();
 
+const corsConfig = process.env.cors === '0' ? { origin: process.env.selfURL, optionsSuccessStatus: 200 } : {};
+
 app.disable('x-powered-by');
-app.use('/api/:type', cors())
 
 if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
@@ -55,6 +56,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
 
     await buildFront(commitHash, branch);
 
+    app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/api/onDemand', apiLimiter);

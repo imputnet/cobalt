@@ -147,9 +147,9 @@ button:active,
     background: var(--accent-press);
     cursor: pointer;
 }
-.desktop .switch.text-backdrop:hover,
+.switch.text-backdrop:hover,
 .switch.text-backdrop:active,
-.desktop .text-to-copy.text-backdrop:hover,
+.text-to-copy.text-backdrop:hover,
 .text-to-copy.text-backdrop:active {
     background: var(--accent);
     color: var(--background);
