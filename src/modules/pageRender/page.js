@@ -51,7 +51,7 @@ export default function(obj) {
         <meta property="og:url" content="${process.env.selfURL}" />
         <meta property="og:title" content="${appName}" />
         <meta property="og:description" content="${t('EmbedBriefDescription')}" />
-        <meta property="og:image" content="${process.env.selfURL}icons/generic.png" />
+        <meta property="og:image" content="icons/generic.png" />
         <meta name="title" content="${appName}" />
         <meta name="description" content="${t('AboutSummary')}" />
         <meta name="theme-color" content="#000000" />

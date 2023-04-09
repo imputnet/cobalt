@@ -21,15 +21,15 @@ import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
 import findRendered from "./modules/pageRender/findRendered.js";
 
-const commitHash = shortCommit();
-const branch = getCurrentBranch();
-const app = express();
-
-const corsConfig = process.env.cors === '0' ? { origin: process.env.selfURL, optionsSuccessStatus: 200 } : {};
-
-app.disable('x-powered-by');
-
 if (process.env.selfURL && process.env.streamSalt && process.env.port) {
+    const commitHash = shortCommit();
+    const branch = getCurrentBranch();
+    const app = express();
+
+    app.disable('x-powered-by');
+
+    const corsConfig = process.env.cors === '0' ? { origin: process.env.selfURL, optionsSuccessStatus: 200 } : {};
+
     const apiLimiter = rateLimit({
         windowMs: 60000,
         max: 25,
@@ -64,7 +64,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
     app.use('/', express.static('./src/front'));
 
     app.use((req, res, next) => {
-        try { decodeURIComponent(req.path) } catch (e) { return res.redirect(process.env.selfURL) }
+        try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
         next();
     });
     app.use((req, res, next) => {
