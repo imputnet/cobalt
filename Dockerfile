@@ -6,6 +6,7 @@ RUN apt-get update
 RUN apt-get install -y git
 RUN rm -rf /var/lib/apt/lists/*
 RUN npm install
+RUN rm -rf .git
 RUN git clone -n https://github.com/wukko/cobalt.git --depth 1 && mv cobalt/.git ./ && rm -rf cobalt
 COPY . .
 EXPOSE 9000
