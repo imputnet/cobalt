@@ -166,6 +166,9 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     app.get("/api", (req, res) => {
         res.redirect('/api/json')
     });
+    app.get("/status", (req, res) => {
+        res.status(200).end()
+    });
     app.get("/", (req, res) => {
         res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`);
     });
