@@ -43,7 +43,7 @@ rl.question(q, r1 => {
         if (r2) ob['port'] = r2
         if (!r1 && r2) ob['selfURL'] = `http://localhost:${r2}/`
 
-        console.log(Bright("\nIf you would like to enable CORS, enter 'y'. (y)\nCORS allows other websites and extensions to use your instance's API."))
+        console.log(Bright("\nWould you like to enable CORS? It allows other websites and extensions to use your instance's API.\n y/n (n)"))
 
         rl.question(q, r3 => {
             if (r3.toLowerCase() !== 'y') ob['cors'] = '0'
