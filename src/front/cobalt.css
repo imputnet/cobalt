@@ -658,6 +658,10 @@ input[type="checkbox"] {
 #pd-share {
     display: none;
 }
+#hop-attribution {
+    display: block;
+    text-align: right;
+}
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
     html {

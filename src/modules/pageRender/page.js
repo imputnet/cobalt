@@ -106,6 +106,7 @@ export default function(obj) {
                             "title": t("CollapsePrivacy"),
                             "body": t("PrivacyPolicy")
                         }])
+                        + `${process.env.DEPLOYMENT_ID && process.env.INTERNAL_IP ? '<a id="hop-attribution" class="explanation" href="https://hop.io/" target="_blank">powered by hop.io</a>' : ''}`
                     }]
                 })
             }, {
