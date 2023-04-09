@@ -2,7 +2,6 @@ import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
-import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
 import path from 'path';
@@ -30,7 +29,7 @@ const corsConfig = process.env.cors === '0' ? { origin: process.env.selfURL, opt
 
 app.disable('x-powered-by');
 
-if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
+if (process.env.selfURL && process.env.streamSalt && process.env.port) {
     const apiLimiter = rateLimit({
         windowMs: 60000,
         max: 25,

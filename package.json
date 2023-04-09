@@ -6,7 +6,7 @@
     "exports": "./src/cobalt.js",
     "type": "module",
     "engines": {
-        "node": ">=17.5"
+        "node": ">=18"
     },
     "scripts": {
         "start": "node src/cobalt",

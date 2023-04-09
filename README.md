@@ -77,7 +77,7 @@ It's also possible to host cobalt via a Docker image, but in that case you'd nee
 That includes:
 | Variable     | Example                          | 
 | --------     | :---                             |
-| `selfUrl`    | `https://co.wukko.me/`           |
+| `selfURL`    | `https://co.wukko.me/`           |
 | `port`       | `9000`                           |
 | `streamSalt` | `randomly generated sha512 hash` |
 | `cors`       | `0`                              |
