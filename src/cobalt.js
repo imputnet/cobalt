@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename).slice(0, -4); // go up another level 
 import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
-import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
+import { apiJSON, checkJSONPost, getIP, languageCode } from "./modules/sub/utils.js";
 import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
@@ -35,7 +35,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
         max: 25,
         standardHeaders: false,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
+        keyGenerator: (req, res) => sha256(getIP(req), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
             return;
@@ -46,7 +46,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
         max: 28,
         standardHeaders: false,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
+        keyGenerator: (req, res) => sha256(getIP(req), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
             return;
@@ -93,7 +93,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
 
     app.post('/api/json', async (req, res) => {
         try {
-            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(getIP(req), process.env.streamSalt);
             let lang = languageCode(req);
             let j = apiJSON(0, { t: "Bad request" });
             try {
@@ -119,7 +119,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
 
     app.get('/api/:type', (req, res) => {
         try {
-            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(getIP(req), process.env.streamSalt);
             switch (req.params.type) {
                 case 'stream':
                     if (req.query.p) {
