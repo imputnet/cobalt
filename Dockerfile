@@ -1,9 +1,12 @@
 FROM node:18-bullseye-slim
 WORKDIR /app
 COPY package*.json ./
-COPY .git ./
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+ARG GIT_COMMIT
+RUN apt-get update
+RUN apt-get install -y git
+RUN rm -rf /var/lib/apt/lists/*
 RUN npm install
+RUN git clone -n https://github.com/wukko/cobalt.git --depth 1 && cd cobalt && git checkout ${GIT_COMMIT} ./
 COPY . .
 EXPOSE 9000
 CMD [ "node", "src/cobalt" ]

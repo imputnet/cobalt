@@ -4,6 +4,7 @@ let commit, commitInfo, branch;
 
 export function shortCommit() {
     if (commit) return commit;
+    if (process.env.GIT_COMMIT) return process.env.GIT_COMMIT;
     let c = execSync('git rev-parse --short HEAD').toString().trim();
     commit = c;
     return c
@@ -17,6 +18,7 @@ export function getCommitInfo() {
 }
 export function getCurrentBranch() {
     if (branch) return branch;
+    if (process.env.GIT_BRANCH) return process.env.GIT_BRANCH;
     let b = execSync('git branch --show-current').toString().trim();
     branch = b;
     return b
