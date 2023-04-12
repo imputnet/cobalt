@@ -38,7 +38,7 @@ export function createStream(obj) {
         exp = streamInfo.exp;
         ghmac = streamInfo.hmac;
     }
-    return `${process.env.selfURL}api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
+    return `/api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
 }
 
 export function verifyStream(ip, id, hmac, exp) {
@@ -46,7 +46,7 @@ export function verifyStream(ip, id, hmac, exp) {
         if (id.length === 21) {
             let streamInfo = streamCache.get(id);
             if (!streamInfo) return { error: 'this stream token does not exist', status: 400 };
-    
+
             let ghmac = sha256(`${id},${ip},${streamInfo.service},${exp}`, salt);
             if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
                 && String(ip) === streamInfo.ip && Number(exp) > Math.floor(new Date().getTime())) {

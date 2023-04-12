@@ -366,7 +366,8 @@ async function download(url) {
                         break;
                     case "stream":
                         changeDownloadButton(2, '?..')
-                        fetch(`${j.url}&p=1`).then(async (res) => {
+                        const streamUrl = location.origin + j.url;
+                        fetch(`${streamUrl}&p=1`).then(async (res) => {
                             let jp = await res.json();
                             if (jp.status === "continue") {
                                 changeDownloadButton(2, '>>>'); window.location.href = j.url;
