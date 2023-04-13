@@ -54,6 +54,24 @@ export default async function(obj) {
     let clientId = await findClientID();
     if (!clientId) return { error: 'ErrorSoundCloudNoClientId' };
 
+    const audioFilename = `soundcloud_${json.id}`;
+    const fileMetadata = {
+        title: json.title,
+        artist: json.user.username,
+    };
+
+    if (json.downloadable) {
+        const downloadUrl = 'https://api-v2.soundcloud.com/tracks/' + json.id + '/download?client_id=' + clientId;
+        const redirectUri = await fetch(downloadUrl).then(async (r) => { return (await r.json()).redirectUri })
+            .catch(() => { return false });
+        if (redirectUri)
+            return {
+                urls: redirectUri,
+                audioFilename,
+                fileMetadata
+            };
+    }
+
     let fileUrlBase = json.media.transcodings[0]["url"].replace("/hls", "/progressive"),
         fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
@@ -65,10 +83,7 @@ export default async function(obj) {
 
     return {
         urls: file,
-        audioFilename: `soundcloud_${json.id}`,
-        fileMetadata: {
-            title: json.title,
-            artist: json.user.username,
-        }
+        audioFilename,
+        fileMetadata
     }
 }
