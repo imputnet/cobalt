@@ -792,7 +792,7 @@
         }
     }, {
         "name": "inexistent post",
-        "url": "https://www.instagram.com/reel/XXXXXXXXXX/",
+        "url": "https://www.instagram.com/p/XXXXXXXXXX/",
         "params": {},
         "expected": {
             "code": 400,
