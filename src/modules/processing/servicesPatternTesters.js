@@ -5,9 +5,9 @@ export const testers = {
     "vk": (patternMatch) => (patternMatch["userId"] && patternMatch["videoId"]
         && patternMatch["userId"].length <= 10 && patternMatch["videoId"].length === 9),
 
-    "bilibili": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length >= 12),
+    "bilibili": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
 
-    "youtube": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length >= 11),
+    "youtube": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 11),
 
     "reddit": (patternMatch) => (patternMatch["sub"] && patternMatch["id"] && patternMatch["title"]
         && patternMatch["sub"].length <= 22 && patternMatch["id"].length <= 10 && patternMatch["title"].length <= 96),
@@ -24,5 +24,7 @@ export const testers = {
     "vimeo": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length <= 11)),
     
     "soundcloud": (patternMatch) => ((patternMatch["author"] && patternMatch["song"]
-        && (patternMatch["author"].length + patternMatch["song"].length) <= 96) || (patternMatch["shortLink"] && patternMatch["shortLink"].length <= 32))
+        && (patternMatch["author"].length + patternMatch["song"].length) <= 96) || (patternMatch["shortLink"] && patternMatch["shortLink"].length <= 32)),
+
+    "instagram": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12)
 }

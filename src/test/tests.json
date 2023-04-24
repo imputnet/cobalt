@@ -755,5 +755,48 @@
             "code": 200,
             "status": "redirect"
         }
+    }],
+    "instagram": [{
+        "name": "several videos in a post (picker)",
+        "url": "https://www.instagram.com/p/CqifaD0qiDt/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
+        "name": "reel",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "reel (isAudioOnly)",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent reel",
+        "url": "https://www.instagram.com/reel/XXXXXXXXXX/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "inexistent post",
+        "url": "https://www.instagram.com/reel/XXXXXXXXXX/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
     }]
 }

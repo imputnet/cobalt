@@ -51,6 +51,11 @@
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
             "bestAudio": "none",
             "enabled": true
+        },
+        "instagram": {
+            "alias": "instagram reels & video posts",
+            "patterns": ["reels/:id", "reel/:id", "p/:id"],
+            "enabled": true
         }
     }    
 }
