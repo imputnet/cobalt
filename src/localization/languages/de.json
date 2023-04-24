@@ -51,8 +51,8 @@
         "DownloadPopupDescription": "Der Download-Button öffnet einen neuen Tab mit der angeforderten Datei. Sie können dieses Pop-up in den Einstellungen deaktivieren.",
         "DownloadPopupWayToSave": "wähle einen Weg zum Speichern",
         "ClickToCopy": "Drücken zum Kopieren",
-        "Download": "herunterladen",
-        "CopyURL": "URL kopieren",
+        "Download": "Herunterladen",
+        "CopyURL": "Kopieren",
         "AboutTab": "Über",
         "ChangelogTab": "Änderungsverlauf",
         "DonationsTab": "Spenden",
@@ -94,13 +94,13 @@
         "ChangelogPressToHide": "einklappen",
         "Donate": "Spende",
         "DonateSub": "Hilf mir, es am laufen zu halten.",
-        "DonateExplanation": "{appName} zeigt keine Werbung und verkauft auch deine Daten nicht. Daher ist es <span class=\"text-backdrop\">völlig kostenlos</span> nutzbar. Aber es stellt sich heraus, dass der Betrieb eines Webdienstes, der von tausenden Menschen genutzt wird, ziemlich kostspielig ist.\n\nWenn du {appName} nützlich findest und es online halten willst, oder einfach dem Entwickler danken willst, kannst du etwas finanziell beitragen! Jeder cent hilft und wird SEHR geschätzt :D",
+        "DonateExplanation": "{appName} schaltet keine Werbung und verkauft Ihre Daten nicht (und wird es auch nie tun), daher ist es <span class=\"text-backdrop\">völlig kostenlos zu nutzen</span>. Jedoch stellt es sich heraus, dass die Entwicklung und Aufrechterhaltung eines Webdienstes, welcher von über 80 Tausend Menschen genutzt wird, nicht so einfach ist.\n\nWenn Sie jemals {appName} nützlich fanden und es online halten möchten oder einfach dem Entwickler danken möchten, können Sie gerne einen Beitrag leisten! Jeder Cent hilft und wird SEHR geschätzt :D",
         "DonateVia": "Spenden via",
-        "DonateHireMe": "oder du kannst <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">mich einstellen</a>",
+        "DonateHireMe": "...alternativ kannst du mich auch <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">beauftragen</a> :)",
         "SettingsVideoMute": "Ton stummschalten",
         "SettingsVideoMuteExplanation": "entfernt audio von video-downloads wenn möglich.",
         "ErrorSoundCloudNoClientId": "ich konnte den temporären token nicht erhalten, der benötigt wird, um songs aus soundcloud herunterzuladen. versuche es noch einmal. falls das Problem weiterhin besteht, {ContactLink}.",
-        "CollapseServices": "unterstützte dienste",
+        "CollapseServices": "unterstützte Dienste",
         "CollapseSupport": "support & quellcode",
         "CollapsePrivacy": "datenschutzrichtlinie",
         "ServicesNote": "diese liste ist nicht vollständig und erweitert sich im laufe der zeit, denke daran nochmal nachzuschauen!",
@@ -117,6 +117,7 @@
         "SettingsDubDefault": "German (de-de)",
         "SettingsDubAuto": "Auto",
         "SettingsVimeoPrefer": "Vimeo Download-Typ",
-        "SettingsVimeoPreferDescription": "progressive: direkter link zu vimeo's cdn. maximal 1080p.\ndash: video und audio werden durch {appName} zu einer datei kombiniert. maximal 4k.\n\nwähle \"progressive\" für bessere kompabilität mit editoren/wiedergabe/sozialen medien. falls progressive nicht funktioniert, wird automatisch dash genutzt. "
+        "SettingsVimeoPreferDescription": "progressive: direkter link zu vimeo's cdn. maximal 1080p.\ndash: video und audio werden durch {appName} zu einer datei kombiniert. maximal 4k.\n\nwähle \"progressive\" für bessere kompabilität mit editoren/wiedergabe/sozialen medien. falls progressive nicht funktioniert, wird automatisch dash genutzt. ",
+        "ShareURL": "Teilen"
     }
 }
