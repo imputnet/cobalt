@@ -432,7 +432,7 @@ window.onload = () => {
     eid("url-input-area").value = "";
     notificationCheck();
     if (isIOS) sSet("downloadPopup", "true");
-    let urlQuery = new URLSearchParams(window.location.search).get("u");
+    let urlQuery = new URLSearchParams(window.location.search).get("u") || window.location.search.substring(1);
     if (urlQuery !== null && regex.test(urlQuery)) {
         eid("url-input-area").value = urlQuery;
         button();
