@@ -100,7 +100,7 @@
         "SettingsVideoMute": "Ton stummschalten",
         "SettingsVideoMuteExplanation": "entfernt audio von video-downloads wenn möglich.",
         "ErrorSoundCloudNoClientId": "ich konnte den temporären token nicht erhalten, der benötigt wird, um songs aus soundcloud herunterzuladen. versuche es noch einmal. falls das Problem weiterhin besteht, {ContactLink}.",
-        "CollapseServices": "unterstützte Dienste",
+        "CollapseServices": "unterstützte dienste",
         "CollapseSupport": "support & quellcode",
         "CollapsePrivacy": "datenschutzrichtlinie",
         "ServicesNote": "diese liste ist nicht vollständig und erweitert sich im laufe der zeit, denke daran nochmal nachzuschauen!",
