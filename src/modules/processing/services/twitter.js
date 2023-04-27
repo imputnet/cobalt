@@ -1,54 +1,73 @@
 import { genericUserAgent } from "../../config.js";
+import crypto from "crypto";
 
 function bestQuality(arr) {
     return arr.filter((v) => { if (v["content_type"] === "video/mp4") return true }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"].split("?")[0]
 }
-const apiURL = "https://api.twitter.com/1.1"
+const apiURL = "https://api.twitter.com"
 
-// TO-DO: move from 1.1 api to graphql
 export default async function(obj) {
     let _headers = {
         "user-agent": genericUserAgent,
         "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
         // ^ no explicit content, but with multi media support
-        "host": "api.twitter.com"
+        "host": "api.twitter.com",
+        "x-twitter-client-language": "en",
+        "x-twitter-active-user": "yes",
+        "Accept-Language": "en"
     };
-    let req_act = await fetch(`${apiURL}/guest/activate.json`, {
+    let conversationURL = `${apiURL}/2/timeline/conversation/${obj.id}.json?cards_platform=Web-12&tweet_mode=extended&include_cards=1&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&simple_quoted_tweet=true&trim_user=1`;
+    let activateURL = `${apiURL}/1.1/guest/activate.json`;
+
+    let req_act = await fetch(activateURL, {
         method: "POST",
         headers: _headers
     }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
     if (!req_act) return { error: 'ErrorCouldntFetch' };
 
     _headers["x-guest-token"] = req_act["guest_token"];
-    let showURL = `${apiURL}/statuses/show/${obj.id}.json?tweet_mode=extended&include_user_entities=0&trim_user=1&include_entities=0&cards_platform=Web-12&include_cards=1`;
+    _headers["cookie"] = [
+        `guest_id_ads=v1%3A${req_act["guest_token"]}`,
+        `guest_id_marketing=v1%3A${req_act["guest_token"]}`,
+        `guest_id=v1%3A${req_act["guest_token"]}`,
+        `ct0=${crypto.randomUUID().replace(/-/g, '')};`
+    ].join('; ');
 
     if (!obj.spaceId) {
-        let req_status = await fetch(showURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
-        if (!req_status) {
+        let conversation = await fetch(conversationURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
+        if (!conversation || !conversation.globalObjects.tweets[obj.id]) {
             _headers.authorization = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
             // ^ explicit content, but no multi media support
-            delete _headers["x-guest-token"]
+            delete _headers["x-guest-token"];
+            delete _headers["cookie"];
 
-            req_act = await fetch(`${apiURL}/guest/activate.json`, {
+            req_act = await fetch(activateURL, {
                 method: "POST",
                 headers: _headers
             }).then((r) => { return r.status === 200 ? r.json() : false}).catch(() => { return false });
             if (!req_act) return { error: 'ErrorCouldntFetch' };
 
-            _headers["x-guest-token"] = req_act["guest_token"];
-            req_status = await fetch(showURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
-        }
-        if (!req_status) return { error: 'ErrorCouldntFetch' };
+            _headers["x-guest-token"] = req_act["guest_token"]
+            _headers['cookie'] = [
+                `guest_id_ads=v1%3A${req_act["guest_token"]}`,
+                `guest_id_marketing=v1%3A${req_act["guest_token"]}`,
+                `guest_id=v1%3A${req_act["guest_token"]}`,
+                `ct0=${crypto.randomUUID().replace(/-/g, '')};`
+            ].join('; ');
 
-        let baseStatus;
-        if (req_status["extended_entities"] && req_status["extended_entities"]["media"]) {
-            baseStatus = req_status["extended_entities"]
-        } else if (req_status["retweeted_status"] && req_status["retweeted_status"]["extended_entities"] && req_status["retweeted_status"]["extended_entities"]["media"]) {
-            baseStatus = req_status["retweeted_status"]["extended_entities"]
+            conversation = await fetch(conversationURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
         }
-        if (!baseStatus) return { error: 'ErrorNoVideosInTweet' };
+        if (!conversation || !conversation.globalObjects.tweets[obj.id]) return { error: 'ErrorTweetUnavailable' };
 
-        let single, multiple = [], media = baseStatus["media"];
+        let baseMedia, baseTweet = conversation.globalObjects.tweets[obj.id];
+        if (baseTweet.retweeted_status_id_str && conversation.globalObjects.tweets[baseTweet.retweeted_status_id_str].extended_entities) {
+            baseMedia = conversation.globalObjects.tweets[baseTweet.retweeted_status_id_str].extended_entities
+        } else if (baseTweet.extended_entities && baseTweet.extended_entities.media) {
+            baseMedia = baseTweet.extended_entities
+        }
+        if (!baseMedia) return { error: 'ErrorNoVideosInTweet' };
+
+        let single, multiple = [], media = baseMedia["media"];
         media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true })
         if (media.length > 1) {
             for (let i in media) { multiple.push({type: "video", thumb: media[i]["media_url_https"], url: bestQuality(media[i]["video_info"]["variants"])}) }

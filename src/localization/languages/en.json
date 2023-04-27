@@ -71,7 +71,7 @@
         "SettingsAudioFullTikTok": "full audio",
         "SettingsAudioFullTikTokDescription": "downloads original sound used in the video without any additional changes by the post's author.",
         "ErrorCantGetID": "i couldn't get the full info from the shortened link. make sure it works or try a full one! if issue persists, {ContactLink}.",
-        "ErrorNoVideosInTweet": "there are no videos or gifs in this tweet, try another one!",
+        "ErrorNoVideosInTweet": "i couldn't find any media content in this tweet. try another one!",
         "ImagePickerTitle": "pick images to download",
         "ImagePickerDownloadAudio": "download audio",
         "ImagePickerExplanationPC": "right click an image to save it.",
@@ -118,6 +118,7 @@
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "vimeo downloads type",
         "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
-        "ShareURL": "share"
+        "ShareURL": "share",
+        "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!"
     }
 }

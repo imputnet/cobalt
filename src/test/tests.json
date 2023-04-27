@@ -97,6 +97,30 @@
         }
     }, {
         "name": "retweeted video",
+        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "retweeted video",
+        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "age-restricted video",
+        "url": "https://twitter.com/FckyeahCharli/status/1650987582749065220",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "retweeted video, isAudioOnly",
         "url": "https://twitter.com/winload_exe/status/1633091769482063874",
         "params": {
             "aFormat": "mp3",
