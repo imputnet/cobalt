@@ -71,7 +71,7 @@
         "SettingsAudioFullTikTok": "pełne audio",
         "SettingsAudioFullTikTokDescription": "pobiera oryginalny dźwięk użyty w filmiku bez dodatkowych zmian od strony autora filmu.",
         "ErrorCantGetID": "nie udało mi się uzyskać wszystkich informacji ze skróconego linku. upewnij się, że działa, albo spróbuj użyć pełnego! jeśli wciąż pojawia się problem, {ContactLink}",
-        "ErrorNoVideosInTweet": "w tym tweecie nie ma ani filmów, ani gifów, spróbuj inny!",
+        "ErrorNoVideosInTweet": "nie mogłem znaleźć żadnych treści multimedialnych w tym tweecie. spróbuj innego!",
         "ImagePickerTitle": "wybierz zdjęcia do pobrania",
         "ImagePickerDownloadAudio": "pobierz dźwięk",
         "ImagePickerExplanationPC": "kliknij prawym przyciskiem myszy na zdjęcie, by je zapisać.",
@@ -94,9 +94,9 @@
         "ChangelogPressToHide": "zwiń",
         "Donate": "darowizny",
         "DonateSub": "pomóż mi utrzymać",
-        "DonateExplanation": "{appName} nigdy, przenigdy nie pokaże ci reklam, ani nie odsprzeda twoich danych, co czyni go <span class=\"text-backdrop\">w pełni darmowym</span>. ale utrzymywanie serwisu dla ponad 40 tysięcy użytkowników okazuje się być nieco kosztowne.\n\njeśli {appName} ułatwił ci kiedyś życie i chcesz pomóc utrzymać stronę online, albo po prostu podziękować twórcy, rozważ wysłanie dotacji developerowi! każdy grosik pomaga i jest MEGA mile widziany :D",
+        "DonateExplanation": "{appName} nigdy, przenigdy nie pokaże ci reklam, ani nie odsprzeda twoich danych, co czyni go <span class=\"text-backdrop\">w pełni darmowym</span>. ale okazuje się, że rozwój i utrzymywanie serwisu dla ponad 80 tysięcy użytkowników nie jest takie proste, jak by się mogło zdawać.\n\njeśli {appName} ułatwił ci kiedyś życie i chcesz pomóc utrzymać stronę online, albo po prostu podziękować twórcy, rozważ wysłanie dotacji developerowi! każdy grosik pomaga i jest MEGA mile widziany :D",
         "DonateVia": "przekaż darowiznę poprzez",
-        "DonateHireMe": "albo po prostu możesz <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">mnie zatrudnić</a>",
+        "DonateHireMe": "...albo możesz <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">mnie zatrudnić</a> :)",
         "SettingsVideoMute": "wycisz dźwięk",
         "SettingsVideoMuteExplanation": "usuwa dźwięk z pobranego filmu, gdy to możliwe",
         "ErrorSoundCloudNoClientId": "nie udało mi się pozyskać tymczasowego tokenu, który wymagany jest do pobrania utworów z soundcloud. spróbuj ponownie, jeśli wciąż pojawia się problem, {ContactLink}",
@@ -118,6 +118,7 @@
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "typ pobieranych plików z vimeo",
         "SettingsVimeoPreferDescription": "progresywny: bezpośredni link do cdn vimeo. maksymalna jakość to 1080p.\ndash: filmik i audio są scalane przez {appName} w jeden plik. maksymalna jakość to 4k.\n\nwybierz \"progresywny\" jak celujesz w najlepszą kompatybilność z edytorami/odtwarzaczami/mediami społecznościowymi. jeśli progresywne pobieranie nie jest dostępne, użyj \"dash\".",
-        "ShareURL": "udostępnij"
+        "ShareURL": "udostępnij",
+        "ErrorTweetUnavailable": "nie udało mi się odnaleźć tego tweetu. bardzo możliwe, że jest o ograniczonej widoczności. spróbuj innego!"
     }
 }
