@@ -1,5 +1,4 @@
 import { genericUserAgent } from "../../config.js";
-import crypto from "crypto";
 
 function bestQuality(arr) {
     return arr.filter((v) => { if (v["content_type"] === "video/mp4") return true }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"].split("?")[0]
