@@ -17,6 +17,7 @@ import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 import instagram from "./services/instagram.js";
 import vine from "./services/vine.js";
+import twitch from "./services/twitch.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
@@ -109,6 +110,15 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "vine":
                 r = await vine({ id: patternMatch["id"] });
+                break;
+            case "twitch":
+                r = await twitch({
+                    vodId: patternMatch["video"] ? patternMatch["video"] : false,
+                    clipId: patternMatch["clip"] ? patternMatch["clip"] : false,
+                    lang: lang, quality: obj.vQuality,
+                    isAudioOnly: obj.isAudioOnly,
+                    format: obj.vFormat
+                });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });

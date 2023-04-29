@@ -28,5 +28,7 @@ export const testers = {
 
     "instagram": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
     
-    "vine": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12)
+    "vine": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
+
+    "twitch": (patternMatch) => ((patternMatch["channel"] && patternMatch["clip"] && patternMatch["clip"].length <= 100 || patternMatch["video"] && patternMatch["video"].length <= 10)),
 }

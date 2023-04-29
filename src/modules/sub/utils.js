@@ -84,6 +84,9 @@ export function cleanURL(url, host) {
     if (url.includes('youtube.com/shorts/')) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
     }
+    if (url.includes('clips.twitch.tv')) {
+        url = url.split('?')[0].replace('clips.twitch.tv/', 'twitch.tv/_/clip/');
+    }
     return url.slice(0, 128)
 }
 export function verifyLanguageCode(code) {

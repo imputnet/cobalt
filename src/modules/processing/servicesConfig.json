@@ -62,6 +62,12 @@
             "tld": "co",
             "patterns": ["v/:id"],
             "enabled": true
+        },
+        "twitch": {
+            "alias": "twitch vods & videos & clips",
+            "tld": "tv",
+            "patterns": ["videos/:video", ":channel/clip/:clip"],
+            "enabled": true
         }
     }    
 }
