@@ -43,8 +43,8 @@ Content live render streaming endpoint.<br>
 ### Request Query Variables
 | key | variables        | description                                                                                                                    |
 |:----|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------|
-| p   | ``1``            | Used for checking the rate limit.                                                                                              |
-| t   | Stream token     | Unique stream identificator which is used for retrieving cached stream info data.                                              |
+| p   | ``1``            | Used for probing the rate limit.                                                                                               |
+| t   | Stream token     | Unique stream ID. Used for retrieving cached stream info data.                                                                 |
 | h   | HMAC             | Hashed combination of: (hashed) ip address, stream token, expiry timestamp, and service name. Used for verification of stream. |
 | e   | Expiry timestamp |                                                                                                                                |
 

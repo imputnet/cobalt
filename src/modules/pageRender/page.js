@@ -106,6 +106,7 @@ export default function(obj) {
                             "title": t("CollapsePrivacy"),
                             "body": t("PrivacyPolicy")
                         }])
+                        + `${process.env.DEPLOYMENT_ID && process.env.INTERNAL_IP ? '<a id="hop-attribution" class="explanation" href="https://hop.io/" target="_blank">powered by hop.io</a>' : ''}`
                     }]
                 })
             }, {
@@ -314,7 +315,7 @@ export default function(obj) {
                             "action": "light",
                             "text": t('SettingsThemeLight')
                         }]
-                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), 4, t('AccessibilityKeepDownloadButton')) + checkbox("leftHandedLayout", t('LeftHanded'), 4)
+                    }) + checkbox("alwaysVisibleButton", t('SettingsKeepDownloadButton'), 4, t('AccessibilityKeepDownloadButton'))
                 }) + settingsCategory({
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
@@ -333,7 +334,8 @@ export default function(obj) {
                 name: "download",
                 subtitle: t('DownloadPopupWayToSave'),
                 explanation: `${!isIOS ? t('DownloadPopupDescription') : t('DownloadPopupDescriptionIOS')}`,
-                items: `<a id="pd-download" class="switch full space-right" target="_blank" href="/">${t('Download')}</a>
+                items: `<a id="pd-download" class="switch full" target="_blank" href="/">${t('Download')}</a>
+                <div id="pd-share" class="switch full">${t('ShareURL')}</div>
                 <div id="pd-copy" class="switch full">${t('CopyURL')}</div>`
             })
         })}
@@ -362,16 +364,26 @@ export default function(obj) {
         })}
         <div id="popup-backdrop" style="visibility: hidden;" onclick="hideAllPopups()"></div>
         <div id="cobalt-main-box" class="center" style="visibility: hidden;">
-            <div id="logo-area">${appName}</div>
-            <div id="download-area" class="mobile-center">
+            <div id="logo">${appName}</div>
+            <div id="download-area">
                 <div id="top">
                     <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
                     <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                     <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
                 </div>
                 <div id="bottom">
-                    <button id="pasteFromClipboard" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
-                    <button id="audioMode" class="switch" onclick="toggle('audioMode')" aria-label="${t('AccessibilityModeToggle')}">${emoji("✨", 22, 1)}</button>
+                    <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
+                    ${switcher({
+                        name: "audioMode",
+                        noParent: true,
+                        items: [{
+                            "action": "false",
+                            "text": `${emoji("✨")} ${t("ModeToggleAuto")}`
+                        }, {
+                            "action": "true",
+                            "text": `${emoji("🎶")} ${t("ModeToggleAudio")}`
+                        }]
+                    })}
                 </div>
             </div>
         </div>
@@ -401,8 +413,6 @@ export default function(obj) {
         noURLReturned: ` + "`" + t('ErrorNoUrlReturned') + "`" + `,
         unknownStatus: ` + "`" + t('ErrorUnknownStatus') + "`" + `,
         collapseHistory: ` + "`" + t('ChangelogPressToHide') + "`" + `,
-        toggleDefault: '${emoji("✨")} ${t("ModeToggleAuto")}',
-        toggleAudio: '${emoji("🎶")} ${t("ModeToggleAudio")}',
         pickerDefault: ` + "`" + t('MediaPickerTitle') + "`" + `,
         pickerImages: ` + "`" + t('ImagePickerTitle') + "`" + `,
         pickerImagesExpl: ` + "`" + t(`ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,

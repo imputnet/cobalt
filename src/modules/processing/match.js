@@ -15,6 +15,7 @@ import tiktok from "./services/tiktok.js";
 import tumblr from "./services/tumblr.js";
 import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
+import instagram from "./services/instagram.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
@@ -101,6 +102,9 @@ export default async function (host, patternMatch, url, lang, obj) {
                     accessKey: patternMatch["accessKey"] ? patternMatch["accessKey"] : false,
                     format: obj.aFormat
                 });
+                break;
+            case "instagram":
+                r = await instagram({ id: patternMatch["id"] ? patternMatch["id"] : false });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });

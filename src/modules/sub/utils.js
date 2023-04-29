@@ -134,3 +134,6 @@ export function checkJSONPost(obj) {
         return false
     }
 }
+export function getIP(req) {
+    return req.header('cf-connecting-ip') ? req.header('cf-connecting-ip') : req.ip;
+}

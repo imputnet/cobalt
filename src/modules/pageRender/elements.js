@@ -10,6 +10,8 @@ export function switcher(obj) {
             items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
         }
     }
+
+    if (obj.noParent) return `<div class="switches">${items}</div>`;
     return `<div id="${obj.name}-switcher" class="switch-container">
             ${obj.subtitle ? `<div class="subtitle">${obj.subtitle}</div>` : ``}
             <div class="switches">${items}</div>

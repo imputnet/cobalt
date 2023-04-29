@@ -2,7 +2,6 @@ import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
-import * as fs from "fs";
 import rateLimit from "express-rate-limit";
 
 import path from 'path';
@@ -13,7 +12,7 @@ const __dirname = path.dirname(__filename).slice(0, -4); // go up another level 
 import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
 import { appName, genericUserAgent, version } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
-import { apiJSON, checkJSONPost, languageCode } from "./modules/sub/utils.js";
+import { apiJSON, checkJSONPost, getIP, languageCode } from "./modules/sub/utils.js";
 import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc from "./localization/manager.js";
@@ -22,20 +21,21 @@ import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
 import findRendered from "./modules/pageRender/findRendered.js";
 
-const commitHash = shortCommit();
-const branch = getCurrentBranch();
-const app = express();
+if (process.env.selfURL && process.env.streamSalt && process.env.port) {
+    const commitHash = shortCommit();
+    const branch = getCurrentBranch();
+    const app = express();
 
-app.disable('x-powered-by');
-app.use('/api/:type', cors())
+    app.disable('x-powered-by');
 
-if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && process.env.port) {
+    const corsConfig = process.env.cors === '0' ? { origin: process.env.selfURL, optionsSuccessStatus: 200 } : {};
+
     const apiLimiter = rateLimit({
         windowMs: 60000,
         max: 25,
         standardHeaders: false,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
+        keyGenerator: (req, res) => sha256(getIP(req), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
             return;
@@ -46,7 +46,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
         max: 28,
         standardHeaders: false,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(req.ip.replace('::ffff:', ''), process.env.streamSalt),
+        keyGenerator: (req, res) => sha256(getIP(req), process.env.streamSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
             return;
@@ -55,6 +55,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
 
     await buildFront(commitHash, branch);
 
+    app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/api/onDemand', apiLimiter);
@@ -63,7 +64,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     app.use('/', express.static('./src/front'));
 
     app.use((req, res, next) => {
-        try { decodeURIComponent(req.path) } catch (e) { return res.redirect(process.env.selfURL) }
+        try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
         next();
     });
     app.use((req, res, next) => {
@@ -92,7 +93,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
 
     app.post('/api/json', async (req, res) => {
         try {
-            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(getIP(req), process.env.streamSalt);
             let lang = languageCode(req);
             let j = apiJSON(0, { t: "Bad request" });
             try {
@@ -111,14 +112,14 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
             res.status(j.status).json(j.body);
             return;
         } catch (e) {
-            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') });
-            return;
+            res.destroy();
+            return
         }
     });
 
     app.get('/api/:type', (req, res) => {
         try {
-            let ip = sha256(req.header('x-forwarded-for') ? req.header('x-forwarded-for') : req.ip.replace('::ffff:', ''), process.env.streamSalt);
+            let ip = sha256(getIP(req), process.env.streamSalt);
             switch (req.params.type) {
                 case 'stream':
                     if (req.query.p) {
@@ -164,6 +165,9 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     app.get("/api", (req, res) => {
         res.redirect('/api/json')
     });
+    app.get("/status", (req, res) => {
+        res.status(200).end()
+    });
     app.get("/", (req, res) => {
         res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`);
     });
@@ -177,7 +181,7 @@ if (fs.existsSync('./.env') && process.env.selfURL && process.env.streamSalt && 
     app.listen(process.env.port, () => {
         let startTime = new Date();
         console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash} (${branch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${Math.floor(new Date().getTime())})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\n`)
-    });
+    })
 } else {
-    console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))
+    console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`));
 }

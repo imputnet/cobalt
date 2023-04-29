@@ -72,6 +72,16 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 3. Run cobalt via `npm start`
 4. Done.
 
+### Docker
+It's also possible to host cobalt via a Docker image, but in that case you'd need to set all environment variables by yourself.
+That includes:
+| Variable     | Example                          | 
+| --------     | :---                             |
+| `selfURL`    | `https://co.wukko.me/`           |
+| `port`       | `9000`                           |
+| `streamSalt` | `randomly generated sha512 hash` |
+| `cors`       | `0`                              |
+
 ## Disclaimer
 cobalt is my passion project, so update release schedule depends solely on my motivation, free time, and mood. Don't expect any consistency in that.
 

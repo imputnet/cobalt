@@ -1,7 +1,7 @@
 let ua = navigator.userAgent.toLowerCase();
 let isIOS = ua.match("iphone os");
 let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 25;
+let version = 26;
 let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 let notification = `<div class="notification-dot"></div>`
 
@@ -13,9 +13,10 @@ let switchers = {
     "vQuality": ["1080", "max", "2160", "1440", "720", "480", "360"],
     "aFormat": ["mp3", "best", "ogg", "wav", "opus"],
     "dubLang": ["original", "auto"],
-    "vimeoDash": ["false", "true"]
+    "vimeoDash": ["false", "true"],
+    "audioMode": ["false", "true"]
 }
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio", "leftHandedLayout"];
+let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
 let exceptions = { // used for mobile devices
     "vQuality": "720"
 }
@@ -89,6 +90,9 @@ function copy(id, data) {
     e.classList.add("text-backdrop");
     setTimeout(() => { e.classList.remove("text-backdrop") }, 600);
     data ? navigator.clipboard.writeText(data) : navigator.clipboard.writeText(e.innerText);
+}
+async function share(url) {
+    try { await navigator.share({url: url}) } catch (e) {}
 }
 function detectColorScheme() {
     let theme = "auto";
@@ -173,6 +177,8 @@ function popup(type, action, text) {
             case "download":
                 eid("pd-download").href = text;
                 eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
+                eid("pd-share").setAttribute("onClick", `share('${text}')`);
+                if (navigator.canShare) eid("pd-share").style.display = "flex";
                 break;
             case "picker":
                 switch (text.type) {
@@ -244,37 +250,14 @@ function checkbox(action) {
     sSet(action, !!eid(action).checked);
     switch(action) {
         case "alwaysVisibleButton": button(); break;
-        case "leftHandedLayout":
-            eid("bottom").setAttribute("data-lefthanded", sGet("leftHandedLayout"));
-            break;
     }
-    sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
-}
-function updateToggle(toggl, state) {
-    switch(state) {
-        case "true":
-            eid(toggl).innerHTML = loc.toggleAudio;
-            break;
-        case "false":
-            eid(toggl).innerHTML = loc.toggleDefault;
-            break;
-    }
-}
-function toggle(toggl) {
-    let state = sGet(toggl);
-    if (state) {
-        sSet(toggl, opposite(state))
-        if (opposite(state) === "true") sSet(`${toggl}ToggledOnce`, "true");
-    } else {
-        sSet(toggl, "false")
-    }
-    updateToggle(toggl, sGet(toggl))
+    action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
 }
 function loadSettings() {
     try {
         if (typeof(navigator.clipboard.readText) == "undefined") throw new Error();
     } catch (err) {
-        eid("pasteFromClipboard").style.display = "none"
+        eid("paste").style.display = "none";
     }
     if (sGet("alwaysVisibleButton") === "true") {
         eid("alwaysVisibleButton").checked = true;
@@ -284,13 +267,9 @@ function loadSettings() {
     if (sGet("downloadPopup") === "true" && !isIOS) {
         eid("downloadPopup").checked = true;
     }
-    if (!sGet("audioMode")) {
-        toggle("audioMode")
-    }
     for (let i = 0; i < checkboxes.length; i++) {
         if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
     }
-    updateToggle("audioMode", sGet("audioMode"));
     for (let i in switchers) {
         changeSwitcher(i, sGet(i))
     }
@@ -451,7 +430,6 @@ window.onload = () => {
     eid("cobalt-main-box").style.visibility = 'visible';
     eid("footer").style.visibility = 'visible';
     eid("url-input-area").value = "";
-    eid("bottom").setAttribute("data-lefthanded", sGet("leftHandedLayout"));
     notificationCheck();
     if (isIOS) sSet("downloadPopup", "true");
     let urlQuery = new URLSearchParams(window.location.search).get("u");
@@ -470,4 +448,4 @@ eid("url-input-area").addEventListener("keyup", (event) => {
 document.onkeydown = (event) => {
     if (event.key === "Tab" || event.ctrlKey) eid("url-input-area").focus();
     if (event.key === 'Escape') hideAllPopups();
-};
+}
