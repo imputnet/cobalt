@@ -26,12 +26,7 @@ export default async function(obj) {
     if (!req_act) return { error: 'ErrorCouldntFetch' };
 
     _headers["x-guest-token"] = req_act["guest_token"];
-    _headers["cookie"] = [
-        `guest_id_ads=v1%3A${req_act["guest_token"]}`,
-        `guest_id_marketing=v1%3A${req_act["guest_token"]}`,
-        `guest_id=v1%3A${req_act["guest_token"]}`,
-        `ct0=${crypto.randomUUID().replace(/-/g, '')};`
-    ].join('; ');
+    _headers["cookie"] = `guest_id=v1%3A${req_act["guest_token"]};`;
 
     if (!obj.spaceId) {
         let conversation = await fetch(conversationURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
@@ -47,13 +42,8 @@ export default async function(obj) {
             }).then((r) => { return r.status === 200 ? r.json() : false}).catch(() => { return false });
             if (!req_act) return { error: 'ErrorCouldntFetch' };
 
-            _headers["x-guest-token"] = req_act["guest_token"]
-            _headers['cookie'] = [
-                `guest_id_ads=v1%3A${req_act["guest_token"]}`,
-                `guest_id_marketing=v1%3A${req_act["guest_token"]}`,
-                `guest_id=v1%3A${req_act["guest_token"]}`,
-                `ct0=${crypto.randomUUID().replace(/-/g, '')};`
-            ].join('; ');
+            _headers["x-guest-token"] = req_act["guest_token"];
+            _headers['cookie'] = `guest_id=v1%3A${req_act["guest_token"]};`;
 
             conversation = await fetch(conversationURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
         }
