@@ -21,6 +21,7 @@ It's fast, friendly, and doesn't have any bullshit that modern web is filled wit
 | YouTube Music     | ❌           | ✅         | Audio metadata.                                                                                                 |
 | Reddit            | ✅           | ✅         | GIFs and videos.                                                                                                |
 | TikTok            | ✅           | ✅         | Video downloads with or without watermark; image slideshow downloads without watermark. Full audio downloads.   |
+| Twitch            | ✅           | ✅         |                                                                                                                 |
 | SoundCloud        | ❌           | ✅         | Audio metadata, downloads from private links.                                                                   |
 | bilibili.com      | ✅           | ✅         |                                                                                                                 |
 | Tumblr            | ✅           | ✅         |                                                                                                                 |
