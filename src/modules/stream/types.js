@@ -1,5 +1,5 @@
 import { spawn } from "child_process";
-import { Constants as YTConstants } from "youtubei.js";
+import { Constants as YTConstants, Utils } from "youtubei.js";
 import ffmpeg from "ffmpeg-static";
 import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
@@ -63,7 +63,8 @@ function createYoutubeStream(format_url) {
 
             const chunk = got.get(`${format_url}&range=${chunk_start}-${chunk_end || ''}`, {
                 headers: {
-                    ...YTConstants.STREAM_HEADERS
+                    ...YTConstants.STREAM_HEADERS,
+                    'User-Agent': Utils.getRandomUserAgent('desktop'),
                 },
                 isStream: true,
                 responseType: 'buffer',
