@@ -3,6 +3,9 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import { randomBytes } from "crypto";
+
+process.env.streamSalt = randomBytes(64).toString('hex');
 
 import path from 'path';
 import { fileURLToPath } from 'url';

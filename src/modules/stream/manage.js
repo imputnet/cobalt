@@ -5,7 +5,6 @@ import { sha256 } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 
 const streamCache = new NodeCache({ stdTTL: streamLifespan/1000, checkperiod: 10, deleteOnExpire: true });
-const salt = process.env.streamSalt;
 
 streamCache.on("expired", (key) => {
     streamCache.del(key);
@@ -14,7 +13,7 @@ streamCache.on("expired", (key) => {
 export function createStream(obj) {
     let streamID = nanoid(),
         exp = Math.floor(new Date().getTime()) + streamLifespan,
-        ghmac = sha256(`${streamID},${obj.ip},${obj.service},${exp}`, salt);
+        ghmac = sha256(`${streamID},${obj.ip},${obj.service},${exp}`, process.env.streamSalt);
 
     if (!streamCache.has(streamID)) {
         streamCache.set(streamID, {
@@ -47,7 +46,7 @@ export function verifyStream(ip, id, hmac, exp) {
             let streamInfo = streamCache.get(id);
             if (!streamInfo) return { error: 'this stream token does not exist', status: 400 };
     
-            let ghmac = sha256(`${id},${ip},${streamInfo.service},${exp}`, salt);
+            let ghmac = sha256(`${id},${ip},${streamInfo.service},${exp}`, process.env.streamSalt);
             if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
                 && String(ip) === streamInfo.ip && Number(exp) > Math.floor(new Date().getTime())) {
                 return streamInfo;
