@@ -52,6 +52,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                     params = { type: "bridge" };
                     break;
                 
+                case "vine":
                 case "instagram":
                 case "tumblr":
                 case "twitter":

@@ -56,6 +56,12 @@
             "alias": "instagram reels & video posts",
             "patterns": ["reels/:id", "reel/:id", "p/:id"],
             "enabled": true
+        },
+        "vine": {
+            "alias": "vine archive",
+            "tld": "co",
+            "patterns": ["v/:id"],
+            "enabled": true
         }
     }    
 }
