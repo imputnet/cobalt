@@ -3,7 +3,7 @@ export const testers = {
         || (patternMatch["spaceId"] && patternMatch["spaceId"].length === 13),
 
     "vk": (patternMatch) => (patternMatch["userId"] && patternMatch["videoId"]
-        && patternMatch["userId"].length <= 10 && patternMatch["videoId"].length === 9),
+        && patternMatch["userId"].length <= 10 && patternMatch["videoId"].length <= 10),
 
     "bilibili": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
 

@@ -22,7 +22,7 @@ const representationMatch = {
 }
 
 export default async function(o) {
-    let html;
+    let html, url, filename = `vk_${o.userId}_${o.videoId}_`;
     html = await fetch(`https://vk.com/video${o.userId}_${o.videoId}`, {
         headers: { "user-agent": genericUserAgent }
     }).then((r) => { return r.text() }).catch(() => { return false });
@@ -35,15 +35,25 @@ export default async function(o) {
     if (Number(js.mvData.is_active_live) !== 0) return { error: 'ErrorLiveVideo' };
     if (js.mvData.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let mpd = JSON.parse(xml2json(js.player.params[0]["manifest"], { compact: true, spaces: 4 })),
+    if (js.player.params[0]["manifest"]) {
+        let mpd = JSON.parse(xml2json(js.player.params[0]["manifest"], { compact: true, spaces: 4 })),
         repr = mpd.MPD.Period.AdaptationSet.Representation ? mpd.MPD.Period.AdaptationSet.Representation : mpd.MPD.Period.AdaptationSet[0]["Representation"],
         bestQuality = repr[repr.length - 1],
         resolutionPick = Number(bestQuality._attributes.width) > Number(bestQuality._attributes.height) ? 'width': 'height';
-    if (Number(bestQuality._attributes.id) > Number(quality)) bestQuality = repr[quality];
 
-    if (bestQuality) return {
-        urls: js.player.params[0][`url${resolutionMatch[bestQuality._attributes[resolutionPick]]}`],
-        filename: `vk_${o.userId}_${o.videoId}_${bestQuality._attributes.width}x${bestQuality._attributes.height}.mp4`
+        if (Number(bestQuality._attributes.id) > Number(quality)) bestQuality = repr[quality];
+
+        url = js.player.params[0][`url${resolutionMatch[bestQuality._attributes[resolutionPick]]}`];
+        filename = `${bestQuality._attributes.width}x${bestQuality._attributes.height}.mp4`
+
+    } else if (js.player.params[0]["url240"]) { // fallback for when video is too old
+        url = js.player.params[0]["url240"];
+        filename += `320x240.mp4`
+    }
+
+    if (url && filename) return {
+        urls: url,
+        filename: filename
     };
     return { error: 'ErrorEmptyDownload' }
 }

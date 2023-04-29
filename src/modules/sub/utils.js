@@ -65,6 +65,8 @@ export function cleanURL(url, host) {
     let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
     switch(host) {
         case "vk":
+            url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
+            break;
         case "youtube":
             url = url.split('&')[0];
             break;

@@ -476,6 +476,14 @@
             "status": "stream"
         }
     }, {
+        "name": "ancient video (fallback to 240p)",
+        "url": "https://vk.com/video-1959_28496479",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "inexistent video",
         "url": "https://vk.com/video-53333333_456233333",
         "params": {},
