@@ -17,6 +17,7 @@ import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 import instagram from "./services/instagram.js";
 import vine from "./services/vine.js";
+import linkedin from "./services/linkedin.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
@@ -110,6 +111,13 @@ export default async function (host, patternMatch, url, lang, obj) {
             case "vine":
                 r = await vine({ id: patternMatch["id"] });
                 break;
+            case "linkedin":
+                r = await linkedin({ 
+                    user: patternMatch["user"],
+                    quality: obj.vQuality,
+                    id: patternMatch["id"]
+                })
+                break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
@@ -121,6 +129,7 @@ export default async function (host, patternMatch, url, lang, obj) {
 
         return matchActionDecider(r, host, obj.ip, obj.aFormat, isAudioOnly, lang, isAudioMuted);
     } catch (e) {
+        console.log(e)
         return apiJSON(0, { t: genericError(lang, host) })
     }
 }

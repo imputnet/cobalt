@@ -869,5 +869,26 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "linkedin": [{
+        "name": "linkedin 640p video",
+        "url": "https://www.linkedin.com/posts/seema-yadav-211508112_mathematics-algebra-engineering-activity-7054296523567751168-uf9P",
+        "params": {
+            "vQuality": "480"
+        },
+        "expected":{
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "linkedin 720p video",
+        "url": "https://www.linkedin.com/posts/seema-yadav-211508112_mathematics-algebra-engineering-activity-7054296523567751168-uf9P",
+        "params": {
+            "vQuality": "max"
+        },
+        "expected":{
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }
