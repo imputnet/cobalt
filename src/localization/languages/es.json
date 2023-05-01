@@ -52,7 +52,7 @@
         "DownloadPopupWayToSave": "elige una forma de guardar",
         "ClickToCopy": "click para copiar",
         "Download": "descargar",
-        "CopyURL": "copiar url",
+        "CopyURL": "Copia",
         "AboutTab": "acerca de",
         "ChangelogTab": "registro de cambios",
         "DonationsTab": "donaciones",
@@ -71,7 +71,7 @@
         "SettingsAudioFullTikTok": "audio completo",
         "SettingsAudioFullTikTokDescription": "descarga el sonido original usado en el video sin ningún cambio adicional hecho por el autor de la publicación.",
         "ErrorCantGetID": "no pude obtener la información completa del enlace acortado. ¡comprueba que funcione o intenta con uno directo! si el problema persiste, {ContactLink}.",
-        "ErrorNoVideosInTweet": "no hay videos ni gifs en este tweet, ¡intenta con otro!",
+        "ErrorNoVideosInTweet": "No he podido encontrar contenido multimedia en este tweet. Prueba con otro! ",
         "ImagePickerTitle": "elige imágenes para descargar",
         "ImagePickerDownloadAudio": "descargar audio",
         "ImagePickerExplanationPC": "haz clic derecho en una imagen para guardarla.",
@@ -94,9 +94,9 @@
         "ChangelogPressToHide": "ocultar",
         "Donate": "donar",
         "DonateSub": "ayúdame a mantenerlo",
-        "DonateExplanation": "{appName} no muestra anuncios ni vende tu información (y nunca lo hara), por lo que es <span class=\"text-backdrop\">de uso completamente gratuito</span>. pero resulta que mantener un servicio web utilizado por mas de 40 mil personas es algo costoso.\n\nsi alguna vez {appName} te ha resultado util y quieres que siga en línea, o simplemente quieres apoyar al desarrollador, ¡considera donar! cada céntimo ayuda y es MUY apreciado :D",
+        "DonateExplanation": "{appName} no usa anuncios ni vende tus datos (y nunca lo hará), así que es <span class=\"text-backdrop\">completamente gratis de usar</span>, pero resulta que desarrollar y mantener un servicio web usado por más de 80 mil personas no es tan fácil.\n\nSi alguna vez has encontrado {appName}  útil y quieres mantenerlo en linea, o simplemente quieres agradecer al desarrollador, cconsidera donar! cada céntimo ayuda y es MUY appreciado :D",
         "DonateVia": "donar vía",
-        "DonateHireMe": "o puedes <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">contratarme</a>",
+        "DonateHireMe": "...o puedes <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">contratarme</a>:)",
         "SettingsVideoMute": "silenciar audio",
         "SettingsVideoMuteExplanation": "elimina el audio de las descargas de vídeo cuando sea posible.",
         "ErrorSoundCloudNoClientId": "no pude obtener el token temporal necesario para descargar canciones desde soundcloud. intenta nuevamente, pero si el error sigue, {ContactLink}.",
@@ -117,6 +117,8 @@
         "SettingsDubDefault": "original",
         "SettingsDubAuto": "auto",
         "SettingsVimeoPrefer": "tipo de descargas de vimeo",
-        "SettingsVimeoPreferDescription": "progresivo: enlace directo al archivo en el cdn de vimeo. la calidad máxima es de 1080p.\ndash: el video y el audio es fusionado por {appName} en un solo archivo. la calidad máxima es 4k.\n\nelige \"progresivo\" si quieres la mejor compatibilidad para editores/reproductores/redes sociales. si \"progresivo\" no está disponible, se utilizará \"dash\" en su lugar."
+        "SettingsVimeoPreferDescription": "progresivo: enlace directo al archivo en el cdn de vimeo. la calidad máxima es de 1080p.\ndash: el video y el audio es fusionado por {appName} en un solo archivo. la calidad máxima es 4k.\n\nelige \"progresivo\" si quieres la mejor compatibilidad para editores/reproductores/redes sociales. si \"progresivo\" no está disponible, se utilizará \"dash\" en su lugar.",
+        "ShareURL": "compartir",
+        "ErrorTweetUnavailable": "no pude encontrar nada sobre este tweet. Esto podría ser porque la visibilidad está limitada. ¡Prueba con otro!"
     }
 }
