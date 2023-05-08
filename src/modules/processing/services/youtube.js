@@ -1,6 +1,5 @@
 import { Innertube } from 'youtubei.js';
 import { maxVideoDuration } from '../../config.js';
-import { YouTubeFetchInfo } from '../match.js';
 
 const yt = await Innertube.create();
 
@@ -20,6 +19,45 @@ const c = {
         aCodec: "opus",
         container: "webm"
     }
+}
+
+export class YouTubeFetchInfo {
+    /**
+     * ID of the YouTube video.
+     * 
+     * @type {string}
+     */
+    id
+    /**
+     * Quality of the YouTube video.
+     * 
+     * @type {string}
+     */
+    quality
+    /**
+     * Format of the YouTube video to be downloaded.
+     * 
+     * @type {string}
+     */
+    format
+    /**
+     * Whether only the audio of the YouTube video should be gotten.
+     * 
+     * @type {boolean}
+     */
+    isAudioOnly
+    /**
+     * Whether audio of the YouTube video should be muted.
+     * 
+     * @type {boolean}
+     */
+    isAudioMuted
+    /**
+     * Dub language to use for the video.
+     * 
+     * @type {boolean | string}
+     */
+    dubLang
 }
 
 /**
