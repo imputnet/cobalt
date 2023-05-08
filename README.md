@@ -15,21 +15,21 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 ## Supported services
 | Service                 | Video + Audio | Only audio  | Only video  | Additional notes or features                                                                                              |
 | --------                | :---:         | :---:       | :---:       | :-----                                                                                                                    |
-| bilibili.com            | [x]           | [x]         | [x]         |                                                                                                                           |
-| Instagram               | [x]           | [x]         | [x]         | Ability to pick what to save from multi-media posts.                                                                      |
-| Instagram Reels         | [x]           | [x]         | [x]         |                                                                                                                           |
-| Reddit                  | [x]           | [x]         | [x]         | Support for GIFs and videos.                                                                                              |
-| SoundCloud              |  -            | [x]         |  -          | Audio metadata, downloads from private links.                                                                             |
-| TikTok                  | [x]           | [x]         | [x]         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
-| Tumblr                  | [x]           | [x]         | [x]         |                                                                                                                           |
-| Twitter                 | [x]           | [x]         | [x]         | Ability to pick what to save from multi-media tweets.                                                                     |
-| Twitter Spaces          | [x]           | [x]         | [x]         | Audio metadata with all participants and other info.                                                                      |
-| Vimeo                   | [x]           | [x]         | [x]         | Audio downloads are only available for dash files.                                                                        |
-| Vine Archive            | [x]           | [x]         | [x]         |                                                                                                                           |
-| VK Videos               | [x]           | [ ]         | [ ]         |                                                                                                                           |
-| VK Clips                | [x]           | [ ]         | [ ]         |                                                                                                                           |
-| YouTube Videos & Shorts | [x]           | [x]         | [x]         | Support for 8K, 4K, HDR, and high FPS videos. Audio metadata & dubs. h264/av1/vp9 codecs.                                 |
-| YouTube Music           |  -            | [x]         |  -          | Audio metadata.                                                                                                           |
+| bilibili.com            | ☑️           | ☑️         | ☑️         |                                                                                                                           |
+| Instagram               | ☑️           | ☑️         | ☑️         | Ability to pick what to save from multi-media posts.                                                                      |
+| Instagram Reels         | ☑️           | ☑️         | ☑️         |                                                                                                                           |
+| Reddit                  | ☑️           | ☑️         | ☑️         | Support for GIFs and videos.                                                                                              |
+| SoundCloud              | ➖           | ☑️         | ➖         | Audio metadata, downloads from private links.                                                                             |
+| TikTok                  | ☑️           | ☑️         | ☑️         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
+| Tumblr                  | ☑️           | ☑️         | ☑️         |                                                                                                                           |
+| Twitter                 | ☑️           | ☑️         | ☑️         | Ability to pick what to save from multi-media tweets.                                                                     |
+| Twitter Spaces          | ☑️           | ☑️         | ☑️         | Audio metadata with all participants and other info.                                                                      |
+| Vimeo                   | ☑️           | ☑️         | ☑️         | Audio downloads are only available for dash files.                                                                        |
+| Vine Archive            | ☑️           | ☑️         | ☑️         |                                                                                                                           |
+| VK Videos               | ☑️           | ❌         | ❌         |                                                                                                                           |
+| VK Clips                | ☑️           | ❌         | ❌         |                                                                                                                           |
+| YouTube Videos & Shorts | ☑️           | ☑️         | ☑️         | Support for 8K, 4K, HDR, and high FPS videos. Audio metadata & dubs. h264/av1/vp9 codecs.                                 |
+| YouTube Music           | ➖           | ☑️         | ➖         | Audio metadata.                                                                                                           |
 
 This list is not final and keeps expanding over time, make sure to check it once in a while!  
 
