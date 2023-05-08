@@ -1,5 +1,6 @@
 import { Innertube } from 'youtubei.js';
 import { maxVideoDuration } from '../../config.js';
+import { YouTubeFetchInfo } from '../match.js';
 
 const yt = await Innertube.create();
 
@@ -21,7 +22,30 @@ const c = {
     }
 }
 
-export default async function(o) {
+/**
+ * Creates a filename to be downloaded for the requested YouTube video.
+ * 
+ * @param {YouTubeFetchInfo} fi Fetch info to utilize for filename
+ * @param vi Video info to utilize for filename
+ * @param format Video format object to pull info from
+ * @param {string} container Video container type (file extension)
+ */
+function youtubeFilename(fi, vi, format, container) {
+    return [
+        'youtube',
+        vi.basic_info.title,
+        fi.id,
+        format.width + 'x' + format.height,
+        fi.format + (fi.dubLang ? "_" + fi.dubLang : ""),
+    ].join('_') + ('.' + container);
+}
+
+/**
+ * Core logic for running the YouTube processor.
+ * 
+ * @param {YouTubeFetchInfo} o Fetch information for YouTube video
+ */
+export default async function youtube(o) {
     let info, isDubbed, quality = o.quality === "max" ? "9000" : o.quality; //set quality 9000(p) to be interpreted as max
     try {
         info = await yt.getBasicInfo(o.id, 'ANDROID');
@@ -59,7 +83,7 @@ export default async function(o) {
             type: "render",
             isAudioOnly: true,
             urls: audio.url,
-            audioFilename: `youtube_${o.id}_audio${isDubbed ? `_${o.dubLang}`:''}`,
+            audioFilename: `youtube_${o.id}_audio${isDubbed ? `_${o.dubLang}` : ''}`,
             fileMetadata: {
                 title: info.basic_info.title,
                 artist: info.basic_info.author.replace("- Topic", "").trim(),
@@ -90,7 +114,8 @@ export default async function(o) {
     if (video && audio) return {
         type: "render",
         urls: [video.url, audio.url],
-        filename: `youtube_${o.id}_${video.width}x${video.height}_${o.format}${isDubbed ? `_${o.dubLang}`:''}.${c[o.format].container}`
+        filename: youtubeFilename(o, info, video, c[o.format].container),
+        // filename: `youtube_${o.id}_${video.width}x${video.height}_${o.format}${isDubbed ? `_${o.dubLang}` : ''}.${c[o.format].container}`
     };
 
     return { error: 'ErrorYTTryOtherCodec' }

@@ -1,4 +1,4 @@
-import { apiJSON } from "../sub/utils.js";
+import { apiJSON, PostInfo } from "../sub/utils.js";
 import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
 
 import loc from "../../localization/manager.js";
@@ -16,6 +16,48 @@ import tumblr from "./services/tumblr.js";
 import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 
+export class YouTubeFetchInfo {
+    /**
+     * ID of the YouTube video.
+     * 
+     * @type {string}
+     */
+    id
+    /**
+     * Quality of the YouTube video.
+     * 
+     * @type {string}
+     */
+    quality
+    /**
+     * Format of the YouTube video to be downloaded.
+     * 
+     * @type {string}
+     */
+    format
+    /**
+     * Whether only the audio of the YouTube video should be gotten.
+     * 
+     * @type {boolean}
+     */
+    isAudioOnly
+    /**
+     * Whether audio of the YouTube video should be muted.
+     * 
+     * @type {boolean}
+     */
+    isAudioMuted
+    /**
+     * Dub language to use for the video.
+     * 
+     * @type {boolean | string}
+     */
+    dubLang
+}
+
+/**
+ * @param {PostInfo} obj Post information
+ */
 export default async function (host, patternMatch, url, lang, obj) {
     try {
         let r, isAudioOnly = !!obj.isAudioOnly;
@@ -44,6 +86,7 @@ export default async function (host, patternMatch, url, lang, obj) {
                 });
                 break;
             case "youtube":
+                /** @type {YouTubeFetchInfo} */
                 let fetchInfo = {
                     id: patternMatch["id"].slice(0, 11),
                     quality: obj.vQuality,
@@ -113,6 +156,7 @@ export default async function (host, patternMatch, url, lang, obj) {
 
         return matchActionDecider(r, host, obj.ip, obj.aFormat, isAudioOnly, lang, isAudioMuted);
     } catch (e) {
+        console.error(e);
         return apiJSON(0, { t: genericError(lang, host) })
     }
 }

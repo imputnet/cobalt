@@ -63,7 +63,7 @@ export function msToTime(d) {
 }
 export function cleanURL(url, host) {
     let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
-    switch(host) {
+    switch (host) {
         case "vk":
         case "youtube":
             url = url.split('&')[0];
@@ -95,7 +95,68 @@ export function unicodeDecode(str) {
         return String.fromCharCode(parseInt(unicode.replace(/\\u/g, ""), 16));
     });
 }
+/**
+ * Post information for a given media post.
+ */
+export class PostInfo {
+    /** 
+     * Codec used by the post's media.
+     * 
+     * @type {string}
+     */
+    vCodec
+    /**
+     * Quality of the post's media.
+     * 
+     * @type {string}
+     */
+    vQuality
+    /**
+     * Format to get of the post's media.
+     * 
+     * @type {string}
+     */
+    aFormat
+    /**
+     * Whether the media should be gotten as audio only.
+     * 
+     * @type {boolean}
+     */
+    isAudioOnly
+    /**
+     * Whether the TikTok watermark should be absent from the gotten media.
+     * 
+     * @type {boolean}
+     */
+    isNoTTWatermark
+    /**
+     * Whether the TikTok media should be gotten with full audio.
+     * 
+     * @type {boolean}
+     */
+    isTTFullAudio
+    /**
+     * Whether the media should be gotten with the audio muted.
+     * 
+     * @type {boolean}
+     */
+    isAudioMuted
+    /**
+     * Language to get the video dubbed in, or not to dub at all. Usually pulled from
+     * the request's 'Accept-Language' header, but defaults to false.
+     * 
+     * @type {boolean | string}
+     */
+    dubLang = false
+    /**
+     * Whether to get DASH video files from the Vimeo platform.
+     * 
+     * @type {boolean}
+     */
+    vimeoDash
+}
 export function checkJSONPost(obj) {
+    /** @type {PostInfo} */
     let def = {
         vCodec: "h264",
         vQuality: "720",
