@@ -7,7 +7,6 @@
     --padding-1: 0.75rem;
     --line-height: 1.65rem;
     --red: rgb(255, 0, 61);
-    --color: rgb(107, 67, 139);
     --gap: 0.6rem;
 }
 @media (prefers-color-scheme: dark) {
@@ -19,7 +18,6 @@
         --accent-unhover: rgb(100, 100, 100);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(0, 0, 0);
-        --checkmark: url(vectorIcons/checkmark_b.svg);
     }
 }
 @media (prefers-color-scheme: light) {
@@ -31,7 +29,6 @@
         --accent-unhover: rgb(190, 190, 190);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(255, 255, 255);
-        --checkmark: url(vectorIcons/checkmark.svg);
     }
 }
 [data-theme="dark"] {
@@ -42,7 +39,6 @@
     --accent-unhover: rgb(100, 100, 100);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(0, 0, 0);
-    --checkmark: url(vectorIcons/checkmark_b.svg);
 }
 [data-theme="light"] {
     --accent: rgb(25, 25, 25);
@@ -52,7 +48,6 @@
     --accent-unhover: rgb(190, 190, 190);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(255, 255, 255);
-    --checkmark: url(vectorIcons/checkmark.svg);
 }
 html,
 body {

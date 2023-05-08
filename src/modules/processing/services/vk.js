@@ -44,7 +44,7 @@ export default async function(o) {
         if (Number(bestQuality._attributes.id) > Number(quality)) bestQuality = repr[quality];
 
         url = js.player.params[0][`url${resolutionMatch[bestQuality._attributes[resolutionPick]]}`];
-        filename = `${bestQuality._attributes.width}x${bestQuality._attributes.height}.mp4`
+        filename += `${bestQuality._attributes.width}x${bestQuality._attributes.height}.mp4`
 
     } else if (js.player.params[0]["url240"]) { // fallback for when video is too old
         url = js.player.params[0]["url240"];
