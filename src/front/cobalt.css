@@ -82,37 +82,51 @@ a {
 :focus-visible {
     outline: var(--border-15);
 }
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0.55rem 1rem 0.55rem 0.7rem;
+    width: auto;
+    margin-right: var(--padding-1);
+    margin-bottom: var(--padding-1);
+    background: var(--accent-button-bg);
+}
+.checkbox-label {
+    line-height: 1.3rem;
+}
 [type="checkbox"] {
     -webkit-appearance: none;
     appearance: none;
-    margin-right: var(--padding-1);
+    width: 20px;
+    height: 20px;
     z-index: 0;
-    border: 0;
-    height: 15px;
-    width: 15px;
+    margin-right: var(--padding-1);
+    border: 0.15rem solid var(--accent);
 }
 [type="checkbox"]::before {
     content: "";
-    width: 15px;
-    height: 15px;
-    border: 0.15rem solid var(--accent);
-    display: block;
-    z-index: 5;
+    display: none;
     position: relative;
+    width: 6px;
+    height: 12px;
+    z-index: 5;
+    transform: scaleX(0.9)rotate(45deg);
+    left: 6px;
+    top: 1px;
+    border-bottom: 0.18rem solid var(--background);
+    border-right: 0.18rem solid var(--background);
 }
 [type="checkbox"]:checked::before {
-    background: var(--checkmark);
-    background-size: 90%;
-    background-position: center;
-    background-repeat: no-repeat;
+    display: block;
 }
-[type="checkbox"]:checked::before {
+[type="checkbox"]:checked {
     background-color: var(--accent);
-    border: 0.15rem solid var(--accent);
+    border: 0;
 }
-.checkbox span {
-    margin-top: 0.21rem;
-    margin-left: 0.4rem;
+input[type="checkbox"] {
+    cursor: pointer;
 }
 button {
     background: none;
@@ -159,9 +173,6 @@ button:active,
 .picker-image:active {
     cursor: pointer;
     transform: scale(0.95)
-}
-input[type="checkbox"] {
-    cursor: pointer;
 }
 .button {
     background: none;
@@ -449,20 +460,6 @@ input[type="checkbox"] {
 .no-margin {
     margin: 0!important;
 }
-.checkbox {
-    display: inline-flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    padding: 0.55rem 1rem 0.8rem 0.7rem;
-    width: auto;
-    margin-right: var(--padding-1);
-    margin-bottom: var(--padding-1);
-    background: var(--accent-button-bg);
-}
-.checkbox-label {
-    line-height: 1.3rem;
-}
 .switch-container {
     width: 100%;
 }
@@ -579,6 +576,7 @@ input[type="checkbox"] {
     width: 25rem;
     margin-bottom: var(--padding-1);
     background-color: var(--accent-button-bg);
+    border: var(--accent-button-bg) 0.18rem solid;
     position: relative;
 }
 #picker-holder {

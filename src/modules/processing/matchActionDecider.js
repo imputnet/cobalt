@@ -52,6 +52,8 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                     params = { type: "bridge" };
                     break;
                 
+                case "vine":
+                case "instagram":
                 case "tumblr":
                 case "twitter":
                     responseType = 1;
@@ -72,6 +74,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
         case "picker":
             responseType = 5;
             switch (host) {
+                case "instagram":
                 case "twitter":
                     params = { picker: r.picker };
                     break;

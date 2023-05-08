@@ -3,6 +3,9 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import { randomBytes } from "crypto";
+
+const ipSalt = randomBytes(64).toString('hex');
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -21,7 +24,7 @@ import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
 import findRendered from "./modules/pageRender/findRendered.js";
 
-if (process.env.selfURL && process.env.streamSalt && process.env.port) {
+if (process.env.selfURL && process.env.port) {
     const commitHash = shortCommit();
     const branch = getCurrentBranch();
     const app = express();
@@ -35,7 +38,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
         max: 25,
         standardHeaders: false,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(getIP(req), process.env.streamSalt),
+        keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
             return;
@@ -46,7 +49,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
         max: 28,
         standardHeaders: false,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(getIP(req), process.env.streamSalt),
+        keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
             return;
@@ -93,7 +96,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
 
     app.post('/api/json', async (req, res) => {
         try {
-            let ip = sha256(getIP(req), process.env.streamSalt);
+            let ip = sha256(getIP(req), ipSalt);
             let lang = languageCode(req);
             let j = apiJSON(0, { t: "Bad request" });
             try {
@@ -119,7 +122,7 @@ if (process.env.selfURL && process.env.streamSalt && process.env.port) {
 
     app.get('/api/:type', (req, res) => {
         try {
-            let ip = sha256(getIP(req), process.env.streamSalt);
+            let ip = sha256(getIP(req), ipSalt);
             switch (req.params.type) {
                 case 'stream':
                     if (req.query.p) {
