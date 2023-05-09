@@ -23,7 +23,7 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 | TikTok                  | ✅           | ✅         | ✅         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
 | Tumblr                  | ✅           | ✅         | ✅         |                                                                                                                           |
 | Twitter                 | ✅           | ✅         | ✅         | Ability to pick what to save from multi-media tweets.                                                                     |
-| Twitter Spaces          | ✅           | ✅         | ✅         | Audio metadata with all participants and other info.                                                                      |
+| Twitter Spaces          | ➖           | ✅         | ➖         | Audio metadata with all participants and other info.                                                                      |
 | Vimeo                   | ✅           | ✅         | ✅         | Audio downloads are only available for dash files.                                                                        |
 | Vine Archive            | ✅           | ✅         | ✅         |                                                                                                                           |
 | VK Videos               | ✅           | ❌         | ❌         |                                                                                                                           |
