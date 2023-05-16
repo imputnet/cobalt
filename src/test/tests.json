@@ -280,6 +280,14 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "on.soundcloud link",
+        "url": "https://on.soundcloud.com/AG4c",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "youtube": [{
         "name": "4k video (h264, 1440)",
