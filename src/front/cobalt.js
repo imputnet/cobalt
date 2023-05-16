@@ -414,25 +414,24 @@ async function loadCelebrationsEmoji() {
     }
 }
 async function loadOnDemand(elementId, blockId) {
+    let j = {};
     store.historyButton = eid(elementId).innerHTML;
-    let j = {}
-    eid(elementId).innerHTML = "..."
+    eid(elementId).innerHTML = "...";
+
     try {
         if (store.historyContent) {
             j = store.historyContent;
         } else {
-            j = await fetch(`${apiURL}/api/onDemand?blockId=${blockId}`).then((r) => { if (r.status === 200) { return r.json() } else { return false } }).catch(() => { return false });
-            if (j && j.status === "success") {
-                store.historyContent = j;
-            } else {
-                throw new Error();
-            }
+            await fetch(`${apiURL}/api/onDemand?blockId=${blockId}`).then(async(r) => {
+                j = await r.json();
+                if (j && j.status === "success") {
+                    store.historyContent = j;
+                } else throw new Error();
+            }).catch(() => { throw new Error() });
         }
         if (j.text) {
             eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.collapseHistory}</button>${j.text}`;
-        } else {
-            throw new Error()
-        }
+        } else throw new Error()
     } catch (e) {
         eid(elementId).innerHTML = store.historyButton;
         internetError()
