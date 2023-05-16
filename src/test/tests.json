@@ -282,6 +282,14 @@
         }
     }, {
         "name": "on.soundcloud link",
+        "url": "https://on.soundcloud.com/wLZre",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "on.soundcloud link, different stream type",
         "url": "https://on.soundcloud.com/AG4c",
         "params": {},
         "expected": {
