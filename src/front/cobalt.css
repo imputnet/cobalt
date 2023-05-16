@@ -8,6 +8,7 @@
     --line-height: 1.65rem;
     --red: rgb(255, 0, 61);
     --gap: 0.6rem;
+    --rainbow-gradient: linear-gradient(161deg,#ffe454,#ff6964,#fe85e5,#bd26fe,#587ae9,#8ded95);
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -655,6 +656,19 @@ button:active,
     display: block;
     text-align: right;
 }
+#about-donate-footer::before {
+    content: "";
+    position: absolute;
+    height: 110%;
+    width: 32%;
+    background: var(--rainbow-gradient);
+    z-index: -2;
+    filter: blur(5px);
+    opacity: 0.65;
+}
+#about-donate-footer:active::before {
+    opacity: 0;
+}
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
     html {
@@ -796,6 +810,10 @@ button:active,
     #footer-buttons {
         flex-direction: column;
         align-items: stretch;
+    }
+    #about-donate-footer::before {
+        height: 50%;
+        width: 50%;
     }
     .footer-pair .footer-button {
         width: 100%!important;

@@ -1,4 +1,5 @@
 import { celebrations } from "../config.js";
+import emoji from "../emoji.js";
 
 export function switcher(obj) {
     let items = ``;
@@ -151,12 +152,20 @@ export function footerButtons(obj) {
                 items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
                 break;
             case "popup":
-                let context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : ''
-                let context2 = obj[i+1] && obj[i+1]["context"] ? `, '${obj[i+1]["context"]}'` : ''
+                let buttonName = obj[i]["context"] ? `${obj[i]["name"]}-${obj[i]["context"]}` : obj[i]["name"],
+                    context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : '',
+                    buttonName2,
+                    context2;
+
+                if (obj[i+1]) {
+                    buttonName2 = obj[i+1]["context"] ? `${obj[i+1]["name"]}-${obj[i+1]["context"]}` : obj[i+1]["name"];
+                    context2 = obj[i+1]["context"] ? `, '${obj[i+1]["context"]}'` : '';
+                }
+
                 items += `
                 <div class="footer-pair">
-                    <button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
-                    ${obj[i+1] ? `<button id="${obj[i+1]["name"]}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1${context2})" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button>`: ''}
+                    <button id="${buttonName}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
+                    ${obj[i+1] ? `<button id="${buttonName2}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1${context2})" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button>`: ''}
                 </div>`;
                 i++;
                 break;
@@ -169,7 +178,12 @@ export function explanation(text) {
     return `<div class="explanation">${text}</div>`
 }
 export function celebrationsEmoji() {
-    let n = new Date().toISOString().split('T')[0].split('-');
-    let dm = `${n[1]}-${n[2]}`;
-    return Object.keys(celebrations).includes(dm) ? celebrations[dm] : "🐲";
+    try {
+        let n = new Date().toISOString().split('T')[0].split('-');
+        let dm = `${n[1]}-${n[2]}`;
+        let f = Object.keys(celebrations).includes(dm) ? celebrations[dm] : "🐲";
+        return f != "🐲" ? emoji(f, 22) : false;
+    } catch (e) {
+        return false
+    }
 }

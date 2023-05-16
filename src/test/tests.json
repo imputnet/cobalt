@@ -36,8 +36,8 @@
             "status": "redirect"
         }
     }, {
-        "name": "picker: mixed media (3 gifs + image)",
-        "url": "https://twitter.com/emerald_pedrod/status/1582418163521581063?s=20",
+        "name": "picker: mixed media (2 videos)",
+        "url": "https://twitter.com/taehyungsflow/status/1583411488433516544",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -633,7 +633,7 @@
         }
     }, {
         "name": "images",
-        "url": "https://vt.tiktok.com/ZS8JP89eB/",
+        "url": "https://www.tiktok.com/@matryoshk4/video/7231234675476532526",
         "params": {},
         "expected": {
             "code": 200,
@@ -815,6 +815,14 @@
     }, {
         "name": "reel",
         "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular video",
+        "url": "https://www.instagram.com/p/CmCVWoIr9OH/",
         "params": {},
         "expected": {
             "code": 200,

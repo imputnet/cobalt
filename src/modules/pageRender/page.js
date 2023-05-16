@@ -1,4 +1,4 @@
-import { backdropLink, celebrationsEmoji, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink } from "./elements.js";
+import { backdropLink, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink } from "./elements.js";
 import { services as s, appName, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -392,7 +392,7 @@ export default function(obj) {
         footerButtons([{
             name: "about",
             type: "popup",
-            text: `${emoji(celebrationsEmoji() , 22)} ${t('AboutTab')}`,
+            text: `${emoji("🐲" , 22)} ${t('AboutTab')}`,
             aria: t('AccessibilityOpenAbout')
         }, {
             name: "about",

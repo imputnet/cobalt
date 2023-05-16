@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { appName, repo } from "../modules/config.js";
 import loadJson from "../modules/sub/loadJSON.js";
 
-const locPath = './src/localization/languages'
+const locPath = './src/localization/languages';
 
 let loc = {}
 let languages = [];
