@@ -149,7 +149,7 @@ export default function(obj) {
                 })
             }, {
                 name: "donate",
-                title: `${emoji("💰")} ${t('DonationsTab')}`,
+                title: `${emoji("💖")} ${t('DonationsTab')}`,
                 content: popup({
                     name: "donate",
                     header: {
@@ -398,7 +398,7 @@ export default function(obj) {
             name: "about",
             type: "popup",
             context: "donate",
-            text: `${emoji("💰", 22)} ${t('Donate')}`,
+            text: `${emoji("💖", 22)} ${t('Donate')}`,
             aria: t('AccessibilityOpenDonate')
         }, {
             name: "settings",
