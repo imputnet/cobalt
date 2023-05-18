@@ -12,4 +12,6 @@ services:
       - port=9000 
         # Set this to your instance's URL
       - selfURL='https://co.wukko.me'
+        # Set this to 1 if you want cross-origin resource sharing on
+      - cors=0
  
