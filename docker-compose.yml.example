@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  cobalt:
+    build: .
+    restart: unless-stopped
+    container_name: cobalt
+    ports:
+      - 9000:9000/tcp
+    environment: 
+        # Set this to the port in which cobalt will run on
+      - port=9000 
+        # Set this to your instance's URL
+      - selfURL='https://co.wukko.me' 
+        # Set this to a random SHA-512 hash (you can just paste the output of "head /dev/random | sha512sum")
+      - streamSalt=PLACEHOLDER
+
+
+
