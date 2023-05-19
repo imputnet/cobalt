@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+    cobalt-api:
+        build:
+            context: .
+            dockerfile: ./docker/dockerfile_api
+        restart: unless-stopped
+        container_name: cobalt-api
+        ports:
+            - 9000:9000/tcp
+        environment:
+            - apiPort=9000
+            - apiURL='https://co.wuk.sh/'
+            - cors=1
+    cobalt-web:
+        build:
+            context: .
+            dockerfile: ./docker/dockerfile_web
+        restart: unless-stopped
+        container_name: cobalt-web
+        ports:
+            - 9000:9000/tcp
+        environment:
+            - apiPort=9000
+            - apiURL='https://co.wuk.sh/'
+            - cors=1
+    cobalt-full:
+        build:
+            context: .
+            dockerfile: ./dockerfile
+        restart: unless-stopped
+        container_name: cobalt-full
+        ports:
+            - 9000:9000/tcp
+        environment:
+            - apiPort=9000
+            - apiURL='https://co.wuk.sh/'
+            - cors=1
