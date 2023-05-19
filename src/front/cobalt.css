@@ -156,7 +156,7 @@ button:active,
 .text-to-copy:active {
     background: var(--accent-press);
     cursor: pointer;
-    transform: scale(0.95)
+    transform: scale(0.95);
 }
 .collapse-header:active {
     background: var(--accent-press);
@@ -680,6 +680,9 @@ button:active,
 }
 #about-donate-footer:active::before {
     opacity: 0;
+}
+.popup-tabs-child {
+    width: 100%;
 }
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {

@@ -89,14 +89,13 @@ export function multiPagePopup(obj) {
         tabs += `<button id="tab-button-${obj.name}-${obj.tabs[i]["name"]}" class="switch tab tab-${obj.name}" onclick="changeTab(event, 'tab-${obj.name}-${obj.tabs[i]["name"]}', '${obj.name}')">${obj.tabs[i]["title"]}</button>`
         tabContent += `<div id="tab-${obj.name}-${obj.tabs[i]["name"]}" class="popup-tab-content tab-content-${obj.name}">${obj.tabs[i]["content"]}</div>`
     }
-    tabs += `<button id="close-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
         <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
         ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
         ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
         ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}</div>` : ''}${tabContent}</div>
-        <div id="popup-tabs" class="switches popup-tabs">${tabs}</div>
+        <div id="popup-tabs" class="switches popup-tabs"><div class="switches popup-tabs-child">${tabs}</div><button id="close-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button></div>
     </div>`
 }
 export function collapsibleList(arr) {

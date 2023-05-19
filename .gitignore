@@ -13,3 +13,6 @@ build
 
 # stuff i already made but delayed
 future
+
+# docker
+docker-compose.yml

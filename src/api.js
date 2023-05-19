@@ -7,32 +7,25 @@ import { randomBytes } from "crypto";
 
 const ipSalt = randomBytes(64).toString('hex');
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename).slice(0, -4); // go up another level (get rid of src/)
-
 import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
-import { appName, genericUserAgent, version } from "./modules/config.js";
+import { appName, version } from "./modules/config.js";
 import { getJSON } from "./modules/api.js";
 import { apiJSON, checkJSONPost, getIP, languageCode } from "./modules/sub/utils.js";
 import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
 import stream from "./modules/stream/stream.js";
 import loc, { loadLoc } from "./localization/manager.js";
-import { buildFront } from "./modules/build.js";
 import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
-import findRendered from "./modules/pageRender/findRendered.js";
 import { celebrationsEmoji } from "./modules/pageRender/elements.js";
 
-if (process.env.selfURL && process.env.port) {
+if (process.env.apiURL && process.env.apiPort) {
     const commitHash = shortCommit();
     const branch = getCurrentBranch();
     const app = express();
 
     app.disable('x-powered-by');
 
-    const corsConfig = process.env.cors === '0' ? { origin: process.env.selfURL, optionsSuccessStatus: 200 } : {};
+    const corsConfig = process.env.cors === '0' ? { origin: process.env.webURL, optionsSuccessStatus: 200 } : {};
 
     const apiLimiter = rateLimit({
         windowMs: 60000,
@@ -60,17 +53,13 @@ if (process.env.selfURL && process.env.port) {
     const startTime = new Date();
     const startTimestamp = Math.floor(startTime.getTime());
 
-    // preload localization files and build static pages
+    // preload localization files
     await loadLoc();
-    await buildFront(commitHash, branch);
 
     app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/api/onDemand', apiLimiter);
-
-    app.use('/', express.static('./build/min'));
-    app.use('/', express.static('./src/front'));
 
     app.use((req, res, next) => {
         try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
@@ -192,22 +181,16 @@ if (process.env.selfURL && process.env.port) {
     app.get("/api/status", (req, res) => {
         res.status(200).end()
     });
-    app.get("/api", (req, res) => {
-        res.redirect('/api/json')
-    });
-    app.get("/", (req, res) => {
-        res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`);
-    });
     app.get("/favicon.ico", (req, res) => {
         res.redirect('/icons/favicon.ico');
     });
     app.get("/*", (req, res) => {
-        res.redirect('/')
+        res.redirect('/api/json')
     });
 
-    app.listen(process.env.port, () => {
-        console.log(`\n${Cyan(appName)} ${Bright(`v.${version}-${commitHash} (${branch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${Math.floor(startTimestamp)})`)}\n\nURL: ${Cyan(`${process.env.selfURL}`)}\nPort: ${process.env.port}\n`)
+    app.listen(process.env.apiPort, () => {
+        console.log(`\n${Cyan(appName)} API ${Bright(`v.${version}-${commitHash} (${branch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\nURL: ${Cyan(`${process.env.apiURL}`)}\nPort: ${process.env.apiPort}\n`)
     })
 } else {
-    console.log(Red(`cobalt hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`));
+    console.log(Red(`cobalt api hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`));
 }

@@ -1,6 +1,7 @@
 import * as esbuild from "esbuild";
 import * as fs from "fs";
-import { languageList } from "../localization/manager.js";
+import { loadLoc, languageList } from "../localization/manager.js";
+
 import page from "./pageRender/page.js";
 
 function cleanHTML(html) {
@@ -10,12 +11,19 @@ function cleanHTML(html) {
 }
 export async function buildFront(commitHash, branch) {
     try {
+        // preload localization files
+        await loadLoc();
+
         // build html
         if (!fs.existsSync('./build/')){
             fs.mkdirSync('./build/');
             fs.mkdirSync('./build/ios/');
             fs.mkdirSync('./build/pc/');
             fs.mkdirSync('./build/mob/');
+        }
+        // get rid of old build path
+        if (fs.existsSync('./min')) {
+            fs.rmSync('./min', { recursive: true, force: true });
         }
         for (let i in languageList) {
             i = languageList[i];
@@ -36,7 +44,7 @@ export async function buildFront(commitHash, branch) {
         // build js & css
         await esbuild.build({
             entryPoints: ['src/front/cobalt.js', 'src/front/cobalt.css'],
-            outdir: 'min/',
+            outdir: 'build/min/',
             minify: true,
             loader: { '.js': 'js', '.css': 'css', },
             charset: 'utf8'
