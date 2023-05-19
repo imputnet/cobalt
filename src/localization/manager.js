@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { appName, repo } from "../modules/config.js";
+import { appName, links, repo } from "../modules/config.js";
 import loadJson from "../modules/sub/loadJSON.js";
 
 const locPath = './src/localization/languages';
@@ -19,7 +19,7 @@ export function loadLoc() {
 loadLoc();
 
 export function replaceBase(s) {
-    return s.replace(/\n/g, '<br/>').replace(/{appName}/g, appName).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
+    return s.replace(/\n/g, '<br/>').replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut).replace(/{appName}/g, appName).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
 }
 export function replaceAll(lang, str, string, replacement) {
     let s = replaceBase(str[string])

@@ -12,7 +12,7 @@ export function switcher(obj) {
         }
     }
 
-    if (obj.noParent) return `<div class="switches">${items}</div>`;
+    if (obj.noParent) return `<div id="${obj.name}" class="switches">${items}</div>`;
     return `<div id="${obj.name}-switcher" class="switch-container">
             ${obj.subtitle ? `<div class="subtitle">${obj.subtitle}</div>` : ``}
             <div class="switches">${items}</div>
