@@ -19,8 +19,6 @@ const exceptions = { // used for mobile devices
     "vQuality": "720"
 };
 
-let apiURL = '';
-
 let store = {};
 
 function changeAPI(url) {

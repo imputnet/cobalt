@@ -12,9 +12,7 @@
         "start": "node src/cobalt",
         "setup": "node src/modules/setup",
         "test": "node src/test/test",
-        "build": "node src/modules/buildStatic",
-        "api": "node src/api",
-        "web": "node src/web"
+        "build": "node src/modules/buildStatic"
     },
     "repository": {
         "type": "git",

@@ -664,10 +664,6 @@ button:active,
 #pd-share {
     display: none;
 }
-#hop-attribution {
-    display: block;
-    text-align: right;
-}
 #about-donate-footer::before {
     content: "";
     position: absolute;

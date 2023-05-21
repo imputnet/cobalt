@@ -1,30 +1,21 @@
-import "dotenv/config";
-
-import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { randomBytes } from "crypto";
 
 const ipSalt = randomBytes(64).toString('hex');
 
-import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
-import { appName, version } from "./modules/config.js";
-import { getJSON } from "./modules/api.js";
-import { apiJSON, checkJSONPost, getIP, languageCode } from "./modules/sub/utils.js";
-import { Bright, Cyan, Green, Red } from "./modules/sub/consoleText.js";
-import stream from "./modules/stream/stream.js";
-import loc, { loadLoc } from "./localization/manager.js";
-import { changelogHistory } from "./modules/pageRender/onDemand.js";
-import { sha256 } from "./modules/sub/crypto.js";
-import { celebrationsEmoji } from "./modules/pageRender/elements.js";
+import { appName, version } from "../modules/config.js";
+import { getJSON } from "../modules/api.js";
+import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/utils.js";
+import { Bright, Cyan } from "../modules/sub/consoleText.js";
+import stream from "../modules/stream/stream.js";
+import loc from "../localization/manager.js";
+import { changelogHistory } from "../modules/pageRender/onDemand.js";
+import { sha256 } from "../modules/sub/crypto.js";
+import { celebrationsEmoji } from "../modules/pageRender/elements.js";
+import { verifyStream } from "../modules/stream/manage.js";
 
-if (process.env.apiURL && process.env.apiPort) {
-    const commitHash = shortCommit();
-    const branch = getCurrentBranch();
-    const app = express();
-
-    app.disable('x-powered-by');
-
+export async function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = process.env.cors === '0' ? { origin: process.env.webURL, optionsSuccessStatus: 200 } : {};
 
     const apiLimiter = rateLimit({
@@ -53,9 +44,6 @@ if (process.env.apiURL && process.env.apiPort) {
     const startTime = new Date();
     const startTimestamp = Math.floor(startTime.getTime());
 
-    // preload localization files
-    await loadLoc();
-
     app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
@@ -63,10 +51,6 @@ if (process.env.apiURL && process.env.apiPort) {
 
     app.use((req, res, next) => {
         try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
-        next();
-    });
-    app.use((req, res, next) => {
-        if (req.header("user-agent") && req.header("user-agent").includes("Trident")) res.destroy();
         next();
     });
     app.use('/api/json', express.json({
@@ -120,6 +104,12 @@ if (process.env.apiURL && process.env.apiPort) {
             let ip = sha256(getIP(req), ipSalt);
             switch (req.params.type) {
                 case 'stream':
+                    let streamInfo = verifyStream(ip, req.query.t, req.query.h, req.query.e);
+                    if (streamInfo.error) {
+                        res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
+                        return;
+                    }
+
                     if (req.query.p) {
                         res.status(200).json({ "status": "continue" });
                         return;
@@ -161,8 +151,9 @@ if (process.env.apiURL && process.env.apiPort) {
                 case 'serverInfo':
                     res.status(200).json({
                         version: version,
-                        commit: commitHash,
-                        branch: branch,
+                        commit: gitCommit,
+                        branch: gitBranch,
+                        name: process.env.apiName ? process.env.apiName : "unknown",
                         url: process.env.apiURL,
                         cors: process.env.cors,
                         startTime: `${startTimestamp}`
@@ -178,19 +169,17 @@ if (process.env.apiURL && process.env.apiPort) {
             return;
         }
     });
-    app.get("/api/status", (req, res) => {
+    app.get('/api/status', (req, res) => {
         res.status(200).end()
     });
-    app.get("/favicon.ico", (req, res) => {
-        res.redirect('/icons/favicon.ico');
+    app.get('/favicon.ico', (req, res) => {
+        res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
     });
-    app.get("/*", (req, res) => {
+    app.get('/*', (req, res) => {
         res.redirect('/api/json')
     });
 
     app.listen(process.env.apiPort, () => {
-        console.log(`\n${Cyan(appName)} API ${Bright(`v.${version}-${commitHash} (${branch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\nURL: ${Cyan(`${process.env.apiURL}`)}\nPort: ${process.env.apiPort}\n`)
-    })
-} else {
-    console.log(Red(`cobalt api hasn't been configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`));
+        console.log(`\n${Cyan(appName)} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\nURL: ${Cyan(`${process.env.apiURL}`)}\nPort: ${process.env.apiPort}\n`)
+    });
 }
