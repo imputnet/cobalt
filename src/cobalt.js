@@ -25,6 +25,7 @@ app.disable('x-powered-by');
 
 await loadLoc(); // preload localization
 
+// i don't like this at all
 if (process.env.apiURL && process.env.apiPort && !((process.env.webURL && process.env.webPort) || (process.env.selfURL && process.env.port))) {
     await runAPI(express, app, gitCommit, gitBranch, __dirname);
 } else if (process.env.webURL && process.env.webPort && !((process.env.apiURL && process.env.apiPort) || (process.env.selfURL && process.env.port))) {
