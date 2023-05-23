@@ -96,8 +96,9 @@ export default function(obj) {
                             "name": "support",
                             "title": t("CollapseSupport"),
                             "body": `${t("FollowSupport")}<br/>
-                            ${socialLink(emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url)}
-                            ${socialLink(emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url)}<br/>
+                            ${socialLink(emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url)}
+                            ${socialLink(emoji("👾"), "discord", authorInfo.support.discord.handle, authorInfo.support.discord.url)}
+                            ${socialLink(emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url)}<br/>
                             ${t("SourceCode")}<br/>
                             ${socialLink(emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo)}<br/>
                             ${t("SupportNote")}`
