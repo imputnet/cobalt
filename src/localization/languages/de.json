@@ -47,7 +47,7 @@
         "SettingsQualityDescription": "wenn die gewählte qualität nicht verfügbar ist, wird die nächstbeste verwendet.",
         "LinkGitHubChanges": "&gt;&gt; vorherige Commits ansehen und auf GitHub beitragen",
         "NoScriptMessage": "{appName} verwendet javascript für api-anfragen und die interaktive benutzeroberfläche. du musst javascript aktivieren, um die seite zu nutzen. es gibt keine nervigen skripte, ehrenwort.",
-        "DownloadPopupDescriptionIOS": "Drücke und halte den Download-Button, verstecke die Video-Vorschau, und wähle \"lade verlinkte Datei herunter\" um zu speichern.",
+        "DownloadPopupDescriptionIOS": "der einfachste weg videos auf ios zu speichern:\n1. füge <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">diese siri verknüpfung</a> hinzu.\n2. klicke \"teilen\" und wähle \"in fotos speichern\" im teilen menü.\nwenn du gefragt wirst, erlaube die berechtigung und wähle \"immer erlauben\".\n\nalternative: halte den download button, verberge die video vorschau und wähle \"verlinkte datei herunterladen\" um den download zu starten\ndann, öffne die safari downloads, wähle die datei, die du runtergeladen hast, öffne das teilen menü und zu guter letzt wähle \"video speichern\"",
         "DownloadPopupDescription": "Der Download-Button öffnet einen neuen Tab mit der angeforderten Datei. Sie können dieses Pop-up in den Einstellungen deaktivieren.",
         "DownloadPopupWayToSave": "wähle einen Weg zum Speichern",
         "ClickToCopy": "Drücken zum Kopieren",
@@ -71,7 +71,7 @@
         "SettingsAudioFullTikTok": "ganzer ton",
         "SettingsAudioFullTikTokDescription": "lädt den im video verwendeten originalton ohne zusätzliche änderungen durch den videoautor herunter.",
         "ErrorCantGetID": "es konnten keine informationen aus dem gekürzten link extrahiert werden. bitte stelle sicher, dass der link funktioniert oder versuche einen ungekürzten link. wenn das problem weiterhin besteht, {ContactLink}",
-        "ErrorNoVideosInTweet": "ich konnte keine videos oder gifs in diesem tweet finden. probiere einen anderen!",
+        "ErrorNoVideosInTweet": "ich konnte keine medien in diesem tweet finden. probiere einen anderen!",
         "ImagePickerTitle": "Bilder zum Herunterladen auswählen",
         "ImagePickerDownloadAudio": "Audio herunterladen",
         "ImagePickerExplanationPC": "Rechtsklick auf ein Bild, um es zu speichern.",
@@ -94,7 +94,7 @@
         "ChangelogPressToHide": "einklappen",
         "Donate": "Spende",
         "DonateSub": "Hilf mir, es am laufen zu halten.",
-        "DonateExplanation": "{appName} schaltet keine Werbung und verkauft Ihre Daten nicht (und wird es auch nie tun), daher ist es <span class=\"text-backdrop\">völlig kostenlos zu nutzen</span>. Jedoch stellt es sich heraus, dass die Entwicklung und Aufrechterhaltung eines Webdienstes, welcher von über 80 Tausend Menschen genutzt wird, nicht so einfach ist.\n\nWenn Sie jemals {appName} nützlich fanden und es online halten möchten oder einfach dem Entwickler danken möchten, können Sie gerne einen Beitrag leisten! Jeder Cent hilft und wird SEHR geschätzt :D",
+        "DonateExplanation": "{appName} wird nie und nimmer werbung zeigen oder deine daten verkaufen, das heißt es ist <span class=\"text-backdrop\">komplett kostenlos nutzbar</span>. allerdings stellt sich raus, dass das entwickeln und betreiben einer webanwendung für 150.000 menschen nicht ganz einfach ist.\n\nsolltest du {appName} jemals für nützlich befunden haben und du möchtest bei der entwicklung helfen oder einfach dem entwickler danken, denk über eine kleine spende nach! jeder cent hilft und wird SEHR dankend angenommen :D\n\naktuell habe ich große (skalierungs) pläne für die zukunft und brauche deine hilfe. {appName} wird tagtäglich mehr und mehr genutzt, deshalb musst du einspringen. <span class=\"text-backdrop\">spenden sind mehr willkommen denn je.</span>\n\nbisher hab' ich noch nichts mit {appName} verdient, alles geht direkt an die user, du hilfst also jedem.",
         "DonateVia": "Spenden via",
         "DonateHireMe": "...alternativ kannst du mich auch <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">beauftragen</a> :)",
         "SettingsVideoMute": "Ton stummschalten",
@@ -118,6 +118,7 @@
         "SettingsDubAuto": "Auto",
         "SettingsVimeoPrefer": "Vimeo Download-Typ",
         "SettingsVimeoPreferDescription": "progressive: direkter link zu vimeo's cdn. maximal 1080p.\ndash: video und audio werden durch {appName} zu einer datei kombiniert. maximal 4k.\n\nwähle \"progressive\" für bessere kompabilität mit editoren/wiedergabe/sozialen medien. falls progressive nicht funktioniert, wird automatisch dash genutzt. ",
-        "ShareURL": "Teilen"
+        "ShareURL": "Teilen",
+        "ErrorTweetUnavailable": "ich konnte gar nichts über diesen tweet finden. vielleicht ist seine sichtbarkeit eingeschränkt. versuche einen anderen!"
     }
 }
