@@ -7,8 +7,9 @@
     --padding-1: 0.75rem;
     --line-height: 1.65rem;
     --red: rgb(255, 0, 61);
-    --color: rgb(107, 67, 139);
-    --gap: 0.6rem;
+    --gap: 0.5rem;
+    --gap-no-icon: 0.6rem;
+    --rainbow-gradient: linear-gradient(161deg,#ffe454,#ff6964,#fe85e5,#bd26fe,#587ae9,#8ded95);
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -19,7 +20,7 @@
         --accent-unhover: rgb(100, 100, 100);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(0, 0, 0);
-        --checkmark: url(vectorIcons/checkmark_b.svg);
+        --glow-transparency: 0.45;
     }
 }
 @media (prefers-color-scheme: light) {
@@ -31,7 +32,7 @@
         --accent-unhover: rgb(190, 190, 190);
         --accent-unhover-2: rgb(110, 110, 110);
         --background: rgb(255, 255, 255);
-        --checkmark: url(vectorIcons/checkmark.svg);
+        --glow-transparency: 0.6;
     }
 }
 [data-theme="dark"] {
@@ -42,7 +43,7 @@
     --accent-unhover: rgb(100, 100, 100);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(0, 0, 0);
-    --checkmark: url(vectorIcons/checkmark_b.svg);
+    --glow-transparency: 0.45;
 }
 [data-theme="light"] {
     --accent: rgb(25, 25, 25);
@@ -52,7 +53,7 @@
     --accent-unhover: rgb(190, 190, 190);
     --accent-unhover-2: rgb(110, 110, 110);
     --background: rgb(255, 255, 255);
-    --checkmark: url(vectorIcons/checkmark.svg);
+    --glow-transparency: 0.6;
 }
 html,
 body {
@@ -87,7 +88,7 @@ a {
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
-    padding: 0.55rem 1rem 0.55rem 0.7rem;
+    padding: calc(var(--gap) - 0.1rem) calc(var(--gap)*2 - 0.2rem) calc(var(--gap) - 0.1rem) var(--gap);
     width: auto;
     margin-right: var(--padding-1);
     margin-bottom: var(--padding-1);
@@ -227,7 +228,7 @@ button:active,
     color: var(--accent);
 }
 #url-input-area {
-    background: var(--background);
+    background: none;
     padding: 0 1rem;
     width: 100%;
     color: var(--accent);
@@ -349,7 +350,7 @@ button:active,
 }
 .changelog-subtitle {
     font-size: 1.1rem;
-    padding-bottom: 0.7rem;
+    padding-bottom: var(--gap-no-icon);
 }
 .changelog-banner {
     width: 100%;
@@ -441,7 +442,7 @@ button:active,
     color: var(--accent-unhover-2);
     border-bottom: 0.05rem solid var(--accent-unhover-2);
     padding-bottom: 0.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: calc(var(--gap-no-icon)*1.5);
 }
 .category-title {
     text-align: left;
@@ -474,7 +475,7 @@ button:active,
     margin-top: 0.5rem;
 }
 .explanation {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     width: 100%;
     font-size: 0.8rem;
     text-align: left;
@@ -485,7 +486,7 @@ button:active,
     color: var(--accent-unhover-2);
 }
 .switch {
-    padding: 0.7rem;
+    padding: var(--gap-no-icon);
     width: 100%;
     text-align: left;
     color: var(--accent);
@@ -515,6 +516,13 @@ button:active,
     overflow-x: scroll;
     scrollbar-width: none;
 }
+.switches .switch {
+    padding-left: calc(var(--gap-no-icon) + 0.1rem);
+    padding-right: calc(var(--gap-no-icon) + 0.1rem);
+}
+#popup-settings .switches .switch {
+    text-align: center;
+}
 .autowidth {
     width: auto;
 }
@@ -524,12 +532,12 @@ button:active,
 .text-to-copy {
     user-select: text;
     -webkit-user-select: text;
-    border: var(--border-15);
+    background: var(--accent-button-bg);
     padding: var(--padding-1);
     overflow: auto;
 }
 #close-button {
-    max-width: 2.8rem;
+    max-width: 2.6rem;
     margin-left: var(--padding-1);
     background: var(--background);
     border: var(--border-15);
@@ -540,7 +548,7 @@ button:active,
     float: right;
     position: absolute;
     right: 0;
-    height: 2.8rem;
+    height: 2.6rem;
 }
 .popup-tab-content {
     display: none;
@@ -552,7 +560,7 @@ button:active,
     width: 100%;
 }
 .popup-tabs {
-    margin-top: 0.8rem;
+    margin-top: 0.9rem;
 }
 .emoji {
     margin-right: 0.4rem;
@@ -660,6 +668,19 @@ button:active,
     display: block;
     text-align: right;
 }
+#about-donate-footer::before {
+    content: "";
+    position: absolute;
+    height: 110%;
+    width: 32%;
+    background: var(--rainbow-gradient);
+    z-index: -2;
+    filter: blur(5px);
+    opacity: var(--glow-transparency);
+}
+#about-donate-footer:active::before {
+    opacity: 0;
+}
 /* adapt the page according to screen size */
 @media screen and (min-width: 2300px) {
     html {
@@ -754,9 +775,14 @@ button:active,
     }
 }
 @media screen and (max-width: 320px) {
+    :root {
+        --gap: 0.38rem;
+        --gap-no-icon: 0.38rem;
+        --line-height: 1.2rem;
+    }
     #popup-title {
-        font-size: 1.3rem;
-        line-height: 2rem;
+        font-size: 1.07rem;
+        line-height: 1.5rem;
     }
     .footer-button,
     #audioMode-false,
@@ -770,21 +796,60 @@ button:active,
     #paste .emoji {
         margin-right: 0;
     }
-    .switch, .checkbox, .category-title, .subtitle, #popup-desc {
-        font-size: .75rem;
+    .switch,
+    .checkbox,
+    .category-title,
+    .subtitle,
+    #popup-desc,
+    .collapse-title {
+        font-size: .7rem;
+    }
+    .collapse-header {
+        padding: 0.5rem;
+    }
+    #popup-above-title,
+    #url-input-area {
+        font-size: 0.6rem;
     }
     .explanation {
-        font-size: .77rem;
-        margin-top: 0.8rem;
+        font-size: .6rem;
+        margin-top: 0.5rem;
+        line-height: 1rem!important;
     }
     #popup-desc {
-        line-height: 1.4rem;
+        line-height: 1.2rem;
+        font-size: .64rem;
     }
     .changelog-subtitle, #popup-subtitle {
-        font-size: 0.9rem!important;
+        font-size: 0.8rem!important;
     }
     .category-title {
         margin-bottom: 0.8rem;
+    }
+    .emoji {
+        height: 18px;
+        width: 18px;
+    }
+    .desc-padding {
+        padding-bottom: 0.8rem;
+    }
+    #logo {
+        font-size: 0.8rem;
+    }
+    .popup,
+    .popup.scrollable,
+    .popup.small {
+        height: 98%;
+    }
+    [type=checkbox] {
+        width: 15px;
+        height: 15px;
+        border: 0.12rem solid var(--accent);
+    }
+    [type=checkbox]:before {
+        transform: scaleY(.8)scaleX(.7)rotate(45deg);
+        left: 3.4px;
+        top: -2px;
     }
 }
 @media screen and (max-width: 720px) {
@@ -795,12 +860,16 @@ button:active,
         width: 100%;
     }
     #footer {
-        bottom: 4%;
+        bottom: 4.9%;
         transform: translate(-50%, 0%);
     }
     #footer-buttons {
         flex-direction: column;
         align-items: stretch;
+    }
+    #about-donate-footer::before {
+        height: 50%;
+        width: 50%;
     }
     .footer-pair .footer-button {
         width: 100%!important;

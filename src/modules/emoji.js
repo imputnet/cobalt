@@ -1,7 +1,6 @@
 const names = {
     "🎶": "musical_notes",
     "🎬": "clapper_board",
-    "💰": "money_bag",
     "🎉": "party_popper",
     "❓": "question_mark",
     "✨": "sparkles",
@@ -23,7 +22,8 @@ const names = {
     "🐦": "bird",
     "🐙": "octopus",
     "🔮": "crystal_ball",
-    "💪": "biceps"
+    "💪": "biceps",
+    "💖": "sparkling_heart"
 }
 let sizing = {
     22: 0.4,

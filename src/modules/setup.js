@@ -1,6 +1,6 @@
 import { existsSync, unlinkSync, appendFileSync } from "fs";
 import { createInterface } from "readline";
-import { Cyan, Bright, Green } from "./sub/consoleText.js";
+import { Cyan, Bright } from "./sub/consoleText.js";
 import { execSync } from "child_process";
 
 let envPath = './.env';
@@ -42,7 +42,7 @@ rl.question(q, r1 => {
         if (r2) ob['port'] = r2
         if (!r1 && r2) ob['selfURL'] = `http://localhost:${r2}/`
 
-        console.log(Bright("\nWould you like to enable CORS? It allows other websites and extensions to use your instance's API.\n y/n (n)"))
+        console.log(Bright("\nWould you like to enable CORS? It allows other websites and extensions to use your instance's API.\ny/n (n)"))
 
         rl.question(q, r3 => {
             if (r3.toLowerCase() !== 'y') ob['cors'] = '0'

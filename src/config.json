@@ -27,6 +27,9 @@
             "boosty": "https://boosty.to/wukko"
         }
     },
+    "links": {
+        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/6d4fe6e5bade4150b8759ce20720c7a3"
+    },
     "celebrations": {
         "01-01": "🎄",
         "02-17": "😺",

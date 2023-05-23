@@ -23,6 +23,7 @@ import { buildFront } from "./modules/build.js";
 import { changelogHistory } from "./modules/pageRender/onDemand.js";
 import { sha256 } from "./modules/sub/crypto.js";
 import findRendered from "./modules/pageRender/findRendered.js";
+import { celebrationsEmoji } from "./modules/pageRender/elements.js";
 
 if (process.env.selfURL && process.env.port) {
     const commitHash = shortCommit();
@@ -138,21 +139,29 @@ if (process.env.selfURL && process.env.port) {
                     break;
                 case 'onDemand':
                     if (req.query.blockId) {
-                        let blockId = req.query.blockId.slice(0, 3)
+                        let blockId = req.query.blockId.slice(0, 3);
                         let r, j;
                         switch(blockId) {
-                            case "0":
+                            case "0": // changelog history
                                 r = changelogHistory();
                                 j = r ? apiJSON(3, { t: r }) : apiJSON(0, { t: "couldn't render this block" })
+                                break;
+                            case "1": // celebrations emoji
+                                r = celebrationsEmoji();
+                                j = r ? apiJSON(3, { t: r }) : false
                                 break;
                             default:
                                 j = apiJSON(0, { t: "couldn't find a block with this id" })
                                 break;
                         }
-                        res.status(j.status).json(j.body);
+                        if (j.body) {
+                            res.status(j.status).json(j.body)
+                        } else {
+                            res.status(204).end()
+                        }
                     } else {
-                        let j = apiJSON(0, { t: "no block id" })
-                        res.status(j.status).json(j.body);
+                        let j = apiJSON(0, { t: "no block id" });
+                        res.status(j.status).json(j.body)
                     }
                     break;
                 default:
