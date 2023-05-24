@@ -17,6 +17,7 @@ import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 import instagram from "./services/instagram.js";
 import vine from "./services/vine.js";
+import pinterest from "./services/pinterest.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
@@ -109,6 +110,9 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "vine":
                 r = await vine({ id: patternMatch["id"] });
+                break;
+            case "pinterest":
+                r = await pinterest({ id: patternMatch["id"] });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });

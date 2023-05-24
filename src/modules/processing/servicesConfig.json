@@ -62,6 +62,11 @@
             "tld": "co",
             "patterns": ["v/:id"],
             "enabled": true
+        },
+        "pinterest": {
+            "alias": "pinterest videos & stories",
+            "patterns": ["pin/:id"],
+            "enabled": true
         }
     }    
 }
