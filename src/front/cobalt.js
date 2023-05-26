@@ -1,13 +1,11 @@
-let ua = navigator.userAgent.toLowerCase();
-let isIOS = ua.match("iphone os");
-let isMobile = ua.match("android") || ua.match("iphone os");
-let version = 25;
-let regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
-let notification = `<div class="notification-dot"></div>`
+const ua = navigator.userAgent.toLowerCase();
+const isIOS = ua.match("iphone os");
+const isMobile = ua.match("android") || ua.match("iphone os");
+const version = 26;
+const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
+const notification = `<div class="notification-dot"></div>`;
 
-let store = {}
-
-let switchers = {
+const switchers = {
     "theme": ["auto", "light", "dark"],
     "vCodec": ["h264", "av1", "vp9"],
     "vQuality": ["1080", "max", "2160", "1440", "720", "480", "360"],
@@ -15,12 +13,16 @@ let switchers = {
     "dubLang": ["original", "auto"],
     "vimeoDash": ["false", "true"],
     "audioMode": ["false", "true"]
-}
-let checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
-let exceptions = { // used for mobile devices
+};
+const checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio"];
+const exceptions = { // used for mobile devices
     "vQuality": "720"
-}
-let dropdowns = ["language"]
+};
+let dropdowns = ["language"];
+
+const apiURL = '';
+
+let store = {};
 
 function eid(id) {
     return document.getElementById(id)
@@ -363,88 +365,103 @@ async function download(url) {
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
         if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
-    await fetch('/api/json', { method: "POST", body: JSON.stringify(req), headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } }).then(async (r) => {
-        let j = await r.json();
-        if (j.status !== "error" && j.status !== "rate-limit") {
-            if (j.url || j.picker) {
-                switch (j.status) {
-                    case "redirect":
-                        changeDownloadButton(2, '>>>');
-                        setTimeout(() => { changeButton(1); }, 1500);
-                        sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
-                        break;
-                    case "picker":
-                        if (j.audio && j.picker) {
-                            changeDownloadButton(2, '?..')
-                            fetch(`${j.audio}&p=1`).then(async (res) => {
-                                let jp = await res.json();
-                                if (jp.status === "continue") {
-                                    changeDownloadButton(2, '>>>');
-                                    popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
-                                    setTimeout(() => { changeButton(1) }, 2500);
-                                } else {
-                                    changeButton(0, jp.text);
-                                }
-                            }).catch((error) => internetError());
-                        } else if (j.picker) {
+
+    let j = await fetch(`${apiURL}/api/json`, {
+        method: "POST",
+        body: JSON.stringify(req),
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    }).then((r) => { return r.json() }).catch((e) => { return false });
+    if (!j) {
+        internetError();
+        return
+    }
+
+    if (j && j.status !== "error" && j.status !== "rate-limit") {
+        if (j.text && (!j.url || !j.picker)) {
+            if (j.status === "success") {
+                changeButton(2, j.text)
+            } else changeButton(0, loc.noURLReturned);
+        }
+        switch (j.status) {
+            case "redirect":
+                changeDownloadButton(2, '>>>');
+                setTimeout(() => { changeButton(1); }, 1500);
+                sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
+                break;
+            case "picker":
+                if (j.audio && j.picker) {
+                    changeDownloadButton(2, '?..')
+                    fetch(`${j.audio}&p=1`).then(async (res) => {
+                        let jp = await res.json();
+                        if (jp.status === "continue") {
                             changeDownloadButton(2, '>>>');
-                            popup('picker', 1, { arr: j.picker, type: j.pickerType });
+                            popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
                             setTimeout(() => { changeButton(1) }, 2500);
                         } else {
-                            changeButton(0, loc.noURLReturned);
+                            changeButton(0, jp.text);
                         }
-                        break;
-                    case "stream":
-                        changeDownloadButton(2, '?..')
-                        fetch(`${j.url}&p=1`).then(async (res) => {
-                            let jp = await res.json();
-                            if (jp.status === "continue") {
-                                changeDownloadButton(2, '>>>'); window.location.href = j.url;
-                                setTimeout(() => { changeButton(1) }, 2500);
-                            } else {
-                                changeButton(0, jp.text);
-                            }
-                        }).catch((error) => internetError());
-                        break;
-                    case "success":
-                        changeButton(2, j.text);
-                        break;
-                    default:
-                        changeButton(0, loc.unknownStatus);
-                        break;
+                    }).catch((error) => internetError());
+                } else if (j.picker) {
+                    changeDownloadButton(2, '>>>');
+                    popup('picker', 1, { arr: j.picker, type: j.pickerType });
+                    setTimeout(() => { changeButton(1) }, 2500);
+                } else {
+                    changeButton(0, loc.noURLReturned);
                 }
-            } else {
-                if (j.status === "success") {
-                    changeButton(2, j.text)
-                } else changeButton(0, loc.noURLReturned);
-            }
-        } else {
-            changeButton(0, j.text);
+                break;
+            case "stream":
+                changeDownloadButton(2, '?..')
+                fetch(`${j.url}&p=1`).then(async (res) => {
+                    let jp = await res.json();
+                    if (jp.status === "continue") {
+                        changeDownloadButton(2, '>>>'); window.location.href = j.url;
+                        setTimeout(() => { changeButton(1) }, 2500);
+                    } else {
+                        changeButton(0, jp.text);
+                    }
+                }).catch((error) => internetError());
+                break;
+            case "success":
+                changeButton(2, j.text);
+                break;
+            default:
+                changeButton(0, loc.unknownStatus);
+                break;
         }
-    }).catch((error) => internetError());
+    } else if (j && j.text) {
+        changeButton(0, j.text);
+    }
+}
+async function loadCelebrationsEmoji() {
+    let bac = eid("about-footer").innerHTML;
+    try {
+        let j = await fetch(`${apiURL}/api/onDemand?blockId=1`).then((r) => { if (r.status === 200) { return r.json() } else { return false } }).catch(() => { return false });
+        if (j && j.status === "success" && j.text) {
+            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace('<img class="emoji" draggable="false" height="22" width="22" alt="🐲" src="emoji/dragon_face.svg">', j.text);
+        }
+    } catch (e) {
+        eid("about-footer").innerHTML = bac;
+    }
 }
 async function loadOnDemand(elementId, blockId) {
+    let j = {};
     store.historyButton = eid(elementId).innerHTML;
-    let j = {}
-    eid(elementId).innerHTML = "..."
+    eid(elementId).innerHTML = "...";
+
     try {
         if (store.historyContent) {
             j = store.historyContent;
         } else {
-            await fetch(`/api/onDemand?blockId=${blockId}`).then(async (r) => {
+            await fetch(`${apiURL}/api/onDemand?blockId=${blockId}`).then(async(r) => {
                 j = await r.json();
-                if (j.status === "success") store.historyContent = j;
-            })
+                if (j && j.status === "success") {
+                    store.historyContent = j;
+                } else throw new Error();
+            }).catch(() => { throw new Error() });
         }
-        if (j.status === "success" && j.status !== "rate-limit") {
-            if (j.text) {
-                eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.collapseHistory}</button>${j.text}`;
-            } else {
-                throw new Error()
-            }
-        } else {
-            throw new Error()
-        }
+        if (j.text) {
+            eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.collapseHistory}</button>${j.text}`;
+        } else throw new Error()
     } catch (e) {
         eid(elementId).innerHTML = store.historyButton;
         internetError()
@@ -461,6 +478,7 @@ window.onload = () => {
     eid("footer").style.visibility = 'visible';
     eid("url-input-area").value = "";
     notificationCheck();
+    loadCelebrationsEmoji();
     if (isIOS) sSet("downloadPopup", "true");
     let urlQuery = new URLSearchParams(window.location.search).get("u");
     if (urlQuery !== null && regex.test(urlQuery)) {

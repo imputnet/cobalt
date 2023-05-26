@@ -1,4 +1,5 @@
-import { backdropLink, celebrationsEmoji, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, dropdownSelect } from "./elements.js";
+import { backdropLink, checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, dropdownSelect } from "./elements.js";
+
 import { services as s, appName, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc, { languagePickerNames } from "../../localization/manager.js";
@@ -106,6 +107,7 @@ export default function(obj) {
                             "title": t("CollapsePrivacy"),
                             "body": t("PrivacyPolicy")
                         }])
+                        + `${process.env.DEPLOYMENT_ID && process.env.INTERNAL_IP ? '<a id="hop-attribution" class="explanation" href="https://hop.io/" target="_blank">powered by hop.io</a>' : ''}`
                     }]
                 })
             }, {
@@ -148,7 +150,7 @@ export default function(obj) {
                 })
             }, {
                 name: "donate",
-                title: `${emoji("💰")} ${t('DonationsTab')}`,
+                title: `${emoji("💖")} ${t('DonationsTab')}`,
                 content: popup({
                     name: "donate",
                     header: {
@@ -395,13 +397,13 @@ export default function(obj) {
         footerButtons([{
             name: "about",
             type: "popup",
-            text: `${emoji(celebrationsEmoji() , 22)} ${t('AboutTab')}`,
+            text: `${emoji("🐲" , 22)} ${t('AboutTab')}`,
             aria: t('AccessibilityOpenAbout')
         }, {
             name: "about",
             type: "popup",
             context: "donate",
-            text: `${emoji("💰", 22)} ${t('Donate')}`,
+            text: `${emoji("💖", 22)} ${t('Donate')}`,
             aria: t('AccessibilityOpenDonate')
         }, {
             name: "settings",

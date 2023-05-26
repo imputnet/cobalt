@@ -36,12 +36,12 @@ async function findClientID() {
 export default async function(obj) {
     let html;
     if (!obj.author && !obj.song && obj.shortLink) {
-        html = await fetch(`https://soundcloud.app.goo.gl/${obj.shortLink}/`).then((r) => { return r.text() }).catch(() => { return false });
+        html = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`).then((r) => { return r.status === 404 ? false : r.text() }).catch(() => { return false });
     }
     if (obj.author && obj.song) {
         html = await fetch(`https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`).then((r) => { return r.text() }).catch(() => { return false });
     }
-    if (!html) return { error: 'ErrorCouldntFetch'};
+    if (!html) return { error: 'ErrorCouldntFetch' };
     if (!(html.includes('<script>window.__sc_hydration = ')
     && html.includes('"format":{"protocol":"progressive","mime_type":"audio/mpeg"},')
     && html.includes('{"hydratable":"sound","data":'))) {

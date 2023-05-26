@@ -73,10 +73,9 @@ export default async function(o) {
         };
         return r
     }
-
     let checkSingle = (i) => ((i['quality_label'].split('p')[0] === quality || i['quality_label'].split('p')[0] === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
-        checkBestVideo = (i) => (i['quality_label'].split('p')[0] === bestQuality && !i["has_audio"] && i["has_video"]),
-        checkRightVideo = (i) => (i['quality_label'].split('p')[0] === quality && !i["has_audio"] && i["has_video"]);
+        checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && i['quality_label'].split('p')[0] === bestQuality),
+        checkRightVideo = (i) => (i["has_video"] && !i["has_audio"] && i['quality_label'].split('p')[0] === quality);
 
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         let single = info.streaming_data.formats.find(i => checkSingle(i));

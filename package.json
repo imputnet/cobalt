@@ -1,12 +1,12 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "5.3.2",
+    "version": "5.7",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
     "engines": {
-        "node": ">=17.5"
+        "node": ">=18"
     },
     "scripts": {
         "start": "node src/cobalt",
@@ -34,6 +34,6 @@
         "node-cache": "^5.1.2",
         "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",
-        "youtubei.js": "4.1.1"
+        "youtubei.js": "^5.1.0"
     }
 }

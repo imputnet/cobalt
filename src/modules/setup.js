@@ -1,12 +1,11 @@
-import { randomBytes } from "crypto";
 import { existsSync, unlinkSync, appendFileSync } from "fs";
 import { createInterface } from "readline";
-import { Cyan, Bright, Green } from "./sub/consoleText.js";
+import { Cyan, Bright } from "./sub/consoleText.js";
 import { execSync } from "child_process";
 
 let envPath = './.env';
 let q = `${Cyan('?')} \x1b[1m`;
-let ob = { streamSalt: randomBytes(64).toString('hex') }
+let ob = {}
 let rl = createInterface({ input: process.stdin, output: process.stdout });
 
 let final = () => {
@@ -42,6 +41,12 @@ rl.question(q, r1 => {
     rl.question(q, r2 => {
         if (r2) ob['port'] = r2
         if (!r1 && r2) ob['selfURL'] = `http://localhost:${r2}/`
-        final()
+
+        console.log(Bright("\nWould you like to enable CORS? It allows other websites and extensions to use your instance's API.\ny/n (n)"))
+
+        rl.question(q, r3 => {
+            if (r3.toLowerCase() !== 'y') ob['cors'] = '0'
+            final()
+        })
     });
 })

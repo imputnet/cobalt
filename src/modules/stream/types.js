@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 import ffmpeg from "ffmpeg-static";
 import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { metadataManager, msToTime } from "../sub/utils.js";
+import { getThreads, metadataManager, msToTime } from "../sub/utils.js";
 
 export function streamDefault(streamInfo, res) {
     try {
@@ -35,9 +35,9 @@ export function streamLiveRender(streamInfo, res) {
             return;
         }
         let audio = got.get(streamInfo.urls[1], { isStream: true });
-
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
             '-loglevel', '-8',
+            '-threads', `${getThreads()}`,
             '-i', streamInfo.urls[0],
             '-i', 'pipe:3',
             '-map', '0:v',
@@ -95,6 +95,7 @@ export function streamAudioOnly(streamInfo, res) {
     try {
         let args = [
             '-loglevel', '-8',
+            '-threads', `${getThreads()}`,
             '-i', streamInfo.urls
         ]
         if (streamInfo.metadata) {
@@ -141,6 +142,7 @@ export function streamVideoOnly(streamInfo, res) {
     try {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
             '-loglevel', '-8',
+            '-threads', `${getThreads()}`,
             '-i', streamInfo.urls,
             '-c', 'copy'
         ]

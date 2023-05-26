@@ -65,6 +65,8 @@ export function cleanURL(url, host) {
     let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
     switch(host) {
         case "vk":
+            url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
+            break;
         case "youtube":
             url = url.split('&')[0];
             break;
@@ -145,5 +147,20 @@ export function checkJSONPost(obj) {
         return def
     } catch (e) {
         return false
+    }
+}
+export function getIP(req) {
+    return req.header('cf-connecting-ip') ? req.header('cf-connecting-ip') : req.ip;
+}
+export function getThreads() {
+    try {
+        if (process.env.ffmpegThreads && process.env.ffmpegThreads.length <= 3
+            && (Number(process.env.ffmpegThreads) >= 0 && Number(process.env.ffmpegThreads) <= 256)) {
+            return process.env.ffmpegThreads
+        } else {
+            return '0'
+        }
+    } catch (e) {
+        return '0'
     }
 }

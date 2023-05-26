@@ -36,8 +36,8 @@
             "status": "redirect"
         }
     }, {
-        "name": "picker: mixed media (3 gifs + image)",
-        "url": "https://twitter.com/emerald_pedrod/status/1582418163521581063?s=20",
+        "name": "picker: mixed media (2 videos)",
+        "url": "https://twitter.com/taehyungsflow/status/1583411488433516544",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -97,6 +97,30 @@
         }
     }, {
         "name": "retweeted video",
+        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "retweeted video",
+        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "age-restricted video",
+        "url": "https://twitter.com/FckyeahCharli/status/1650987582749065220",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "retweeted video, isAudioOnly",
         "url": "https://twitter.com/winload_exe/status/1633091769482063874",
         "params": {
             "aFormat": "mp3",
@@ -252,6 +276,22 @@
             "isAudioOnly": true,
             "isAudioMuted": true
         },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "on.soundcloud link",
+        "url": "https://on.soundcloud.com/wLZre",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "on.soundcloud link, different stream type",
+        "url": "https://on.soundcloud.com/AG4c",
+        "params": {},
         "expected": {
             "code": 200,
             "status": "stream"
@@ -452,6 +492,14 @@
             "status": "stream"
         }
     }, {
+        "name": "ancient video (fallback to 240p)",
+        "url": "https://vk.com/video-1959_28496479",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "inexistent video",
         "url": "https://vk.com/video-53333333_456233333",
         "params": {},
@@ -585,7 +633,7 @@
         }
     }, {
         "name": "images",
-        "url": "https://vt.tiktok.com/ZS8JP89eB/",
+        "url": "https://www.tiktok.com/@matryoshk4/video/7231234675476532526",
         "params": {},
         "expected": {
             "code": 200,
@@ -754,6 +802,96 @@
         "expected": {
             "code": 200,
             "status": "redirect"
+        }
+    }],
+    "instagram": [{
+        "name": "several videos in a post (picker)",
+        "url": "https://www.instagram.com/p/CqifaD0qiDt/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
+        "name": "reel",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular video",
+        "url": "https://www.instagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "reel (isAudioOnly)",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "reel (isAudioMuted)",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent reel",
+        "url": "https://www.instagram.com/reel/XXXXXXXXXX/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }, {
+        "name": "inexistent post",
+        "url": "https://www.instagram.com/p/XXXXXXXXXX/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "vine": [{
+        "name": "regular vine link (9+10=21)",
+        "url": "https://vine.co/v/huwVJIEJW50",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular vine link (isAudioOnly)",
+        "url": "https://vine.co/v/huwVJIEJW50",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "regular vine link (isAudioMuted)",
+        "url": "https://vine.co/v/huwVJIEJW50",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
         }
     }]
 }
