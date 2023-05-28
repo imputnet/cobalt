@@ -964,9 +964,11 @@ button:active,
 }
 .dropdown-select select:hover {
     background: var(--accent-hover);
+    cursor: pointer;
 }
-.dropdown-select select option:hover {
-    background: var(--accent-hover);
+.dropdown-select select:active {
+    background: var(--accent-press);
+    cursor: pointer;
 }
 .dropdown-select select option {
     line-height: 0.9rem;
