@@ -15,7 +15,7 @@ import { sha256 } from "../modules/sub/crypto.js";
 import { celebrationsEmoji } from "../modules/pageRender/elements.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
-export async function runAPI(express, app, gitCommit, gitBranch, __dirname) {
+export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = process.env.cors === '0' ? { origin: process.env.webURL, optionsSuccessStatus: 200 } : {};
 
     const apiLimiter = rateLimit({
