@@ -113,9 +113,11 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                     processType = "bridge"
                 }
             }
-
-            if ((audioFormat === "best" && services[host]["bestAudio"])
-            || services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"])) {
+            if (host === "tumblr" && !r.filename && (audioFormat === "best" || audioFormat === "mp3")) {
+                audioFormat = "mp3";
+                processType = "bridge"
+            }
+            if ((audioFormat === "best" && services[host]["bestAudio"]) || (services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]))) {
                 audioFormat = services[host]["bestAudio"];
                 processType = "bridge"
             } else if (audioFormat === "best") {

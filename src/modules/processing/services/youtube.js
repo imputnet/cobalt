@@ -23,6 +23,10 @@ const c = {
 
 export default async function(o) {
     let info, isDubbed, quality = o.quality === "max" ? "9000" : o.quality; //set quality 9000(p) to be interpreted as max
+    function qual(i) {
+        return i['quality_label'].split('p')[0].split('s')[0]
+    }
+
     try {
         info = await yt.getBasicInfo(o.id, 'ANDROID');
     } catch (e) {
@@ -30,6 +34,7 @@ export default async function(o) {
     }
 
     if (!info) return { error: 'ErrorCantConnectToServiceAPI' };
+
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
@@ -40,7 +45,7 @@ export default async function(o) {
     bestQuality = adaptive_formats.find(i => i["has_video"]);
     hasAudio = adaptive_formats.find(i => i["has_audio"]);
 
-    if (bestQuality) bestQuality = bestQuality['quality_label'].split('p')[0];
+    if (bestQuality) bestQuality = qual(bestQuality);
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
@@ -73,9 +78,9 @@ export default async function(o) {
         };
         return r
     }
-    let checkSingle = (i) => ((i['quality_label'].split('p')[0] === quality || i['quality_label'].split('p')[0] === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
-        checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && i['quality_label'].split('p')[0] === bestQuality),
-        checkRightVideo = (i) => (i["has_video"] && !i["has_audio"] && i['quality_label'].split('p')[0] === quality);
+    let checkSingle = (i) => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
+        checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === bestQuality),
+        checkRightVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === quality);
 
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         let single = info.streaming_data.formats.find(i => checkSingle(i));

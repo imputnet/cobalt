@@ -4,8 +4,17 @@ import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import { buildFront } from "../modules/build.js";
 import findRendered from "../modules/pageRender/findRendered.js";
 
+// * will be removed in the future
+import cors from "cors";
+// *
+
 export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
     await buildFront(gitCommit, gitBranch);
+
+    // * will be removed in the future
+    const corsConfig = process.env.cors === '0' ? { origin: process.env.webURL, optionsSuccessStatus: 200 } : {};
+    app.use('/api/:type', cors(corsConfig));
+    // *
 
     app.use('/', express.static('./build/min'));
     app.use('/', express.static('./src/front'));
@@ -23,6 +32,14 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
     app.get("/favicon.ico", (req, res) => {
         res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
     });
+    // * will be removed in the future
+    app.get("/api/*", (req, res) => {
+        res.redirect(308, process.env.apiURL.slice(0, -1)  + req.url)
+    });
+    app.post("/api/*", (req, res) => {
+        res.redirect(308, process.env.apiURL.slice(0, -1)  + req.url)
+    });
+    // *
     app.get("/*", (req, res) => {
         res.redirect('/')
     });

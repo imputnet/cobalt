@@ -1,5 +1,13 @@
 # cobalt API Documentation
 This document provides info about methods and acceptable variables for all cobalt API requests.<br>
+
+```
+⚠️ Main API instance has moved to https://co.wuk.sh/
+
+Previous API domain will stop redirecting users to correct API instance after July 25th.  
+Make sure to update your projects in time. 
+```
+
 ## POST: ``/api/json``
 Main processing endpoint.<br>
 
