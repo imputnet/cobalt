@@ -56,6 +56,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                 case "instagram":
                 case "tumblr":
                 case "twitter":
+                case "pinterest":
                     responseType = 1;
                     break;
             }
