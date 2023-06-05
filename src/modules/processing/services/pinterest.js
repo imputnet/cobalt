@@ -2,12 +2,12 @@ import { maxVideoDuration } from "../../config.js";
 
 export default async function(obj) {
     const pinId = obj.id.split('--').reverse()[0];
-    if (!/^\d+$/.test(pinId)) return { error: 'ErrorCantGetID' };
+    if (!(/^\d+$/.test(pinId))) return { error: 'ErrorCantGetID' };
     let data = await fetch(`https://www.pinterest.com/resource/PinResource/get?data=${encodeURIComponent(JSON.stringify({
-      options: {
-        field_set_key: "unauth_react_main_pin",
-        id: pinId
-      }
+        options: {
+            field_set_key: "unauth_react_main_pin",
+            id: pinId
+        }
     }))}`).then((r) => { return r.json() }).catch(() => { return false });
     if (!data) return { error: 'ErrorCouldntFetch' };
 
