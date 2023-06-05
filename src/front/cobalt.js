@@ -19,10 +19,12 @@ const exceptions = { // used for mobile devices
     "vQuality": "720"
 };
 
-const apiURL = '';
-
 let store = {};
 
+function changeAPI(url) {
+    apiURL = url;
+    return true
+}
 function eid(id) {
     return document.getElementById(id)
 }

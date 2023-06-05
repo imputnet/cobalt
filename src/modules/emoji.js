@@ -23,7 +23,8 @@ const names = {
     "🐙": "octopus",
     "🔮": "crystal_ball",
     "💪": "biceps",
-    "💖": "sparkling_heart"
+    "💖": "sparkling_heart",
+    "👾": "alien_monster"
 }
 let sizing = {
     22: 0.4,

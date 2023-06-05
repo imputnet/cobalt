@@ -34,8 +34,9 @@ export async function getJSON(originalURL, lang, obj) {
         }
         if (!(host && host.length < 20 && host in patterns && patterns[host]["enabled"])) return apiJSON(0, { t: errorUnsupported(lang) });
 
+        let pathToMatch = cleanURL(url, host).split(`.${patterns[host]['tld'] ? patterns[host]['tld'] : "com"}/`)[1].replace('.', '');
         for (let i in patterns[host]["patterns"]) {
-            patternMatch = new UrlPattern(patterns[host]["patterns"][i]).match(cleanURL(url, host).split(`.${patterns[host]['tld'] ? patterns[host]['tld'] : "com"}/`)[1].replace('.', ''));
+            patternMatch = new UrlPattern(patterns[host]["patterns"][i]).match(pathToMatch);
             if (patternMatch) break
         }
         if (!patternMatch) return apiJSON(0, { t: errorUnsupported(lang) });

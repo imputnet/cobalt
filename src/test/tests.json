@@ -447,6 +447,17 @@
             "status": "stream"
         }
     }, {
+        "name": "vr 360, av1, max",
+        "url": "https://www.youtube.com/watch?v=hEdzv7D4CbQ",
+        "params": {
+            "vCodec": "vp9",
+            "vQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "inexistent video",
         "url": "https://youtube.com/watch?v=gnjuHYWGEW",
         "params": {},
@@ -716,6 +727,24 @@
         "expected": {
             "code": 200,
             "status": "redirect"
+        }
+    }, {
+        "name": "tumblr audio",
+        "url": "https://rf9weu8hjf789234hf9.tumblr.com/post/172006661342/everyone-thats-made-a-video-out-of-this-without",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "tumblr video converted to audio",
+        "url": "https://garfield-69.tumblr.com/post/696499862852780032",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
         }
     }],
     "vimeo": [{

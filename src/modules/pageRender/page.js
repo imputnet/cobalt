@@ -48,10 +48,10 @@ export default function(obj) {
 
         <title>${appName}</title>
 
-        <meta property="og:url" content="${process.env.selfURL}" />
+        <meta property="og:url" content="${process.env.webURL || process.env.selfURL}" />
         <meta property="og:title" content="${appName}" />
         <meta property="og:description" content="${t('EmbedBriefDescription')}" />
-        <meta property="og:image" content="${process.env.selfURL}icons/generic.png" />
+        <meta property="og:image" content="${process.env.webURL || process.env.selfURL}icons/generic.png" />
         <meta name="title" content="${appName}" />
         <meta name="description" content="${t('AboutSummary')}" />
         <meta name="theme-color" content="#000000" />
@@ -96,8 +96,9 @@ export default function(obj) {
                             "name": "support",
                             "title": t("CollapseSupport"),
                             "body": `${t("FollowSupport")}<br/>
-                            ${socialLink(emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url)}
-                            ${socialLink(emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url)}<br/>
+                            ${socialLink(emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url)}
+                            ${socialLink(emoji("👾"), "discord", authorInfo.support.discord.handle, authorInfo.support.discord.url)}
+                            ${socialLink(emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url)}<br/>
                             ${t("SourceCode")}<br/>
                             ${socialLink(emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo)}<br/>
                             ${t("SupportNote")}`
@@ -106,7 +107,6 @@ export default function(obj) {
                             "title": t("CollapsePrivacy"),
                             "body": t("PrivacyPolicy")
                         }])
-                        + `${process.env.DEPLOYMENT_ID && process.env.INTERNAL_IP ? '<a id="hop-attribution" class="explanation" href="https://hop.io/" target="_blank">powered by hop.io</a>' : ''}`
                     }]
                 })
             }, {
@@ -408,7 +408,8 @@ export default function(obj) {
         }])}
         </footer>
     </body>
-    <script type="text/javascript">const loc = {
+    <script type="text/javascript">
+    const loc = {
         noInternet: ` + "`" + t('ErrorNoInternet') + "`" + `,
         noURLReturned: ` + "`" + t('ErrorNoUrlReturned') + "`" + `,
         unknownStatus: ` + "`" + t('ErrorUnknownStatus') + "`" + `,
@@ -417,7 +418,9 @@ export default function(obj) {
         pickerImages: ` + "`" + t('ImagePickerTitle') + "`" + `,
         pickerImagesExpl: ` + "`" + t(`ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
         pickerDefaultExpl: ` + "`" + t(`MediaPickerExplanation${isMobile ? `Phone${isIOS ? "IOS" : ""}` : "PC"}`) + "`" + `,
-    };</script>
+    };
+    let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+    </script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>`;
     } catch (err) {

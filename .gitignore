@@ -5,11 +5,15 @@ package-lock.json
 # secrets
 .env
 
-# esbuild
-min
-
 # page build
+min
 build
 
 # stuff i already made but delayed
 future
+
+# docker
+docker-compose.yml
+
+# vscode
+.vscode

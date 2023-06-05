@@ -14,6 +14,10 @@
             "mastodon": {
                 "url": "https://wetdry.world/@cobalt",
                 "handle": "@cobalt@wetdry.world"
+            },
+            "discord": {
+                "url": "https://discord.gg/pQPt8HBUPu",
+                "handle": "cobalt community server"
             }
         }
     },

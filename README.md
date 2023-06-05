@@ -1,6 +1,6 @@
 # cobalt
 Best way to save what you love.  
-Main instance: [co.wukko.me](https://co.wukko.me/)  
+Live web app: [co.wukko.me](https://co.wukko.me/)  
 
 ![cobalt logo with repeated logo pattern background](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/pattern.png "cobalt logo with repeated logo pattern background")  
 
@@ -21,21 +21,22 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 | Reddit                  | ✅           | ✅         | ✅         | Support for GIFs and videos.                                                                                              |
 | SoundCloud              | ➖           | ✅         | ➖         | Audio metadata, downloads from private links.                                                                             |
 | TikTok                  | ✅           | ✅         | ✅         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
-| Tumblr                  | ✅           | ✅         | ✅         |                                                                                                                           |
+| Tumblr                  | ✅           | ✅         | ✅         | Support for audio file downloads.                                                                                         |
 | Twitter                 | ✅           | ✅         | ✅         | Ability to pick what to save from multi-media tweets.                                                                     |
 | Twitter Spaces          | ➖           | ✅         | ➖         | Audio metadata with all participants and other info.                                                                      |
 | Vimeo                   | ✅           | ✅         | ✅         | Audio downloads are only available for dash files.                                                                        |
 | Vine Archive            | ✅           | ✅         | ✅         |                                                                                                                           |
 | VK Videos               | ✅           | ❌         | ❌         |                                                                                                                           |
 | VK Clips                | ✅           | ❌         | ❌         |                                                                                                                           |
-| YouTube Videos & Shorts | ✅           | ✅         | ✅         | Support for 8K, 4K, HDR, and high FPS videos. Audio metadata & dubs. h264/av1/vp9 codecs.                                 |
+| YouTube Videos & Shorts | ✅           | ✅         | ✅         | Support for 8K, 4K, HDR, VR, and high FPS videos. Audio metadata & dubs. h264/av1/vp9 codecs.                             |
 | YouTube Music           | ➖           | ✅         | ➖         | Audio metadata.                                                                                                           |
 
 This list is not final and keeps expanding over time, make sure to check it once in a while!  
 
 ## cobalt API
 cobalt has an open API that you can use in your projects for **free**.  
-It's easy and straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/API.md) and see for yourself.
+It's easy and straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/API.md) and see for yourself.  
+Feel free to use the main API instance ([co.wuk.sh](https://co.wuk.sh/)) in your projects.
 
 ## How to contribute translations
 You can translate cobalt to any language you want on [cobalt's Crowdin](https://crowdin-co.wukko.me/). Feel free to ignore QA errors if you think you know better. If you don't see a language you want to translate cobalt to, open an issue, and I'll add it to Crowdin.
@@ -62,6 +63,8 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 3. Run cobalt via `npm start`
 4. Done.
 
+You need to host API and web app separately ever since v.6.0. Setup script will help you with that!
+
 ### Ubuntu 22.04+ workaround
 `nscd` needs to be installed and running so that the `ffmpeg-static` binary can resolve DNS ([#101](https://github.com/wukko/cobalt/issues/101#issuecomment-1494822258)):
 
@@ -71,13 +74,8 @@ sudo service nscd start
 ```
 
 ### Docker
-It's also possible to run cobalt via Docker, but you **need** to set all environment variables yourself:
-
-| Variable     | Description     | Example                                                   | 
-| --------     | :---            | :---                                                      |
-| `selfURL`    | Instance URL    | `http://localhost:9000/` or `https://co.wukko.me/` or etc |
-| `port`       | Instance port   | `9000`                                                    |
-| `cors`       | CORS toggle     | `0`                                                       |
+It's also possible to run cobalt via Docker. I *highly* recommend using Docker compose.  
+Check out the [example compose file](https://github.com/wukko/cobalt/blob/current/docker-compose.yml.example) and alter it for your needs.
 
 ## Disclaimer
 cobalt is my passion project, so update schedule depends solely on my free time, motivation, and mood.  
