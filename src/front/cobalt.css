@@ -352,6 +352,7 @@ button:active,
 .changelog-banner {
     width: 100%;
     max-height: 300px;
+    min-height: 160px;
     margin-bottom: 1.65rem;
     float: left;
 }
