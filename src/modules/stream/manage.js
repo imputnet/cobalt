@@ -54,7 +54,7 @@ export function verifyStream(ip, id, hmac, exp) {
                 return streamInfo;
             }
         }
-        return { error: 'Unauthorized', status: 401 };
+        return { error: "i couldn't verify whether you have access to this stream. try again or refresh the page!", status: 401 };
     } catch (e) {
         return { status: 500, body: { status: "error", text: "Internal Server Error" } };
     }
