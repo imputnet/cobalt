@@ -63,8 +63,8 @@ export default function(obj) {
         <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
 
         <link rel="manifest" href="manifest.webmanifest" />
+        <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
         <link rel="stylesheet" href="cobalt.css" />
-        <link rel="stylesheet" href="fonts/notosansmono.css" />
 
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
@@ -122,7 +122,8 @@ export default function(obj) {
                         text: `<div class="category-title">${t('ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
-                        text: changelogManager("banner") ? `<div class="changelog-banner"><img class="changelog-img" src="${changelogManager("banner")}" onerror="this.style.display='none'"></img></div>`: '',
+                        text: changelogManager("banner") ?
+                        `<div class="changelog-banner"><img class="changelog-img" src="${changelogManager("banner")}" onerror="this.style.display='none'" loading="lazy"></img></div>`: '',
                         raw: true
                     }, {
                         text: changelogManager("title"),
@@ -160,7 +161,7 @@ export default function(obj) {
                         text: `<div class="category-title">${t('DonateSub')}</div>`,
                         raw: true
                     }, {
-                        text: `<div class="changelog-banner"><img class="changelog-img" src="updateBanners/catsleep.webp" onerror="this.style.display='none'"></img></div>`,
+                        text: `<div class="changelog-banner"><img class="changelog-img" src="updateBanners/catsleep.webp" onerror="this.style.display='none'" loading="lazy"></img></div>`,
                         raw: true
                     }, {
                         text: t('DonateExplanation')

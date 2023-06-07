@@ -37,5 +37,5 @@ export default function(emoji, size, disablePadding) {
     let padding = size !== 22 ? `margin-right:${sizing[size] ? sizing[size] : "0.4"}rem;` : false;
     if (disablePadding) padding = 'margin-right:0!important;';
     if (!names[emoji]) emoji = "❓";
-    return `<img class="emoji" draggable=false height="${size}" width="${size}" ${padding ? `style="${padding}"` : ''}alt="${emoji}" src="emoji/${names[emoji]}.svg">`
+    return `<img class="emoji" draggable=false height="${size}" width="${size}" ${padding ? `style="${padding}"` : ''}alt="${emoji}" src="emoji/${names[emoji]}.svg" loading="lazy">`
 }
