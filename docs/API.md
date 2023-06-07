@@ -65,7 +65,22 @@ On-demand website element loading. Currently used only for older changelogs.<br>
 | blockId | ``0``     | Block ID to be rendered on the server. |
 
 ### Response Body Variables
-| key        | type   | variables                    |
-|:-----------|:-------|:-----------------------------|
-| status     | string | ``error / success``          |
-| text       | string | Error text or rendered block |
+| key    | type   | variables                    |
+|:-------|:-------|:-----------------------------|
+| status | string | ``error / success``          |
+| text   | string | Error text or rendered block |
+
+## GET: ``/api/serverInfo``
+Returns current basic server info.<br>
+Response Body Type: ``application/json``
+
+### Response Body Variables
+| key       | type   | variables         |
+|:----------|:-------|:------------------|
+| version   | string | cobalt version    |
+| commit    | string | Git commit        |
+| branch    | string | Git branch        |
+| name      | string | Server name       |
+| url       | string | Server url        |
+| cors      | string | CORS status       |
+| startTime | string | Server start time |

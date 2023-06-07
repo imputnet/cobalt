@@ -94,7 +94,7 @@
         "ChangelogPressToHide": "collapse",
         "Donate": "donate",
         "DonateSub": "help me keep it up",
-        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but turns out developing and keeping up a web service used by over 150,000 people is not that easy.\n\nif you ever found {appName} useful and want to help continue its development and support, or simply want to thank the developer, consider chipping in! every cent helps and is VERY appreciated :D\n\ncurrently, i have big (scaling) plans, and i need your help. {appName}'s usage is growing daily, so i need to make up for it. <span class=\"text-backdrop\">donations are more appreciated than ever.</span>\n\ni am yet to earn anything from {appName}, everything goes back to users, so you're essentially helping everyone.",
+        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but turns out developing and keeping up a web service used by over 200,000 people is not that easy.\n\nif you ever found {appName} useful and want to help continue its development and support, or simply want to thank the developer, consider chipping in! every cent helps and is VERY appreciated :D\n\ncurrently, i have big (scaling) plans, and i need your help. {appName}'s usage is growing daily, so i need to make up for it. <span class=\"text-backdrop\">donations are more appreciated than ever.</span>\n\ni am yet to earn anything from {appName}, everything goes back to users, so you're essentially helping everyone.",
         "DonateVia": "donate via",
         "DonateHireMe": "...or you can <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">hire me</a> :)",
         "SettingsVideoMute": "mute audio",
@@ -104,7 +104,7 @@
         "CollapseSupport": "support & source code",
         "CollapsePrivacy": "privacy policy",
         "ServicesNote": "this list is not final and keeps expanding over time, make sure to check it once in a while!",
-        "FollowSupport": "follow {appName} on mastodon or twitter for support, polls, news, and more:",
+        "FollowSupport": "keep in touch with {appName} for support, polls, news, and more:",
         "SupportNote": "please note that questions and issues may take a while to respond to, there's only one person managing everything.",
         "SourceCode": "report issues, explore source code, star or fork the repo:",
         "PrivacyPolicy": "{appName}'s privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is your business, not mine.\n\nsome non-backtraceable data does get temporarily stored when requested download requires live render. it's necessary for that feature to function.\n\nin that case, <span class=\"text-backdrop\">salted sha256 hash of your ip address</span> and information about requested stream are temporarily stored in server's RAM for <span class=\"text-backdrop\">2 minutes</span>. after 2 minutes all previously stored information is permanently removed. hash of your ip address is <span class=\"text-backdrop\">used for limiting stream access only to you</span>.\nno one (even me) has access to this data, because official {appName} codebase doesn't provide a way to read it outside of processing functions in the first place.\n\nyou can check {appName}'s <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">github repo</a> yourself and see that everything is as stated.",
@@ -119,6 +119,8 @@
         "SettingsVimeoPrefer": "vimeo downloads type",
         "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
         "ShareURL": "share",
-        "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!"
+        "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!",
+        "UrgentUpdate6": "all network issues have been fixed!",
+        "ErrorReload": "i couldn't verify whether you have access to this stream. try again or refresh the page!"
     }
 }

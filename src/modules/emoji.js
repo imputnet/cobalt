@@ -27,6 +27,7 @@ const names = {
     "👾": "alien_monster"
 }
 let sizing = {
+    18: 0.8,
     22: 0.4,
     30: 0.7,
     48: 0.9,

@@ -160,7 +160,7 @@ export async function runBoth(express, app, gitCommit, gitBranch, __dirname) {
                         branch: gitBranch,
                         name: process.env.apiName ? process.env.apiName : "unknown",
                         url: process.env.apiURL,
-                        cors: process.env.cors,
+                        cors: process.env.cors && process.env.cors === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
                     break;
