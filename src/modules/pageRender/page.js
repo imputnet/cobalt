@@ -364,7 +364,6 @@ export default function(obj) {
             body: `<div id="desc-error" class="desc-padding subtext"></div>`
         })}
         <div id="popup-backdrop" style="visibility: hidden;" onclick="hideAllPopups()"></div>
-        <div id="urgent-notice" class="urgent-notice explanation center" onclick="popup('about', 1, 'changelog')" style="visibility: hidden;">${emoji("🎉", 18)} ${t("UrgentUpdate6")}</div>
         <div id="cobalt-main-box" class="center" style="visibility: hidden;">
             <div id="logo">${appName}</div>
             <div id="download-area">
