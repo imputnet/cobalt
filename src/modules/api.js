@@ -39,6 +39,7 @@ export async function getJSON(originalURL, lang, obj) {
 
                 host = "bilibili";
                 url = await fetch(`https://b23.tv/${shortUrlId}`).then(res => res.url);
+                break;
         }
         if (!(host && host.length < 20 && host in patterns && patterns[host]["enabled"])) return apiJSON(0, { t: errorUnsupported(lang) });
 
