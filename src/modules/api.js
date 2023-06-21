@@ -31,6 +31,14 @@ export async function getJSON(originalURL, lang, obj) {
                     url = url.replace(url.split('/')[5], '')
                 }
                 break;
+            case "b23":
+                const shortUrlId = new URL(url).pathname.split("/")[1];
+                if (!shortUrlId) {
+                    return apiJSON(0, { t: errorUnsupported(lang) });
+                }
+
+                host = "bilibili";
+                url = await fetch(`https://b23.tv/${shortUrlId}`).then(res => res.url);
         }
         if (!(host && host.length < 20 && host in patterns && patterns[host]["enabled"])) return apiJSON(0, { t: errorUnsupported(lang) });
 
