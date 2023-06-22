@@ -125,6 +125,7 @@ export default async function(obj) {
     return {
         urls: playlistUri,
         isM3U8: true,
-        filename: `nicovideo_${obj.id}.mp4`
+        filename: `nicovideo_${obj.id}.mp4`,
+        audioFilename: `nicovideo_${obj.id}_audio`
     } 
 }
