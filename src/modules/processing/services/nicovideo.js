@@ -108,16 +108,16 @@ export default async function(obj) {
             timing_constraint: "unlimited"
         }
     };
-    const res = await fetch("https://api.dmc.nico/api/sessions?_format=json", {
+    const sessionData = await fetch("https://api.dmc.nico/api/sessions?_format=json", {
         method: "POST",
         body: JSON.stringify(body)
     }).then(res => res.json());
 
-    if (res?.meta?.status !== 201) {
+    if (sessionData?.meta?.status !== 201) {
         return { error: 'ErrorCouldntFetch' };
     }
 
-    const playlistUri = res?.data?.session?.content_uri;
+    const playlistUri = sessionData?.data?.session?.content_uri;
     if (!playlistUri) {
         return { error: 'ErrorCouldntFetch' };
     }
