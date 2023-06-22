@@ -29,7 +29,7 @@
         "ErrorCouldntFetch": "não consegui encontrar nada sobre este link. verifique se ele funciona e tente novamente! alguns conteúdos podem estar com uma trava de região, então tenha isso em mente.",
         "ErrorLengthLimit": "eu não consigo processar vídeos maiores que {s} minutos, escolha algo mais curto se você puder!",
         "ErrorBadFetch": "ocorreu um erro quando tentei obter informações sobre seu link. tem certeza de ele funciona? verifique e tente novamente.",
-        "ErrorNoInternet": "não há internet, ou a api de {appName} está fora do ar. verifique sua conexão e tente novamente.",
+        "ErrorNoInternet": "não consegui me conectar a internet, ou a api do {appName} está fora do ar no momento. verifique a sua conexão e tente novamente.",
         "ErrorCantConnectToServiceAPI": "não foi possível conectar ao serviço api. talvez o app tenha caído, ou {appName} foi bloqueado. Tente novamente, mas se o erro persistir, {ContactLink}.",
         "ErrorEmptyDownload": "não vejo nada que possa ser baixado pelo seu link. tente um diferente!",
         "ErrorLiveVideo": "este é um vídeo ao vivo, eu ainda estou para aprender a olhar para o futuro. espere que a transmissão termine e tente novamente!",
