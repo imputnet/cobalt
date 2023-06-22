@@ -967,5 +967,25 @@
             "code": 200,
             "status": "redirect"
         }
+    }],
+    "nicovideo": [{
+        "name": "Niconico video (360p)",
+        "url": "https://www.nicovideo.jp/watch/sm13876659",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "Niconico audio-only",
+        "url": "https://www.nicovideo.jp/watch/sm13876659",
+        "params": {
+            "aFormat": "mp3",
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }
