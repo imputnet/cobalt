@@ -67,6 +67,12 @@
             "alias": "pinterest videos & stories",
             "patterns": ["pin/:id"],
             "enabled": true
+        },
+        "nicovideo": {
+            "alias": "niconico videos",
+            "patterns": ["watch/:id"],
+            "enabled": true,
+            "tld": "jp"
         }
     }    
 }

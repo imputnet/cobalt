@@ -18,6 +18,7 @@ import soundcloud from "./services/soundcloud.js";
 import instagram from "./services/instagram.js";
 import vine from "./services/vine.js";
 import pinterest from "./services/pinterest.js";
+import nicovideo from "./services/nicovideo.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
@@ -113,6 +114,9 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "pinterest":
                 r = await pinterest({ id: patternMatch["id"] });
+                break;
+            case "nicovideo":
+                r = await nicovideo({ id: patternMatch["id"] });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });

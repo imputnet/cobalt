@@ -148,7 +148,15 @@ export function streamVideoOnly(streamInfo, res) {
         ]
         if (streamInfo.mute) args.push('-an');
         if (streamInfo.service === "vimeo") args.push('-bsf:a', 'aac_adtstoasc');
-        if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
+        if (format === "mp4") {
+            // for some reason, downloading nicovideo with the `empty_moov` flag
+            // will only download one second of video
+            // TODO: figure out why
+            const movflags = streamInfo.service === 'nicovideo'
+                ? 'faststart+frag_keyframe'
+                : 'faststart+frag_keyframe+empty_moov';
+            args.push('-movflags', movflags);
+        }
         args.push('-f', format, 'pipe:3');
         const ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
