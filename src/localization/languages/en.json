@@ -29,7 +29,7 @@
         "ErrorCouldntFetch": "i couldn't find anything about this link. check if it works and try again! some content may be region restricted, so keep that in mind.",
         "ErrorLengthLimit": "i can't process videos longer than {s} minutes, so pick something shorter instead!",
         "ErrorBadFetch": "something went wrong when i tried getting info about your link. are you sure it works? check if it does, and try again.",
-        "ErrorNoInternet": "there's no internet or {appName} api is down. check your connection and try again.",
+        "ErrorNoInternet": "there's no internet or {appName} api is temporarily unavailable. check your connection and try again.",
         "ErrorCantConnectToServiceAPI": "i couldn't connect to the service api. maybe it's down, or {appName} got blocked. try again, but if error persists, {ContactLink}.",
         "ErrorEmptyDownload": "i don't see anything i could download by your link. try a different one!",
         "ErrorLiveVideo": "this is a live video, i am yet to learn how to look into future. wait for the stream to finish and try again!",

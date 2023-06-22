@@ -44,9 +44,9 @@ export function createStream(obj) {
 
 export function verifyStream(ip, id, hmac, exp) {
     try {
-        if (id.length === 21) {
-            let streamInfo = streamCache.get(id);
-            if (!streamInfo) return { error: 'this stream token does not exist', status: 400 };
+        if (id.toString().length === 21) {
+            let streamInfo = streamCache.get(id.toString());
+            if (!streamInfo) return { error: "requested stream does not exist", status: 400 };
     
             let ghmac = sha256(`${id},${ip},${streamInfo.service},${exp}`, streamSalt);
             if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
@@ -54,7 +54,7 @@ export function verifyStream(ip, id, hmac, exp) {
                 return streamInfo;
             }
         }
-        return { error: "i couldn't verify whether you have access to this stream. try again or refresh the page!", status: 401 };
+        return { error: "i couldn't verify whether you have access to this download. try again or refresh the page!", status: 401 };
     } catch (e) {
         return { status: 500, body: { status: "error", text: "Internal Server Error" } };
     }
