@@ -29,7 +29,7 @@
         "ErrorCouldntFetch": "ich konnte nichts über diesen link finden. überprüfe ob er funktioniert und versuche es erneut! beachte, dass manche inhalte regional eingeschränkt sein können.",
         "ErrorLengthLimit": "ich kann keine videos länger als {s} minuten verarbeiten, also wähle etwas kürzeres aus!",
         "ErrorBadFetch": "irgendetwas ist schief gelaufen als ich versucht habe informationen über deinen link zu bekommen. überprüfe, ob der link funktioniert und versuche es erneut.",
-        "ErrorNoInternet": "Aktuell besteht keine Internetverbindung, oder {appName}s API ist nicht erreichbar. Überprüfe die Internetverbindung und probiere es nochmal.",
+        "ErrorNoInternet": "keine internetverbindung oder {appName} api ist aktuell nicht verfügbar. prüf' deine verbindung probier's nochmal",
         "ErrorCantConnectToServiceAPI": "ich konnte mich nicht mit der dienst-api verbinden. vielleicht ist sie ausgefallen oder {appName} wurde blockiert. versuche es noch einmal, aber wenn der fehler weiterhin besteht, {ContactLink}.",
         "ErrorEmptyDownload": "Ich sehe nichts, was ich von deinem link runterladen könnte. Versuche einen anderen Link!",
         "ErrorLiveVideo": "das ist ein livestream, ich muss noch lernen in die zukunft zu schauen. warte bis der stream zuende ist und versuchs nochmal!",
@@ -47,7 +47,7 @@
         "SettingsQualityDescription": "wenn die gewählte qualität nicht verfügbar ist, wird die nächstbeste verwendet.",
         "LinkGitHubChanges": "&gt;&gt; vorherige Commits ansehen und auf GitHub beitragen",
         "NoScriptMessage": "{appName} verwendet javascript für api-anfragen und die interaktive benutzeroberfläche. du musst javascript aktivieren, um die seite zu nutzen. es gibt keine nervigen skripte, ehrenwort.",
-        "DownloadPopupDescriptionIOS": "der einfachste weg videos auf ios zu speichern:\n1. füge <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">diese siri verknüpfung</a> hinzu.\n2. klicke \"teilen\" und wähle \"in fotos speichern\" im teilen menü.\nwenn du gefragt wirst, erlaube die berechtigung und wähle \"immer erlauben\".\n\nalternative: halte den download button, verberge die video vorschau und wähle \"verlinkte datei herunterladen\" um den download zu starten\ndann, öffne die safari downloads, wähle die datei, die du runtergeladen hast, öffne das teilen menü und zu guter letzt wähle \"video speichern\"",
+        "DownloadPopupDescriptionIOS": "Einfachste Möglichkeit, Videos auf iOS zu speichern:\n1. Füge <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">diesen Siri-Shortcut</a> hinzu.\n2. Drücke \"Teilen\" oben und wähle in der angezeigten Freigabeübersicht \"Zu Fotos hinzufügen\" aus.\nWenn du dazu aufgefordert wirst, überprüfe die Berechtigungsanfrage und drücke \"Immer erlauben\".\n\nAlternative Methode:\nDrücke lange auf die Download-Schaltfläche, um die Video-Vorschau auszublenden, und wähle \"Verknüpfte Datei herunterladen\", um herunterzuladen.\nÖffne dann \"Safari Downloads\", wähle die heruntergeladene Datei aus, öffne das Freigabemenü und drücke schließlich \"Video speichern\".",
         "DownloadPopupDescription": "Der Download-Button öffnet einen neuen Tab mit der angeforderten Datei. Sie können dieses Pop-up in den Einstellungen deaktivieren.",
         "DownloadPopupWayToSave": "wähle einen Weg zum Speichern",
         "ClickToCopy": "Drücken zum Kopieren",
@@ -94,7 +94,7 @@
         "ChangelogPressToHide": "einklappen",
         "Donate": "Spende",
         "DonateSub": "Hilf mir, es am laufen zu halten.",
-        "DonateExplanation": "{appName} wird nie und nimmer werbung zeigen oder deine daten verkaufen, das heißt es ist <span class=\"text-backdrop\">komplett kostenlos nutzbar</span>. allerdings stellt sich raus, dass das entwickeln und betreiben einer webanwendung für 150.000 menschen nicht ganz einfach ist.\n\nsolltest du {appName} jemals für nützlich befunden haben und du möchtest bei der entwicklung helfen oder einfach dem entwickler danken, denk über eine kleine spende nach! jeder cent hilft und wird SEHR dankend angenommen :D\n\naktuell habe ich große (skalierungs) pläne für die zukunft und brauche deine hilfe. {appName} wird tagtäglich mehr und mehr genutzt, deshalb musst du einspringen. <span class=\"text-backdrop\">spenden sind mehr willkommen denn je.</span>\n\nbisher hab' ich noch nichts mit {appName} verdient, alles geht direkt an die user, du hilfst also jedem.",
+        "DonateExplanation": "{appName} zeigt keine Werbung an und verkauft keine Daten – und das wird sich auch niemals ändern. Daher ist die Nutzung <span class=\"text-backdrop\">völlig kostenlos</span>. Jedoch ist die Entwicklung und der Betrieb eines Webdienstes, der von über 200.000 Menschen genutzt wird, herausfordernd.\n\nWenn du {appName} nützlich findest und zur Weiterentwicklung und Support beitragen oder einfach dem Entwickler danken möchtest, erwäge eine Spende! Jeder Cent hilft und wird SEHR geschätzt :D\n\nDerzeit habe ich große (skalierende) Pläne und benötige deine Hilfe. Die Nutzung von {appName} wächst täglich, und ich muss dafür sorgen. <span class=\"text-backdrop\">Spenden sind jetzt mehr denn je willkommen.</span>\n\nIch habe bisher noch nichts mit {appName} verdient, alles geht zurück an die Benutzer, du hilfst also im Grunde allen.",
         "DonateVia": "Spenden via",
         "DonateHireMe": "...alternativ kannst du mich auch <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">beauftragen</a> :)",
         "SettingsVideoMute": "Ton stummschalten",
@@ -104,7 +104,7 @@
         "CollapseSupport": "support & quellcode",
         "CollapsePrivacy": "datenschutzrichtlinie",
         "ServicesNote": "diese liste ist nicht vollständig und erweitert sich im laufe der zeit, denke daran nochmal nachzuschauen!",
-        "FollowSupport": "folge {appName} auf mastodon oder twitter für support, umfragen, neuigkeiten, und mehr:",
+        "FollowSupport": "Bleibe mit {appName} in Kontakt, um Support, Umfragen, Neuigkeiten und vieles mehr zu erhalten:",
         "SupportNote": "bitte beachte, dass das beantworten von fragen und fehlermeldungen eine weile dauert, es gibt nur eine Person die alles managed.",
         "SourceCode": "melde Probleme, erkundige den Quellcode, sterne oder forke das Repo:",
         "PrivacyPolicy": "{appName}s datenschutzrichtlinie ist einfach: keine deiner daten werden gesammelt oder gespeichert. null, nada, niente, nichts.\nwas du herunterlädst ist dein ding, nicht meins.\n\neinige nicht zurückverfolgbare daten werden vorübergehend gespeichert, wenn ein angeforderter download live rendering erfordert. das ist notwendig, damit diese funktion funktioniert.\n\nin diesem fall werden, <span class=\"text-backdrop\">der salted sha256 hash deiner ip-adresse</span> und informationen über den angeforderten stream temporär im RAM des servers für <span class=\"text-backdrop\">2 minuten</span> gespeichert. nach 2 minuten werden alle zuvor gespeicherten informationen dauerhaft gelöscht. der hash deiner ip-adresse wird verwendet, <span class=\"text-backdrop\">um den zugang zum stream auf dich zu beschränken</span>.\nniemand (nichtmal ich) hat zugriff auf diese daten, da die offizielle {appName}-codebasis keine möglichkeit bietet, sie außerhalb der verarbeitungsfunktionen zu lesen.\n\ndu kannst {appName}s <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">github repo</a> selbst überprüfen und sehen, dass tatsächlich nichts dauerhaft gespeichert wird.",
@@ -119,6 +119,8 @@
         "SettingsVimeoPrefer": "Vimeo Download-Typ",
         "SettingsVimeoPreferDescription": "progressive: direkter link zu vimeo's cdn. maximal 1080p.\ndash: video und audio werden durch {appName} zu einer datei kombiniert. maximal 4k.\n\nwähle \"progressive\" für bessere kompabilität mit editoren/wiedergabe/sozialen medien. falls progressive nicht funktioniert, wird automatisch dash genutzt. ",
         "ShareURL": "Teilen",
-        "ErrorTweetUnavailable": "ich konnte gar nichts über diesen tweet finden. vielleicht ist seine sichtbarkeit eingeschränkt. versuche einen anderen!"
+        "ErrorTweetUnavailable": "ich konnte gar nichts über diesen tweet finden. vielleicht ist seine sichtbarkeit eingeschränkt. versuche einen anderen!",
+        "UrgentUpdate6": "Alle Netzwerkprobleme wurden behoben!",
+        "ErrorReload": "Ich konnte nicht überprüfen, ob du Zugriff auf diesen Stream hast. Versuche es erneut oder aktualisiere die Seite!\n"
     }
 }
