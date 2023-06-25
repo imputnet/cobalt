@@ -15,8 +15,8 @@
         --accent: rgb(225, 225, 225);
         --accent-highlight: rgb(225, 225, 225, 4%);
         --accent-subtext: rgb(110, 110, 110);
-        --accent-hover: rgb(25, 25, 25);
-        --accent-button: rgb(20, 20, 20);
+        --accent-hover: rgb(30, 30, 30);
+        --accent-button: rgb(25, 25, 25);
         --subbackground: rgb(10, 10, 10);
         --background: rgb(0, 0, 0);
     }
@@ -24,10 +24,10 @@
 @media (prefers-color-scheme: light) {
     :root {
         --accent: rgb(25, 25, 25);
-        --accent-highlight: rgb(25, 25, 25, 6%);
+        --accent-highlight: rgb(25, 25, 25, 4%);
         --accent-subtext: rgb(110, 110, 110);
-        --accent-hover: rgb(225, 225, 225);
-        --accent-button: rgb(230, 230, 230);
+        --accent-hover: rgb(230, 230, 230);
+        --accent-button: rgb(225, 225, 225);
         --subbackground: rgb(240, 240, 240);
         --background: rgb(255, 255, 255);
     }
@@ -36,17 +36,17 @@
     --accent: rgb(225, 225, 225);
     --accent-highlight: rgb(225, 225, 225, 4%);
     --accent-subtext: rgb(110, 110, 110);
-    --accent-hover: rgb(25, 25, 25);
-    --accent-button: rgb(20, 20, 20);
+    --accent-hover: rgb(30, 30, 30);
+    --accent-button: rgb(25, 25, 25);
     --subbackground: rgb(10, 10, 10);
     --background: rgb(0, 0, 0);
 }
 [data-theme="light"] {
     --accent: rgb(25, 25, 25);
-    --accent-highlight: rgb(25, 25, 25, 6%);
+    --accent-highlight: rgb(25, 25, 25, 4%);
     --accent-subtext: rgb(110, 110, 110);
-    --accent-hover: rgb(225, 225, 225);
-    --accent-button: rgb(230, 230, 230);
+    --accent-hover: rgb(230, 230, 230);
+    --accent-button: rgb(225, 225, 225);
     --subbackground: rgb(240, 240, 240);
     --background: rgb(255, 255, 255);
 }
