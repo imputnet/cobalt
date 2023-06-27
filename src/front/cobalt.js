@@ -1,7 +1,7 @@
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.match("iphone os");
 const isMobile = ua.match("android") || ua.match("iphone os");
-const version = 30;
+const version = 31;
 const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 const notification = `<div class="notification-dot"></div>`;
 
