@@ -64,7 +64,7 @@ Setup script installs all needed `npm` dependencies, but you have to install `No
 3. Run cobalt via `npm start`
 4. Done.
 
-You need to host API and web app separately ever since v.6.0. Setup script will help you with that!
+You need to host API and web app separately since v.6.0. Setup script will help you with that!
 
 ### Ubuntu 22.04+ workaround
 `nscd` needs to be installed and running so that the `ffmpeg-static` binary can resolve DNS ([#101](https://github.com/wukko/cobalt/issues/101#issuecomment-1494822258)):

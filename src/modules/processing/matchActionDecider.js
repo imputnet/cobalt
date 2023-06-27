@@ -2,13 +2,12 @@ import { audioIgnore, services, supportedAudio } from "../config.js";
 import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
 
-export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMuted) {
+export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
     let action,
         responseType = 2,
         defaultParams = {
             u: r.urls,
             service: host,
-            ip: ip,
             filename: r.filename,
         },
         params = {}

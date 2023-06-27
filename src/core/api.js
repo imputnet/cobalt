@@ -20,7 +20,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     const apiLimiter = rateLimit({
         windowMs: 60000,
-        max: 25,
+        max: 20,
         standardHeaders: false,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
@@ -31,7 +31,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     });
     const apiLimiterStream = rateLimit({
         windowMs: 60000,
-        max: 28,
+        max: 25,
         standardHeaders: false,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
@@ -75,7 +75,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.post('/api/json', async (req, res) => {
         try {
-            let ip = sha256(getIP(req), ipSalt);
             let lang = languageCode(req);
             let j = apiJSON(0, { t: "Bad request" });
             try {
@@ -83,7 +82,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                 if (request.url) {
                     request.dubLang = request.dubLang ? lang : false;
                     let chck = checkJSONPost(request);
-                    if (chck) chck["ip"] = ip;
                     j = chck ? await getJSON(chck["url"], lang, chck) : apiJSON(0, { t: loc(lang, 'ErrorCouldntFetch') });
                 } else {
                     j = apiJSON(0, { t: loc(lang, 'ErrorNoLink') });
@@ -101,22 +99,22 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.get('/api/:type', (req, res) => {
         try {
-            let ip = sha256(getIP(req), ipSalt);
             switch (req.params.type) {
                 case 'stream':
-                    let streamInfo = verifyStream(ip, req.query.t, req.query.h, req.query.e);
-                    if (streamInfo.error) {
-                        res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
-                        return;
-                    }
-
-                    if (req.query.p) {
-                        res.status(200).json({ "status": "continue" });
-                        return;
-                    } else if (req.query.t && req.query.h && req.query.e) {
-                        stream(res, ip, req.query.t, req.query.h, req.query.e);
+                    if (req.query.t && req.query.h && req.query.e && req.query.t.toString().length === 21
+                    && req.query.h.toString().length === 64 && req.query.e.toString().length === 13) {
+                        let streamInfo = verifyStream(req.query.t, req.query.h, req.query.e);
+                        if (streamInfo.error) {
+                            res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
+                            return;
+                        }
+                        if (req.query.p) {
+                            res.status(200).json({ "status": "continue" });
+                            return;
+                        }
+                        stream(res, streamInfo);
                     } else {
-                        let j = apiJSON(0, { t: "no stream id" })
+                        let j = apiJSON(0, { t: "stream token, hmac, or expiry timestamp is missing." })
                         res.status(j.status).json(j.body);
                         return;
                     }

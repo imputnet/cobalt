@@ -28,7 +28,7 @@ console.log(
 )
 
 console.log(
-    `\n${Bright("⚠️ Please notice that since v.6.0 cobalt is hosted in two parts. API and web app are now separate.\nMerged hosting is deprecated and will be removed in the future.")}`
+    `\n${Bright("⚠️ Please notice that since v.6.0 cobalt is hosted in two parts. API and web app are now separate.\nMerged hosting is no longer available.")}`
 )
 function setup() {
     console.log(Bright("\nWhat kind of server will this instance be?\nOptions: api, web."));

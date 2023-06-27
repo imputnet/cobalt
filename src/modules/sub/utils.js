@@ -73,7 +73,6 @@ export function cleanURL(url, host) {
         case "tiktok":
             url = url.replace(/@([a-zA-Z]+(\.[a-zA-Z]+)+)/, "@a")
         case "pinterest":
-            // Redirect all TLDs back to .com
             url = url.replace(/:\/\/(?:www.)pinterest(?:\.[a-z.]+)/, "://pinterest.com")
         default:
             url = url.split('?')[0];

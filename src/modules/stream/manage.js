@@ -15,7 +15,7 @@ streamCache.on("expired", (key) => {
 export function createStream(obj) {
     let streamID = nanoid(),
         exp = Math.floor(new Date().getTime()) + streamLifespan,
-        ghmac = sha256(`${streamID},${obj.ip},${obj.service},${exp}`, streamSalt);
+        ghmac = sha256(`${streamID},${obj.service},${exp}`, streamSalt);
 
     if (!streamCache.has(streamID)) {
         streamCache.set(streamID, {
@@ -25,7 +25,6 @@ export function createStream(obj) {
             urls: obj.u,
             filename: obj.filename,
             hmac: ghmac,
-            ip: obj.ip,
             exp: exp,
             isAudioOnly: !!obj.isAudioOnly,
             audioFormat: obj.audioFormat,
@@ -42,19 +41,17 @@ export function createStream(obj) {
     return `${process.env.apiURL || process.env.selfURL}api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
 }
 
-export function verifyStream(ip, id, hmac, exp) {
+export function verifyStream(id, hmac, exp) {
     try {
-        if (id.toString().length === 21) {
-            let streamInfo = streamCache.get(id.toString());
-            if (!streamInfo) return { error: "requested stream does not exist", status: 400 };
-    
-            let ghmac = sha256(`${id},${ip},${streamInfo.service},${exp}`, streamSalt);
-            if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
-                && String(ip) === streamInfo.ip && Number(exp) > Math.floor(new Date().getTime())) {
-                return streamInfo;
-            }
+        let streamInfo = streamCache.get(id.toString());
+        if (!streamInfo) return { error: "this download link has expired or doesn't exist. go back and try again!", status: 400 };
+
+        let ghmac = sha256(`${id},${streamInfo.service},${exp}`, streamSalt);
+        if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
+            && Number(exp) > Math.floor(new Date().getTime())) {
+            return streamInfo;
         }
-        return { error: "i couldn't verify whether you have access to this download. try again or refresh the page!", status: 401 };
+        return { error: "i couldn't verify if you have access to this download. go back and try again!", status: 401 };
     } catch (e) {
         return { status: 500, body: { status: "error", text: "Internal Server Error" } };
     }
