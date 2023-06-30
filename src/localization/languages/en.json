@@ -120,6 +120,7 @@
         "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
         "ShareURL": "share",
         "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!",
-        "UrgentUpdate6": "all network issues have been fixed!"
+        "UrgentUpdate6": "all network issues have been fixed!",
+        "ErrorTwitterRIP": "twitter has restricted access to any content to unauthenticated users. while there's a way to get regular tweets, spaces are, unfortunately, impossible to get at this time. i am looking into possible solutions."
     }
 }

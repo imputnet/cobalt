@@ -9,7 +9,6 @@ export default async function(obj) {
     let _headers = {
         "user-agent": genericUserAgent,
         "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-        // ^ no explicit content, but with multi media support
         "host": "api.twitter.com",
         "x-twitter-client-language": "en",
         "x-twitter-active-user": "yes",
@@ -29,23 +28,6 @@ export default async function(obj) {
 
     if (!obj.spaceId) {
         let conversation = await fetch(conversationURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
-        if (!conversation || !conversation.globalObjects.tweets[obj.id]) {
-            _headers.authorization = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
-            // ^ explicit content, but no multi media support
-            delete _headers["x-guest-token"];
-            delete _headers["cookie"];
-
-            req_act = await fetch(activateURL, {
-                method: "POST",
-                headers: _headers
-            }).then((r) => { return r.status === 200 ? r.json() : false}).catch(() => { return false });
-            if (!req_act) return { error: 'ErrorCouldntFetch' };
-
-            _headers["x-guest-token"] = req_act["guest_token"];
-            _headers['cookie'] = `guest_id=v1%3A${req_act["guest_token"]};`;
-
-            conversation = await fetch(conversationURL, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
-        }
         if (!conversation || !conversation.globalObjects.tweets[obj.id]) return { error: 'ErrorTweetUnavailable' };
 
         let baseMedia, baseTweet = conversation.globalObjects.tweets[obj.id];

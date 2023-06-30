@@ -12,7 +12,7 @@
             "enabled": true
         },
         "twitter": {
-            "alias": "twitter posts & spaces & voice",
+            "alias": "twitter posts & voice",
             "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
             "enabled": true
         },
