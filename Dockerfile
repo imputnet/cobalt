@@ -1,15 +1,21 @@
-FROM node:18-bullseye-slim
+# https://alphasec.io/dockerize-a-node-js-app-using-a-distroless-image/
+# Stage A - Build application artifacts
+FROM node:18.15.0-alpine AS base
+ENV NODE_ENV prod
+
 WORKDIR /app
 
-RUN apt-get update
-RUN apt-get install -y git
-RUN rm -rf /var/lib/apt/lists/*
-
-COPY package*.json ./
-RUN npm install
-
+RUN apk update; apk upgrade; apk add git -y
 RUN git clone -n https://github.com/wukko/cobalt.git --depth 1 && mv cobalt/.git ./ && rm -rf cobalt
 
-COPY . .
+COPY package*.json ./
+RUN npm install --production
+
+# Stage 2 - Launch 
+FROM gcr.io/distroless/nodejs18-debian11
+
+WORKDIR /app
+COPY --from=base /app /app
+
 EXPOSE 9000
 CMD [ "node", "src/cobalt" ]
