@@ -5,7 +5,7 @@ ENV NODE_ENV prod
 
 WORKDIR /app
 
-RUN apk update; apk upgrade; apk add git -y
+RUN apk add git -y
 RUN git clone -n https://github.com/wukko/cobalt.git --depth 1 && mv cobalt/.git ./ && rm -rf cobalt
 
 COPY package*.json ./
