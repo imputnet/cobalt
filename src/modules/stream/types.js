@@ -1,5 +1,4 @@
 import { spawn } from "child_process";
-import ffmpeg from "ffmpeg-static";
 import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { getThreads, metadataManager, msToTime } from "../sub/utils.js";
@@ -46,7 +45,7 @@ export function streamLiveRender(streamInfo, res) {
         args = args.concat(ffmpegArgs[format])
         if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
         args.push('-f', format, 'pipe:4');
-        let ffmpegProcess = spawn(ffmpeg, args, {
+        let ffmpegProcess = spawn('ffmpeg', args, {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
@@ -114,7 +113,7 @@ export function streamAudioOnly(streamInfo, res) {
         if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
-        const ffmpegProcess = spawn(ffmpeg, args, {
+        const ffmpegProcess = spawn('ffmpeg', args, {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
@@ -150,7 +149,7 @@ export function streamVideoOnly(streamInfo, res) {
         if (streamInfo.service === "vimeo") args.push('-bsf:a', 'aac_adtstoasc');
         if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
         args.push('-f', format, 'pipe:3');
-        const ffmpegProcess = spawn(ffmpeg, args, {
+        const ffmpegProcess = spawn('ffmpeg', args, {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
