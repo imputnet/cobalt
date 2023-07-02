@@ -33,6 +33,9 @@ jobs:
       - name: Get version from package.json
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
+      - name: Get short commit hash
+        id: commit-hash
+        run: echo "commit_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
@@ -40,6 +43,7 @@ jobs:
           tags: |
             type=raw,value=latest
             type=raw,value=${{ steps.package-version.outputs.current-version }}
+            type=raw,value=${{ steps.package-version.outputs.current-version }}-${{ steps.commit-hash.outputs.commit_short }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
