@@ -29,7 +29,7 @@
         "ErrorCouldntFetch": "nu am putut găsi nimic despre acest link. verifică dacă merge și încearcă din nou. este posibil ca acel conținut să fie restricționat în funcție de regiune.",
         "ErrorLengthLimit": "nu pot procesa video-uri mai lungi de {s} minute. te rog, alege ceva mai scurt!",
         "ErrorBadFetch": "ceva nu a mers când am încercat să găsesc informații despre link-ul tău. ești sigur că merge? dacă merge, încearcă din nou.",
-        "ErrorNoInternet": "nu aveți internet sau api-ul {appName} este oprit. verificați conexiunea și încercați din nou",
+        "ErrorNoInternet": "nu aveți internet sau api-ul {appName} este temporar indisponibil. verificați conexiunea și încercați din nou.",
         "ErrorCantConnectToServiceAPI": "nu m-am putut conecta la api-ul serviciului. poate e picat, sau {appName} a fost blocat. încearcă din nou, dar dacă eroarea persistă, {ContactLink}.",
         "ErrorEmptyDownload": "nu văd ce să descarc prin link-ul tău. încearcă altul!",
         "ErrorLiveVideo": "acesta este un videoclip live, încă nu am învățat cum să văd viitorul. așteptați ca fluxul să se termine și să încercați din nou!",
@@ -94,7 +94,7 @@
         "ChangelogPressToHide": "restrânge",
         "Donate": "donează",
         "DonateSub": "ajută-mă să îl mențin",
-        "DonateExplanation": "{appName} nu va servi niciodată reclame și nu o să îți vândă vreodată datele, astfel fiind  <span class=\"text-backdrop\">complet gratis</span>. dar se pare că dezvoltarea și menținerea unui serviciu web folosit de peste 150,000 de oameni nu e așa ușor.\n\ndaca {appName} ți se pare folositor și dorești să ajuți la dezvoltare, sau pur și simplu dorești să îi mulțumești dezvoltatorului, consideră o donație. fiecare cent ajută și este FOARTE apreciat :D\n\nmomentan, am planuri mari (de scalare) și am nevoie de ajutor. {appName} este din ce în ce mai folosit, și trebuie să compensez cumva. <span class=\"text-backdrop\"> donațiile sunt mai apreciate decât oricând.</span>\n\nîncă nu am făcut niciun ban din {appName}, totul se investește înapoi către utilizatori, așa că ajuți pe toată lumea.",
+        "DonateExplanation": "{appName} nu va servi niciodată reclame și nu o să îți vândă vreodată datele, astfel este  <span class=\"text-backdrop\">complet gratis</span>. dar se pare că dezvoltarea și menținerea unui serviciu web folosit de peste 200,000 de oameni nu e așa ușor.\n\ndacă {appName} ți se pare folositor și dorești să ajuți la dezvoltare, sau pur și simplu dorești să îi mulțumești dezvoltatorului, consideră o donație. fiecare cent ajută și este FOARTE apreciat :D\n\nmomentan, am planuri mari (de scalare) și am nevoie de ajutorul tău. {appName} este din ce în ce mai folosit, și trebuie să compensez cumva. <span class=\"text-backdrop\"> donațiile sunt mai apreciate decât oricând.</span>\n\nîncă nu am făcut niciun ban din {appName}, totul se investește înapoi către utilizatori, așa că esențial ajuți pe toată lumea.",
         "DonateVia": "donează prin",
         "DonateHireMe": "...sau poți <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\"> să mă angajezi</a> :)",
         "SettingsVideoMute": "oprește sunetul",
@@ -104,10 +104,10 @@
         "CollapseSupport": "suport & cod sursă",
         "CollapsePrivacy": "politica de confidențialitate",
         "ServicesNote": "această listă nu este finală și continuă să se extindă în timp, mai uită-te la ea ocazional!",
-        "FollowSupport": "urmărește {appName} pe mastodon sau twitter pentru suport, sondaje, știri și multe altele:",
+        "FollowSupport": "păstrează legătura cu {appName} pentru sprijin, sondaje, știri și multe altele:",
         "SupportNote": "este posibil să dureze ceva să primiți răspunsuri la întrebări sau probleme, totul e gestionat de o singură persoană.",
         "SourceCode": "raportează probleme, explorează codul sursă, adaugă la favorite sau fă un fork al repo-ului:",
-        "PrivacyPolicy": "politica de confidențialitate a {appName} este simplă: nicio dată personală nu va fi colectată sau stocată. zero. nada. nimic. ce descarci e treaba ta, nu a mea.\n\ncâteva date care nu pot fi urmărite sau asociate cu tine sunt stocate temporar când cererea de descărcare necesită randare pe loc.\n\nÎn acel caz, <span class=\"text-backdrop\">hash-ul obținut prin aplicarea sha256 asupra adresei tale ip</span> și informații despre cererea ta sunt stocate temporar în RAM-ul server-ului pentru <span class=\"text-backdrop\">2 minute</span>. după 2 minute, toate datele stocate anterior sunt șterse permanent. hash-ul adresei tale ip este <span class=\"text-backdrop\">folosit pentru a limita accesul doar ție la ce dorești să descarci</span>.\n\nnimeni (nici eu) nu are acces la aceste date, deoarece codul din spatele {appName} nu conține nicio cale de a îl citi în afară de funcția de procesare.\n\npoți oricând să verifici <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">repo-ul de github</a> al {appName} și o să îți dai seama că totul este exact cum am zis mai sus.",
+        "PrivacyPolicy": "politica de confidențialitate a {appName} este simplă: nu sunt colectate sau stocate date despre tine. zero, zilch, nada, nimic.\nceea ce descarci e treaba ta, nu a mea.\n\nunele date care nu sunt retrase sunt stocate temporar atunci când descărcarea solicitată necesită o redare live. este necesar ca această caracteristică să funcționeze.\n\nîn acest caz, informațiile despre fluxul solicitat sunt stocate temporar în RAM-ul serverului pentru <span class=\"text-backdrop\">20 secunde</span>. pe măsură ce au trecut 20 de secunde, toate informațiile stocate anterior sunt eliminate permanent.\nnimeni (nici eu) nu are acces la aceste date, deoarece oficial baza codului {appName} nu oferă o modalitate de a le citi în afara funcțiilor de procesare.\n\nputeți verifica <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">repozitoriul github</a> al  {appName} și veți vedea că totul este așa cum am spus.",
         "ErrorYTUnavailable": "acest videoclip youtube este indisponibil sau restricționat de vârstă. în prezent nu pot descărca videoclipuri cu conținut sensibil. încercați altul!",
         "ErrorYTTryOtherCodec": "nu am putut găsi nimic de descărcat cu setările tale. încearcă un alt codec sau calitate!\n\nnotă: api-ul youtube uneori acționează neașteptat. dă vina pe google pentru asta, nu pe mine.",
         "SettingsCodecSubtitle": "codec youtube",
@@ -119,6 +119,8 @@
         "SettingsVimeoPrefer": "tipuri descărcări vimeo",
         "SettingsVimeoPreferDescription": "progressive: link direct către cdn-ul de la vimeo. calitatea maxima este 1080p.\ndash: video si audio sunt combinate de {appName} într-un singur fisier. calitatea maxima este 4k.\n\nalege \"progressive\" dacă dorești cea mai bună compatibilitate cu editoare/playere/social media. dacă descărcarea \"progressive\" nu este disponibila, va fi utilizată \"dash\".",
         "ShareURL": "distribuiți",
-        "ErrorTweetUnavailable": "nu am putut găsi nimic despre acest tweet. poate că are vizibilitatea limitată. încearcă altul!"
+        "ErrorTweetUnavailable": "nu am putut găsi nimic despre acest tweet. poate că are vizibilitatea limitată. încearcă altul!",
+        "UrgentUpdate6": "toate problemele de rețea au fost rezolvate!",
+        "ErrorTwitterRIP": "twitter a restricționat accesul utilizatorilor neautentificați la conținut. deși există o cale de a obține tweet-uri normale, este imposibil, din păcate, să descarci spații ('spaces'). caut posibile soluții."
     }
 }
