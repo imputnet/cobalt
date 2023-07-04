@@ -17,6 +17,7 @@ export default async function(obj) {
     if (!html.includes('application/ld+json')) return { error: 'ErrorEmptyDownload' };
 
     let single, multiple = [], postInfo = JSON.parse(html.split('script type="application/ld+json"')[1].split('">')[1].split('</script>')[0]);
+    if (Array.isArray(postInfo)) postInfo = postInfo[0];
 
     if (postInfo.video.length > 1) {
         for (let i in postInfo.video) { multiple.push({type: "video", thumb: postInfo.video[i]["thumbnailUrl"], url: postInfo.video[i]["contentUrl"]}) }

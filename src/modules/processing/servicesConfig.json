@@ -23,7 +23,7 @@
         },
         "youtube": {
             "alias": "youtube videos & shorts & music",
-            "patterns": ["watch?v=:id"],
+            "patterns": ["watch?v=:id", "embed/:id"],
             "bestAudio": "opus",
             "enabled": true
         },

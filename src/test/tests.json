@@ -893,6 +893,22 @@
             "code": 400,
             "status": "error"
         }
+    }, {
+        "name": "post info in an array (for whatever reason??)",
+        "url": "https://www.instagram.com/reel/CrVB9tatUDv/?igshid=blaBlABALALbLABULLSHIT==",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "prone to get rate limited",
+        "url": "https://www.instagram.com/reel/CrO-T7Qo6rq/?igshid=fuckYouNoTrackingIdForYou==",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }],
     "vine": [{
         "name": "regular vine link (9+10=21)",
