@@ -33,7 +33,7 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 
 This list is not final and keeps expanding over time, make sure to check it once in a while!  
   
-* Reliability of downloads from Twitter is questionable due its to current management.
+*Reliability of downloads from Twitter is questionable due to its current management.
 
 ## cobalt API
 cobalt has an open API that you can use in your projects for **free**.  
