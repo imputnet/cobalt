@@ -24,9 +24,12 @@ app.disable('x-powered-by');
 
 await loadLoc();
 
-if (process.env.apiURL && process.env.apiPort && !((process.env.webURL && process.env.webPort) || (process.env.selfURL && process.env.port))) {
+const apiMode = process.env.apiURL && process.env.apiPort && !((process.env.webURL && process.env.webPort) || (process.env.selfURL && process.env.port))
+const webMode = process.env.webURL && process.env.webPort && !((process.env.apiURL && process.env.apiPort) || (process.env.selfURL && process.env.port))
+
+if (apiMode) {
     runAPI(express, app, gitCommit, gitBranch, __dirname);
-} else if (process.env.webURL && process.env.webPort && !((process.env.apiURL && process.env.apiPort) || (process.env.selfURL && process.env.port))) {
+} else if (webMode) {
     await runWeb(express, app, gitCommit, gitBranch, __dirname);
 } else {
     console.log(Red(`cobalt wasn't configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`));
