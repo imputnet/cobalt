@@ -93,8 +93,8 @@
         "ErrorCantProcess": "i couldn't process your request :(\nyou can try again, but if issue persists, please {ContactLink}.",
         "ChangelogPressToHide": "collapse",
         "Donate": "donate",
-        "DonateSub": "help me keep it up",
-        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, therefore it's <span class=\"text-backdrop\">completely free to use</span>. but turns out developing and keeping up a web service used by over 200,000 people is not that easy.\n\nif you ever found {appName} useful and want to help continue its development and support, or simply want to thank the developer, consider chipping in! every cent helps and is VERY appreciated :D\n\ncurrently, i have big (scaling) plans, and i need your help. {appName}'s usage is growing daily, so i need to make up for it. <span class=\"text-backdrop\">donations are more appreciated than ever.</span>\n\ni am yet to earn anything from {appName}, everything goes back to users, so you're essentially helping everyone.",
+        "DonateSub": "help it stay online",
+        "DonateExplanation": "{appName} does not (and will never) serve ads or sell your data, meaning that <span class=\"text-backdrop\">it's completely free to use</span>. turns out developing and keeping up a web service used by over 300,000 people is not that easy.\n\nif you ever found {appName} useful and want to help continue its development and maintenance consider chipping in! if you want to thank the developer, you can also do that via donations. every cent helps and is VERY appreciated!\n\n{appName}'s usage worldwide grows daily and i need to make up for it. as you can imagine, hosting costs grow progressively too. as a year 1 university student, i was not prepared for such expenses :(\n\ni am yet to earn anything from {appName}, everything goes back to users, so you're helping everyone who uses {appName}.\n\n<span class=\"text-backdrop\">your help is more appreciated than ever!</span>",
         "DonateVia": "donate via",
         "DonateHireMe": "...or you can <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">hire me</a> :)",
         "SettingsVideoMute": "mute audio",
@@ -108,7 +108,7 @@
         "SupportNote": "please note that questions and issues may take a while to respond to, there's only one person managing everything.",
         "SourceCode": "report issues, explore source code, star or fork the repo:",
         "PrivacyPolicy": "{appName}'s privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is your business, not mine.\n\nsome non-backtraceable data does get temporarily stored when requested download requires live render. it's necessary for that feature to function.\n\nin that case, information about requested stream is temporarily stored in server's RAM for <span class=\"text-backdrop\">20 seconds</span>. as 20 seconds have passed, all previously stored information is permanently removed.\nno one (even me) has access to this data, because official {appName} codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check {appName}'s <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">github repo</a> yourself and see that everything is as stated.",
-        "ErrorYTUnavailable": "this youtube video is unavailable or age restricted. i am currently unable to download videos with sensitive content. try another one!",
+        "ErrorYTUnavailable": "this youtube video is unavailable, it could be region or age restricted. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nnote: youtube api sometimes acts unexpectedly. blame google for this, not me.",
         "SettingsCodecSubtitle": "youtube codec",
         "SettingsCodecDescription": "h264: generally better player support, but quality tops out at 1080p.\nav1: low player support, but supports 8k & HDR.\nvp9: usually highest bitrate, preserves most detail. supports 4k & HDR.\n\npick h264 if you want best editor/player/social media compatibility.",
@@ -120,7 +120,7 @@
         "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by {appName} into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
         "ShareURL": "share",
         "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!",
-        "UrgentUpdate6": "all network issues have been fixed!",
-        "ErrorTwitterRIP": "twitter has restricted access to any content to unauthenticated users. while there's a way to get regular tweets, spaces are, unfortunately, impossible to get at this time. i am looking into possible solutions."
+        "ErrorTwitterRIP": "twitter has restricted access to any content to unauthenticated users. while there's a way to get regular tweets, spaces are, unfortunately, impossible to get at this time. i am looking into possible solutions.",
+        "UrgentDonate": "{appName} needs your help!"
     }
 }

@@ -41,7 +41,7 @@ export default function(obj) {
 
     try {
         return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${obj.lang}">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}" />
@@ -232,7 +232,7 @@ export default function(obj) {
                 })
                 + settingsCategory({
                     name: "tiktok",
-                    title: "tiktok & douyin",
+                    title: "tiktok",
                     body: checkbox("disableTikTokWatermark", t('SettingsRemoveWatermark'), 3)
                 })
                 + settingsCategory({
@@ -294,7 +294,7 @@ export default function(obj) {
                             })
                         }) + settingsCategory({
                             name: "tiktok",
-                            title: "tiktok & douyin",
+                            title: "tiktok",
                             body: checkbox("fullTikTokAudio", t('SettingsAudioFullTikTok'), 3) + explanation(t('SettingsAudioFullTikTokDescription'))
                         })
             }, {
@@ -364,6 +364,7 @@ export default function(obj) {
             body: `<div id="desc-error" class="desc-padding subtext"></div>`
         })}
         <div id="popup-backdrop" style="visibility: hidden;" onclick="hideAllPopups()"></div>
+        <div id="urgent-notice" class="urgent-notice explanation center" onclick="popup('about', 1, 'donate')" style="visibility: hidden;">${emoji("💖", 18)} ${t("UrgentDonate")}</div>
         <div id="cobalt-main-box" class="center" style="visibility: hidden;">
             <div id="logo">${appName}</div>
             <div id="download-area">
