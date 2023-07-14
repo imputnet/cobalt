@@ -5,6 +5,7 @@ services:
         build: .
         restart: unless-stopped
         container_name: cobalt-api
+        tty: true
         ports:
             - 9000:9000/tcp
         environment:
@@ -15,6 +16,7 @@ services:
         build: .
         restart: unless-stopped
         container_name: cobalt-web
+        tty: true
         ports:
             - 9000:9000/tcp
         environment:
