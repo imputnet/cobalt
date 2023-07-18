@@ -16,7 +16,10 @@
         --accent-highlight: rgb(225, 225, 225, 4%);
         --accent-subtext: rgb(110, 110, 110);
         --accent-hover: rgb(30, 30, 30);
+        --accent-hover-elevated: rgb(48, 48, 48);
         --accent-button: rgb(25, 25, 25);
+        --accent-button-elevated: rgb(42, 42, 42);
+        --glass: rgba(25, 25, 25, 0.85);
         --subbackground: rgb(10, 10, 10);
         --background: rgb(0, 0, 0);
     }
@@ -27,7 +30,10 @@
         --accent-highlight: rgb(25, 25, 25, 4%);
         --accent-subtext: rgb(110, 110, 110);
         --accent-hover: rgb(230, 230, 230);
+        --accent-hover-elevated: rgb(215, 215, 215);
         --accent-button: rgb(225, 225, 225);
+        --accent-button-elevated: rgb(210, 210, 210);
+        --glass: rgba(230, 230, 230, 0.85);
         --subbackground: rgb(240, 240, 240);
         --background: rgb(255, 255, 255);
     }
@@ -37,7 +43,10 @@
     --accent-highlight: rgb(225, 225, 225, 4%);
     --accent-subtext: rgb(110, 110, 110);
     --accent-hover: rgb(30, 30, 30);
+    --accent-hover-elevated: rgb(48, 48, 48);
     --accent-button: rgb(25, 25, 25);
+    --accent-button-elevated: rgb(42, 42, 42);
+    --glass: rgba(25, 25, 25, 0.85);
     --subbackground: rgb(10, 10, 10);
     --background: rgb(0, 0, 0);
 }
@@ -46,7 +55,10 @@
     --accent-highlight: rgb(25, 25, 25, 4%);
     --accent-subtext: rgb(110, 110, 110);
     --accent-hover: rgb(230, 230, 230);
+    --accent-hover-elevated: rgb(215, 215, 215);
     --accent-button: rgb(225, 225, 225);
+    --accent-button-elevated: rgb(210, 210, 210);
+    --glass: rgba(230, 230, 230, 0.85);
     --subbackground: rgb(240, 240, 240);
     --background: rgb(255, 255, 255);
 }
@@ -327,7 +339,32 @@ button:active,
     max-height: 85%;
 }
 .popup.small {
-    width: 20%
+    width: 20%;
+    background: var(--glass);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    box-shadow: 0px 0px 80px 0px var(--accent-hover);
+    padding: 1.7rem;
+    border: var(--accent-highlight) solid 0.15rem;
+}
+.popup.small #popup-title {
+    margin-bottom: .2rem;
+}
+.popup.small #popup-header {
+    padding-top: 0;
+}
+.popup.small .explanation {
+    margin-bottom: 0.8rem;
+}
+.popup.small .switch {
+    background: var(--accent-button-elevated);
+}
+.popup.small .switch:hover {
+    background: var(--accent-hover-elevated);
+}
+#close-error {
+    background: var(--accent);
+    color: var(--background);
 }
 #popup-backdrop {
     opacity: 0.5;
@@ -421,7 +458,6 @@ button:active,
 }
 #popup-header {
     position: relative;
-    background: var(--background);
     z-index: 999;
     padding-top: 0.8rem;
 }
@@ -537,7 +573,6 @@ button:active,
 #close-button {
     max-width: 2.6rem;
     margin-left: var(--padding-1);
-    background: var(--background);
     border: var(--border-15);
     color: var(--accent);
     padding: 0.3rem 0.75rem 0.5rem;
@@ -886,8 +921,24 @@ button:active,
     .urgent-notice {
         width: 100%;
     }
-}
-@media screen and (max-width: 949px) {
+    .popup.small {
+        width: calc(100% - 1.7rem * 2);
+        height: auto;
+        top: unset;
+        bottom: 0;
+        left: 0;
+        transform: none;
+        position: absolute;
+        border: none;
+        border-top: var(--accent-highlight) solid 0.15rem;
+        padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.7rem)
+    }
+    .popup.small #popup-header {
+        background: none;
+    }
+    #close-error {
+        bottom: 3rem;
+    }
     #picker-holder::-webkit-scrollbar {
         display: none;
     }
@@ -903,23 +954,12 @@ button:active,
         height: 20rem;
         max-width: 100%;
     }
-    #popup-header {
-        padding-top: 1.2rem;
-    }
-    #popup-settings #popup-header {
-        padding-top: 0.8rem;
-    }
     .picker-image-container {
         height: 7rem;
         width: 7rem;
         line-height: 7rem;
     }
-    #close-error {
-        bottom: 3rem;
-        position: absolute;
-        width: var(--without-padding);
-    }
-    .popup, .popup.scrollable, .popup.small {
+    .popup, .popup.scrollable {
         border: none;
         width: 90%;
         height: 95%;

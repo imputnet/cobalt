@@ -44,7 +44,7 @@ export default function(obj) {
 <html lang="${obj.lang}">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}" />
+        <meta name="viewport" content="viewport-fit=cover width=device-width, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}" />
 
         <title>${appName}</title>
 
@@ -324,22 +324,6 @@ export default function(obj) {
                 })
             }],
         })}
-        ${popup({
-            name: "download",
-            standalone: true,
-            header: {
-                closeAria: t('AccessibilityClosePopup'),
-                subtitle: t('TitlePopupDownload')
-            },
-            body: switcher({
-                name: "download",
-                subtitle: t('DownloadPopupWayToSave'),
-                explanation: `${!isIOS ? t('DownloadPopupDescription') : t('DownloadPopupDescriptionIOS')}`,
-                items: `<a id="pd-download" class="switch full" target="_blank" href="/">${t('Download')}</a>
-                <div id="pd-share" class="switch full">${t('ShareURL')}</div>
-                <div id="pd-copy" class="switch full">${t('CopyURL')}</div>`
-            })
-        })}
         ${popupWithBottomButtons({
             name: "picker",
             closeAria: t('AccessibilityClosePopup'),
@@ -351,17 +335,36 @@ export default function(obj) {
             content: '<div id="picker-holder"></div>'
         })}
         ${popup({
+            name: "download",
+            standalone: true,
+            buttonOnly: true,
+            classes: ["small"],
+            header: {
+                closeAria: t('AccessibilityClosePopup'),
+                emoji: emoji("🤷", 78, 1, 1),
+                title: t('TitlePopupDownload')
+            },
+            body: switcher({
+                name: "download",
+                explanation: `${!isIOS ? t('DownloadPopupDescription') : t('DownloadPopupDescriptionIOS')}`,
+                items: `<a id="pd-download" class="switch full" target="_blank" href="/">${t('Download')}</a>
+                <div id="pd-share" class="switch full">${t('ShareURL')}</div>
+                <div id="pd-copy" class="switch full">${t('CopyURL')}</div>`
+            }),
+            buttonText: t('PopupCloseDone')
+        })}
+        ${popup({
             name: "error",
             standalone: true,
             buttonOnly: true,
             classes: ["small"],
-            buttonText: t('ErrorPopupCloseButton'),
             header: {
                 closeAria: t('AccessibilityClosePopup'),
                 title: t('TitlePopupError'),
-                emoji: emoji("☹️", 64, 1),
+                emoji: emoji("😿", 78, 1, 1),
             },
-            body: `<div id="desc-error" class="desc-padding subtext"></div>`
+            body: `<div id="desc-error" class="desc-padding subtext"></div>`,
+            buttonText: t('ErrorPopupCloseButton')
         })}
         <div id="popup-backdrop" style="visibility: hidden;" onclick="hideAllPopups()"></div>
         <div id="urgent-notice" class="urgent-notice explanation center" onclick="popup('about', 1, 'donate')" style="visibility: hidden;">${emoji("💖", 18)} ${t("UrgentDonate")}</div>

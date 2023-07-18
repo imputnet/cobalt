@@ -245,11 +245,6 @@ function changeSwitcher(li, b) {
         }
     }
 }
-function internetError() {
-    eid("url-input-area").disabled = false
-    changeDownloadButton(2, '!!');
-    popup("error", 1, loc.noInternet);
-}
 function checkbox(action) {
     sSet(action, !!eid(action).checked);
     switch(action) {
@@ -283,8 +278,9 @@ function changeButton(type, text) {
         case 0: //error
             eid("url-input-area").disabled = false
             eid("url-clear").style.display = "block";
-            changeDownloadButton(2, '!!')
+            changeDownloadButton(2, '!!');
             popup("error", 1, text);
+            setTimeout(() => { changeButton(1); }, 2500);
             break;
         case 1: //enable back
             changeDownloadButton(1, '>>');
@@ -298,6 +294,12 @@ function changeButton(type, text) {
             eid("url-input-area").disabled = false
             break;
     }
+}
+function internetError() {
+    eid("url-input-area").disabled = false
+    changeDownloadButton(2, '!!');
+    setTimeout(() => { changeButton(1); }, 2500);
+    popup("error", 1, loc.noInternet);
 }
 function resetSettings() {
     localStorage.clear();

@@ -19,7 +19,7 @@
         "TitlePopupError": "uh-oh...",
         "TitlePopupChangelog": "what's new?",
         "TitlePopupDonate": "support {appName}",
-        "TitlePopupDownload": "how to continue?",
+        "TitlePopupDownload": "how to save?",
         "ErrorSomethingWentWrong": "something went wrong and i couldn't get anything for you. try again, but if issue persists, {ContactLink}.",
         "ErrorUnsupported": "it seems like this service is not supported yet or your link is invalid. have you pasted the right link?",
         "ErrorBrokenLink": "{s} is supported, but something is wrong with your link. maybe you didn't copy it fully?",
@@ -49,7 +49,6 @@
         "NoScriptMessage": "{appName} uses javascript for api requests and interactive interface. you have to allow javascript to use this site. there are no pesty scripts, pinky promise.",
         "DownloadPopupDescriptionIOS": "easiest way to save videos on ios:\n1. add <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">this siri shortcut</a>.\n2. press \"share\" above and select \"save to photos\" in appeared share sheet.\nif asked, review the permission request, and press \"always allow\".\n\nalternative method:\npress and hold the download button, hide the video preview, and select \"download linked file\" to download.\nthen, open safari downloads, select the file you downloaded, open share menu, and finally press \"save video\".",
         "DownloadPopupDescription": "download button opens a new tab with requested file. you can disable this popup in settings.",
-        "DownloadPopupWayToSave": "pick a way to save",
         "ClickToCopy": "press to copy",
         "Download": "download",
         "CopyURL": "copy",
@@ -121,6 +120,7 @@
         "ShareURL": "share",
         "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!",
         "ErrorTwitterRIP": "twitter has restricted access to any content to unauthenticated users. while there's a way to get regular tweets, spaces are, unfortunately, impossible to get at this time. i am looking into possible solutions.",
-        "UrgentDonate": "{appName} needs your help!"
+        "UrgentDonate": "{appName} needs your help!",
+        "PopupCloseDone": "done"
     }
 }
