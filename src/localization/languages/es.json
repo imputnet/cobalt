@@ -19,7 +19,7 @@
         "TitlePopupError": "oh no...",
         "TitlePopupChangelog": "¿qué hay de nuevo?",
         "TitlePopupDonate": "apoya a {appName}",
-        "TitlePopupDownload": "¿cómo continuar?",
+        "TitlePopupDownload": "¿cómo guardar?",
         "ErrorSomethingWentWrong": "algo salió mal y no pude encontrar nada para ti. intenta de nuevo, pero si el problema persiste, {ContactLink}.",
         "ErrorUnsupported": "parece que este servicio aún no está soportado o tu enlace es inválido. ¿has introducido el enlace correcto?",
         "ErrorBrokenLink": "{s} es compatible con cobalt, pero algo está mal con tu enlace. ¿tal vez no lo copiaste completamente?",
@@ -49,7 +49,6 @@
         "NoScriptMessage": "{appName} utiliza javascript para hacer solicitudes hacia la api y la interfaz interactiva. necesitas activar javascript para usar esta página. no hay ningún script raro, lo prometo con el meñique.",
         "DownloadPopupDescriptionIOS": "la forma más fácil de salvar videos en ios:\n1. añade <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\"> este atajo de siri</a>.\n2. presiona \"compartir\" y selecciona \"guardar en fotos\" en la hoja para compartir que aparece.\nsi es pedido, presione \"siempre permitir\" en la solicitud de permiso.\n\nmétodo alternativo:\npresiona y mantén pulsado el botón de descarga, esconde la previsualización del video y selecciona \"descargar archivo en enlace\" para descargar.\nentonces, abre descargas de safari, selecciona el archivo que descargaste, abre el menú de compartir y por fin presiona \"guardar video\".",
         "DownloadPopupDescription": "el botón de descarga abre una nueva pestaña con el archivo solicitado. puedes desactivar esta ventana emergente en los ajustes.",
-        "DownloadPopupWayToSave": "elige una forma de guardar",
         "ClickToCopy": "click para copiar",
         "Download": "descargar",
         "CopyURL": "Copia",
@@ -121,6 +120,7 @@
         "ShareURL": "compartir",
         "ErrorTweetUnavailable": "no pude encontrar nada sobre este tweet. Esto podría ser porque la visibilidad está limitada. ¡Prueba con otro!",
         "ErrorTwitterRIP": "twitter a restringido el acceso a cualquier contenido por usuarios no autenticados. mientras hay otra manera de obtener tweets normales, los spaces son, desafortunadamente, imposibles de obtener por el momento. estoy buscando soluciones posibles",
-        "UrgentDonate": "¡{appName} necesita tu ayuda!"
+        "UrgentDonate": "¡{appName} necesita tu ayuda!",
+        "PopupCloseDone": "listo"
     }
 }
