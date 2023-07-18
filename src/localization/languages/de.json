@@ -19,7 +19,7 @@
         "TitlePopupError": "oh-oh...",
         "TitlePopupChangelog": "was ist neu?",
         "TitlePopupDonate": "{appName} unterstützen",
-        "TitlePopupDownload": "wie geht's weiter?",
+        "TitlePopupDownload": "wie speichern?",
         "ErrorSomethingWentWrong": "etwas ist schief gelaufen und ich konnte nichts für dich bekommen. versuche es noch einmal, aber wenn das problem weiterhin besteht, {ContactLink}.",
         "ErrorUnsupported": "es scheint, als ob dieser dienst noch nicht unterstützt wird oder dein link ungültig ist. hast du den richtigen link eingefügt?",
         "ErrorBrokenLink": "{s} wird unterstützt, aber irgendwas stimmt mit dem link nicht. hast du ihn vielleicht nicht ganz kopiert?",
@@ -49,7 +49,6 @@
         "NoScriptMessage": "{appName} verwendet javascript für api-anfragen und die interaktive benutzeroberfläche. du musst javascript aktivieren, um die seite zu nutzen. es gibt keine nervigen skripte, ehrenwort.",
         "DownloadPopupDescriptionIOS": "Einfachste Möglichkeit, Videos auf iOS zu speichern:\n1. Füge <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">diesen Siri-Shortcut</a> hinzu.\n2. Drücke \"Teilen\" oben und wähle in der angezeigten Freigabeübersicht \"Zu Fotos hinzufügen\" aus.\nWenn du dazu aufgefordert wirst, überprüfe die Berechtigungsanfrage und drücke \"Immer erlauben\".\n\nAlternative Methode:\nDrücke lange auf die Download-Schaltfläche, um die Video-Vorschau auszublenden, und wähle \"Verknüpfte Datei herunterladen\", um herunterzuladen.\nÖffne dann \"Safari Downloads\", wähle die heruntergeladene Datei aus, öffne das Freigabemenü und drücke schließlich \"Video speichern\".",
         "DownloadPopupDescription": "Der Download-Button öffnet einen neuen Tab mit der angeforderten Datei. Sie können dieses Pop-up in den Einstellungen deaktivieren.",
-        "DownloadPopupWayToSave": "wähle einen Weg zum Speichern",
         "ClickToCopy": "Drücken zum Kopieren",
         "Download": "Herunterladen",
         "CopyURL": "Kopieren",
@@ -121,6 +120,7 @@
         "ShareURL": "Teilen",
         "ErrorTweetUnavailable": "ich konnte gar nichts über diesen tweet finden. vielleicht ist seine sichtbarkeit eingeschränkt. versuche einen anderen!",
         "ErrorTwitterRIP": "Twitter hat den Zugriff auf Inhalte für nicht authentifizierte Benutzer eingeschränkt. Während es möglich ist, reguläre Tweets abzurufen, sind Spaces leider derzeit nicht verfügbar Ich suche nach möglichen Lösungen.",
-        "UrgentDonate": "{appName} benötigt deine Hilfe!"
+        "UrgentDonate": "{appName} benötigt deine Hilfe!",
+        "PopupCloseDone": "fertig"
     }
 }
