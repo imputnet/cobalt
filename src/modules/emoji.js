@@ -10,7 +10,6 @@ const names = {
     "🀄": "dragon_face_wukko",
     "💸": "money_with_wings",
     "⚙️": "gear",
-    "☹️": "frowning_face",
     "📋": "clipboard",
     "🎃": "pumpkin",
     "🎄": "christmas_tree",
@@ -27,7 +26,7 @@ const names = {
     "👾": "alien_monster",
     "😿": "cat_crying",
     "🙀": "cat_flabbergasted",
-    "🤷": "person_shrugging"
+    "🐱": "cat_smile"
 }
 let sizing = {
     18: 0.8,

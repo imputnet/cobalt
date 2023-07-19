@@ -341,7 +341,7 @@ export default function(obj) {
             classes: ["small"],
             header: {
                 closeAria: t('AccessibilityClosePopup'),
-                emoji: emoji("🤷", 78, 1, 1),
+                emoji: emoji("🐱", 78, 1, 1),
                 title: t('TitlePopupDownload')
             },
             body: switcher({
