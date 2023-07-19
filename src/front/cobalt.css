@@ -81,10 +81,12 @@ a {
     user-select: none;
     -webkit-user-select: none;
 }
-::placeholder {
+::placeholder,
+::moz-placeholder {
     color: var(--accent-subtext);
 }
-.switches::-webkit-scrollbar, #popup-content::-webkit-scrollbar {
+.switches::-webkit-scrollbar,
+#popup-content::-webkit-scrollbar {
     display: none;
 }
 :focus-visible {
@@ -169,12 +171,21 @@ button:active,
 .collapse-header:active {
     box-shadow: 0 0 0 0.1rem var(--accent-highlight) inset;
 }
+.popup.small .switch {
+    background: var(--accent-button-elevated);
+}
+.popup.small .switch:hover {
+    background: var(--accent-hover-elevated);
+}
 .switch.text-backdrop,
 .switch.text-backdrop:hover,
 .switch.text-backdrop:active,
 .text-to-copy.text-backdrop,
 .text-to-copy.text-backdrop:hover,
-.text-to-copy.text-backdrop:active {
+.text-to-copy.text-backdrop:active,
+.popup.small .switch.text-backdrop,
+.popup.small .switch.text-backdrop:hover,
+.popup.small .switch.text-backdrop:active {
     background: var(--accent);
     color: var(--background);
     box-shadow: 0 0 0 0.1rem var(--accent-highlight) inset;
@@ -355,12 +366,6 @@ button:active,
 }
 .popup.small .explanation {
     margin-bottom: 0.8rem;
-}
-.popup.small .switch {
-    background: var(--accent-button-elevated);
-}
-.popup.small .switch:hover {
-    background: var(--accent-hover-elevated);
 }
 #close-error {
     background: var(--accent);
