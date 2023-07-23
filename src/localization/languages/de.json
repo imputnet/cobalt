@@ -19,7 +19,7 @@
         "TitlePopupError": "oh-oh...",
         "TitlePopupChangelog": "was ist neu?",
         "TitlePopupDonate": "{appName} unterstützen",
-        "TitlePopupDownload": "wie speichern?",
+        "TitlePopupDownload": "Wie speichern?",
         "ErrorSomethingWentWrong": "etwas ist schief gelaufen und ich konnte nichts für dich bekommen. versuche es noch einmal, aber wenn das problem weiterhin besteht, {ContactLink}.",
         "ErrorUnsupported": "es scheint, als ob dieser dienst noch nicht unterstützt wird oder dein link ungültig ist. hast du den richtigen link eingefügt?",
         "ErrorBrokenLink": "{s} wird unterstützt, aber irgendwas stimmt mit dem link nicht. hast du ihn vielleicht nicht ganz kopiert?",
