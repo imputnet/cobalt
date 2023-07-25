@@ -1,5 +1,6 @@
 import { normalizeURL } from "../processing/url.js";
 import { createStream } from "../stream/manage.js";
+import ipaddr from "ipaddr.js";
 
 const apiVar = {
     allowed: {
@@ -111,7 +112,16 @@ export function checkJSONPost(obj) {
     }
 }
 export function getIP(req) {
-    return req.header('cf-connecting-ip') ? req.header('cf-connecting-ip') : req.ip;
+    const strippedIP = req.ip.replace(/^::ffff:/, '');
+    const ip = ipaddr.parse(strippedIP);
+    if (ip.kind() === 'ipv4')
+        return strippedIP;
+
+    const PREFIX = 56;
+    const v6Bytes = ip.toByteArray();
+          v6Bytes.fill(0, PREFIX / 8);
+
+    return ipaddr.fromByteArray(v6Bytes).toString();
 }
 export function cleanHTML(html) {
     let clean = html.replace(/ {4}/g, '');

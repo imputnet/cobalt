@@ -24,7 +24,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 20,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
+        keyGenerator: req => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -37,7 +37,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 25,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
+        keyGenerator: req => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -48,6 +48,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     
     const startTime = new Date();
     const startTimestamp = Math.floor(startTime.getTime());
+
+    app.set('trust proxy', ['loopback', 'uniquelocal']);
 
     app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
