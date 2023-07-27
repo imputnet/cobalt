@@ -21,7 +21,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const apiLimiter = rateLimit({
         windowMs: 60000,
         max: 20,
-        standardHeaders: false,
+        standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
@@ -32,7 +32,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const apiLimiterStream = rateLimit({
         windowMs: 60000,
         max: 25,
-        standardHeaders: false,
+        standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
