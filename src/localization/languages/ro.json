@@ -19,7 +19,7 @@
         "TitlePopupError": "hopa...",
         "TitlePopupChangelog": "ce este nou?",
         "TitlePopupDonate": "ajutați {appName}",
-        "TitlePopupDownload": "cum să continui?",
+        "TitlePopupDownload": "cum se salvează?",
         "ErrorSomethingWentWrong": "ceva nu a mers si nu am reușit să-ți aduc nimic. încearcă din nou, dar dacă problema persistă, {ContactLink}.",
         "ErrorUnsupported": "se pare că acest serviciu nu e suportat încă, sau link-ul tău e invalid. sigur ai copiat linkul bun?",
         "ErrorBrokenLink": "{s} este suportat, dar este ceva greșit cu link-ul tău, poate nu l-ai copiat bine?",
@@ -49,7 +49,6 @@
         "NoScriptMessage": "{appName} folosește javascript pentru cereri api și interfața interactivă. trebuie să permiți javascript pentru a folosi acest site. nu e niciun script nasol, promit.",
         "DownloadPopupDescriptionIOS": "cea mai ușoară metodă să salvezi video-uri pe ios:\n1. adaugă <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">această scurtătură pentru siri</a>.\n2. apasă \"distribuiți\" deasupra și selectează \"salvează în poze\" în căsuța care apare.\ndacă întreabă pentru permisiuni, apasă \"permite mereu\".\n\nmetodă alternativă:\nține apăsat butonul de descărcare, ascunde previzualiarea video-ului și selectează  \"descarcă fișierul\". apoi, deschide descărcările safari, selectează fișierul descărcat, deschide meniul de distribuire și apasă \"salvează video\".",
         "DownloadPopupDescription": "butonul de descărcare deschide o filă nouă cu fișierul solicitat. poți dezactiva acest pop-up în setări.",
-        "DownloadPopupWayToSave": "alege un mod de a salva",
         "ClickToCopy": "apasă pentru a copia",
         "Download": "descarcă",
         "CopyURL": "copiere",
@@ -93,8 +92,8 @@
         "ErrorCantProcess": "nu am putut procesa cererea ta. :(\npoți încerca din nou, dar dacă problema persistă, vă rugăm {ContactLink}.",
         "ChangelogPressToHide": "restrânge",
         "Donate": "donează",
-        "DonateSub": "ajută-mă să îl mențin",
-        "DonateExplanation": "{appName} nu va servi niciodată reclame și nu o să îți vândă vreodată datele, astfel este  <span class=\"text-backdrop\">complet gratis</span>. dar se pare că dezvoltarea și menținerea unui serviciu web folosit de peste 200,000 de oameni nu e așa ușor.\n\ndacă {appName} ți se pare folositor și dorești să ajuți la dezvoltare, sau pur și simplu dorești să îi mulțumești dezvoltatorului, consideră o donație. fiecare cent ajută și este FOARTE apreciat :D\n\nmomentan, am planuri mari (de scalare) și am nevoie de ajutorul tău. {appName} este din ce în ce mai folosit, și trebuie să compensez cumva. <span class=\"text-backdrop\"> donațiile sunt mai apreciate decât oricând.</span>\n\nîncă nu am făcut niciun ban din {appName}, totul se investește înapoi către utilizatori, așa că esențial ajuți pe toată lumea.",
+        "DonateSub": "ajută să rămână online",
+        "DonateExplanation": "{appName} nu va difuza vreodată reclame și nu o să îți vândă datele, făcându-l <span class=\"text-backdrop\">complet gratis</span>. se pare că dezvoltarea și menținerea unui serviciu web folosit de peste 300,000 de oameni nu e așa ușoară.\n\ndacă ai considerat vreodată {appName} folositor și vrei să ajuți la continuare dezvoltării și mentenanță consideră să contribui! dacă dorești să mulțumești dezvoltatorului, poți face și asta prin donații. fiecare cent ajută și este FOARTE apreciat!\n\n{appName} este din ce în ce mai folosit la nivel global și trebuie să compensez într-un fel sau altul. evident, și prețurile de hostare cresc în mod progresiv. ca un student universitar de anul 1, nu sunt pregătit pentru asemenea cheltuieli :(\n\nîncă nu am făcut niciun ban din {appName}; totul se duce înapoi către utilizatori, deci ajuți pe toată lumea care folosește {appName}.\n\n<span class=\"text-backdrop\">ajutorul tău este mai apreciat ca niciodată!</span>",
         "DonateVia": "donează prin",
         "DonateHireMe": "...sau poți <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\"> să mă angajezi</a> :)",
         "SettingsVideoMute": "oprește sunetul",
@@ -108,7 +107,7 @@
         "SupportNote": "este posibil să dureze ceva să primiți răspunsuri la întrebări sau probleme, totul e gestionat de o singură persoană.",
         "SourceCode": "raportează probleme, explorează codul sursă, adaugă la favorite sau fă un fork al repo-ului:",
         "PrivacyPolicy": "politica de confidențialitate a {appName} este simplă: nu sunt colectate sau stocate date despre tine. zero, zilch, nada, nimic.\nceea ce descarci e treaba ta, nu a mea.\n\nunele date care nu sunt retrase sunt stocate temporar atunci când descărcarea solicitată necesită o redare live. este necesar ca această caracteristică să funcționeze.\n\nîn acest caz, informațiile despre fluxul solicitat sunt stocate temporar în RAM-ul serverului pentru <span class=\"text-backdrop\">20 secunde</span>. pe măsură ce au trecut 20 de secunde, toate informațiile stocate anterior sunt eliminate permanent.\nnimeni (nici eu) nu are acces la aceste date, deoarece oficial baza codului {appName} nu oferă o modalitate de a le citi în afara funcțiilor de procesare.\n\nputeți verifica <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">repozitoriul github</a> al  {appName} și veți vedea că totul este așa cum am spus.",
-        "ErrorYTUnavailable": "acest videoclip youtube este indisponibil sau restricționat de vârstă. în prezent nu pot descărca videoclipuri cu conținut sensibil. încercați altul!",
+        "ErrorYTUnavailable": "acest video de pe youtube nu este valabil, ar putea fi restricționat în funcție de regiune sau vârstă. încearcă altul!",
         "ErrorYTTryOtherCodec": "nu am putut găsi nimic de descărcat cu setările tale. încearcă un alt codec sau calitate!\n\nnotă: api-ul youtube uneori acționează neașteptat. dă vina pe google pentru asta, nu pe mine.",
         "SettingsCodecSubtitle": "codec youtube",
         "SettingsCodecDescription": "h264: în general compatibilitate mai buna, dar calitatea maximă este 1080p.\nav1: compatibilitate scăzută, dar cu capabilități 8k & HDR.\nvp9: în general cel mai mare bitrate, păstrând cele mai multe detalii. capabil de 4k & HDR.\n\nAlege h264 pentru cea mai bună compatibilitate cu editoare/playere/social media.",
@@ -120,7 +119,8 @@
         "SettingsVimeoPreferDescription": "progressive: link direct către cdn-ul de la vimeo. calitatea maxima este 1080p.\ndash: video si audio sunt combinate de {appName} într-un singur fisier. calitatea maxima este 4k.\n\nalege \"progressive\" dacă dorești cea mai bună compatibilitate cu editoare/playere/social media. dacă descărcarea \"progressive\" nu este disponibila, va fi utilizată \"dash\".",
         "ShareURL": "distribuiți",
         "ErrorTweetUnavailable": "nu am putut găsi nimic despre acest tweet. poate că are vizibilitatea limitată. încearcă altul!",
-        "UrgentUpdate6": "toate problemele de rețea au fost rezolvate!",
-        "ErrorTwitterRIP": "twitter a restricționat accesul utilizatorilor neautentificați la conținut. deși există o cale de a obține tweet-uri normale, este imposibil, din păcate, să descarci spații ('spaces'). caut posibile soluții."
+        "ErrorTwitterRIP": "twitter a restricționat accesul utilizatorilor neautentificați la conținut. deși există o cale de a obține tweet-uri normale, este imposibil, din păcate, să descarci spații ('spaces'). caut posibile soluții.",
+        "UrgentDonate": "{appName} are nevoie de ajutorul tău!",
+        "PopupCloseDone": "gata"
     }
 }
