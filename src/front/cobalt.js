@@ -329,7 +329,7 @@ async function pasteClipboard() {
         e = String(e).toLowerCase();
 
         if (e.includes("denied")) errorMessage = loc.clipboardErrorNoPermission;
-        if (e.includes("dismissed") && isIOS) doError = false;
+        if (e.includes("dismissed") || isIOS) doError = false;
         if (e.includes("function") && isFirefox) errorMessage = loc.clipboardErrorFirefox;
 
         if (doError) popup("error", 1, errorMessage);
