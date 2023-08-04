@@ -475,7 +475,10 @@ window.onload = () => {
     eid("url-input-area").value = "";
     notificationCheck();
     loadCelebrationsEmoji();
-    if (isIOS) sSet("downloadPopup", "true");
+    if (isIOS) {
+        sSet("downloadPopup", "true");
+        eid("downloadPopup-chkbx").style.pointerEvents = "none"; // wip, disables the checkbox without any signs
+    }
     let urlQuery = new URLSearchParams(window.location.search).get("u");
     if (urlQuery !== null && regex.test(urlQuery)) {
         eid("url-input-area").value = urlQuery;
