@@ -328,8 +328,8 @@ async function pasteClipboard() {
         let doError = true;
         e = String(e).toLowerCase();
 
-        if (e.includes("denied") && !isIOS) errorMessage = loc.clipboardErrorNoPermission;
-        if (e.includes("dismissed")) doError = false;
+        if (e.includes("denied")) errorMessage = loc.clipboardErrorNoPermission;
+        if (e.includes("dismissed") && isIOS) doError = false;
         if (e.includes("function") && isFirefox) errorMessage = loc.clipboardErrorFirefox;
 
         if (doError) popup("error", 1, errorMessage);
