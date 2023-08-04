@@ -104,7 +104,7 @@ export default function(obj) {
                             name: "support",
                             title: t("CollapseSupport"),
                             body: `
-                            ${t("SupportSelfTroubleshooting")}<br/>
+                            ${t("SupportSelfTroubleshooting")}<br/><br/>
                             ${t("FollowSupport")}<br/>
                             ${socialLink(
                                 emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url
