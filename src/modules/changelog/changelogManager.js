@@ -6,8 +6,12 @@ let changelog = loadJSON('./src/modules/changelog/changelog.json')
 export default function(string) {
     try {
         switch (string) {
+            case "version":
+                return `<span class="text-backdrop changelog-tag-version">v.${changelog["current"]["version"]}</span>${
+                    changelog["current"]["date"] ? `<span class="changelog-tag-date">· ${changelog["current"]["date"]}</span>` : ''
+                }`
             case "title":
-                return `<span class="text-backdrop">${changelog["current"]["version"]}:</span> ${replaceBase(changelog["current"]["title"])}`;
+                return replaceBase(changelog["current"]["title"]);
             case "banner":
                 return changelog["current"]["banner"] ? `updateBanners/${changelog["current"]["banner"]}` : false;
             case "content":
@@ -15,9 +19,11 @@ export default function(string) {
             case "history":
                 return changelog["history"].map((i) => {
                     return {
-                        title: `<span class="text-backdrop">${i["version"]}:</span> ${replaceBase(i["title"])}`,
+                        title: replaceBase(i["title"]),
+                        version: `<span class="text-backdrop changelog-tag-version">v.${i["version"]}</span>${
+                            i["date"] ? `<span class="changelog-tag-date">· ${i["date"]}</span>` : ''
+                        }`,
                         content: replaceBase(i["content"]),
-                        version: i["version"],
                         banner: i["banner"] ? `updateBanners/${i["banner"]}` : false,
                     }
                 });

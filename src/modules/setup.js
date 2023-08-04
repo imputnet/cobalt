@@ -3,6 +3,8 @@ import { createInterface } from "readline";
 import { Cyan, Bright } from "./sub/consoleText.js";
 import { execSync } from "child_process";
 
+import { version } from "../modules/config.js";
+
 let envPath = './.env';
 let q = `${Cyan('?')} \x1b[1m`;
 let ob = {};
@@ -24,7 +26,7 @@ let final = () => {
 }
 
 console.log(
-    `${Cyan("Hey, this is cobalt.")}\n${Bright("Let's start by creating a new ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
+    `${Cyan(`Hey, this is cobalt v.${version}!`)}\n${Bright("Let's start by creating a new ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
 )
 
 console.log(

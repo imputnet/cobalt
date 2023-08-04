@@ -1,6 +1,10 @@
 import { celebrations } from "../config.js";
 import emoji from "../emoji.js";
 
+export const backButtonSVG = `<svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.7551 27.5102L3 15.7551L14.7551 4L16.7755 5.99417L8.45773 14.312H30V17.1982H8.45773L16.7755 25.4898L14.7551 27.5102Z" fill="#FFFFFF"/>
+</svg>`
+
 export function switcher(obj) {
     let items = ``;
     if (obj.name === "download") {
@@ -19,26 +23,18 @@ export function switcher(obj) {
             ${obj.explanation ? `<div class="explanation">${obj.explanation}</div>` : ``}
         </div>`
 }
+export function checkbox(obj) {
+    let paddings = ["bottom-margin", "top-margin", "no-margin", "top-margin-only"];
+    let checkboxes = ``;
+    for (let i = 0; i < obj.length; i++) {
+        let paddingClass = obj[i].padding && paddings.includes(obj[i].padding) ? ` ${obj[i].padding}` : '';
 
-export function checkbox(action, text, paddingType, aria) {
-    let paddingClass = ` `
-    switch (paddingType) {
-        case 1:
-            paddingClass += "bottom-margin"
-            break;
-        case 2:
-            paddingClass += "top-margin"
-            break;
-        case 3:
-            paddingClass += "no-margin"
-            break;
-        case 4:
-            paddingClass += "top-margin-only"
+        checkboxes += `<label id="${obj[i].action}-chkbx" class="checkbox${paddingClass}">
+            <input id="${obj[i].action}" type="checkbox" aria-label="${obj[i].aria ? obj[i].aria : obj[i].name}" onclick="checkbox('${obj[i].action}')">
+            <span>${obj[i].name}</span>
+        </label>`
     }
-    return `<label id="${action}-chkbx" class="checkbox${paddingClass}">
-        <input id="${action}" type="checkbox" ${aria ? `aria-label="${aria}"` : `aria-label="${text}"`} onclick="checkbox('${action}')">
-        <span>${text}</span>
-    </label>`
+    return checkboxes
 }
 export function sep(paddingType) {
     let paddingClass = ``
@@ -50,7 +46,7 @@ export function sep(paddingType) {
     return `<div class="separator${paddingClass}"></div>`
 }
 export function popup(obj) {
-    let classes = obj.classes ? obj.classes : []
+    let classes = obj.classes ? obj.classes : [];
     let body = obj.body;
     if (Array.isArray(obj.body)) {
         body = ``
@@ -65,37 +61,44 @@ export function popup(obj) {
         }
     }
     return `
-    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center box${classes.length > 0 ? ' ' + classes.join(' ') : ''}" style="visibility: hidden;">` : ''}
-        <div id="popup-header" class="popup-header">
-            ${obj.standalone && !obj.buttonOnly ? `<button id="close-button" class="switch up" onclick="popup('${obj.name}', 0)" ${obj.header.closeAria ? `aria-label="${obj.header.closeAria}"` : ''}>x</button>` : ''}
-            ${obj.buttonOnly ? obj.header.emoji : ``}
-            ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
-            ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
-            ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
+    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box": ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
+        <div id="popup-header" class="popup-header${!obj.buttonOnly ? " glass-bkg": ''}">
+            <div id="popup-header-contents">
+                ${obj.buttonOnly ? obj.header.emoji : ``}
+                ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+                ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
+                ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
+            </div>
         </div>
-        <div id="popup-content"${obj.footer ? ' class="with-footer"' : ''}>
+        <div id="popup-content" class="popup-content-inner">
             ${body}${obj.buttonOnly ? `<button id="close-error" class="switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
-        ${obj.footer ? `<div id="popup-footer" class="popup-footer">
-            <a id="popup-bottom" class="popup-footer-content" target="_blank" href="${obj.footer.url}">${obj.footer.text}</a>
-        </div>` : ''}
     ${obj.standalone ? `</div>` : ''}`
 }
 
 export function multiPagePopup(obj) {
-    let tabs = ``
-    let tabContent = ``
+    let tabs = `
+    <button id="back-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>
+        ${backButtonSVG}
+    </button>`;
+
+    let tabContent = ``;
     for (let i = 0; i < obj.tabs.length; i++) {
         tabs += `<button id="tab-button-${obj.name}-${obj.tabs[i]["name"]}" class="switch tab tab-${obj.name}" onclick="changeTab(event, 'tab-${obj.name}-${obj.tabs[i]["name"]}', '${obj.name}')">${obj.tabs[i]["title"]}</button>`
         tabContent += `<div id="tab-${obj.name}-${obj.tabs[i]["name"]}" class="popup-tab-content tab-content-${obj.name}">${obj.tabs[i]["content"]}</div>`
     }
+
     return `
-    <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
-        <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
-        ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
-        ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
-        ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}</div>` : ''}${tabContent}</div>
-        <div id="popup-tabs" class="switches popup-tabs"><div class="switches popup-tabs-child">${tabs}</div><button id="close-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button></div>
+    <div id="popup-${obj.name}" class="popup center box scrollable">
+        <div id="popup-content">
+        ${obj.header ? `<div id="popup-header" class="popup-header glass-bkg">
+            <div id="popup-header-contents">
+                ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+                ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
+                ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
+            </div>
+        </div>` : ''}${tabContent}</div>
+        <div id="popup-tabs" class="switches popup-tabs glass-bkg"><div class="switches popup-tabs-child">${tabs}</div></div>
     </div>`
 }
 export function collapsibleList(arr) {
@@ -112,23 +115,27 @@ export function collapsibleList(arr) {
     return items;
 }
 export function popupWithBottomButtons(obj) {
-    let tabs = ``
+    let tabs = `
+    <button id="back-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>
+        ${backButtonSVG}
+    </button>`
+
     for (let i = 0; i < obj.buttons.length; i++) {
         tabs += obj.buttons[i]
     }
-    tabs += `<button id="close-button" class="switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>x</button>`
     return `
-    <div id="popup-${obj.name}" class="popup center box scrollable" style="visibility: hidden;">
-        <div id="popup-content">${obj.header ? `<div id="popup-header" class="popup-header">
-        ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
-        ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
-        ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
-        ${obj.header.explanation ? `<div class="explanation">${obj.header.explanation}</div>` : ''}</div>` : ''}${obj.content}</div>
-        <div id="popup-buttons" class="switches popup-tabs">${tabs}</div>
+    <div id="popup-${obj.name}" class="popup center box scrollable">
+        <div id="popup-content">
+       ${obj.header ? `<div id="popup-header" class="popup-header glass-bkg">
+            <div id="popup-header-contents">
+                ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+                ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
+                ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
+                ${obj.header.explanation ? `<div class="explanation">${obj.header.explanation}</div>` : ''}
+            </div>
+        </div>` : ''}${obj.content}</div>
+        <div id="popup-tabs" class="switches popup-tabs glass-bkg"><div id="picker-buttons" class="switches popup-tabs-child">${tabs}</div></div>
     </div>`
-}
-export function backdropLink(link, text) {
-    return `<a class="text-backdrop italic" href="${link}" target="_blank">${text}</a>`
 }
 export function socialLink(emji, name, handle, url) {
     return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop italic" href="${url}" target="_blank">${handle}</a></div>`

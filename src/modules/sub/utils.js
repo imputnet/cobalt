@@ -153,3 +153,8 @@ export function getThreads() {
         return '0'
     }
 }
+export function cleanHTML(html) {
+    let clean = html.replace(/ {4}/g, '');
+    clean = clean.replace(/\n/g, '');
+    return clean
+}
