@@ -3,7 +3,7 @@ const isIOS = ua.match("iphone os");
 const isMobile = ua.match("android") || ua.match("iphone os");
 const isFirefox = ua.match("firefox/");
 const isOldFirefox = ua.match("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
-const version = 31;
+const version = 32;
 const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 const notification = `<div class="notification-dot"></div>`;
 
