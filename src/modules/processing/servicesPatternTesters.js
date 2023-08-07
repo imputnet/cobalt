@@ -23,8 +23,8 @@ export const testers = {
 
     "vimeo": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length <= 11)),
     
-    "soundcloud": (patternMatch) => ((patternMatch["author"] && patternMatch["song"]
-        && (patternMatch["author"].length + patternMatch["song"].length) <= 96) || (patternMatch["shortLink"] && patternMatch["shortLink"].length <= 32)),
+    "soundcloud": (patternMatch) => (patternMatch["author"]?.length <= 25 && patternMatch["song"]?.length <= 255)
+                                    || (patternMatch["shortLink"] && patternMatch["shortLink"].length <= 32),
 
     "instagram": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
     
