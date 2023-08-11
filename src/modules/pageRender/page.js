@@ -1,4 +1,4 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink } from "./elements.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts } from "./elements.js";
 import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -98,13 +98,52 @@ export default function(obj) {
                     }, {
                         text: collapsibleList([{
                             name: "services",
-                            title: t("CollapseServices"),
+                            title: `${emoji("🔗")} ${t("CollapseServices")}`,
                             body: `${enabledServices}<br/><br/>${t("ServicesNote")}`
                         }, {
+                            name: "keyboard",
+                            title: `${emoji("⌨")} ${t("CollapseKeyboard")}`,
+                            body: 
+                            `${t("KeyboardShortcutsIntro")}
+                            ${keyboardShortcuts([{
+                                items: [{
+                                    combo: "Shift+D",
+                                    name: t("PasteFromClipboard")
+                                }, {
+                                     combo: "Shift+K",
+                                     name: t("ModeToggleAuto")
+                                }, {
+                                     combo: "Shift+L",
+                                     name: t("ModeToggleAudio")
+                                }]
+                            }, {
+                                items: [{
+                                    combo: "Ctrl+V",
+                                    name: t("KeyboardShortcutQuickPaste")
+                                }, {
+                                    combo: "Esc/Del",
+                                    name: t("KeyboardShortcutClear")
+                                }, {
+                                    combo: "Esc",
+                                    name: t("KeyboardShortcutClosePopup")
+                                }]
+                            }, {
+                                items: [{
+                                     combo: "Shift+B",
+                                     name: t("AboutTab")
+                                }, {
+                                     combo: "Shift+N",
+                                     name: t("ChangelogTab")
+                                }, {
+                                    combo: "Shift+M",
+                                    name: t("TitlePopupSettings")
+                                }]
+                            }])}`
+                        }, {
                             name: "support",
-                            title: t("CollapseSupport"),
-                            body: `
-                            ${t("SupportSelfTroubleshooting")}<br/><br/>
+                            title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
+                            body: 
+                            `${t("SupportSelfTroubleshooting")}<br/><br/>
                             ${t("FollowSupport")}<br/>
                             ${socialLink(
                                 emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url
@@ -122,7 +161,7 @@ export default function(obj) {
                             ${t("SupportNote")}`
                         }, {
                             name: "privacy",
-                            title: t("CollapsePrivacy"),
+                            title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
                             body: t("PrivacyPolicy")
                         }])
                     }]
@@ -142,7 +181,12 @@ export default function(obj) {
                     }, {
                         text: changelogManager("banner") ?
                         `<div class="changelog-banner">
-                            <img class="changelog-img" src="${changelogManager("banner")}" onerror="this.style.display='none'" loading="lazy"></img>
+                            <img class="changelog-img" ` +
+                                `src="${changelogManager("banner")["url"]}" ` +
+                                `width="${changelogManager("banner")["width"]}" ` +
+                                `height="${changelogManager("banner")["height"]}" ` +
+                                `onerror="this.style.opacity=0" loading="lazy">`+
+                            `</img>
                         </div>`: '',
                         raw: true
                     }, {
@@ -192,9 +236,13 @@ export default function(obj) {
                         text: `<div class="category-title">${t('DonateSub')}</div>`,
                         raw: true
                     }, {
-                        text: `
-                        <div class="changelog-banner">
-                            <img class="changelog-img" src="updateBanners/catsleep.webp" onerror="this.style.display='none'" loading="lazy"></img>
+                        text: `<div class="changelog-banner">
+                            <img class="changelog-img" ` +
+                                `src="updateBanners/catsleep.webp"` +
+                                `width="480" ` +
+                                `height="270" ` +
+                                `onerror="this.style.opacity=0" loading="lazy">`+
+                            `</img>
                         </div>`,
                         raw: true
                     }, {
@@ -356,7 +404,6 @@ export default function(obj) {
                     title: t('SettingsAppearanceSubtitle'),
                     body: switcher({
                         name: "theme",
-                        subtitle: t('SettingsThemeSubtitle'),
                         items: [{
                             action: "auto",
                             text: t('SettingsThemeAuto')
@@ -448,7 +495,12 @@ export default function(obj) {
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home">
-            <div id="urgent-notice" class="urgent-notice explanation" onclick="popup('about', 1, 'donate')" style="visibility: hidden;">${emoji("💖", 18)} ${t("UrgentDonate")}</div>
+            ${urgentNotice({
+                emoji: "🐱",
+                text: "report any issues!",
+                visible: true,
+                action: "popup('about', 1, 'changelog')"
+            })}
             <div id="cobalt-main-box" class="center" style="visibility: hidden;">
                 <div id="logo">${t("AppTitleCobalt")}</div>
                 <div id="download-area">

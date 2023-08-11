@@ -2,7 +2,11 @@ import { celebrations } from "../config.js";
 import emoji from "../emoji.js";
 
 export const backButtonSVG = `<svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M14.7551 27.5102L3 15.7551L14.7551 4L16.7755 5.99417L8.45773 14.312H30V17.1982H8.45773L16.7755 25.4898L14.7551 27.5102Z" fill="#FFFFFF"/>
+<path d="M14.1905 28.5L2 16L14.1905 3.5L16.2857 5.62054L7.65986 14.4654H30V17.5346H7.65986L16.2857 26.3516L14.1905 28.5Z" fill="#E1E1E1"/>
+</svg>`
+
+export const dropdownSVG = `<svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M28 12.0533L16 24L4 12.0533L6.03571 10L14.7188 18.4104L16.25 19.9348L17.7813 18.4104L25.9375 10L28 12.0533Z" fill="#E1E1E1"/>
 </svg>`
 
 export function switcher(obj) {
@@ -11,7 +15,9 @@ export function switcher(obj) {
         items = obj.items;
     } else {
         for (let i = 0; i < obj.items.length; i++) {
-            let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : []
+            let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : [];
+            if (i === 0) classes.push("first");
+            if (i === (obj.items.length - 1)) classes.push("last");
             items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
         }
     }
@@ -102,12 +108,16 @@ export function multiPagePopup(obj) {
     </div>`
 }
 export function collapsibleList(arr) {
-    let items = ``
+    let items = ``;
+
     for (let i = 0; i < arr.length; i++) {
-        items += `<div id="${arr[i]["name"]}-collapse" class="collapse-list">
+        let classes = arr[i]["classes"] ? arr[i]["classes"] : [];
+        if (i === 0) classes.push("first");
+        if (i === (arr.length - 1)) classes.push("last");
+        items += `<div id="${arr[i]["name"]}-collapse" class="collapse-list${classes.length > 0 ? ' ' + classes.join(' ') : ''}">
             <div class="collapse-header" onclick="expandCollapsible(event)">
                 <div class="collapse-title">${arr[i]["title"]}</div>
-                <div class="collapse-indicator">^</div>
+                <div class="collapse-indicator">${dropdownSVG}</div>
             </div>
             <div id="${arr[i]["name"]}-body" class="collapse-body">${arr[i]["body"]}</div>
         </div>`
@@ -138,7 +148,7 @@ export function popupWithBottomButtons(obj) {
     </div>`
 }
 export function socialLink(emji, name, handle, url) {
-    return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop italic" href="${url}" target="_blank">${handle}</a></div>`
+    return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop link" href="${url}" target="_blank">${handle}</a></div>`
 }
 export function settingsCategory(obj) {
     return `<div id="settings-${obj.name}" class="settings-category">
@@ -192,4 +202,27 @@ export function celebrationsEmoji() {
     } catch (e) {
         return false
     }
+}
+export function urgentNotice(obj) {
+    if (obj.visible) {
+        return `<div id="urgent-notice" class="urgent-notice explanation" onclick="${obj.action}" style="visibility: hidden;">${emoji(obj.emoji, 18)} ${obj.text}</div>`
+    }
+    return ``
+}
+export function keyboardShortcuts(arr) {
+    let base = `<div id="keyboard-shortcuts" class="explanation">`;
+
+    for (let i = 0; i < arr.length; i++) {
+        base += `<div class="shortcut-category">`;
+        for (let c = 0; c < arr[i].items.length; c++) {
+            let combo = arr[i].items[c].combo.split('+').map(
+                key => `<span class="text-backdrop key">${key}</span>`
+            ).join("+")
+            base += `<div class="shortcut">${combo}: ${arr[i].items[c].name}</div>`
+        }
+        base += `</div>`
+    }
+    base += `</div>`;
+
+    return base;
 }

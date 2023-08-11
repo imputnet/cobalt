@@ -3,7 +3,7 @@ const isIOS = ua.match("iphone os");
 const isMobile = ua.match("android") || ua.match("iphone os");
 const isFirefox = ua.match("firefox/");
 const isOldFirefox = ua.match("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
-const version = 32;
+const version = 33;
 const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 const notification = `<div class="notification-dot"></div>`;
 
@@ -114,14 +114,17 @@ function detectColorScheme() {
 function changeTab(evnt, tabId, tabClass) {
     let tabcontent = document.getElementsByClassName(`tab-content-${tabClass}`);
     let tablinks = document.getElementsByClassName(`tab-${tabClass}`);
+
     for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+        tabcontent[i].dataset.enabled = "false";
     }
     for (let i = 0; i < tablinks.length; i++) {
         tablinks[i].dataset.enabled = "false";
     }
-    eid(tabId).style.display = "block";
+    
     evnt.currentTarget.dataset.enabled = "true";
+    eid(tabId).dataset.enabled = "true";
+
     if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
     if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
 }
@@ -409,7 +412,12 @@ async function download(url) {
                 fetch(`${j.url}&p=1`).then(async (res) => {
                     let jp = await res.json();
                     if (jp.status === "continue") {
-                        changeDownloadButton(2, '>>>'); window.location.href = j.url;
+                        changeDownloadButton(2, '>>>');
+                        if (sGet("downloadPopup") === "true") {
+                            popup('download', 1, j.url)
+                        } else {
+                            window.open(j.url, '_blank')
+                        }
                         setTimeout(() => { changeButton(1) }, 2500);
                     } else {
                         changeButton(0, jp.text);
@@ -432,7 +440,7 @@ async function loadCelebrationsEmoji() {
     try {
         let j = await fetch(`/onDemand?blockId=1`).then((r) => { if (r.status === 200) { return r.json() } else { return false } }).catch(() => { return false });
         if (j && j.status === "success" && j.text) {
-            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace('<img class="emoji" draggable="false" height="22" width="22" alt="🐲" src="emoji/dragon_face.svg">', j.text);
+            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace('<img class="emoji" draggable="false" height="22" width="22" alt="🐲" src="emoji/dragon_face.svg" loading="lazy">', j.text);
         }
     } catch (e) {
         eid("about-footer").innerHTML = bac;
@@ -441,7 +449,7 @@ async function loadCelebrationsEmoji() {
 async function loadOnDemand(elementId, blockId) {
     let j = {};
     store.historyButton = eid(elementId).innerHTML;
-    eid(elementId).innerHTML = "...";
+    eid(elementId).innerHTML = `<div class="loader">...</div>`;
 
     try {
         if (store.historyContent) {
@@ -477,7 +485,7 @@ window.onload = () => {
     loadCelebrationsEmoji();
     if (isIOS) {
         sSet("downloadPopup", "true");
-        eid("downloadPopup-chkbx").style.pointerEvents = "none"; // wip, disables the checkbox without any signs
+        eid("downloadPopup-chkbx").style.display = "none";
     }
     let urlQuery = new URLSearchParams(window.location.search).get("u");
     if (urlQuery !== null && regex.test(urlQuery)) {
@@ -502,8 +510,8 @@ document.onkeydown = (e) => {
         if (e.key === "L") changeSwitcher('audioMode', 'true');
         
         // popups
-        if (e.key === "B") popup('about', 1);
-        if (e.key === "N") popup('about', 1, 'donate');
+        if (e.key === "B") popup('about', 1, 'about'); // open about
+        if (e.key === "N") popup('about', 1, 'changelog'); // open changelog
         if (e.key === "M") popup('settings', 1);
         
     } else {

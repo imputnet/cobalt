@@ -1,7 +1,7 @@
 {
     "name": "english",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>"
+        "ContactLink": "<a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>"
     },
     "strings": {
         "AppTitleCobalt": "cobalt",
@@ -47,7 +47,7 @@
         "SettingsQualityDescription": "if selected quality isn't available, closest one is used instead.",
         "LinkGitHubChanges": "&gt;&gt; see previous commits and contribute on github",
         "NoScriptMessage": "cobalt uses javascript for api requests and interactive interface. you have to allow javascript to use this site. there are no pesty scripts, pinky promise.",
-        "DownloadPopupDescriptionIOS": "easiest way to save videos on ios:\n1. add <a class=\"text-backdrop italic\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">this siri shortcut</a>.\n2. press \"share\" above and select \"save to photos\" in appeared share sheet.\nif asked, review the permission request, and press \"always allow\".\n\nalternative method:\npress and hold the download button, hide the video preview, and select \"download linked file\" to download.\nthen, open safari downloads, select the file you downloaded, open share menu, and finally press \"save video\".",
+        "DownloadPopupDescriptionIOS": "easiest way to save videos on ios:\n1. add <a class=\"text-backdrop link\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">this siri shortcut</a>.\n2. press \"share\" above and select \"save to photos\" in appeared share sheet.\nif asked, review the permission request, and press \"always allow\".\n\nalternative method:\npress and hold the download button, hide the video preview, and select \"download linked file\" to download.\nthen, open safari downloads, select the file you downloaded, open share menu, and finally press \"save video\".",
         "DownloadPopupDescription": "download button opens a new tab with requested file. you can disable this popup in settings.",
         "ClickToCopy": "press to copy",
         "Download": "download",
@@ -94,7 +94,7 @@
         "DonateSub": "help it stay online",
         "DonateExplanation": "cobalt does not (and will never) serve ads or sell your data, meaning that <span class=\"text-backdrop\">it's completely free to use</span>. turns out developing and keeping up a web service used by over 300,000 people is not that easy.\n\nif you ever found cobalt useful and want to help continue its development and maintenance consider chipping in! if you want to thank the developer, you can also do that via donations. every cent helps and is VERY appreciated!\n\ncobalt's usage worldwide grows daily and i need to make up for it. as you can imagine, hosting costs grow progressively too. as a year 1 university student, i was not prepared for such expenses :(\n\ni am yet to earn anything from cobalt, everything goes back to users, so you're helping everyone who uses cobalt.\n\n<span class=\"text-backdrop\">your help is more appreciated than ever!</span>",
         "DonateVia": "donate via",
-        "DonateHireMe": "...or you can <a class=\"text-backdrop italic\" href=\"{s}\" target=\"_blank\">hire me</a> :)",
+        "DonateHireMe": "...or you can <a class=\"text-backdrop link\" href=\"{s}\" target=\"_blank\">hire me</a> :)",
         "SettingsVideoMute": "mute audio",
         "SettingsVideoMuteExplanation": "removes audio from video downloads when possible.",
         "ErrorSoundCloudNoClientId": "i couldn't get the temporary token that's required to download songs from soundcloud. try again, but if issue persists, {ContactLink}.",
@@ -105,7 +105,7 @@
         "FollowSupport": "keep in touch with cobalt for support, polls, news, and more:",
         "SupportNote": "please note that response may take a while, there's only one person managing everything.",
         "SourceCode": "report issues, explore source code, star or fork the repo:",
-        "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is your business, not mine.\n\nsome non-backtraceable data does get temporarily stored when requested download requires live render. it's necessary for that feature to function.\n\nin that case, information about requested stream is temporarily stored in server's RAM for <span class=\"text-backdrop\">20 seconds</span>. as 20 seconds have passed, all previously stored information is permanently removed.\nno one (even me) has access to this data, because official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop italic\" href=\"{repo}\" target=\"_blank\">github repo</a> yourself and see that everything is as stated.",
+        "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is your business, not mine.\n\nsome non-backtraceable data does get temporarily stored when requested download requires live render. it's necessary for that feature to function.\n\nin that case, information about requested stream is temporarily stored in server's RAM for <span class=\"text-backdrop\">20 seconds</span>. as 20 seconds have passed, all previously stored information is permanently removed.\nno one (even me) has access to this data, because official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">github repo</a> yourself and see that everything is as stated.",
         "ErrorYTUnavailable": "this youtube video is unavailable, it could be region or age restricted. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nnote: youtube api sometimes acts unexpectedly. blame google for this, not me.",
         "SettingsCodecSubtitle": "youtube codec",
@@ -125,9 +125,14 @@
         "SettingsReduceTransparency": "reduce transparency",
         "SettingsDisableAnimations": "disable animations",
         "FeatureErrorGeneric": "your browser doesn't allow or support this feature. check if there are any updates available and try again!",
-        "ClipboardErrorFirefox": "you're using firefox where all clipboard reading functionality is disabled.\n\nyou can fix this by following steps listed <a class=\"text-backdrop italic\" href=\"{repo}/wiki/Troubleshooting#how-to-fix-clipboard-pasting-in-firefox\" target=\"_blank\">here!</a>\n\n...or you can paste the link manually instead.",
+        "ClipboardErrorFirefox": "you're using firefox where all clipboard reading functionality is disabled.\n\nyou can fix this by following steps listed <a class=\"text-backdrop link\" href=\"{repo}/wiki/Troubleshooting#how-to-fix-clipboard-pasting-in-firefox\" target=\"_blank\">here!</a>\n\n...or you can paste the link manually instead.",
         "ClipboardErrorNoPermission": "cobalt can't access the most recent item in your clipboard without your permission.\n\nif you don't want to give access, just paste the link manually instead.\n\nif you do, go to site settings and enable the clipboard permission.",
-        "SupportSelfTroubleshooting": "experiencing issues? try <a class=\"text-backdrop italic\" href=\"{repo}/wiki/Troubleshooting\" target=\"_blank\">self-troubleshooting guide</a> first!",
-        "AccessibilityGoBack": "go back and close the popup"
+        "SupportSelfTroubleshooting": "experiencing issues? try <a class=\"text-backdrop link\" href=\"{repo}/wiki/Troubleshooting\" target=\"_blank\">self-troubleshooting guide</a> first!",
+        "AccessibilityGoBack": "go back and close the popup",
+        "CollapseKeyboard": "keyboard shortcuts",
+        "KeyboardShortcutsIntro": "you can use cobalt even faster with keyboard shortcuts:",
+        "KeyboardShortcutQuickPaste": "paste the link",
+        "KeyboardShortcutClear": "clear link input area",
+        "KeyboardShortcutClosePopup": "close all popups"
     }
 }

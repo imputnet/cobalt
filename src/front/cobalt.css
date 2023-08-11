@@ -8,7 +8,7 @@
     --font-mono: 'Noto Sans Mono', 'Consolas', 'SF Mono', monospace;
     --padding-1: 0.75rem;
     --line-height: 1.65rem;
-    --red: rgb(255, 0, 61);
+    --red: rgb(249, 47, 96);
     --gap: 0.5rem;
     --gap-no-icon: 0.6rem;
 }
@@ -19,6 +19,7 @@
         --accent-subtext: rgb(110, 110, 110);
         --accent-hover: rgb(30, 30, 30);
         --accent-hover-elevated: rgb(48, 48, 48);
+        --accent-hover-transparent: rgba(48, 48, 48, 0.5);
         --accent-button: rgb(25, 25, 25);
         --accent-button-elevated: rgb(42, 42, 42);
         --glass: rgba(25, 25, 25, 0.85);
@@ -34,6 +35,7 @@
         --accent-subtext: rgb(110, 110, 110);
         --accent-hover: rgb(230, 230, 230);
         --accent-hover-elevated: rgb(215, 215, 215);
+        --accent-hover-transparent: rgba(215, 215, 215, 0.5);
         --accent-button: rgb(225, 225, 225);
         --accent-button-elevated: rgb(210, 210, 210);
         --glass: rgba(230, 230, 230, 0.85);
@@ -48,6 +50,7 @@
     --accent-subtext: rgb(110, 110, 110);
     --accent-hover: rgb(30, 30, 30);
     --accent-hover-elevated: rgb(48, 48, 48);
+    --accent-hover-transparent: rgba(48, 48, 48, 0.5);
     --accent-button: rgb(25, 25, 25);
     --accent-button-elevated: rgb(42, 42, 42);
     --glass: rgba(25, 25, 25, 0.85);
@@ -61,6 +64,7 @@
     --accent-subtext: rgb(110, 110, 110);
     --accent-hover: rgb(230, 230, 230);
     --accent-hover-elevated: rgb(215, 215, 215);
+    --accent-hover-transparent: rgba(215, 215, 215, 0.5);
     --accent-button: rgb(225, 225, 225);
     --accent-button-elevated: rgb(210, 210, 210);
     --glass: rgba(230, 230, 230, 0.85);
@@ -171,8 +175,7 @@ input[type="text"],
 .desktop .switch:hover,
 .desktop .checkbox:hover,
 .desktop .text-to-copy:hover,
-.desktop .collapse-header:hover,
-.desktop #back-button:hover {
+.desktop .collapse-header:hover {
     background: var(--accent-hover);
     box-shadow: 0 0 0 0.1rem var(--accent-highlight) inset;
     cursor: pointer;
@@ -336,9 +339,10 @@ button:active,
 .text-backdrop {
     background: var(--accent);
     color: var(--background);
+    padding: 0 0.2rem;
 }
-.italic {
-    font-style: italic;
+.text-backdrop.link {
+    text-decoration: underline;
 }
 .cobalt-support-link {
     display: flex;
@@ -367,12 +371,13 @@ button:active,
     max-height: 95%;
     opacity: 0;
     transform: translate(-50%,-48%)scale(.95);
+    box-shadow: 0 0 40px 0 var(--accent-hover-transparent);
 }
 .popup.visible {
     visibility: visible;
     opacity: 1;
     transform: translate(-50%, -50%);
-    transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+    transition: transform 100ms ease-out, opacity 100ms ease-in-out;
 }
 #popup-backdrop {
     visibility: hidden;
@@ -388,7 +393,7 @@ button:active,
 #popup-backdrop.visible {
     visibility: visible;
     opacity: 0.5;
-    transition: opacity 0.1s ease-in-out;
+    transition: opacity 130ms ease-in-out;
 }
 .popup.small {
     width: 20%;
@@ -411,7 +416,7 @@ button:active,
     border: none;
 }
 .popup.small #popup-title {
-    margin-bottom: .2rem;
+    margin-bottom: 0.2rem;
 }
 .popup.small .explanation {
     margin-bottom: 0.8rem;
@@ -434,9 +439,11 @@ button:active,
     position: relative;
     width: 100%;
     max-height: 300px;
-    min-height: 160px;
-    margin-bottom: 1rem;
+    min-height: 210px;
+    margin-bottom: 0.7rem;
     float: left;
+    background: var(--accent-hover);
+    display: flex;
 }
 .changelog-img {
     object-fit: cover;
@@ -452,11 +459,11 @@ button:active,
 }
 .changelog-tag-version {
     font-size: 1rem;
-    padding: 0.15rem 0.45rem;
+    padding: 0.15rem 0.7rem;
 }
 .changelog-tag-date {
     color: var(--accent-subtext);
-    font-size: .8rem;
+    font-size: 0.8rem;
 }
 .nowrap {
     white-space: nowrap;
@@ -492,7 +499,7 @@ button:active,
     font-size: 0.8rem;
 }
 #popup-content {
-    overflow-x: hidden;
+    overflow-x: scroll;
     overflow-y: auto;
     height: 100%;
     scrollbar-width: none;
@@ -589,12 +596,17 @@ button:active,
     box-shadow: var(--inset-focus) inset;
 }
 #popup-tabs .switch {
-    background: unset;
+    background: none;
+}
+.desktop #popup-tabs .switch:hover,
+#popup-tabs .switch:active {
+    background: var(--accent-hover-transparent);
+    box-shadow: 0 0 0 0.1rem var(--accent-highlight) inset;
 }
 .switch[data-enabled="true"],
 #popup-tabs .switch[data-enabled="true"] {
     color: var(--background);
-    background: var(--accent);
+    background: var(--accent)!important;
     cursor: default;
 }
 .switch[data-enabled="true"]:hover {
@@ -628,7 +640,7 @@ button:active,
     user-select: text;
     -webkit-user-select: text;
     background: var(--accent-button);
-    padding: var(--padding-1);
+    padding: var(--gap-no-icon);
     overflow: auto;
 }
 #back-button {
@@ -637,10 +649,11 @@ button:active,
     max-width: 4rem;
     font-size: 1rem;
 }
-#back-button svg path {
+#back-button svg path,
+.collapse-indicator svg path {
     fill: var(--accent);
 }
-.popup-tab-content {
+.popup-tab-content[data-enabled="false"] {
     display: none;
 }
 #popup-tabs {
@@ -657,7 +670,6 @@ button:active,
     padding: 0 0.2rem;
 }
 .emoji, svg {
-    margin-right: 0.4rem;
     user-select: none;
     -webkit-user-select: none;
     pointer-events: none;
@@ -729,27 +741,36 @@ button:active,
     user-select: none;
     -webkit-user-select: none;
 }
+.collapse-list.last {
+    margin-bottom: 1rem;
+}
 .collapse-header {
-    padding: var(--padding-1);
-    font-size: 1rem;
+    padding: 0.5rem var(--padding-1);
+    font-size: 0.95rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
     background: var(--accent-button);
 }
-.collapse-indicator {
-    transform: rotate(180deg);
+.collapse-header .emoji {
+    margin-right: var(--padding-1);
 }
-.expanded .collapse-indicator {
+.collapse-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     transform: none;
+}
+.collapse-list.expanded .collapse-indicator {
+    transform: rotate(180deg);
 }
 .collapse-title {
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.8rem;
 }
 .collapse-body {
     display: none;
@@ -767,7 +788,8 @@ button:active,
     display: none;
 }
 #about-donate-footer {
-    box-shadow: 0 0 0 0.1rem var(--accent) inset;
+    box-shadow: 0 0 0 .1rem var(--red) inset, 0 0 1rem 0 var(--red);
+    z-index: 1;
 }
 .popup-content-inner,
 .tab-content-settings,
@@ -822,6 +844,82 @@ button:active,
 }
 .popup-from-bottom.visible {
     visibility: visible;
+}
+#keyboard-collapse {
+    display: none;
+}
+.desktop #keyboard-collapse {
+    display: block;
+}
+.text-backdrop.key {
+    color: var(--accent-hover-elevated);
+}
+#keyboard-shortcuts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1.5rem;
+    user-select: none;
+    color: var(--accent);
+}
+/* rounded corners */
+#bottom #paste,
+#footer .switch,
+#audioMode,
+#popup-content .switches,
+.checkbox,
+.changelog-img,
+.changelog-banner,
+#close-error,
+.changelog-tag-version,
+#download-switcher .switch,
+#popup-about .switch,
+#popup-tabs .switch,
+.text-to-copy {
+    border-radius: 5px / 6px;
+}
+[type=checkbox] {
+    border-radius: 3px / 4px;
+}
+.popup {
+    border-radius: 8px / 9px;
+}
+#popup-header {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#popup-tabs {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.switches .first {
+    border-top-left-radius: 5px 6px;
+    border-bottom-left-radius: 5px 6px;
+}
+.switches .last {
+    border-top-right-radius: 5px 6px;
+    border-bottom-right-radius: 5px 6px;
+}
+.text-backdrop {
+    border-radius: 3px / 4px;
+}
+.collapse-list.first,
+.collapse-list.first .collapse-header {
+    border-top-left-radius: 7px 8px;
+    border-top-right-radius: 7px 8px;
+}
+.collapse-list.last,
+.collapse-list.last .collapse-header {
+    border-bottom-left-radius: 7px 8px;
+    border-bottom-right-radius: 7px 8px;
+}
+.collapse-list.last.expanded .collapse-header {
+    border-radius: 0;
+}
+.loader {
+    text-align: center;
 }
 /* adapt the page according to screen size */
 @media screen and (max-width: 1550px) {
@@ -918,7 +1016,7 @@ button:active,
     .subtitle,
     #popup-desc,
     .collapse-title {
-        font-size: .7rem;
+        font-size: 0.7rem;
     }
     .collapse-header {
         padding: 0.5rem;
@@ -928,13 +1026,13 @@ button:active,
         font-size: 0.6rem;
     }
     .explanation {
-        font-size: .6rem;
+        font-size: 0.6rem;
         margin-top: 0.5rem;
         line-height: 1rem!important;
     }
     #popup-desc {
         line-height: 1.2rem;
-        font-size: .64rem;
+        font-size: 0.64rem;
     }
     .changelog-subtitle, #popup-subtitle {
         font-size: 0.8rem!important;
@@ -1005,6 +1103,16 @@ button:active,
     .urgent-notice {
         padding-top: calc(env(safe-area-inset-bottom)/2 + 1rem);
     }
+    .popup,
+    #popup-header,
+    #popup-tabs {
+        border-radius: 0;
+    }
+    .popup.center {
+        top: unset;
+        left: unset;
+        transform: unset;
+    }
     .popup.small {
         width: calc(100% - 1.7rem * 2);
         height: auto;
@@ -1016,14 +1124,17 @@ button:active,
         border: none;
         border-top: var(--accent-highlight) solid 0.15rem;
         padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.7rem);
-        transform: none;
+        transform: translateY(30rem);
     }
     .popup.small.visible {
         transform: none;
-        transition: opacity 0.1s ease-in-out;
+        transition: transform 200ms cubic-bezier(0.075, 0.82, 0.165, 1), opacity 130ms ease-in-out;
     }
     .popup.small #popup-header {
         background: none;
+    }
+    .no-animation .popup.small {
+        transition: none;
     }
     #close-error {
         bottom: 3rem;
@@ -1052,11 +1163,6 @@ button:active,
         width: 100%;
         height: 100%;
         max-height: 100%;
-    }
-    .popup.center {
-        top: unset;
-        left: unset;
-        transform: unset;
     }
     #popup-tabs {
         padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.5rem);
