@@ -329,11 +329,11 @@ async function pasteClipboard() {
     } catch (e) {
         let errorMessage = loc.featureErrorGeneric;
         let doError = true;
-        e = String(e).toLowerCase();
+        let error = String(e).toLowerCase();
 
-        if (e.includes("denied")) errorMessage = loc.clipboardErrorNoPermission;
-        if (e.includes("dismissed") || isIOS) doError = false;
-        if (e.includes("function") && isFirefox) errorMessage = loc.clipboardErrorFirefox;
+        if (error.includes("denied")) errorMessage = loc.clipboardErrorNoPermission;
+        if (error.includes("dismissed") || isIOS) doError = false;
+        if (error.includes("function") && isFirefox) errorMessage = loc.clipboardErrorFirefox;
 
         if (doError) popup("error", 1, errorMessage);
     }

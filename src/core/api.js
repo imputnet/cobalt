@@ -134,7 +134,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         })
                         return res.status(j.status).json(j.body);
                     }
-                    break;
                 case 'serverInfo':
                     return res.status(200).json({
                         version: version,
@@ -145,13 +144,11 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         cors: process.env.cors && process.env.cors === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
-                    break;
                 default:
                     let j = apiJSON(0, {
                         t: "unknown response type"
                     })
                     return res.status(j.status).json(j.body);
-                    break;
             }
         } catch (e) {
             return res.status(500).json({
