@@ -7,7 +7,7 @@
         "AppTitleCobalt": "cobalt",
         "LinkInput": "paste the link here",
         "AboutSummary": "cobalt is your go-to place for downloads from social and media platforms. zero ads, trackers, or other creepy bullshit. simply paste a share link and you're ready to rock!",
-        "EmbedBriefDescription": "save what you love without ads, trackers, or other creepy bullshit.",
+        "EmbedBriefDescription": "save what you love. no ads, trackers, or other creepy bullshit.",
         "MadeWithLove": "made with <3 by wukko",
         "AccessibilityInputArea": "link input area",
         "AccessibilityOpenAbout": "open about popup",
@@ -92,7 +92,7 @@
         "ChangelogPressToHide": "collapse",
         "Donate": "donate",
         "DonateSub": "help it stay online",
-        "DonateExplanation": "cobalt does not (and will never) serve ads or sell your data, meaning that <span class=\"text-backdrop\">it's completely free to use</span>. turns out developing and keeping up a web service used by over 300,000 people is not that easy.\n\nif you ever found cobalt useful and want to help continue its development and maintenance consider chipping in! if you want to thank the developer, you can also do that via donations. every cent helps and is VERY appreciated!\n\ncobalt's usage worldwide grows daily and i need to make up for it. as you can imagine, hosting costs grow progressively too. as a year 1 university student, i was not prepared for such expenses :(\n\ni am yet to earn anything from cobalt, everything goes back to users, so you're helping everyone who uses cobalt.\n\n<span class=\"text-backdrop\">your help is more appreciated than ever!</span>",
+        "DonateExplanation": "cobalt doesn't shove ads in your face and doesn't sell your personal data, and thus is <span class=\"text-backdrop\">completely free to use for everyone</span>. but development and maintenance of a media-heavy service used by over 350k people is quite costly. both in terms of time and money. as a student, it's rather difficult for me to handle such expenses on my own.\n\nif cobalt has helped you in the past and you want to keep it growing and evolving, you can do so by making a donation!\n\nby donating you're helping everyone who uses cobalt: teachers, students, musicians, content creators, artists, lecturers, and many, many more!\n\nin past few months donations have let me:\n*; increase stability and uptime to nearly 100%.\n*; speed up ALL downloads, especially heavier ones.\n*; open cobalt api for free public use.\n*; withstand several huge user influxes with 0 downtime.\n*; move to a reliable and trustworthy cloud infrastructure provider.\n*; separate frontend and api for resilience and future decentralization.\n\n<span class=\"text-backdrop\">every cent matters and is extremely appreciated</span>, you can truly make a difference!",
         "DonateVia": "donate via",
         "DonateHireMe": "...or you can <a class=\"text-backdrop link\" href=\"{s}\" target=\"_blank\">hire me</a> :)",
         "SettingsVideoMute": "mute audio",
@@ -105,7 +105,7 @@
         "FollowSupport": "keep in touch with cobalt for support, polls, news, and more:",
         "SupportNote": "please note that response may take a while, there's only one person managing everything.",
         "SourceCode": "report issues, explore source code, star or fork the repo:",
-        "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is your business, not mine.\n\nsome non-backtraceable data does get temporarily stored when requested download requires live render. it's necessary for that feature to function.\n\nin that case, information about requested stream is temporarily stored in server's RAM for <span class=\"text-backdrop\">20 seconds</span>. as 20 seconds have passed, all previously stored information is permanently removed.\nno one (even me) has access to this data, because official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">github repo</a> yourself and see that everything is as stated.",
+        "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is solely your business, not mine or anyone else's.\n\nif your download requires live render, some non-backtraceable data is temporarily stored in server's RAM. it's necessary for this feature to function.\n\nin this case info about requested content is stored for <span class=\"text-backdrop\">20 seconds</span> and then permanently removed.\nno one (even me) has access to this data. official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">source code</a> yourself and see that everything is as stated.",
         "ErrorYTUnavailable": "this youtube video is unavailable, it could be region or age restricted. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nnote: youtube api sometimes acts unexpectedly. blame google for this, not me.",
         "SettingsCodecSubtitle": "youtube codec",
@@ -130,9 +130,11 @@
         "SupportSelfTroubleshooting": "experiencing issues? try <a class=\"text-backdrop link\" href=\"{repo}/wiki/Troubleshooting\" target=\"_blank\">self-troubleshooting guide</a> first!",
         "AccessibilityGoBack": "go back and close the popup",
         "CollapseKeyboard": "keyboard shortcuts",
-        "KeyboardShortcutsIntro": "you can use cobalt even faster with keyboard shortcuts:",
+        "KeyboardShortcutsIntro": "use cobalt even faster with keyboard shortcuts:",
         "KeyboardShortcutQuickPaste": "paste the link",
         "KeyboardShortcutClear": "clear link input area",
-        "KeyboardShortcutClosePopup": "close all popups"
+        "KeyboardShortcutClosePopup": "close all popups",
+        "CollapseLegal": "legal stuff",
+        "FairUse": "cobalt is a tool for easing content downloads from internet and takes <span class=\"text-backdrop\">zero liability</span>. you are responsible for what you download, how you use and distribute that content.\n\ncobalt does not log any info about you, it's impossible for me to snitch on you, but please be mindful when using content of others and always credit original creators!\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone."
     }
 }

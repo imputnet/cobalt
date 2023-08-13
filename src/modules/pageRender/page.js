@@ -121,7 +121,7 @@ export default function(obj) {
                                     combo: "Ctrl+V",
                                     name: t("KeyboardShortcutQuickPaste")
                                 }, {
-                                    combo: "Esc/Del",
+                                    combo: "Esc",
                                     name: t("KeyboardShortcutClear")
                                 }, {
                                     combo: "Esc",
@@ -163,6 +163,10 @@ export default function(obj) {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
                             body: t("PrivacyPolicy")
+                        }, {
+                            name: "legal",
+                            title: `${emoji("📑")} ${t("CollapseLegal")}`,
+                            body: t("FairUse")
                         }])
                     }]
                 })
@@ -494,14 +498,14 @@ export default function(obj) {
             })}
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
-        <div id="home">
+        <div id="home" style="visibility:hidden">
             ${urgentNotice({
                 emoji: "🐱",
                 text: "report any issues!",
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
-            <div id="cobalt-main-box" class="center" style="visibility: hidden;">
+            <div id="cobalt-main-box" class="center">
                 <div id="logo">${t("AppTitleCobalt")}</div>
                 <div id="download-area">
                     <div id="top">
@@ -525,7 +529,7 @@ export default function(obj) {
                     </div>
                 </div>
             </div>
-            <footer id="footer" style="visibility: hidden;">
+            <footer id="footer">
                 ${footerButtons([{
                     name: "about",
                     type: "popup",

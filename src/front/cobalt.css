@@ -339,7 +339,7 @@ button:active,
 .text-backdrop {
     background: var(--accent);
     color: var(--background);
-    padding: 0 0.2rem;
+    padding: 0 0.3rem;
 }
 .text-backdrop.link {
     text-decoration: underline;
@@ -641,7 +641,7 @@ button:active,
     -webkit-user-select: text;
     background: var(--accent-button);
     padding: var(--gap-no-icon);
-    overflow: auto;
+    overflow: clip;
 }
 #back-button {
     padding: 0;
@@ -788,7 +788,7 @@ button:active,
     display: none;
 }
 #about-donate-footer {
-    box-shadow: 0 0 0 .1rem var(--red) inset, 0 0 1rem 0 var(--red);
+    box-shadow: 0 0 0 0.1rem var(--red) inset, 0 0 0.6rem 0 var(--red);
     z-index: 1;
 }
 .popup-content-inner,
@@ -864,6 +864,16 @@ button:active,
     user-select: none;
     color: var(--accent);
 }
+.loader {
+    text-align: center;
+}
+#home {
+    opacity: 0;
+}
+#home.visible {
+    opacity: 1;
+    transition: opacity 0.2s ease-out;
+}
 /* rounded corners */
 #bottom #paste,
 #footer .switch,
@@ -877,7 +887,8 @@ button:active,
 #download-switcher .switch,
 #popup-about .switch,
 #popup-tabs .switch,
-.text-to-copy {
+.text-to-copy,
+.text-to-copy.text-backdrop {
     border-radius: 5px / 6px;
 }
 [type=checkbox] {
@@ -907,19 +918,22 @@ button:active,
 }
 .collapse-list.first,
 .collapse-list.first .collapse-header {
-    border-top-left-radius: 7px 8px;
-    border-top-right-radius: 7px 8px;
+    border-top-left-radius: 6px 7px;
+    border-top-right-radius: 6px 7px;
 }
 .collapse-list.last,
 .collapse-list.last .collapse-header {
-    border-bottom-left-radius: 7px 8px;
-    border-bottom-right-radius: 7px 8px;
+    border-bottom-left-radius: 6px 7px;
+    border-bottom-right-radius: 6px 7px;
 }
 .collapse-list.last.expanded .collapse-header {
     border-radius: 0;
 }
-.loader {
-    text-align: center;
+@media all and (display-mode: standalone) {
+    /* prevent resizing fliecker on ios if web app is installed as standalone */
+    #home.visible {
+        transition-delay: 0.1s;
+    }
 }
 /* adapt the page according to screen size */
 @media screen and (max-width: 1550px) {

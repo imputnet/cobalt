@@ -477,16 +477,17 @@ window.onload = () => {
     loadSettings();
     detectColorScheme();
     changeDownloadButton(0, '>>');
-    eid("cobalt-main-box").style.visibility = 'visible';
-    eid("footer").style.visibility = 'visible';
-    if (eid("urgent-notice")) eid("urgent-notice").style.visibility = 'visible';
-    eid("url-input-area").value = "";
     notificationCheck();
     loadCelebrationsEmoji();
     if (isIOS) {
         sSet("downloadPopup", "true");
         eid("downloadPopup-chkbx").style.display = "none";
     }
+    eid("url-input-area").value = "";
+
+    eid("home").style.visibility = 'visible';
+    eid("home").classList.toggle("visible");
+
     let urlQuery = new URLSearchParams(window.location.search).get("u");
     if (urlQuery !== null && regex.test(urlQuery)) {
         eid("url-input-area").value = urlQuery;
@@ -502,7 +503,7 @@ eid("url-input-area").addEventListener("keyup", (e) => {
 document.onkeydown = (e) => {
     if (!store.isPopupOpen) {
         if (e.ctrlKey || e.key === "/") eid("url-input-area").focus();
-        if (e.key === "Escape" || e.key === "Clear" || e.key === "Delete") clearInput();
+        if (e.key === "Escape" || e.key === "Clear") clearInput();
 
         // top buttons
         if (e.key === "D") pasteClipboard();

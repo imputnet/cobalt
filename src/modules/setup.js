@@ -60,7 +60,8 @@ function setup() {
                             console.log(Bright("\nOne last thing: would you like to enable CORS? It allows other websites and extensions to use your instance's API.\ny/n (n)"));
 
                             rl.question(q, apiCors => {
-                                if (apiCors.toLowerCase() !== 'y') ob['cors'] = '0'
+                                let answCors = apiCors.toLowerCase().trim();
+                                if (answCors !== 'y' || answCors !== 'yes') ob['cors'] = '0'
                                 final()
                             })
                         })

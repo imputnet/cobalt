@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.0-dev2",
+    "version": "7.0-dev3",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",

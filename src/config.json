@@ -25,7 +25,8 @@
         "crypto": {
             "bitcoin": "bc1q59jyyjvrzj4c22rkk3ljeecq6jmpyscgz9spnd",
             "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna"
+            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
+            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod"
         },
         "links": {
             "boosty": "https://boosty.to/wukko/donate"
