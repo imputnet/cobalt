@@ -32,7 +32,8 @@ const names = {
     "🔍": "magnifying_glass",
     "🔗": "link",
     "⌨": "keyboard",
-    "📑": "boring_document"
+    "📑": "boring_document",
+    "🧮": "abacus"
 }
 let sizing = {
     18: 0.8,

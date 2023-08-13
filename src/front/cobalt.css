@@ -505,7 +505,8 @@ button:active,
     scrollbar-width: none;
 }
 .popup-content-inner,
-.tab-content-settings {
+.tab-content-settings,
+#picker-holder {
     padding-top: calc(env(safe-area-inset-top)/2 + 4.9rem);
     padding-bottom: calc(env(safe-area-inset-bottom)/2 + 4.8rem);
 }
@@ -679,25 +680,26 @@ button:active,
 }
 .picker-image {
     object-fit: cover;
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
     user-select: all;
     -webkit-user-select: all;
 }
 .picker-image-container {
-    width: 8rem;
-    height: 8rem;
-    margin-bottom: var(--padding-1);
+    width: calc(100% / 3);
+    height: 12rem;
     background-color: var(--accent-button);
+    cursor: pointer;
 }
 .picker-various-container {
-    height: 20rem;
-    width: 25rem;
+    height: 12rem;
+    width: 12rem;
     margin-bottom: var(--padding-1);
     background-color: var(--accent-button);
     border: var(--accent-button) 0.18rem solid;
     position: relative;
+    cursor: pointer;
 }
 #picker-holder {
     display: flex;
@@ -706,12 +708,6 @@ button:active,
     align-content: space-around;
     padding-top: calc(env(safe-area-inset-top)/2 + 7.6rem);
     padding-bottom: calc(env(safe-area-inset-bottom)/2 + 4.8rem);
-}
-#picker-holder.various {
-    justify-content: left;
-    flex-wrap: unset;
-    overflow-x: scroll;
-    gap: 2rem;
 }
 .imageBlock {
     height: 100%;
@@ -867,6 +863,12 @@ button:active,
 .loader {
     text-align: center;
 }
+#picker-download {
+    visibility: hidden;
+}
+#picker-download.visible {
+    visibility: visible;
+}
 #home {
     opacity: 0;
 }
@@ -929,8 +931,8 @@ button:active,
 .collapse-list.last.expanded .collapse-header {
     border-radius: 0;
 }
+/* prevent resizing fliecker on ios if web app is installed as standalone */
 @media all and (display-mode: standalone) {
-    /* prevent resizing fliecker on ios if web app is installed as standalone */
     #home.visible {
         transition-delay: 0.1s;
     }
@@ -1167,11 +1169,6 @@ button:active,
         height: 20rem;
         max-width: 100%;
     }
-    .picker-image-container {
-        height: 7rem;
-        width: 7rem;
-        line-height: 7rem;
-    }
     .popup, .popup.scrollable {
         border: none;
         width: 100%;
@@ -1195,10 +1192,5 @@ button:active,
 @media screen and (max-width: 400px) {
     .popup-title {
         line-height: inherit;
-    }
-    .picker-image-container {
-        line-height: 6rem;
-        height: 6rem;
-        width: 6rem;
     }
 }

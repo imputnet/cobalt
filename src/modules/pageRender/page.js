@@ -455,7 +455,7 @@ export default function(obj) {
             name: "picker",
             closeAria: t('AccessibilityGoBack'),
             header: {
-                title: `<div id="picker-title"></div>`,
+                title: `${emoji("🧮", 30)} <div id="picker-title"></div>`,
                 explanation: `<div id="picker-subtitle"></div>`,
             },
             buttons: [`<a id="picker-download" class="switch" target="_blank" href="/">${t('ImagePickerDownloadAudio')}</a>`],

@@ -164,11 +164,13 @@ function hideAllPopups() {
     for (let i = 0; i < filter.length; i++) {
         filter[i].classList.remove("visible");
     }
+    eid("popup-backdrop").classList.remove("visible");
+    store.isPopupOpen = false;
+
+    // clear the picker
     eid("picker-holder").innerHTML = '';
     eid("picker-download").href = '/';
     eid("picker-download").classList.remove("visible");
-    eid("popup-backdrop").classList.remove("visible");
-    store.isPopupOpen = false;
 }
 function popup(type, action, text) {
     if (action === 1) {
@@ -197,10 +199,13 @@ function popup(type, action, text) {
                     case "images":
                         eid("picker-title").innerHTML = loc.pickerImages;
                         eid("picker-subtitle").innerHTML = loc.pickerImagesExpl;
-                        if (!eid("popup-picker").classList.contains("scrollable")) eid("popup-picker").classList.add("scrollable");
-                        if (eid("picker-holder").classList.contains("various")) eid("picker-holder").classList.remove("various");
+
+                        eid("popup-picker").classList.add("scrollable");
+                        eid("picker-holder").classList.remove("various");
+
                         eid("picker-download").href = text.audio;
                         eid("picker-download").classList.add("visible");
+
                         for (let i in text.arr) {
                             eid("picker-holder").innerHTML += `<a class="picker-image-container"><img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'"></img></a>`
                         }
@@ -208,13 +213,15 @@ function popup(type, action, text) {
                     default:
                         eid("picker-title").innerHTML = loc.pickerDefault;
                         eid("picker-subtitle").innerHTML = loc.pickerDefaultExpl;
-                        if (eid("popup-picker").classList.contains("scrollable")) eid("popup-picker").classList.remove("scrollable");
-                        if (!eid("picker-holder").classList.contains("various")) eid("picker-holder").classList.add("various");
+
+                        eid("popup-picker").classList.remove("scrollable");
+                        eid("picker-holder").classList.add("various");
+
                         for (let i in text.arr) {
                             let s = text.arr[i], item;
                             switch (s.type) {
                                 case "video":
-                                    item = `<div class="picker-various-container" onClick="${isIOS ? `share('${text.arr[i]["url"]}')` : `window.location.href='${text.arr[i]["url"]}'`}"><div class="picker-element-name">VIDEO ${Number(i)+1}</div><div class="imageBlock"></div><img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'"></img></div>`
+                                    item = `<div class="picker-image-container" onClick="${isIOS ? `share('${text.arr[i]["url"]}')` : `window.location.href='${text.arr[i]["url"]}'`}"><div class="picker-element-name">${Number(i)+1}</div><div class="imageBlock"></div><img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'"></img></div>`
                                     break;
                             }
                             eid("picker-holder").innerHTML += item
