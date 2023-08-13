@@ -395,17 +395,9 @@ async function download(url) {
                 break;
             case "picker":
                 if (j.audio && j.picker) {
-                    changeDownloadButton(2, '?..')
-                    fetch(`${j.audio}&p=1`).then(async (res) => {
-                        let jp = await res.json();
-                        if (jp.status === "continue") {
-                            changeDownloadButton(2, '>>>');
-                            popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
-                            setTimeout(() => { changeButton(1) }, 2500);
-                        } else {
-                            changeButton(0, jp.text);
-                        }
-                    }).catch((error) => internetError());
+                    changeDownloadButton(2, '>>>');
+                    popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
+                    setTimeout(() => { changeButton(1) }, 2500);
                 } else if (j.picker) {
                     changeDownloadButton(2, '>>>');
                     popup('picker', 1, { arr: j.picker, type: j.pickerType });

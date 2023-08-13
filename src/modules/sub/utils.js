@@ -27,7 +27,7 @@ export function apiJSON(type, obj) {
                 switch (obj.service) {
                     case "douyin":
                     case "tiktok":
-                        audio = createStream(obj)
+                        audio = obj.u
                         pickerType = "images"
                         break;
                 }
