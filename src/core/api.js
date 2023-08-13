@@ -27,7 +27,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
-                "status": "error",
+                "status": "rate-limit",
                 "text": loc(languageCode(req), 'ErrorRateLimit')
             });
         }
@@ -40,7 +40,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
-                "status": "error",
+                "status": "rate-limit",
                 "text": loc(languageCode(req), 'ErrorRateLimit')
             });
         }
