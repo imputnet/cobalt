@@ -27,7 +27,7 @@ export function apiJSON(type, obj) {
                 switch (obj.service) {
                     case "douyin":
                     case "tiktok":
-                        audio = createStream(obj)
+                        audio = obj.u
                         pickerType = "images"
                         break;
                 }
@@ -152,4 +152,9 @@ export function getThreads() {
     } catch (e) {
         return '0'
     }
+}
+export function cleanHTML(html) {
+    let clean = html.replace(/ {4}/g, '');
+    clean = clean.replace(/\n/g, '');
+    return clean
 }

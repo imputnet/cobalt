@@ -1,20 +1,18 @@
-import { appName, genericUserAgent, version } from "../modules/config.js";
-import { languageCode } from "../modules/sub/utils.js";
+import { genericUserAgent, version } from "../modules/config.js";
+import { apiJSON, languageCode } from "../modules/sub/utils.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
+
 import { buildFront } from "../modules/build.js";
 import findRendered from "../modules/pageRender/findRendered.js";
 
-// * will be removed in the future
-import cors from "cors";
-// *
+import { celebrationsEmoji } from "../modules/pageRender/elements.js";
+import { changelogHistory } from "../modules/pageRender/onDemand.js";
 
 export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
-    await buildFront(gitCommit, gitBranch);
+    const startTime = new Date();
+    const startTimestamp = Math.floor(startTime.getTime());
 
-    // * will be removed in the future
-    const corsConfig = process.env.cors === '0' ? { origin: process.env.webURL, optionsSuccessStatus: 200 } : {};
-    app.use('/api/:type', cors(corsConfig));
-    // *
+    await buildFront(gitCommit, gitBranch);
 
     app.use('/', express.static('./build/min'));
     app.use('/', express.static('./src/front'));
@@ -23,29 +21,67 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
         try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
         next();
     });
+    app.get('/onDemand', (req, res) => {
+        try {
+            if (req.query.blockId) {
+                let blockId = req.query.blockId.slice(0, 3);
+                let r, j;
+                switch(blockId) {
+                    // changelog history
+                    case "0":
+                        r = changelogHistory();
+                        j = r ? apiJSON(3, { t: r }) : apiJSON(0, {
+                            t: "couldn't render this block, please try again!"
+                        })
+                        break;
+                    // celebrations emoji
+                    case "1":
+                        r = celebrationsEmoji();
+                        j = r ? apiJSON(3, { t: r }) : false
+                        break;
+                    default:
+                        j = apiJSON(0, {
+                            t: "couldn't find a block with this id"
+                        })
+                        break;
+                }
+                if (j.body) {
+                    return res.status(j.status).json(j.body);
+                } else {
+                    return res.status(204).end();
+                }
+            } else {
+                return res.status(400).json({
+                    status: "error",
+                    text: "couldn't render this block, please try again!"
+                });
+            }
+        } catch (e) {
+            return res.status(400).json({
+                status: "error",
+                text: "couldn't render this block, please try again!"
+            })
+        }
+    });
     app.get("/status", (req, res) => {
-        res.status(200).end()
+        return res.status(200).end()
     });
     app.get("/", (req, res) => {
-        res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`)
+        return res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`)
     });
     app.get("/favicon.ico", (req, res) => {
-        res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
+        return res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
     });
-    // * will be removed in the future
-    app.get("/api/*", (req, res) => {
-        res.redirect(308, process.env.apiURL.slice(0, -1)  + req.url)
-    });
-    app.post("/api/*", (req, res) => {
-        res.redirect(308, process.env.apiURL.slice(0, -1)  + req.url)
-    });
-    // *
     app.get("/*", (req, res) => {
-        res.redirect('/')
+        return res.redirect('/')
     });
 
     app.listen(process.env.webPort, () => {
-        let startTime = new Date();
-        console.log(`\n${Cyan(appName)} WEB ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${Math.floor(new Date().getTime())})`)}\n\nURL: ${Cyan(`${process.env.webURL}`)}\nPort: ${process.env.webPort}\n`)
+        console.log(`\n` +
+            `${Cyan("cobalt")} WEB ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
+            `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
+            `URL: ${Cyan(`${process.env.webURL}`)}\n` +
+            `Port: ${process.env.webPort}\n`
+        )
     })
 }

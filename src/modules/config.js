@@ -6,7 +6,6 @@ const servicesConfigJson = loadJson("./src/modules/processing/servicesConfig.jso
 export const
     services = servicesConfigJson.config,
     audioIgnore = servicesConfigJson.audioIgnore,
-    appName = packageJson.name,
     version = packageJson.version,
     streamLifespan = config.streamLifespan,
     maxVideoDuration = config.maxVideoDuration,

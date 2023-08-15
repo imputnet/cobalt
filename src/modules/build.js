@@ -1,14 +1,10 @@
 import * as esbuild from "esbuild";
 import * as fs from "fs";
 import { loadLoc, languageList } from "../localization/manager.js";
+import { cleanHTML } from "./sub/utils.js";
 
 import page from "./pageRender/page.js";
 
-function cleanHTML(html) {
-    let clean = html.replace(/ {4}/g, '');
-    clean = clean.replace(/\n/g, '');
-    return clean
-}
 export async function buildFront(commitHash, branch) {
     try {
         // preload localization files

@@ -4,40 +4,45 @@ import { randomBytes } from "crypto";
 
 const ipSalt = randomBytes(64).toString('hex');
 
-import { appName, version } from "../modules/config.js";
+import { version } from "../modules/config.js";
 import { getJSON } from "../modules/api.js";
 import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/utils.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
-import { changelogHistory } from "../modules/pageRender/onDemand.js";
 import { sha256 } from "../modules/sub/crypto.js";
-import { celebrationsEmoji } from "../modules/pageRender/elements.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
-    const corsConfig = process.env.cors === '0' ? { origin: process.env.webURL, optionsSuccessStatus: 200 } : {};
+    const corsConfig = process.env.cors === '0' ? {
+        origin: process.env.webURL,
+        optionsSuccessStatus: 200
+    } : {};
 
     const apiLimiter = rateLimit({
         windowMs: 60000,
         max: 20,
-        standardHeaders: false,
+        standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
-            res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
-            return;
+            return res.status(429).json({
+                "status": "rate-limit",
+                "text": loc(languageCode(req), 'ErrorRateLimit')
+            });
         }
     });
     const apiLimiterStream = rateLimit({
         windowMs: 60000,
         max: 25,
-        standardHeaders: false,
+        standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
-            res.status(429).json({ "status": "error", "text": loc(languageCode(req), 'ErrorRateLimit') });
-            return;
+            return res.status(429).json({
+                "status": "rate-limit",
+                "text": loc(languageCode(req), 'ErrorRateLimit')
+            });
         }
     });
     
@@ -55,45 +60,55 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     });
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
-            try {
-                JSON.parse(buf);
+            let acceptCon = String(req.header('Accept')) === "application/json";
+            if (acceptCon) {
                 if (buf.length > 720) throw new Error();
-                if (String(req.header('Content-Type')) !== "application/json") {
-                    res.status(400).json({ 'status': 'error', 'text': 'invalid content type header' });
-                    return;
-                }
-                if (String(req.header('Accept')) !== "application/json") {
-                    res.status(400).json({ 'status': 'error', 'text': 'invalid accept header' });
-                    return;
-                }
-            } catch(e) {
-                res.status(400).json({ 'status': 'error', 'text': 'invalid json body.' });
-                return;
+                JSON.parse(buf);
+            } else {
+                throw new Error();
             }
         }
     }));
+    // handle express.json errors properly (https://github.com/expressjs/express/issues/4065)
+    app.use('/api/json', (err, req, res, next) => {
+        let errorText = "invalid json body";
+        let acceptCon = String(req.header('Accept')) !== "application/json";
 
+        if (err || acceptCon) {
+            if (acceptCon) errorText = "invalid accept header";
+            return res.status(400).json({
+                status: "error",
+                text: errorText
+            });
+        } else {
+            next();
+        }
+    });
     app.post('/api/json', async (req, res) => {
         try {
             let lang = languageCode(req);
-            let j = apiJSON(0, { t: "Bad request" });
+            let j = apiJSON(0, { t: "bad request" });
             try {
+                let contentCon = String(req.header('Content-Type')) === "application/json";
                 let request = req.body;
-                if (request.url) {
+                if (contentCon && request.url) {
                     request.dubLang = request.dubLang ? lang : false;
+    
                     let chck = checkJSONPost(request);
-                    j = chck ? await getJSON(chck["url"], lang, chck) : apiJSON(0, { t: loc(lang, 'ErrorCouldntFetch') });
+                    if (!chck) throw new Error();
+    
+                    j = await getJSON(chck["url"], lang, chck);
                 } else {
-                    j = apiJSON(0, { t: loc(lang, 'ErrorNoLink') });
+                    j = apiJSON(0, {
+                        t: !contentCon ? "invalid content type header" : loc(lang, 'ErrorNoLink')
+                    });
                 }
             } catch (e) {
                 j = apiJSON(0, { t: loc(lang, 'ErrorCantProcess') });
             }
-            res.status(j.status).json(j.body);
-            return;
+            return res.status(j.status).json(j.body);
         } catch (e) {
-            res.destroy();
-            return
+            return res.destroy();
         }
     });
 
@@ -105,49 +120,22 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                     && req.query.h.toString().length === 64 && req.query.e.toString().length === 13) {
                         let streamInfo = verifyStream(req.query.t, req.query.h, req.query.e);
                         if (streamInfo.error) {
-                            res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
-                            return;
+                            return res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
                         }
                         if (req.query.p) {
-                            res.status(200).json({ "status": "continue" });
-                            return;
+                            return res.status(200).json({
+                                status: "continue"
+                            });
                         }
-                        stream(res, streamInfo);
+                        return stream(res, streamInfo);
                     } else {
-                        let j = apiJSON(0, { t: "stream token, hmac, or expiry timestamp is missing." })
-                        res.status(j.status).json(j.body);
-                        return;
+                        let j = apiJSON(0, {
+                            t: "stream token, hmac, or expiry timestamp is missing"
+                        })
+                        return res.status(j.status).json(j.body);
                     }
-                    break;
-                case 'onDemand':
-                    if (req.query.blockId) {
-                        let blockId = req.query.blockId.slice(0, 3);
-                        let r, j;
-                        switch(blockId) {
-                            case "0": // changelog history
-                                r = changelogHistory();
-                                j = r ? apiJSON(3, { t: r }) : apiJSON(0, { t: "couldn't render this block" })
-                                break;
-                            case "1": // celebrations emoji
-                                r = celebrationsEmoji();
-                                j = r ? apiJSON(3, { t: r }) : false
-                                break;
-                            default:
-                                j = apiJSON(0, { t: "couldn't find a block with this id" })
-                                break;
-                        }
-                        if (j.body) {
-                            res.status(j.status).json(j.body)
-                        } else {
-                            res.status(204).end()
-                        }
-                    } else {
-                        let j = apiJSON(0, { t: "no block id" });
-                        res.status(j.status).json(j.body)
-                    }
-                    break;
                 case 'serverInfo':
-                    res.status(200).json({
+                    return res.status(200).json({
                         version: version,
                         commit: gitCommit,
                         branch: gitBranch,
@@ -156,15 +144,17 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         cors: process.env.cors && process.env.cors === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
-                    break;
                 default:
-                    let j = apiJSON(0, { t: "unknown response type" })
-                    res.status(j.status).json(j.body);
-                    break;
+                    let j = apiJSON(0, {
+                        t: "unknown response type"
+                    })
+                    return res.status(j.status).json(j.body);
             }
         } catch (e) {
-            res.status(500).json({ 'status': 'error', 'text': loc(languageCode(req), 'ErrorCantProcess') });
-            return;
+            return res.status(500).json({
+                status: "error",
+                text: loc(languageCode(req), 'ErrorCantProcess')
+            });
         }
     });
     app.get('/api/status', (req, res) => {
@@ -178,6 +168,11 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     });
 
     app.listen(process.env.apiPort, () => {
-        console.log(`\n${Cyan(appName)} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\nStart time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\nURL: ${Cyan(`${process.env.apiURL}`)}\nPort: ${process.env.apiPort}\n`)
+        console.log(`\n` +
+            `${Cyan("cobalt")} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
+            `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
+            `URL: ${Cyan(`${process.env.apiURL}`)}\n` +
+            `Port: ${process.env.apiPort}\n`
+        )
     });
 }

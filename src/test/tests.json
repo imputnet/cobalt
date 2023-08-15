@@ -97,15 +97,7 @@
         }
     }, {
         "name": "retweeted video",
-        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
-        "params": {},
-        "expected": {
-            "code": 200,
-            "status": "redirect"
-        }
-    }, {
-        "name": "retweeted video",
-        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {},
         "expected": {
             "code": 200,
@@ -121,7 +113,7 @@
         }
     }, {
         "name": "retweeted video, isAudioOnly",
-        "url": "https://twitter.com/winload_exe/status/1633091769482063874",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -790,7 +782,7 @@
     }],
     "reddit": [{
         "name": "video with audio",
-        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
         "params": {},
         "expected": {
             "code": 200,
@@ -798,7 +790,7 @@
         }
     }, {
         "name": "video with audio (isAudioOnly)",
-        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
         "params": {
             "isAudioOnly": true
         },
@@ -808,7 +800,7 @@
         }
     }, {
         "name": "video with audio (isAudioMuted)",
-        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
         "params": {
             "isAudioMuted": true
         },
@@ -831,6 +823,14 @@
         "expected": {
             "code": 200,
             "status": "redirect"
+        }
+    }, {
+        "name": "different audio link, live render",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/15hce91/asian_daddy_kink/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
         }
     }],
     "instagram": [{

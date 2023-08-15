@@ -69,6 +69,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
                 u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
                 mute: true
             }
+            if (host === "reddit" && r.typeId === 1) responseType = 1;
             break;
 
         case "picker":

@@ -8,7 +8,7 @@ import matchActionDecider from "./matchActionDecider.js";
 
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
-import twitter from "./services/twitter_lite.js";
+import twitter from "./services/twitter.js";
 import youtube from "./services/youtube.js";
 import vk from "./services/vk.js";
 import tiktok from "./services/tiktok.js";

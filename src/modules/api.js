@@ -12,17 +12,26 @@ export async function getJSON(originalURL, lang, obj) {
         let patternMatch, url = decodeURIComponent(originalURL),
             hostname = new URL(url).hostname.split('.'),
             host = hostname[hostname.length - 2];
+
         if (!url.startsWith('https://')) return apiJSON(0, { t: errorUnsupported(lang) });
 
         switch(host) {
             case "youtu":
-                host = "youtube";
-                url = `https://youtube.com/watch?v=${url.replace("youtu.be/", "").replace("https://", "")}`;
+                if (url.startsWith("https://youtu.be/")) {
+                    host = "youtube";
+                    url = `https://youtube.com/watch?v=${url.replace("https://youtu.be/", "")}`;
+                }
                 break;
             case "goo":
                 if (url.substring(0, 30) === "https://soundcloud.app.goo.gl/") {
                     host = "soundcloud";
                     url = `https://soundcloud.com/${url.replace("https://soundcloud.app.goo.gl/", "").split('/')[0]}`
+                }
+                break;
+            case "x":
+                if (url.startsWith("https://x.com/")) {
+                    host = "twitter";
+                    url = url.replace("https://x.com/", "https://twitter.com/")
                 }
                 break;
             case "tumblr":
