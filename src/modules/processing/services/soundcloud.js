@@ -36,26 +36,31 @@ async function findClientID() {
 export default async function(obj) {
     let html;
     if (!obj.author && !obj.song && obj.shortLink) {
-        html = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`).then((r) => { return r.status === 404 ? false : r.text() }).catch(() => { return false });
+        html = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`).then((r) => {
+            return r.status === 404 ? false : r.text()
+        }).catch(() => { return false });
     }
     if (obj.author && obj.song) {
-        html = await fetch(`https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`).then((r) => { return r.text() }).catch(() => { return false });
+        html = await fetch(
+            `https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`
+        ).then((r) => {
+            return r.text()
+        }).catch(() => { return false });
     }
     if (!html) return { error: 'ErrorCouldntFetch' };
-    if (!(html.includes('<script>window.__sc_hydration = ')
-    && html.includes('"format":{"protocol":"progressive","mime_type":"audio/mpeg"},')
-    && html.includes('{"hydratable":"sound","data":'))) {
+    if (!(html.includes('<script>window.__sc_hydration = ') && html.includes('{"hydratable":"sound","data":'))) {
         return { error: ['ErrorBrokenLink', 'soundcloud'] }
     }
 
-    let json = JSON.parse(html.split('{"hydratable":"sound","data":')[1].split('}];</script>')[0])
+    let json = JSON.parse(html.split('{"hydratable":"sound","data":')[1].split('}];</script>')[0]);
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
 
     let clientId = await findClientID();
     if (!clientId) return { error: 'ErrorSoundCloudNoClientId' };
 
-    let fileUrlBase = json.media.transcodings[0]["url"].replace("/hls", "/progressive"),
+    let fileUrlBase = json.media.transcodings.filter((v) => { if (v["format"]["mime_type"].startsWith("audio/ogg")) return true })[0]["url"],
         fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
+
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
 
     if (json.duration > maxVideoDuration) return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };

@@ -97,15 +97,7 @@
         }
     }, {
         "name": "retweeted video",
-        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
-        "params": {},
-        "expected": {
-            "code": 200,
-            "status": "redirect"
-        }
-    }, {
-        "name": "retweeted video",
-        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {},
         "expected": {
             "code": 200,
@@ -121,7 +113,7 @@
         }
     }, {
         "name": "retweeted video, isAudioOnly",
-        "url": "https://twitter.com/winload_exe/status/1633091769482063874",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
