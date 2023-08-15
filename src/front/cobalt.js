@@ -412,11 +412,7 @@ async function download(url) {
                     let jp = await res.json();
                     if (jp.status === "continue") {
                         changeDownloadButton(2, '>>>');
-                        if (sGet("downloadPopup") === "true") {
-                            popup('download', 1, j.url)
-                        } else {
-                            window.open(j.url, '_blank')
-                        }
+                        window.open(j.url, '_blank');
                         setTimeout(() => { changeButton(1) }, 2500);
                     } else {
                         changeButton(0, jp.text);
