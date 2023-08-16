@@ -26,6 +26,7 @@
         --glass-lite: rgba(25, 25, 25, 0.98);
         --subbackground: rgb(10, 10, 10);
         --background: rgb(0, 0, 0);
+        --background-backdrop: rgba(0, 0, 0, 0.5);
     }
 }
 @media (prefers-color-scheme: light) {
@@ -42,6 +43,7 @@
         --glass-lite: rgba(230, 230, 230, 0.98);
         --subbackground: rgb(240, 240, 240);
         --background: rgb(255, 255, 255);
+        --background-backdrop: rgba(255, 255, 255, 0.5);
     }
 }
 [data-theme="dark"] {
@@ -57,6 +59,7 @@
     --glass-lite: rgba(25, 25, 25, 0.98);
     --subbackground: rgb(10, 10, 10);
     --background: rgb(0, 0, 0);
+    --background-backdrop: rgba(0, 0, 0, 0.5);
 }
 [data-theme="light"] {
     --accent: rgb(25, 25, 25);
@@ -64,13 +67,14 @@
     --accent-subtext: rgb(110, 110, 110);
     --accent-hover: rgb(230, 230, 230);
     --accent-hover-elevated: rgb(215, 215, 215);
-    --accent-hover-transparent: rgba(215, 215, 215, 0.5);
+    --accent-hover-transparent: rgba(219, 219, 219, 0.5);
     --accent-button: rgb(225, 225, 225);
     --accent-button-elevated: rgb(210, 210, 210);
     --glass: rgba(230, 230, 230, 0.85);
     --glass-lite: rgba(230, 230, 230, 0.98);
     --subbackground: rgb(240, 240, 240);
     --background: rgb(255, 255, 255);
+    --background-backdrop: rgba(255, 255, 255, 0.5);
 }
 html,
 body {
@@ -371,7 +375,7 @@ button:active,
     max-height: 95%;
     opacity: 0;
     transform: translate(-50%,-48%)scale(.95);
-    box-shadow: 0 0 40px 0 var(--accent-hover-transparent);
+    box-shadow: 0 0 20px 0 var(--accent-hover-transparent);
 }
 .popup.visible {
     visibility: visible;
@@ -388,16 +392,18 @@ button:active,
     height: 100%;
     z-index: 998;
     opacity: 0;
-    background-color: var(--background);
+    background: var(--background-backdrop);
 }
 #popup-backdrop.visible {
     visibility: visible;
-    opacity: 0.5;
-    transition: opacity 130ms ease-in-out;
+    opacity: 1;
+    transition: opacity .13s ease-in-out;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
 }
 .popup.small {
     width: 20%;
-    box-shadow: 0px 0px 80px 0px var(--accent-hover);
+    box-shadow: 0px 0px 60px 0px var(--accent-hover);
     border: var(--accent-highlight) solid 0.15rem;
     padding: 1.7rem;
     transform: translate(-50%,-50%)scale(.95);
@@ -803,10 +809,13 @@ button:active,
     align-items: center;
     padding-top: calc(env(safe-area-inset-top) + 1rem);
 }
-.no-transparency .glass-bkg {
-    background: var(--glass-lite);
+.no-transparency .glass-bkg,
+.no-transparency #popup-backdrop {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+}
+.no-transparency .glass-bkg {
+    background: var(--glass-lite);
 }
 .no-animation .popup,
 .no-animation #popup-backdrop {
@@ -896,7 +905,8 @@ button:active,
 [type=checkbox] {
     border-radius: 3px / 4px;
 }
-.popup {
+.popup,
+.scrollable #popup-content {
     border-radius: 8px / 9px;
 }
 #popup-header {

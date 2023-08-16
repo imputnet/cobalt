@@ -1,8 +1,10 @@
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.match("iphone os");
 const isMobile = ua.match("android") || ua.match("iphone os");
+const isSafari = ua.match("safari/");
 const isFirefox = ua.match("firefox/");
 const isOldFirefox = ua.match("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
+
 const version = 33;
 const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 const notification = `<div class="notification-dot"></div>`;
@@ -412,7 +414,7 @@ async function download(url) {
                     let jp = await res.json();
                     if (jp.status === "continue") {
                         changeDownloadButton(2, '>>>');
-                        if (isMobile) {
+                        if (isMobile || isSafari) {
                             window.location.href = j.url;
                         } else window.open(j.url, '_blank');
                         setTimeout(() => { changeButton(1) }, 2500);
