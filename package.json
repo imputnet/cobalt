@@ -33,6 +33,7 @@
         "got": "^12.1.0",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
+        "set-cookie-parser": "2.6.0",
         "url-pattern": "1.0.3",
         "xml-js": "^1.6.11",
         "youtubei.js": "^5.4.0"

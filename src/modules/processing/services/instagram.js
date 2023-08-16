@@ -1,5 +1,6 @@
 import { createStream } from "../../stream/manage.js";
 import { genericUserAgent } from "../../config.js";
+import { getCookie, updateCookie } from '../../cookie/manager.js';
 
 export default async function(obj) {
     let data;
@@ -14,6 +15,8 @@ export default async function(obj) {
             shortcode: obj.id
         }))
 
+        const cookie = getCookie('instagram');
+
         data = await fetch(url, {
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -25,9 +28,11 @@ export default async function(obj) {
                 'Sec-Fetch-Site': 'same-origin',
                 'upgrade-insecure-requests': '1',
                 'accept-encoding': 'gzip, deflate, br',
-                'accept-language': 'en-US,en;q=0.9,en;q=0.8'
+                'accept-language': 'en-US,en;q=0.9,en;q=0.8',
+                cookie
             }
         })
+        updateCookie(cookie, data.headers);
         data = (await data.json()).data;
     } catch (e) {
         data = false;
