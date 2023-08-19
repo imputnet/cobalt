@@ -32,5 +32,5 @@ export const testers = {
     
     "pinterest": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 128),
 
-    "streamable": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length == 6)
+    "streamable": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length === 6)
 }
