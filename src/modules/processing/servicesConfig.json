@@ -67,6 +67,11 @@
             "alias": "pinterest videos & stories",
             "patterns": ["pin/:id"],
             "enabled": true
+        },
+        "streamable": {
+            "alias": "streamable videos",
+            "patterns": [":id", "o/:id"],
+            "enabled": true
         }
     }    
 }
