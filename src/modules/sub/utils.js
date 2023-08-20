@@ -49,20 +49,6 @@ export function metadataManager(obj) {
     for (let i in keys) { if (tags.includes(keys[i])) commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`) }
     return commands;
 }
-export function msToTime(d) {
-    let milliseconds = parseInt((d % 1000) / 100, 10),
-        seconds = parseInt((d / 1000) % 60, 10),
-        minutes = parseInt((d / (1000 * 60)) % 60, 10),
-        hours = parseInt((d / (1000 * 60 * 60)) % 24, 10),
-        r;
-
-    hours = (hours < 10) ? `0${hours}` : hours;
-    minutes = (minutes < 10) ? `0${minutes}` : minutes;
-    seconds = (seconds < 10) ? `0${seconds}` : seconds;
-    r = `${hours}:${minutes}:${seconds}`;
-    if (milliseconds) r += `.${milliseconds}`;
-    return r;
-}
 export function cleanURL(url, host) {
     switch(host) {
         case "vk":
