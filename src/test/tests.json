@@ -511,6 +511,16 @@
             "status": "stream"
         }
     }, {
+        "name": "4k video",
+        "url": "https://vk.com/video-1112285_456248465",
+        "params": {
+            "vQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "ancient video (fallback to 240p)",
         "url": "https://vk.com/video-1959_28496479",
         "params": {},

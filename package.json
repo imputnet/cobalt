@@ -35,7 +35,6 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "xml-js": "^1.6.11",
         "youtubei.js": "^5.4.0"
     }
 }
