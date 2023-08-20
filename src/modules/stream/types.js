@@ -5,10 +5,7 @@ import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { getThreads, metadataManager, msToTime } from "../sub/utils.js";
 
 function fail(res) {
-    if (!res.headersSent) {
-        res.sendStatus(500);
-    }
-
+    if (!res.headersSent) res.sendStatus(500);
     return res.destroy();
 }
 
@@ -32,9 +29,7 @@ export function streamDefault(streamInfo, res) {
 }
 export function streamLiveRender(streamInfo, res) {
     try {
-        if (streamInfo.urls.length !== 2) {
-            return fail(res);
-        }
+        if (streamInfo.urls.length !== 2) return fail(res);
 
         let audio = got.get(streamInfo.urls[1], { isStream: true });
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
