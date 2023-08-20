@@ -71,6 +71,11 @@ export default async function(obj) {
         })
     } else if (data?.shortcode_media?.video_url) {
         single = data.shortcode_media.video_url
+    } else if (data?.shortcode_media?.display_url) {
+        return {
+            urls: data?.shortcode_media?.display_url,
+            filename: 'image.jpg'
+        }
     } else {
         return { error: 'ErrorEmptyDownload' }
     }
