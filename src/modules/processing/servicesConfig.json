@@ -53,7 +53,7 @@
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels & video posts",
+            "alias": "instagram reels & posts",
             "patterns": ["reels/:id", "reel/:id", "p/:id"],
             "enabled": true
         },
