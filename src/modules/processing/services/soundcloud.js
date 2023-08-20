@@ -1,4 +1,5 @@
 import { maxVideoDuration } from "../../config.js";
+import { cleanString } from "../../sub/utils.js";
 
 let cachedID = {};
 
@@ -72,8 +73,8 @@ export default async function(obj) {
         urls: file,
         audioFilename: `soundcloud_${json.id}`,
         fileMetadata: {
-            title: json.title,
-            artist: json.user.username,
+            title: cleanString(json.title.replace(/\p{Emoji}/gu, '').trim()),
+            artist: cleanString(json.user.username.replace(/\p{Emoji}/gu, '').trim()),
         }
     }
 }

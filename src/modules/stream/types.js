@@ -32,7 +32,8 @@ export function streamLiveRender(streamInfo, res) {
         if (streamInfo.urls.length !== 2) return fail(res);
 
         let audio = got.get(streamInfo.urls[1], { isStream: true });
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1],
+        args = [
             '-loglevel', '-8',
             '-threads', `${getThreads()}`,
             '-i', streamInfo.urls[0],
@@ -40,8 +41,9 @@ export function streamLiveRender(streamInfo, res) {
             '-map', '0:v',
             '-map', '1:a',
         ];
-        args = args.concat(ffmpegArgs[format])
-        if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
+
+        args = args.concat(ffmpegArgs[format]);
+        if (streamInfo.metadata) args = args.concat(metadataManager(streamInfo.metadata));
         args.push('-f', format, 'pipe:4');
         let ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,

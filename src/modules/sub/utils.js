@@ -1,6 +1,6 @@
 import { createStream } from "../stream/manage.js";
 
-let apiVar = {
+const apiVar = {
     allowed: {
         vCodec: ["h264", "av1", "vp9"],
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
@@ -8,6 +8,8 @@ let apiVar = {
     },
     booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash"]
 }
+const forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
+const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
 
 export function apiJSON(type, obj) {
     try {
@@ -62,7 +64,6 @@ export function msToTime(d) {
     return r;
 }
 export function cleanURL(url, host) {
-    let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '==']
     switch(host) {
         case "vk":
             url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
@@ -87,6 +88,12 @@ export function cleanURL(url, host) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
     }
     return url.slice(0, 128)
+}
+export function cleanString(string) {
+    for (let i in forbiddenCharsString) {
+        string = string.replaceAll(forbiddenCharsString[i], '')
+    }
+    return string;
 }
 export function verifyLanguageCode(code) {
     return RegExp(/[a-z]{2}/).test(String(code.slice(0, 2).toLowerCase())) ? String(code.slice(0, 2).toLowerCase()) : "en"

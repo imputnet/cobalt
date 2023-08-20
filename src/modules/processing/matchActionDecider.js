@@ -9,6 +9,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
             u: r.urls,
             service: host,
             filename: r.filename,
+            fileMetadata: r.fileMetadata ? r.fileMetadata : false
         },
         params = {}
     
@@ -28,10 +29,10 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
         case "video":
             switch (host) {
                 case "bilibili":
-                    params = { type: "render", time: r.time };
+                    params = { type: "render" };
                     break;
                 case "youtube":
-                    params = { type: r.type, time: r.time };
+                    params = { type: r.type };
                     break;
                 case "reddit":
                     responseType = r.typeId;
@@ -139,8 +140,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
                 type: processType,
                 u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
                 audioFormat: audioFormat,
-                copy: copy,
-                fileMetadata: r.fileMetadata ? r.fileMetadata : false
+                copy: copy
             }
             break;
         default:
