@@ -112,6 +112,22 @@
             "status": "redirect"
         }
     }, {
+        "name": "twitter voice + x.com link",
+        "url": "https://x.com/eggsaladscreams/status/1693089534886506756?s=46",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "vxtwitter link",
+        "url": "https://vxtwitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
         "name": "retweeted video, isAudioOnly",
         "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {

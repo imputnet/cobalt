@@ -21,9 +21,10 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 | Pinterest               | ✅           | ✅         | ✅         | Support for videos and stories.                                                                                           |
 | Reddit                  | ✅           | ✅         | ✅         | Support for GIFs and videos.                                                                                              |
 | SoundCloud              | ➖           | ✅         | ➖         | Audio metadata, downloads from private links.                                                                             |
+| Streamable              | ✅           | ✅         | ✅         |                                                                                                                           |
 | TikTok                  | ✅           | ✅         | ✅         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
 | Tumblr                  | ✅           | ✅         | ✅         | Support for audio file downloads.                                                                                         |
-| Twitter*                | ✅           | ✅         | ✅         | Ability to pick what to save from multi-media tweets.                                                                     |
+| Twitter/X *             | ✅           | ✅         | ✅         | Ability to pick what to save from multi-media tweets.                                                                     |
 | Vimeo                   | ✅           | ✅         | ✅         | Audio downloads are only available for dash files.                                                                        |
 | Vine Archive            | ✅           | ✅         | ✅         |                                                                                                                           |
 | VK Videos               | ✅           | ❌         | ❌         |                                                                                                                           |
