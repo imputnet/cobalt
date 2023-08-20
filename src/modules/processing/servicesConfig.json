@@ -69,7 +69,6 @@
             "enabled": true
         },
         "streamable": {
-            "alias": "streamable videos",
             "patterns": [":id", "o/:id", "e/:id", "s/:id"],
             "enabled": true
         }

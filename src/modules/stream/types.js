@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 import ffmpeg from "ffmpeg-static";
 import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { getThreads, metadataManager, msToTime } from "../sub/utils.js";
+import { getThreads, metadataManager } from "../sub/utils.js";
 
 function fail(res) {
     if (!res.headersSent) res.sendStatus(500);
