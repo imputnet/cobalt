@@ -15,9 +15,13 @@ export async function streamDefault(streamInfo, res) {
         let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`;
         res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
 
-        const { body: stream } = await request(streamInfo.urls, {
+        const { body: stream, headers } = await request(streamInfo.urls, {
             headers: { 'user-agent': genericUserAgent }
         });
+
+        res.setHeader('content-type', headers['content-type']);
+        res.setHeader('content-length', headers['content-length']);
+
         stream.pipe(res).on('error', () => fail(res));
         stream.on('error', () => fail(res));
         stream.on('aborted', () => fail(res));
