@@ -74,7 +74,7 @@ export default async function(obj) {
     } else if (data?.shortcode_media?.display_url) {
         return {
             urls: data?.shortcode_media?.display_url,
-            filename: 'image.jpg'
+            isPhoto: true
         }
     } else {
         return { error: 'ErrorEmptyDownload' }
