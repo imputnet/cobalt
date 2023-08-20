@@ -69,6 +69,7 @@
             "enabled": true
         },
         "streamable": {
+            "alias": "streamable.com",
             "patterns": [":id", "o/:id", "e/:id", "s/:id"],
             "enabled": true
         }

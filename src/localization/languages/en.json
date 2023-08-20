@@ -135,6 +135,7 @@
         "KeyboardShortcutClear": "clear link input area",
         "KeyboardShortcutClosePopup": "close all popups",
         "CollapseLegal": "legal stuff",
-        "FairUse": "cobalt is a tool for easing content downloads from internet and takes <span class=\"text-backdrop\">zero liability</span>. you are responsible for what you download, how you use and distribute that content.\n\ncobalt does not log any info about you, it's impossible for me to snitch on you, but please be mindful when using content of others and always credit original creators!\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone."
+        "FairUse": "cobalt is a tool for easing content downloads from internet and takes <span class=\"text-backdrop\">zero liability</span>. you are responsible for what you download, how you use and distribute that content.\n\ncobalt does not log any info about you, it's impossible for me to snitch on you, but please be mindful when using content of others and always credit original creators!\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone.",
+        "UrgentFeatureUpdate71": "more supported services!"
     }
 }
