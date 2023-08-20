@@ -1,6 +1,6 @@
 import { createStream } from "../../stream/manage.js";
 import { genericUserAgent } from "../../config.js";
-import { getCookie, updateCookie } from '../../cookie/manager.js';
+import { getCookie, updateCookie } from '../cookie/manager.js';
 
 export default async function(obj) {
     let data;
@@ -67,7 +67,11 @@ export default async function(obj) {
     }
 
     if (single) {
-        return { urls: single, filename: `instagram_${obj.id}.mp4`, audioFilename: `instagram_${obj.id}_audio` }
+        return {
+            urls: single,
+            filename: `instagram_${obj.id}.mp4`,
+            audioFilename: `instagram_${obj.id}_audio`
+        }
     } else if (multiple.length) {
         return { picker: multiple }
     } else {

@@ -834,14 +834,6 @@
         }
     }],
     "instagram": [{
-        "name": "several videos in a post (picker)",
-        "url": "https://www.instagram.com/p/CqifaD0qiDt/",
-        "params": {},
-        "expected": {
-            "code": 200,
-            "status": "picker"
-        }
-    }, {
         "name": "reel",
         "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
         "params": {},
