@@ -18,6 +18,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
     if (isAudioOnly && !r.picker) action = "audio";
     if (r.picker) action = "picker";
     if (isAudioMuted) action = "muteVideo";
+    if (r.isPhoto) action = "photo";
 
     if (action === "picker" || action === "audio") {
         defaultParams.filename = r.audioFilename;
@@ -26,6 +27,9 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
     }
 
     switch (action) {
+        case "photo":
+            responseType = 1;
+            break;
         case "video":
             switch (host) {
                 case "bilibili":
