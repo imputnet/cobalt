@@ -13,12 +13,12 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
         },
         params = {}
     
-    if (!isAudioOnly && !r.picker && !isAudioMuted) action = "video";
-    if (r.isM3U8) action = "singleM3U8";
-    if (isAudioOnly && !r.picker) action = "audio";
-    if (r.picker) action = "picker";
-    if (isAudioMuted) action = "muteVideo";
-    if (r.isPhoto) action = "photo";
+    if (r.picker) action = "picker"
+    else if (r.isPhoto) action = "photo";
+    else if (r.isM3U8) action = "singleM3U8";
+    else if (isAudioOnly) action = "audio";
+    else if (isAudioMuted) action = "muteVideo";
+    else action = "video";
 
     if (action === "picker" || action === "audio") {
         defaultParams.filename = r.audioFilename;
