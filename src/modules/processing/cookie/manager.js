@@ -3,16 +3,16 @@ import { readFile, writeFile } from 'fs/promises';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 
 const WRITE_INTERVAL = 60000,
-      COOKIE_PATH = process.env.COOKIE_PATH,
+      cookiePath = process.env.cookiePath,
       COUNTER = Symbol('counter');
 
 let cookies = {}, dirty = false, intervalId;
 
 const setup = async () => {
     try {
-        if (!COOKIE_PATH) return;
+        if (!cookiePath) return;
 
-        cookies = await readFile(COOKIE_PATH, 'utf8');
+        cookies = await readFile(cookiePath, 'utf8');
         cookies = JSON.parse(cookies);
         intervalId = setInterval(writeChanges, WRITE_INTERVAL)
     } catch { /* no cookies for you */ }
@@ -24,7 +24,7 @@ function writeChanges() {
     if (!dirty) return;
     dirty = false;
 
-    writeFile(COOKIE_PATH, JSON.stringify(cookies, null, 4)).catch(() => {
+    writeFile(cookiePath, JSON.stringify(cookies, null, 4)).catch(() => {
         clearInterval(intervalId)
     })
 }
