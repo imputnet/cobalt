@@ -1,6 +1,6 @@
 import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly } from "./types.js";
 
-export default function(res, streamInfo) {
+export default async function(res, streamInfo) {
     try {
         if (streamInfo.isAudioOnly && streamInfo.type !== "bridge") {
             streamAudioOnly(streamInfo, res);
@@ -8,14 +8,14 @@ export default function(res, streamInfo) {
         }
         switch (streamInfo.type) {
             case "render":
-                streamLiveRender(streamInfo, res);
+                await streamLiveRender(streamInfo, res);
                 break;
             case "videoM3U8":
             case "mute":
                 streamVideoOnly(streamInfo, res);
                 break;
             default:
-                streamDefault(streamInfo, res);
+                await streamDefault(streamInfo, res);
                 break;
         }
     } catch (e) {
