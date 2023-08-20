@@ -1,25 +1,27 @@
 import { spawn } from "child_process";
 import ffmpeg from "ffmpeg-static";
-import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { getThreads, metadataManager } from "../sub/utils.js";
+import { request } from 'undici';
 
 function fail(res) {
     if (!res.headersSent) res.sendStatus(500);
     return res.destroy();
 }
 
-export function streamDefault(streamInfo, res) {
+export async function streamDefault(streamInfo, res) {
     try {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
         let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`;
         res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
-        const stream = got.get(streamInfo.urls, {
-            headers: {
-                "user-agent": genericUserAgent
-            },
-            isStream: true
+
+        const { body: stream, headers } = await request(streamInfo.urls, {
+            headers: { 'user-agent': genericUserAgent }
         });
+
+        res.setHeader('content-type', headers['content-type']);
+        res.setHeader('content-length', headers['content-length']);
+
         stream.pipe(res).on('error', () => fail(res));
         stream.on('error', () => fail(res));
         stream.on('aborted', () => fail(res));
@@ -27,11 +29,12 @@ export function streamDefault(streamInfo, res) {
         fail(res);
     }
 }
-export function streamLiveRender(streamInfo, res) {
+export async function streamLiveRender(streamInfo, res) {
     try {
         if (streamInfo.urls.length !== 2) return fail(res);
 
-        let audio = got.get(streamInfo.urls[1], { isStream: true });
+        let { body: audio } = await request(streamInfo.urls[1]);
+
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1],
         args = [
             '-loglevel', '-8',
