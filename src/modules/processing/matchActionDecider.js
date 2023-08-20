@@ -13,11 +13,11 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
         },
         params = {}
     
-    if (r.picker) action = "picker"
-    else if (r.isPhoto) action = "photo";
-    else if (r.isM3U8) action = "singleM3U8";
-    else if (isAudioOnly) action = "audio";
+    if (r.isPhoto) action = "photo";
+    else if (r.picker) action = "picker"
     else if (isAudioMuted) action = "muteVideo";
+    else if (isAudioOnly) action = "audio";
+    else if (r.isM3U8) action = "singleM3U8";
     else action = "video";
 
     if (action === "picker" || action === "audio") {
