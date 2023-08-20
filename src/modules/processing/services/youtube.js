@@ -67,10 +67,10 @@ export default async function(o) {
     }
     if (info.basic_info.short_description && info.basic_info.short_description.startsWith("Provided to YouTube by")) {
         let descItems = info.basic_info.short_description.split("\n\n");
-        r.fileMetadata.album = descItems[2];
-        r.fileMetadata.copyright = descItems[3];
+        fileMetadata.album = descItems[2];
+        fileMetadata.copyright = descItems[3];
         if (descItems[4].startsWith("Released on:")) {
-            r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim()
+            fileMetadata.date = descItems[4].replace("Released on: ", '').trim()
         }
     };
 
