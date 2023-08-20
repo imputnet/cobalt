@@ -993,6 +993,14 @@
             "status": "redirect"
         }
     }, {
+        "name": "embedded link",
+        "url": "https://streamable.com/e/rsmo56",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
         "name": "regular video (isAudioOnly)",
         "url": "https://streamable.com/03r3c2",
         "params": {
