@@ -56,6 +56,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
                 case "tumblr":
                 case "twitter":
                 case "pinterest":
+                case "streamable":
                     responseType = 1;
                     break;
             }

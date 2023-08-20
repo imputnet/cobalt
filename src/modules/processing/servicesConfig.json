@@ -2,7 +2,7 @@
     "audioIgnore": ["vk"],
     "config": {
         "bilibili": {
-            "alias": "bilibili (.com only)",
+            "alias": "bilibili.com videos",
             "patterns": ["video/:id"],
             "enabled": true
         },
@@ -66,6 +66,11 @@
         "pinterest": {
             "alias": "pinterest videos & stories",
             "patterns": ["pin/:id"],
+            "enabled": true
+        },
+        "streamable": {
+            "alias": "streamable videos",
+            "patterns": [":id", "o/:id", "e/:id", "s/:id"],
             "enabled": true
         }
     }    
