@@ -47,6 +47,8 @@ export function getCookie(service) {
 }
 
 export function updateCookie(cookie, headers) {
+    if (!cookie) return;
+
     const parsed = parseSetCookie(splitCookiesString(headers.get('set-cookie'))),
           values = {}
 
