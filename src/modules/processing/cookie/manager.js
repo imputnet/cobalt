@@ -49,8 +49,10 @@ export function getCookie(service) {
 export function updateCookie(cookie, headers) {
     if (!cookie) return;
 
-    const parsed = parseSetCookie(splitCookiesString(headers.get('set-cookie'))),
-          values = {}
+    const parsed = parseSetCookie(
+        splitCookiesString(headers.get('set-cookie')),
+        { decodeValues: false }
+    ), values = {}
 
     cookie.unset(parsed.filter(c => c.expires < new Date()).map(c => c.name));
     parsed.filter(c => c.expires > new Date()).forEach(c => values[c.name] = c.value);
