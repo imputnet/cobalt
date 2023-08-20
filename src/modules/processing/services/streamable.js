@@ -11,7 +11,7 @@ export default async function(obj) {
         urls: best.url,
         filename: `streamable_${obj.id}_${best.width}x${best.height}.mp4`,
         audioFilename: `streamable_${obj.id}_audio`,
-        metadata: {
+        fileMetadata: {
             title: video.title
         }
     }
