@@ -697,15 +697,7 @@ button:active,
     height: 12rem;
     background-color: var(--accent-button);
     cursor: pointer;
-}
-.picker-various-container {
-    height: 12rem;
-    width: 12rem;
-    margin-bottom: var(--padding-1);
-    background-color: var(--accent-button);
-    border: var(--accent-button) 0.18rem solid;
     position: relative;
-    cursor: pointer;
 }
 #picker-holder {
     display: flex;
@@ -716,8 +708,8 @@ button:active,
     padding-bottom: calc(env(safe-area-inset-bottom)/2 + 4.8rem);
 }
 .imageBlock {
-    height: 100%;
     width: 100%;
+    height: 100%;
     position: absolute;
     z-index: 99;
 }
@@ -1173,11 +1165,6 @@ button:active,
         gap: 0;
         overflow-x: hidden;
         overflow-y: scroll;
-    }
-    .picker-various-container {
-        width: 100%;
-        height: 20rem;
-        max-width: 100%;
     }
     .popup, .popup.scrollable {
         border: none;

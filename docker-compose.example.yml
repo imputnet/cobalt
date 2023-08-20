@@ -21,7 +21,7 @@ services:
             # replace apiName with your instance's distinctive name
             - apiName=eu-nl
             # if you want to use cookies when fetching data from services, uncomment the next line
-            #- cookiePath=/cookies.json
+            #- cookiePath=cookies.json
             # see src/modules/processing/cookie/cookies_example.json for example file.
 
     cobalt-web:

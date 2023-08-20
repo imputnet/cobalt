@@ -850,6 +850,14 @@
         }
     }],
     "instagram": [{
+        "name": "various picker (photos + video)",
+        "url": "https://www.instagram.com/p/CvYrSgnsKjv/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }, {
         "name": "reel",
         "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
         "params": {},

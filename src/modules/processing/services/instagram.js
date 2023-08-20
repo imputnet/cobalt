@@ -38,14 +38,12 @@ export default async function(obj) {
         data = false;
     }
 
-
     if (!data) return { error: 'ErrorCouldntFetch' };
 
     let single, multiple = [];
     const sidecar = data?.shortcode_media?.edge_sidecar_to_children;
     if (sidecar) {
         sidecar.edges.forEach(e => {
-            // todo: allow downloading images once frontend supports it
             if (e.node?.is_video) {
                 multiple.push({
                     type: "video",
@@ -57,6 +55,17 @@ export default async function(obj) {
                         filename: "image.jpg"
                     }),
                     url: e.node?.video_url
+                })
+            } else {
+                multiple.push({
+                    type: "photo",
+                    thumb: createStream({
+                        service: "instagram",
+                        type: "default",
+                        u: e.node?.display_url,
+                        filename: "image.jpg"
+                    }),
+                    url: e.node?.display_url
                 })
             }
         })
