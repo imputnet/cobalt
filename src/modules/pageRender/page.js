@@ -456,7 +456,8 @@ export default function(obj) {
                     title: t('SettingsServerPicker'),
                     explanation: t('SettingsServerPickerDescription'),
                     body: switcher({
-                        name: "serverpicker",
+                        name: "serverPicker",
+                        explanation: t(['SettingsServerPickerDescription']),
                         vertical: true,
                         items: [{
                             action: "co.wuk.sh",
