@@ -23,6 +23,9 @@ export default async function(obj) {
                 'User-Agent': genericUserAgent,
                 'X-Ig-App-Id': '936619743392459',
                 'X-Asbd-Id': '129477',
+                'x-ig-www-claim': cookie?._wwwClaim || '0',
+                'x-csrftoken': cookie?.values()?.csrftoken,
+                'x-requested-with': 'XMLHttpRequest',
                 'Sec-Fetch-Dest': 'empty',
                 'Sec-Fetch-Mode': 'cors',
                 'Sec-Fetch-Site': 'same-origin',
@@ -32,6 +35,11 @@ export default async function(obj) {
                 cookie
             }
         })
+
+        if (data.headers.get('X-Ig-Set-Www-Claim') && cookie) {
+            cookie._wwwClaim = data.headers.get('X-Ig-Set-Www-Claim');
+        }
+
         updateCookie(cookie, data.headers);
         data = (await data.json()).data;
     } catch (e) {

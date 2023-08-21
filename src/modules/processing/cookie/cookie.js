@@ -20,13 +20,13 @@ export default class Cookie {
         str.split('; ').forEach(cookie => {
             const key = cookie.split('=')[0];
             const value = cookie.split('=').splice(1).join('=');
-            obj[key] = decodeURIComponent(value)
+            obj[key] = value
         })
 
         return new Cookie(obj)
     }
     toString() {
-        return Object.entries(this._values).map(([ name, value ]) => `${name}=${encodeURIComponent(value)}`).join('; ')
+        return Object.entries(this._values).map(([ name, value ]) => `${name}=${value}`).join('; ')
     }
     toJSON() {
         return this.toString()
