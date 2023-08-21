@@ -451,6 +451,37 @@ export default function(obj) {
                         aria: t("AccessibilityEnableDownloadPopup")
                     }])
                 })
+                + settingsCategory({
+                    name: "serverpicker",
+                    title: t('SettingsServerPicker'),
+                    explanation: t('SettingsServerPickerDescription'),
+                    body: switcher({
+                        name: "serverpicker",
+                        vertical: true,
+                        items: [{
+                            action: "co.wuk.sh",
+                            text: "co.wuk.sh"
+                        }, {
+                            action: "api.c0ba.lt",
+                            text: "api.c0ba.lt"
+                        }, {
+                            action: "co-api.blueb.me",
+                            text: "co-api.blueb.me"
+                        }, {
+                            action: "wukko.wolfdo.gg",
+                            text: "wukko.wolfdo.gg"
+                        }, {
+                            action: "api.co.749.city",
+                            text: "api.co.749.city"
+                        }, {
+                            action: "cobalt-api.fluffy.tools",
+                            text: "cobalt-api.fluffy.tools"
+                        }, {
+                            action: "capi.oak.li",
+                            text: "capi.oak.li"
+                        }]
+                    })
+                })
             }],
         })}
         ${popupWithBottomButtons({

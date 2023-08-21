@@ -41,6 +41,8 @@
         "SettingsThemeLight": "light",
         "SettingsThemeDark": "dark",
         "SettingsKeepDownloadButton": "keep &gt;&gt; visible",
+        "SettingsServerPicker": "server picker",
+        "SettingsServerPickerDescription": "choose which server to download from",
         "AccessibilityKeepDownloadButton": "keep the download button always visible",
         "SettingsEnableDownloadPopup": "ask how to save",
         "AccessibilityEnableDownloadPopup": "ask what to do with downloads",

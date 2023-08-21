@@ -1193,3 +1193,21 @@ button:active,
         line-height: inherit;
     }
 }
+
+.switches-vertical {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+}
+.switch-vertical.first {
+    border-top-left-radius: 5px 6px!important;
+    border-top-right-radius: 5px 6px!important;
+    border-bottom-left-radius: 0px;
+}
+.switch-vertical.last {
+    border-bottom-left-radius: 5px 6px!important;
+    border-bottom-right-radius: 5px 6px!important;
+    border-top-right-radius: 0px;
+}
