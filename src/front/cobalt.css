@@ -422,10 +422,10 @@ button:active,
     border: none;
 }
 .popup.small #popup-title {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.6rem;
 }
 .popup.small .explanation {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.9rem;
 }
 #close-error {
     background: var(--accent);
@@ -496,9 +496,11 @@ button:active,
 }
 #popup-title {
     font-size: 1.5rem;
-    line-height: 1.85em;
+    line-height: 1.2em;
     display: flex;
     align-items: center;
+    margin-bottom: 0.4rem;
+    margin-top: 0.4rem;
 }
 #popup-above-title {
     color: var(--accent-subtext);
