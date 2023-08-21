@@ -1,5 +1,6 @@
 import { maxVideoDuration } from "../../config.js";
 
+// vimeo you're fucked in the head for this
 const resolutionMatch = {
     "3840": "2160",
     "2732": "1440",
@@ -11,7 +12,6 @@ const resolutionMatch = {
     "640": "360",
     "426": "240"
 }
-// ^ vimeo you're fucked in the head for this ^
 
 const qualityMatch = {
     "2160": "4K",

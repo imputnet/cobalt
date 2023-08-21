@@ -2,22 +2,23 @@ import { audioIgnore, services, supportedAudio } from "../config.js";
 import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
 
-export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMuted) {
+export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
     let action,
         responseType = 2,
         defaultParams = {
             u: r.urls,
             service: host,
-            ip: ip,
             filename: r.filename,
+            fileMetadata: r.fileMetadata ? r.fileMetadata : false
         },
         params = {}
     
-    if (!isAudioOnly && !r.picker && !isAudioMuted) action = "video";
-    if (r.isM3U8) action = "singleM3U8";
-    if (isAudioOnly && !r.picker) action = "audio";
-    if (r.picker) action = "picker";
-    if (isAudioMuted) action = "muteVideo";
+    if (r.isPhoto) action = "photo";
+    else if (r.picker) action = "picker"
+    else if (isAudioMuted) action = "muteVideo";
+    else if (isAudioOnly) action = "audio";
+    else if (r.isM3U8) action = "singleM3U8";
+    else action = "video";
 
     if (action === "picker" || action === "audio") {
         defaultParams.filename = r.audioFilename;
@@ -26,13 +27,16 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
     }
 
     switch (action) {
+        case "photo":
+            responseType = 1;
+            break;
         case "video":
             switch (host) {
                 case "bilibili":
-                    params = { type: "render", time: r.time };
+                    params = { type: "render" };
                     break;
                 case "youtube":
-                    params = { type: r.type, time: r.time };
+                    params = { type: r.type };
                     break;
                 case "reddit":
                     responseType = r.typeId;
@@ -57,6 +61,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                 case "tumblr":
                 case "twitter":
                 case "pinterest":
+                case "streamable":
                     responseType = 1;
                     break;
             }
@@ -70,6 +75,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                 u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
                 mute: true
             }
+            if (host === "reddit" && r.typeId === 1) responseType = 1;
             break;
 
         case "picker":
@@ -138,8 +144,7 @@ export default function(r, host, ip, audioFormat, isAudioOnly, lang, isAudioMute
                 type: processType,
                 u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
                 audioFormat: audioFormat,
-                copy: copy,
-                fileMetadata: r.fileMetadata ? r.fileMetadata : false
+                copy: copy
             }
             break;
         default:

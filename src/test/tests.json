@@ -97,15 +97,7 @@
         }
     }, {
         "name": "retweeted video",
-        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
-        "params": {},
-        "expected": {
-            "code": 200,
-            "status": "redirect"
-        }
-    }, {
-        "name": "retweeted video",
-        "url": "https://twitter.com/winload_exe/status/1639005390854602758",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {},
         "expected": {
             "code": 200,
@@ -120,8 +112,24 @@
             "status": "redirect"
         }
     }, {
+        "name": "twitter voice + x.com link",
+        "url": "https://x.com/eggsaladscreams/status/1693089534886506756?s=46",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "vxtwitter link",
+        "url": "https://vxtwitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
         "name": "retweeted video, isAudioOnly",
-        "url": "https://twitter.com/winload_exe/status/1633091769482063874",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -503,6 +511,16 @@
             "status": "stream"
         }
     }, {
+        "name": "4k video",
+        "url": "https://vk.com/video-1112285_456248465",
+        "params": {
+            "vQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "ancient video (fallback to 240p)",
         "url": "https://vk.com/video-1959_28496479",
         "params": {},
@@ -790,7 +808,7 @@
     }],
     "reddit": [{
         "name": "video with audio",
-        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
         "params": {},
         "expected": {
             "code": 200,
@@ -798,7 +816,7 @@
         }
     }, {
         "name": "video with audio (isAudioOnly)",
-        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
         "params": {
             "isAudioOnly": true
         },
@@ -808,7 +826,7 @@
         }
     }, {
         "name": "video with audio (isAudioMuted)",
-        "url": "https://www.reddit.com/r/catvideos/comments/b2rygq/my_new_kittens_1st_day_checking_out_his_new_home/?utm_source=share&utm_medium=web2x&context=3",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
         "params": {
             "isAudioMuted": true
         },
@@ -832,10 +850,26 @@
             "code": 200,
             "status": "redirect"
         }
+    }, {
+        "name": "different audio link, live render",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/15hce91/asian_daddy_kink/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "instagram": [{
-        "name": "several videos in a post (picker)",
-        "url": "https://www.instagram.com/p/CqifaD0qiDt/",
+        "name": "single photo post",
+        "url": "https://www.instagram.com/p/CwIgW8Yu5-I/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "various picker (photos + video)",
+        "url": "https://www.instagram.com/p/CvYrSgnsKjv/",
         "params": {},
         "expected": {
             "code": 200,
@@ -892,6 +926,22 @@
         "expected": {
             "code": 400,
             "status": "error"
+        }
+    }, {
+        "name": "post info in an array (for whatever reason??)",
+        "url": "https://www.instagram.com/reel/CrVB9tatUDv/?igshid=blaBlABALALbLABULLSHIT==",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "prone to get rate limited",
+        "url": "https://www.instagram.com/reel/CrO-T7Qo6rq/?igshid=fuckYouNoTrackingIdForYou==",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
         }
     }],
     "vine": [{
@@ -986,6 +1036,51 @@
         "expected": {
             "code": 200,
             "status": "stream"
+        }
+    }],
+    "streamable": [{
+        "name": "regular video",
+        "url": "https://streamable.com/03r3c2",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "embedded link",
+        "url": "https://streamable.com/e/rsmo56",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular video (isAudioOnly)",
+        "url": "https://streamable.com/03r3c2",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "regular video (isAudioMuted)",
+        "url": "https://streamable.com/03r3c2",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "inexistent video",
+        "url": "https://streamable.com/XXXXXX",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
         }
     }]
 }

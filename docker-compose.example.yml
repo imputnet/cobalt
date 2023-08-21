@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+    cobalt-api:
+        build: .
+        restart: unless-stopped
+        container_name: cobalt-api
+
+        # if container doesn't run detached on your machine, uncomment the next line:
+        #tty: true
+
+        ports:
+            - 9000:9000/tcp
+            # if you're using a reverse proxy, uncomment the next line:
+            #- 127.0.0.1:9000:9000
+
+        environment:
+            - apiPort=9000
+            # replace apiURL with your instance's target url in same format
+            - apiURL=https://co.wuk.sh/
+            # replace apiName with your instance's distinctive name
+            - apiName=eu-nl
+            # if you want to use cookies when fetching data from services, uncomment the next line
+            #- cookiePath=cookies.json
+            # see src/modules/processing/cookie/cookies_example.json for example file.
+
+    cobalt-web:
+        build: .
+        restart: unless-stopped
+        container_name: cobalt-web
+
+        # if container doesn't run detached on your machine, uncomment the next line:
+        #tty: true
+
+        ports:
+            - 9001:9001/tcp
+            # if you're using a reverse proxy, uncomment the next line:
+            #- 127.0.0.1:9001:9001
+
+        environment:
+            - webPort=9001
+            # replace webURL with your instance's target url in same format
+            - webURL=https://co.wukko.me/
+            # replace apiURL with preferred api instance url
+            - apiURL=https://co.wuk.sh/

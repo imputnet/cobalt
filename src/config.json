@@ -1,7 +1,7 @@
 {
-    "streamLifespan": 120000,
+    "streamLifespan": 20000,
     "maxVideoDuration": 10800000,
-    "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+    "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
     "authorInfo": {
         "name": "wukko",
         "link": "https://wukko.me/",
@@ -25,14 +25,15 @@
         "crypto": {
             "bitcoin": "bc1q59jyyjvrzj4c22rkk3ljeecq6jmpyscgz9spnd",
             "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna"
+            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
+            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod"
         },
         "links": {
-            "boosty": "https://boosty.to/wukko"
+            "boosty": "https://boosty.to/wukko/donate"
         }
     },
     "links": {
-        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/6d4fe6e5bade4150b8759ce20720c7a3"
+        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/b401917928fd407daf1db0fd07eb7e78"
     },
     "celebrations": {
         "01-01": "🎄",

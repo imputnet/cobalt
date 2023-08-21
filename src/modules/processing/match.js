@@ -19,6 +19,7 @@ import instagram from "./services/instagram.js";
 import vine from "./services/vine.js";
 import pinterest from "./services/pinterest.js";
 import nicovideo from "./services/nicovideo.js";
+import streamable from "./services/streamable.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
@@ -117,6 +118,12 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "nicovideo":
                 r = await nicovideo({ id: patternMatch["id"] });
+            case "streamable":
+                r = await streamable({
+                    id: patternMatch["id"],
+                    quality: obj.vQuality,
+                    isAudioOnly: isAudioOnly,
+                });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
@@ -127,7 +134,7 @@ export default async function (host, patternMatch, url, lang, obj) {
 
         if (r.error) return apiJSON(0, { t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error) });
 
-        return matchActionDecider(r, host, obj.ip, obj.aFormat, isAudioOnly, lang, isAudioMuted);
+        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted);
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

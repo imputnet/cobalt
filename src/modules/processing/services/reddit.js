@@ -11,17 +11,25 @@ export default async function(obj) {
     if (!("reddit_video" in data["secure_media"])) return { error: 'ErrorEmptyDownload' };
     if (data["secure_media"]["reddit_video"]["duration"] * 1000 > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let video = data["secure_media"]["reddit_video"]["fallback_url"].split('?')[0],
-        audio = video.match('.mp4') ? `${video.split('_')[0]}_audio.mp4` : `${data["secure_media"]["reddit_video"]["fallback_url"].split('DASH')[0]}audio`;
-    await fetch(audio, { method: "HEAD" }).then((r) => {if (Number(r.status) !== 200) audio = ''}).catch(() => {audio = ''});
+    let audio = false,
+        video = data["secure_media"]["reddit_video"]["fallback_url"].split('?')[0],
+        audioFileLink = video.match('.mp4') ? `${video.split('_')[0]}_audio.mp4` : `${data["secure_media"]["reddit_video"]["fallback_url"].split('DASH')[0]}audio`;
 
-    let id = data["secure_media"]["reddit_video"]["fallback_url"].split('/')[3];
-    if (!audio.length > 0) return { typeId: 1, urls: video };
+    await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
 
+    // fallback for videos with differentiating audio quality
+    if (!audio) {
+        audioFileLink = `${video.split('_')[0]}_AUDIO_128.mp4`
+        await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
+    }
+
+    let id = video.split('/')[3];
+
+    if (!audio) return { typeId: 1, urls: video };
     return {
         typeId: 2,
         type: "render",
-        urls: [video, audio],
+        urls: [video, audioFileLink],
         audioFilename: `reddit_${id}_audio`,
         filename: `reddit_${id}.mp4`
     };

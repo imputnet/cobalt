@@ -21,7 +21,6 @@ export default async function(obj) {
 
     return {
         urls: [video[0]["baseUrl"], audio[0]["baseUrl"]],
-        time: streamData.data.timelength,
         audioFilename: `bilibili_${obj.id}_audio`,
         filename: `bilibili_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.mp4`
     };

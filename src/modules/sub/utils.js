@@ -1,6 +1,6 @@
 import { createStream } from "../stream/manage.js";
 
-let apiVar = {
+const apiVar = {
     allowed: {
         vCodec: ["h264", "av1", "vp9"],
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
@@ -8,6 +8,8 @@ let apiVar = {
     },
     booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash"]
 }
+const forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
+const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
 
 export function apiJSON(type, obj) {
     try {
@@ -27,7 +29,7 @@ export function apiJSON(type, obj) {
                 switch (obj.service) {
                     case "douyin":
                     case "tiktok":
-                        audio = createStream(obj)
+                        audio = obj.u
                         pickerType = "images"
                         break;
                 }
@@ -47,22 +49,7 @@ export function metadataManager(obj) {
     for (let i in keys) { if (tags.includes(keys[i])) commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`) }
     return commands;
 }
-export function msToTime(d) {
-    let milliseconds = parseInt((d % 1000) / 100, 10),
-        seconds = parseInt((d / 1000) % 60, 10),
-        minutes = parseInt((d / (1000 * 60)) % 60, 10),
-        hours = parseInt((d / (1000 * 60 * 60)) % 24, 10),
-        r;
-
-    hours = (hours < 10) ? `0${hours}` : hours;
-    minutes = (minutes < 10) ? `0${minutes}` : minutes;
-    seconds = (seconds < 10) ? `0${seconds}` : seconds;
-    r = `${hours}:${minutes}:${seconds}`;
-    if (milliseconds) r += `.${milliseconds}`;
-    return r;
-}
 export function cleanURL(url, host) {
-    let forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@"]
     switch(host) {
         case "vk":
             url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
@@ -73,7 +60,6 @@ export function cleanURL(url, host) {
         case "tiktok":
             url = url.replace(/@([a-zA-Z]+(\.[a-zA-Z]+)+)/, "@a")
         case "pinterest":
-            // Redirect all TLDs back to .com
             url = url.replace(/:\/\/(?:www.)pinterest(?:\.[a-z.]+)/, "://pinterest.com")
         default:
             url = url.split('?')[0];
@@ -88,6 +74,12 @@ export function cleanURL(url, host) {
         url = url.split('?')[0].replace('shorts/', 'watch?v=');
     }
     return url.slice(0, 128)
+}
+export function cleanString(string) {
+    for (let i in forbiddenCharsString) {
+        string = string.replaceAll(forbiddenCharsString[i], '')
+    }
+    return string;
 }
 export function verifyLanguageCode(code) {
     return RegExp(/[a-z]{2}/).test(String(code.slice(0, 2).toLowerCase())) ? String(code.slice(0, 2).toLowerCase()) : "en"
@@ -153,4 +145,9 @@ export function getThreads() {
     } catch (e) {
         return '0'
     }
+}
+export function cleanHTML(html) {
+    let clean = html.replace(/ {4}/g, '');
+    clean = clean.replace(/\n/g, '');
+    return clean
 }

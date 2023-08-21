@@ -2,7 +2,7 @@
     "audioIgnore": ["vk"],
     "config": {
         "bilibili": {
-            "alias": "bilibili (.com only)",
+            "alias": "bilibili.com videos",
             "patterns": ["video/:id"],
             "enabled": true
         },
@@ -12,7 +12,7 @@
             "enabled": true
         },
         "twitter": {
-            "alias": "twitter posts & spaces & voice",
+            "alias": "twitter videos & voice",
             "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
             "enabled": true
         },
@@ -23,7 +23,7 @@
         },
         "youtube": {
             "alias": "youtube videos & shorts & music",
-            "patterns": ["watch?v=:id"],
+            "patterns": ["watch?v=:id", "embed/:id"],
             "bestAudio": "opus",
             "enabled": true
         },
@@ -53,7 +53,7 @@
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels & video posts",
+            "alias": "instagram reels & posts",
             "patterns": ["reels/:id", "reel/:id", "p/:id"],
             "enabled": true
         },
@@ -73,6 +73,11 @@
             "patterns": ["watch/:id"],
             "enabled": true,
             "tld": "jp"
+        },
+        "streamable": {
+            "alias": "streamable.com",
+            "patterns": [":id", "o/:id", "e/:id", "s/:id"],
+            "enabled": true
         }
     }    
 }

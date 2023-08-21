@@ -1,5 +1,6 @@
 import { Innertube } from 'youtubei.js';
 import { maxVideoDuration } from '../../config.js';
+import { cleanString } from '../../sub/utils.js';
 
 const yt = await Innertube.create();
 
@@ -50,7 +51,7 @@ export default async function(o) {
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
     let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]),
-        audio = adaptive_formats.find(i => checkBestAudio(i) && i["is_original"]);
+        audio = adaptive_formats.find(i => checkBestAudio(i) && !i["is_dubbed"]);
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i => checkBestAudio(i) && i["language"] === o.dubLang);
@@ -59,24 +60,26 @@ export default async function(o) {
             isDubbed = true
         }
     }
-    if (hasAudio && o.isAudioOnly) {
-        let r = {
-            type: "render",
-            isAudioOnly: true,
-            urls: audio.url,
-            audioFilename: `youtube_${o.id}_audio${isDubbed ? `_${o.dubLang}`:''}`,
-            fileMetadata: {
-                title: info.basic_info.title,
-                artist: info.basic_info.author.replace("- Topic", "").trim(),
-            }
-        };
-        if (info.basic_info.short_description && info.basic_info.short_description.startsWith("Provided to YouTube by")) {
-            let descItems = info.basic_info.short_description.split("\n\n")
-            r.fileMetadata.album = descItems[2]
-            r.fileMetadata.copyright = descItems[3]
-            if (descItems[4].startsWith("Released on:")) r.fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
-        };
-        return r
+
+    let fileMetadata = {
+        title: cleanString(info.basic_info.title.replace(/\p{Emoji}/gu, '').trim()),
+        artist: cleanString(info.basic_info.author.replace("- Topic", "").replace(/\p{Emoji}/gu, '').trim()),
+    }
+    if (info.basic_info.short_description && info.basic_info.short_description.startsWith("Provided to YouTube by")) {
+        let descItems = info.basic_info.short_description.split("\n\n");
+        fileMetadata.album = descItems[2];
+        fileMetadata.copyright = descItems[3];
+        if (descItems[4].startsWith("Released on:")) {
+            fileMetadata.date = descItems[4].replace("Released on: ", '').trim()
+        }
+    };
+
+    if (hasAudio && o.isAudioOnly) return {
+        type: "render",
+        isAudioOnly: true,
+        urls: audio.url,
+        audioFilename: `youtube_${o.id}_audio${isDubbed ? `_${o.dubLang}`:''}`,
+        fileMetadata: fileMetadata
     }
     let checkSingle = (i) => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
         checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === bestQuality),
@@ -87,7 +90,8 @@ export default async function(o) {
         if (single) return {
             type: "bridge",
             urls: single.url,
-            filename: `youtube_${o.id}_${single.width}x${single.height}_${o.format}.${c[o.format].container}`
+            filename: `youtube_${o.id}_${single.width}x${single.height}_${o.format}.${c[o.format].container}`,
+            fileMetadata: fileMetadata
         }
     };
 
@@ -95,7 +99,8 @@ export default async function(o) {
     if (video && audio) return {
         type: "render",
         urls: [video.url, audio.url],
-        filename: `youtube_${o.id}_${video.width}x${video.height}_${o.format}${isDubbed ? `_${o.dubLang}`:''}.${c[o.format].container}`
+        filename: `youtube_${o.id}_${video.width}x${video.height}_${o.format}${isDubbed ? `_${o.dubLang}`:''}.${c[o.format].container}`,
+        fileMetadata: fileMetadata
     };
 
     return { error: 'ErrorYTTryOtherCodec' }

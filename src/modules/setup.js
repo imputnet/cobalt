@@ -3,6 +3,8 @@ import { createInterface } from "readline";
 import { Cyan, Bright } from "./sub/consoleText.js";
 import { execSync } from "child_process";
 
+import { version } from "../modules/config.js";
+
 let envPath = './.env';
 let q = `${Cyan('?')} \x1b[1m`;
 let ob = {};
@@ -24,11 +26,11 @@ let final = () => {
 }
 
 console.log(
-    `${Cyan("Hey, this is cobalt.")}\n${Bright("Let's start by creating a new ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
+    `${Cyan(`Hey, this is cobalt v.${version}!`)}\n${Bright("Let's start by creating a new ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
 )
 
 console.log(
-    `\n${Bright("⚠️ Please notice that since v.6.0 cobalt is hosted in two parts. API and web app are now separate.\nMerged hosting is deprecated and will be removed in the future.")}`
+    `\n${Bright("⚠️ Please notice that since v.6.0 cobalt is hosted in two parts. API and web app are now separate.\nMerged hosting is no longer available.")}`
 )
 function setup() {
     console.log(Bright("\nWhat kind of server will this instance be?\nOptions: api, web."));
@@ -58,7 +60,8 @@ function setup() {
                             console.log(Bright("\nOne last thing: would you like to enable CORS? It allows other websites and extensions to use your instance's API.\ny/n (n)"));
 
                             rl.question(q, apiCors => {
-                                if (apiCors.toLowerCase() !== 'y') ob['cors'] = '0'
+                                let answCors = apiCors.toLowerCase().trim();
+                                if (answCors !== "y" && answCors !== "yes") ob['cors'] = '0'
                                 final()
                             })
                         })
