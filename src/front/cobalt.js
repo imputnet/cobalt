@@ -210,7 +210,7 @@ function popup(type, action, text) {
                         for (let i in text.arr) {
                             eid("picker-holder").innerHTML +=
                             `<a class="picker-image-container" ${
-                                isIOS ? `onClick="share('${text.arr[i]["url"]}')` : `href="${text.arr[i]["url"]}" target="_blank"`
+                                isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` +
                                 `<img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'"></img>` +
                             `</a>`
@@ -225,7 +225,7 @@ function popup(type, action, text) {
                         for (let i in text.arr) {
                             eid("picker-holder").innerHTML +=
                             `<a class="picker-image-container" ${
-                                isIOS ? `onClick="share('${text.arr[i]["url"]}')` : `href="${text.arr[i]["url"]}" target="_blank"`
+                                isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` + 
                                 `<div class="picker-element-name">${text.arr[i].type}</div>` +
                                 `<div class="imageBlock"></div>` +
