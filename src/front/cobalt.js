@@ -257,7 +257,6 @@ function changeSwitcher(li, b) {
     if (switchers.serverPicker.includes(b)) {
         if (!switchers[li].includes(b)) b = switchers[li][0];
         changeAPI("https://"+b);
-        console.log(b);
         sSet(li, "https://"+b);
         for (let i in switchers[li]) {
             (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
