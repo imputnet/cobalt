@@ -100,4 +100,3 @@ export default async function(obj) {
         return { error: 'ErrorEmptyDownload' }
     }
 }
-
