@@ -35,31 +35,31 @@ async function findClientID() {
 }
 
 export default async function(obj) {
-    let html;
-    if (!obj.author && !obj.song && obj.shortLink) {
-        html = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`).then((r) => {
-            return r.status === 404 ? false : r.text()
-        }).catch(() => { return false });
-    }
-    if (obj.author && obj.song) {
-        html = await fetch(
-            `https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`
-        ).then((r) => {
-            return r.text()
-        }).catch(() => { return false });
-    }
-    if (!html) return { error: 'ErrorCouldntFetch' };
-    if (!(html.includes('<script>window.__sc_hydration = ') && html.includes('{"hydratable":"sound","data":'))) {
-        return { error: ['ErrorBrokenLink', 'soundcloud'] }
-    }
-
-    let json = JSON.parse(html.split('{"hydratable":"sound","data":')[1].split('}];</script>')[0]);
-    if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
-
     let clientId = await findClientID();
     if (!clientId) return { error: 'ErrorSoundCloudNoClientId' };
 
-    let fileUrlBase = json.media.transcodings.filter((v) => { if (v["format"]["mime_type"].startsWith("audio/ogg")) return true })[0]["url"],
+    let link;
+    if (obj.shortLink && !obj.author && !obj.song) {
+        link = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`, { redirect: "manual" }).then((r) => {
+            if (r.status === 302 && r.headers.get("location").startsWith("https://soundcloud.com/")) {
+                return r.headers.get("location").split('?', 1)[0]
+            }
+            return false
+        }).catch(() => { return false });
+    }
+    if (!link && obj.author && obj.song) {
+        link = `https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`
+    }
+    if (!link) return { error: 'ErrorCouldntFetch' };
+
+    let json = await fetch(`https://api-v2.soundcloud.com/resolve?url=${link}&client_id=${clientId}`).then((r) => {
+        return r.status === 200 ? r.json() : false
+    }).catch(() => { return false });
+    if (!json) return { error: 'ErrorCouldntFetch' };
+
+    if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
+
+    let fileUrlBase = json.media.transcodings.filter((v) => { if (v["preset"] === "opus_0_0") return true })[0]["url"],
         fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
 
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };

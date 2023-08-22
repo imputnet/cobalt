@@ -9,12 +9,6 @@ export default function (inHost, inURL) {
                 url = `https://youtube.com/watch?v=${url.replace("https://youtu.be/", "")}`;
             }
             break;
-        case "goo":
-            if (url.startsWith("https://soundcloud.app.goo.gl/")) {
-                host = "soundcloud";
-                url = `https://soundcloud.com/${url.replace("https://soundcloud.app.goo.gl/", "").split('/')[0]}`
-            }
-            break;
         case "vxtwitter":
         case "x":
             if (url.startsWith("https://x.com/")) {
@@ -33,7 +27,6 @@ export default function (inHost, inURL) {
             }
             break;
     }
-
     return {
         host: host,
         url: url
