@@ -17,7 +17,7 @@ const switchers = {
     "dubLang": ["original", "auto"],
     "vimeoDash": ["false", "true"],
     "audioMode": ["false", "true"],
-    "serverPicker": ["co.wuk.sh", "api.c0ba.lt", "co-api.blueb.me", "wukko.wolfdo.gg", "api.co.749.city", "cobalt-api.fluffy.tools", "capi.oak.li"]
+    "serverPicker": [getDefaultAPI(), "https://co.wuk.sh", "https://api.c0ba.lt", "https://wukko.wolfdo.gg", "https://api.co.749.city", "https://cobalt-api.fluffy.tools", "https://capi.oak.li"]
 };
 const checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio", "reduceTransparency", "disableAnimations"];
 const exceptions = { // used for mobile devices
@@ -30,6 +30,9 @@ let store = {};
 function changeAPI(url) {
     apiURL = url;
     return true
+}
+function getDefaultAPI() {
+    return defaultApiURL;
 }
 function eid(id) {
     return document.getElementById(id)
@@ -256,8 +259,8 @@ function popup(type, action, text) {
 function changeSwitcher(li, b) {
     if (switchers.serverPicker.includes(b)) {
         if (!switchers[li].includes(b)) b = switchers[li][0];
-        changeAPI("https://"+b);
-        sSet(li, "https://"+b);
+        changeAPI(b);
+        sSet(li, b);
         for (let i in switchers[li]) {
             (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }

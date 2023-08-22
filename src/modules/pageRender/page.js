@@ -460,25 +460,25 @@ export default function(obj) {
                         explanation: t(['SettingsServerPickerDescription']),
                         vertical: true,
                         items: [{
-                            action: "co.wuk.sh",
+                            action: process.env.apiURL ? process.env.apiURL.slice(0, -1) : '',
+                            text: t('SettingsServerPickerDefault')
+                        }, {
+                            action: "https://co.wuk.sh",
                             text: "co.wuk.sh"
                         }, {
-                            action: "api.c0ba.lt",
+                            action: "https://api.c0ba.lt",
                             text: "api.c0ba.lt"
                         }, {
-                            action: "co-api.blueb.me",
-                            text: "co-api.blueb.me"
-                        }, {
-                            action: "wukko.wolfdo.gg",
+                            action: "https://wukko.wolfdo.gg",
                             text: "wukko.wolfdo.gg"
                         }, {
-                            action: "api.co.749.city",
+                            action: "https://api.co.749.city",
                             text: "api.co.749.city"
                         }, {
-                            action: "cobalt-api.fluffy.tools",
+                            action: "https://cobalt-api.fluffy.tools",
                             text: "cobalt-api.fluffy.tools"
                         }, {
-                            action: "capi.oak.li",
+                            action: "https://capi.oak.li",
                             text: "capi.oak.li"
                         }]
                     })
@@ -598,7 +598,7 @@ export default function(obj) {
             clipboardErrorNoPermission: ` + "`" + t('ClipboardErrorNoPermission') + "`" + `,
             clipboardErrorFirefox: ` + "`" + t('ClipboardErrorFirefox') + "`" + `,
         };
-        let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+        let defaultApiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
     </script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>
