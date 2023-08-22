@@ -28,6 +28,8 @@ for (let i in donations["crypto"]) {
     extr = ' top-margin'
 }
 
+let defaultApiURL = process.env.apiURL ? process.env.apiURL.slice(0, -1) : '';
+
 export default function(obj) {
     const t = (str, replace) => { return loc(obj.lang, str, replace) };
 
@@ -460,8 +462,8 @@ export default function(obj) {
                         explanation: t(['SettingsServerPickerDescription']),
                         vertical: true,
                         items: [{
-                            action: process.env.apiURL ? process.env.apiURL.slice(0, -1) : '',
-                            text: t('SettingsServerPickerDefault')
+                            action: defaultApiURL,
+                            text: defaultApiURL.replace("https://","")
                         }, {
                             action: "https://co.wuk.sh",
                             text: "co.wuk.sh"
