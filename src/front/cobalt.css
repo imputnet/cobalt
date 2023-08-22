@@ -665,6 +665,9 @@ button:active,
 .popup-tab-content[data-enabled="false"] {
     display: none;
 }
+.popup-tab-content {
+    overflow-x: hidden!important;
+}
 #popup-tabs {
     z-index: 999;
     bottom: 0;
@@ -1199,7 +1202,7 @@ button:active,
     width: auto;
     flex-direction: column;
     flex-wrap: nowrap;
-    overflow-x: scroll;
+    overflow-x: hidden!important;
 }
 .switch-vertical.first {
     border-top-left-radius: 5px 6px!important;
@@ -1211,3 +1214,4 @@ button:active,
     border-bottom-right-radius: 5px 6px!important;
     border-top-right-radius: 0px;
 }
+
