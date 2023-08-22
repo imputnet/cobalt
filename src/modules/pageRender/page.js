@@ -32,7 +32,7 @@ for (let i in donations["crypto"]) {
 
 let servers = otherServers.map((p) => {
     if (p === "default") {
-        return { "action": defaultApiURL, "text": defaultApiURL.replace("https://","") }
+        return { "action": defaultApiURL }
     } else {
         return { "action": p, "text": p.replace("https://","") }
     }
@@ -48,6 +48,7 @@ export default function(obj) {
     let platform = isMobile ? "m" : "p";
     if (isMobile && isIOS) platform = "i";
 
+    servers[0]["text"] = t('SettingsServerPickerDefault');
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
 
     try {
