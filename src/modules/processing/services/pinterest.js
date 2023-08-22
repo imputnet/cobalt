@@ -8,7 +8,7 @@ export default async function(obj) {
             field_set_key: "unauth_react_main_pin",
             id: pinId
         }
-    }))}`).then((r) => { return r.json() }).catch(() => { return false });
+    }))}`).then(r => r.json()).catch(() => false );
     if (!data) return { error: 'ErrorCouldntFetch' };
 
     data = data["resource_response"]["data"];

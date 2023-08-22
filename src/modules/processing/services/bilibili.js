@@ -4,7 +4,7 @@ import { genericUserAgent, maxVideoDuration } from "../../config.js";
 export default async function(obj) {
     let html = await fetch(`https://bilibili.com/video/${obj.id}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then(r => r.text()).catch(() => false );
     if (!html) return { error: 'ErrorCouldntFetch' };
     if (!(html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"'))) return { error: 'ErrorEmptyDownload' };
 

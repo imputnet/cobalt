@@ -13,7 +13,7 @@ let enabledServices = Object.keys(s).filter(p => s[p].enabled).sort().map((p) =>
 
 let donate = ``
 let donateLinks = ``
-let audioFormats = supportedAudio.map((p) => {
+let audioFormats = supportedAudio.map(p => {
     return { "action": p }
 })
 audioFormats.unshift({ "action": "best" })

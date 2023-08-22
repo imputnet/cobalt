@@ -75,7 +75,7 @@ function changeDownloadButton(action, text) {
             break;
     }
 }
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", event => {
     if (event.key === "Tab") {
         eid("download-button").value = '>>'
         eid("download-button").style.padding = '0 1rem'
@@ -381,7 +381,7 @@ async function download(url) {
         method: "POST",
         body: JSON.stringify(req),
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    }).then((r) => { return r.json() }).catch((e) => { return false });
+    }).then(r => r.json()).catch(() => false);
     if (!j) {
         internetError();
         return
@@ -414,7 +414,7 @@ async function download(url) {
                 break;
             case "stream":
                 changeDownloadButton(2, '?..')
-                fetch(`${j.url}&p=1`).then(async (res) => {
+                fetch(`${j.url}&p=1`).then(async res => {
                     let jp = await res.json();
                     if (jp.status === "continue") {
                         changeDownloadButton(2, '>>>');
@@ -425,7 +425,7 @@ async function download(url) {
                     } else {
                         changeButton(0, jp.text);
                     }
-                }).catch((error) => internetError());
+                }).catch(() => internetError());
                 break;
             case "success":
                 changeButton(2, j.text);
@@ -441,7 +441,7 @@ async function download(url) {
 async function loadCelebrationsEmoji() {
     let bac = eid("about-footer").innerHTML;
     try {
-        let j = await fetch(`/onDemand?blockId=1`).then((r) => { if (r.status === 200) { return r.json() } else { return false } }).catch(() => { return false });
+        let j = await fetch(`/onDemand?blockId=1`).then(r => r.status === 200 ? r.json() : false).catch(() => false);
         if (j && j.status === "success" && j.text) {
             eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace('<img class="emoji" draggable="false" height="22" width="22" alt="🐲" src="emoji/dragon_face.svg" loading="lazy">', j.text);
         }
@@ -458,7 +458,7 @@ async function loadOnDemand(elementId, blockId) {
         if (store.historyContent) {
             j = store.historyContent;
         } else {
-            await fetch(`/onDemand?blockId=${blockId}`).then(async(r) => {
+            await fetch(`/onDemand?blockId=${blockId}`).then(async r => {
                 j = await r.json();
                 if (j && j.status === "success") {
                     store.historyContent = j;
@@ -497,13 +497,13 @@ window.onload = () => {
         button();
     }
 }
-eid("url-input-area").addEventListener("keydown", (e) => {
+eid("url-input-area").addEventListener("keydown", () => {
     button();
 })
-eid("url-input-area").addEventListener("keyup", (e) => {
+eid("url-input-area").addEventListener("keyup", e => {
     if (e.key === 'Enter') eid("download-button").click();
 })
-document.onkeydown = (e) => {
+document.onkeydown = e => {
     if (!store.isPopupOpen) {
         if (e.ctrlKey || e.key === "/") eid("url-input-area").focus();
         if (e.key === "Escape" || e.key === "Clear") clearInput();

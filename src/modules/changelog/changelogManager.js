@@ -21,7 +21,7 @@ export default function(string) {
             case "content":
                 return replaceBase(changelog["current"]["content"]);
             case "history":
-                return changelog["history"].map((i) => {
+                return changelog["history"].map(i => {
                     return {
                         title: replaceBase(i["title"]),
                         version: `<span class="text-backdrop changelog-tag-version">v.${i["version"]}</span>${

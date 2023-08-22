@@ -8,7 +8,7 @@ let loc = {}
 let languages = [];
 
 export async function loadLoc() {
-    const files = await fs.promises.readdir(locPath).catch((e) => { return [] });
+    const files = await fs.promises.readdir(locPath).catch(() => { return [] });
     files.forEach(file => {
         loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`);
         languages.push(file.split('.')[0])

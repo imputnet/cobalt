@@ -5,7 +5,7 @@ let cachedID = {};
 
 async function findClientID() {
     try {
-        let sc = await fetch('https://soundcloud.com/').then((r) => { return r.text() }).catch(() => { return false });
+        let sc = await fetch('https://soundcloud.com/').then(r => r.text()).catch(() => false);
         let scVersion = String(sc.match(/<script>window\.__sc_version="[0-9]{10}"<\/script>/)[0].match(/[0-9]{10}/));
 
         if (cachedID.version === scVersion) return cachedID.id;
@@ -17,7 +17,7 @@ async function findClientID() {
     
             if (url && !url.startsWith('https://a-v2.sndcdn.com')) return;
     
-            let scrf = await fetch(url).then((r) => {return r.text()}).catch(() => { return false });
+            let scrf = await fetch(url).then(r => r.text()).catch(() => false);
             let id = scrf.match(/\("client_id=[A-Za-z0-9]{32}"\)/);
     
             if (id && typeof id[0] === 'string') {
@@ -40,21 +40,21 @@ export default async function(obj) {
 
     let link;
     if (obj.shortLink && !obj.author && !obj.song) {
-        link = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`, { redirect: "manual" }).then((r) => {
+        link = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`, { redirect: "manual" }).then(r => {
             if (r.status === 302 && r.headers.get("location").startsWith("https://soundcloud.com/")) {
                 return r.headers.get("location").split('?', 1)[0]
             }
             return false
-        }).catch(() => { return false });
+        }).catch(() => false);
     }
     if (!link && obj.author && obj.song) {
         link = `https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`
     }
     if (!link) return { error: 'ErrorCouldntFetch' };
 
-    let json = await fetch(`https://api-v2.soundcloud.com/resolve?url=${link}&client_id=${clientId}`).then((r) => {
-        return r.status === 200 ? r.json() : false
-    }).catch(() => { return false });
+    let json = await fetch(`https://api-v2.soundcloud.com/resolve?url=${link}&client_id=${clientId}`).then(r =>
+        r.status === 200 ? r.json() : false
+    ).catch(() => false);
     if (!json) return { error: 'ErrorCouldntFetch' };
 
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
@@ -66,7 +66,7 @@ export default async function(obj) {
 
     if (json.duration > maxVideoDuration) return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };
 
-    let file = await fetch(fileUrl).then(async (r) => { return (await r.json()).url }).catch(() => { return false });
+    let file = await fetch(fileUrl).then(async r => (await r.json()).url).catch(() => false);
     if (!file) return { error: 'ErrorCouldntFetch' };
 
     return {

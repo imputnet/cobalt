@@ -5,7 +5,7 @@ export default async function(obj) {
         obj.user ? obj.user : obj.url.split('.')[0].replace('https://', '')
     }.tumblr.com/post/${obj.id}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then(r => r.text()).catch(() => false);
 
     if (!html) return { error: 'ErrorCouldntFetch' };
 

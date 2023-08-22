@@ -8,7 +8,7 @@ import { streamLifespan } from "../config.js";
 const streamCache = new NodeCache({ stdTTL: streamLifespan/1000, checkperiod: 10, deleteOnExpire: true });
 const streamSalt = randomBytes(64).toString('hex');
 
-streamCache.on("expired", (key) => {
+streamCache.on("expired", key => {
     streamCache.del(key);
 });
 

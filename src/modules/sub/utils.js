@@ -88,7 +88,7 @@ export function languageCode(req) {
     return req.header('Accept-Language') ? verifyLanguageCode(req.header('Accept-Language')) : "en"
 }
 export function unicodeDecode(str) {
-    return str.replace(/\\u[\dA-F]{4}/gi, (unicode) => {
+    return str.replace(/\\u[\dA-F]{4}/gi, unicode => {
         return String.fromCharCode(parseInt(unicode.replace(/\\u/g, ""), 16));
     });
 }

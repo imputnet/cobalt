@@ -9,7 +9,7 @@ export default async function(o) {
 
     html = await fetch(`https://vk.com/video${o.userId}_${o.videoId}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then(r => r.text()).catch(() => false);
 
     if (!html) return { error: 'ErrorCouldntFetch' };
     if (!html.includes(`{"lang":`)) return { error: 'ErrorEmptyDownload' };

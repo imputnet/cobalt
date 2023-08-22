@@ -50,7 +50,7 @@ export default async function(o) {
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]),
+    let checkBestAudio = i => (i["has_audio"] && !i["has_video"]),
         audio = adaptive_formats.find(i => checkBestAudio(i) && !i["is_dubbed"]);
 
     if (o.dubLang) {
@@ -81,9 +81,9 @@ export default async function(o) {
         audioFilename: `youtube_${o.id}_audio${isDubbed ? `_${o.dubLang}`:''}`,
         fileMetadata: fileMetadata
     }
-    let checkSingle = (i) => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
-        checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === bestQuality),
-        checkRightVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === quality);
+    let checkSingle = i => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
+        checkBestVideo = i => (i["has_video"] && !i["has_audio"] && qual(i) === bestQuality),
+        checkRightVideo = i => (i["has_video"] && !i["has_audio"] && qual(i) === quality);
 
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         let single = info.streaming_data.formats.find(i => checkSingle(i));

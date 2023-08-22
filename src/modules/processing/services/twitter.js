@@ -21,7 +21,7 @@ export default async function(obj) {
     let req_act = await fetch(activateURL, {
         method: "POST",
         headers: _headers
-    }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
+    }).then(r => r.status === 200 ? r.json() : false).catch(() => false);
     if (!req_act) return { error: 'ErrorCouldntFetch' };
 
     _headers["host"] = "twitter.com";
@@ -39,7 +39,7 @@ export default async function(obj) {
         query.features = new URLSearchParams(JSON.stringify(query.features)).toString().slice(0, -1);
         query = `${graphqlTweetURL}?variables=${query.variables}&features=${query.features}`;
 
-        let TweetResultByRestId = await fetch(query, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
+        let TweetResultByRestId = await fetch(query, { headers: _headers }).then(r => r.status === 200 ? r.json() : false).catch(() => false);
 
         // {"data":{"tweetResult":{"result":{"__typename":"TweetUnavailable","reason":"Protected"}}}}
         if (!TweetResultByRestId || TweetResultByRestId.data.tweetResult.result.__typename !== "Tweet") return { error: 'ErrorTweetUnavailable' };
@@ -55,7 +55,7 @@ export default async function(obj) {
         if (!baseMedia) return { error: 'ErrorNoVideosInTweet' };
 
         let single, multiple = [], media = baseMedia["media"];
-            media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true });
+            media = media.filter(i => (i["type"] === "video" || i["type"] === "animated_gif"));
 
         if (media.length > 1) {
             for (let i in media) { multiple.push({type: "video", thumb: media[i]["media_url_https"], url: bestQuality(media[i]["video_info"]["variants"])}) }
@@ -86,7 +86,7 @@ export default async function(obj) {
         query.features = new URLSearchParams(JSON.stringify(query.features)).toString().slice(0, -1);
         query = `${graphqlSpaceURL}?variables=${query.variables}&features=${query.features}`;
 
-        let AudioSpaceById = await fetch(query, { headers: _headers }).then((r) => {return r.status === 200 ? r.json() : false}).catch((e) => { return false });
+        let AudioSpaceById = await fetch(query, { headers: _headers }).then(r => r.status === 200 ? r.json() : false).catch(() => false);
         if (!AudioSpaceById) return { error: 'ErrorEmptyDownload' };
 
         if (!AudioSpaceById.data.audioSpace.metadata) return { error: 'ErrorEmptyDownload' };
@@ -94,7 +94,7 @@ export default async function(obj) {
 
         let streamStatus = await fetch(
             `https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { headers: _headers }
-        ).then((r) =>{ return r.status === 200 ? r.json() : false }).catch(() => { return false });
+        ).then(r => r.status === 200 ? r.json() : false).catch(() => false);
         if (!streamStatus) return { error: 'ErrorCouldntFetch' };
 
         let participants = AudioSpaceById.data.audioSpace.participants.speakers,
