@@ -1,7 +1,7 @@
 import { genericUserAgent } from "../../config.js";
 
 function bestQuality(arr) {
-    return arr.filter((v) => { if (v["content_type"] === "video/mp4") return true }).sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
+    return arr.filter(v => v["content_type"] === "video/mp4").sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
 }
 
 export default async function(obj) {

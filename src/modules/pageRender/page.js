@@ -9,9 +9,7 @@ let com = getCommitInfo();
 
 let defaultApiURL = process.env.apiURL ? process.env.apiURL.slice(0, -1) : '';
 
-let enabledServices = Object.keys(s).filter((p) => {
-    if (s[p].enabled) return true;
-}).sort().map((p) => {
+let enabledServices = Object.keys(s).filter(p => s[p].enabled).sort().map((p) => {
     return `<br>&bull; ${s[p].alias ? s[p].alias : p}`
 }).join('').substring(4)
 

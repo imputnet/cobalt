@@ -64,7 +64,7 @@ export default async function(obj) {
     let videoUrl, audioUrl, baseUrl = masterJSONURL.split("/sep/")[0];
     switch (type) {
         case "parcel":
-            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter((a) => { if (a['mime_type'] === "audio/mp4") return true }),
+            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter(a => a['mime_type'] === "audio/mp4"),
                 bestAudio = masterJSON_Audio[0];
             videoUrl = `${baseUrl}/parcel/video/${bestVideo.index_segment.split('?')[0]}`,
             audioUrl = `${baseUrl}/parcel/audio/${bestAudio.index_segment.split('?')[0]}`;
