@@ -1,11 +1,13 @@
 import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, otherServers } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
 import changelogManager from "../changelog/changelogManager.js";
 
 let com = getCommitInfo();
+
+let defaultApiURL = process.env.apiURL ? process.env.apiURL.slice(0, -1) : '';
 
 let enabledServices = Object.keys(s).filter((p) => {
     if (s[p].enabled) return true;
@@ -28,7 +30,13 @@ for (let i in donations["crypto"]) {
     extr = ' top-margin'
 }
 
-let defaultApiURL = process.env.apiURL ? process.env.apiURL.slice(0, -1) : '';
+let servers = otherServers.map((p) => {
+    if (p === "default") {
+        return { "action": defaultApiURL, "text": defaultApiURL.replace("https://","") }
+    } else {
+        return { "action": p, "text": p.replace("https://","") }
+    }
+})
 
 export default function(obj) {
     const t = (str, replace) => { return loc(obj.lang, str, replace) };
@@ -461,28 +469,7 @@ export default function(obj) {
                         name: "serverPicker",
                         explanation: t(['SettingsServerPickerDescription'])+defaultApiURL.replace("https://","")+".",
                         vertical: true,
-                        items: [{
-                            action: defaultApiURL,
-                            text: defaultApiURL.replace("https://","")
-                        }, {
-                            action: "https://co.wuk.sh",
-                            text: "co.wuk.sh"
-                        }, {
-                            action: "https://api.c0ba.lt",
-                            text: "api.c0ba.lt"
-                        }, {
-                            action: "https://wukko.wolfdo.gg",
-                            text: "wukko.wolfdo.gg"
-                        }, {
-                            action: "https://api.co.749.city",
-                            text: "api.co.749.city"
-                        }, {
-                            action: "https://cobalt-api.fluffy.tools",
-                            text: "cobalt-api.fluffy.tools"
-                        }, {
-                            action: "https://capi.oak.li",
-                            text: "capi.oak.li"
-                        }]
+                        items: servers
                     })
                 })
             }],

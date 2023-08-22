@@ -69,5 +69,6 @@
         "copy": ["-c:a", "copy"],
         "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
         "m4a": ["-movflags", "frag_keyframe+empty_moov"]
-    }
+    },
+    "otherServers": ["default", "https://co.wuk.sh", "https://api.c0ba.lt", "https://wukko.wolfdo.gg", "https://api.co.749.city", "https://cobalt-api.fluffy.tools", "https://capi.oak.li"]
 }
