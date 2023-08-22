@@ -59,7 +59,7 @@ export default async function(obj) {
 
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
 
-    let fileUrlBase = json.media.transcodings.filter((v) => { if (v["preset"] === "opus_0_0") return true })[0]["url"],
+    let fileUrlBase = json.media.transcodings.filter(v => v.preset === "opus_0_0")[0]["url"],
         fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
 
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
