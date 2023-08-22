@@ -459,7 +459,7 @@ export default function(obj) {
                     explanation: t('SettingsServerPickerDescription'),
                     body: switcher({
                         name: "serverPicker",
-                        explanation: t(['SettingsServerPickerDescription']),
+                        explanation: t(['SettingsServerPickerDescription'])+defaultApiURL.replace("https://","")+".",
                         vertical: true,
                         items: [{
                             action: defaultApiURL,
