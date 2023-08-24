@@ -447,6 +447,10 @@ export default function(obj) {
                         name: t("SettingsEnableDownloadPopup"),
                         padding: "no-margin",
                         aria: t("AccessibilityEnableDownloadPopup")
+                    }, {
+                        action: "disableMetadata",
+                        name: t("SettingsDisableMetadata"),
+                        padding: "no-margin"
                     }])
                 })
             }],

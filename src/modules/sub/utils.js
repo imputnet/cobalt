@@ -6,7 +6,7 @@ const apiVar = {
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata"]
 }
 const forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
@@ -101,13 +101,14 @@ export function checkJSONPost(obj) {
         isNoTTWatermark: false,
         isTTFullAudio: false,
         isAudioMuted: false,
+        disableMetadata: false,
         dubLang: false,
         vimeoDash: false
     }
     try {
         let objKeys = Object.keys(obj);
-        if (!(objKeys.length <= 9 && obj.url)) return false;
         let defKeys = Object.keys(def);
+        if (objKeys.length > defKeys.length + 1 || !obj.url) return false;
 
         for (let i in objKeys) {
             if (String(objKeys[i]) !== "url" && defKeys.includes(objKeys[i])) {

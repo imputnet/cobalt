@@ -26,6 +26,7 @@ Response Body Type: ``application/json``
 | isTTFullAudio   | boolean | ``true / false``                  | ``false`` | Enables download of original sound used in a TikTok video.                     |
 | isAudioMuted    | boolean | ``true / false``                  | ``false`` | Disables audio track in video downloads.                                       |
 | dubLang         | boolean | ``true / false``                  | ``false`` | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
+| disableMetadata | boolean | ``true / false``                  | ``false`` | Does not add metadata to the downloaded audio/video                            |
 
 ### Response Body Variables
 | key        | type   | variables                                                     |

@@ -43,6 +43,7 @@
         "SettingsKeepDownloadButton": "keep &gt;&gt; visible",
         "AccessibilityKeepDownloadButton": "keep the download button always visible",
         "SettingsEnableDownloadPopup": "ask how to save",
+        "SettingsDisableMetadata": "disable file metadata",
         "AccessibilityEnableDownloadPopup": "ask what to do with downloads",
         "SettingsQualityDescription": "if selected quality isn't available, closest one is used instead.",
         "LinkGitHubChanges": "&gt;&gt; see previous commits and contribute on github",

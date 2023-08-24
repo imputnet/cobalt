@@ -2,17 +2,17 @@ import { audioIgnore, services, supportedAudio } from "../config.js";
 import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
 
-export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted) {
+export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, disableMetadata) {
     let action,
         responseType = 2,
         defaultParams = {
             u: r.urls,
             service: host,
             filename: r.filename,
-            fileMetadata: r.fileMetadata ? r.fileMetadata : false
+            fileMetadata: !disableMetadata ? r.fileMetadata : false
         },
         params = {}
-    
+
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
     else if (isAudioMuted) action = "muteVideo";

@@ -43,6 +43,7 @@
         "SettingsKeepDownloadButton": "всегда показывать &gt;&gt;",
         "AccessibilityKeepDownloadButton": "всегда показывать кнопку скачивания на экране",
         "SettingsEnableDownloadPopup": "выбор метода скачивания",
+        "SettingsDisableMetadata": "disable file metadata",
         "AccessibilityEnableDownloadPopup": "спрашивать, что делать с загрузками",
         "SettingsQualityDescription": "если выбранное качество недоступно, то выбирается ближайшее к нему.",
         "LinkGitHubChanges": "&gt;&gt; смотри предыдущие изменения на github",
