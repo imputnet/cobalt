@@ -466,6 +466,14 @@
             "status": "stream"
         }
     }, {
+        "name": "live link, defaults",
+        "url": "https://www.youtube.com/live/ENxZS6PUDuI?feature=shared",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "inexistent video",
         "url": "https://youtube.com/watch?v=gnjuHYWGEW",
         "params": {},
