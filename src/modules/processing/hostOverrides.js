@@ -4,7 +4,7 @@ export default function (inHost, inURL) {
 
     switch(host) {
         case "youtube":
-            if (url.startsWith("https://youtube.com/live/") || url.startsWith("https://www.youtube.com/")) {
+            if (url.startsWith("https://youtube.com/live/") || url.startsWith("https://www.youtube.com/live/")) {
                 url = url.split("?")[0].replace("www.", "");
                 url = `https://youtube.com/watch?v=${url.replace("https://youtube.com/live/", "")}`
             }
