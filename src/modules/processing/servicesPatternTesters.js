@@ -26,7 +26,8 @@ export const testers = {
     "soundcloud": (patternMatch) => (patternMatch["author"]?.length <= 25 && patternMatch["song"]?.length <= 255)
                                     || (patternMatch["shortLink"] && patternMatch["shortLink"].length <= 32),
 
-    "instagram": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
+    "instagram": (patternMatch) => (patternMatch.postId?.length <= 12) 
+                                    || (patternMatch.username?.length <= 30 && patternMatch.storyId?.length <= 24),
     
     "vine": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
     

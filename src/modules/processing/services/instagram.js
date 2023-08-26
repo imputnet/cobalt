@@ -16,9 +16,28 @@ const commonInstagramHeaders = {
     'accept-language': 'en-US,en;q=0.9,en;q=0.8',
 }
 
-export default async function(obj) {
+async function request(url, cookie) {
+    const data = await fetch(url, {
+        headers: {
+            ...commonInstagramHeaders,
+            'x-ig-www-claim': cookie?._wwwClaim || '0',
+            'x-csrftoken': cookie?.values()?.csrftoken,
+            cookie
+        }
+    })
+
+    if (data.headers.get('X-Ig-Set-Www-Claim') && cookie)
+        cookie._wwwClaim = data.headers.get('X-Ig-Set-Www-Claim');
+
+    updateCookie(cookie, data.headers);
+    return data.json();
+}
+
+async function getPost(id) {
     let data;
     try {
+        const cookie = getCookie('instagram');
+
         const url = new URL('https://www.instagram.com/graphql/query/');
         url.searchParams.set('query_hash', 'b3055c01b4b222b8a47dc12b090e4e64')
         url.searchParams.set('variables', JSON.stringify({
@@ -26,25 +45,11 @@ export default async function(obj) {
             fetch_comment_count: 40,
             has_threaded_comments: true,
             parent_comment_count: 24,
-            shortcode: obj.id
+            shortcode: id
         }))
 
-        const cookie = getCookie('instagram');
+        data = (await request(url, cookie)).data;
 
-        data = await fetch(url, {
-            headers: {
-                ...commonInstagramHeaders,
-                'x-ig-www-claim': cookie?._wwwClaim || '0',
-                'x-csrftoken': cookie?.values()?.csrftoken,
-                cookie
-            }
-        })
-
-        if (data.headers.get('X-Ig-Set-Www-Claim') && cookie)
-            cookie._wwwClaim = data.headers.get('X-Ig-Set-Www-Claim');
-
-        updateCookie(cookie, data.headers);
-        data = (await data.json()).data;
     } catch {}
 
     if (!data) return { error: 'ErrorCouldntFetch' };
@@ -74,8 +79,8 @@ export default async function(obj) {
     } else if (data?.shortcode_media?.video_url) {
         return {
             urls: data.shortcode_media.video_url,
-            filename: `instagram_${obj.id}.mp4`,
-            audioFilename: `instagram_${obj.id}_audio`
+            filename: `instagram_${id}.mp4`,
+            audioFilename: `instagram_${id}_audio`
         }
     } else if (data?.shortcode_media?.display_url) {
         return {
@@ -85,4 +90,65 @@ export default async function(obj) {
     }
 
     return { error: 'ErrorEmptyDownload' }
+}
+
+async function usernameToId(username, cookie) {
+    const url = new URL('https://www.instagram.com/api/v1/users/web_profile_info/');
+          url.searchParams.set('username', username);
+
+    try {
+        const data = await request(url, cookie);
+        return data?.data?.user?.id;
+    } catch {}
+}
+
+async function getStory(username, id) {
+    const cookie = getCookie('instagram');
+    if (!cookie) return { error: 'ErrorUnsupported' }
+
+    const userId = await usernameToId(username, cookie);
+    if (!userId) return { error: 'ErrorEmptyDownload' }
+
+    const url = new URL('https://www.instagram.com/api/v1/feed/reels_media/');
+          url.searchParams.set('reel_ids', userId);
+          url.searchParams.set('media_id', id);
+
+    let media;
+    try {
+        const data = await request(url, cookie);
+        media = data?.reels_media?.find(m => m.id === userId);
+    } catch {}
+
+    const item = media.items[media.media_ids.indexOf(id)];
+    if (!item) return { error: 'ErrorEmptyDownload' };
+    
+    if (item.video_versions) {
+        // todo: closest quality?
+        const video = item.video_versions.reduce(
+            (a, b) => a.width * a.height < b.width * b.height ? b : a
+        )
+
+        return {
+            urls: video.url,
+            filename: `instagram_${id}.mp4`,
+            audioFilename: `instagram_${id}_audio`
+        }
+    }
+
+    if (item.image_versions2?.candidates) {
+        return {
+            urls: item.image_versions2.candidates[0].url,
+            isPhoto: true
+        }
+    }
+
+    return { error: 'ErrorCouldntFetch' };
+}
+
+export default function(obj) {
+    const { postId, storyId, username } = obj;
+    if (postId) return getPost(postId);
+    if (username && storyId) return getStory(username, storyId);
+
+    return { error: 'ErrorUnsupported' }
 }

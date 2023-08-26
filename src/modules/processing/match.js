@@ -107,7 +107,10 @@ export default async function (host, patternMatch, url, lang, obj) {
                 });
                 break;
             case "instagram":
-                r = await instagram({ id: patternMatch["id"] });
+                r = await instagram({
+                    ...patternMatch,
+                    quality: obj.vQuality
+                })
                 break;
             case "vine":
                 r = await vine({ id: patternMatch["id"] });

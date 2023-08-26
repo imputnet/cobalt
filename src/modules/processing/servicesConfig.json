@@ -53,8 +53,11 @@
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels & posts",
-            "patterns": ["reels/:id", "reel/:id", "p/:id"],
+            "alias": "instagram reels, posts & stories",
+            "patterns": [
+                "reels/:postId", "reel/:postId", "p/:postId",
+                "stories/:username/:storyId"
+            ],
             "enabled": true
         },
         "vine": {
