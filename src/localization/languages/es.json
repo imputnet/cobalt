@@ -27,7 +27,7 @@
         "ErrorPageRenderFail": "si estás leyendo esto, entonces hay algo mal con el renderizado de la página. por favor {ContactLink}. asegúrate de proporcionar el dominio en el que este error está presente y el hash del commit actual ({s}). gracias de antemano :D",
         "ErrorRateLimit": "estás haciendo demasiadas solicitudes. ¡inténtalo de nuevo en un minuto!",
         "ErrorCouldntFetch": "no he podido encontrar nada de este enlace. ¡comprueba que funcione e intenta de nuevo! algunos contenidos pueden estar restringidos por región, así que ten eso en cuenta.",
-        "ErrorLengthLimit": "no puedo procesar vídeos más de {s} minutos, ¡así que elige algo más corto!",
+        "ErrorLengthLimit": "no puedo procesar vídeos que duren más de {s} minutos, ¡así que elige algo más corto!",
         "ErrorBadFetch": "algo salió mal cuando trate de obtener información sobre tu enlace. ¿estás seguro de que funciona? asegurate de que sea así y prueba nuevamente.",
         "ErrorNoInternet": "no hay internet o el api de cobalt no está disponible temporalmente. revisa tu conexión e intenta de nuevo.",
         "ErrorCantConnectToServiceAPI": "no se pudo conectar al api de servicio. tal vez está caído, o cobalt fue bloqueado. inténtalo de nuevo, pero si es error persiste, {ContactLink}.",
