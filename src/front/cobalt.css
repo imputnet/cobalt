@@ -797,11 +797,15 @@ button:active,
     width: 100%;
     text-align: center;
     position: absolute;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: calc(env(safe-area-inset-top) + 1rem);
+}
+.urgent-text {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 .no-transparency .glass-bkg,
 .no-transparency #popup-backdrop {

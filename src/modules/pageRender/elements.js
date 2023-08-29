@@ -205,7 +205,9 @@ export function celebrationsEmoji() {
 }
 export function urgentNotice(obj) {
     if (obj.visible) {
-        return `<div id="urgent-notice" class="urgent-notice explanation" onclick="${obj.action}">${emoji(obj.emoji, 18)} ${obj.text}</div>`
+        return `<div id="urgent-notice" class="urgent-notice explanation">` +
+            `<span class="urgent-text" onclick="${obj.action}">${emoji(obj.emoji, 18)} ${obj.text}</span>` +
+        `</div>`
     }
     return ``
 }
