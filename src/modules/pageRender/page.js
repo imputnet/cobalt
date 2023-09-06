@@ -440,16 +440,15 @@ export default function(obj) {
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
                     body: checkbox([{
-                        action: "disableChangelog",
-                        name: t("SettingsDisableNotifications")
-                    }, {
                         action: "downloadPopup",
                         name: t("SettingsEnableDownloadPopup"),
-                        padding: "no-margin",
                         aria: t("AccessibilityEnableDownloadPopup")
                     }, {
                         action: "disableMetadata",
-                        name: t("SettingsDisableMetadata"),
+                        name: t("SettingsDisableMetadata")
+                    }, {
+                        action: "disableChangelog",
+                        name: t("SettingsDisableNotifications"),
                         padding: "no-margin"
                     }])
                 })

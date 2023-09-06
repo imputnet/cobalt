@@ -18,7 +18,14 @@ const switchers = {
     "vimeoDash": ["false", "true"],
     "audioMode": ["false", "true"]
 };
-const checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio", "reduceTransparency", "disableAnimations", "disableMetadata"];
+const checkboxes = [
+    "disableTikTokWatermark",
+    "fullTikTokAudio",
+    "muteAudio",
+    "reduceTransparency",
+    "disableAnimations",
+    "disableMetadata"
+];
 const exceptions = { // used for mobile devices
     "vQuality": "720"
 };
