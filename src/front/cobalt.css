@@ -479,6 +479,7 @@ button:active,
     align-items: center;
     gap: 0.7rem;
     padding-bottom: 0.7rem;
+    flex-wrap: wrap;
 }
 .changelog-tag-version {
     font-size: 1rem;
