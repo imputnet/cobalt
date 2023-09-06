@@ -9,9 +9,6 @@ import { loadLoc } from "./localization/manager.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { runWeb } from "./core/web.js";
-import { runAPI } from "./core/api.js";
-
 const app = express();
 
 const gitCommit = shortCommit();
@@ -28,8 +25,10 @@ const apiMode = process.env.apiURL && process.env.apiPort && !((process.env.webU
 const webMode = process.env.webURL && process.env.webPort && !((process.env.apiURL && process.env.apiPort) || (process.env.selfURL && process.env.port));
 
 if (apiMode) {
+    const { runAPI } = await import('./core/api.js');
     runAPI(express, app, gitCommit, gitBranch, __dirname)
 } else if (webMode) {
+    const { runWeb } = await import('./core/web.js');
     await runWeb(express, app, gitCommit, gitBranch, __dirname)
 } else {
     console.log(Red(`cobalt wasn't configured yet or configuration is invalid.\n`) + Bright(`please run the setup script to fix this: `) + Green(`npm run setup`))
