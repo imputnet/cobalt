@@ -136,6 +136,8 @@
         "KeyboardShortcutClosePopup": "cerrar todos los popups",
         "CollapseLegal": "cosas legales",
         "FairUse": "cobalt es una herramiento para facilitar la descarga de contenido del internet y toma <span class=\"text-backdrop\">cero responsabilidad</span>. eres responsable de lo que descargas, cómo usas y distribuyes ese contenido.\n\ncobalt no obtiene ninguna información sobre ti, es imposible que pueda ser soplón, ¡pero cuidado al usar el contenido de otros y siempre dale crédito a los creadores originales!\n\ncuando se usa en propósitos educaionales (lectura, tarea, etc) por favor adjunta el link fuente.\n\nel fair use y los créditos benefician a todos.",
-        "UrgentFeatureUpdate71": "¡más servicios disponibles!"
+        "UrgentFeatureUpdate71": "¡más servicios disponibles!",
+        "UrgentThanks": "¡gracias por el apoyo!",
+        "SettingsDisableMetadata": "no agregar metadatos"
     }
 }
