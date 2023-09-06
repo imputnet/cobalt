@@ -175,6 +175,24 @@ input[type="text"],
     backdrop-filter: blur(7px);
     -webkit-backdrop-filter: blur(7px);
 }
+.glass-bkg.alone {
+    z-index: -1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+.glass-bkg.small {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    position: absolute;
+    border: var(--accent-highlight) solid 0.15rem;
+    border-radius: 8px/9px;
+}
 .desktop button:hover,
 .desktop .switch:hover,
 .desktop .checkbox:hover,
@@ -198,7 +216,7 @@ button:active,
 .popup.small .switch {
     background: var(--accent-button-elevated);
 }
-.popup.small .switch:hover {
+.desktop .popup.small .switch:hover {
     background: var(--accent-hover-elevated);
 }
 .switch.text-backdrop,
@@ -267,7 +285,6 @@ button:active,
 }
 .box {
     background: var(--background);
-    border: var(--glass) solid .2rem;
     color: var(--accent);
 }
 #url-input-area {
@@ -375,7 +392,8 @@ button:active,
     max-height: 95%;
     opacity: 0;
     transform: translate(-50%,-48%)scale(.95);
-    box-shadow: 0 0 20px 0 var(--accent-hover-transparent);
+    box-shadow: 0 0 0 0.2rem var(--glass) inset,
+                0 0 20px 0 var(--accent-hover-transparent);
 }
 .popup.visible {
     visibility: visible;
@@ -404,7 +422,6 @@ button:active,
 .popup.small {
     width: 20%;
     box-shadow: 0px 0px 60px 0px var(--accent-hover);
-    border: var(--accent-highlight) solid 0.15rem;
     padding: 1.7rem;
     transform: translate(-50%,-50%)scale(.95);
     pointer-events: all;
@@ -530,7 +547,6 @@ button:active,
     z-index: 999;
     padding-top: calc(env(safe-area-inset-top)/2 + 1.7rem);
     width: 100%;
-    border-bottom: var(--accent-highlight) solid 0.1rem;
 }
 .settings-category {
     padding-bottom: 1rem;
@@ -629,7 +645,6 @@ button:active,
     width: auto;
     flex-direction: row;
     flex-wrap: nowrap;
-    overflow-x: scroll;
     scrollbar-width: none;
 }
 .switches .switch {
@@ -672,7 +687,6 @@ button:active,
     width: 100%;
     padding-top: 0.2rem;
     padding-bottom: 1.7rem;
-    border-top: var(--accent-highlight) solid 0.1rem;
 }
 .popup-tabs-child {
     width: 100%;
@@ -797,11 +811,15 @@ button:active,
     width: 100%;
     text-align: center;
     position: absolute;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: calc(env(safe-area-inset-top) + 1rem);
+}
+.urgent-text {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 .no-transparency .glass-bkg,
 .no-transparency #popup-backdrop {
@@ -903,13 +921,17 @@ button:active,
 .scrollable #popup-content {
     border-radius: 8px / 9px;
 }
-#popup-header {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+#popup-header .glass-bkg {
+    border-top-left-radius: 8px 9px;
+    border-top-right-radius: 8px 9px;
+    border-bottom: var(--accent-highlight) solid 0.1rem;
+    top: -1px;
 }
-#popup-tabs {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+#popup-tabs .glass-bkg {
+    border-bottom-left-radius: 8px 9px;
+    border-bottom-right-radius: 8px 9px;
+    border-top: var(--accent-highlight) solid 0.1rem;
+    bottom: -1px;
 }
 .switches .first {
     border-top-left-radius: 5px 6px;
@@ -1005,87 +1027,6 @@ button:active,
         width: calc(100% - 1.3rem);
     }
 }
-@media screen and (max-width: 320px) {
-    :root {
-        --gap: 0.38rem;
-        --gap-no-icon: 0.38rem;
-        --line-height: 1.2rem;
-    }
-    #popup-title {
-        font-size: 1.07rem;
-        line-height: 1.5rem;
-    }
-    .checkbox {
-        width: calc(100% - 1rem);
-    }
-    .footer-button,
-    #audioMode-false,
-    #audioMode-true,
-    #paste {
-        font-size: 0!important;
-    }
-    .footer-button .emoji,
-    #audioMode-false .emoji,
-    #audioMode-true .emoji,
-    #paste .emoji {
-        margin-right: 0;
-    }
-    .switch,
-    .checkbox,
-    .category-title,
-    .subtitle,
-    #popup-desc,
-    .collapse-title {
-        font-size: 0.7rem;
-    }
-    .collapse-header {
-        padding: 0.5rem;
-    }
-    #popup-above-title,
-    #url-input-area {
-        font-size: 0.6rem;
-    }
-    .explanation {
-        font-size: 0.6rem;
-        margin-top: 0.5rem;
-        line-height: 1rem!important;
-    }
-    #popup-desc {
-        line-height: 1.2rem;
-        font-size: 0.64rem;
-    }
-    .changelog-subtitle, #popup-subtitle {
-        font-size: 0.8rem!important;
-    }
-    .category-title {
-        margin-bottom: 0.8rem;
-    }
-    .emoji {
-        height: 18px;
-        width: 18px;
-    }
-    .desc-padding {
-        padding-bottom: 0.8rem;
-    }
-    #logo {
-        font-size: 0.8rem;
-    }
-    .popup,
-    .popup.scrollable,
-    .popup.small {
-        height: 98%;
-    }
-    [type=checkbox] {
-        width: 15px;
-        height: 15px;
-        border: 0.12rem solid var(--accent);
-    }
-    [type=checkbox]:before {
-        transform: scaleY(.8)scaleX(.7)rotate(45deg);
-        left: 3.4px;
-        top: -2px;
-    }
-}
 @media screen and (max-width: 720px) {
     #cobalt-main-box {
         width: calc(100% - (0.7rem * 2));
@@ -1124,9 +1065,19 @@ button:active,
         padding-top: calc(env(safe-area-inset-bottom)/2 + 1rem);
     }
     .popup,
-    #popup-header,
-    #popup-tabs {
+    #popup-header .glass-bkg,
+    #popup-tabs .glass-bkg,
+    .glass-bkg.small {
         border-radius: 0;
+    }
+    #popup-tabs .glass-bkg {
+        bottom: 0;
+    }
+    .switches {
+        overflow-x: scroll;
+    }
+    .checkbox {
+        margin-right: 0;
     }
     .popup.center {
         top: unset;
@@ -1141,10 +1092,12 @@ button:active,
         left: 0;
         transform: none;
         position: absolute;
-        border: none;
-        border-top: var(--accent-highlight) solid 0.15rem;
         padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.7rem);
         transform: translateY(30rem);
+    }
+    .glass-bkg.small {
+        border: none;
+        border-top: var(--accent-highlight) solid 0.15rem;
     }
     .popup.small.visible {
         transform: none;
@@ -1173,6 +1126,7 @@ button:active,
         width: 100%;
         height: 100%;
         max-height: 100%;
+        box-shadow: none;
     }
     #popup-tabs {
         padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.5rem);

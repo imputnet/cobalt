@@ -3,10 +3,16 @@ export default function (inHost, inURL) {
     let url = String(inURL);
 
     switch(host) {
+        case "youtube":
+            if (url.startsWith("https://youtube.com/live/") || url.startsWith("https://www.youtube.com/live/")) {
+                url = url.split("?")[0].replace("www.", "");
+                url = `https://youtube.com/watch?v=${url.replace("https://youtube.com/live/", "")}`
+            }
+            break;
         case "youtu":
             if (url.startsWith("https://youtu.be/")) {
                 host = "youtube";
-                url = `https://youtube.com/watch?v=${url.replace("https://youtu.be/", "")}`;
+                url = `https://youtube.com/watch?v=${url.replace("https://youtu.be/", "")}`
             }
             break;
         case "vxtwitter":

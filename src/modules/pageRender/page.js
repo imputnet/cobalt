@@ -469,7 +469,7 @@ export default function(obj) {
                 name: "download",
                 standalone: true,
                 buttonOnly: true,
-                classes: ["small", "glass-bkg"],
+                classes: ["small"],
                 header: {
                     closeAria: t('AccessibilityGoBack'),
                     emoji: emoji("🐱", 78, 1, 1),
@@ -490,7 +490,7 @@ export default function(obj) {
                 name: "error",
                 standalone: true,
                 buttonOnly: true,
-                classes: ["small", "glass-bkg"],
+                classes: ["small"],
                 header: {
                     closeAria: t('AccessibilityGoBack'),
                     title: t('TitlePopupError'),
@@ -503,10 +503,10 @@ export default function(obj) {
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🔗",
-                text: t("UrgentFeatureUpdate71"),
+                emoji: "💖",
+                text: t("UrgentThanks"),
                 visible: true,
-                action: "popup('about', 1, 'changelog')"
+                action: "popup('about', 1, 'donate')"
             })}
             <div id="cobalt-main-box" class="center">
                 <div id="logo">${t("AppTitleCobalt")}</div>
