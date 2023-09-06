@@ -97,7 +97,7 @@
         }
     }, {
         "name": "retweeted video",
-        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
+        "url": "https://twitter.com/uwukko/status/1696901469633421344",
         "params": {},
         "expected": {
             "code": 200,
