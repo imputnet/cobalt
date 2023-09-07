@@ -133,6 +133,7 @@ function changeTab(evnt, tabId, tabClass) {
     
     evnt.currentTarget.dataset.enabled = "true";
     eid(tabId).dataset.enabled = "true";
+    eid(tabId).parentElement.scrollTop = 0;
 
     if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
     if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
