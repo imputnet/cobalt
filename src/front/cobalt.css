@@ -681,6 +681,9 @@ button:active,
 .popup-tab-content[data-enabled="false"] {
     display: none;
 }
+.popup-tab-content {
+    overflow-x: hidden!important;
+}
 #popup-tabs {
     z-index: 999;
     bottom: 0;
@@ -1147,4 +1150,22 @@ button:active,
     .popup-title {
         line-height: inherit;
     }
+}
+
+.switches-vertical {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-x: hidden!important;
+}
+.switch-vertical.first {
+    border-top-left-radius: 5px 6px!important;
+    border-top-right-radius: 5px 6px!important;
+    border-bottom-left-radius: 0px;
+}
+.switch-vertical.last {
+    border-bottom-left-radius: 5px 6px!important;
+    border-bottom-right-radius: 5px 6px!important;
+    border-top-right-radius: 0px;
 }

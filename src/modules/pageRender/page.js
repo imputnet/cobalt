@@ -1,11 +1,13 @@
 import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, otherServers } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
 import changelogManager from "../changelog/changelogManager.js";
 
 let com = getCommitInfo();
+
+let defaultApiURL = process.env.apiURL ? process.env.apiURL.slice(0, -1) : '';
 
 let enabledServices = Object.keys(s).filter(p => s[p].enabled).sort().map((p) => {
     return `<br>&bull; ${s[p].alias ? s[p].alias : p}`
@@ -26,6 +28,14 @@ for (let i in donations["crypto"]) {
     extr = ' top-margin'
 }
 
+let servers = otherServers.map((p) => {
+    if (p === "default") {
+        return { "action": defaultApiURL }
+    } else {
+        return { "action": p, "text": p.replace("https://","") }
+    }
+})
+
 export default function(obj) {
     const t = (str, replace) => { return loc(obj.lang, str, replace) };
 
@@ -36,6 +46,7 @@ export default function(obj) {
     let platform = isMobile ? "m" : "p";
     if (isMobile && isIOS) platform = "i";
 
+    servers[0]["text"] = t('SettingsServerPickerDefault');
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
 
     try {
@@ -452,6 +463,17 @@ export default function(obj) {
                         padding: "no-margin"
                     }])
                 })
+                + settingsCategory({
+                    name: "serverpicker",
+                    title: t('SettingsServerPicker'),
+                    explanation: t('SettingsServerPickerDescription'),
+                    body: switcher({
+                        name: "serverPicker",
+                        explanation: t(['SettingsServerPickerDescription'])+defaultApiURL.replace("https://","")+".",
+                        vertical: true,
+                        items: servers
+                    })
+                })
             }],
         })}
         ${popupWithBottomButtons({
@@ -567,7 +589,7 @@ export default function(obj) {
             clipboardErrorNoPermission: ` + "`" + t('ClipboardErrorNoPermission') + "`" + `,
             clipboardErrorFirefox: ` + "`" + t('ClipboardErrorFirefox') + "`" + `,
         };
-        let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+        let defaultApiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
     </script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>

@@ -13,6 +13,13 @@ export function switcher(obj) {
     let items = ``;
     if (obj.name === "download") {
         items = obj.items;
+    } else if (obj.vertical) {
+        for (let i = 0; i < obj.items.length; i++) {
+            let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : [];
+            if (i === 0) classes.push("first");
+            if (i === (obj.items.length - 1)) classes.push("last");
+            items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch switch-vertical${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
+        }
     } else {
         for (let i = 0; i < obj.items.length; i++) {
             let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : [];
@@ -22,12 +29,25 @@ export function switcher(obj) {
         }
     }
 
-    if (obj.noParent) return `<div id="${obj.name}" class="switches">${items}</div>`;
-    return `<div id="${obj.name}-switcher" class="switch-container">
+    if (obj.noParent && obj.vertical) {
+        return `<div id="${obj.name}" class="switches switches-vertical">${items}</div>`
+    } else if (obj.noParent) {
+        return `<div id="${obj.name}" class="switches">${items}</div>`
+    }
+    
+    if (obj.vertical) {
+        return `<div id="${obj.name}-switcher" class="switch-container">
+            ${obj.subtitle ? `<div class="subtitle">${obj.subtitle}</div>` : ``}
+            <div class="switches switches-vertical">${items}</div>
+            ${obj.explanation ? `<div class="explanation">${obj.explanation}</div>` : ``}
+        </div>`
+    } else {
+        return `<div id="${obj.name}-switcher" class="switch-container">
             ${obj.subtitle ? `<div class="subtitle">${obj.subtitle}</div>` : ``}
             <div class="switches">${items}</div>
             ${obj.explanation ? `<div class="explanation">${obj.explanation}</div>` : ``}
         </div>`
+    }
 }
 export function checkbox(obj) {
     let paddings = ["bottom-margin", "top-margin", "no-margin", "top-margin-only"];

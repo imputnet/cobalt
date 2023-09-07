@@ -15,5 +15,6 @@ export const
     donations = config.donations,
     ffmpegArgs = config.ffmpegArgs,
     supportedAudio = config.supportedAudio,
+    otherServers = config.otherServers,
     celebrations = config.celebrations,
     links = config.links
