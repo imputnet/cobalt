@@ -138,6 +138,11 @@
         "FairUse": "cobalt is a tool for easing content downloads from internet and takes <span class=\"text-backdrop\">zero liability</span>. you are responsible for what you download, how you use and distribute that content.\n\ncobalt does not log any info about you, it's impossible for me to snitch on you, but please be mindful when using content of others and always credit original creators!\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone.",
         "UrgentFeatureUpdate71": "more supported services!",
         "UrgentThanks": "thank you for support!",
-        "SettingsDisableMetadata": "don't add metadata"
+        "SettingsDisableMetadata": "don't add metadata",
+        "UrgentNewDomain": "new domain, same cobalt",
+        "NewDomainWelcomeTitle": "hey there!",
+        "NewDomainWelcome": "cobalt is moving! same features, same owner, simply a more rememberable domain. and still no ads.\n\n<span class=\"text-backdrop\">cobalt.tools</span> is the new main domain, aka where you are now. make sure to update your bookmarks and reinstall the web app!",
+        "DataTransferSuccess": "btw, your settings have been transferred automatically :)",
+        "DataTransferError": "something went wrong when transferring your preferences. you'll have to open settings and configure cobalt by hand."
     }
 }

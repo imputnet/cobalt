@@ -238,3 +238,10 @@ export function keyboardShortcuts(arr) {
 
     return base;
 }
+export function webLoc(t, arr) {
+    let base = ``;
+    for (let i = 0; i < arr.length; i++) {
+        base += `${arr[i]}:` + "`" + t(arr[i]) + "`" + `,`
+    }
+    return `{${base}};`
+}
