@@ -33,7 +33,7 @@ export default function(obj) {
     let isIOS = ua.match("iphone os");
     let isMobile = ua.match("android") || ua.match("iphone os");
 
-    let platform = isMobile ? "m" : "p";
+    let platform = isMobile ? "m" : "d";
     if (isMobile && isIOS) platform = "i";
 
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
