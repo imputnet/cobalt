@@ -496,7 +496,7 @@ button:active,
     padding-top: 0!important;
 }
 .desc-padding {
-    padding-bottom: 1.5rem;
+    padding-bottom: 0.7rem;
 }
 #popup-subtitle {
     font-size: 1.1rem;
@@ -511,6 +511,9 @@ button:active,
     line-height: var(--line-height);
     user-select: text;
     -webkit-user-select: text;
+}
+#desc-error {
+    padding-bottom: 1.5rem;
 }
 #popup-title {
     font-size: 1.5rem;
@@ -533,12 +536,12 @@ button:active,
 .popup-content-inner,
 .tab-content-settings,
 #picker-holder {
-    padding-top: calc(env(safe-area-inset-top)/2 + 4.9rem);
+    padding-top: calc(env(safe-area-inset-top)/2 + 4.7rem);
     padding-bottom: calc(env(safe-area-inset-bottom)/2 + 4.8rem);
 }
 .tab-content-settings,
 #tab-about-about .popup-content-inner {
-    padding-top: calc(env(safe-area-inset-top)/2 + 6.2rem);;
+    padding-top: calc(env(safe-area-inset-top)/2 + 6rem);;
 }
 .bullpadding {
     padding-left: 0.58rem;
@@ -550,7 +553,7 @@ button:active,
     width: 100%;
 }
 .settings-category {
-    padding-bottom: 1rem;
+    padding-bottom: 0.7rem;
 }
 .separator {
     float: left;
