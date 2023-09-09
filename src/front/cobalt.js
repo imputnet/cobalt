@@ -302,10 +302,10 @@ function loadSettings() {
         eid("downloadPopup").checked = true;
     }
     if (sGet("reduceTransparency") === "true" || isOldFirefox) {
-        eid("cobalt-body").classList.toggle('no-transparency');
+        eid("cobalt-body").classList.add('no-transparency');
     }
     if (sGet("disableAnimations") === "true") {
-        eid("cobalt-body").classList.toggle('no-animation');
+        eid("cobalt-body").classList.add('no-animation');
     }
     for (let i = 0; i < checkboxes.length; i++) {
         if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
@@ -493,7 +493,7 @@ function restoreUpdateHistory() {
     eid("changelog-history").innerHTML = store.historyButton;
 }
 function unpackSettings(b64) {
-    let changed = false;
+    let changed = null;
     try {
         let settingsToImport = JSON.parse(atob(b64));
         let currentSettings = JSON.parse(JSON.stringify(localStorage));
@@ -535,15 +535,21 @@ window.onload = () => {
         eid("url-input-area").value = pageQuery.get("u");
         button()
     }
-    if (pageQuery.has("migration") && !sGet("migrated")) {
-        if (pageQuery.has("settingsData")) {
+    if (pageQuery.has("migration")) {
+        if (pageQuery.has("settingsData") && !sGet("migrated")) {
             let setUn = unpackSettings(pageQuery.get("settingsData"));
-            eid("desc-migration").innerHTML += setUn ? `<br/><br/>${loc.DataTransferSuccess}` : `<br/><br/>${loc.DataTransferError}`
+            if (setUn !== null) {
+                if (setUn) {
+                    sSet("migrated", "true")
+                    eid("desc-migration").innerHTML += `<br/><br/>${loc.DataTransferSuccess}`
+                } else {
+                    eid("desc-migration").innerHTML += `<br/><br/>${loc.DataTransferError}`
+                }
+            }
         }
         loadSettings();
         detectColorScheme();
         popup("migration", 1);
-        sSet("migrated", "true")
     }
     window.history.replaceState(null, '', window.location.pathname);
 
