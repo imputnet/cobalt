@@ -22,7 +22,7 @@
             "enabled": true
         },
         "youtube": {
-            "alias": "youtube videos & shorts & music",
+            "alias": "youtube videos, shorts & music",
             "patterns": ["watch?v=:id", "embed/:id"],
             "bestAudio": "opus",
             "enabled": true
@@ -32,7 +32,7 @@
             "enabled": true
         },
         "tiktok": {
-            "alias": "tiktok videos & photos & audio",
+            "alias": "tiktok videos, photos & audio",
             "patterns": [":user/video/:postId", ":id", "t/:id"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true

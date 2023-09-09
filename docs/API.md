@@ -4,8 +4,7 @@ This document provides info about methods and acceptable variables for all cobal
 ```
 ⚠️ Main API instance has moved to https://co.wuk.sh/
 
-Previous API domain will stop redirecting users to correct API instance after July 25th.  
-Make sure to update your projects in time. 
+Make sure your projects use the correct API domain.
 ```
 
 ## POST: ``/api/json``
@@ -15,18 +14,18 @@ Request Body Type: ``application/json``<br>
 Response Body Type: ``application/json``
 
 ### Request Body Variables
-| key             | type    | variables                         | default   | description                                                                    |
-|:----------------|:--------|:----------------------------------|:----------|:-------------------------------------------------------------------------------|
-| url             | string  | Sharable URL encoded as URI       | ``null``  | **Must** be included in every request.                                         |
-| vCodec          | string  | ``h264 / av1 / vp9``              | ``h264``  | Applies only to YouTube downloads. ``h264`` is recommended for phones.         |
-| vQuality        | string  | ``144 / ... / 2160 / max``        | ``720``   | ``720`` quality is recommended for phones.                                     |
-| aFormat         | string  | ``best / mp3 / ogg / wav / opus`` | ``mp3``   |                                                                                |
-| isAudioOnly     | boolean | ``true / false``                  | ``false`` |                                                                                |
-| isNoTTWatermark | boolean | ``true / false``                  | ``false`` | Changes whether downloaded TikTok & Douyin videos have watermarks.             |
-| isTTFullAudio   | boolean | ``true / false``                  | ``false`` | Enables download of original sound used in a TikTok video.                     |
-| isAudioMuted    | boolean | ``true / false``                  | ``false`` | Disables audio track in video downloads.                                       |
-| dubLang         | boolean | ``true / false``                  | ``false`` | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
-| disableMetadata | boolean | ``true / false``                  | ``false`` | Disables file metadata when set to ``true``.                                   |
+| key                 | type    | variables                         | default   | description                                                                    |
+|:--------------------|:--------|:----------------------------------|:----------|:-------------------------------------------------------------------------------|
+| ``url``             | string  | Sharable URL encoded as URI       | ``null``  | **Must** be included in every request.                                         |
+| ``vCodec``          | string  | ``h264 / av1 / vp9``              | ``h264``  | Applies only to YouTube downloads. ``h264`` is recommended for phones.         |
+| ``vQuality``        | string  | ``144 / ... / 2160 / max``        | ``720``   | ``720`` quality is recommended for phones.                                     |
+| ``aFormat``         | string  | ``best / mp3 / ogg / wav / opus`` | ``mp3``   |                                                                                |
+| ``isAudioOnly``     | boolean | ``true / false``                  | ``false`` |                                                                                |
+| ``isNoTTWatermark`` | boolean | ``true / false``                  | ``false`` | Changes whether downloaded TikTok videos have watermarks.                      |
+| ``isTTFullAudio``   | boolean | ``true / false``                  | ``false`` | Enables download of original sound used in a TikTok video.                     |
+| ``isAudioMuted``    | boolean | ``true / false``                  | ``false`` | Disables audio track in video downloads.                                       |
+| ``dubLang``         | boolean | ``true / false``                  | ``false`` | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
+| ``disableMetadata`` | boolean | ``true / false``                  | ``false`` | Disables file metadata when set to ``true``.                                   |
 
 ### Response Body Variables
 | key        | type   | variables                                                     |

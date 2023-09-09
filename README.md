@@ -1,6 +1,6 @@
 # cobalt
 Best way to save what you love.  
-Live web app: [co.wukko.me](https://co.wukko.me/)  
+Live web app: [cobalt.tools](https://cobalt.tools/)  
 
 ![cobalt logo with repeated logo pattern background](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/pattern.png "cobalt logo with repeated logo pattern background")  
 
