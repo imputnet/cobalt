@@ -6,6 +6,8 @@ services:
         restart: unless-stopped
         container_name: cobalt-api
 
+        init: true
+
         # if container doesn't run detached on your machine, uncomment the next line:
         #tty: true
 
@@ -21,16 +23,21 @@ services:
             # replace apiName with your instance's distinctive name
             - apiName=eu-nl
             # if you want to use cookies when fetching data from services, uncomment the next line
-            #- cookiePath=cookies.json
+            #- cookiePath=/cookies.json
             # see src/modules/processing/cookie/cookies_example.json for example file.
-
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
+
+        # if you want to use cookies when fetching data from services, uncomment volumes and next line
+        #volumes:
+            #- ./cookies.json:/cookies.json
 
     cobalt-web:
         image: ghcr.io/wukko/cobalt:latest
         restart: unless-stopped
         container_name: cobalt-web
+
+        init: true
 
         # if container doesn't run detached on your machine, uncomment the next line:
         #tty: true
