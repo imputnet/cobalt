@@ -136,6 +136,13 @@
         "KeyboardShortcutClosePopup": "închide toate popup-urile",
         "CollapseLegal": "chestii legale",
         "FairUse": "cobalt este o unealtă care ușurează descărcarea video-urilor de pe internet și are <span class=\"text-backdrop\">zero răspundere</span>. tu ești responsabil pentru ce descarci, cum folosești și cum distribui conținutul.\n\ncobalt nu reține nicio informație despre tine. e imposibil să te pârăsc, dar te rog să fii atent când folosești conținutul altora și să creditezi creatorii originali!\n\nîn folosirea cu scop educațional (cursuri, teme etc) te rog să atașezi link-ul sursă.\n\nutilizarea și creditarea corectă beneficiază pe toată lumea.",
-        "UrgentFeatureUpdate71": "mai multe servicii acceptate!"
+        "UrgentFeatureUpdate71": "mai multe servicii acceptate!",
+        "UrgentThanks": "mulțumesc pentru sprijin!",
+        "SettingsDisableMetadata": "nu adăuga metadate",
+        "UrgentNewDomain": "domeniu nou, același cobalt",
+        "NewDomainWelcomeTitle": "salut!",
+        "NewDomainWelcome": "cobalt se muta! aceleași calități, același proprietar, pur și simplu un domeniu mai memorabil. și încă zero reclame.\n\n<span class=\"text-backdrop\">cobalt.tools</span> este noul doemniu principal, aka unde ești acum. nu uita să actualizezi bookmark-ul și reinstalează aplicația web!",
+        "DataTransferSuccess": "apropo, setărilte tale au fost transferate automat :)",
+        "DataTransferError": "ceva nu a mers la transferatul setărilor. va trebui să deschizi setările și să configurezi manual cobalt."
     }
 }
