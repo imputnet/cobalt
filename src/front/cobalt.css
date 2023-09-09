@@ -503,7 +503,7 @@ button:active,
     padding-bottom: var(--padding-1);
 }
 #popup-desc,
-#desc-error,
+.desc-error,
 #popup-info-desc {
     width: 100%;
     text-align: left;
@@ -512,7 +512,7 @@ button:active,
     user-select: text;
     -webkit-user-select: text;
 }
-#desc-error {
+.desc-error {
     padding-bottom: 1.5rem;
 }
 #popup-title {
@@ -836,23 +836,6 @@ button:active,
 .no-animation .popup,
 .no-animation #popup-backdrop {
     transition: none;
-}
-#floating-notification-area {
-    visibility: visible;
-    z-index: 999999;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding-top: 2rem;
-}
-.floating-notification {
-    text-align: center;
-    padding: 0.6rem 1.2rem;
-    background: var(--accent-hover-elevated);
-    display: flex;
-    box-shadow: 0 0 20px 10px var(--accent-hover);
-    font-size: 0.85rem;
 }
 .popup-from-bottom {
     position: fixed;

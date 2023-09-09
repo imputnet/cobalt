@@ -70,7 +70,7 @@ function setup() {
                 })
                 break;
             case 'web':
-                console.log(Bright("\nAwesome! What's the domain this web app instance will be running on? (localhost)\nExample: co.wukko.me"));
+                console.log(Bright("\nAwesome! What's the domain this web app instance will be running on? (localhost)\nExample: cobalt.tools"));
     
                 rl.question(q, webURL => {
                     ob['webURL'] = `http://localhost:9001/`;

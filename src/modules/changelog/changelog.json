@@ -1,5 +1,16 @@
 {
     "current": {
+        "version": "7.4",
+        "date": "September 9, 2023",
+        "title": "new domain, what's coming in future, bug fixes, and more!",
+        "banner": {
+            "file": "newdomain.webp",
+            "width": 960,
+            "height": 540
+        },
+        "content": "cobalt is finally moving to its own domain! many of you have been anticipating this, and many kept forgetting the link due to how cryptic it was.\n\nwell, worry no more - <span class=\"text-backdrop\">cobalt.tools</span> is here.\n\nif you haven't yet, open <a class=\"text-backdrop link\" href=\"https://co.wukko.me\" target=\"_blank\">co.wukko.me</a> to transfer your settings here! no additional action from you is required. just open the old link and cobalt will do everything for you :)\n\nmake sure to <span class=\"text-backdrop\">update your bookmarks</span> and reinstall the web app!\n\nhere's what domain change means:\n*; still no ads, same owner, same features, same reliability. just a way more rememberable link (it's literally two words).\n*; cobalt.tools makes it clear that cobalt is a tool and that it's \"cobalt\", not \"wukko\".\n*; i can host various versions of cobalt on subdomains without links looking awkward.\n*; i can host cobalt-related websites without polluting my personal domain's dns (such as crowdin).\n*; i stand by same privacy policies (and in fact am using the same exact server as before).\n\nthe domain change is required for the future of cobalt.\n\nhere's what's coming soon:\n*; support for many top-requested sites, such as (but not limited to) twitch and niconico.\n*; education version of cobalt, as often requested by students and educators.\n*; major localization system upgrade, allowing for simpler community contributions.\n*; region-specific versions with 100% translations and tweaks.\n*; native clients for desktop and mobile (not sure about this one, i'm no superman).\n*; ...and more!\n\nnow, here's what's new in 7.4:\n*; tabs in popups now scroll to top on tab bar tap.\n*; padding across web app was tuned.\n*; (obviously) a migration agent. soon will be used for importing and exporting settings.\n*; some minor clean ups in codebase.\n\nif you want to help cobalt achieve goals listed above, consider donating! donations are the only way i can keep cobalt ad-less, powerful, (basically) limitless, and also 100% free.\n\nin fact, donations have helped me grow cobalt more than i've ever anticipated. just imagine how much better it will be in a year.\n\ngo to donations down below to find ways to donate!\n\nthank you for reading through all of this. i hope you enjoy this update and have a great day :D"
+    },
+    "history": [{
         "version": "7.2 & 7.3",
         "date": "September 6, 2023",
         "title": "extended video length limit, metadata toggle, ui improvements, and more!",
@@ -9,8 +20,7 @@
             "height": 280
         },
         "content": "this update gives cobalt a sharp look in chromium browsers and makes it even more useful than before. check out the full changelog below!\n\nservice improvements:\n*; increased video length limit from 3 hours to 5 hours. feel free to download lectures you need :)\n*; you can now disable file metadata in settings.\n*; fixed a bug which previously caused some downloads to end up being 0 bytes.\n\nui improvements:\n*; fixed clickable area for urgent notice (text on top).\n*; fixed blurry header in chrome.\n*; fixed blurry tab bar in chrome.\n*; fixed blurry switches in chrome.\n*; fixed weirdly rounded corners in popups.\n*; fixed 1px gap on edges of various elements in popup in chrome.\n*; fixed overscrolling in other settings tab on ios.\n*; fixed unexpected button highlight effect on phones.\n*; removed outdated fixes for tiny screens.\n\nother improvements:\n*; cobalt web & api start faster than before, additional preparation functions aren't unexpectedly run anymore.\n*; cobalt is now available as a docker package. check it out on <a class=\"text-backdrop link\" href=\"https://github.com/wukko/cobalt/pkgs/container/cobalt\" target=\"_blank\">github</a>.\n\nthank you for being here. i hope you have a great day :D"
-    },
-    "history": [{
+    }, {
         "version": "7.1",
         "date": "August 20, 2023",
         "title": "instagram, streamable, video metadata, and more!",

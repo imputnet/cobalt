@@ -1,4 +1,4 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts } from "./elements.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts, webLoc } from "./elements.js";
 import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -75,7 +75,7 @@ export default function(obj) {
 
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
-    <body id="cobalt-body" ${platform === "p" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
+    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
         <body id="notification-area"></div>
         ${multiPagePopup({
             name: "about",
@@ -452,7 +452,7 @@ export default function(obj) {
                         padding: "no-margin"
                     }])
                 })
-            }],
+            }]
         })}
         ${popupWithBottomButtons({
             name: "picker",
@@ -492,21 +492,35 @@ export default function(obj) {
                 buttonOnly: true,
                 classes: ["small"],
                 header: {
-                    closeAria: t('AccessibilityGoBack'),
                     title: t('TitlePopupError'),
                     emoji: emoji("😿", 78, 1, 1),
                 },
-                body: `<div id="desc-error" class="desc-padding subtext"></div>`,
+                body: `<div id="desc-error" class="desc-padding subtext desc-error"></div>`,
                 buttonText: t('ErrorPopupCloseButton')
             })}
+        </div>
+        <div id="popup-migration-container" class="popup-from-bottom">
+            ${popup({
+                name: "migration",
+                standalone: true,
+                buttonOnly: true,
+                classes: ["small"],
+                header: {
+                    title: t('NewDomainWelcomeTitle'),
+                    emoji: emoji("😸", 78, 1, 1),
+                },
+                body: `<div id="desc-migration" class="desc-padding subtext desc-error">${t('NewDomainWelcome')}</div>`,
+                buttonText: t('ErrorPopupCloseButton')
+            })}
+            <div id="popup-backdrop-message" onclick="popup('message', 0)"></div>
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "💖",
-                text: t("UrgentThanks"),
+                emoji: "✨",
+                text: t("UrgentNewDomain"),
                 visible: true,
-                action: "popup('about', 1, 'donate')"
+                action: "popup('about', 1, 'changelog')"
             })}
             <div id="cobalt-main-box" class="center">
                 <div id="logo">${t("AppTitleCobalt")}</div>
@@ -554,20 +568,25 @@ export default function(obj) {
         </div>
     </body>
     <script type="text/javascript">
-        const loc = {
-            noInternet: ` + "`" + t('ErrorNoInternet') + "`" + `,
-            noURLReturned: ` + "`" + t('ErrorNoUrlReturned') + "`" + `,
-            unknownStatus: ` + "`" + t('ErrorUnknownStatus') + "`" + `,
-            collapseHistory: ` + "`" + t('ChangelogPressToHide') + "`" + `,
-            pickerDefault: ` + "`" + t('MediaPickerTitle') + "`" + `,
-            pickerImages: ` + "`" + t('ImagePickerTitle') + "`" + `,
-            pickerImagesExpl: ` + "`" + t(`ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-            pickerDefaultExpl: ` + "`" + t(`MediaPickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-            featureErrorGeneric: ` + "`" + t('FeatureErrorGeneric') + "`" + `,
-            clipboardErrorNoPermission: ` + "`" + t('ClipboardErrorNoPermission') + "`" + `,
-            clipboardErrorFirefox: ` + "`" + t('ClipboardErrorFirefox') + "`" + `,
-        };
         let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+        const loc = ${webLoc(t,
+        [
+            'ErrorNoInternet',
+            'ErrorNoUrlReturned',
+            'ErrorUnknownStatus',
+            'ChangelogPressToHide',
+            'MediaPickerTitle',
+            'MediaPickerExplanationPhone',
+            'MediaPickerExplanationPC',
+            'ImagePickerTitle',
+            'ImagePickerExplanationPhone',
+            'ImagePickerExplanationPC',
+            'FeatureErrorGeneric',
+            'ClipboardErrorNoPermission',
+            'ClipboardErrorFirefox',
+            'DataTransferSuccess',
+            'DataTransferError'
+        ])}
     </script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>

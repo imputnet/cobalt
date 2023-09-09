@@ -33,7 +33,8 @@ const names = {
     "🔗": "link",
     "⌨": "keyboard",
     "📑": "boring_document",
-    "🧮": "abacus"
+    "🧮": "abacus",
+    "😸": "cat_grin"
 }
 let sizing = {
     18: 0.8,
