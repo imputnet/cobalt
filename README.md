@@ -20,6 +20,7 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 | Instagram Reels         | ✅           | ✅         | ✅         |                                                                                                                           |
 | Pinterest               | ✅           | ✅         | ✅         | Support for videos and stories.                                                                                           |
 | Reddit                  | ✅           | ✅         | ✅         | Support for GIFs and videos.                                                                                              |
+| Rutube                  | ✅           | ✅         | ✅         |                                                                                                                           |
 | SoundCloud              | ➖           | ✅         | ➖         | Audio metadata, downloads from private links.                                                                             |
 | Streamable              | ✅           | ✅         | ✅         |                                                                                                                           |
 | TikTok                  | ✅           | ✅         | ✅         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
