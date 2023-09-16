@@ -136,6 +136,13 @@
         "KeyboardShortcutClosePopup": "Schließe alle Pop-ups",
         "CollapseLegal": "Rechtliche Informationen",
         "FairUse": "Cobalt ist ein Werkzeug zur Vereinfachung von Internet-Downloads und übernimmt <span class=\"text-backdrop\">keine Haftung</span>. Du bist für das, was du herunterlädst, wie du den Inhalt verwendest und verteilst, verantwortlich.\n\nCobalt erfasst keinerlei Informationen über dich. Es ist für mich unmöglich, dich zu verraten. Bitte sei jedoch achtsam, wenn du Inhalte von anderen nutzt, und gib immer die ursprünglichen Schöpfer an!\n\nBei Verwendung zu Bildungszwecken (Vorlesungen, Hausaufgaben usw.) füge bitte den Quelllink hinzu.\n\nFair Use und angemessene Anerkennung kommen allen zugute.",
-        "UrgentFeatureUpdate71": "Mehr unterstützte Dienste!"
+        "UrgentFeatureUpdate71": "Mehr unterstützte Dienste!",
+        "UrgentThanks": "Danke für die Unterstützung!",
+        "SettingsDisableMetadata": "Füge keine Metadaten hinzu",
+        "UrgentNewDomain": "Neue Domain, dasselbe Cobalt",
+        "NewDomainWelcomeTitle": "Hallo!",
+        "NewDomainWelcome": "Cobalt zieht um! Gleiche Funktionen, gleicher Besitzer, einfach eine leichter zu merkende Domain. Und immer noch keine Werbung.\n\n<span class=\"text-backdrop\">cobalt.tools</span> ist die neue Hauptdomain, das heißt, wo du dich gerade befindest. Stelle sicher, deine Lesezeichen zu aktualisieren und die Web-App erneut zu installieren!",
+        "DataTransferSuccess": "Übrigens, deine Einstellungen wurden automatisch übertragen :)",
+        "DataTransferError": "Etwas ist schiefgelaufen bei der Übertragung deiner Einstellungen. Du musst die Einstellungen öffnen und Cobalt manuell konfigurieren."
     }
 }
