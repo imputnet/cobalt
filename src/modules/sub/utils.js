@@ -70,12 +70,6 @@ export function cleanURL(url, host) {
         url = url.replaceAll(forbiddenChars[i], '')
     }
     url = url.replace('https//', 'https://')
-    if (url.includes('youtube.com/shorts/')) {
-        url = url.split('?')[0].replace('shorts/', 'watch?v=');
-    }
-    if (url.includes('clips.twitch.tv')) {
-        url = url.split('?')[0].replace('clips.twitch.tv/', 'twitch.tv/_/clip/');
-    }
     return url.slice(0, 128)
 }
 export function cleanString(string) {
@@ -154,4 +148,53 @@ export function cleanHTML(html) {
     let clean = html.replace(/ {4}/g, '');
     clean = clean.replace(/\n/g, '');
     return clean
+}
+
+export function parseM3U8Line(line) {
+    let result = {};
+    let str = '', inQuotes = false, keyName = null, escaping = false;
+
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"' && !escaping) {
+            inQuotes = !inQuotes;
+            continue
+        } else if (char === ',' && !escaping && !inQuotes) {
+            if (!keyName) break;
+            result[keyName] = str;
+            keyName = null;
+            str = '';
+            continue
+        } else if (char === '\\' && !escaping) {
+            escaping = true;
+            continue
+        } else if (char === '=' && !escaping && !inQuotes) {
+            keyName = str;
+            str = '';
+            continue
+        }
+
+        str += char;
+        escaping = false
+    }
+
+    if (keyName) result[keyName] = str;
+    return result
+}
+
+export function getM3U8Formats(m3u8body) {
+    const formatLines = m3u8body.split('\n').slice(2);
+    let formats = [];
+
+    for (let i = 0; i < formatLines.length; i += 3) {
+        const mediaLine = parseM3U8Line(formatLines[i].split(':')[1]);
+        const streamLine = parseM3U8Line(formatLines[i + 1].split(':')[1]);
+        formats.push({
+            id: mediaLine['GROUP-ID'],
+            name: mediaLine.NAME,
+            resolution: streamLine.RESOLUTION ? streamLine.RESOLUTION.split('x') : null,
+            url: formatLines[i + 2]
+        })
+    }
+    return formats
 }

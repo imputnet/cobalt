@@ -73,11 +73,11 @@
             "patterns": [":id", "o/:id", "e/:id", "s/:id"],
             "enabled": true
         },
-         "twitch": {
-            "alias": "twitch vods & videos & clips",
+        "twitch": {
+            "alias": "twitch clips, videos & vods",
             "tld": "tv",
             "patterns": ["videos/:video", ":channel/clip/:clip"],
             "enabled": true
         }
-    }    
+    }
 }

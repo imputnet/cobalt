@@ -127,10 +127,10 @@ export default async function (host, patternMatch, url, lang, obj) {
                 r = await twitch({
                     vodId: patternMatch["video"] ? patternMatch["video"] : false,
                     clipId: patternMatch["clip"] ? patternMatch["clip"] : false,
-                    lang: lang, quality: obj.vQuality,
-                    isAudioOnly: obj.isAudioOnly,
-                    format: obj.vFormat
+                    quality: obj.vQuality,
+                    isAudioOnly: obj.isAudioOnly
                 });
+                break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
