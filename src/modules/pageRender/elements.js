@@ -1,4 +1,4 @@
-import { celebrations } from "../config.js";
+import { authorInfo, celebrations } from "../config.js";
 import emoji from "../emoji.js";
 
 export const backButtonSVG = `<svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,6 +159,16 @@ export function popupWithBottomButtons(obj) {
 }
 export function socialLink(emji, name, handle, url) {
     return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop link" href="${url}" target="_blank">${handle}</a></div>`
+}
+export function socialLinks(lang) {
+    let links = authorInfo.support[lang] ? authorInfo.support[lang] : authorInfo.support.default;
+    let r = ``;
+    for (let i in links) {
+        r += socialLink(
+            emoji(links[i].emoji), i, links[i].handle, links[i].url
+        )
+    }
+    return r
 }
 export function settingsCategory(obj) {
     return `<div id="settings-${obj.name}" class="settings-category">

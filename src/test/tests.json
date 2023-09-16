@@ -1099,5 +1099,60 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "rutube": [{
+        "name": "regular video",
+        "url": "https://rutube.ru/video/b2f6c27649907c2fde0af411b03825eb/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video (isAudioMuted)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "russian region lock",
+        "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video (isAudioOnly)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video (isAudioMuted)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }

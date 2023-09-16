@@ -143,6 +143,7 @@
         "NewDomainWelcomeTitle": "hey there!",
         "NewDomainWelcome": "cobalt is moving! same features, same owner, simply a more rememberable domain. and still no ads.\n\n<span class=\"text-backdrop\">cobalt.tools</span> is the new main domain, aka where you are now. make sure to update your bookmarks and reinstall the web app!",
         "DataTransferSuccess": "btw, your settings have been transferred automatically :)",
-        "DataTransferError": "something went wrong when transferring your preferences. you'll have to open settings and configure cobalt by hand."
+        "DataTransferError": "something went wrong when transferring your preferences. you'll have to open settings and configure cobalt by hand.",
+        "SupportNotAffiliated": "cobalt is <span class=\"text-backdrop\">not affiliated</span> with any services listed above."
     }
 }

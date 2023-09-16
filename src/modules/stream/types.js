@@ -152,7 +152,7 @@ export function streamVideoOnly(streamInfo, res) {
             '-c', 'copy'
         ]
         if (streamInfo.mute) args.push('-an');
-        if (streamInfo.service === "vimeo") args.push('-bsf:a', 'aac_adtstoasc');
+        if (streamInfo.service === "vimeo" || streamInfo.service === "rutube") args.push('-bsf:a', 'aac_adtstoasc');
         if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
         args.push('-f', format, 'pipe:3');
         const ffmpegProcess = spawn(ffmpeg, args, {

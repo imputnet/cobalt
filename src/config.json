@@ -7,17 +7,22 @@
         "link": "https://wukko.me/",
         "contact": "https://wukko.me/contacts",
         "support": {
-            "twitter": {
-                "url": "https://twitter.com/justusecobalt",
-                "handle": "@justusecobalt"
-            },
-            "mastodon": {
-                "url": "https://wetdry.world/@cobalt",
-                "handle": "@cobalt@wetdry.world"
-            },
-            "discord": {
-                "url": "https://discord.gg/pQPt8HBUPu",
-                "handle": "cobalt community server"
+            "default": {
+                "twitter": {
+                    "emoji": "🐦",
+                    "url": "https://twitter.com/justusecobalt",
+                    "handle": "@justusecobalt"
+                },
+                "mastodon": {
+                    "emoji": "🐘",
+                    "url": "https://wetdry.world/@cobalt",
+                    "handle": "@cobalt@wetdry.world"
+                },
+                "discord": {
+                    "emoji": "👾",
+                    "url": "https://discord.gg/pQPt8HBUPu",
+                    "handle": "cobalt community server"
+                }
             }
         }
     },
@@ -40,6 +45,7 @@
         "02-17": "😺",
         "02-22": "😺",
         "03-01": "😺",
+        "03-08": "💪",
         "05-26": "🎂",
         "08-08": "😺",
         "08-26": "🐶",
@@ -59,8 +65,7 @@
         "12-28": "🎄",
         "12-29": "🎄",
         "12-30": "🎄",
-        "12-31": "🎄",
-        "03-08": "💪"
+        "12-31": "🎄"
     },
     "supportedAudio": ["mp3", "ogg", "wav", "opus"],
     "ffmpegArgs": {

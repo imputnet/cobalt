@@ -35,4 +35,6 @@ export const testers = {
     "streamable": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length === 6),
 
     "twitch": (patternMatch) => ((patternMatch["channel"] && patternMatch["clip"] && patternMatch["clip"].length <= 100)),
+
+    "rutube": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length === 32)),
 }

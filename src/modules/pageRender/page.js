@@ -1,4 +1,4 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts, webLoc } from "./elements.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc } from "./elements.js";
 import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -71,7 +71,7 @@ export default function(obj) {
         <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
         <link rel="stylesheet" href="cobalt.css" />
 
-        <link rel="me" href="${authorInfo.support.mastodon.url}">
+        <link rel="me" href="${authorInfo.support.default.mastodon.url}">
 
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
@@ -99,7 +99,11 @@ export default function(obj) {
                         text: collapsibleList([{
                             name: "services",
                             title: `${emoji("🔗")} ${t("CollapseServices")}`,
-                            body: `${enabledServices}<br/><br/>${t("ServicesNote")}`
+                            body: `${enabledServices}`
+                            + `<div class="explanation embedded">${t("SupportNotAffiliated")}`
+                            + `${obj.lang === "ru" ? `<br>${t("SupportMetaNoticeRU")}` : ''}`
+                            + `</div>`
+                            + `${t("ServicesNote")}`
                         }, {
                             name: "keyboard",
                             title: `${emoji("⌨")} ${t("CollapseKeyboard")}`,
@@ -143,19 +147,11 @@ export default function(obj) {
                             name: "support",
                             title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
                             body: 
-                            `${t("SupportSelfTroubleshooting")}<br/><br/>
-                            ${t("FollowSupport")}<br/>
-                            ${socialLink(
-                                emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url
-                            )}
-                            ${socialLink(
-                                emoji("👾"), "discord", authorInfo.support.discord.handle, authorInfo.support.discord.url
-                            )}
-                            ${socialLink(
-                                emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url
-                            )}<br/>
-                            ${t("SourceCode")}<br/>
-                            ${socialLink(
+                            `${t("SupportSelfTroubleshooting")}<br/><br/>`
+                            + `${t("FollowSupport")}<br/>`
+                            + `${socialLinks(obj.lang)}<br/>`
+                            + `${t("SourceCode")}<br/>`
+                            + `${socialLink(
                                 emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo
                             )}<br/>
                             ${t("SupportNote")}`

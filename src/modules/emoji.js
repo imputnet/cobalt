@@ -34,7 +34,8 @@ const names = {
     "⌨": "keyboard",
     "📑": "boring_document",
     "🧮": "abacus",
-    "😸": "cat_grin"
+    "😸": "cat_grin",
+    "📰": "newspaper"
 }
 let sizing = {
     18: 0.8,

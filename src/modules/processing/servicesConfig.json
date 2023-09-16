@@ -78,6 +78,12 @@
             "tld": "tv",
             "patterns": [":channel/clip/:clip"],
             "enabled": true
+        },
+        "rutube": {
+            "alias": "rutube videos",
+            "tld": "ru",
+            "patterns": ["video/:id", "play/embed/:id"],
+            "enabled": true
         }
     }
 }

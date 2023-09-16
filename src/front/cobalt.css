@@ -604,6 +604,10 @@ button:active,
     line-height: 1.3rem!important;
     color: var(--accent-subtext);
 }
+.explanation.embedded {
+    margin-top: 0.825rem;
+    margin-bottom: 0.825rem;
+}
 .subtext {
     color: var(--accent-subtext);
 }

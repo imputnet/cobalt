@@ -50,7 +50,7 @@ export function metadataManager(obj) {
     return commands;
 }
 export function cleanURL(url, host) {
-    switch(host) {
+    switch (host) {
         case "vk":
             url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
             break;
