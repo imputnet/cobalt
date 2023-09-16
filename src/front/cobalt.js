@@ -1,4 +1,4 @@
-const version = 36;
+const version = 37;
 
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.match("iphone os");
