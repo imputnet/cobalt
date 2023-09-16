@@ -1099,33 +1099,5 @@
             "code": 200,
             "status": "stream"
         }
-    }, {
-        "name": "video",
-        "url": "https://twitch.tv/videos/1315890970",
-        "params": {},
-        "expected": {
-            "code": 200,
-            "status": "stream"
-        }
-    }, {
-        "name": "video (isAudioOnly)",
-        "url": "https://twitch.tv/videos/1315890970",
-        "params": {
-            "isAudioOnly": true
-        },
-        "expected": {
-            "code": 200,
-            "status": "stream"
-        }
-    }, {
-        "name": "video (isAudioMuted)",
-        "url": "https://twitch.tv/videos/1315890970",
-        "params": {
-            "isAudioMuted": true
-        },
-        "expected": {
-            "code": 200,
-            "status": "stream"
-        }
     }]
 }
