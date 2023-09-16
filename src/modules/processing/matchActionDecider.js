@@ -55,7 +55,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                 case "tiktok":
                     params = { type: "bridge" };
                     break;
-                
+
                 case "vine":
                 case "instagram":
                 case "tumblr":

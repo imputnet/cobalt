@@ -1070,5 +1070,34 @@
             "code": 400,
             "status": "error"
         }
+    }],
+    "twitch": [{
+        "name": "clip",
+        "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "clip (isAudioOnly)",
+        "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "clip (isAudioMuted)",
+        "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }

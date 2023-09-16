@@ -72,6 +72,12 @@
             "alias": "streamable.com",
             "patterns": [":id", "o/:id", "e/:id", "s/:id"],
             "enabled": true
+        },
+        "twitch": {
+            "alias": "twitch clips",
+            "tld": "tv",
+            "patterns": [":channel/clip/:clip"],
+            "enabled": true
         }
-    }    
+    }
 }
