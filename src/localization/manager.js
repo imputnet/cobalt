@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { appName, links, repo } from "../modules/config.js";
+import { links, repo } from "../modules/config.js";
 import loadJson from "../modules/sub/loadJSON.js";
 
 const locPath = './src/localization/languages';
@@ -7,19 +7,16 @@ const locPath = './src/localization/languages';
 let loc = {}
 let languages = [];
 
-export function loadLoc() {
-    fs.readdir(locPath, (err, files) => {
-        if (err) return false;
-        files.forEach(file => {
-            loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`);
-            languages.push(file.split('.')[0])
-        });
-    })
+export async function loadLoc() {
+    const files = await fs.promises.readdir(locPath).catch((e) => { return [] });
+    files.forEach(file => {
+        loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`);
+        languages.push(file.split('.')[0])
+    });
 }
-loadLoc();
 
 export function replaceBase(s) {
-    return s.replace(/\n/g, '<br/>').replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut).replace(/{appName}/g, appName).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
+    return s.replace(/\n/g, '<br/>').replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
 }
 export function replaceAll(lang, str, string, replacement) {
     let s = replaceBase(str[string])

@@ -2,7 +2,7 @@
     "audioIgnore": ["vk"],
     "config": {
         "bilibili": {
-            "alias": "bilibili (.com only)",
+            "alias": "bilibili.com videos",
             "patterns": ["video/:id"],
             "enabled": true
         },
@@ -12,7 +12,7 @@
             "enabled": true
         },
         "twitter": {
-            "alias": "twitter posts & spaces & voice",
+            "alias": "twitter videos & voice",
             "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
             "enabled": true
         },
@@ -22,8 +22,8 @@
             "enabled": true
         },
         "youtube": {
-            "alias": "youtube videos & shorts & music",
-            "patterns": ["watch?v=:id"],
+            "alias": "youtube videos, shorts & music",
+            "patterns": ["watch?v=:id", "embed/:id"],
             "bestAudio": "opus",
             "enabled": true
         },
@@ -32,7 +32,7 @@
             "enabled": true
         },
         "tiktok": {
-            "alias": "tiktok videos & photos & audio",
+            "alias": "tiktok videos, photos & audio",
             "patterns": [":user/video/:postId", ":id", "t/:id"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
@@ -43,7 +43,7 @@
             "enabled": false
         },
         "vimeo": {
-            "patterns": [":id"],
+            "patterns": [":id", "video/:id"],
             "enabled": true,
             "bestAudio": "mp3"
         },
@@ -53,7 +53,7 @@
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels & video posts",
+            "alias": "instagram reels & posts",
             "patterns": ["reels/:id", "reel/:id", "p/:id"],
             "enabled": true
         },
@@ -63,7 +63,17 @@
             "patterns": ["v/:id"],
             "enabled": true
         },
-        "twitch": {
+        "pinterest": {
+            "alias": "pinterest videos & stories",
+            "patterns": ["pin/:id"],
+            "enabled": true
+        },
+        "streamable": {
+            "alias": "streamable.com",
+            "patterns": [":id", "o/:id", "e/:id", "s/:id"],
+            "enabled": true
+        },
+         "twitch": {
             "alias": "twitch vods & videos & clips",
             "tld": "tv",
             "patterns": ["videos/:video", ":channel/clip/:clip"],

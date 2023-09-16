@@ -1,5 +1,6 @@
 import { maxVideoDuration } from "../../config.js";
 
+// vimeo you're fucked in the head for this
 const resolutionMatch = {
     "3840": "2160",
     "2732": "1440",
@@ -11,7 +12,6 @@ const resolutionMatch = {
     "640": "360",
     "426": "240"
 }
-// ^ vimeo you're fucked in the head for this ^
 
 const qualityMatch = {
     "2160": "4K",
@@ -64,7 +64,7 @@ export default async function(obj) {
     let videoUrl, audioUrl, baseUrl = masterJSONURL.split("/sep/")[0];
     switch (type) {
         case "parcel":
-            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter((a) => { if (a['mime_type'] === "audio/mp4") return true }),
+            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter(a => a['mime_type'] === "audio/mp4"),
                 bestAudio = masterJSON_Audio[0];
             videoUrl = `${baseUrl}/parcel/video/${bestVideo.index_segment.split('?')[0]}`,
             audioUrl = `${baseUrl}/parcel/audio/${bestAudio.index_segment.split('?')[0]}`;

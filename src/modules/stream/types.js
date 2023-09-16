@@ -1,41 +1,45 @@
 import { spawn } from "child_process";
 import ffmpeg from "ffmpeg-static";
-import got from "got";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { getThreads, metadataManager, msToTime } from "../sub/utils.js";
+import { getThreads, metadataManager } from "../sub/utils.js";
+import { request } from 'undici';
 
-export function streamDefault(streamInfo, res) {
+function fail(res) {
+    if (!res.headersSent) res.sendStatus(500);
+    return res.destroy();
+}
+
+export async function streamDefault(streamInfo, res) {
     try {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
         let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`;
         res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
-        const stream = got.get(streamInfo.urls, {
-            headers: {
-                "user-agent": genericUserAgent
-            },
-            isStream: true
+
+        const { body: stream, headers } = await request(streamInfo.urls, {
+            headers: { 'user-agent': genericUserAgent },
+            maxRedirections: 16
         });
-        stream.pipe(res).on('error', () => {
-            res.destroy();
-        });
-        stream.on('error', () => {
-            res.destroy();
-        });
-        stream.on('aborted', () => {
-            res.destroy();
-        });
+
+        res.setHeader('content-type', headers['content-type']);
+        res.setHeader('content-length', headers['content-length']);
+
+        stream.pipe(res).on('error', () => fail(res));
+        stream.on('error', () => fail(res));
+        stream.on('aborted', () => fail(res));
     } catch (e) {
-        res.destroy();
+        fail(res);
     }
 }
-export function streamLiveRender(streamInfo, res) {
+export async function streamLiveRender(streamInfo, res) {
     try {
-        if (streamInfo.urls.length !== 2) {
-            res.destroy();
-            return;
-        }
-        let audio = got.get(streamInfo.urls[1], { isStream: true });
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
+        if (streamInfo.urls.length !== 2) return fail(res);
+
+        let { body: audio } = await request(streamInfo.urls[1], {
+            maxRedirections: 16
+        });
+
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1],
+        args = [
             '-loglevel', '-8',
             '-threads', `${getThreads()}`,
             '-i', streamInfo.urls[0],
@@ -43,8 +47,9 @@ export function streamLiveRender(streamInfo, res) {
             '-map', '0:v',
             '-map', '1:a',
         ];
-        args = args.concat(ffmpegArgs[format])
-        if (streamInfo.time) args.push('-t', msToTime(streamInfo.time));
+
+        args = args.concat(ffmpegArgs[format]);
+        if (streamInfo.metadata) args = args.concat(metadataManager(streamInfo.metadata));
         args.push('-f', format, 'pipe:4');
         let ffmpegProcess = spawn(ffmpeg, args, {
             windowsHide: true,
@@ -57,24 +62,24 @@ export function streamLiveRender(streamInfo, res) {
         res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
         res.on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
         ffmpegProcess.stdio[4].pipe(res).on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
         audio.pipe(ffmpegProcess.stdio[3]).on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
         
         audio.on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
         audio.on('aborted', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
 
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
@@ -84,11 +89,11 @@ export function streamLiveRender(streamInfo, res) {
         res.on('close', () => ffmpegProcess.kill());
         ffmpegProcess.on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
 
     } catch (e) {
-        res.destroy();
+        fail(res);
     }
 }
 export function streamAudioOnly(streamInfo, res) {
@@ -132,10 +137,10 @@ export function streamAudioOnly(streamInfo, res) {
         res.on('close', () => ffmpegProcess.kill());
         ffmpegProcess.on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
     } catch (e) {
-        res.destroy();
+        fail(res);
     }
 }
 export function streamVideoOnly(streamInfo, res) {
@@ -168,9 +173,9 @@ export function streamVideoOnly(streamInfo, res) {
         res.on('close', () => ffmpegProcess.kill());
         ffmpegProcess.on('error', () => {
             ffmpegProcess.kill();
-            res.destroy();
+            fail(res);
         });
     } catch (e) {
-        res.destroy();
+        fail(res);
     }
 }

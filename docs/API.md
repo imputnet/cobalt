@@ -1,5 +1,12 @@
 # cobalt API Documentation
 This document provides info about methods and acceptable variables for all cobalt API requests.<br>
+
+```
+⚠️ Main API instance has moved to https://co.wuk.sh/
+
+Make sure your projects use the correct API domain.
+```
+
 ## POST: ``/api/json``
 Main processing endpoint.<br>
 
@@ -7,17 +14,18 @@ Request Body Type: ``application/json``<br>
 Response Body Type: ``application/json``
 
 ### Request Body Variables
-| key             | type    | variables                         | default   | description                                                                    |
-|:----------------|:--------|:----------------------------------|:----------|:-------------------------------------------------------------------------------|
-| url             | string  | Sharable URL encoded as URI       | ``null``  | **Must** be included in every request.                                         |
-| vCodec          | string  | ``h264 / av1 / vp9``              | ``h264``  | Applies only to YouTube downloads. ``h264`` is recommended for phones.         |
-| vQuality        | string  | ``144 / ... / 2160 / max``        | ``720``   | ``720`` quality is recommended for phones.                                     |
-| aFormat         | string  | ``best / mp3 / ogg / wav / opus`` | ``mp3``   |                                                                                |
-| isAudioOnly     | boolean | ``true / false``                  | ``false`` |                                                                                |
-| isNoTTWatermark | boolean | ``true / false``                  | ``false`` | Changes whether downloaded TikTok & Douyin videos have watermarks.             |
-| isTTFullAudio   | boolean | ``true / false``                  | ``false`` | Enables download of original sound used in a TikTok video.                     |
-| isAudioMuted    | boolean | ``true / false``                  | ``false`` | Disables audio track in video downloads.                                       |
-| dubLang         | boolean | ``true / false``                  | ``false`` | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
+| key                 | type    | variables                         | default   | description                                                                    |
+|:--------------------|:--------|:----------------------------------|:----------|:-------------------------------------------------------------------------------|
+| ``url``             | string  | Sharable URL encoded as URI       | ``null``  | **Must** be included in every request.                                         |
+| ``vCodec``          | string  | ``h264 / av1 / vp9``              | ``h264``  | Applies only to YouTube downloads. ``h264`` is recommended for phones.         |
+| ``vQuality``        | string  | ``144 / ... / 2160 / max``        | ``720``   | ``720`` quality is recommended for phones.                                     |
+| ``aFormat``         | string  | ``best / mp3 / ogg / wav / opus`` | ``mp3``   |                                                                                |
+| ``isAudioOnly``     | boolean | ``true / false``                  | ``false`` |                                                                                |
+| ``isNoTTWatermark`` | boolean | ``true / false``                  | ``false`` | Changes whether downloaded TikTok videos have watermarks.                      |
+| ``isTTFullAudio``   | boolean | ``true / false``                  | ``false`` | Enables download of original sound used in a TikTok video.                     |
+| ``isAudioMuted``    | boolean | ``true / false``                  | ``false`` | Disables audio track in video downloads.                                       |
+| ``dubLang``         | boolean | ``true / false``                  | ``false`` | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
+| ``disableMetadata`` | boolean | ``true / false``                  | ``false`` | Disables file metadata when set to ``true``.                                   |
 
 ### Response Body Variables
 | key        | type   | variables                                                     |
@@ -57,7 +65,22 @@ On-demand website element loading. Currently used only for older changelogs.<br>
 | blockId | ``0``     | Block ID to be rendered on the server. |
 
 ### Response Body Variables
-| key        | type   | variables                    |
-|:-----------|:-------|:-----------------------------|
-| status     | string | ``error / success``          |
-| text       | string | Error text or rendered block |
+| key    | type   | variables                    |
+|:-------|:-------|:-----------------------------|
+| status | string | ``error / success``          |
+| text   | string | Error text or rendered block |
+
+## GET: ``/api/serverInfo``
+Returns current basic server info.<br>
+Response Body Type: ``application/json``
+
+### Response Body Variables
+| key       | type   | variables         |
+|:----------|:-------|:------------------|
+| version   | string | cobalt version    |
+| commit    | string | Git commit        |
+| branch    | string | Git branch        |
+| name      | string | Server name       |
+| url       | string | Server url        |
+| cors      | string | CORS status       |
+| startTime | string | Server start time |
