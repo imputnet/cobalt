@@ -1,6 +1,6 @@
 # cobalt
 Best way to save what you love.  
-Live web app: [co.wukko.me](https://co.wukko.me/)  
+Live web app: [cobalt.tools](https://cobalt.tools/)  
 
 ![cobalt logo with repeated logo pattern background](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/pattern.png "cobalt logo with repeated logo pattern background")  
 
@@ -20,10 +20,12 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 | Instagram Reels         | ✅           | ✅         | ✅         |                                                                                                                           |
 | Pinterest               | ✅           | ✅         | ✅         | Support for videos and stories.                                                                                           |
 | Reddit                  | ✅           | ✅         | ✅         | Support for GIFs and videos.                                                                                              |
+| Rutube                  | ✅           | ✅         | ✅         |                                                                                                                           |
 | SoundCloud              | ➖           | ✅         | ➖         | Audio metadata, downloads from private links.                                                                             |
 | Streamable              | ✅           | ✅         | ✅         |                                                                                                                           |
 | TikTok                  | ✅           | ✅         | ✅         | Supports downloads of: videos with or without watermark, images from slideshow without watermark, full (original) audios. |
 | Tumblr                  | ✅           | ✅         | ✅         | Support for audio file downloads.                                                                                         |
+| Twitch Clips            | ✅           | ✅         | ✅         |                                                                                                                           |
 | Twitter/X *             | ✅           | ✅         | ✅         | Ability to pick what to save from multi-media tweets.                                                                     |
 | Vimeo                   | ✅           | ✅         | ✅         | Audio downloads are only available for dash files.                                                                        |
 | Vine Archive            | ✅           | ✅         | ✅         |                                                                                                                           |

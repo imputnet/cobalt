@@ -1,4 +1,4 @@
-import { celebrations } from "../config.js";
+import { authorInfo, celebrations } from "../config.js";
 import emoji from "../emoji.js";
 
 export const backButtonSVG = `<svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,17 +68,19 @@ export function popup(obj) {
     }
     return `
     ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box": ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
-        <div id="popup-header" class="popup-header${!obj.buttonOnly ? " glass-bkg": ''}">
+        <div id="popup-header" class="popup-header">
             <div id="popup-header-contents">
                 ${obj.buttonOnly ? obj.header.emoji : ``}
                 ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
                 ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
                 ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
             </div>
+            ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>`: ''}
         </div>
         <div id="popup-content" class="popup-content-inner">
             ${body}${obj.buttonOnly ? `<button id="close-error" class="switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
+        ${classes.includes("small") ? `<div class="glass-bkg small"></div>`: ''}
     ${obj.standalone ? `</div>` : ''}`
 }
 
@@ -97,14 +99,18 @@ export function multiPagePopup(obj) {
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable">
         <div id="popup-content">
-        ${obj.header ? `<div id="popup-header" class="popup-header glass-bkg">
+        ${obj.header ? `<div id="popup-header" class="popup-header">
             <div id="popup-header-contents">
                 ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
                 ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
                 ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
             </div>
+            <div class="glass-bkg alone"></div>
         </div>` : ''}${tabContent}</div>
-        <div id="popup-tabs" class="switches popup-tabs glass-bkg"><div class="switches popup-tabs-child">${tabs}</div></div>
+        <div id="popup-tabs" class="switches popup-tabs">
+            <div class="switches popup-tabs-child">${tabs}</div>
+            <div class="glass-bkg alone"></div>
+        </div>
     </div>`
 }
 export function collapsibleList(arr) {
@@ -136,19 +142,33 @@ export function popupWithBottomButtons(obj) {
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable">
         <div id="popup-content">
-       ${obj.header ? `<div id="popup-header" class="popup-header glass-bkg">
+       ${obj.header ? `<div id="popup-header" class="popup-header">
             <div id="popup-header-contents">
                 ${obj.header.aboveTitle ? `<a id="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
                 ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
                 ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
                 ${obj.header.explanation ? `<div class="explanation">${obj.header.explanation}</div>` : ''}
             </div>
+            <div class="glass-bkg alone"></div>
         </div>` : ''}${obj.content}</div>
-        <div id="popup-tabs" class="switches popup-tabs glass-bkg"><div id="picker-buttons" class="switches popup-tabs-child">${tabs}</div></div>
+        <div id="popup-tabs" class="switches popup-tabs">
+            <div id="picker-buttons" class="switches popup-tabs-child">${tabs}</div>
+            <div class="glass-bkg alone"></div>
+        </div>
     </div>`
 }
 export function socialLink(emji, name, handle, url) {
     return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop link" href="${url}" target="_blank">${handle}</a></div>`
+}
+export function socialLinks(lang) {
+    let links = authorInfo.support[lang] ? authorInfo.support[lang] : authorInfo.support.default;
+    let r = ``;
+    for (let i in links) {
+        r += socialLink(
+            emoji(links[i].emoji), i, links[i].handle, links[i].url
+        )
+    }
+    return r
 }
 export function settingsCategory(obj) {
     return `<div id="settings-${obj.name}" class="settings-category">
@@ -205,7 +225,9 @@ export function celebrationsEmoji() {
 }
 export function urgentNotice(obj) {
     if (obj.visible) {
-        return `<div id="urgent-notice" class="urgent-notice explanation" onclick="${obj.action}">${emoji(obj.emoji, 18)} ${obj.text}</div>`
+        return `<div id="urgent-notice" class="urgent-notice explanation">` +
+            `<span class="urgent-text" onclick="${obj.action}">${emoji(obj.emoji, 18)} ${obj.text}</span>` +
+        `</div>`
     }
     return ``
 }
@@ -225,4 +247,11 @@ export function keyboardShortcuts(arr) {
     base += `</div>`;
 
     return base;
+}
+export function webLoc(t, arr) {
+    let base = ``;
+    for (let i = 0; i < arr.length; i++) {
+        base += `${arr[i]}:` + "`" + t(arr[i]) + "`" + `,`
+    }
+    return `{${base}};`
 }

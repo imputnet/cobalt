@@ -19,10 +19,12 @@ import instagram from "./services/instagram.js";
 import vine from "./services/vine.js";
 import pinterest from "./services/pinterest.js";
 import streamable from "./services/streamable.js";
+import twitch from "./services/twitch.js";
+import rutube from "./services/rutube.js";
 
 export default async function (host, patternMatch, url, lang, obj) {
     try {
-        let r, isAudioOnly = !!obj.isAudioOnly;
+        let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
 
         if (!testers[host]) return apiJSON(0, { t: errorUnsupported(lang) });
         if (!(testers[host](patternMatch))) return apiJSON(0, { t: brokenLink(lang, host) });
@@ -125,6 +127,20 @@ export default async function (host, patternMatch, url, lang, obj) {
                     isAudioOnly: isAudioOnly,
                 });
                 break;
+            case "twitch":
+                r = await twitch({
+                    clipId: patternMatch["clip"] ? patternMatch["clip"] : false,
+                    quality: obj.vQuality,
+                    isAudioOnly: obj.isAudioOnly
+                });
+                break;
+            case "rutube":
+                r = await rutube({
+                    id: patternMatch["id"],
+                    quality: obj.vQuality,
+                    isAudioOnly: isAudioOnly
+                });
+                break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });
         }
@@ -134,7 +150,7 @@ export default async function (host, patternMatch, url, lang, obj) {
 
         if (r.error) return apiJSON(0, { t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error) });
 
-        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted);
+        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata);
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

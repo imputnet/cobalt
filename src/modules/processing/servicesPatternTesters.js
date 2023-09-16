@@ -22,16 +22,20 @@ export const testers = {
         || (patternMatch["id"] && patternMatch["id"].length < 21 && patternMatch["user"] && patternMatch["user"].length <= 32)),
 
     "vimeo": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length <= 11)),
-    
+
     "soundcloud": (patternMatch) => (patternMatch["author"]?.length <= 25 && patternMatch["song"]?.length <= 255)
                                     || (patternMatch["shortLink"] && patternMatch["shortLink"].length <= 32),
 
     "instagram": (patternMatch) => (patternMatch.postId?.length <= 12) 
                                     || (patternMatch.username?.length <= 30 && patternMatch.storyId?.length <= 24),
-    
+
     "vine": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 12),
-    
+
     "pinterest": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 128),
 
-    "streamable": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length === 6)
+    "streamable": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length === 6),
+
+    "twitch": (patternMatch) => ((patternMatch["channel"] && patternMatch["clip"] && patternMatch["clip"].length <= 100)),
+
+    "rutube": (patternMatch) => ((patternMatch["id"] && patternMatch["id"].length === 32)),
 }

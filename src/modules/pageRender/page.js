@@ -1,4 +1,4 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts } from "./elements.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc } from "./elements.js";
 import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -33,7 +33,7 @@ export default function(obj) {
     let isIOS = ua.match("iphone os");
     let isMobile = ua.match("android") || ua.match("iphone os");
 
-    let platform = isMobile ? "m" : "p";
+    let platform = isMobile ? "m" : "d";
     if (isMobile && isIOS) platform = "i";
 
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
@@ -71,11 +71,11 @@ export default function(obj) {
         <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
         <link rel="stylesheet" href="cobalt.css" />
 
-        <link rel="me" href="${authorInfo.support.mastodon.url}">
+        <link rel="me" href="${authorInfo.support.default.mastodon.url}">
 
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
-    <body id="cobalt-body" ${platform === "p" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
+    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
         <body id="notification-area"></div>
         ${multiPagePopup({
             name: "about",
@@ -99,7 +99,11 @@ export default function(obj) {
                         text: collapsibleList([{
                             name: "services",
                             title: `${emoji("🔗")} ${t("CollapseServices")}`,
-                            body: `${enabledServices}<br/><br/>${t("ServicesNote")}`
+                            body: `${enabledServices}`
+                            + `<div class="explanation embedded">${t("SupportNotAffiliated")}`
+                            + `${obj.lang === "ru" ? `<br>${t("SupportMetaNoticeRU")}` : ''}`
+                            + `</div>`
+                            + `${t("ServicesNote")}`
                         }, {
                             name: "keyboard",
                             title: `${emoji("⌨")} ${t("CollapseKeyboard")}`,
@@ -143,19 +147,11 @@ export default function(obj) {
                             name: "support",
                             title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
                             body: 
-                            `${t("SupportSelfTroubleshooting")}<br/><br/>
-                            ${t("FollowSupport")}<br/>
-                            ${socialLink(
-                                emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url
-                            )}
-                            ${socialLink(
-                                emoji("👾"), "discord", authorInfo.support.discord.handle, authorInfo.support.discord.url
-                            )}
-                            ${socialLink(
-                                emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url
-                            )}<br/>
-                            ${t("SourceCode")}<br/>
-                            ${socialLink(
+                            `${t("SupportSelfTroubleshooting")}<br/><br/>`
+                            + `${t("FollowSupport")}<br/>`
+                            + `${socialLinks(obj.lang)}<br/>`
+                            + `${t("SourceCode")}<br/>`
+                            + `${socialLink(
                                 emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo
                             )}<br/>
                             ${t("SupportNote")}`
@@ -440,16 +436,19 @@ export default function(obj) {
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
                     body: checkbox([{
-                        action: "disableChangelog",
-                        name: t("SettingsDisableNotifications")
-                    }, {
                         action: "downloadPopup",
                         name: t("SettingsEnableDownloadPopup"),
-                        padding: "no-margin",
                         aria: t("AccessibilityEnableDownloadPopup")
+                    }, {
+                        action: "disableMetadata",
+                        name: t("SettingsDisableMetadata")
+                    }, {
+                        action: "disableChangelog",
+                        name: t("SettingsDisableNotifications"),
+                        padding: "no-margin"
                     }])
                 })
-            }],
+            }]
         })}
         ${popupWithBottomButtons({
             name: "picker",
@@ -466,7 +465,7 @@ export default function(obj) {
                 name: "download",
                 standalone: true,
                 buttonOnly: true,
-                classes: ["small", "glass-bkg"],
+                classes: ["small"],
                 header: {
                     closeAria: t('AccessibilityGoBack'),
                     emoji: emoji("🐱", 78, 1, 1),
@@ -487,20 +486,34 @@ export default function(obj) {
                 name: "error",
                 standalone: true,
                 buttonOnly: true,
-                classes: ["small", "glass-bkg"],
+                classes: ["small"],
                 header: {
-                    closeAria: t('AccessibilityGoBack'),
                     title: t('TitlePopupError'),
                     emoji: emoji("😿", 78, 1, 1),
                 },
-                body: `<div id="desc-error" class="desc-padding subtext"></div>`,
+                body: `<div id="desc-error" class="desc-padding subtext desc-error"></div>`,
                 buttonText: t('ErrorPopupCloseButton')
             })}
+        </div>
+        <div id="popup-migration-container" class="popup-from-bottom">
+            ${popup({
+                name: "migration",
+                standalone: true,
+                buttonOnly: true,
+                classes: ["small"],
+                header: {
+                    title: t('NewDomainWelcomeTitle'),
+                    emoji: emoji("😸", 78, 1, 1),
+                },
+                body: `<div id="desc-migration" class="desc-padding subtext desc-error">${t('NewDomainWelcome')}</div>`,
+                buttonText: t('ErrorPopupCloseButton')
+            })}
+            <div id="popup-backdrop-message" onclick="popup('message', 0)"></div>
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🔗",
+                emoji: "👾",
                 text: t("UrgentFeatureUpdate71"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
@@ -551,20 +564,25 @@ export default function(obj) {
         </div>
     </body>
     <script type="text/javascript">
-        const loc = {
-            noInternet: ` + "`" + t('ErrorNoInternet') + "`" + `,
-            noURLReturned: ` + "`" + t('ErrorNoUrlReturned') + "`" + `,
-            unknownStatus: ` + "`" + t('ErrorUnknownStatus') + "`" + `,
-            collapseHistory: ` + "`" + t('ChangelogPressToHide') + "`" + `,
-            pickerDefault: ` + "`" + t('MediaPickerTitle') + "`" + `,
-            pickerImages: ` + "`" + t('ImagePickerTitle') + "`" + `,
-            pickerImagesExpl: ` + "`" + t(`ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-            pickerDefaultExpl: ` + "`" + t(`MediaPickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-            featureErrorGeneric: ` + "`" + t('FeatureErrorGeneric') + "`" + `,
-            clipboardErrorNoPermission: ` + "`" + t('ClipboardErrorNoPermission') + "`" + `,
-            clipboardErrorFirefox: ` + "`" + t('ClipboardErrorFirefox') + "`" + `,
-        };
         let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+        const loc = ${webLoc(t,
+        [
+            'ErrorNoInternet',
+            'ErrorNoUrlReturned',
+            'ErrorUnknownStatus',
+            'ChangelogPressToHide',
+            'MediaPickerTitle',
+            'MediaPickerExplanationPhone',
+            'MediaPickerExplanationPC',
+            'ImagePickerTitle',
+            'ImagePickerExplanationPhone',
+            'ImagePickerExplanationPC',
+            'FeatureErrorGeneric',
+            'ClipboardErrorNoPermission',
+            'ClipboardErrorFirefox',
+            'DataTransferSuccess',
+            'DataTransferError'
+        ])}
     </script>
     <script type="text/javascript" src="cobalt.js"></script>
 </html>

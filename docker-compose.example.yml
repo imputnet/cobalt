@@ -2,9 +2,11 @@ version: '3.5'
 
 services:
     cobalt-api:
-        build: .
+        image: ghcr.io/wukko/cobalt:latest
         restart: unless-stopped
         container_name: cobalt-api
+
+        init: true
 
         # if container doesn't run detached on your machine, uncomment the next line:
         #tty: true
@@ -21,13 +23,21 @@ services:
             # replace apiName with your instance's distinctive name
             - apiName=eu-nl
             # if you want to use cookies when fetching data from services, uncomment the next line
-            #- cookiePath=cookies.json
+            #- cookiePath=/cookies.json
             # see src/modules/processing/cookie/cookies_example.json for example file.
+        labels:
+            - com.centurylinklabs.watchtower.scope=cobalt
+
+        # if you want to use cookies when fetching data from services, uncomment volumes and next line
+        #volumes:
+            #- ./cookies.json:/cookies.json
 
     cobalt-web:
-        build: .
+        image: ghcr.io/wukko/cobalt:latest
         restart: unless-stopped
         container_name: cobalt-web
+
+        init: true
 
         # if container doesn't run detached on your machine, uncomment the next line:
         #tty: true
@@ -40,6 +50,17 @@ services:
         environment:
             - webPort=9001
             # replace webURL with your instance's target url in same format
-            - webURL=https://co.wukko.me/
+            - webURL=https://cobalt.tools/
             # replace apiURL with preferred api instance url
             - apiURL=https://co.wuk.sh/
+
+        labels:
+            - com.centurylinklabs.watchtower.scope=cobalt
+
+    # update the cobalt image automatically with watchtower
+    watchtower:
+        image: ghcr.io/containrrr/watchtower
+        restart: unless-stopped
+        command: --cleanup --scope cobalt --interval 900
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock

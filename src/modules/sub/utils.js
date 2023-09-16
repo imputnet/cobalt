@@ -6,7 +6,7 @@ const apiVar = {
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata"]
 }
 const forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
@@ -50,7 +50,7 @@ export function metadataManager(obj) {
     return commands;
 }
 export function cleanURL(url, host) {
-    switch(host) {
+    switch (host) {
         case "vk":
             url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
             break;
@@ -70,9 +70,6 @@ export function cleanURL(url, host) {
         url = url.replaceAll(forbiddenChars[i], '')
     }
     url = url.replace('https//', 'https://')
-    if (url.includes('youtube.com/shorts/')) {
-        url = url.split('?')[0].replace('shorts/', 'watch?v=');
-    }
     return url.slice(0, 128)
 }
 export function cleanString(string) {
@@ -101,13 +98,14 @@ export function checkJSONPost(obj) {
         isNoTTWatermark: false,
         isTTFullAudio: false,
         isAudioMuted: false,
+        disableMetadata: false,
         dubLang: false,
         vimeoDash: false
     }
     try {
         let objKeys = Object.keys(obj);
-        if (!(objKeys.length <= 9 && obj.url)) return false;
         let defKeys = Object.keys(def);
+        if (objKeys.length > defKeys.length + 1 || !obj.url) return false;
 
         for (let i in objKeys) {
             if (String(objKeys[i]) !== "url" && defKeys.includes(objKeys[i])) {
