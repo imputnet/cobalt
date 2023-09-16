@@ -143,6 +143,7 @@
         "NewDomainWelcomeTitle": "¡saludos!",
         "NewDomainWelcome": "¡cobalt se va a mudar de dominio! mismas características, mismo creador, simplemente un dominio más recordable. y aún sin anuncios.\n\n<span class=\"text-backdrop\">cobalt.tools</span> es el nuevo dominio, o sea el dominio en el que estás ahora mismo. ¡asegúrate de actualizar tus sitios marcados y reinstalar la aplicación web!",
         "DataTransferSuccess": "por cierto, tus ajustes se transfirieron automáticamente :)",
-        "DataTransferError": "algo salió mal al transferir tus ajustes. tendrás que abrir ajustes y configurar cobalt manualmente."
+        "DataTransferError": "algo salió mal al transferir tus ajustes. tendrás que abrir ajustes y configurar cobalt manualmente.",
+        "SupportNotAffiliated": "cobalt no está <span class=\"text-backdrop\">afiliado</span> con algunos de los servicios listados arriba."
     }
 }
