@@ -125,7 +125,6 @@ export default async function (host, patternMatch, url, lang, obj) {
                 break;
             case "twitch":
                 r = await twitch({
-                    vodId: patternMatch["video"] ? patternMatch["video"] : false,
                     clipId: patternMatch["clip"] ? patternMatch["clip"] : false,
                     quality: obj.vQuality,
                     isAudioOnly: obj.isAudioOnly
