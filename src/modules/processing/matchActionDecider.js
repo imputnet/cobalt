@@ -126,7 +126,12 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
             }
             if ((audioFormat === "best" && services[host]["bestAudio"]) || (services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]))) {
                 audioFormat = services[host]["bestAudio"];
-                processType = "bridge"
+                if (host === "soundcloud") {
+                    processType = "render"
+                    copy = true
+                } else {
+                    processType = "bridge"
+                }
             } else if (audioFormat === "best") {
                 audioFormat = "m4a";
                 copy = true;

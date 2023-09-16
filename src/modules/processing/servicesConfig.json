@@ -49,7 +49,7 @@
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
-            "bestAudio": "none",
+            "bestAudio": "opus",
             "enabled": true
         },
         "instagram": {
