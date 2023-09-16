@@ -74,7 +74,7 @@
             "enabled": true
         },
         "twitch": {
-            "alias": "twitch clips, videos & vods",
+            "alias": "twitch clips & videos",
             "tld": "tv",
             "patterns": ["videos/:video", ":channel/clip/:clip"],
             "enabled": true
