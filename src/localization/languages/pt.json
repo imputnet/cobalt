@@ -141,7 +141,7 @@
         "SettingsDisableMetadata": "não adicionar metadados",
         "UrgentNewDomain": "novo domínio, mesmo cobalt",
         "NewDomainWelcomeTitle": "olá!",
-        "NewDomainWelcome": "cobalto está se movendo! mesmos recursos, mesmo dono, simplesmente um domínio mais relembrável e ainda sem anúncios.\n\n<span class=\"text-backdrop\">cobalt.tools</span> é o novo domínio principal, ou seja, onde você está agora. certifique-se de atualizar seus favoritos e reinstalar o aplicativo web!",
+        "NewDomainWelcome": "cobalt está se movendo! mesmos recursos, mesmo dono, simplesmente um domínio mais relembrável e ainda sem anúncios.\n\n<span class=\"text-backdrop\">cobalt.tools</span> é o novo domínio principal, ou seja, onde você está agora. certifique-se de atualizar seus favoritos e reinstalar o aplicativo web!",
         "DataTransferSuccess": "ah, e seus ajustes foram transferidos automaticamente :)",
         "DataTransferError": "algo deu errado ao transferir suas configurações. você terá que abrir as configurações e configurar o cobalt manualmente.",
         "SupportNotAffiliated": "cobalt <span class=\"text-backdrop\">não é afiliado</span> com nenhum dos serviços listados acima."
