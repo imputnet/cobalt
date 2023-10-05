@@ -73,8 +73,8 @@ export default async function(obj) {
         urls: file,
         audioFilename: `soundcloud_${json.id}`,
         fileMetadata: {
-            title: cleanString(json.title.replace(/\p{Emoji}/gu, '').trim()),
-            artist: cleanString(json.user.username.replace(/\p{Emoji}/gu, '').trim()),
+            title: cleanString(json.title.trim()),
+            artist: cleanString(json.user.username.trim()),
         }
     }
 }
