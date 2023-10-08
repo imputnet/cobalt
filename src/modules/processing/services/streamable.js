@@ -3,7 +3,7 @@ export default async function(obj) {
     if (!video) return { error: 'ErrorEmptyDownload' };
 
     let best = video.files['mp4-mobile'];
-    if (video.files.mp4 && (obj.isAudioOnly || obj.quality === "max" || obj.quality >= Number("720"))) {
+    if (video.files.mp4 && (obj.isAudioOnly || obj.quality === "max" || obj.quality >= 720)) {
         best = video.files.mp4;
     }
 
