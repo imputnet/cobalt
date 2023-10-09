@@ -143,6 +143,7 @@
         "NewDomainWelcomeTitle": "salut!",
         "NewDomainWelcome": "cobalt se muta! aceleași calități, același proprietar, pur și simplu un domeniu mai memorabil. și încă zero reclame.\n\n<span class=\"text-backdrop\">cobalt.tools</span> este noul doemniu principal, aka unde ești acum. nu uita să actualizezi bookmark-ul și reinstalează aplicația web!",
         "DataTransferSuccess": "apropo, setărilte tale au fost transferate automat :)",
-        "DataTransferError": "ceva nu a mers la transferatul setărilor. va trebui să deschizi setările și să configurezi manual cobalt."
+        "DataTransferError": "ceva nu a mers la transferatul setărilor. va trebui să deschizi setările și să configurezi manual cobalt.",
+        "SupportNotAffiliated": "cobalt <span class=\"text-backdrop\">nu este afiliat</span> cu niciunul din serviciile de mai sus."
     }
 }
