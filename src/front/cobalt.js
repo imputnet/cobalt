@@ -242,7 +242,7 @@ function popup(type, action, text) {
                                 isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` + 
                                 `<div class="picker-element-name">${text.arr[i].type}</div>` +
-                                `<div class="imageBlock"></div>` +
+                                (text.arr[i].type === 'photo' ? '' : '<div class="imageBlock"></div>') +
                                 `<img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'"></img>` +
                             `</a>`
                         }
