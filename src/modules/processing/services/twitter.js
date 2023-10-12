@@ -66,7 +66,11 @@ export default async function(obj) {
         }
 
         if (single) {
-            return { urls: single, filename: `twitter_${obj.id}.mp4`, audioFilename: `twitter_${obj.id}_audio` }
+            return {
+                urls: single,
+                filename: `twitter_${obj.id}.mp4`,
+                audioFilename: `twitter_${obj.id}_audio`
+            }
         } else if (multiple) {
             return { picker: multiple }
         } else {

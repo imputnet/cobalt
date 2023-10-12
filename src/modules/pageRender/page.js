@@ -332,7 +332,8 @@ export default function(obj) {
                     }])
                 })
                 + settingsCategory({
-                    name: t('SettingsCodecSubtitle'),
+                    name: "codec",
+                    title: t('SettingsCodecSubtitle'),
                     body: switcher({
                         name: "vCodec",
                         explanation: t('SettingsCodecDescription'),
@@ -349,7 +350,8 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: t('SettingsVimeoPrefer'),
+                    name: "vimeo",
+                    title: t('SettingsVimeoPrefer'),
                     body: switcher({
                         name: "vimeoDash",
                         explanation: t('SettingsVimeoPreferDescription'),
@@ -423,6 +425,26 @@ export default function(obj) {
                         }, {
                             action: "light",
                             text: t('SettingsThemeLight')
+                        }]
+                    })
+                })
+                + settingsCategory({
+                    name: "filename",
+                    title: t('FilenamePattern'),
+                    body: switcher({
+                        name: "filenamePattern",
+                        items: [{
+                            action: "classic",
+                            text: t('FilenamePatternClassic')
+                        }, {
+                            action: "pretty",
+                            text: t('FilenamePatternPretty')
+                        }, {
+                            action: "basic",
+                            text: t('FilenamePatternBasic')
+                        }, {
+                            action: "nerdy",
+                            text: t('FilenamePatternNerdy')
                         }]
                     })
                 })

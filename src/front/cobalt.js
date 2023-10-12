@@ -17,7 +17,8 @@ const switchers = {
     "aFormat": ["mp3", "best", "ogg", "wav", "opus"],
     "dubLang": ["original", "auto"],
     "vimeoDash": ["false", "true"],
-    "audioMode": ["false", "true"]
+    "audioMode": ["false", "true"],
+    "filenamePattern": ["classic", "pretty", "basic", "nerdy"]
 };
 const checkboxes = [
     "alwaysVisibleButton",
@@ -372,6 +373,7 @@ async function download(url) {
     let req = {
         url: encodeURIComponent(url.split("&")[0].split('%')[0]),
         aFormat: sGet("aFormat").slice(0, 4),
+        filenamePattern: sGet("filenamePattern"),
         dubLang: false
     }
     if (sGet("dubLang") === "auto") {

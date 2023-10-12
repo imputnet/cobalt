@@ -147,6 +147,11 @@
         "DataTransferError": "при переносе настроек что-то пошло не так. придётся зайти в настройки и настроить кобальт вручную.",
         "SupportNotAffiliated": "кобальт <span class=\"text-backdrop\">не аффилирован</span> ни с одним из перечисленных выше сервисов.",
         "SupportMetaNoticeRU": "деятельность meta platforms inc. (владелец instagram) запрещена на территории россии.",
-        "SponsoredBy": "спонсируется"
+        "SponsoredBy": "спонсируется",
+        "FilenamePattern": "шаблон названий файлов",
+        "FilenamePatternClassic": "классический",
+        "FilenamePatternPretty": "красивый",
+        "FilenamePatternBasic": "простой",
+        "FilenamePatternNerdy": "полный"
     }
 }

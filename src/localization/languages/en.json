@@ -145,6 +145,11 @@
         "DataTransferSuccess": "btw, your settings have been transferred automatically :)",
         "DataTransferError": "something went wrong when transferring your preferences. you'll have to open settings and configure cobalt by hand.",
         "SupportNotAffiliated": "cobalt is <span class=\"text-backdrop\">not affiliated</span> with any services listed above.",
-        "SponsoredBy": "sponsored by"
+        "SponsoredBy": "sponsored by",
+        "FilenamePattern": "file name preset",
+        "FilenamePatternClassic": "classic",
+        "FilenamePatternPretty": "pretty",
+        "FilenamePatternBasic": "basic",
+        "FilenamePatternNerdy": "nerdy"
     }
 }

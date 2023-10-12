@@ -1,6 +1,6 @@
 import { maxVideoDuration } from "../../config.js";
+import { cleanString } from '../../sub/utils.js';
 
-// vimeo you're fucked in the head for this
 const resolutionMatch = {
     "3840": "2160",
     "2732": "1440",
@@ -33,6 +33,11 @@ export default async function(obj) {
     let downloadType = "dash";
     if (!obj.forceDash && JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
 
+    let fileMetadata = {
+        title: cleanString(api.video.title.replace(/\p{Emoji}/gu, '').trim()),
+        artist: cleanString(api.video.owner.name.replace(/\p{Emoji}/gu, '').trim()),
+    }
+
     if (downloadType !== "dash") {
         if (qualityMatch[quality]) quality = qualityMatch[quality];
         let all = api["request"]["files"]["progressive"].sort((a, b) => Number(b.width) - Number(a.width));
@@ -43,7 +48,11 @@ export default async function(obj) {
         if (Number(quality) < Number(bestQuality)) best = all.find(i => i["quality"].split('p')[0] === quality);
 
         if (!best) return { error: 'ErrorEmptyDownload' };
-        return { urls: best["url"], audioFilename: `vimeo_${obj.id}_audio`, filename: `vimeo_${obj.id}_${best["width"]}x${best["height"]}.mp4` }
+        return {
+            urls: best["url"],
+            audioFilename: `vimeo_${obj.id}_audio`,
+            filename: `vimeo_${obj.id}_${best["width"]}x${best["height"]}.mp4`
+        }
     }
 
     if (api.video.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
@@ -77,8 +86,16 @@ export default async function(obj) {
         return {
             urls: audioUrl ? [videoUrl, audioUrl] : videoUrl,
             isM3U8: audioUrl ? false : true,
-            audioFilename: `vimeo_${obj.id}_audio`,
-            filename: `vimeo_${obj.id}_${bestVideo["width"]}x${bestVideo["height"]}.mp4`
+            fileMetadata: fileMetadata,
+            filenameAttributes: {
+                service: "vimeo",
+                id: obj.id,
+                title: fileMetadata.title,
+                author: fileMetadata.artist,
+                resolution: `${bestVideo["width"]}x${bestVideo["height"]}`,
+                qualityLabel: `${bestVideo["height"]}p`,
+                extension: "mp4"
+            }
         }
     }
     return { error: 'ErrorEmptyDownload' }
