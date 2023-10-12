@@ -95,7 +95,7 @@ export default async function(o) {
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         let single = info.streaming_data.formats.find(i => checkSingle(i));
         if (single) {
-            filenameAttributes.qualityLabel = video.quality_label;
+            filenameAttributes.qualityLabel = single.quality_label;
             filenameAttributes.resolution = `${single.width}x${single.height}`;
             filenameAttributes.extension = c[o.format].container;
             filenameAttributes.youtubeFormat = o.format;
