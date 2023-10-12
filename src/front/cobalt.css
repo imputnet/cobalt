@@ -315,10 +315,11 @@ button:active,
     color: var(--accent);
     background: none;
     border: none;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     cursor: pointer;
     padding: 0;
-    letter-spacing: -0.36rem;
+    letter-spacing: -0.35rem;
+    font-weight: normal!important;
 }
 #download-button:disabled {
     color: var(--accent-subtext);
@@ -759,9 +760,6 @@ button:active,
     user-select: none;
     -webkit-user-select: none;
 }
-.collapse-list.last {
-    margin-bottom: 1rem;
-}
 .collapse-header {
     padding: 0.5rem var(--padding-1);
     font-size: 0.95rem;
@@ -948,6 +946,27 @@ button:active,
 .collapse-list.last.expanded .collapse-header {
     border-radius: 0;
 }
+.sponsored-by-text {
+    text-align: center!important;
+    font-size: .85rem;
+    color: var(--accent-subtext);
+    user-select: none;
+}
+#sponsored-logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.2rem 1rem;
+    margin-bottom: 1rem;
+}
+.sponsored-logo svg {
+    height: inherit;
+    width: inherit;
+}
+.sponsored-logo svg path {
+    fill: var(--accent-subtext);
+}
 /* prevent resizing fliecker on ios if web app is installed as standalone */
 @media all and (display-mode: standalone) {
     #home.visible {
@@ -1092,7 +1111,7 @@ button:active,
     }
     .popup.small.visible {
         transform: none;
-        transition: transform 200ms cubic-bezier(0.075, 0.82, 0.165, 1), opacity 130ms ease-in-out;
+        transition: transform 210ms cubic-bezier(0.062, 0.82, 0.165, 1), opacity 130ms ease-in-out;
     }
     .popup.small #popup-header {
         background: none;

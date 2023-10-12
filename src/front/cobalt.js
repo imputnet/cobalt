@@ -194,7 +194,7 @@ function popup(type, action, text) {
         store.isPopupOpen = true;
         switch (type) {
             case "about":
-                let tabId = sGet("seenAbout") ? "changelog" : "about";
+                let tabId = sGet("changelogStatus") !== `${version}` ? "changelog" : "about";
                 if (text) tabId = text;
                 eid(`tab-button-${type}-${tabId}`).click();
                 break;

@@ -74,5 +74,15 @@
         "copy": ["-c:a", "copy"],
         "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
         "m4a": ["-movflags", "frag_keyframe+empty_moov"]
-    }
+    },
+    "sponsors": [{
+        "name": "royale",
+        "fullName": "RoyaleHosting",
+        "url": "https://royalehosting.net/",
+        "logo": {
+            "width": 605,
+            "height": 136,
+            "scale": 5
+        }
+    }]
 }
