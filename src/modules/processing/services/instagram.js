@@ -56,24 +56,23 @@ async function getPost(id) {
 
     const sidecar = data?.shortcode_media?.edge_sidecar_to_children;
     if (sidecar) {
-        const picker = sidecar.edges
-                        .filter(e => e.node?.display_url)
-                        .map(e => {
-                            const type = e.node?.is_video ? "video" : "photo";
-                            const url = type === "video" ? e.node?.video_url : e.node?.display_url;
+        const picker = sidecar.edges.filter(e => e.node?.display_url)
+            .map(e => {
+                const type = e.node?.is_video ? "video" : "photo";
+                const url = type === "video" ? e.node?.video_url : e.node?.display_url;
 
-                            return {
-                                type, url,
-                                /* thumbnails have `Cross-Origin-Resource-Policy`
-                                ** set to `same-origin`, so we need to proxy them */
-                                thumb: createStream({
-                                    service: "instagram",
-                                    type: "default",
-                                    u: e.node?.display_url,
-                                    filename: "image.jpg"
-                                })
-                            }
-                        });
+                return {
+                    type, url,
+                    /* thumbnails have `Cross-Origin-Resource-Policy`
+                    ** set to `same-origin`, so we need to proxy them */
+                    thumb: createStream({
+                        service: "instagram",
+                        type: "default",
+                        u: e.node?.display_url,
+                        filename: "image.jpg"
+                    })
+                }
+            });
 
         if (picker.length) return { picker }
     } else if (data?.shortcode_media?.video_url) {
@@ -94,7 +93,7 @@ async function getPost(id) {
 
 async function usernameToId(username, cookie) {
     const url = new URL('https://www.instagram.com/api/v1/users/web_profile_info/');
-          url.searchParams.set('username', username);
+        url.searchParams.set('username', username);
 
     try {
         const data = await request(url, cookie);
@@ -123,11 +122,7 @@ async function getStory(username, id) {
     if (!item) return { error: 'ErrorEmptyDownload' };
     
     if (item.video_versions) {
-        // todo: closest quality?
-        const video = item.video_versions.reduce(
-            (a, b) => a.width * a.height < b.width * b.height ? b : a
-        )
-
+        const video = item.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a)
         return {
             urls: video.url,
             filename: `instagram_${id}.mp4`,
