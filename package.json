@@ -12,7 +12,8 @@
         "start": "node src/cobalt",
         "setup": "node src/modules/setup",
         "test": "node src/test/test",
-        "build": "node src/modules/buildStatic"
+        "build": "node src/modules/buildStatic",
+        "testFilenames": "node src/test/testFilenamePresets"
     },
     "repository": {
         "type": "git",
