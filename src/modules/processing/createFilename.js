@@ -56,7 +56,7 @@ export default function(f, template, isAudioOnly, isAudioMuted) {
             break;
         case "nerdy":
             // Loossemble (루셈블) - 'Sensitive' MV (1080p, h264, ru, youtube, MMK3L4W70g4).mp4
-            // Loossemble (루셈블) - 'Sensitive' MV (1080p, h264, ru, youtube, MMK3L4W70g4).mp4
+            // Loossemble (루셈블) - 'Sensitive' MV - Loossemble (ru, youtube, MMK3L4W70g4).mp4
             filename += `${f.title} `;
             if (!isAudioOnly) {
                 filename += '('

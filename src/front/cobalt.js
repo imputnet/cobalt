@@ -34,14 +34,20 @@ const checkboxes = [
 const exceptions = { // used for mobile devices
     "vQuality": "720"
 };
-const bottomPopups = ["error", "download"]
+const bottomPopups = ["error", "download"];
 
 const pageQuery = new URLSearchParams(window.location.search);
 
 let store = {};
 
-function changeAPI(url) {
-    apiURL = url;
+function fixApiUrl(url) {
+    return url.endsWith('/') ? url.slice(0, -1) : url
+}
+
+let apiURL = fixApiUrl(defaultApiUrl);
+
+function changeApi(url) {
+    apiURL = fixApiUrl(url);
     return true
 }
 function eid(id) {
@@ -128,6 +134,8 @@ function detectColorScheme() {
     document.documentElement.setAttribute("data-theme", theme);
 }
 function changeTab(evnt, tabId, tabClass) {
+    if (tabId === "tab-settings-other") updateFilenamePreview();
+
     let tabcontent = document.getElementsByClassName(`tab-content-${tabClass}`);
     let tablinks = document.getElementsByClassName(`tab-${tabClass}`);
 
@@ -275,6 +283,7 @@ function changeSwitcher(li, b) {
             (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
         if (li === "theme") detectColorScheme();
+        if (li === "filenamePattern") updateFilenamePreview();
     } else {
         let pref = switchers[li][0];
         if (isMobile && exceptions[li]) pref = exceptions[li];
@@ -292,28 +301,6 @@ function checkbox(action) {
         case "disableAnimations": eid("cobalt-body").classList.toggle('no-animation'); break;
     }
     action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
-}
-function loadSettings() {
-    if (sGet("alwaysVisibleButton") === "true") {
-        eid("alwaysVisibleButton").checked = true;
-        eid("download-button").value = '>>'
-        eid("download-button").style.padding = '0 1rem';
-    }
-    if (sGet("downloadPopup") === "true" && !isIOS) {
-        eid("downloadPopup").checked = true;
-    }
-    if (sGet("reduceTransparency") === "true" || isOldFirefox) {
-        eid("cobalt-body").classList.add('no-transparency');
-    }
-    if (sGet("disableAnimations") === "true") {
-        eid("cobalt-body").classList.add('no-animation');
-    }
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
-    }
-    for (let i in switchers) {
-        changeSwitcher(i, sGet(i))
-    }
 }
 function changeButton(type, text) {
     switch (type) {
@@ -515,6 +502,73 @@ function unpackSettings(b64) {
         changed = false;
     }
     return changed
+}
+function updateFilenamePreview() {
+    let videoFilePreview = ``;
+    let audioFilePreview = ``;
+    let resMatch = {
+        "max": "3840x2160",
+        "2160": "3840x2160",
+        "1440": "2560x1440",
+        "1080": "1920x1080",
+        "720": "1280x720",
+        "480": "854x480",
+        "360": "640x360",
+    }
+    // "dubLang"
+    // sGet("muteAudio") === "true"
+    switch(sGet("filenamePattern")) {
+        case "classic":
+            videoFilePreview = `youtube_yPYZpwSpKmA_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
+            + `${sGet("muteAudio") === "true" ? "_mute" : ""}.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `youtube_yPYZpwSpKmA_audio.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "pretty":
+            videoFilePreview =
+            `${loc.FilenamePreviewVideoTitle} `
+            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "basic":
+            videoFilePreview =
+            `${loc.FilenamePreviewVideoTitle} `
+            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}${sGet("muteAudio") === "true" ? " mute" : ""}).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "nerdy":
+            videoFilePreview =
+            `${loc.FilenamePreviewVideoTitle} `
+            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, yPYZpwSpKmA).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud, 1242868615).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+    }
+    eid("video-filename-text").innerHTML = videoFilePreview
+    eid("audio-filename-text").innerHTML = audioFilePreview
+}
+function loadSettings() {
+    if (sGet("alwaysVisibleButton") === "true") {
+        eid("alwaysVisibleButton").checked = true;
+        eid("download-button").value = '>>'
+        eid("download-button").style.padding = '0 1rem';
+    }
+    if (sGet("downloadPopup") === "true" && !isIOS) {
+        eid("downloadPopup").checked = true;
+    }
+    if (sGet("reduceTransparency") === "true" || isOldFirefox) {
+        eid("cobalt-body").classList.add('no-transparency');
+    }
+    if (sGet("disableAnimations") === "true") {
+        eid("cobalt-body").classList.add('no-animation');
+    }
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
+    }
+    for (let i in switchers) {
+        changeSwitcher(i, sGet(i))
+    }
+    updateFilenamePreview()
 }
 window.onload = () => {
     loadCelebrationsEmoji();

@@ -886,6 +886,46 @@ button:active,
     opacity: 1;
     transition: opacity 0.2s ease-out;
 }
+.sponsored-by-text {
+    text-align: center!important;
+    font-size: .85rem;
+    color: var(--accent-subtext);
+    user-select: none;
+}
+#sponsored-logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.2rem 1rem;
+    margin-bottom: 1rem;
+}
+.sponsored-logo svg {
+    height: inherit;
+    width: inherit;
+}
+.sponsored-logo svg path {
+    fill: var(--accent-subtext);
+}
+#filename-preview {
+    background: var(--accent-button);
+    margin-top: 0.8rem;
+}
+.filename-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.5rem 0.7rem;
+}
+.filename-item.line {
+    border-bottom: 0.1rem solid var(--accent-button-elevated);
+}
+.filename-label {
+    color: var(--accent-subtext);
+    font-size: 0.8rem;
+}
 /* rounded corners */
 #bottom #paste,
 #footer .switch,
@@ -900,7 +940,8 @@ button:active,
 #popup-about .switch,
 #popup-tabs .switch,
 .text-to-copy,
-.text-to-copy.text-backdrop {
+.text-to-copy.text-backdrop,
+#filename-preview {
     border-radius: 5px / 6px;
 }
 [type=checkbox] {
@@ -945,27 +986,6 @@ button:active,
 }
 .collapse-list.last.expanded .collapse-header {
     border-radius: 0;
-}
-.sponsored-by-text {
-    text-align: center!important;
-    font-size: .85rem;
-    color: var(--accent-subtext);
-    user-select: none;
-}
-#sponsored-logos {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.2rem 1rem;
-    margin-bottom: 1rem;
-}
-.sponsored-logo svg {
-    height: inherit;
-    width: inherit;
-}
-.sponsored-logo svg path {
-    fill: var(--accent-subtext);
 }
 /* prevent resizing fliecker on ios if web app is installed as standalone */
 @media all and (display-mode: standalone) {

@@ -430,23 +430,40 @@ export default function(obj) {
                 })
                 + settingsCategory({
                     name: "filename",
-                    title: t('FilenamePattern'),
+                    title: t('FilenameTitle'),
                     body: switcher({
                         name: "filenamePattern",
                         items: [{
                             action: "classic",
                             text: t('FilenamePatternClassic')
                         }, {
-                            action: "pretty",
-                            text: t('FilenamePatternPretty')
-                        }, {
                             action: "basic",
                             text: t('FilenamePatternBasic')
+                        }, {
+                            action: "pretty",
+                            text: t('FilenamePatternPretty')
                         }, {
                             action: "nerdy",
                             text: t('FilenamePatternNerdy')
                         }]
                     })
+                    + `<div id="filename-preview">
+                        <div id="video-filename" class="filename-item line">
+                            ${emoji('🎞️', 32, 1, 1)}
+                            <div class="filename-container">
+                                <div class="filename-label">${t('Preview')}</div>
+                                <div id="video-filename-text"></div>
+                            </div>
+                        </div>
+                        <div id="audio-filename" class="filename-item">
+                            ${emoji('🎧', 32, 1, 1)}
+                            <div class="filename-container">
+                                <div class="filename-label">${t('Preview')}</div>
+                                <div id="audio-filename-text"></div>
+                            </div>
+                        </div>
+                    </div>`
+                    + explanation(t('FilenameDescription'))
                 })
                 + settingsCategory({
                     name: "accessibility",
@@ -545,8 +562,8 @@ export default function(obj) {
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "👾",
-                text: t("UrgentFeatureUpdate71"),
+                emoji: "😸",
+                text: t("UrgentFilenameUpdate"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
@@ -596,7 +613,7 @@ export default function(obj) {
         </div>
     </body>
     <script type="text/javascript">
-        let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+        let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
         const loc = ${webLoc(t,
         [
             'ErrorNoInternet',
@@ -613,7 +630,10 @@ export default function(obj) {
             'ClipboardErrorNoPermission',
             'ClipboardErrorFirefox',
             'DataTransferSuccess',
-            'DataTransferError'
+            'DataTransferError',
+            'FilenamePreviewVideoTitle',
+            'FilenamePreviewAudioTitle',
+            'FilenamePreviewAudioAuthor'
         ])}
     </script>
     <script type="text/javascript" src="cobalt.js"></script>

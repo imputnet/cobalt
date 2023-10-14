@@ -1,5 +1,16 @@
 {
     "current": {
+        "version": "7.6",
+        "date": "October 14, 2023",
+        "title": "customizable file names, instagram stories, and sponsorship!",
+        "banner": {
+            "file": "meowthstrong.webp",
+            "width": 851,
+            "height": 640
+        },
+        "content": "as many have (very) often requested, cobalt now lets you pick between several file name format styles!\ngo to <span class=\"text-backdrop\">settings > other</span> and change it to whichever you like! there's a preview of each style, so you know how exactly files are gonna look like.\n\nif you liked file names the way they were before, don't worry: classic style is still the default :)\n\non a different but not any less important note: cobalt is now sponsored by <a class=\"text-backdrop link\" href=\"https://royalehosting.net/\" target=\"_blank\">royalehosting.net</a>!\noverall service performance and stability is gonna be better, but also more content will be possible to download thanks to geniuine server locations. and yes, still no ads or trackers.\n\nif you would like to sponsor cobalt by donating compute power (like royale) or any other way, reach out to me at <a class=\"text-backdrop link\" href=\"mailto:sponsor@cobalt.tools\" target=\"_blank\">support@cobalt.tools</a>.\n\nthis update also includes a bunch of other changes, check them out:\n\nservice improvements:\n*; added support for rich file names for youtube, vimeo, soundcloud, rutube, and vk.\n*; added support for instagram stories.\n*; mute and audio dub file name tags don't appear together anymore.\n*; youtube: dub file name tag doesn't appear anymore if audio track is default.\n\ninterface improvements:\n*; added a list of sponsors to about tab. if you host an instance, it's disabled by default, but can be enabled with showSponsors env variable.\n*; about button now opens about tab when no new changelog is available.\n*; fixed download button thickness on ios.\n\nyou now can reach out to cobalt via email for support! it's located in the about tab along with other socials, such as discord.\n\ni hope you enjoy this long-awaited update and have a blissful day :D"
+    },
+    "history": [{
         "version": "7.5",
         "date": "September 16, 2023",
         "title": "support for twitch clips and rutube!",
@@ -9,8 +20,7 @@
             "height": 640
         },
         "content": "hey! this update (finally) adds support for twitch clips and rutube, among other smaller changes.\n\nservice improvements:\n*; added support for twitch clips. no vods, they're unnecessary. just clip whatever you want to download!\n*; added support for rutube in case you ever wanted to download something russian.\n\ninterface improvements:\n*; added a note about cobalt not being affiliated with any supported services.\n*; added a note about meta (the company) in russian.\n*; better russian localization. will keep improving it to make it sound not so robotic over time.\n\nother improvements:\n*; all official servers are now using the docker package. and so should you!\n*; moved the load balancer to poland. requests should be slightly faster now.\n*; minor codebase clean up.\n\nif you're confused about the new domain, read the older changelog! just scroll lower and press \"expand\".\n\ni hope you find this update useful and have a wonderful day :)\n\nbtw, cobalt has a pretty active community server on discord. go to about > support & source code to join!"
-    },
-    "history": [{
+    }, {
         "version": "7.4",
         "date": "September 9, 2023",
         "title": "new domain, what's coming in future, bug fixes, and more!",
