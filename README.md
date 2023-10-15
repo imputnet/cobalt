@@ -16,7 +16,7 @@ Paste the link, get the video, move on. It's that simple. Just how it should be.
 | Service                 | Video + Audio | Only audio  | Only video  | Additional notes or features                                                                                              |
 | --------                | :---:         | :---:       | :---:       | :-----                                                                                                                    |
 | bilibili.com            | ✅           | ✅         | ✅         |                                                                                                                           |
-| Instagram               | ✅           | ✅         | ✅         | Supports photos and videos, lets you pick what to save from multi-media posts.                                            |
+| Instagram               | ✅           | ✅         | ✅         | Supports photos, videos, and stories. Lets you pick what to save from multi-media posts.                                  |
 | Instagram Reels         | ✅           | ✅         | ✅         |                                                                                                                           |
 | Pinterest               | ✅           | ✅         | ✅         | Support for videos and stories.                                                                                           |
 | Reddit                  | ✅           | ✅         | ✅         | Support for GIFs and videos.                                                                                              |
