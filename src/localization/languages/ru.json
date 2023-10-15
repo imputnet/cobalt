@@ -145,6 +145,17 @@
         "DataTransferSuccess": "кстати, твои настройки были перенесены автоматически :)",
         "DataTransferError": "при переносе настроек что-то пошло не так. придётся зайти в настройки и настроить кобальт вручную.",
         "SupportNotAffiliated": "кобальт <span class=\"text-backdrop\">не аффилирован</span> ни с одним из перечисленных выше сервисов.",
-        "SponsoredBy": "спонсируется"
+        "SponsoredBy": "спонсируется",
+        "FilenameTitle": "стиль названий файлов",
+        "FilenamePatternClassic": "классический",
+        "FilenamePatternPretty": "красивый",
+        "FilenamePatternBasic": "простой",
+        "FilenamePatternNerdy": "полный",
+        "FilenameDescription": "классический: стандартный стиль названия файлов кобальта.\nкрасивый: название и инфа в скобках.\nпростой: название и основная инфа в скобках.\nполный: название и вся инфа в скобках.\n\nнекоторые сервисы не поддерживают красивые имена файлов и всегда используют классический стиль.",
+        "Preview": "превью",
+        "FilenamePreviewVideoTitle": "Название Видео",
+        "FilenamePreviewAudioTitle": "Название Аудио",
+        "FilenamePreviewAudioAuthor": "Автор Аудио",
+        "UrgentFilenameUpdate": "изменяемые названия файлов!"
     }
 }
