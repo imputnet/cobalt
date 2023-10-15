@@ -151,7 +151,7 @@
         "FilenamePatternPretty": "bonito",
         "FilenamePatternBasic": "básico",
         "FilenamePatternNerdy": "listo",
-        "FilenameDescription": "clásico: patrón de nombre de archivo predeterminado de cobalt.\nbonito: título e información en paréntesis.\nbásico: título e información básica en paréntesis.\nlisto: título y toda la información en paréntesis.",
+        "FilenameDescription": "clásico: patrón predeterminado de nombre de archivo.\nbásico: título e información básica en paréntesis.\nbonito: título e información en paréntesis.\nlisto: título y toda la información en paréntesis.\n\nalgunos servicios no soportan estos nombres de archivo y siempre usarán el estilo clásico.",
         "Preview": "vista previa",
         "FilenamePreviewVideoTitle": "Título de Video",
         "FilenamePreviewAudioTitle": "Título de Audio",
