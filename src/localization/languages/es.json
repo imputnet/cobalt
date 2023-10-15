@@ -107,7 +107,7 @@
         "SourceCode": "informar problemas, explorar el código fuente, destacar o bifurcar el repositorio:",
         "PrivacyPolicy": "la política de privacidad de cobalt es simple: no hay ningún dato de ti que es coleccionado o almacenado. cero, nulo, nothing, nada.\nlo que descargas es tu solamente tu asunto, no el mío ni el de nadie más.\n\nsi tu descarga requiere renderizado en directo, algo de datos no-rastreables será almacenado en el RAM del servidor. es necesario para que esta característica funcione.\n\nen este caso la información sobre el contenido requerido es almacenado ñor <span class=\"text-backdrop\">20 segundos</span> y luego borrado permanentemente.\nnadie (ni siquiera yo) puede acceder a esos datos. la base de códigos de cobalt no provee una manera de leerlo afuero de funciones de procesamiento.\n\npuedes revisar el <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">código fuente</a> tú mismo y ver que todo está como dicho.",
         "ErrorYTUnavailable": "este video de youtube no está disponible, podrías estar restricción de región o restricción de edad. ¡intenta otro!",
-        "ErrorYTTryOtherCodec": "no he podido encontrar nada para descargar con tu configuración. ¡prueba otro código o calidad!\n\nnota: la api de youtube a veces actúa inesperadamente. culpa a google por esto, no a mí.",
+        "ErrorYTTryOtherCodec": "no he podido encontrar algo que descargar con tus ajustes. ¡intenta otro códec o calidad!\n\na veces la api de youtube actúa inesperadamente. intenta de nuevo o intenta otros ajustes.",
         "SettingsCodecSubtitle": "codec de youtube",
         "SettingsCodecDescription": "h264: generalmente tiene mejor soporte con la mayoría de reproductores, pero la calidad máxima es 1080p.\nav1: sin soporte por parte de la mayoría de reproductores, pero soporta 8k y HDR.\nvp9: normalmente la tasa de bits más alta, conserva más detalles. soporta 4k y HDR.\n\nelige h264 si quieres mejor compatibilidad para editores/reproductores/redes sociales.",
         "SettingsAudioDub": "pista de audio de youtube",
@@ -145,6 +145,17 @@
         "DataTransferSuccess": "por cierto, tus ajustes se transfirieron automáticamente :)",
         "DataTransferError": "algo salió mal al transferir tus ajustes. tendrás que abrir ajustes y configurar cobalt manualmente.",
         "SupportNotAffiliated": "cobalt no está <span class=\"text-backdrop\">afiliado</span> con algunos de los servicios listados arriba.",
-        "SponsoredBy": "patrocinado por"
+        "SponsoredBy": "patrocinado por",
+        "FilenameTitle": "esilo de nombre de archivo",
+        "FilenamePatternClassic": "clásico",
+        "FilenamePatternPretty": "bonito",
+        "FilenamePatternBasic": "básico",
+        "FilenamePatternNerdy": "listo",
+        "FilenameDescription": "clásico: patrón de nombre de archivo predeterminado de cobalt.\nbonito: título e información en paréntesis.\nbásico: título e información básica en paréntesis.\nlisto: título y toda la información en paréntesis.",
+        "Preview": "vista previa",
+        "FilenamePreviewVideoTitle": "Título de Video",
+        "FilenamePreviewAudioTitle": "Título de Audio",
+        "FilenamePreviewAudioAuthor": "Autor de Audio",
+        "UrgentFilenameUpdate": "¡nombres de archivo personalizables!"
     }
 }
