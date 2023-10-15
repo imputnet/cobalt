@@ -926,6 +926,9 @@ button:active,
     color: var(--accent-subtext);
     font-size: 0.8rem;
 }
+.filename-container {
+    overflow-wrap: anywhere;
+}
 /* rounded corners */
 #bottom #paste,
 #footer .switch,
