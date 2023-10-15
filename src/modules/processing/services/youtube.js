@@ -54,7 +54,9 @@ export default async function(o) {
         audio = adaptive_formats.find(i => checkBestAudio(i) && !i["is_dubbed"]);
 
     if (o.dubLang) {
-        let dubbedAudio = adaptive_formats.find(i => checkBestAudio(i) && i["language"] === o.dubLang && !i["audio_track"].audio_is_default);
+        let dubbedAudio = adaptive_formats.find(i =>
+            checkBestAudio(i) && i["language"] === o.dubLang && i["audio_track"] && !i["audio_track"].audio_is_default
+        );
         if (dubbedAudio) {
             audio = dubbedAudio;
             isDubbed = true
