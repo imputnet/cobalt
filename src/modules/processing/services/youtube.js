@@ -54,13 +54,12 @@ export default async function(o) {
         audio = adaptive_formats.find(i => checkBestAudio(i) && !i["is_dubbed"]);
 
     if (o.dubLang) {
-        let dubbedAudio = adaptive_formats.find(i => checkBestAudio(i) && i["language"] === o.dubLang);
+        let dubbedAudio = adaptive_formats.find(i => checkBestAudio(i) && i["language"] === o.dubLang && !i["audio_track"].audio_is_default);
         if (dubbedAudio) {
             audio = dubbedAudio;
             isDubbed = true
         }
     }
-
     let fileMetadata = {
         title: cleanString(info.basic_info.title.replace(/\p{Emoji}/gu, '').trim()),
         artist: cleanString(info.basic_info.author.replace("- Topic", "").replace(/\p{Emoji}/gu, '').trim()),
@@ -72,13 +71,21 @@ export default async function(o) {
         if (descItems[4].startsWith("Released on:")) {
             fileMetadata.date = descItems[4].replace("Released on: ", '').trim()
         }
-    };
+    }
+
+    let filenameAttributes = {
+        service: "youtube",
+        id: o.id,
+        title: fileMetadata.title,
+        author: fileMetadata.artist,
+        youtubeDubName: isDubbed ? o.dubLang : false
+    }
 
     if (hasAudio && o.isAudioOnly) return {
         type: "render",
         isAudioOnly: true,
         urls: audio.url,
-        audioFilename: `youtube_${o.id}_audio${isDubbed ? `_${o.dubLang}`:''}`,
+        filenameAttributes: filenameAttributes,
         fileMetadata: fileMetadata
     }
     let checkSingle = (i) => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
@@ -87,21 +94,33 @@ export default async function(o) {
 
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         let single = info.streaming_data.formats.find(i => checkSingle(i));
-        if (single) return {
-            type: "bridge",
-            urls: single.url,
-            filename: `youtube_${o.id}_${single.width}x${single.height}_${o.format}.${c[o.format].container}`,
-            fileMetadata: fileMetadata
+        if (single) {
+            filenameAttributes.qualityLabel = single.quality_label;
+            filenameAttributes.resolution = `${single.width}x${single.height}`;
+            filenameAttributes.extension = c[o.format].container;
+            filenameAttributes.youtubeFormat = o.format;
+            return {
+                type: "bridge",
+                urls: single.url,
+                filenameAttributes: filenameAttributes,
+                fileMetadata: fileMetadata
+            }
         }
-    };
+    }
 
     let video = adaptive_formats.find(i => ((Number(quality) > Number(bestQuality)) ? checkBestVideo(i) : checkRightVideo(i)));
-    if (video && audio) return {
-        type: "render",
-        urls: [video.url, audio.url],
-        filename: `youtube_${o.id}_${video.width}x${video.height}_${o.format}${isDubbed ? `_${o.dubLang}`:''}.${c[o.format].container}`,
-        fileMetadata: fileMetadata
-    };
+    if (video && audio) {
+        filenameAttributes.qualityLabel = video.quality_label;
+        filenameAttributes.resolution = `${video.width}x${video.height}`;
+        filenameAttributes.extension = c[o.format].container;
+        filenameAttributes.youtubeFormat = o.format;
+        return {
+            type: "render",
+            urls: [video.url, audio.url],
+            filenameAttributes: filenameAttributes,
+            fileMetadata: fileMetadata
+        }
+    }
 
     return { error: 'ErrorYTTryOtherCodec' }
 }

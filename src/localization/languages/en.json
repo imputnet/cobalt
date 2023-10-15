@@ -107,7 +107,7 @@
         "SourceCode": "report issues, explore source code, star or fork the repo:",
         "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is solely your business, not mine or anyone else's.\n\nif your download requires live render, some non-backtraceable data is temporarily stored in server's RAM. it's necessary for this feature to function.\n\nin this case info about requested content is stored for <span class=\"text-backdrop\">20 seconds</span> and then permanently removed.\nno one (even me) has access to this data. official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">source code</a> yourself and see that everything is as stated.",
         "ErrorYTUnavailable": "this youtube video is unavailable, it could be region or age restricted. try another one!",
-        "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nnote: youtube api sometimes acts unexpectedly. blame google for this, not me.",
+        "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nsometimes youtube api sometimes acts unexpectedly. try again or try another settings.",
         "SettingsCodecSubtitle": "youtube codec",
         "SettingsCodecDescription": "h264: generally better player support, but quality tops out at 1080p.\nav1: low player support, but supports 8k & HDR.\nvp9: usually highest bitrate, preserves most detail. supports 4k & HDR.\n\npick h264 if you want best editor/player/social media compatibility.",
         "SettingsAudioDub": "youtube audio track",
@@ -145,6 +145,17 @@
         "DataTransferSuccess": "btw, your settings have been transferred automatically :)",
         "DataTransferError": "something went wrong when transferring your preferences. you'll have to open settings and configure cobalt by hand.",
         "SupportNotAffiliated": "cobalt is <span class=\"text-backdrop\">not affiliated</span> with any services listed above.",
-        "SponsoredBy": "sponsored by"
+        "SponsoredBy": "sponsored by",
+        "FilenameTitle": "file name style",
+        "FilenamePatternClassic": "classic",
+        "FilenamePatternPretty": "pretty",
+        "FilenamePatternBasic": "basic",
+        "FilenamePatternNerdy": "nerdy",
+        "FilenameDescription": "classic: default cobalt file name pattern.\npretty: title and info in brackets.\nbasic: title and basic info in brackets.\nnerdy: title and all info in brackets.\n\nsome services don’t support rich file names and always use the classic style.",
+        "Preview": "preview",
+        "FilenamePreviewVideoTitle": "Video Title",
+        "FilenamePreviewAudioTitle": "Audio Title",
+        "FilenamePreviewAudioAuthor": "Audio Author",
+        "UrgentFilenameUpdate": "customizable file names!"
     }
 }

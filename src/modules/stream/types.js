@@ -3,6 +3,7 @@ import ffmpeg from "ffmpeg-static";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { getThreads, metadataManager } from "../sub/utils.js";
 import { request } from 'undici';
+import { create as contentDisposition } from "content-disposition-header";
 
 function fail(res) {
     if (!res.headersSent) res.sendStatus(500);
@@ -12,8 +13,7 @@ function fail(res) {
 export async function streamDefault(streamInfo, res) {
     try {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
-        let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`;
-        res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
+        res.setHeader('Content-disposition', contentDisposition(streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : streamInfo.filename));
 
         const { body: stream, headers } = await request(streamInfo.urls, {
             headers: { 'user-agent': genericUserAgent },
@@ -59,7 +59,7 @@ export async function streamLiveRender(streamInfo, res) {
             ],
         });
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
         res.on('error', () => {
             ffmpegProcess.kill();
             fail(res);
@@ -127,7 +127,7 @@ export function streamAudioOnly(streamInfo, res) {
             ],
         });
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
+        res.setHeader('Content-Disposition', contentDisposition(`${streamInfo.filename}.${streamInfo.audioFormat}`));
         ffmpegProcess.stdio[3].pipe(res);
 
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
@@ -163,7 +163,7 @@ export function streamVideoOnly(streamInfo, res) {
             ],
         });
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}${streamInfo.mute ? '_mute' : ''}.${format}"`);
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
         ffmpegProcess.stdio[3].pipe(res);
 
         ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());

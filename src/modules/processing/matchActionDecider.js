@@ -1,14 +1,16 @@
 import { audioIgnore, services, supportedAudio } from "../config.js";
 import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
+import createFilename from "./createFilename.js";
 
-export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, disableMetadata) {
+export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern) {
     let action,
         responseType = 2,
         defaultParams = {
             u: r.urls,
             service: host,
-            filename: r.filename,
+            filename: r.filenameAttributes ?
+                    createFilename(r.filenameAttributes, filenamePattern, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false
         },
         params = {}
@@ -21,9 +23,12 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
     else action = "video";
 
     if (action === "picker" || action === "audio") {
-        defaultParams.filename = r.audioFilename;
+        if (!r.filenameAttributes) defaultParams.filename = r.audioFilename;
         defaultParams.isAudioOnly = true;
         defaultParams.audioFormat = audioFormat;
+    }
+    if (isAudioMuted && !r.filenameAttributes) {
+        defaultParams.filename = r.filename.replace('.', '_mute.')
     }
 
     switch (action) {
@@ -135,7 +140,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
             } else if (audioFormat === "best") {
                 audioFormat = "m4a";
                 copy = true;
-                if (r.audioFilename.includes("twitterspaces")) {
+                if (!r.filenameAttributes && r.audioFilename.includes("twitterspaces")) {
                     audioFormat = "mp3"
                     copy = false
                 }

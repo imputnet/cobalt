@@ -4,7 +4,8 @@ const apiVar = {
     allowed: {
         vCodec: ["h264", "av1", "vp9"],
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
-        aFormat: ["best", "mp3", "ogg", "wav", "opus"]
+        aFormat: ["best", "mp3", "ogg", "wav", "opus"],
+        filenamePattern: ["classic", "pretty", "basic", "nerdy"]
     },
     booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata"]
 }
@@ -94,6 +95,7 @@ export function checkJSONPost(obj) {
         vCodec: "h264",
         vQuality: "720",
         aFormat: "mp3",
+        filenamePattern: "classic",
         isAudioOnly: false,
         isNoTTWatermark: false,
         isTTFullAudio: false,

@@ -22,7 +22,7 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 
-export default async function (host, patternMatch, url, lang, obj) {
+export default async function(host, patternMatch, url, lang, obj) {
     try {
         let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
 
@@ -150,7 +150,7 @@ export default async function (host, patternMatch, url, lang, obj) {
 
         if (r.error) return apiJSON(0, { t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error) });
 
-        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata);
+        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, obj.filenamePattern);
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

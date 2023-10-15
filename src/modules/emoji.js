@@ -35,12 +35,16 @@ const names = {
     "📑": "boring_document",
     "🧮": "abacus",
     "😸": "cat_grin",
-    "📰": "newspaper"
+    "📰": "newspaper",
+    "🎞️": "film_frames",
+    "🎧": "headphone",
+    "📧": "email"
 }
 let sizing = {
     18: 0.8,
     22: 0.4,
     30: 0.7,
+    32: 0.8,
     48: 0.9,
     64: 0.9,
     78: 0.9
