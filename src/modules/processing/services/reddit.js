@@ -50,7 +50,7 @@ async function getAccessToken() {
 export default async function(obj) {
     const url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}/${obj.title}.json`);
 
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';
 
     let data = await fetch(
@@ -71,7 +71,7 @@ export default async function(obj) {
 
     await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
 
-    // fallback for videos with differentiating audio quality
+    // fallback for videos with variable audio quality
     if (!audio) {
         audioFileLink = `${video.split('_')[0]}_AUDIO_128.mp4`
         await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
