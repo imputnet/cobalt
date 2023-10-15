@@ -75,7 +75,7 @@ export function cleanURL(url, host) {
 }
 export function cleanString(string) {
     for (let i in forbiddenCharsString) {
-        string = string.replaceAll(forbiddenCharsString[i], '')
+        string = string.replaceAll("/", "_").replaceAll(forbiddenCharsString[i], '')
     }
     return string;
 }

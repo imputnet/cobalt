@@ -22,8 +22,8 @@ export default async function(obj) {
         bestQuality = m3u8.find((i) => (Number(quality) === i["resolution"].height));
     }
     let fileMetadata = {
-        title: cleanString(play.title.replace(/\p{Emoji}/gu, '').trim()),
-        artist: cleanString(play.author.name.replace(/\p{Emoji}/gu, '').trim()),
+        title: cleanString(play.title.trim()),
+        artist: cleanString(play.author.name.trim()),
     }
 
     return {
