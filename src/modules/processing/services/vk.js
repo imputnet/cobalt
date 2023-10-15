@@ -34,8 +34,8 @@ export default async function(o) {
     url = js.player.params[0][`url${quality}`];
 
     let fileMetadata = {
-        title: cleanString(js.player.params[0].md_title.replace(/\p{Emoji}/gu, '').trim()),
-        artist: cleanString(js.player.params[0].md_author.replace(/\p{Emoji}/gu, '').trim()),
+        title: cleanString(js.player.params[0].md_title.trim()),
+        artist: cleanString(js.player.params[0].md_author.trim()),
     }
 
     if (url) return {

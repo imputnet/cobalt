@@ -34,8 +34,8 @@ export default async function(obj) {
     if (!obj.forceDash && JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
 
     let fileMetadata = {
-        title: cleanString(api.video.title.replace(/\p{Emoji}/gu, '').trim()),
-        artist: cleanString(api.video.owner.name.replace(/\p{Emoji}/gu, '').trim()),
+        title: cleanString(api.video.title.trim()),
+        artist: cleanString(api.video.owner.name.trim()),
     }
 
     if (downloadType !== "dash") {
