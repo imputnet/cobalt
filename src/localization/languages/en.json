@@ -151,7 +151,7 @@
         "FilenamePatternPretty": "pretty",
         "FilenamePatternBasic": "basic",
         "FilenamePatternNerdy": "nerdy",
-        "FilenameDescription": "classic: default cobalt file name pattern.\npretty: title and info in brackets.\nbasic: title and basic info in brackets.\nnerdy: title and all info in brackets.\n\nsome services don’t support rich file names and always use the classic style.",
+        "FilenameDescription": "classic: default cobalt file name pattern.\nbasic: title and basic info in brackets.\npretty: title and info in brackets.\nnerdy: title and all info in brackets.\n\nsome services don’t support rich file names and always use the classic style.",
         "Preview": "preview",
         "FilenamePreviewVideoTitle": "Video Title",
         "FilenamePreviewAudioTitle": "Audio Title",
