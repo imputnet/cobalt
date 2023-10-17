@@ -90,12 +90,12 @@ export default async function(o) {
         filenameAttributes: filenameAttributes,
         fileMetadata: fileMetadata
     }
-    let checkSingle = (i) => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
-        checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === bestQuality),
-        checkRightVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === quality);
+    const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality,
+        checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(c[o.format].codec),
+        checkRender = i => i.has_video && !i.has_audio && qual(i) === matchingQuality;
 
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
-        let single = info.streaming_data.formats.find(i => checkSingle(i));
+        let single = info.streaming_data.formats.find(checkSingle);
         if (single) {
             filenameAttributes.qualityLabel = single.quality_label;
             filenameAttributes.resolution = `${single.width}x${single.height}`;
@@ -110,7 +110,7 @@ export default async function(o) {
         }
     }
 
-    let video = adaptive_formats.find(i => ((Number(quality) > Number(bestQuality)) ? checkBestVideo(i) : checkRightVideo(i)));
+    let video = adaptive_formats.find(checkRender);
     if (video && audio) {
         filenameAttributes.qualityLabel = video.quality_label;
         filenameAttributes.resolution = `${video.width}x${video.height}`;
