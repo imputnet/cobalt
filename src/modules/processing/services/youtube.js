@@ -92,35 +92,30 @@ export default async function(o) {
     }
     const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality,
         checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(c[o.format].codec),
-        checkRender = i => i.has_video && !i.has_audio && qual(i) === matchingQuality;
+        checkRender = i => qual(i) === matchingQuality && i.has_video && !i.has_audio;
 
+    let match, type, urls;
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
-        let single = info.streaming_data.formats.find(checkSingle);
-        if (single) {
-            filenameAttributes.qualityLabel = single.quality_label;
-            filenameAttributes.resolution = `${single.width}x${single.height}`;
-            filenameAttributes.extension = c[o.format].container;
-            filenameAttributes.youtubeFormat = o.format;
-            return {
-                type: "bridge",
-                urls: single.url,
-                filenameAttributes: filenameAttributes,
-                fileMetadata: fileMetadata
-            }
-        }
+        match = info.streaming_data.formats.find(checkSingle);
+        type = "bridge";
+        urls = match?.url;
     }
 
-    let video = adaptive_formats.find(checkRender);
-    if (video && audio) {
-        filenameAttributes.qualityLabel = video.quality_label;
-        filenameAttributes.resolution = `${video.width}x${video.height}`;
+    const video = adaptive_formats.find(checkRender);
+    if (!match && video) {
+        match = video;
+        type = "render";
+        urls = [video.url, audio.url];
+    }
+
+    if (match) {
+        filenameAttributes.qualityLabel = match.quality_label;
+        filenameAttributes.resolution = `${match.width}x${match.height}`;
         filenameAttributes.extension = c[o.format].container;
         filenameAttributes.youtubeFormat = o.format;
         return {
-            type: "render",
-            urls: [video.url, audio.url],
-            filenameAttributes: filenameAttributes,
-            fileMetadata: fileMetadata
+            type, urls,
+            filenameAttributes, fileMetadata
         }
     }
 
