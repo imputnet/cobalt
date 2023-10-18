@@ -107,7 +107,7 @@
         "SourceCode": "melde Probleme, erkundige den Quellcode, sterne oder forke das Repo:",
         "PrivacyPolicy": "Cobalts Datenschutzrichtlinie ist einfach: Es werden keinerlei Daten über dich erfasst oder gespeichert. Null, nichts, nada.\nWas du herunterlädst, betrifft ausschließlich dich und niemand sonst.\n\nWenn dein Download eine Live-Darstellung erfordert, werden einige nicht nachverfolgbare Daten vorübergehend im RAM des Servers gespeichert. Das ist für diese Funktion notwendig.\n\nIn diesem Fall werden Informationen über den angeforderten Inhalt für <span class=\"text-backdrop\">20 Sekunden</span> gespeichert und dann dauerhaft entfernt.\nNiemand (auch ich nicht) hat Zugriff auf diese Daten. Der offizielle Cobalt-Code bietet keine Möglichkeit, sie außerhalb von Verarbeitungsfunktionen zu lesen.\n\nDu kannst den <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">Quellcode von Cobalt</a> selbst überprüfen und sehen, dass alles wie angegeben ist.",
         "ErrorYTUnavailable": "Dieses YouTube-Video ist nicht verfügbar. Es könnte aufgrund regionaler Beschränkungen oder Altersbeschränkungen nicht zugänglich sein. Versuche es mit einem anderen Video!",
-        "ErrorYTTryOtherCodec": "Ich konnte nichts mit deinen Einstellungen zum Download finden. Versuche einen anderen Codec oder andere Qualitätseinstellungen!\n\nBitte beachte: Die YouTube API agiert manchmal unerwartet. Dafür kann ich nichts - das ist Googles schuld.",
+        "ErrorYTTryOtherCodec": "Ich konnte mit deinen Einstellungen nichts zum Herunterladen finden. Versuche es mit einem anderen Codec oder einer anderen Qualität!\n\nManchmal reagiert die YouTube-API unerwartet. Versuche es erneut oder verwende andere Einstellungen.",
         "SettingsCodecSubtitle": "YouTube-Codec",
         "SettingsCodecDescription": "h264: Im Allgemeinen bessere Unterstützung, aber die Qualität ist auf 1080p begrenzt.\nav1: geringe Unterstützung, unterstützt aber 8k & HDR.\nvp9: Normalerweise höchste Bitrate, bewahrt die meisten Details. Unterstützt 4k & HDR.\n\nFür die beste Kompatibilität wähle H264 aus.",
         "SettingsAudioDub": "YouTube-Audiospur",
@@ -145,6 +145,17 @@
         "DataTransferSuccess": "Übrigens, deine Einstellungen wurden automatisch übertragen :)",
         "DataTransferError": "Etwas ist schiefgelaufen bei der Übertragung deiner Einstellungen. Du musst die Einstellungen öffnen und Cobalt manuell konfigurieren.",
         "SupportNotAffiliated": "Cobalt hat <span class=\"text-backdrop\">keine Verbindung</span> zu den oben aufgeführten Diensten.",
-        "SponsoredBy": "Gesponsert von"
+        "SponsoredBy": "Gesponsert von",
+        "FilenameTitle": "Dateinamenstil",
+        "FilenamePatternClassic": "klassisch",
+        "FilenamePatternPretty": "schön",
+        "FilenamePatternBasic": "einfach",
+        "FilenamePatternNerdy": "nerdig",
+        "FilenameDescription": "Klassisch: Standard-Cobalt-Dateinamenmuster.\nEinfach: Titel und grundlegende Informationen in Klammern.\nSchön: Titel und Informationen in Klammern.\nNerdig: Titel und alle Informationen in Klammern.",
+        "Preview": "Vorschau",
+        "FilenamePreviewVideoTitle": "Videotitel",
+        "FilenamePreviewAudioTitle": "Audiotitel",
+        "FilenamePreviewAudioAuthor": "Audio-Autor",
+        "UrgentFilenameUpdate": "Anpassbare Dateinamen!"
     }
 }
