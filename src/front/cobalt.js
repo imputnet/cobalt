@@ -197,7 +197,7 @@ function hideAllPopups() {
     eid("picker-download").href = '/';
     eid("picker-download").classList.remove("visible");
 }
-function popup(type, action, text) {
+async function popup(type, action, text) {
     if (action === 1) {
         hideAllPopups(); // hide the previous popup before showing a new one
         store.isPopupOpen = true;
@@ -214,7 +214,11 @@ function popup(type, action, text) {
                 eid("desc-error").innerHTML = text;
                 break;
             case "download":
-                eid("pd-download").href = text;
+                let blob = await fetch(text).then(res => res.blob());
+                let urlBlob = URL.createObjectURL(blob);
+                let urlArr = text.split("/");
+                eid("pd-download").href = urlBlob;
+                eid("pd-download").download = urlArr[urlArr.length - 1].split("?")[0];
                 eid("pd-copy").setAttribute("onClick", `copy('pd-copy', '${text}')`);
                 eid("pd-share").setAttribute("onClick", `share('${text}')`);
                 if (navigator.canShare) eid("pd-share").style.display = "flex";
@@ -402,7 +406,19 @@ async function download(url) {
             case "redirect":
                 changeDownloadButton(2, '>>>');
                 setTimeout(() => { changeButton(1); }, 1500);
-                sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
+                if(sGet("downloadPopup") === "true") {
+                    popup('download', 1, j.url)
+                } else {
+                    fetch(j.url).then(res => res.blob())
+                    .then(blob => {
+                        let blobUrl = URL.createObjectURL(blob);
+                        let anchor = document.createElement("a");
+                        anchor.href = blobUrl
+                        let urlArr = j.url.split("/");
+                        anchor.download = urlArr[urlArr.length - 1].split("?")[0];
+                        anchor.click()
+                    })
+                }
                 break;
             case "picker":
                 if (j.audio && j.picker) {
