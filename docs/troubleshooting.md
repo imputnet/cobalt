@@ -18,7 +18,7 @@ you can fix this issue by changing a single preference in `about:config`.
 
    ![screenshot showing about:config security warning that reads: "proceed with caution. changing advanced configuration preferences can impact firefox performance or security." lower there's a pre-checked checkbox that says: "warn me when i attempt to access these preferences". lowest element is a blue button that says "accept the risk and continue"](https://github.com/wukko/cobalt/assets/71202418/02328729-dbfe-4ea4-b2ca-7bcf1998c2ca)  
 
-3. search for `dom.events.asyncclipboard.readtext`  
+3. search for `dom.events.asyncClipboard.readText`  
 
    ![screenshot showing "dom.events.asyncclipboard.readtext" entered into search on about:config page](https://github.com/wukko/cobalt/assets/71202418/7c7f7e3c-6a6a-40df-8436-277489e72e0b)
 
