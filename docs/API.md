@@ -1,73 +1,79 @@
-# cobalt API Documentation
-This document provides info about methods and acceptable variables for all cobalt API requests.<br>
+# cobalt api documentation
+this document provides info about methods and acceptable variables for all cobalt api requests.  
 
 ```
-⚠️ Main API instance has moved to https://co.wuk.sh/
-
-Make sure your projects use the correct API domain.
+👍 you can use co.wuk.sh instance in your projects for free, just don't be an asshole.
 ```
 
-## POST: ``/api/json``
-Main processing endpoint.<br>
+## POST: `/api/json`
+cobalt's main processing endpoint.  
 
-Request Body Type: ``application/json``<br>
-Response Body Type: ``application/json``
+request body type: `application/json`  
+response body type: `application/json`  
 
-### Request Body Variables
-| key                 | type        | variables                            | default     | description                                                                    |
-|:--------------------|:------------|:-------------------------------------|:------------|:-------------------------------------------------------------------------------|
-| ``url``             | ``string``  | Sharable URL encoded as URI          | ``null``    | **Must** be included in every request.                                         |
-| ``vCodec``          | ``string``  | ``h264 / av1 / vp9``                 | ``h264``    | Applies only to YouTube downloads. ``h264`` is recommended for phones.         |
-| ``vQuality``        | ``string``  | ``144 / ... / 2160 / max``           | ``720``     | ``720`` quality is recommended for phones.                                     |
-| ``aFormat``         | ``string``  | ``best / mp3 / ogg / wav / opus``    | ``mp3``     |                                                                                |
-| ``filenamePattern`` | ``boolean`` | ``classic / pretty / basic / nerdy`` | ``classic`` | Changes the way files are named. Previews can be seen in the web app.          |
-| ``isAudioOnly``     | ``boolean`` | ``true / false``                     | ``false``   |                                                                                |
-| ``isNoTTWatermark`` | ``boolean`` | ``true / false``                     | ``false``   | Changes whether downloaded TikTok videos have watermarks.                      |
-| ``isTTFullAudio``   | ``boolean`` | ``true / false``                     | ``false``   | Enables download of original sound used in a TikTok video.                     |
-| ``isAudioMuted``    | ``boolean`` | ``true / false``                     | ``false``   | Disables audio track in video downloads.                                       |
-| ``dubLang``         | ``boolean`` | ``true / false``                     | ``false``   | Backend uses Accept-Language for YouTube video audio tracks when ``true``.     |
-| ``disableMetadata`` | ``boolean`` | ``true / false``                     | ``false``   | Disables file metadata when set to ``true``.                                   |
+```
+⚠️ you must include Accept and Content-Type headers with every POST /api/json request.
 
-### Response Body Variables
-| key            | type       | variables                                                     |
-|:---------------|:-----------|:--------------------------------------------------------------|
-| ``status``     | ``string`` | ``error / redirect / stream / success / rate-limit / picker`` |
-| ``text``       | ``string`` | Text                                                          |
-| ``url``        | ``string`` | Direct link to a file / link to cobalt's live render               |
-| ``pickerType`` | ``string`` | ``various / images``                                          |
-| ``picker``     | ``array``  | Array of picker items                                         |
-| ``audio``      | ``string`` | Direct link to a file / link to cobalt's live render               |
+Accept: application/json
+Content-Type: application/json
+```
 
-### Picker Item Variables
-Item type: ``object``
-| key            | type       | variables                                       | description                                 |
-|:---------------|:-----------|:------------------------------------------------|:--------------------------------------------|
-| ``type``       | ``string`` | ``video``                                       | Used only if ``pickerType`` is ``various``. |
-| ``url``        | ``string`` | Direct link to a file / link to cobalt's live render |                                             |
-| ``thumb``      | ``string`` | Item thumbnail that's displayed in the picker   | Used only for ``video`` type.               |
+### request body variables
+| key               | type      | variables                          | default   | description                                                                    |
+|:------------------|:----------|:-----------------------------------|:----------|:-------------------------------------------------------------------------------|
+| `url`             | `string`  | URL encoded as URI                 | `null`    | **must** be included in every request.                                         |
+| `vCodec`          | `string`  | `h264 / av1 / vp9`                 | `h264`    | applies only to youtube downloads. `h264` is recommended for phones.           |
+| `vQuality`        | `string`  | `144 / ... / 2160 / max`           | `720`     | `720` quality is recommended for phones.                                       |
+| `aFormat`         | `string`  | `best / mp3 / ogg / wav / opus`    | `mp3`     |                                                                                |
+| `filenamePattern` | `boolean` | `classic / pretty / basic / nerdy` | `classic` | changes the way files are named. previews can be seen in the web app.          |
+| `isAudioOnly`     | `boolean` | `true / false`                     | `false`   |                                                                                |
+| `isNoTTWatermark` | `boolean` | `true / false`                     | `false`   | changes whether downloaded tiktok videos have watermarks.                      |
+| `isTTFullAudio`   | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                     |
+| `isAudioMuted`    | `boolean` | `true / false`                     | `false`   | disables audio track in video downloads.                                       |
+| `dubLang`         | `boolean` | `true / false`                     | `false`   | backend uses Accept-Language hader for youtube video audio tracks when `true`. |
+| `disableMetadata` | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                     |
 
-## GET: ``/api/stream``
-Content live render streaming endpoint.<br>
+### response body variables
+| key          | type     | variables                                                   |
+|:-------------|:---------|:------------------------------------------------------------|
+| `status`     | `string` | `error / redirect / stream / success / rate-limit / picker` |
+| `text`       | `string` | various text, mostly used for errors                        |
+| `url`        | `string` | direct link to a file or a link to cobalt's live render     |
+| `pickerType` | `string` | `various / images`                                          |
+| `picker`     | `array`  | array of picker items                                       |
+| `audio`      | `string` | direct link to a file or a link to cobalt's live render     |
 
-### Request Query Variables
-| key     | variables        | description                                                                                                                    |
-|:--------|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------|
-| ``p``   | ``1``            | Used for probing whether user is rate limited.                                                                                 |
-| ``t``   | Stream token     | Unique stream ID. Used for retrieving cached stream info data.                                                                 |
-| ``h``   | HMAC             | Hashed combination of: (hashed) ip address, stream token, expiry timestamp, and service name. Used for verification of stream. |
-| ``e``   | Expiry timestamp |                                                                                                                                |
+### picker item variables
+item type: `object` 
 
-## GET: ``/api/serverInfo``
-Returns current basic server info.<br>
-Response Body Type: ``application/json``
+| key     | type     | variables                                               | description                            |
+|:--------|:---------|:--------------------------------------------------------|:---------------------------------------|
+| `type`  | `string` | `video`                                                 | used only if `pickerType`is `various`. |
+| `url`   | `string` | direct link to a file or a link to cobalt's live render |                                        |
+| `thumb` | `string` | item thumbnail that's displayed in the picker           | used only for `video` type.            |
 
-### Response Body Variables
-| key           | type       | variables         |
-|:--------------|:-----------|:------------------|
-| ``version``   | ``string`` | cobalt version    |
-| ``commit``    | ``string`` | Git commit        |
-| ``branch``    | ``string`` | Git branch        |
-| ``name``      | ``string`` | Server name       |
-| ``url``       | ``string`` | Server url        |
-| ``cors``      | ``int``    | CORS status       |
-| ``startTime`` | ``string`` | Server start time |
+## GET: `/api/stream`
+cobalt's live render (or stream) endpoint. used for sending various media content over to the user.  
+
+### request query variables
+| key  | variables        | description                                                                                                                    |
+|:-----|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------|
+| `p`  | `1`              | used for probing whether user is rate limited.                                                                                 |
+| `t`  | stream token     | unique stream id. used for retrieving cached stream info data.                                                                 |
+| `h`  | hmac             | hashed combination of: (hashed) ip address, stream token, expiry timestamp, and service name. used for verification of stream. |
+| `e`  | expiry timestamp |                                                                                                                                |
+
+## GET: `/api/serverInfo`
+returns current basic server info.  
+response body type: `application/json`
+
+### response body variables
+| key         | type     | variables         |
+|:------------|:---------|:------------------|
+| `version`   | `string` | cobalt version    |
+| `commit`    | `string` | git commit        |
+| `branch`    | `string` | git branch        |
+| `name`      | `string` | server name       |
+| `url`       | `string` | server url        |
+| `cors`      | `int`    | cors status       |
+| `startTime` | `string` | server start time |

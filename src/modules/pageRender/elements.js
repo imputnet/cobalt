@@ -274,3 +274,7 @@ export function sponsoredList() {
     }
     return `<div id="sponsored-logos" aria-label="${altText.slice(0, -2)}">${base}</div>`
 }
+
+export function betaTag() {
+    return process.env.isBeta ? '<span class="logo-sub">β</span>' : ''
+}

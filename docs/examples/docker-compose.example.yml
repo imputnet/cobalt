@@ -24,7 +24,7 @@ services:
             - apiName=eu-nl
             # if you want to use cookies when fetching data from services, uncomment the next line
             #- cookiePath=/cookies.json
-            # see src/modules/processing/cookie/cookies_example.json for example file.
+            # see cookies_example.json for example file.
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
 
