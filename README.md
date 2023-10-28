@@ -30,12 +30,11 @@ this list is not final and keeps expanding over time. if support for a service y
 | vk videos & clips              | ✅            | ❌         | ❌         | ✅         | ✅              |
 | youtube videos, shorts & music | ✅            | ✅         | ✅         | ✅         | ✅              |
 
-```
-✅ : supported  
-➖ : impossible/unreasonable  
-❌ : not supported  
-```
-
+| emoji   | meaning                 |
+| :-----: | :---------------------- |
+| ✅      | supported               |
+| ➖      | impossible/unreasonable |
+| ❌      | not supported           |
 
 ### additional notes or features (per service)
 | service    | notes or features                                                                                                    |
