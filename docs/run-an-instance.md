@@ -19,13 +19,18 @@ if you need help with installing docker, follow *only the first step* of these t
     i'm using `nano` in this example, it may not be available in your distro. you can use any other text editor.  
 
 3. copy and paste the [sample config from here](https://github.com/wukko/cobalt/blob/current/docs/examples/docker-compose.example.json) for either web or api instance (or both, if you wish) and edit it to your needs.  
-    make sure to replace default URLs with yours or cobalt won't work correctly.  
+    make sure to replace default URLs with your own or cobalt won't work correctly.  
 
-if you want your instance to support services that require authentication to view public content, create `cookies.json` file in the same directory as `docker-compose.yml`. example file for cookies file [can be found here](https://github.com/wukko/cobalt/blob/current/docs/examples/cookies.example.json).
+4. finally, start the cobalt container (from cobalt directory):
+    ```sh
+    docker compose up -d
+    ```
 
-cobalt package will automatically update itself thanks to watchtower.
+if you want your instance to support services that require authentication to view public content, create `cookies.json` file in the same directory as `docker-compose.yml`. example cookies file [can be found here](https://github.com/wukko/cobalt/blob/current/docs/examples/cookies.example.json).
 
-it's highly recommended to use a reverse proxy (such as nginx) if you want your instance to face the public internet. look up tutorials for that online.
+cobalt package will update automatically thanks to watchtower.
+
+it's highly recommended to use a reverse proxy (such as nginx) if you want your instance to face the public internet. look up tutorials online.
 
 ## using regular node.js (useful for local development)
 setup script installs all needed `npm` dependencies, but you have to install `node.js` *(version 18 or above)* and `git` yourself.
