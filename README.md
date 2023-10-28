@@ -12,7 +12,7 @@ paste the link, get the file, move on. it's that simple. just how it should be.
 this list is not final and keeps expanding over time. if support for a service you want is missing, create an issue (or a pull request 👀).
 
 | service                        | video + audio | only audio | only video | metadata | rich file names |
-| --------                       | :-----------: | :--------: | :--------: | :------: | :-------------: |
+| :--------                      | :-----------: | :--------: | :--------: | :------: | :-------------: |
 | bilibili.com                   | ✅            | ✅         | ✅         | ➖         | ➖              |
 | instagram posts & stories      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | instagram reels                | ✅            | ✅         | ✅         | ➖         | ➖              |
@@ -38,7 +38,7 @@ this list is not final and keeps expanding over time. if support for a service y
 
 ### additional notes or features (per service)
 | service    | notes or features                                                                                                    |
-| --------   | :-----                                                                                                               |
+| :--------  | :-----                                                                                                               |
 | instagram  | supports photos, videos, and stories. lets you pick what to save from multi-media posts.                             |
 | pinterest  | supports videos and stories.                                                                                         |
 | reddit     | supports gifs and videos.                                                                                            |
