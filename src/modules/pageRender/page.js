@@ -1,4 +1,4 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList } from "./elements.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag } from "./elements.js";
 import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
@@ -568,7 +568,7 @@ export default function(obj) {
                 action: "popup('about', 1, 'changelog')"
             })}
             <div id="cobalt-main-box" class="center">
-                <div id="logo">${t("AppTitleCobalt")}</div>
+                <div id="logo">${t("AppTitleCobalt")}${betaTag()}</div>
                 <div id="download-area">
                     <div id="top">
                         <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>

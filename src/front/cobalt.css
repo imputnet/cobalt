@@ -9,6 +9,7 @@
     --padding-1: 0.75rem;
     --line-height: 1.65rem;
     --red: rgb(249, 47, 96);
+    --blue: rgb(47, 138, 249);
     --gap: 0.5rem;
     --gap-no-icon: 0.6rem;
 }
@@ -266,6 +267,11 @@ button:active,
     height: 2.5rem;
     align-items: center;
     display: flex;
+    gap: 0.3rem;
+}
+.logo-sub {
+    color: var(--blue);
+    font-size: 0.8rem;
 }
 #download-area {
     display: flex;
