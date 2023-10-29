@@ -1,10 +1,22 @@
+import { fetch, getGlobalDispatcher } from "undici";
 import { genericUserAgent } from "../../config.js";
+import { socksDispatcher } from "fetch-socks";
 
 function bestQuality(arr) {
     return arr.filter(v => v["content_type"] === "video/mp4").sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
 }
 
 export default async function(obj) {
+    let twitterURL;
+    let regularURL = "twitter.com";
+    let torURL = "twitter3e4tixl4xyajtrzo62zg5vztmjuricljdp2c5kshju4avyoid.onion";
+    if (torEnabled) twitterURL = torURL
+    else twitterURL = regularURL;
+
+    let twitterDispatcher;
+    twitterDispatcher = false;
+    twitterDispatcher = global.twitterTorDispatcher ? global.twitterTorDispatcher : getGlobalDispatcher();
+    
     let _headers = {
         "user-agent": genericUserAgent,
         "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
@@ -14,17 +26,20 @@ export default async function(obj) {
         "accept-language": "en"
     };
 
+    // guest accounts cannot be created through the onion website (rate limited)
     let activateURL = `https://api.twitter.com/1.1/guest/activate.json`;
-    let graphqlTweetURL = `https://twitter.com/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId`;
-    let graphqlSpaceURL = `https://twitter.com/i/api/graphql/Gdz2uCtmIGMmhjhHG3V7nA/AudioSpaceById`;
+
+    let graphqlTweetURL = `https://${twitterURL}/i/api/graphql/0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId`;
+    let graphqlSpaceURL = `https://${twitterURL}/i/api/graphql/Gdz2uCtmIGMmhjhHG3V7nA/AudioSpaceById`;
 
     let req_act = await fetch(activateURL, {
+        dispatcher: twitterDispatcher,
         method: "POST",
         headers: _headers
-    }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
+    }).then((r) => { return r.status === 200 ? r.json() : false }).catch((err) => { return false });
     if (!req_act) return { error: 'ErrorCouldntFetch' };
 
-    _headers["host"] = "twitter.com";
+    _headers["host"] = twitterURL;
     _headers["content-type"] = "application/json";
 
     _headers["x-guest-token"] = req_act["guest_token"];
@@ -39,7 +54,7 @@ export default async function(obj) {
         query.features = new URLSearchParams(JSON.stringify(query.features)).toString().slice(0, -1);
         query = `${graphqlTweetURL}?variables=${query.variables}&features=${query.features}`;
 
-        let TweetResultByRestId = await fetch(query, { headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
+        let TweetResultByRestId = await fetch(query, { dispatcher: twitterDispatcher, headers: _headers }).then((r) => { return r.status === 200 ? r.json() : false }).catch((e) => { return false });
 
         // {"data":{"tweetResult":{"result":{"__typename":"TweetUnavailable","reason":"Protected"}}}}
         if (!TweetResultByRestId || TweetResultByRestId.data.tweetResult.result.__typename !== "Tweet") return { error: 'ErrorTweetUnavailable' };
@@ -79,7 +94,7 @@ export default async function(obj) {
     }
     // spaces no longer work with guest authorization
     if (obj.spaceId) {
-        _headers["host"] = "twitter.com";
+        _headers["host"] = twitterURL;
         _headers["content-type"] = "application/json";
 
         let query = {
@@ -90,14 +105,14 @@ export default async function(obj) {
         query.features = new URLSearchParams(JSON.stringify(query.features)).toString().slice(0, -1);
         query = `${graphqlSpaceURL}?variables=${query.variables}&features=${query.features}`;
 
-        let AudioSpaceById = await fetch(query, { headers: _headers }).then((r) => {return r.status === 200 ? r.json() : false}).catch((e) => { return false });
+        let AudioSpaceById = await fetch(query, { dispatcher: twitterDispatcher, headers: _headers }).then((r) => {return r.status === 200 ? r.json() : false}).catch((e) => { return false });
         if (!AudioSpaceById) return { error: 'ErrorEmptyDownload' };
 
         if (!AudioSpaceById.data.audioSpace.metadata) return { error: 'ErrorEmptyDownload' };
         if (AudioSpaceById.data.audioSpace.metadata.is_space_available_for_replay !== true) return { error: 'TwitterSpaceWasntRecorded' };
 
         let streamStatus = await fetch(
-            `https://twitter.com/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { headers: _headers }
+            `https://${twitterURL}/i/api/1.1/live_video_stream/status/${AudioSpaceById.data.audioSpace.metadata.media_key}`, { dispatcher: twitterDispatcher, headers: _headers }
         ).then((r) =>{ return r.status === 200 ? r.json() : false }).catch(() => { return false });
         if (!streamStatus) return { error: 'ErrorCouldntFetch' };
 

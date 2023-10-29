@@ -44,6 +44,10 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                     params = { type: r.type };
                     break;
                 case "reddit":
+                    // ffmpeg doesn't support SOCKS5 proxies, which is necessary to use tor.
+                    // ffmpeg won't be able to resolve the .onion address, so we need to
+                    // change it back to the clearnet counterpart
+                    r.urls.forEach((url, index) => { r.urls[index] = url.replace('redditdotzhmh3mao6r5i2j7speppwqkizwo7vksy3mbz5iz7rlhocyd.onion', 'redd.it') });
                     responseType = r.typeId;
                     params = { type: r.type };
                     break;

@@ -44,6 +44,7 @@ function setup() {
                     ob['apiURL'] = `http://localhost:9000/`;
                     ob['apiPort'] = 9000;
                     if (apiURL && apiURL !== "localhost") ob['apiURL'] = `https://${apiURL.toLowerCase()}/`;
+                    if (apiURL && apiURL.endsWith('.onion/')) ob['apiURL'] = apiURL.replace('https://', 'http://');
 
                     console.log(Bright("\nGreat! Now, what port will it be running on? (9000)"));
 

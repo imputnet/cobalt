@@ -14,7 +14,11 @@ export async function getJSON(originalURL, lang, obj) {
             hostname = new URL(url).hostname.split('.'),
             host = hostname[hostname.length - 2];
 
+        if (url.startsWith('http://')) url = url.replace('http://', 'https://');
         if (!url.startsWith('https://')) return apiJSON(0, { t: errorUnsupported(lang) });
+        if(url.startsWith("https://www.")) {
+            url = url.replace("https://www.", "https://")
+        }
 
         let overrides = hostOverrides(host, url);
         host = overrides.host;

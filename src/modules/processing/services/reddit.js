@@ -1,3 +1,4 @@
+import { fetch, getGlobalDispatcher } from "undici";
 import { genericUserAgent, maxVideoDuration } from "../../config.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
@@ -21,7 +22,7 @@ async function getAccessToken() {
                         || Number(values.expiry) > new Date().getTime();
     if (!needRefresh) return values.access_token;
 
-    const data = await fetch('https://www.reddit.com/api/v1/access_token', {
+    const data = await fetch(`https://www.${redditURL}/api/v1/access_token`, {
         method: 'POST',
         headers: {
             'authorization': `Basic ${Buffer.from(
@@ -48,13 +49,24 @@ async function getAccessToken() {
 }
 
 export default async function(obj) {
-    const url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}/${obj.title}.json`);
+    let redditURL;
+    let regularURL = "reddit.com";
+    let torURL = "reddittorjg6rue252oqsxryoxengawnmo46qy4kyii5wtqnwfj4ooad.onion";
+    if (torEnabled) redditURL = torURL
+    else redditURL = regularURL;
+
+    let twitterDispatcher;
+    twitterDispatcher = false;
+    let redditDispatcher = global.torDispatcher ? global.torDispatcher : getGlobalDispatcher();
+    
+    const url = new URL(`https://www.${redditURL}/r/${obj.sub}/comments/${obj.id}/${obj.title}.json`);
+    console.log(url);
 
     const accessToken = await getAccessToken();
-    if (accessToken) url.hostname = 'oauth.reddit.com';
+    if (accessToken) url.hostname = `oauth.${redditURL}`;
 
     let data = await fetch(
-        url, { headers: accessToken && { authorization: `Bearer ${accessToken}` } }
+        url, { dispatcher: redditDispatcher, headers: accessToken && { authorization: `Bearer ${accessToken}` } }
     ).then((r) => { return r.json() }).catch(() => { return false });
     if (!data) return { error: 'ErrorCouldntFetch' };
 
@@ -69,12 +81,12 @@ export default async function(obj) {
         video = data["secure_media"]["reddit_video"]["fallback_url"].split('?')[0],
         audioFileLink = video.match('.mp4') ? `${video.split('_')[0]}_audio.mp4` : `${data["secure_media"]["reddit_video"]["fallback_url"].split('DASH')[0]}audio`;
 
-    await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
+    await fetch(audioFileLink, { dispatcher: redditDispatcher, method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
 
     // fallback for videos with variable audio quality
     if (!audio) {
         audioFileLink = `${video.split('_')[0]}_AUDIO_128.mp4`
-        await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
+        await fetch(audioFileLink, { dispatcher: redditDispatcher, method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
     }
 
     let id = video.split('/')[3];
