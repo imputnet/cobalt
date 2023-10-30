@@ -75,7 +75,8 @@ export default async function (obj) {
             id: clipMetadata.id,
             title: clipMetadata.title,
             author: `${clipMetadata.broadcaster.login}, clipped by ${clipMetadata.curator.login}`,
-            qualityLabel: `${format.quality}p`
+            qualityLabel: `${format.quality}p`,
+            extension: 'mp4'
         },
         filename: `twitchclip_${clipMetadata.id}_${format.quality}p.mp4`,
         audioFilename: `twitchclip_${clipMetadata.id}_audio`
