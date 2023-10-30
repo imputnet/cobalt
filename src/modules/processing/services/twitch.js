@@ -19,7 +19,6 @@ export default async function (obj) {
                 }
                 durationSeconds
                 id
-                slug
                 medium: thumbnailURL(width: 480, height: 272)
                 title
                 videoQualities {
@@ -74,7 +73,7 @@ export default async function (obj) {
         filenameAttributes: {
             service: "twitch",
             id: clipMetadata.id,
-            title: fileMetadata.title,
+            title: clipMetadata.title,
             author: `${clipMetadata.broadcaster.login}, clipped by ${clipMetadata.curator.login}`,
             qualityLabel: `${format.quality}p`
         },
