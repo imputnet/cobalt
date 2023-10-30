@@ -9,8 +9,8 @@ export default async function(obj) {
     let twitterURL;
     let regularURL = "twitter.com";
     let torURL = "twitter3e4tixl4xyajtrzo62zg5vztmjuricljdp2c5kshju4avyoid.onion";
-    if (torEnabled) twitterURL = torURL
-    else twitterURL = regularURL;
+    twitterURL = regularURL;
+    if (global.torEnabled) twitterURL = torURL;
 
     let twitterDispatcher;
     twitterDispatcher = false;
@@ -35,7 +35,7 @@ export default async function(obj) {
         dispatcher: twitterDispatcher,
         method: "POST",
         headers: _headers
-    }).then((r) => { return r.status === 200 ? r.json() : false }).catch((err) => { return false });
+    }).then((r) => { return r.status === 200 ? r.json() : false }).catch(() => { return false });
     if (!req_act) return { error: 'ErrorCouldntFetch' };
 
     _headers["host"] = twitterURL;

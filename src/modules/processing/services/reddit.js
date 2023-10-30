@@ -52,8 +52,8 @@ export default async function(obj) {
     let redditURL;
     let regularURL = "reddit.com";
     let torURL = "reddittorjg6rue252oqsxryoxengawnmo46qy4kyii5wtqnwfj4ooad.onion";
-    if (torEnabled) redditURL = torURL
-    else redditURL = regularURL;
+    redditURL = regularURL;
+    if (global.torEnabled) redditURL = torURL;
 
     let twitterDispatcher;
     twitterDispatcher = false;

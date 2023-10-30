@@ -344,9 +344,9 @@ function resetSettings() {
     localStorage.clear();
     window.location.reload();
 }
-if (window.location.hostname.endsWith(".onion")) document.getElementById('paste').style = "pointer-events:none;visibility:hidden;";
+if (window.location.hostname.endsWith(".onion") && !(navigator.getBattery())) document.getElementById('paste').style = "pointer-events:none;visibility:hidden;";
 async function pasteClipboard() {
-    if (window.location.hostname.endsWith(".onion")) return
+    if (window.location.hostname.endsWith(".onion") && !(navigator.getBattery())) return
     try {
         let t = await navigator.clipboard.readText();
         if (regex.test(t)) {
@@ -391,7 +391,7 @@ async function download(url) {
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
         if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
-    if (window.location.hostname.endsWith(".onion") && !(sGet("onionPreference") == "noOnions")) req.onionPreference = sGet("onionPreference")
+    if (window.location.hostname.endsWith(".onion") && !(sGet("onionPreference") == "noOnions")) req.onionPreference = sGet("onionPreference");
 
     if (sGet("disableMetadata") === "true") req.disableMetadata = true;
 
