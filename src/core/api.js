@@ -15,7 +15,7 @@ import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = process.env.cors === '0' ? {
-        origin: process.env.webURL,
+        origin: [process.env.webURL, process.env.webOnion],
         optionsSuccessStatus: 200
     } : {};
 
@@ -49,6 +49,11 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const startTime = new Date();
     const startTimestamp = Math.floor(startTime.getTime());
 
+    app.use((req, res, next) => {
+        if (global.torEnabled && process.env.apiOnion && !(req.hostname == process.env.apiOnion)) res.setHeader('Onion-Location', `${process.env.apiOnion}${req.path}`)
+        next();
+    });
+    
     app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);

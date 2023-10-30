@@ -14,6 +14,11 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
 
     await buildFront(gitCommit, gitBranch);
 
+    app.use((req, res, next) => {
+        if (global.torEnabled && process.env.webOnion && !(req.hostname == process.env.webOnion)) res.setHeader('Onion-Location', `${process.env.webOnion}${req.path}`)
+        next();
+    });
+
     app.use('/', express.static('./build/min'));
     app.use('/', express.static('./src/front'));
 

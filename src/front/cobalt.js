@@ -18,7 +18,8 @@ const switchers = {
     "dubLang": ["original", "auto"],
     "vimeoDash": ["false", "true"],
     "audioMode": ["false", "true"],
-    "filenamePattern": ["classic", "pretty", "basic", "nerdy"]
+    "filenamePattern": ["classic", "pretty", "basic", "nerdy"],
+    "onionPreference": ["noOnions", "onionStrict", "clearnetFallback"]
 };
 const checkboxes = [
     "alwaysVisibleButton",
@@ -58,6 +59,14 @@ function sGet(id) {
 }
 function sSet(id, value) {
     localStorage.setItem(id, value)
+}
+if (sGet('onionPreference') == null) {
+    if (window.location.hostname.endsWith(".onion")) sSet("onionPreference", "clearnetFallback")
+    else sSet('onionPreference', 'noOnions');
+}
+if (!(window.location.hostname.endsWith(".onion"))) {
+    document.getElementById('settings-tor').style = 'display:none;';
+    if (!(sGet('onionPreference') === 'noOnions')) sSet("onionPreference", "noOnions");
 }
 function enable(id) {
     eid(id).dataset.enabled = "true";
@@ -131,6 +140,7 @@ function detectColorScheme() {
     } else if (!window.matchMedia) {
         theme = "dark"
     }
+    if (window.location.hostname.endsWith(".onion") && theme == "auto") theme = "dark";
     document.documentElement.setAttribute("data-theme", theme);
 }
 function changeTab(evnt, tabId, tabClass) {
@@ -334,7 +344,9 @@ function resetSettings() {
     localStorage.clear();
     window.location.reload();
 }
+if (window.location.hostname.endsWith(".onion")) document.getElementById('paste').style = "pointer-events:none;visibility:hidden;";
 async function pasteClipboard() {
+    if (window.location.hostname.endsWith(".onion")) return
     try {
         let t = await navigator.clipboard.readText();
         if (regex.test(t)) {
@@ -379,6 +391,7 @@ async function download(url) {
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
         if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
+    if (window.location.hostname.endsWith(".onion") && !(sGet("onionPreference") == "noOnions")) req.onionPreference = sGet("onionPreference")
 
     if (sGet("disableMetadata") === "true") req.disableMetadata = true;
 

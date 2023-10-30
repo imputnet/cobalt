@@ -156,6 +156,11 @@
         "FilenamePreviewVideoTitle": "Video Title",
         "FilenamePreviewAudioTitle": "Audio Title",
         "FilenamePreviewAudioAuthor": "Audio Author",
+        "Tor": "tor",
+        "SettingsOnionStrict": "onions only",
+        "SettingsClearnetFallback": "prefer onions",
+        "SettingsNoOnions": "no onions",
+        "SettingsTorDescription": "onions only: strictly uses .onions throughout entire process except where already known to be required.\nprefer onions: uses .onions throughout entire process but will fallback to clearnet if cobalt can't connect.\nno onions: will only use clearnet throughout entire process.\n\nthis setting affects twitter and reddit.",
         "UrgentFilenameUpdate": "customizable file names!"
     }
 }

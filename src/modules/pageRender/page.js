@@ -38,6 +38,8 @@ export default function(obj) {
 
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
 
+    let onionLocation = (process.env.torHost && process.env.torPort && true) && process.env.webOnion ? `<meta http-equiv="onion-location" content="${process.env.webOnion}" />` : "";
+    
     try {
         return `
 <!DOCTYPE html>
@@ -49,6 +51,7 @@ export default function(obj) {
         <title>${t("AppTitleCobalt")}</title>
 
         <meta property="og:url" content="${process.env.webURL || process.env.selfURL}" />
+        ${onionLocation}
         <meta property="og:title" content="${t("AppTitleCobalt")}" />
         <meta property="og:description" content="${t('EmbedBriefDescription')}" />
         <meta property="og:image" content="${process.env.webURL || process.env.selfURL}icons/generic.png" />
@@ -497,6 +500,24 @@ export default function(obj) {
                         padding: "no-margin"
                     }])
                 })
+                + settingsCategory({
+                    name: "tor",
+                    title: t('Tor'),
+                    body: switcher({
+                        name: "onionPreference",
+                        items: [{
+                            action: "onionStrict",
+                            text: t('SettingsOnionStrict')
+                        }, {
+                            action: "clearnetFallback",
+                            text: t('SettingsClearnetFallback')
+                        }, {
+                            action: "noOnions",
+                            text: t('SettingsNoOnions')
+                        }]
+                    })
+                    + explanation(t('SettingsTorDescription'))
+                })
             }]
         })}
         ${popupWithBottomButtons({
@@ -613,7 +634,11 @@ export default function(obj) {
         </div>
     </body>
     <script type="text/javascript">
-        let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
+        let defaultApiUrl;
+        let regularApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
+        let onionApiUrl = '${process.env.apiOnion ? process.env.apiOnion : ''}';
+        defaultApiUrl = regularApiUrl;
+        if (window.location.hostname.endsWith('.onion')) defaultApiUrl = onionApiUrl;
         const loc = ${webLoc(t,
         [
             'ErrorNoInternet',

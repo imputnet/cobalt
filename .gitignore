@@ -1,6 +1,6 @@
 # os stuff
-.DS_Store
-desktop.ini
+**/.DS_Store
+**/desktop.ini
 
 # npm
 node_modules
@@ -24,3 +24,6 @@ docker-compose.yml
 
 # cookie file
 cookies.json
+
+# tor
+tor

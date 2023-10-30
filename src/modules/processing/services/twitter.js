@@ -1,6 +1,5 @@
 import { fetch, getGlobalDispatcher } from "undici";
 import { genericUserAgent } from "../../config.js";
-import { socksDispatcher } from "fetch-socks";
 
 function bestQuality(arr) {
     return arr.filter(v => v["content_type"] === "video/mp4").sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
