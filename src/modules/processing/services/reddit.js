@@ -22,6 +22,9 @@ async function getAccessToken() {
                         || Number(values.expiry) > new Date().getTime();
     if (!needRefresh) return values.access_token;
 
+    let redditURL = "reddit.com";
+    if (global.torEnabled) redditURL = "reddittorjg6rue252oqsxryoxengawnmo46qy4kyii5wtqnwfj4ooad.onion";
+
     const data = await fetch(`https://www.${redditURL}/api/v1/access_token`, {
         method: 'POST',
         headers: {
@@ -49,11 +52,8 @@ async function getAccessToken() {
 }
 
 export default async function(obj) {
-    let redditURL;
-    let regularURL = "reddit.com";
-    let torURL = "reddittorjg6rue252oqsxryoxengawnmo46qy4kyii5wtqnwfj4ooad.onion";
-    redditURL = regularURL;
-    if (global.torEnabled) redditURL = torURL;
+    let redditURL = "reddit.com";
+    if (global.torEnabled) redditURL = "reddittorjg6rue252oqsxryoxengawnmo46qy4kyii5wtqnwfj4ooad.onion";
 
     let twitterDispatcher;
     twitterDispatcher = false;

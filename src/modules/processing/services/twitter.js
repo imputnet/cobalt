@@ -6,11 +6,8 @@ function bestQuality(arr) {
 }
 
 export default async function(obj) {
-    let twitterURL;
-    let regularURL = "twitter.com";
-    let torURL = "twitter3e4tixl4xyajtrzo62zg5vztmjuricljdp2c5kshju4avyoid.onion";
-    twitterURL = regularURL;
-    if (global.torEnabled) twitterURL = torURL;
+    let twitterURL = "twitter.com";
+    if (global.torEnabled) twitterURL = "twitter3e4tixl4xyajtrzo62zg5vztmjuricljdp2c5kshju4avyoid.onion";
 
     let twitterDispatcher;
     twitterDispatcher = false;
