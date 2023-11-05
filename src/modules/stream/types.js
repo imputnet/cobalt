@@ -23,6 +23,16 @@ function killProcess(p) {
     }, 5000);
 }
 
+function pipe(from, to, done) {
+    from.on('error', done)
+        .on('close', done);
+
+    to.on('error', done)
+      .on('close', done);
+
+    from.pipe(to);
+}
+
 export async function streamDefault(streamInfo, res) {
     const abortController = new AbortController();
     const shutdown = () => (closeRequest(abortController), closeResponse(res));
@@ -40,8 +50,7 @@ export async function streamDefault(streamInfo, res) {
         res.setHeader('content-type', headers['content-type']);
         res.setHeader('content-length', headers['content-length']);
 
-        stream.on('error', shutdown)
-              .pipe(res).on('error', shutdown);
+        pipe(stream, res, shutdown);
     } catch {
         shutdown();
     }
@@ -83,13 +92,11 @@ export async function streamLiveRender(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        audio.on('error', shutdown)
-             .pipe(process.stdio[3]).on('error', shutdown);
+        pipe(audio, process.stdio[3], shutdown);
+        pipe(process.stdio[4], res, shutdown);
 
-        process.stdio[4].pipe(res).on('error', shutdown);
         process.on('close', shutdown);
         res.on('finish', shutdown);
-        res.on('close', shutdown);
     } catch {
         shutdown();
     }
@@ -133,10 +140,8 @@ export function streamAudioOnly(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(`${streamInfo.filename}.${streamInfo.audioFormat}`));
 
-        process.stdio[3].pipe(res);
-        process.on('close', shutdown);
+        pipe(process.stdio[3], res, shutdown);
         res.on('finish', shutdown);
-        res.on('close', shutdown);
     } catch {
         shutdown();
     }
@@ -167,10 +172,10 @@ export function streamVideoOnly(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        process.stdio[3].pipe(res);
+        pipe(process.stdio[3], res, shutdown);
+
         process.on('close', shutdown);
         res.on('finish', shutdown);
-        res.on('close', shutdown);
     } catch {
         shutdown();
     }
