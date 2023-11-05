@@ -11,6 +11,14 @@ function closeResponse(res) {
     return res.destroy();
 }
 
+function killProcess(p) {
+    p?.kill();
+    setTimeout(() => {
+        if (p?.exitCode === null)
+            p?.kill(9);
+    }, 5000);
+}
+
 export async function streamDefault(streamInfo, res) {
     const abortController = new AbortController();
     const shutdown = () => (abortController.abort(), closeResponse(res));
@@ -37,7 +45,7 @@ export async function streamDefault(streamInfo, res) {
 
 export async function streamLiveRender(streamInfo, res) {
     let abortController = new AbortController(), process;
-    const shutdown = () => (abortController.abort(), process?.kill(), closeResponse(res));
+    const shutdown = () => (abortController.abort(), killProcess(process), closeResponse(res));
 
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
@@ -85,7 +93,7 @@ export async function streamLiveRender(streamInfo, res) {
 
 export function streamAudioOnly(streamInfo, res) {
     let process;
-    const shutdown = () => (process?.kill(), closeResponse(res));
+    const shutdown = () => (killProcess(process), closeResponse(res));
 
     try {
         let args = [
@@ -132,7 +140,7 @@ export function streamAudioOnly(streamInfo, res) {
 
 export function streamVideoOnly(streamInfo, res) {
     let process;
-    const shutdown = () => (process?.kill(), closeResponse(res));
+    const shutdown = () => (killProcess(process), closeResponse(res));
 
     try {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
