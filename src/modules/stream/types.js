@@ -6,6 +6,10 @@ import { request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
 import { AbortController } from "abort-controller"
 
+function closeRequest(controller) {
+    try { controller.abort() } catch {}
+}
+
 function closeResponse(res) {
     if (!res.headersSent) res.sendStatus(500);
     return res.destroy();
@@ -21,7 +25,7 @@ function killProcess(p) {
 
 export async function streamDefault(streamInfo, res) {
     const abortController = new AbortController();
-    const shutdown = () => (abortController.abort(), closeResponse(res));
+    const shutdown = () => (closeRequest(abortController), closeResponse(res));
 
     try {
         const filename = streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : streamInfo.filename;
@@ -45,7 +49,7 @@ export async function streamDefault(streamInfo, res) {
 
 export async function streamLiveRender(streamInfo, res) {
     let abortController = new AbortController(), process;
-    const shutdown = () => (abortController.abort(), killProcess(process), closeResponse(res));
+    const shutdown = () => (closeRequest(abortController), killProcess(process), closeResponse(res));
 
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
