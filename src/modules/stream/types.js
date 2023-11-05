@@ -88,12 +88,13 @@ export async function streamLiveRender(streamInfo, res) {
                 'pipe', 'pipe'
             ],
         });
+        const [,,, audioInput, muxOutput] = process.stdio;
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        pipe(audio, process.stdio[3], shutdown);
-        pipe(process.stdio[4], res, shutdown);
+        pipe(audio, audioInput, shutdown);
+        pipe(muxOutput, res, shutdown);
 
         process.on('close', shutdown);
         res.on('finish', shutdown);
@@ -137,10 +138,11 @@ export function streamAudioOnly(streamInfo, res) {
                 'pipe'
             ],
         });
+        const [,,, muxOutput] = process.stdio;
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(`${streamInfo.filename}.${streamInfo.audioFormat}`));
 
-        pipe(process.stdio[3], res, shutdown);
+        pipe(muxOutput, res, shutdown);
         res.on('finish', shutdown);
     } catch {
         shutdown();
@@ -169,10 +171,11 @@ export function streamVideoOnly(streamInfo, res) {
                 'pipe'
             ],
         });
+        const [,,, muxOutput] = process.stdio;
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        pipe(process.stdio[3], res, shutdown);
+        pipe(muxOutput, res, shutdown);
 
         process.on('close', shutdown);
         res.on('finish', shutdown);
