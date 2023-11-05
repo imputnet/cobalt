@@ -28,7 +28,7 @@ export default function (inHost, inURL) {
                 host = "twitter";
                 url = url.replace("https://fixvx.com/", "https://twitter.com/")
             }
-            if (url.match(/^https:\/\/(d\.|dl\.|)(fxtwitter|twittpr|fixupx).com\//g)) {
+            if (/^https:\/\/(d\.|dl\.|)(fxtwitter|twittpr|fixupx).com\//g.test(url)) {
                 host = "twitter";
                 url = url.replace(url.match(/^https:\/\/(d\.|dl\.|)(fxtwitter|twittpr|fixupx).com\//g)[0], "https://twitter.com/")
                 if (url.endsWith(".mp4")) url = url.replace(".mp4", "")
