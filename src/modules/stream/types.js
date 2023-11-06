@@ -96,7 +96,9 @@ export async function streamLiveRender(streamInfo, res) {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        pipe(audio, audioInput, shutdown);
+        audio.on('error', shutdown);
+        audioInput.on('error', shutdown);
+        audio.pipe(audioInput);
         pipe(muxOutput, res, shutdown);
 
         process.on('close', shutdown);
