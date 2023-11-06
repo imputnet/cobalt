@@ -25,6 +25,7 @@
     },
     "homepage": "https://github.com/wukko/cobalt#readme",
     "dependencies": {
+        "abort-controller": "3.0.0",
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
