@@ -16,9 +16,11 @@ function closeResponse(res) {
 }
 
 function killProcess(p) {
+    // ask the process to terminate itself gracefully
     p?.kill('SIGTERM');
     setTimeout(() => {
         if (p?.exitCode === null)
+            // brutally murder the process if it didn't quit
             p?.kill('SIGKILL');
     }, 5000);
 }
