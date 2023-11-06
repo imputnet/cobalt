@@ -16,10 +16,10 @@ function closeResponse(res) {
 }
 
 function killProcess(p) {
-    p?.kill();
+    p?.kill('SIGTERM');
     setTimeout(() => {
         if (p?.exitCode === null)
-            p?.kill(9);
+            p?.kill('SIGKILL');
     }, 5000);
 }
 
