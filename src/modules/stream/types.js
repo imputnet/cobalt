@@ -90,6 +90,7 @@ export async function streamLiveRender(streamInfo, res) {
                 'pipe', 'pipe'
             ],
         });
+
         const [,,, audioInput, muxOutput] = process.stdio;
 
         res.setHeader('Connection', 'keep-alive');
@@ -140,7 +141,9 @@ export function streamAudioOnly(streamInfo, res) {
                 'pipe'
             ],
         });
+
         const [,,, muxOutput] = process.stdio;
+
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(`${streamInfo.filename}.${streamInfo.audioFormat}`));
 
@@ -156,7 +159,7 @@ export function streamVideoOnly(streamInfo, res) {
     const shutdown = () => (killProcess(process), closeResponse(res));
 
     try {
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
+        let args = [
             '-loglevel', '-8',
             '-threads', `${getThreads()}`,
             '-i', streamInfo.urls,
@@ -164,8 +167,11 @@ export function streamVideoOnly(streamInfo, res) {
         ]
         if (streamInfo.mute) args.push('-an');
         if (streamInfo.service === "vimeo" || streamInfo.service === "rutube") args.push('-bsf:a', 'aac_adtstoasc');
+
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
         if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
         args.push('-f', format, 'pipe:3');
+
         process = spawn(ffmpeg, args, {
             windowsHide: true,
             stdio: [
@@ -173,7 +179,9 @@ export function streamVideoOnly(streamInfo, res) {
                 'pipe'
             ],
         });
+
         const [,,, muxOutput] = process.stdio;
+
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
