@@ -494,6 +494,9 @@ export default function(obj) {
                     }, {
                         action: "disableChangelog",
                         name: t("SettingsDisableNotifications"),
+                    }, {
+                        action: "disableNewDomainPopup",
+                        name: t("SettingsDisableNewDomainPopup"),
                         padding: "no-margin"
                     }])
                 })

@@ -156,6 +156,7 @@
         "FilenamePreviewVideoTitle": "Video Title",
         "FilenamePreviewAudioTitle": "Audio Title",
         "FilenamePreviewAudioAuthor": "Audio Author",
-        "UrgentFilenameUpdate": "customizable file names!"
+        "UrgentFilenameUpdate": "customizable file names!",
+        "SettingsDisableNewDomainPopup": "disable new domain popup"
     }
 }

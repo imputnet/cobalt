@@ -30,6 +30,7 @@ const checkboxes = [
     "reduceTransparency",
     "disableAnimations",
     "disableMetadata",
+    "disableNewDomainPopup"
 ];
 const exceptions = { // used for mobile devices
     "vQuality": "720"
@@ -605,7 +606,9 @@ window.onload = () => {
         }
         loadSettings();
         detectColorScheme();
-        popup("migration", 1);
+
+        if(sGet("disableNewDomainPopup") !== "true")
+            popup("migration", 1);
     }
     window.history.replaceState(null, '', window.location.pathname);
 
