@@ -32,8 +32,7 @@ export default async function(host, patternMatch, url, lang, obj) {
         switch (host) {
             case "twitter":
                 r = await twitter({
-                    id: patternMatch["id"] ? patternMatch["id"] : false,
-                    spaceId: patternMatch["spaceId"] ? patternMatch["spaceId"] : false
+                    id: patternMatch["id"]
                 });
                 break;
             case "vk":
@@ -87,7 +86,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                 r = await tumblr({
                     id: patternMatch["id"],
                     url: url,
-                    user: patternMatch["user"] ? patternMatch["user"] : false
+                    user: patternMatch["user"] || false
                 });
                 break;
             case "vimeo":
@@ -101,10 +100,11 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "soundcloud":
                 isAudioOnly = true;
                 r = await soundcloud({
+                    url: url,
                     author: patternMatch["author"],
-                    song: patternMatch["song"], url: url,
-                    shortLink: patternMatch["shortLink"] ? patternMatch["shortLink"] : false,
-                    accessKey: patternMatch["accessKey"] ? patternMatch["accessKey"] : false,
+                    song: patternMatch["song"],
+                    shortLink: patternMatch["shortLink"] || false,
+                    accessKey: patternMatch["accessKey"] || false,
                     format: obj.aFormat
                 });
                 break;
@@ -115,10 +115,14 @@ export default async function(host, patternMatch, url, lang, obj) {
                 })
                 break;
             case "vine":
-                r = await vine({ id: patternMatch["id"] });
+                r = await vine({
+                    id: patternMatch["id"]
+                });
                 break;
             case "pinterest":
-                r = await pinterest({ id: patternMatch["id"] });
+                r = await pinterest({
+                    id: patternMatch["id"]
+                });
                 break;
             case "streamable":
                 r = await streamable({
@@ -129,7 +133,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "twitch":
                 r = await twitch({
-                    clipId: patternMatch["clip"] ? patternMatch["clip"] : false,
+                    clipId: patternMatch["clip"] || false,
                     quality: obj.vQuality,
                     isAudioOnly: obj.isAudioOnly
                 });
@@ -148,9 +152,11 @@ export default async function(host, patternMatch, url, lang, obj) {
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
 
-        if (r.error) return apiJSON(0, { t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error) });
+        if (r.error) return apiJSON(0, {
+            t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error)
+        })
 
-        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, obj.filenamePattern);
+        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, obj.filenamePattern)
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

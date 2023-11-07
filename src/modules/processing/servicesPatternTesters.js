@@ -1,6 +1,5 @@
 export const testers = {
-    "twitter": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length < 20)
-        || (patternMatch["spaceId"] && patternMatch["spaceId"].length === 13),
+    "twitter": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length < 20),
 
     "vk": (patternMatch) => (patternMatch["userId"] && patternMatch["videoId"]
         && patternMatch["userId"].length <= 10 && patternMatch["videoId"].length <= 10),

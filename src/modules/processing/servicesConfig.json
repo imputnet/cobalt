@@ -13,7 +13,7 @@
         },
         "twitter": {
             "alias": "twitter videos & voice",
-            "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
+            "patterns": [":user/status/:id", ":user/status/:id/video/:v"],
             "enabled": true
         },
         "vk": {
