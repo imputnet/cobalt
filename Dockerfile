@@ -2,8 +2,6 @@ FROM node:20-slim
 WORKDIR /app
 EXPOSE 9000
 
-RUN apt-get update
-RUN apt-get install -y git
 RUN apt-get install -y git
 
 COPY . .
