@@ -1,15 +1,20 @@
-FROM node:18-bullseye-slim
+FROM node:20-slim
 WORKDIR /app
+EXPOSE 9000
 
 RUN apt-get update
 RUN apt-get install -y git
-RUN rm -rf /var/lib/apt/lists/*
-
-COPY package*.json ./
-RUN npm install
-
-RUN git clone -n https://github.com/wukko/cobalt.git --depth 1 && mv cobalt/.git ./ && rm -rf cobalt
+RUN apt-get install -y git
 
 COPY . .
-EXPOSE 9000
+
+RUN npm install
+
+# Drop privileges
+RUN groupadd cobalt && useradd -g cobalt cobalt
+RUN chown -R cobalt:cobalt /app
+RUN chmod -R 755 /app
+
+USER cobalt
+
 CMD [ "node", "src/cobalt" ]
