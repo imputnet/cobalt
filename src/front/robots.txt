@@ -1,2 +1,5 @@
 User-Agent: *
-Disallow: /icons/ /fonts/ *.js *.css
+Disallow: /icons/
+Disallow: /fonts/
+Disallow: /*.js
+Disallow: /*.css
