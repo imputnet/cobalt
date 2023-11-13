@@ -607,9 +607,23 @@ window.onload = () => {
         detectColorScheme();
         popup("migration", 1);
     }
+
+    if (window.location.hash) {
+        const input = window.location.hash.slice(1);
+        eid("url-input-area").value = input;
+        button()
+    }
+
     window.history.replaceState(null, '', window.location.pathname);
 
     notificationCheck();
+}
+window.onhashchange = () => {
+    if (window.location.hash) {
+        const input = window.location.hash.slice(1);
+        eid("url-input-area").value = input;
+        button()
+    }
 }
 eid("url-input-area").addEventListener("keydown", (e) => {
     button();
