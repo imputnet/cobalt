@@ -18,7 +18,7 @@ async function getAccessToken() {
     const values = cookie.values(),
           needRefresh = !values.access_token
                         || !values.expiry
-                        || Number(values.expiry) > new Date().getTime();
+                        || Number(values.expiry) < new Date().getTime();
     if (!needRefresh) return values.access_token;
 
     const data = await fetch('https://www.reddit.com/api/v1/access_token', {
