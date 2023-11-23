@@ -10,7 +10,7 @@ import hostOverrides from "./processing/hostOverrides.js";
 
 export async function getJSON(originalURL, lang, obj) {
     try {
-        let patternMatch, url = decodeURIComponent(originalURL),
+        let patternMatch, url = encodeURI(decodeURIComponent(originalURL)),
             hostname = new URL(url).hostname.split('.'),
             host = hostname[hostname.length - 2];
 

@@ -48,7 +48,7 @@ async function getAccessToken() {
 }
 
 export default async function(obj) {
-    const url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}/${obj.title}.json`);
+    const url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
 
     const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';

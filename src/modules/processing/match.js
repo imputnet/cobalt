@@ -67,8 +67,7 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "reddit":
                 r = await reddit({
                     sub: patternMatch["sub"],
-                    id: patternMatch["id"],
-                    title: patternMatch["title"]
+                    id: patternMatch["id"]
                 });
                 break;
             case "douyin":
