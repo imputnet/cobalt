@@ -8,8 +8,7 @@ export const testers = {
 
     "youtube": (patternMatch) => (patternMatch["id"] && patternMatch["id"].length <= 11),
 
-    "reddit": (patternMatch) => (patternMatch["sub"] && patternMatch["id"] && patternMatch["title"]
-        && patternMatch["sub"].length <= 22 && patternMatch["id"].length <= 10 && patternMatch["title"].length <= 96),
+    "reddit": (patternMatch) => (patternMatch.sub?.length <= 22 && patternMatch.id?.length <= 10),
 
     "tiktok": (patternMatch) => ((patternMatch["user"] && patternMatch["postId"] && patternMatch["postId"].length <= 21)
         || (patternMatch["id"] && patternMatch["id"].length <= 13)),
