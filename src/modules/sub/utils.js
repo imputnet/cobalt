@@ -9,7 +9,7 @@ const apiVar = {
     },
     booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata"]
 }
-const forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
+const forbiddenChars = ['}', '{', '(', ')', '\\', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
 
 export function apiJSON(type, obj) {
