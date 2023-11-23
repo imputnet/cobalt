@@ -67,13 +67,13 @@ export default async function (obj) {
             token: req_token[0].data.clip.playbackAccessToken.value
         })}`,
         fileMetadata: {
-            title: clipMetadata.title,
+            title: cleanString(clipMetadata.title.trim()),
             artist: `Twitch Clip by @${clipMetadata.broadcaster.login}, clipped by @${clipMetadata.curator.login}`,
         },
         filenameAttributes: {
             service: "twitch",
             id: clipMetadata.id,
-            title: clipMetadata.title,
+            title: cleanString(clipMetadata.title.trim()),
             author: `${clipMetadata.broadcaster.login}, clipped by ${clipMetadata.curator.login}`,
             qualityLabel: `${format.quality}p`,
             extension: 'mp4'
