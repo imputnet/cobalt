@@ -23,7 +23,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | streamable                     | ✅            | ✅         | ✅         | ➖         | ➖              |
 | tiktok                         | ✅            | ✅         | ✅         | ❌         | ❌              |
 | tumblr                         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| twitch clips                   | ✅            | ✅         | ✅         | ✅         | ❌              |
+| twitch clips                   | ✅            | ✅         | ✅         | ✅         | ✅              |
 | twitter/x                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vimeo                          | ✅            | ✅         | ✅         | ✅         | ✅              |
 | vine archive                   | ✅            | ✅         | ✅         | ➖         | ➖              |
