@@ -564,7 +564,7 @@ export default function(obj) {
             ${urgentNotice({
                 emoji: "😸",
                 text: t("UrgentFilenameUpdate"),
-                visible: true,
+                visible: false,
                 action: "popup('about', 1, 'changelog')"
             })}
             <div id="cobalt-main-box" class="center">
