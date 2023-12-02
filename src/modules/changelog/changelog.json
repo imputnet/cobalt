@@ -1,5 +1,16 @@
 {
     "current": {
+        "version": "7.7",
+        "date": "December 2, 2023",
+        "title": "bugfixes and better downloads!",
+        "banner": {
+            "file": "meowthpolishegg.webp",
+            "width": 851,
+            "height": 640
+        },
+        "content": "this update fixes various issues with supported services. no new features yet, but twitter fix is surely something good to have in the meantime!\n\nservice improvements:\n*; broken twitter videos are now automatically fixed by cobalt.\n*; all vimeo videos and audios should now possible to download.\n*; vimeo: fixed short resolution displayed in \"basic\" and \"pretty\" filename styles.\n\ninterface improvements:\n*; streamables are now easier to save on ios.\n\ninternal improvements:\n*; port env variable is now not strictly necessary for cobalt to run.\n*; minor clean up.\n\nchanges since 7.6:\n*; fix for an issue related to youtube dubs.\n*; fixed a memory leak related to live renders.\n*; handling all errors related to twitter downloads.\n*; fixed support for reddit links in various languages.\n*; added rich filenames support for twitch clips.\n*; updated support and donation lists.\n\nstay tuned for future updates and have a great day :D"
+    },
+    "history": [{
         "version": "7.6",
         "date": "October 15, 2023",
         "title": "customizable file names, instagram stories, and first cobalt sponsor!",
@@ -9,8 +20,7 @@
             "height": 640
         },
         "content": "as many have (very) often requested, cobalt now lets you pick between several file name format styles!\ngo to <span class=\"text-backdrop\">settings > other</span> and change it to whichever you like! there's a preview of each style, so you know how exactly files are gonna look like.\n\nif you liked file names the way they were before, don't worry: classic style is still the default :)\n\non a different but not any less important note: cobalt is now sponsored by <a class=\"text-backdrop link\" href=\"https://royalehosting.net/\" target=\"_blank\">royalehosting.net</a>!\noverall service performance and stability is gonna be better, but also more content will be possible to download thanks to geniuine server locations. and yes, still no ads or trackers.\n\nthis update also includes a bunch of other changes, check them out:\n\nservice improvements:\n*; added support for instagram stories thanks to <a class=\"text-backdrop link\" href=\"https://github.com/wukko/cobalt/pull/194\" target=\"_blank\">#194</a>.\n*; fixed reddit support thanks to <a class=\"text-backdrop link\" href=\"https://github.com/wukko/cobalt/pull/221\" target=\"_blank\">#221</a>.\n*; added support for rich file names for youtube, vimeo, soundcloud, rutube, and vk.\n*; numbers and emoji no longer disappear from file name and metadata.\n*; mute and audio dub file name tags don't appear together anymore.\n*; youtube: dub file name tag doesn't appear anymore if audio track is default.\n\ninterface improvements:\n*; added a list of sponsors to about tab. if you host an instance, it's disabled by default, but can be enabled with showSponsors env variable.\n*; about button now opens about tab when no new changelog is available.\n*; fixed download button thickness on ios.\n\nyou now can reach out to cobalt via email for support! it's located in the about tab along with other socials, such as discord.\n\ni hope you enjoy this long-awaited update and have a blissful day :D"
-    },
-    "history": [{
+    }, {
         "version": "7.5",
         "date": "September 16, 2023",
         "title": "support for twitch clips and rutube!",

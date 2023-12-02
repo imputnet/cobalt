@@ -158,6 +158,7 @@
         "FilenamePreviewVideoTitle": "Название Видео",
         "FilenamePreviewAudioTitle": "Название Аудио",
         "FilenamePreviewAudioAuthor": "Автор Аудио",
-        "UrgentFilenameUpdate": "изменяемые названия файлов!"
+        "UrgentFilenameUpdate": "изменяемые названия файлов!",
+        "UrgentTwitterPatch": "фиксы и удобное скачивание"
     }
 }

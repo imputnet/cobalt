@@ -156,6 +156,7 @@
         "FilenamePreviewVideoTitle": "Video Title",
         "FilenamePreviewAudioTitle": "Audio Title",
         "FilenamePreviewAudioAuthor": "Audio Author",
-        "UrgentFilenameUpdate": "customizable file names!"
+        "UrgentFilenameUpdate": "customizable file names!",
+        "UrgentTwitterPatch": "fixes and easier downloads"
     }
 }
