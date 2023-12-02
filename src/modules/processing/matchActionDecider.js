@@ -145,10 +145,6 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
             } else if (audioFormat === "best") {
                 audioFormat = "m4a";
                 copy = true;
-                if (!r.filenameAttributes && r.audioFilename.includes("twitterspaces")) {
-                    audioFormat = "mp3"
-                    copy = false
-                }
             }
             if (r.isM3U8 || host === "vimeo") {
                 copy = false;

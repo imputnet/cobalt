@@ -122,10 +122,15 @@ export function streamAudioOnly(streamInfo, res) {
 
     try {
         let args = [
-            '-loglevel', '-8',
+            '-loglevel', '-8'
+        ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push(
             '-i', streamInfo.urls,
             '-vn'
-        ]
+        )
 
         if (streamInfo.metadata) {
             args = args.concat(metadataManager(streamInfo.metadata))
