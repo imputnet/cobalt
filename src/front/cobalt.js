@@ -426,8 +426,8 @@ async function download(url) {
                         if (sGet("downloadPopup") === "true") {
                             popup('download', 1, j.url)
                             setTimeout(() => {
-                                popup('download', 0);
-                            }, 90000)
+                                hideAllPopups()
+                            }, 85000)
                         } else {
                             if (isMobile || isSafari) {
                                 window.location.href = j.url;
