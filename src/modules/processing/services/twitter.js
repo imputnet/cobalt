@@ -1,4 +1,5 @@
 import { genericUserAgent } from "../../config.js";
+import { createStream } from "../../stream/manage.js";
 
 function bestQuality(arr) {
     return arr.filter(v => v["content_type"] === "video/mp4").sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
@@ -39,7 +40,7 @@ export default async function(obj) {
 
     let tweet = await fetch(query, { headers: _headers }).then((r) => {
         return r.status === 200 ? r.json() : false
-    }).catch((e) => { return false });
+    }).catch(() => { return false });
 
     // {"data":{"tweetResult":{"result":{"__typename":"TweetUnavailable","reason":"Protected"}}}}
     if (tweet?.data?.tweetResult?.result?.__typename !== "Tweet") {
@@ -64,7 +65,12 @@ export default async function(obj) {
             multiple.push({
                 type: "video",
                 thumb: media[i]["media_url_https"],
-                url: bestQuality(media[i]["video_info"]["variants"])
+                url: createStream({
+                    service: "twitter",
+                    type: "remux",
+                    u: bestQuality(media[i]["video_info"]["variants"]),
+                    filename: `twitter_${obj.id}_${Number(i) + 1}.mp4`
+                })
             })
         }
     } else if (media.length === 1) {
@@ -75,6 +81,7 @@ export default async function(obj) {
 
     if (single) {
         return {
+            type: "remux",
             urls: single,
             filename: `twitter_${obj.id}.mp4`,
             audioFilename: `twitter_${obj.id}_audio`

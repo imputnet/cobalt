@@ -10,7 +10,7 @@ export default async function(res, streamInfo) {
             case "render":
                 await streamLiveRender(streamInfo, res);
                 break;
-            case "videoM3U8":
+            case "remux":
             case "mute":
                 streamVideoOnly(streamInfo, res);
                 break;
