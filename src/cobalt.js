@@ -22,7 +22,7 @@ app.disable('x-powered-by');
 await loadLoc();
 
 const apiMode = process.env.apiURL && !process.env.webURL;
-const webMode = process.env.webURL && !process.env.apiURL;
+const webMode = process.env.webURL && process.env.apiURL;
 
 if (apiMode) {
     const { runAPI } = await import('./core/api.js');
