@@ -28,15 +28,29 @@
                     "url": "mailto:support@cobalt.tools",
                     "handle": "support@cobalt.tools"
                 }
+            },
+            "ru": {
+                "канал в telegram": {
+                    "emoji": "📬",
+                    "url": "https://t.me/justusecobalt_ru",
+                    "handle": "@justusecobalt_ru"
+                },
+                "поддержка по почте": {
+                    "emoji": "📧",
+                    "url": "mailto:support@cobalt.tools",
+                    "handle": "support@cobalt.tools"
+                }
             }
         }
     },
     "donations": {
         "crypto": {
-            "bitcoin": "bc1q59jyyjvrzj4c22rkk3ljeecq6jmpyscgz9spnd",
+            "bitcoin": "18PKf6N2cHrmSzz9ZzTSvDd2jAkqGC7SxA",
+            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod",
             "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
-            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod"
+            "ton": "UQA3SO-hHZq1oCCT--u6or6ollB8fd2o52aD8mXiLk9iDZd3",
+            "usdt-trc20": "TVbx7YT3rBfu931Gxko6pRfXtedYqbgnBB",
+            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna"
         },
         "links": {
             "boosty": "https://boosty.to/wukko/donate"

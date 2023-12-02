@@ -38,7 +38,8 @@ const names = {
     "📰": "newspaper",
     "🎞️": "film_frames",
     "🎧": "headphone",
-    "📧": "email"
+    "📧": "email",
+    "📬": "mailbox"
 }
 let sizing = {
     18: 0.8,
