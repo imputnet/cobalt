@@ -29,9 +29,6 @@ console.log(
     `${Cyan(`Hey, this is cobalt v.${version}!`)}\n${Bright("Let's start by creating a new ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
 )
 
-console.log(
-    `\n${Bright("⚠️ Please notice that since v.6.0 cobalt is hosted in two parts. API and web app are now separate.\nMerged hosting is no longer available.")}`
-)
 function setup() {
     console.log(Bright("\nWhat kind of server will this instance be?\nOptions: api, web."));
 

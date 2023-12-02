@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
     cobalt-api:
-        image: ghcr.io/wukko/cobalt:latest
+        image: ghcr.io/wukko/cobalt:7
         restart: unless-stopped
         container_name: cobalt-api
 
@@ -17,7 +17,6 @@ services:
             #- 127.0.0.1:9000:9000
 
         environment:
-            - apiPort=9000
             # replace apiURL with your instance's target url in same format
             - apiURL=https://co.wuk.sh/
             # replace apiName with your instance's distinctive name
@@ -33,7 +32,7 @@ services:
             #- ./cookies.json:/cookies.json
 
     cobalt-web:
-        image: ghcr.io/wukko/cobalt:latest
+        image: ghcr.io/wukko/cobalt:7
         restart: unless-stopped
         container_name: cobalt-web
 
@@ -48,7 +47,6 @@ services:
             #- 127.0.0.1:9001:9001
 
         environment:
-            - webPort=9001
             # replace webURL with your instance's target url in same format
             - webURL=https://cobalt.tools/
             # replace apiURL with preferred api instance url

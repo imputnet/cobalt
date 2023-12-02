@@ -105,7 +105,7 @@
         "FollowSupport": "keep in touch with cobalt for support, polls, news, and more:",
         "SupportNote": "please note that response may take a while, there's only one person managing everything.",
         "SourceCode": "report issues, explore source code, star or fork the repo:",
-        "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is solely your business, not mine or anyone else's.\n\nif your download requires live render, some non-backtraceable data is temporarily stored in server's RAM. it's necessary for this feature to function.\n\nin this case info about requested content is stored for <span class=\"text-backdrop\">20 seconds</span> and then permanently removed.\nno one (even me) has access to this data. official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">source code</a> yourself and see that everything is as stated.",
+        "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is solely your business, not mine or anyone else's.\n\nif your download requires live render, some non-backtraceable data is temporarily stored in server's RAM. it's necessary for this feature to function.\n\nin this case info about requested content is stored for <span class=\"text-backdrop\">90 seconds</span> and then permanently removed.\nno one (even me) has access to this data. official cobalt codebase doesn't provide a way to read it outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">source code</a> yourself and see that everything is as stated.",
         "ErrorYTUnavailable": "this youtube video is unavailable, it could be region or age restricted. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality!\n\nsometimes youtube api sometimes acts unexpectedly. try again or try another settings.",
         "SettingsCodecSubtitle": "youtube codec",
@@ -156,6 +156,7 @@
         "FilenamePreviewVideoTitle": "Video Title",
         "FilenamePreviewAudioTitle": "Audio Title",
         "FilenamePreviewAudioAuthor": "Audio Author",
-        "UrgentFilenameUpdate": "customizable file names!"
+        "UrgentFilenameUpdate": "customizable file names!",
+        "UrgentTwitterPatch": "fixes and easier downloads"
     }
 }

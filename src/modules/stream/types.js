@@ -1,7 +1,7 @@
 import { spawn } from "child_process";
 import ffmpeg from "ffmpeg-static";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { getThreads, metadataManager } from "../sub/utils.js";
+import { metadataManager } from "../sub/utils.js";
 import { request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
 import { AbortController } from "abort-controller"
@@ -40,7 +40,10 @@ export async function streamDefault(streamInfo, res) {
     const shutdown = () => (closeRequest(abortController), closeResponse(res));
 
     try {
-        const filename = streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : streamInfo.filename;
+        let filename = streamInfo.filename;
+        if (streamInfo.isAudioOnly) {
+            filename = `${streamInfo.filename}.${streamInfo.audioFormat}`
+        }
         res.setHeader('Content-disposition', contentDisposition(filename));
 
         const { body: stream, headers } = await request(streamInfo.urls, {
@@ -60,7 +63,11 @@ export async function streamDefault(streamInfo, res) {
 
 export async function streamLiveRender(streamInfo, res) {
     let abortController = new AbortController(), process;
-    const shutdown = () => (closeRequest(abortController), killProcess(process), closeResponse(res));
+    const shutdown = () => (
+        closeRequest(abortController),
+        killProcess(process),
+        closeResponse(res)
+    );
 
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
@@ -72,7 +79,6 @@ export async function streamLiveRender(streamInfo, res) {
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1],
         args = [
             '-loglevel', '-8',
-            '-threads', `${getThreads()}`,
             '-i', streamInfo.urls[0],
             '-i', 'pipe:3',
             '-map', '0:v',
@@ -80,7 +86,9 @@ export async function streamLiveRender(streamInfo, res) {
         ];
 
         args = args.concat(ffmpegArgs[format]);
-        if (streamInfo.metadata) args = args.concat(metadataManager(streamInfo.metadata));
+        if (streamInfo.metadata) {
+            args = args.concat(metadataManager(streamInfo.metadata))
+        }
         args.push('-f', format, 'pipe:4');
 
         process = spawn(ffmpeg, args, {
@@ -114,26 +122,25 @@ export function streamAudioOnly(streamInfo, res) {
 
     try {
         let args = [
-            '-loglevel', '-8',
-            '-threads', `${getThreads()}`,
-            '-i', streamInfo.urls
+            '-loglevel', '-8'
         ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push(
+            '-i', streamInfo.urls,
+            '-vn'
+        )
 
         if (streamInfo.metadata) {
-            if (streamInfo.metadata.cover) { // currently corrupts the audio
-                args.push('-i', streamInfo.metadata.cover, '-map', '0:a', '-map', '1:0')
-            } else {
-                args.push('-vn')
-            }
             args = args.concat(metadataManager(streamInfo.metadata))
-        } else {
-            args.push('-vn')
         }
-
         let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"];
         args = args.concat(arg);
 
-        if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
+        if (ffmpegArgs[streamInfo.audioFormat]) {
+            args = args.concat(ffmpegArgs[streamInfo.audioFormat])
+        }
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
         process = spawn(ffmpeg, args, {
@@ -162,16 +169,26 @@ export function streamVideoOnly(streamInfo, res) {
 
     try {
         let args = [
-            '-loglevel', '-8',
-            '-threads', `${getThreads()}`,
+            '-loglevel', '-8'
+        ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push(
             '-i', streamInfo.urls,
             '-c', 'copy'
-        ]
-        if (streamInfo.mute) args.push('-an');
-        if (streamInfo.service === "vimeo" || streamInfo.service === "rutube") args.push('-bsf:a', 'aac_adtstoasc');
+        )
+        if (streamInfo.mute) {
+            args.push('-an')
+        }
+        if (streamInfo.service === "vimeo" || streamInfo.service === "rutube") {
+            args.push('-bsf:a', 'aac_adtstoasc')
+        }
 
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
-        if (format === "mp4") args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
+        if (format === "mp4") {
+            args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
+        }
         args.push('-f', format, 'pipe:3');
 
         process = spawn(ffmpeg, args, {

@@ -1,4 +1,4 @@
-const version = 38;
+const version = 39;
 
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.match("iphone os");
@@ -423,9 +423,16 @@ async function download(url) {
                     let jp = await res.json();
                     if (jp.status === "continue") {
                         changeDownloadButton(2, '>>>');
-                        if (isMobile || isSafari) {
-                            window.location.href = j.url;
-                        } else window.open(j.url, '_blank');
+                        if (sGet("downloadPopup") === "true") {
+                            popup('download', 1, j.url)
+                            setTimeout(() => {
+                                hideAllPopups()
+                            }, 85000)
+                        } else {
+                            if (isMobile || isSafari) {
+                                window.location.href = j.url;
+                            } else window.open(j.url, '_blank');
+                        }
                         setTimeout(() => { changeButton(1) }, 2500);
                     } else {
                         changeButton(0, jp.text);

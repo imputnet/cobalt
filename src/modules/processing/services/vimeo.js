@@ -63,40 +63,26 @@ export default async function(obj) {
     if (!masterJSON) return { error: 'ErrorCouldntFetch' };
     if (!masterJSON.video) return { error: 'ErrorEmptyDownload' };
 
-    let type = "parcel";
-    if (masterJSON.base_url === "../") type = "chop";
-
-    let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)),
+    let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)).filter(a => a['format'] === "mp42"),
         bestVideo = masterJSON_Video[0];
-    if (Number(quality) < Number(resolutionMatch[bestVideo["width"]])) bestVideo = masterJSON_Video.find(i => resolutionMatch[i["width"]] === quality);
-
-    let videoUrl, audioUrl, baseUrl = masterJSONURL.split("/sep/")[0];
-    switch (type) {
-        case "parcel":
-            let masterJSON_Audio = masterJSON.audio.sort((a, b) => Number(b.bitrate) - Number(a.bitrate)).filter(a => a['mime_type'] === "audio/mp4"),
-                bestAudio = masterJSON_Audio[0];
-            videoUrl = `${baseUrl}/parcel/video/${bestVideo.index_segment.split('?')[0]}`,
-            audioUrl = `${baseUrl}/parcel/audio/${bestAudio.index_segment.split('?')[0]}`;
-            break;
-        case "chop":
-            videoUrl = `${baseUrl}/sep/video/${bestVideo.id}/master.m3u8`;
-            break;
+    if (Number(quality) < Number(resolutionMatch[bestVideo["width"]])) {
+        bestVideo = masterJSON_Video.find(i => resolutionMatch[i["width"]] === quality)
     }
-    if (videoUrl) {
-        return {
-            urls: audioUrl ? [videoUrl, audioUrl] : videoUrl,
-            isM3U8: audioUrl ? false : true,
-            fileMetadata: fileMetadata,
-            filenameAttributes: {
-                service: "vimeo",
-                id: obj.id,
-                title: fileMetadata.title,
-                author: fileMetadata.artist,
-                resolution: `${bestVideo["width"]}x${bestVideo["height"]}`,
-                qualityLabel: `${bestVideo["height"]}p`,
-                extension: "mp4"
-            }
+
+    let masterM3U8 = `${masterJSONURL.split("/sep/")[0]}/sep/video/${bestVideo.id}/master.m3u8`;
+
+    return {
+        urls: masterM3U8,
+        isM3U8: true,
+        fileMetadata: fileMetadata,
+        filenameAttributes: {
+            service: "vimeo",
+            id: obj.id,
+            title: fileMetadata.title,
+            author: fileMetadata.artist,
+            resolution: `${bestVideo["width"]}x${bestVideo["height"]}`,
+            qualityLabel: `${resolutionMatch[bestVideo["width"]]}p`,
+            extension: "mp4"
         }
     }
-    return { error: 'ErrorEmptyDownload' }
 }

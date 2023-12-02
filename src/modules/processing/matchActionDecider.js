@@ -40,6 +40,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                 case "bilibili":
                     params = { type: "render" };
                     break;
+                case "twitter":
                 case "youtube":
                     params = { type: r.type };
                     break;
@@ -64,7 +65,6 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                 case "vine":
                 case "instagram":
                 case "tumblr":
-                case "twitter":
                 case "pinterest":
                 case "streamable":
                     responseType = 1;
@@ -72,7 +72,7 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
             }
             break;
         case "singleM3U8":
-            params = { type: "videoM3U8" }
+            params = { type: "remux" }
             break;
         case "muteVideo":
             params = {
@@ -107,14 +107,17 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
             break;
 
         case "audio": 
-            if ((host === "reddit" && r.typeId === 1) || audioIgnore.includes(host)) return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') });
+            if ((host === "reddit" && r.typeId === 1) || audioIgnore.includes(host)) {
+                return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') })
+            }
 
             let processType = "render";
             let copy = false;
             
             if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
 
-            if ((host === "tiktok" || host === "douyin") && services.tiktok.audioFormats.includes(audioFormat)) {
+            if ((host === "tiktok" || host === "douyin")
+                && services.tiktok.audioFormats.includes(audioFormat)) {
                 if (r.isMp3) {
                     if (audioFormat === "mp3" || audioFormat === "best") {
                         audioFormat = "mp3";
@@ -125,11 +128,13 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                     processType = "bridge"
                 }
             }
-            if (host === "tumblr" && !r.filename && (audioFormat === "best" || audioFormat === "mp3")) {
+            if (host === "tumblr" && !r.filename
+                && (audioFormat === "best" || audioFormat === "mp3")) {
                 audioFormat = "mp3";
                 processType = "bridge"
             }
-            if ((audioFormat === "best" && services[host]["bestAudio"]) || (services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]))) {
+            if ((audioFormat === "best" && services[host]["bestAudio"])
+                || (services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]))) {
                 audioFormat = services[host]["bestAudio"];
                 if (host === "soundcloud") {
                     processType = "render"
@@ -140,10 +145,6 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
             } else if (audioFormat === "best") {
                 audioFormat = "m4a";
                 copy = true;
-                if (!r.filenameAttributes && r.audioFilename.includes("twitterspaces")) {
-                    audioFormat = "mp3"
-                    copy = false
-                }
             }
             if (r.isM3U8 || host === "vimeo") {
                 copy = false;
