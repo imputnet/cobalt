@@ -135,7 +135,7 @@
         "KeyboardShortcutClear": "clear link input area",
         "KeyboardShortcutClosePopup": "close all popups",
         "CollapseLegal": "terms and ethics",
-        "FairUse": "cobalt is a tool for easing content downloads from internet and takes <span class=\"text-backdrop\">zero liability</span>. you are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators.\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone.",
+        "FairUse": "cobalt is a web tool that makes it easier to download content from the internet and takes <span class=\"text-backdrop\">zero liability</span>. processing servers work like <span class=\"text-backdrop\">limited proxies</span>, so no media content is ever cached or stored.\n\nyou (end user) are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators.\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone.",
         "UrgentFeatureUpdate71": "more supported services!",
         "UrgentThanks": "thank you for support!",
         "SettingsDisableMetadata": "don't add metadata",

@@ -809,10 +809,6 @@ button:active,
 #pd-share {
     display: none;
 }
-#about-donate-footer {
-    box-shadow: 0 0 0 0.1rem var(--red) inset, 0 0 0.6rem 0 var(--red);
-    z-index: 1;
-}
 .popup-content-inner,
 .tab-content-settings,
 #popup-header-contents {
