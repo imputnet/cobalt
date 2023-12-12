@@ -17,7 +17,7 @@ export function aliasURL(url) {
             }
             break;
         case "youtu":
-            if (url.hostname === 'youtu.be' && parts.length === 2) {
+            if (url.hostname === 'youtu.be' && parts.length >= 2) {
                 /* youtu.be urls can be weird, e.g. https://youtu.be/<id>//asdasd// still works
                 ** but we only care about the 1st segment of the path */
                 url = new URL(`https://youtube.com/watch?v=${
