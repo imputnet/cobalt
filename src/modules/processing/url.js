@@ -84,19 +84,17 @@ export function normalizeURL(url) {
     );
 }
 
-export function hasValidHostname(url) {
+export function getHostIfValid(url) {
     const host = psl.parse(url.hostname);
-    if (host.error) return false;
+    if (host.error) return;
 
     const service = services[host.sld];
-    if (!service) return false;
-    
-    if ((service.tld ?? 'com') !== host.tld) return false;
+    if (!service) return;
+    if ((service.tld ?? 'com') !== host.tld) return;
 
     const anySubdomainAllowed = service.subdomains === '*';
     const validSubdomain = [null, 'www', ...(service.subdomains ?? [])].includes(host.subdomain);
-    if (!validSubdomain && !anySubdomainAllowed)
-        return false;
+    if (!validSubdomain && !anySubdomainAllowed) return;
 
-    return true;
+    return host.sld;
 }

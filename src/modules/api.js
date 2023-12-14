@@ -4,13 +4,14 @@ import { apiJSON } from "./sub/utils.js";
 import { errorUnsupported } from "./sub/errors.js";
 import loc from "../localization/manager.js";
 import match from "./processing/match.js";
-import { hasValidHostname, normalizeURL } from "./processing/url.js";
+import { getHostIfValid, normalizeURL } from "./processing/url.js";
 
 export async function getJSON(originalURL, lang, obj) {
     try {
         const url = normalizeURL(decodeURIComponent(originalURL));
+        const host = getHostIfValid(url);
 
-        if (!hasValidHostname(url) || !services[host].enabled) {
+        if (!host || !services[host].enabled) {
             return apiJSON(0, { t: errorUnsupported(lang) });
         }
 
