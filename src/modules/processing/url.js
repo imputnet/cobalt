@@ -12,7 +12,7 @@ export function aliasURL(url) {
         case "youtube":
             if (url.pathname.startsWith('/live/') || url.pathname.startsWith('/shorts/')) {
                 url.pathname = '/watch';
-                // ['', 'live' || 'shorts', id, ...rest]
+                // parts := ['', 'live' || 'shorts', id, ...rest]
                 url.search = `?v=${encodeURIComponent(parts[2])}`
             }
             break;
@@ -30,14 +30,6 @@ export function aliasURL(url) {
         case "x":
             if (['x.com', 'vxtwitter.com'].includes(url.hostname)) {
                 url.hostname = 'twitter.com'
-            }
-            break;
-
-        case "tumblr":
-            if (!url.pathname.includes("/blog/view")) {
-                if (url.pathname.endsWith('/'))
-                    url.pathname = url.pathname.slice(0, -1);
-                url.pathname = url.pathname.replace(parts[5], '')
             }
             break;
 
