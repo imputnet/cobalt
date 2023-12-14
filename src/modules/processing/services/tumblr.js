@@ -2,7 +2,7 @@ import psl from "psl";
 import { genericUserAgent } from "../../config.js";
 
 export default async function(obj) {
-    const { subdomain } = psl.parse(obj.url);
+    const { subdomain } = psl.parse(obj.url.hostname);
     if (subdomain?.includes('.'))
         return { error: 'ErrorBrokenLink' }
 

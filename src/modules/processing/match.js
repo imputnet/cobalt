@@ -1,3 +1,5 @@
+import { strict as assert } from "node:assert";
+
 import { apiJSON } from "../sub/utils.js";
 import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
 
@@ -23,6 +25,8 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 
 export default async function(host, patternMatch, url, lang, obj) {
+    assert(url instanceof URL);
+
     try {
         let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
 
@@ -57,7 +61,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                     dubLang: obj.dubLang
                 }
 
-                if (new URL(url).hostname === 'music.youtube.com' || isAudioOnly === true) {
+                if (url.hostname === 'music.youtube.com' || isAudioOnly === true) {
                     fetchInfo.quality = "max";
                     fetchInfo.format = "vp9";
                     fetchInfo.isAudioOnly = true
@@ -100,7 +104,7 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "soundcloud":
                 isAudioOnly = true;
                 r = await soundcloud({
-                    url: url,
+                    url,
                     author: patternMatch["author"],
                     song: patternMatch["song"],
                     shortLink: patternMatch["shortLink"] || false,

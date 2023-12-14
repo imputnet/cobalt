@@ -27,7 +27,7 @@ export async function getJSON(originalURL, lang, obj) {
             return apiJSON(0, { t: errorUnsupported(lang) });
         }
 
-        return await match(host, patternMatch, url.toString(), lang, obj)
+        return await match(host, patternMatch, url, lang, obj)
     } catch (e) {
         return apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') })
     }
