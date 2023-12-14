@@ -4,7 +4,7 @@ import { genericUserAgent } from "../../config.js";
 export default async function(obj) {
     const { subdomain } = psl.parse(obj.url.hostname);
     if (subdomain?.includes('.'))
-        return { error: 'ErrorBrokenLink' }
+        return { error: ['ErrorBrokenLink', 'tumblr'] }
 
     let html = await fetch(`https://${obj.user ?? subdomain}.tumblr.com/post/${obj.id}`, {
         headers: { "user-agent": genericUserAgent }
