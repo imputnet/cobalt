@@ -60,8 +60,10 @@ export function cleanURL(url) {
     }
 
     if (stripQuery) {
-        url.search = url.hash = ''
+        url.search = ''
     }
+
+    url.username = url.password = url.port = url.hash = ''
 
     if (url.pathname.endsWith('/'))
         url.pathname = url.pathname.slice(0, -1);
