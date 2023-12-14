@@ -37,7 +37,6 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "vk":
                 r = await vk({
-                    url: url,
                     userId: patternMatch["userId"],
                     videoId: patternMatch["videoId"],
                     quality: obj.vQuality
@@ -57,11 +56,13 @@ export default async function(host, patternMatch, url, lang, obj) {
                     isAudioMuted: obj.isAudioMuted,
                     dubLang: obj.dubLang
                 }
-                if (url.match('music.youtube.com') || isAudioOnly === true) {
+
+                if (new URL(url).hostname === 'music.youtube.com' || isAudioOnly === true) {
                     fetchInfo.quality = "max";
                     fetchInfo.format = "vp9";
                     fetchInfo.isAudioOnly = true
                 }
+
                 r = await youtube(fetchInfo);
                 break;
             case "reddit":
@@ -83,9 +84,9 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "tumblr":
                 r = await tumblr({
-                    id: patternMatch["id"],
-                    url: url,
-                    user: patternMatch["user"] || false
+                    id: patternMatch.id,
+                    user: patternMatch.user,
+                    url
                 });
                 break;
             case "vimeo":
