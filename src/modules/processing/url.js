@@ -48,11 +48,12 @@ export function aliasURL(url) {
             break;
     }
 
-    return { url, host: host.sld }
+    return url
 }
 
-export function cleanURL({ url, host }) {
+export function cleanURL(url) {
     assert(url instanceof URL);
+    const host = psl.parse(url.hostname).sld;
     let stripQuery = true;
 
     if (host === 'pinterest') {
