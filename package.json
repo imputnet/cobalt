@@ -36,7 +36,7 @@
         "hls-parser": "^0.10.7",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
-        "psl": "^1.9.0",
+        "psl": "1.9.0",
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
