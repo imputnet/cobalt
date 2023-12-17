@@ -2,9 +2,9 @@ import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 
 // fix all videos affected by the container bug in twitter muxer (took them over two weeks to fix it????)
+const TWITTER_EPOCH = 1288834974657n;
 const badContainerStart = new Date(1701446400000);
 const badContainerEnd = new Date(1702605600000);
-const TWITTER_EPOCH = 1288834974657n;
 
 function needsFixing(media) {
     const representativeId = media.source_status_id_str ?? media.id_str;

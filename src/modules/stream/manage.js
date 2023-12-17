@@ -18,9 +18,8 @@ streamCache.on("expired", (key) => {
 const streamSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
-    let lifespan = streamLifespan
     let streamID = nanoid(),
-        exp = Math.floor(new Date().getTime()) + lifespan,
+        exp = Math.floor(new Date().getTime()) + streamLifespan,
         ghmac = sha256(`${streamID},${obj.service},${exp}`, streamSalt);
 
     if (!streamCache.has(streamID)) {
