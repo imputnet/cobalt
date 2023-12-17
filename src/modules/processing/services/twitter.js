@@ -1,6 +1,19 @@
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 
+// fix all videos affected by the container bug in twitter muxer (took them over two weeks to fix it????)
+const badContainerStart = new Date(1701446400000);
+const badContainerEnd = new Date(1702605600000);
+const TWITTER_EPOCH = 1288834974657n;
+
+function needsFixing(media) {
+    const representativeId = media.source_status_id_str ?? media.id_str;
+    const mediaTimestamp = new Date(
+        Number((BigInt(representativeId) >> 22n) + TWITTER_EPOCH)
+    )
+    return mediaTimestamp > badContainerStart && mediaTimestamp < badContainerEnd;
+}
+
 function bestQuality(arr) {
     return arr.filter(v => v["content_type"] === "video/mp4").sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
 }
@@ -60,28 +73,34 @@ export default async function(obj) {
     let single, multiple = [], media = baseMedia["media"];
     media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true });
 
+    if (media.length === 0) {
+        return { error: 'ErrorNoVideosInTweet' }
+    }
+
     if (media.length > 1) {
         for (let i in media) {
-            multiple.push({
-                type: "video",
-                thumb: media[i]["media_url_https"],
-                url: createStream({
+            let downloadUrl = bestQuality(media[i]["video_info"]["variants"]);
+            if (needsFixing(media[i])) {
+                downloadUrl = createStream({
                     service: "twitter",
                     type: "remux",
                     u: bestQuality(media[i]["video_info"]["variants"]),
                     filename: `twitter_${obj.id}_${Number(i) + 1}.mp4`
                 })
+            }
+            multiple.push({
+                type: "video",
+                thumb: media[i]["media_url_https"],
+                url: downloadUrl
             })
         }
-    } else if (media.length === 1) {
-        single = bestQuality(media[0]["video_info"]["variants"])
     } else {
-        return { error: 'ErrorNoVideosInTweet' }
+        single = bestQuality(media[0]["video_info"]["variants"])
     }
 
     if (single) {
         return {
-            type: "remux",
+            type: needsFixing(media[0]) ? "remux" : "normal",
             urls: single,
             filename: `twitter_${obj.id}.mp4`,
             audioFilename: `twitter_${obj.id}_audio`
