@@ -40,7 +40,6 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                 case "bilibili":
                     params = { type: "render" };
                     break;
-                case "twitter":
                 case "youtube":
                     params = { type: r.type };
                     break;
@@ -51,6 +50,14 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
                         params = { type: "render" }
+                    } else {
+                        responseType = 1;
+                    }
+                    break;
+                
+                case "twitter":
+                    if (r.type === "remux") {
+                        params = { type: r.type };
                     } else {
                         responseType = 1;
                     }

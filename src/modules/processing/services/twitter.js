@@ -5,6 +5,10 @@ function bestQuality(arr) {
     return arr.filter(v => v["content_type"] === "video/mp4").sort((a, b) => Number(b.bitrate) - Number(a.bitrate))[0]["url"]
 }
 
+// fix all videos affected by the container bug in twitter muxer (took them over two weeks to fix it????)
+const badContainerStart = new Date(1701446400000);
+const badContainerEnd = new Date(1702605600000);
+
 export default async function(obj) {
     let _headers = {
         "user-agent": genericUserAgent,
@@ -60,17 +64,24 @@ export default async function(obj) {
     let single, multiple = [], media = baseMedia["media"];
     media = media.filter((i) => { if (i["type"] === "video" || i["type"] === "animated_gif") return true });
 
+    let tweetDate = new Date(baseTweet.created_at),
+    needsFixing = tweetDate > badContainerStart && tweetDate < badContainerEnd;
+
     if (media.length > 1) {
         for (let i in media) {
-            multiple.push({
-                type: "video",
-                thumb: media[i]["media_url_https"],
-                url: createStream({
+            let downloadUrl = bestQuality(media[i]["video_info"]["variants"]);
+            if (needsFixing) {
+                downloadUrl = createStream({
                     service: "twitter",
                     type: "remux",
                     u: bestQuality(media[i]["video_info"]["variants"]),
                     filename: `twitter_${obj.id}_${Number(i) + 1}.mp4`
                 })
+            }
+            multiple.push({
+                type: "video",
+                thumb: media[i]["media_url_https"],
+                url: downloadUrl
             })
         }
     } else if (media.length === 1) {
@@ -81,7 +92,7 @@ export default async function(obj) {
 
     if (single) {
         return {
-            type: "remux",
+            type: needsFixing? "remux" : "normal",
             urls: single,
             filename: `twitter_${obj.id}.mp4`,
             audioFilename: `twitter_${obj.id}_audio`
