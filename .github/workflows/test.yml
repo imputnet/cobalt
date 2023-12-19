@@ -7,11 +7,6 @@ on:
       - current
 
 jobs:
-  build:
-    name: Install deps
-    runs-on: ubuntu-latest
-    steps:
-
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -19,8 +14,10 @@ jobs:
       CI: true
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
       - name: Install dependencies
         run: npm ci
-      - name: Run root tests
+      - name: Run playwright tests
         run: npm run test:playwright
