@@ -18,6 +18,6 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run playwright tests
         run: npm run test:playwright
