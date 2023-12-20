@@ -623,7 +623,7 @@ eid("url-input-area").addEventListener("keyup", (e) => {
 })
 document.onkeydown = (e) => {
     if (!store.isPopupOpen) {
-        if (e.ctrlKey || e.key === "/") eid("url-input-area").focus();
+        if (e.metaKey || e.ctrlKey || e.key === "/") eid("url-input-area").focus();
         if (e.key === "Escape" || e.key === "Clear") clearInput();
 
         // top buttons

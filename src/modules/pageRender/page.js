@@ -122,7 +122,7 @@ export default function(obj) {
                                 }]
                             }, {
                                 items: [{
-                                    combo: "Ctrl+V",
+                                    combo: "⌘/Ctrl+V",
                                     name: t("KeyboardShortcutQuickPaste")
                                 }, {
                                     combo: "Esc",

@@ -45,12 +45,13 @@
     },
     "donations": {
         "crypto": {
-            "bitcoin": "18PKf6N2cHrmSzz9ZzTSvDd2jAkqGC7SxA",
             "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod",
+            "bitcoin": "18PKf6N2cHrmSzz9ZzTSvDd2jAkqGC7SxA",
+            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
             "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-            "ton": "UQA3SO-hHZq1oCCT--u6or6ollB8fd2o52aD8mXiLk9iDZd3",
+            "usdt-erc20": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
             "usdt-trc20": "TVbx7YT3rBfu931Gxko6pRfXtedYqbgnBB",
-            "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna"
+            "ton": "UQA3SO-hHZq1oCCT--u6or6ollB8fd2o52aD8mXiLk9iDZd3"
         },
         "links": {
             "boosty": "https://boosty.to/wukko/donate"
