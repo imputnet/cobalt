@@ -151,9 +151,15 @@ export default async function(host, patternMatch, url, lang, obj) {
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
 
-        if (r.error) return apiJSON(0, {
-            t: Array.isArray(r.error) ? loc(lang, r.error[0], r.error[1]) : loc(lang, r.error)
-        })
+        if (r.error && r.critical)
+            return apiJSON(6, { t: loc(lang, r.error) })
+
+        if (r.error)
+            return apiJSON(0, {
+                t: Array.isArray(r.error)
+                    ? loc(lang, r.error[0], r.error[1])
+                    : loc(lang, r.error)
+            })
 
         return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, obj.filenamePattern)
     } catch (e) {

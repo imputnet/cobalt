@@ -35,11 +35,13 @@ export function apiJSON(type, obj) {
                         break;
                 }
                 return { status: 200, body: { status: "picker", pickerType: pickerType, picker: obj.picker, audio: audio } };
+            case 6: // critical error, action should be taken by balancer/other server software
+                return { status: 500, body: { status: "error", text: obj.t, critical: true } };
             default:
                 return { status: 400, body: { status: "error", text: "Bad Request" } };
         }
     } catch (e) {
-        return { status: 500, body: { status: "error", text: "Internal Server Error" } };
+        return { status: 500, body: { status: "error", text: "Internal Server Error", critical: true } };
     }
 }
 export function metadataManager(obj) {
