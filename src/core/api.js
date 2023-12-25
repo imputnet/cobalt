@@ -97,7 +97,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                     let chck = checkJSONPost(request);
                     if (!chck) throw new Error();
     
-                    j = await getJSON(chck["url"], lang, chck);
+                    j = await getJSON(chck.url, lang, chck);
                 } else {
                     j = apiJSON(0, {
                         t: !contentCon ? "invalid content type header" : loc(lang, 'ErrorNoLink')

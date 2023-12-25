@@ -1,7 +1,16 @@
+import UrlPattern from "url-pattern";
 import { loadJSON } from "./sub/loadFromFs.js";
 const config = loadJSON("./src/config.json");
 const packageJson = loadJSON("./package.json");
 const servicesConfigJson = loadJSON("./src/modules/processing/servicesConfig.json");
+
+Object.values(servicesConfigJson.config).forEach(service => {
+    service.patterns = service.patterns.map(
+        pattern => new UrlPattern(pattern, {
+            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.'
+        })
+    )
+})
 
 export const
     services = servicesConfigJson.config,

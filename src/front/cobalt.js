@@ -1,4 +1,4 @@
-const version = 39;
+const version = 40;
 
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.match("iphone os");
@@ -358,7 +358,7 @@ async function download(url) {
     eid("url-clear").style.display = "none";
     eid("url-input-area").disabled = true;
     let req = {
-        url: encodeURIComponent(url.split("&")[0].split('%')[0]),
+        url,
         aFormat: sGet("aFormat").slice(0, 4),
         filenamePattern: sGet("filenamePattern"),
         dubLang: false
