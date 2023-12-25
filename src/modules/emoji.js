@@ -41,7 +41,8 @@ const names = {
     "📧": "email",
     "📬": "mailbox",
     "📢": "loudspeaker",
-    "🔧": "wrench"
+    "🔧": "wrench",
+    "🫧": "bubbles"
 }
 let sizing = {
     18: 0.8,
