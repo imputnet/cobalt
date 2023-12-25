@@ -14,6 +14,7 @@
         "twitter": {
             "alias": "twitter videos & voice",
             "altDomains": ["x.com", "vxtwitter.com", "fixvx.com"],
+            "subdomains": ["mobile", "www"],
             "patterns": [":user/status/:id", ":user/status/:id/video/:v"],
             "enabled": true
         },
@@ -25,7 +26,7 @@
         "youtube": {
             "alias": "youtube videos, shorts & music",
             "patterns": ["watch?v=:id", "embed/:id", "watch/:id"],
-            "subdomains": ["music"],
+            "subdomains": ["music", "www", "m"],
             "bestAudio": "opus",
             "enabled": true
         },
