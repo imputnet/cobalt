@@ -6,7 +6,7 @@ export default async function(obj) {
 
     if (subdomain?.includes('.')) {
         return { error: ['ErrorBrokenLink', 'tumblr'] }
-    } else if (subdomain === 'www') {
+    } else if (subdomain === 'www' || subdomain === 'at') {
         subdomain = undefined
     }
 
