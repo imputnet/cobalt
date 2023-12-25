@@ -10,6 +10,8 @@ export const dropdownSVG = `<svg width="18" height="18" viewBox="0 0 32 32" fill
 <path d="M28 12.0533L16 24L4 12.0533L6.03571 10L14.7188 18.4104L16.25 19.9348L17.7813 18.4104L25.9375 10L28 12.0533Z" fill="#E1E1E1"/>
 </svg>`
 
+export const linkSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="currentColor" d="M137.54 186.36a8 8 0 0 1 0 11.31l-9.94 10a56 56 0 0 1-79.22-79.27l24.12-24.12a56 56 0 0 1 76.81-2.28a8 8 0 1 1-10.64 12a40 40 0 0 0-54.85 1.63L59.7 139.72a40 40 0 0 0 56.58 56.58l9.94-9.94a8 8 0 0 1 11.32 0Zm70.08-138a56.08 56.08 0 0 0-79.22 0l-9.94 9.95a8 8 0 0 0 11.32 11.31l9.94-9.94a40 40 0 0 1 56.58 56.58l-24.12 24.14a40 40 0 0 1-54.85 1.6a8 8 0 1 0-10.64 12a56 56 0 0 0 76.81-2.26l24.12-24.12a56.08 56.08 0 0 0 0-79.24Z"/></svg>'
+
 export function switcher(obj) {
     let items = ``;
     if (obj.name === "download") {
@@ -17,8 +19,6 @@ export function switcher(obj) {
     } else {
         for (let i = 0; i < obj.items.length; i++) {
             let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : [];
-            if (i === 0) classes.push("first");
-            if (i === (obj.items.length - 1)) classes.push("last");
             items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
         }
     }
@@ -68,7 +68,7 @@ export function popup(obj) {
         }
     }
     return `
-    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box": ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
+    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box" : ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
         <div id="popup-header" class="popup-header">
             <div id="popup-header-contents">
                 ${obj.buttonOnly ? obj.header.emoji : ``}
@@ -76,12 +76,12 @@ export function popup(obj) {
                 ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
                 ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
             </div>
-            ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>`: ''}
+            ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>` : ''}
         </div>
         <div id="popup-content" class="popup-content-inner">
             ${body}${obj.buttonOnly ? `<button id="close-error" class="switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
-        ${classes.includes("small") ? `<div class="glass-bkg small"></div>`: ''}
+        ${classes.includes("small") ? `<div class="glass-bkg small"></div>` : ''}
     ${obj.standalone ? `</div>` : ''}`
 }
 
@@ -119,8 +119,6 @@ export function collapsibleList(arr) {
 
     for (let i = 0; i < arr.length; i++) {
         let classes = arr[i]["classes"] ? arr[i]["classes"] : [];
-        if (i === 0) classes.push("first");
-        if (i === (arr.length - 1)) classes.push("last");
         items += `<div id="${arr[i]["name"]}-collapse" class="collapse-list${classes.length > 0 ? ' ' + classes.join(' ') : ''}">
             <div class="collapse-header" onclick="expandCollapsible(event)">
                 <div class="collapse-title">${arr[i]["title"]}</div>
@@ -158,15 +156,15 @@ export function popupWithBottomButtons(obj) {
         </div>
     </div>`
 }
-export function socialLink(emji, name, handle, url) {
-    return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop link" href="${url}" target="_blank">${handle}</a></div>`
+export function socialLink(emji, name, url) {
+    return `<div class="cobalt-support-link">${emji} <a class="text-backdrop link" href="${url}" target="_blank">${name}</a></div>`
 }
 export function socialLinks(lang) {
     let links = authorInfo.support[lang] ? authorInfo.support[lang] : authorInfo.support.default;
     let r = ``;
     for (let i in links) {
         r += socialLink(
-            emoji(links[i].emoji), i, links[i].handle, links[i].url
+            emoji(links[i].emoji), links[i].name, links[i].url
         )
     }
     return r
@@ -181,32 +179,22 @@ export function settingsCategory(obj) {
 export function footerButtons(obj) {
     let items = ``
     for (let i = 0; i < obj.length; i++) {
-        switch (obj[i]["type"]) {
-            case "toggle": 
-                items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="toggle('${obj[i]["name"]}')" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
-                break;
-            case "action":
-                items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
-                break;
-            case "popup":
-                let buttonName = obj[i]["context"] ? `${obj[i]["name"]}-${obj[i]["context"]}` : obj[i]["name"],
-                    context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : '',
-                    buttonName2,
-                    context2;
+        let buttonName = obj[i]["context"] ? `${obj[i]["name"]}-${obj[i]["context"]}` : obj[i]["name"],
+            context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : '',
+            buttonName2,
+            context2;
 
-                if (obj[i+1]) {
-                    buttonName2 = obj[i+1]["context"] ? `${obj[i+1]["name"]}-${obj[i+1]["context"]}` : obj[i+1]["name"];
-                    context2 = obj[i+1]["context"] ? `, '${obj[i+1]["context"]}'` : '';
-                }
-
-                items += `
-                <div class="footer-pair">
-                    <button id="${buttonName}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
-                    ${obj[i+1] ? `<button id="${buttonName2}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1${context2})" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button>`: ''}
-                </div>`;
-                i++;
-                break;
+        if (obj[i + 1]) {
+            buttonName2 = obj[i + 1]["context"] ? `${obj[i + 1]["name"]}-${obj[i + 1]["context"]}` : obj[i + 1]["name"];
+            context2 = obj[i + 1]["context"] ? `, '${obj[i + 1]["context"]}'` : '';
         }
+
+        items +=
+        `<div class="footer-pair">
+            <button id="${buttonName}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
+            ${obj[i + 1] ? `<button id="${buttonName2}-footer" class="switch footer-button" onclick="popup('${obj[i + 1]["name"]}', 1${context2})" aria-label="${obj[i + 1]["aria"]}">${obj[i + 1]["text"]}</button>` : ''}
+        </div>`;
+        i++;
     }
     return `
     <div id="footer-buttons">${items}</div>`

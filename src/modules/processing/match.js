@@ -1,3 +1,5 @@
+import { strict as assert } from "node:assert";
+
 import { apiJSON } from "../sub/utils.js";
 import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
 
@@ -23,6 +25,8 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 
 export default async function(host, patternMatch, url, lang, obj) {
+    assert(url instanceof URL);
+
     try {
         let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
 
@@ -37,7 +41,6 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "vk":
                 r = await vk({
-                    url: url,
                     userId: patternMatch["userId"],
                     videoId: patternMatch["videoId"],
                     quality: obj.vQuality
@@ -57,11 +60,13 @@ export default async function(host, patternMatch, url, lang, obj) {
                     isAudioMuted: obj.isAudioMuted,
                     dubLang: obj.dubLang
                 }
-                if (url.match('music.youtube.com') || isAudioOnly === true) {
+
+                if (url.hostname === 'music.youtube.com' || isAudioOnly === true) {
                     fetchInfo.quality = "max";
                     fetchInfo.format = "vp9";
                     fetchInfo.isAudioOnly = true
                 }
+
                 r = await youtube(fetchInfo);
                 break;
             case "reddit":
@@ -83,9 +88,9 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "tumblr":
                 r = await tumblr({
-                    id: patternMatch["id"],
-                    url: url,
-                    user: patternMatch["user"] || false
+                    id: patternMatch.id,
+                    user: patternMatch.user,
+                    url
                 });
                 break;
             case "vimeo":
@@ -99,12 +104,11 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "soundcloud":
                 isAudioOnly = true;
                 r = await soundcloud({
-                    url: url,
+                    url,
                     author: patternMatch["author"],
                     song: patternMatch["song"],
                     shortLink: patternMatch["shortLink"] || false,
-                    accessKey: patternMatch["accessKey"] || false,
-                    format: obj.aFormat
+                    accessKey: patternMatch["accessKey"] || false
                 });
                 break;
             case "instagram":

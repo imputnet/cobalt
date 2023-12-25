@@ -39,17 +39,18 @@ export default async function(obj) {
     if (!clientId) return { error: 'ErrorSoundCloudNoClientId' };
 
     let link;
-    if (obj.shortLink && !obj.author && !obj.song) {
+    if (obj.url.hostname === 'on.soundcloud.com' && obj.shortLink) {
         link = await fetch(`https://on.soundcloud.com/${obj.shortLink}/`, { redirect: "manual" }).then((r) => {
             if (r.status === 302 && r.headers.get("location").startsWith("https://soundcloud.com/")) {
                 return r.headers.get("location").split('?', 1)[0]
             }
-            return false
-        }).catch(() => { return false });
+        }).catch(() => {});
     }
+
     if (!link && obj.author && obj.song) {
         link = `https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`
     }
+
     if (!link) return { error: 'ErrorCouldntFetch' };
 
     let json = await fetch(`https://api-v2.soundcloud.com/resolve?url=${link}&client_id=${clientId}`).then((r) => {
@@ -59,8 +60,16 @@ export default async function(obj) {
 
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
 
-    let fileUrlBase = json.media.transcodings.filter(v => v.preset === "opus_0_0")[0]["url"],
-        fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
+    let isMp3,
+        selectedStream = json.media.transcodings.filter(v => v.preset === "opus_0_0")
+
+    // fall back to mp3 if no opus is available
+    if (selectedStream.length === 0) {
+        selectedStream = json.media.transcodings.filter(v => v.preset === "mp3_0_0")
+        isMp3 = true
+    }
+    let fileUrlBase = selectedStream[0]["url"];
+    let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
 
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
 
@@ -82,6 +91,7 @@ export default async function(obj) {
             title: fileMetadata.title,
             author: fileMetadata.artist
         },
-        fileMetadata: fileMetadata
+        isMp3,
+        fileMetadata
     }
 }

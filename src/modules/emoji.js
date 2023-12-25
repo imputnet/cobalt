@@ -39,7 +39,10 @@ const names = {
     "🎞️": "film_frames",
     "🎧": "headphone",
     "📧": "email",
-    "📬": "mailbox"
+    "📬": "mailbox",
+    "📢": "loudspeaker",
+    "🔧": "wrench",
+    "🫧": "bubbles"
 }
 let sizing = {
     18: 0.8,

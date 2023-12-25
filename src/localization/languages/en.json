@@ -1,7 +1,7 @@
 {
     "name": "english",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>"
+        "ContactLink": "check the <a class=\"text-backdrop link\" href=\"{statusPage}\" target=\"_blank\">status page</a> or <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>."
     },
     "strings": {
         "AppTitleCobalt": "cobalt",
@@ -45,7 +45,6 @@
         "SettingsEnableDownloadPopup": "ask how to save",
         "AccessibilityEnableDownloadPopup": "ask what to do with downloads",
         "SettingsQualityDescription": "if selected quality isn't available, closest one is used instead.",
-        "LinkGitHubChanges": "&gt;&gt; see previous commits and contribute on github",
         "NoScriptMessage": "cobalt uses javascript for api requests and interactive interface. you have to allow javascript to use this site. there are no pesty scripts, pinky promise.",
         "DownloadPopupDescriptionIOS": "easiest way to save videos on ios:\n1. add <a class=\"text-backdrop link\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">this siri shortcut</a>.\n2. press \"share\" above and select \"save to photos\" in appeared share sheet.\nif asked, review the permission request, and press \"always allow\".\n\nalternative method:\npress and hold the download button, hide the video preview, and select \"download linked file\" to download.\nthen, open safari downloads, select the file you downloaded, open share menu, and finally press \"save video\".",
         "DownloadPopupDescription": "download button opens a new tab with requested file. you can disable this popup in settings.",
@@ -77,12 +76,12 @@
         "ImagePickerExplanationPhone": "press and hold an image to save it.",
         "ErrorNoUrlReturned": "i didn't get a download link from the server. this should never happen. try again, but if it still doesn't work, {ContactLink}.",
         "ErrorUnknownStatus": "i received a response i can't process. this should never happen. try again, but if it still doesn't work, {ContactLink}.",
-        "PasteFromClipboard": "paste and download",
+        "PasteFromClipboard": "paste",
         "ChangelogOlder": "previous versions",
         "ChangelogPressToExpand": "expand",
         "Miscellaneous": "miscellaneous",
-        "ModeToggleAuto": "auto mode",
-        "ModeToggleAudio": "audio mode",
+        "ModeToggleAuto": "auto",
+        "ModeToggleAudio": "audio",
         "SettingsDisableNotifications": "hide notifications",
         "MediaPickerTitle": "pick what to save",
         "MediaPickerExplanationPC": "click or right click to download what you want.",
@@ -127,7 +126,7 @@
         "FeatureErrorGeneric": "your browser doesn't allow or support this feature. check if there are any updates available and try again!",
         "ClipboardErrorFirefox": "you're using firefox where all clipboard reading functionality is disabled.\n\nyou can fix this by following steps listed <a class=\"text-backdrop link\" href=\"{repo}/blob/current/docs/troubleshooting.md#how-to-fix-clipboard-pasting-in-firefox\" target=\"_blank\">here!</a>\n\n...or you can paste the link manually instead.",
         "ClipboardErrorNoPermission": "cobalt can't access the most recent item in your clipboard without your permission.\n\nif you don't want to give access, just paste the link manually instead.\n\nif you do, go to site settings and enable the clipboard permission.",
-        "SupportSelfTroubleshooting": "experiencing issues? try <a class=\"text-backdrop link\" href=\"{repo}/blob/current/docs/troubleshooting.md\" target=\"_blank\">self-troubleshooting guide</a> first!",
+        "SupportSelfTroubleshooting": "experiencing issues? try one of these first:",
         "AccessibilityGoBack": "go back and close the popup",
         "CollapseKeyboard": "keyboard shortcuts",
         "KeyboardShortcutsIntro": "use cobalt even faster with keyboard shortcuts:",
@@ -157,6 +156,9 @@
         "FilenamePreviewAudioTitle": "Audio Title",
         "FilenamePreviewAudioAuthor": "Audio Author",
         "UrgentFilenameUpdate": "customizable file names!",
-        "UrgentTwitterPatch": "fixes and easier downloads"
+        "UrgentTwitterPatch": "fixes and easier downloads",
+        "StatusPage": "service status page",
+        "TroubleshootingGuide": "self-troubleshooting guide",
+        "UpdateNewYears": "new years clean up"
     }
 }

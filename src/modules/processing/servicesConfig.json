@@ -13,6 +13,8 @@
         },
         "twitter": {
             "alias": "twitter videos & voice",
+            "altDomains": ["x.com", "vxtwitter.com", "fixvx.com"],
+            "subdomains": ["mobile"],
             "patterns": [":user/status/:id", ":user/status/:id/video/:v"],
             "enabled": true
         },
@@ -24,22 +26,26 @@
         "youtube": {
             "alias": "youtube videos, shorts & music",
             "patterns": ["watch?v=:id", "embed/:id", "watch/:id"],
+            "subdomains": ["music", "m"],
             "bestAudio": "opus",
             "enabled": true
         },
         "tumblr": {
             "patterns": ["post/:id", "blog/view/:user/:id", ":user/:id", ":user/:id/:trackingId"],
+            "subdomains": "*",
             "enabled": true
         },
         "tiktok": {
             "alias": "tiktok videos, photos & audio",
             "patterns": [":user/video/:postId", ":id", "t/:id"],
+            "subdomains": ["vt", "vm"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
         },
         "douyin": {
             "alias": "douyin videos & audio",
             "patterns": ["video/:postId", ":id"],
+            "subdomains": ["v"],
             "enabled": false
         },
         "vimeo": {
@@ -49,7 +55,8 @@
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
-            "bestAudio": "opus",
+            "subdomains": ["on"],
+            "audioFormats": ["best", "opus", "mp3"],
             "enabled": true
         },
         "instagram": {

@@ -1,5 +1,5 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag, linkSVG } from "./elements.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, links } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
@@ -146,15 +146,15 @@ export default function(obj) {
                         }, {
                             name: "support",
                             title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
-                            body: 
-                            `${t("SupportSelfTroubleshooting")}<br/><br/>`
-                            + `${t("FollowSupport")}<br/>`
-                            + `${socialLinks(obj.lang)}<br/>`
-                            + `${t("SourceCode")}<br/>`
-                            + `${socialLink(
-                                emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo
-                            )}<br/>
-                            ${t("SupportNote")}`
+                            body: `${t("SupportSelfTroubleshooting")}`
+                            + `${socialLink(emoji("📢"), t("StatusPage"), links.statusPage)}`
+                            + `${socialLink(emoji("🔧"), t("TroubleshootingGuide"), links.troubleshootingGuide)}`
+                            + `<br/>`
+                            + `${t("FollowSupport")}`
+                            + `${socialLinks(obj.lang)}`
+                            + `<br/>`
+                            + `${t("SourceCode")}`
+                            + `${socialLink(emoji("🐙"), repo.replace("https://github.com/", ''), repo)}`
                         }, {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
@@ -562,8 +562,8 @@ export default function(obj) {
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🧮",
-                text: t("UrgentTwitterPatch"),
+                emoji: "🫧",
+                text: t("UpdateNewYears"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
@@ -571,7 +571,8 @@ export default function(obj) {
                 <div id="logo">${t("AppTitleCobalt")}${betaTag()}</div>
                 <div id="download-area">
                     <div id="top">
-                        <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
+                        <div id="link-icon">${linkSVG}</div>
+                        <input id="url-input-area" class="mono" type="text" autofocus autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                         <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
                     </div>

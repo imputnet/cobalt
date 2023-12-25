@@ -3,7 +3,7 @@ import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
 
-export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern) {
+export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern) {
     let action,
         responseType = 2,
         defaultParams = {
@@ -13,7 +13,8 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                     createFilename(r.filenameAttributes, filenamePattern, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false
         },
-        params = {}
+        params = {},
+        audioFormat = String(userFormat)
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
@@ -32,9 +33,49 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
     }
 
     switch (action) {
+        default:
+            return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') });
+
         case "photo":
             responseType = 1;
             break;
+
+        case "singleM3U8":
+            params = { type: "remux" }
+            break;
+
+        case "muteVideo":
+            params = {
+                type: Array.isArray(r.urls) ? "bridge" : "mute",
+                u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
+                mute: true
+            }
+            if (host === "reddit" && r.typeId === 1) responseType = 1;
+            break;
+
+        case "picker":
+            responseType = 5;
+            switch (host) {
+                case "instagram":
+                case "twitter":
+                    params = { picker: r.picker };
+                    break;
+                case "douyin":
+                case "tiktok":
+                    let pickerType = "render";
+                    if (audioFormat === "mp3" || audioFormat === "best") {
+                        audioFormat = "mp3";
+                        pickerType = "bridge"
+                    }
+                    params = {
+                        type: pickerType,
+                        picker: r.picker,
+                        u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
+                        copy: audioFormat === "best" ? true : false
+                    }
+            }
+            break;
+
         case "video":
             switch (host) {
                 case "bilibili":
@@ -78,81 +119,63 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                     break;
             }
             break;
-        case "singleM3U8":
-            params = { type: "remux" }
-            break;
-        case "muteVideo":
-            params = {
-                type: Array.isArray(r.urls) ? "bridge" : "mute",
-                u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
-                mute: true
-            }
-            if (host === "reddit" && r.typeId === 1) responseType = 1;
-            break;
-
-        case "picker":
-            responseType = 5;
-            switch (host) {
-                case "instagram":
-                case "twitter":
-                    params = { picker: r.picker };
-                    break;
-                case "douyin":
-                case "tiktok":
-                    let pickerType = "render";
-                    if (audioFormat === "mp3" || audioFormat === "best") {
-                        audioFormat = "mp3";
-                        pickerType = "bridge"
-                    }
-                    params = {
-                        type: pickerType,
-                        picker: r.picker,
-                        u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
-                        copy: audioFormat === "best" ? true : false
-                    }
-            }
-            break;
 
         case "audio": 
             if ((host === "reddit" && r.typeId === 1) || audioIgnore.includes(host)) {
                 return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') })
             }
 
-            let processType = "render";
-            let copy = false;
+            let processType = "render",
+                copy = false;
             
-            if (!supportedAudio.includes(audioFormat)) audioFormat = "best";
+            if (!supportedAudio.includes(audioFormat)) {
+                audioFormat = "best"
+            }
 
-            if ((host === "tiktok" || host === "douyin")
-                && services.tiktok.audioFormats.includes(audioFormat)) {
-                if (r.isMp3) {
-                    if (audioFormat === "mp3" || audioFormat === "best") {
-                        audioFormat = "mp3";
-                        processType = "bridge"
-                    }
-                } else if (audioFormat === "best") {
+            const isBestAudio = audioFormat === "best";
+            const isBestOrMp3 = audioFormat === "mp3" || isBestAudio;
+            const isBestAudioDefined = isBestAudio && services[host]["bestAudio"];
+            const isBestHostAudio = services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]);
+
+            const isTikTok = host === "tiktok" || host === "douyin";
+            const isTumblr = host === "tumblr" && !r.filename;
+            const isSoundCloud = host === "soundcloud";
+
+            if (isTikTok && services.tiktok.audioFormats.includes(audioFormat)) {
+                if (r.isMp3 && isBestOrMp3) {
+                    audioFormat = "mp3";
+                    processType = "bridge"
+                } else if (isBestAudio) {
                     audioFormat = "m4a";
                     processType = "bridge"
                 }
             }
-            if (host === "tumblr" && !r.filename
-                && (audioFormat === "best" || audioFormat === "mp3")) {
+
+            if (isSoundCloud && services.soundcloud.audioFormats.includes(audioFormat)) {
+                if (r.isMp3 && isBestOrMp3) {
+                    audioFormat = "mp3";
+                    processType = "render"
+                    copy = true
+                } else if (isBestAudio || audioFormat === "opus") {
+                    audioFormat = "opus";
+                    processType = "render"
+                    copy = true
+                }
+            }
+
+            if (isTumblr && isBestOrMp3) {
                 audioFormat = "mp3";
                 processType = "bridge"
             }
-            if ((audioFormat === "best" && services[host]["bestAudio"])
-                || (services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]))) {
+
+            if (isBestAudioDefined || isBestHostAudio) {
                 audioFormat = services[host]["bestAudio"];
-                if (host === "soundcloud") {
-                    processType = "render"
-                    copy = true
-                } else {
-                    processType = "bridge"
-                }
-            } else if (audioFormat === "best") {
+                processType = "bridge";
+            } else if (isBestAudio && !isSoundCloud) {
                 audioFormat = "m4a";
-                copy = true;
+                copy = true
             }
+
             if (r.isM3U8 || host === "vimeo") {
                 copy = false;
                 processType = "render"
@@ -165,8 +188,6 @@ export default function(r, host, audioFormat, isAudioOnly, lang, isAudioMuted, d
                 copy: copy
             }
             break;
-        default:
-            return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') });
     }
 
     return apiJSON(responseType, {...defaultParams, ...params})

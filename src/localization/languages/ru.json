@@ -1,14 +1,14 @@
 {
     "name": "русский",
     "substrings": {
-        "ContactLink": "<a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">напиши об этом на github (можно на русском)</a>"
+        "ContactLink": "глянь <a class=\"text-backdrop link\" href=\"{statusPage}\" target=\"_blank\">статус серверов</a> или <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">напиши о проблеме на github (можно на русском)</a>"
     },
     "strings": {
         "AppTitleCobalt": "кобальт",
         "LinkInput": "вставь ссылку сюда",
         "AboutSummary": "кобальт - твой друг при скачивании контента из соцсетей и других сервисов. никакой рекламы, трекеров и прочего мусора. вставляешь ссылку и получаешь файл. всё. ничего лишнего.",
         "EmbedBriefDescription": "сохраняй то, что любишь. без рекламы, трекеров и лишней мороки.",
-        "MadeWithLove": "сделано wukko, с <3",
+        "MadeWithLove": "сделано с любовью <3",
         "AccessibilityInputArea": "зона вставки ссылки",
         "AccessibilityOpenAbout": "открыть окно с инфой",
         "AccessibilityDownloadButton": "кнопка скачивания",
@@ -45,7 +45,6 @@
         "SettingsEnableDownloadPopup": "выбор метода скачивания",
         "AccessibilityEnableDownloadPopup": "спрашивать, что делать с загрузками",
         "SettingsQualityDescription": "если выбранное качество недоступно, то выбирается ближайшее к нему.",
-        "LinkGitHubChanges": "&gt;&gt; смотри предыдущие изменения на github",
         "NoScriptMessage": "кобальт использует javascript для обработки ссылок и интерактивного интерфейса. ты должен разрешить использование javascript, чтобы пользоваться сайтом. тут нет никаких зловредных скриптов, обещаю.",
         "DownloadPopupDescriptionIOS": "наиболее простой метод скачивания видео на ios:\n1. добавь <a class=\"text-backdrop link\" href=\"{saveToGalleryShortcut}\" target=\"_blank\">этот сценарий siri</a>.\n2. нажми \"поделиться\" выше и выбери \"save to photos\" в открывшемся окне.\nесли появляется окно с запросом разрешения, то прочитай его, потом нажми \"всегда разрешать\".\n\nальтернативный метод:\nзажми кнопку \"скачать\", затем скрой превью и выбери \"загрузить файл по ссылке\" в появившемся окне.\nпотом открой загрузки в safari, выбери скачанный файл, нажми иконку \"поделиться\", и, наконец, нажми \"сохранить видео\".",
         "DownloadPopupDescription": "кнопка скачивания открывает новое окно с файлом. ты можешь отключить выбор метода скачивания файла в настройках.",
@@ -77,12 +76,12 @@
         "ImagePickerExplanationPhone": "зажми и удерживай картинку, чтобы её сохранить.",
         "ErrorNoUrlReturned": "я не получил ссылку для скачивания от сервера. такого происходить не должно. попробуй ещё раз, а если не поможет, то {ContactLink}.",
         "ErrorUnknownStatus": "сервер ответил мне чем-то непонятным. такого происходить не должно. попробуй ещё раз, а если не поможет, то {ContactLink}.",
-        "PasteFromClipboard": "вставить и скачать",
+        "PasteFromClipboard": "вставить",
         "ChangelogOlder": "предыдущие версии (тоже на английском)",
         "ChangelogPressToExpand": "раскрыть",
         "Miscellaneous": "разное",
-        "ModeToggleAuto": "авто режим",
-        "ModeToggleAudio": "аудио режим",
+        "ModeToggleAuto": "авто",
+        "ModeToggleAudio": "аудио",
         "SettingsDisableNotifications": "cкрыть уведомления",
         "MediaPickerTitle": "выбери, что сохранить",
         "MediaPickerExplanationPC": "кликни то, что хочешь скачать. также можно скачать правой кнопки мыши.",
@@ -128,7 +127,7 @@
         "FeatureErrorGeneric": "твой браузер не разрешает или не поддерживает эту функцию. проверь наличие обновлений и попробуй ещё раз!",
         "ClipboardErrorFirefox": "ты используешь firefox в котором все функции чтения из буфера обмена отключены по умолчанию.\n\nно это можно исправить следуя шагам, описанным <a class=\"text-backdrop link\" href=\"{repo}/blob/current/docs/troubleshooting.md#how-to-fix-clipboard-pasting-in-firefox\" target=\"_blank\">здесь</a>\n\n...или же ты можешь просто вставить ссылку вручную.",
         "ClipboardErrorNoPermission": "кобальт не может прочитать последний элемент в буфере обмена без твоего разрешения.\n\nесли ты не хочешь давать доступ, просто вставь ссылку вручную.\n\nну а если хочешь, то открой настройки сайта и разреши доступ на чтение буфера обмена.",
-        "SupportSelfTroubleshooting": "возникли проблемы? попробуй сначала исправить всё сам <a class=\"text-backdrop link\" href=\"{repo}/blob/current/docs/troubleshooting.md\" target=\"_blank\">по этому гиду!</a>",
+        "SupportSelfTroubleshooting": "возникли проблемы? попробуй сначала что-то из этого:",
         "AccessibilityGoBack": "вернуться назад и закрыть окно",
         "CollapseKeyboard": "горячие клавиши",
         "KeyboardShortcutsIntro": "пользуйся кобальтом ещё быстрее с горячими клавишами:",
@@ -159,6 +158,9 @@
         "FilenamePreviewAudioTitle": "Название Аудио",
         "FilenamePreviewAudioAuthor": "Автор Аудио",
         "UrgentFilenameUpdate": "изменяемые названия файлов!",
-        "UrgentTwitterPatch": "фиксы и удобное скачивание"
+        "UrgentTwitterPatch": "фиксы и удобное скачивание",
+        "StatusPage": "статус серверов",
+        "TroubleshootingGuide": "гайд по устранению проблем",
+        "UpdateNewYears": "новогодняя уборка"
     }
 }

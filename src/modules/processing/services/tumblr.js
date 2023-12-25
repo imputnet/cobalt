@@ -1,9 +1,16 @@
+import psl from "psl";
 import { genericUserAgent } from "../../config.js";
 
 export default async function(obj) {
-    let html = await fetch(`https://${
-        obj.user ? obj.user : obj.url.split('.')[0].replace('https://', '')
-    }.tumblr.com/post/${obj.id}`, {
+    let { subdomain } = psl.parse(obj.url.hostname);
+
+    if (subdomain?.includes('.')) {
+        return { error: ['ErrorBrokenLink', 'tumblr'] }
+    } else if (subdomain === 'www' || subdomain === 'at') {
+        subdomain = undefined
+    }
+
+    let html = await fetch(`https://${subdomain ?? obj.user}.tumblr.com/post/${obj.id}`, {
         headers: { "user-agent": genericUserAgent }
     }).then((r) => { return r.text() }).catch(() => { return false });
 
@@ -24,5 +31,5 @@ export default async function(obj) {
         }
     } else r = { error: 'ErrorEmptyDownload' };
 
-    return r;
+    return r
 }

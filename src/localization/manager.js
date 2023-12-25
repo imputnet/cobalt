@@ -16,7 +16,12 @@ export async function loadLoc() {
 }
 
 export function replaceBase(s) {
-    return s.replace(/\n/g, '<br/>').replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
+    return s
+            .replace(/\n/g, '<br/>')
+            .replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut)
+            .replace(/{repo}/g, repo)
+            .replace(/{statusPage}/g, links.statusPage)
+            .replace(/\*;/g, "&bull;");
 }
 export function replaceAll(lang, str, string, replacement) {
     let s = replaceBase(str[string])

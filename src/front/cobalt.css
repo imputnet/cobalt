@@ -254,16 +254,17 @@ button:active,
 }
 #cobalt-main-box {
     position: fixed;
-    width: 60%;
+    width: 40rem;
     height: auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
 }
 #logo {
     text-align: left;
     font-size: 1rem;
     white-space: nowrap;
-    width: 7rem;
     height: 2.5rem;
     align-items: center;
     display: flex;
@@ -295,7 +296,7 @@ button:active,
 }
 #url-input-area {
     background: none;
-    padding: 0 1rem;
+    padding-left: calc(20px + 1.4rem);
     width: 100%;
     color: var(--accent);
     border: 0;
@@ -316,6 +317,15 @@ button:active,
     outline: none;
     border-bottom: var(--border-10);
 }
+#link-icon {
+    display: flex;
+    position: absolute;
+    width: 20px;
+    padding-top: 0.2rem;
+    left: 0.7rem;
+    flex-wrap: nowrap;
+    color: var(--accent-subtext);
+}
 #download-button {
     height: 2.5rem;
     color: var(--accent);
@@ -330,6 +340,10 @@ button:active,
 #download-button:disabled {
     color: var(--accent-subtext);
     cursor: not-allowed;
+}
+#cobalt-main-box .switch,
+#footer .switch {
+    box-shadow: 0 0 0 0.1rem var(--accent-highlight) inset;
 }
 #footer {
     bottom: 0;
@@ -457,9 +471,6 @@ button:active,
 }
 .popup.scrollable {
     height: 95%;
-}
-.scrollable .bottom-link {
-    padding-bottom: 2rem;
 }
 .changelog-subtitle {
     font-size: 1.3rem;
@@ -797,6 +808,7 @@ button:active,
 .collapse-body {
     display: none;
     padding: var(--padding-1);
+    padding-bottom: 1rem;
     user-select: text;
     -webkit-user-select: text;
 }
@@ -947,7 +959,7 @@ button:active,
 .text-to-copy,
 .text-to-copy.text-backdrop,
 #filename-preview {
-    border-radius: 5px / 6px;
+    border-radius: 6px / 7px;
 }
 [type=checkbox] {
     border-radius: 3px / 4px;
@@ -968,28 +980,28 @@ button:active,
     border-top: var(--accent-highlight) solid 0.1rem;
     bottom: -1px;
 }
-.switches .first {
-    border-top-left-radius: 5px 6px;
-    border-bottom-left-radius: 5px 6px;
+.switches :first-child {
+    border-top-left-radius: 6px 7px;
+    border-bottom-left-radius: 6px 7px;
 }
-.switches .last {
-    border-top-right-radius: 5px 6px;
-    border-bottom-right-radius: 5px 6px;
+.switches :last-child {
+    border-top-right-radius: 6px 7px;
+    border-bottom-right-radius: 6px 7px;
 }
 .text-backdrop {
     border-radius: 3px / 4px;
 }
-.collapse-list.first,
-.collapse-list.first .collapse-header {
-    border-top-left-radius: 6px 7px;
-    border-top-right-radius: 6px 7px;
+.collapse-list:first-child,
+.collapse-list:first-child .collapse-header {
+    border-top-left-radius: 7px 8px;
+    border-top-right-radius: 7px 8px;
 }
-.collapse-list.last,
-.collapse-list.last .collapse-header {
-    border-bottom-left-radius: 6px 7px;
-    border-bottom-right-radius: 6px 7px;
+.collapse-list:last-child,
+.collapse-list:last-child .collapse-header {
+    border-bottom-left-radius: 7px 8px;
+    border-bottom-right-radius: 7px 8px;
 }
-.collapse-list.last.expanded .collapse-header {
+.collapse-list:last-child.expanded .collapse-header {
     border-radius: 0;
 }
 /* prevent resizing fliecker on ios if web app is installed as standalone */
@@ -1008,9 +1020,6 @@ button:active,
     }
 }
 @media screen and (max-width: 1440px) {
-    #cobalt-main-box {
-        width: 65%;
-    }
     .popup.small {
         width: 30%
     }
@@ -1024,9 +1033,6 @@ button:active,
     }
 }
 @media screen and (max-width: 1200px) {
-    #cobalt-main-box {
-        width: 70%;
-    }
     .popup.small {
         width: 35%
     }
@@ -1035,9 +1041,6 @@ button:active,
     }
 }
 @media screen and (max-width: 1025px) {
-    #cobalt-main-box {
-        width: 75%;
-    }
     .popup.small {
         width: 40%
     }
@@ -1062,14 +1065,14 @@ button:active,
         width: calc(100% - 1.3rem);
     }
 }
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 660px) {
     #cobalt-main-box {
         width: calc(100% - (0.7rem * 2));
     }
     #cobalt-main-box #bottom {
-        flex-direction: column-reverse;
+        flex-direction: row-reverse;
     }
-    #cobalt-main-box #bottom button {
+    #cobalt-main-box #bottom #audioMode button, #audioMode {
         width: 100%;
     }
     #footer {
@@ -1165,9 +1168,6 @@ button:active,
     }
     #popup-tabs {
         padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.5rem);
-    }
-    .bottom-link {
-        padding-bottom: 2rem;
     }
     .popup-content-inner,
     .tab-content-settings,
