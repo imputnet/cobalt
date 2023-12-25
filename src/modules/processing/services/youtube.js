@@ -83,6 +83,12 @@ export default async function(o) {
         youtubeDubName: isDubbed ? o.dubLang : false
     }
 
+    if (filenameAttributes.title === "Video Not Available" && filenameAttributes.author === "YouTube Viewers")
+        return {
+            error: 'ErrorCantConnectToServiceAPI',
+            critical: true
+        }
+
     if (hasAudio && o.isAudioOnly) return {
         type: "render",
         isAudioOnly: true,
