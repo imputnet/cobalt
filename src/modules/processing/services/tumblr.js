@@ -3,10 +3,12 @@ import { genericUserAgent } from "../../config.js";
 
 export default async function(obj) {
     let { subdomain } = psl.parse(obj.url.hostname);
-    if (subdomain?.includes('.'))
+
+    if (subdomain?.includes('.')) {
         return { error: ['ErrorBrokenLink', 'tumblr'] }
-    else if (subdomain === 'www')
-        subdomain = undefined;
+    } else if (subdomain === 'www') {
+        subdomain = undefined
+    }
 
     let html = await fetch(`https://${subdomain ?? obj.user}.tumblr.com/post/${obj.id}`, {
         headers: { "user-agent": genericUserAgent }
@@ -29,5 +31,5 @@ export default async function(obj) {
         }
     } else r = { error: 'ErrorEmptyDownload' };
 
-    return r;
+    return r
 }
