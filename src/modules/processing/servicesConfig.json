@@ -56,7 +56,7 @@
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
             "subdomains": ["on"],
-            "bestAudio": "opus",
+            "audioFormats": ["best", "opus", "mp3"],
             "enabled": true
         },
         "instagram": {

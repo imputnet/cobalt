@@ -304,6 +304,14 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "no opus audio, fallback to mp3",
+        "url": "https://soundcloud.com/frums/credits",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "youtube": [{
         "name": "4k video (h264, 1440)",

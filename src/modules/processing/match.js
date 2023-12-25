@@ -108,8 +108,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                     author: patternMatch["author"],
                     song: patternMatch["song"],
                     shortLink: patternMatch["shortLink"] || false,
-                    accessKey: patternMatch["accessKey"] || false,
-                    format: obj.aFormat
+                    accessKey: patternMatch["accessKey"] || false
                 });
                 break;
             case "instagram":
