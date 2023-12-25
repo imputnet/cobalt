@@ -68,7 +68,7 @@ export function popup(obj) {
         }
     }
     return `
-    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box": ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
+    ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box" : ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
         <div id="popup-header" class="popup-header">
             <div id="popup-header-contents">
                 ${obj.buttonOnly ? obj.header.emoji : ``}
@@ -76,12 +76,12 @@ export function popup(obj) {
                 ${obj.header.title ? `<div id="popup-title">${obj.header.title}</div>` : ''}
                 ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
             </div>
-            ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>`: ''}
+            ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>` : ''}
         </div>
         <div id="popup-content" class="popup-content-inner">
             ${body}${obj.buttonOnly ? `<button id="close-error" class="switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
-        ${classes.includes("small") ? `<div class="glass-bkg small"></div>`: ''}
+        ${classes.includes("small") ? `<div class="glass-bkg small"></div>` : ''}
     ${obj.standalone ? `</div>` : ''}`
 }
 
@@ -179,32 +179,22 @@ export function settingsCategory(obj) {
 export function footerButtons(obj) {
     let items = ``
     for (let i = 0; i < obj.length; i++) {
-        switch (obj[i]["type"]) {
-            case "toggle": 
-                items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="toggle('${obj[i]["name"]}')" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
-                break;
-            case "action":
-                items += `<button id="${obj[i]["name"]}-footer" class="switch footer-button" onclick="${obj[i]["action"]}()" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>`;
-                break;
-            case "popup":
-                let buttonName = obj[i]["context"] ? `${obj[i]["name"]}-${obj[i]["context"]}` : obj[i]["name"],
-                    context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : '',
-                    buttonName2,
-                    context2;
+        let buttonName = obj[i]["context"] ? `${obj[i]["name"]}-${obj[i]["context"]}` : obj[i]["name"],
+            context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : '',
+            buttonName2,
+            context2;
 
-                if (obj[i+1]) {
-                    buttonName2 = obj[i+1]["context"] ? `${obj[i+1]["name"]}-${obj[i+1]["context"]}` : obj[i+1]["name"];
-                    context2 = obj[i+1]["context"] ? `, '${obj[i+1]["context"]}'` : '';
-                }
-
-                items += `
-                <div class="footer-pair">
-                    <button id="${buttonName}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
-                    ${obj[i+1] ? `<button id="${buttonName2}-footer" class="switch footer-button" onclick="popup('${obj[i+1]["name"]}', 1${context2})" aria-label="${obj[i+1]["aria"]}">${obj[i+1]["text"]}</button>`: ''}
-                </div>`;
-                i++;
-                break;
+        if (obj[i + 1]) {
+            buttonName2 = obj[i + 1]["context"] ? `${obj[i + 1]["name"]}-${obj[i + 1]["context"]}` : obj[i + 1]["name"];
+            context2 = obj[i + 1]["context"] ? `, '${obj[i + 1]["context"]}'` : '';
         }
+
+        items +=
+        `<div class="footer-pair">
+            <button id="${buttonName}-footer" class="switch footer-button" onclick="popup('${obj[i]["name"]}', 1${context})" aria-label="${obj[i]["aria"]}">${obj[i]["text"]}</button>
+            ${obj[i + 1] ? `<button id="${buttonName2}-footer" class="switch footer-button" onclick="popup('${obj[i + 1]["name"]}', 1${context2})" aria-label="${obj[i + 1]["aria"]}">${obj[i + 1]["text"]}</button>` : ''}
+        </div>`;
+        i++;
     }
     return `
     <div id="footer-buttons">${items}</div>`
