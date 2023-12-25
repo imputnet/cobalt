@@ -8,37 +8,37 @@
         "contact": "https://wukko.me/contacts",
         "support": {
             "default": {
+                "email": {
+                    "emoji": "📧",
+                    "url": "mailto:support@cobalt.tools",
+                    "name": "support@cobalt.tools"
+                },
                 "twitter": {
                     "emoji": "🐦",
                     "url": "https://twitter.com/justusecobalt",
-                    "handle": "@justusecobalt"
+                    "name": "@justusecobalt"
                 },
                 "discord": {
                     "emoji": "👾",
                     "url": "https://discord.gg/pQPt8HBUPu",
-                    "handle": "cobalt community server"
+                    "name": "cobalt discord server"
                 },
                 "mastodon": {
                     "emoji": "🐘",
                     "url": "https://wetdry.world/@cobalt",
-                    "handle": "@cobalt@wetdry.world"
-                },
-                "support email": {
-                    "emoji": "📧",
-                    "url": "mailto:support@cobalt.tools",
-                    "handle": "support@cobalt.tools"
+                    "name": "@cobalt@wetdry.world"
                 }
             },
             "ru": {
-                "канал в telegram": {
+                "telegram": {
                     "emoji": "📬",
                     "url": "https://t.me/justusecobalt_ru",
-                    "handle": "@justusecobalt_ru"
+                    "name": "канал в telegram"
                 },
-                "поддержка по почте": {
+                "email": {
                     "emoji": "📧",
                     "url": "mailto:support@cobalt.tools",
-                    "handle": "support@cobalt.tools"
+                    "name": "support@cobalt.tools"
                 }
             }
         }
@@ -58,7 +58,9 @@
         }
     },
     "links": {
-        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/b401917928fd407daf1db0fd07eb7e78"
+        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/b401917928fd407daf1db0fd07eb7e78",
+        "statusPage": "https://status.cobalt.tools/",
+        "troubleshootingGuide": "https://github.com/wukko/cobalt/blob/current/docs/troubleshooting.md"
     },
     "celebrations": {
         "01-01": "🎄",

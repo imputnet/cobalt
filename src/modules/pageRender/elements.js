@@ -158,15 +158,15 @@ export function popupWithBottomButtons(obj) {
         </div>
     </div>`
 }
-export function socialLink(emji, name, handle, url) {
-    return `<div class="cobalt-support-link">${emji} ${name}: <a class="text-backdrop link" href="${url}" target="_blank">${handle}</a></div>`
+export function socialLink(emji, name, url) {
+    return `<div class="cobalt-support-link">${emji} <a class="text-backdrop link" href="${url}" target="_blank">${name}</a></div>`
 }
 export function socialLinks(lang) {
     let links = authorInfo.support[lang] ? authorInfo.support[lang] : authorInfo.support.default;
     let r = ``;
     for (let i in links) {
         r += socialLink(
-            emoji(links[i].emoji), i, links[i].handle, links[i].url
+            emoji(links[i].emoji), links[i].name, links[i].url
         )
     }
     return r

@@ -1,5 +1,5 @@
 import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, links } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
@@ -146,15 +146,15 @@ export default function(obj) {
                         }, {
                             name: "support",
                             title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
-                            body: 
-                            `${t("SupportSelfTroubleshooting")}<br/><br/>`
-                            + `${t("FollowSupport")}<br/>`
-                            + `${socialLinks(obj.lang)}<br/>`
-                            + `${t("SourceCode")}<br/>`
-                            + `${socialLink(
-                                emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo
-                            )}<br/>
-                            ${t("SupportNote")}`
+                            body: `${t("SupportSelfTroubleshooting")}`
+                            + `${socialLink(emoji("📢"), t("StatusPage"), links.statusPage)}`
+                            + `${socialLink(emoji("🔧"), t("TroubleshootingGuide"), links.troubleshootingGuide)}`
+                            + `<br/>`
+                            + `${t("FollowSupport")}`
+                            + `${socialLinks(obj.lang)}`
+                            + `<br/>`
+                            + `${t("SourceCode")}`
+                            + `${socialLink(emoji("🐙"), repo.replace("https://github.com/", ''), repo)}`
                         }, {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
