@@ -1,3 +1,4 @@
+import { normalizeURL } from "../processing/url.js";
 import { createStream } from "../stream/manage.js";
 
 const apiVar = {
@@ -72,6 +73,7 @@ export function unicodeDecode(str) {
 }
 export function checkJSONPost(obj) {
     let def = {
+        url: normalizeURL(decodeURIComponent(obj.url)),
         vCodec: "h264",
         vQuality: "720",
         aFormat: "mp3",
@@ -101,7 +103,7 @@ export function checkJSONPost(obj) {
 
         if (def.dubLang)
             def.dubLang = verifyLanguageCode(obj.dubLang);
-        def.url = obj.url;
+
         return def
     } catch (e) {
         return false

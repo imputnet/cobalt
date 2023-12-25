@@ -4,11 +4,10 @@ import { apiJSON } from "./sub/utils.js";
 import { errorUnsupported } from "./sub/errors.js";
 import loc from "../localization/manager.js";
 import match from "./processing/match.js";
-import { getHostIfValid, normalizeURL } from "./processing/url.js";
+import { getHostIfValid } from "./processing/url.js";
 
-export async function getJSON(originalURL, lang, obj) {
+export async function getJSON(url, lang, obj) {
     try {
-        const url = normalizeURL(decodeURIComponent(originalURL));
         const host = getHostIfValid(url);
 
         if (!host || !services[host].enabled) {
