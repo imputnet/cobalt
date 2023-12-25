@@ -27,8 +27,9 @@ export function aliasURL(url) {
             break;
 
         case "vxtwitter":
+        case "fixvx":
         case "x":
-            if (['x.com', 'vxtwitter.com'].includes(url.hostname)) {
+            if (services.twitter.altDomains.includes(url.hostname)) {
                 url.hostname = 'twitter.com'
             }
             break;

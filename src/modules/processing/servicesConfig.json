@@ -13,6 +13,7 @@
         },
         "twitter": {
             "alias": "twitter videos & voice",
+            "altDomains": ["x.com", "vxtwitter.com", "fixvx.com"],
             "patterns": [":user/status/:id", ":user/status/:id/video/:v"],
             "enabled": true
         },
