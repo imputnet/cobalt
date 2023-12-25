@@ -26,7 +26,7 @@
         "youtube": {
             "alias": "youtube videos, shorts & music",
             "patterns": ["watch?v=:id", "embed/:id", "watch/:id"],
-            "subdomains": ["music", "www", "m"],
+            "subdomains": ["music", "m"],
             "bestAudio": "opus",
             "enabled": true
         },
