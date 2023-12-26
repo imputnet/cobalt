@@ -572,7 +572,7 @@ export default function(obj) {
                 <div id="download-area">
                     <div id="top">
                         <div id="link-icon">${linkSVG}</div>
-                        <input id="url-input-area" class="mono" type="text" autofocus autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
+                        <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                         <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
                     </div>
