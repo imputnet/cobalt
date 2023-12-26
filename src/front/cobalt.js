@@ -626,6 +626,8 @@ document.onkeydown = (e) => {
         if (e.metaKey || e.ctrlKey || e.key === "/") eid("url-input-area").focus();
         if (e.key === "Escape" || e.key === "Clear") clearInput();
 
+        if (e.target === eid("url-input-area")) return;
+
         // top buttons
         if (e.key === "D") pasteClipboard();
         if (e.key === "K") changeSwitcher('audioMode', 'false');
