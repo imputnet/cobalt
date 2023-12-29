@@ -23,7 +23,7 @@ function selector(j, h, id) {
             t = j['aweme_detail'];
             break;
     }
-    if (t.length < 3) return false;
+    if (t?.length < 3) return false;
     return t;
 }
 
