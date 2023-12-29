@@ -16,7 +16,7 @@ export const testers = {
         patternMatch.id?.length === 32,
 
     "soundcloud": (patternMatch) =>
-        (patternMatch.author?.length <= 25 && patternMatch.song?.length <= 255) 
+        (patternMatch.author?.length <= 128 && patternMatch.song?.length <= 255) 
         || patternMatch.shortLink?.length <= 32,
 
     "streamable": (patternMatch) =>
