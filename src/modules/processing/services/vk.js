@@ -1,17 +1,21 @@
 import { genericUserAgent, maxVideoDuration } from "../../config.js";
+import { cleanString } from "../../sub/utils.js";
 
 const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240"];
 
 export default async function(o) {
-    let html, url, 
-        quality = o.quality === "max" ? 2160 : o.quality,
-        filename = `vk_${o.userId}_${o.videoId}_`;
+    let html, url, quality = o.quality === "max" ? 2160 : o.quality;
 
     html = await fetch(`https://vk.com/video${o.userId}_${o.videoId}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then((r) => { return r.arrayBuffer() }).catch(() => { return false });
 
     if (!html) return { error: 'ErrorCouldntFetch' };
+
+    // decode cyrillic from windows-1251 because vk still uses apis from prehistoring times
+    let decoder = new TextDecoder('windows-1251');
+    html = decoder.decode(html);
+
     if (!html.includes(`{"lang":`)) return { error: 'ErrorEmptyDownload' };
 
     let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
@@ -28,11 +32,23 @@ export default async function(o) {
     if (Number(quality) > Number(o.quality)) quality = o.quality;
 
     url = js.player.params[0][`url${quality}`];
-    filename += `${quality}p.mp4`
 
-    if (url && filename) return {
+    let fileMetadata = {
+        title: cleanString(js.player.params[0].md_title.trim()),
+        artist: cleanString(js.player.params[0].md_author.trim()),
+    }
+
+    if (url) return {
         urls: url,
-        filename: filename
+        filenameAttributes: {
+            service: "vk",
+            id: `${o.userId}_${o.videoId}`,
+            title: fileMetadata.title,
+            author: fileMetadata.artist,
+            resolution: `${quality}p`,
+            qualityLabel: `${quality}p`,
+            extension: "mp4"
+        }
     }
     return { error: 'ErrorEmptyDownload' }
 }

@@ -13,7 +13,9 @@
         },
         "twitter": {
             "alias": "twitter videos & voice",
-            "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
+            "altDomains": ["x.com", "vxtwitter.com", "fixvx.com"],
+            "subdomains": ["mobile"],
+            "patterns": [":user/status/:id", ":user/status/:id/video/:v"],
             "enabled": true
         },
         "vk": {
@@ -23,23 +25,27 @@
         },
         "youtube": {
             "alias": "youtube videos, shorts & music",
-            "patterns": ["watch?v=:id", "embed/:id"],
+            "patterns": ["watch?v=:id", "embed/:id", "watch/:id"],
+            "subdomains": ["music", "m"],
             "bestAudio": "opus",
             "enabled": true
         },
         "tumblr": {
             "patterns": ["post/:id", "blog/view/:user/:id", ":user/:id", ":user/:id/:trackingId"],
+            "subdomains": "*",
             "enabled": true
         },
         "tiktok": {
             "alias": "tiktok videos, photos & audio",
             "patterns": [":user/video/:postId", ":id", "t/:id"],
+            "subdomains": ["vt", "vm"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
         },
         "douyin": {
             "alias": "douyin videos & audio",
             "patterns": ["video/:postId", ":id"],
+            "subdomains": ["v"],
             "enabled": false
         },
         "vimeo": {
@@ -49,12 +55,16 @@
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
-            "bestAudio": "none",
+            "subdomains": ["on"],
+            "audioFormats": ["best", "opus", "mp3"],
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels & posts",
-            "patterns": ["reels/:id", "reel/:id", "p/:id"],
+            "alias": "instagram reels, posts & stories",
+            "patterns": [
+                "reels/:postId", "reel/:postId", "p/:postId",
+                "stories/:username/:storyId"
+            ],
             "enabled": true
         },
         "vine": {

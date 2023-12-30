@@ -1,3 +1,7 @@
+# os stuff
+.DS_Store
+desktop.ini
+
 # npm
 node_modules
 package-lock.json

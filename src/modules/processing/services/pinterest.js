@@ -20,5 +20,10 @@ export default async function(obj) {
 
     if (!video) return { error: 'ErrorEmptyDownload' };
     if (video.duration > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
-    return { urls: video.url, filename: `pinterest_${pinId}.mp4`, audioFilename: `pinterest_${pinId}_audio` }
+
+    return {
+        urls: video.url,
+        filename: `pinterest_${pinId}.mp4`,
+        audioFilename: `pinterest_${pinId}_audio`
+    }
 }

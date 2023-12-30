@@ -1,5 +1,5 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag, linkSVG } from "./elements.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, links } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
@@ -122,7 +122,7 @@ export default function(obj) {
                                 }]
                             }, {
                                 items: [{
-                                    combo: "Ctrl+V",
+                                    combo: "⌘/Ctrl+V",
                                     name: t("KeyboardShortcutQuickPaste")
                                 }, {
                                     combo: "Esc",
@@ -146,15 +146,15 @@ export default function(obj) {
                         }, {
                             name: "support",
                             title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
-                            body: 
-                            `${t("SupportSelfTroubleshooting")}<br/><br/>`
-                            + `${t("FollowSupport")}<br/>`
-                            + `${socialLinks(obj.lang)}<br/>`
-                            + `${t("SourceCode")}<br/>`
-                            + `${socialLink(
-                                emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo
-                            )}<br/>
-                            ${t("SupportNote")}`
+                            body: `${t("SupportSelfTroubleshooting")}`
+                            + `${socialLink(emoji("📢"), t("StatusPage"), links.statusPage)}`
+                            + `${socialLink(emoji("🔧"), t("TroubleshootingGuide"), links.troubleshootingGuide)}`
+                            + `<br/>`
+                            + `${t("FollowSupport")}`
+                            + `${socialLinks(obj.lang)}`
+                            + `<br/>`
+                            + `${t("SourceCode")}`
+                            + `${socialLink(emoji("🐙"), repo.replace("https://github.com/", ''), repo)}`
                         }, {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
@@ -164,7 +164,17 @@ export default function(obj) {
                             title: `${emoji("📑")} ${t("CollapseLegal")}`,
                             body: t("FairUse")
                         }])
-                    }]
+                    },
+                    ...(process.env.showSponsors ?
+                    [{
+                        text: t("SponsoredBy"),
+                        classes: ["sponsored-by-text"],
+                        nopadding: true
+                    }, {
+                        text: sponsoredList(),
+                        raw: true
+                    }] : []
+                    )]
                 })
             }, {
                 name: "changelog",
@@ -322,7 +332,8 @@ export default function(obj) {
                     }])
                 })
                 + settingsCategory({
-                    name: t('SettingsCodecSubtitle'),
+                    name: "codec",
+                    title: t('SettingsCodecSubtitle'),
                     body: switcher({
                         name: "vCodec",
                         explanation: t('SettingsCodecDescription'),
@@ -339,7 +350,8 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: t('SettingsVimeoPrefer'),
+                    name: "vimeo",
+                    title: t('SettingsVimeoPrefer'),
                     body: switcher({
                         name: "vimeoDash",
                         explanation: t('SettingsVimeoPreferDescription'),
@@ -415,6 +427,43 @@ export default function(obj) {
                             text: t('SettingsThemeLight')
                         }]
                     })
+                })
+                + settingsCategory({
+                    name: "filename",
+                    title: t('FilenameTitle'),
+                    body: switcher({
+                        name: "filenamePattern",
+                        items: [{
+                            action: "classic",
+                            text: t('FilenamePatternClassic')
+                        }, {
+                            action: "basic",
+                            text: t('FilenamePatternBasic')
+                        }, {
+                            action: "pretty",
+                            text: t('FilenamePatternPretty')
+                        }, {
+                            action: "nerdy",
+                            text: t('FilenamePatternNerdy')
+                        }]
+                    })
+                    + `<div id="filename-preview">
+                        <div id="video-filename" class="filename-item line">
+                            ${emoji('🎞️', 32, 1, 1)}
+                            <div class="filename-container">
+                                <div class="filename-label">${t('Preview')}</div>
+                                <div id="video-filename-text"></div>
+                            </div>
+                        </div>
+                        <div id="audio-filename" class="filename-item">
+                            ${emoji('🎧', 32, 1, 1)}
+                            <div class="filename-container">
+                                <div class="filename-label">${t('Preview')}</div>
+                                <div id="audio-filename-text"></div>
+                            </div>
+                        </div>
+                    </div>`
+                    + explanation(t('FilenameDescription'))
                 })
                 + settingsCategory({
                     name: "accessibility",
@@ -513,15 +562,16 @@ export default function(obj) {
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "👾",
-                text: t("UrgentFeatureUpdate71"),
+                emoji: "🫧",
+                text: t("UpdateNewYears"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
             <div id="cobalt-main-box" class="center">
-                <div id="logo">${t("AppTitleCobalt")}</div>
+                <div id="logo">${t("AppTitleCobalt")}${betaTag()}</div>
                 <div id="download-area">
                     <div id="top">
+                        <div id="link-icon">${linkSVG}</div>
                         <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                         <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
@@ -564,7 +614,7 @@ export default function(obj) {
         </div>
     </body>
     <script type="text/javascript">
-        let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
+        let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
         const loc = ${webLoc(t,
         [
             'ErrorNoInternet',
@@ -581,7 +631,10 @@ export default function(obj) {
             'ClipboardErrorNoPermission',
             'ClipboardErrorFirefox',
             'DataTransferSuccess',
-            'DataTransferError'
+            'DataTransferError',
+            'FilenamePreviewVideoTitle',
+            'FilenamePreviewAudioTitle',
+            'FilenamePreviewAudioAuthor'
         ])}
     </script>
     <script type="text/javascript" src="cobalt.js"></script>

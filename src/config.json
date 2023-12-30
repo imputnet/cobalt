@@ -1,6 +1,6 @@
 {
-    "streamLifespan": 20000,
-    "maxVideoDuration": 18000000,
+    "streamLifespan": 90000,
+    "maxVideoDuration": 10800000,
     "genericUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
     "authorInfo": {
         "name": "wukko",
@@ -8,37 +8,59 @@
         "contact": "https://wukko.me/contacts",
         "support": {
             "default": {
+                "email": {
+                    "emoji": "📧",
+                    "url": "mailto:support@cobalt.tools",
+                    "name": "support@cobalt.tools"
+                },
                 "twitter": {
                     "emoji": "🐦",
                     "url": "https://twitter.com/justusecobalt",
-                    "handle": "@justusecobalt"
-                },
-                "mastodon": {
-                    "emoji": "🐘",
-                    "url": "https://wetdry.world/@cobalt",
-                    "handle": "@cobalt@wetdry.world"
+                    "name": "@justusecobalt"
                 },
                 "discord": {
                     "emoji": "👾",
                     "url": "https://discord.gg/pQPt8HBUPu",
-                    "handle": "cobalt community server"
+                    "name": "cobalt discord server"
+                },
+                "mastodon": {
+                    "emoji": "🐘",
+                    "url": "https://wetdry.world/@cobalt",
+                    "name": "@cobalt@wetdry.world"
+                }
+            },
+            "ru": {
+                "telegram": {
+                    "emoji": "📬",
+                    "url": "https://t.me/justusecobalt_ru",
+                    "name": "канал в telegram"
+                },
+                "email": {
+                    "emoji": "📧",
+                    "url": "mailto:support@cobalt.tools",
+                    "name": "support@cobalt.tools"
                 }
             }
         }
     },
     "donations": {
         "crypto": {
-            "bitcoin": "bc1q59jyyjvrzj4c22rkk3ljeecq6jmpyscgz9spnd",
-            "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
+            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod",
+            "bitcoin": "18PKf6N2cHrmSzz9ZzTSvDd2jAkqGC7SxA",
             "litecoin": "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
-            "monero": "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod"
+            "ethereum": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
+            "usdt-erc20": "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
+            "usdt-trc20": "TVbx7YT3rBfu931Gxko6pRfXtedYqbgnBB",
+            "ton": "UQA3SO-hHZq1oCCT--u6or6ollB8fd2o52aD8mXiLk9iDZd3"
         },
         "links": {
             "boosty": "https://boosty.to/wukko/donate"
         }
     },
     "links": {
-        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/b401917928fd407daf1db0fd07eb7e78"
+        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/b401917928fd407daf1db0fd07eb7e78",
+        "statusPage": "https://status.cobalt.tools/",
+        "troubleshootingGuide": "https://github.com/wukko/cobalt/blob/current/docs/troubleshooting.md"
     },
     "celebrations": {
         "01-01": "🎄",
@@ -74,5 +96,15 @@
         "copy": ["-c:a", "copy"],
         "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
         "m4a": ["-movflags", "frag_keyframe+empty_moov"]
-    }
+    },
+    "sponsors": [{
+        "name": "royale",
+        "fullName": "RoyaleHosting",
+        "url": "https://royalehosting.net/",
+        "logo": {
+            "width": 605,
+            "height": 136,
+            "scale": 5
+        }
+    }]
 }
