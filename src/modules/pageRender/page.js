@@ -71,8 +71,6 @@ export default function(obj) {
         <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
         <link rel="stylesheet" href="cobalt.css" />
 
-        <link rel="me" href="${authorInfo.support.default.mastodon.url}">
-
         <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
