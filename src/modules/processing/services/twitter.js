@@ -31,14 +31,20 @@ const commonHeaders = {
     "accept-language": "en"
 }
 
-const getGuestToken = async () => {
+let _cachedToken
+const getGuestToken = async (forceReload = false) => {
+    if (_cachedToken && !forceReload) {
+        return _cachedToken;
+    }
+
     const tokenResponse = await fetch(
         'https://api.twitter.com/1.1/guest/activate.json',
         { method: 'POST', headers: commonHeaders }
     ).then(r => r.status === 200 && r.json()).catch(() => {})
 
-    if (tokenResponse?.guest_token)
-        return tokenResponse.guest_token
+    if (tokenResponse?.guest_token) {
+        return _cachedToken = tokenResponse.guest_token
+    }
 }
 
 const requestTweet = (tweetId, token) => {
@@ -69,8 +75,15 @@ export default async function({ id }) {
     let guestToken = await getGuestToken();
     if (!guestToken) return { error: 'ErrorCouldntFetch' };
 
-    const tweet = await requestTweet(id, guestToken).then(t => t.json());
-    
+    let tweet = await requestTweet(id, guestToken);
+
+    if ([403, 429].includes(tweet.status)) { // get new token & retry
+        guestToken = await getGuestToken(true);
+        tweet = await requestTweet(id, guestToken);
+    }
+
+    tweet = await tweet.json();
+
     // {"data":{"tweetResult":{"result":{"__typename":"TweetUnavailable","reason":"Protected"}}}}
     if (tweet?.data?.tweetResult?.result?.__typename !== "Tweet") {
         return { error: 'ErrorTweetUnavailable' }
