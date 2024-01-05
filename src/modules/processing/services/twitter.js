@@ -71,7 +71,7 @@ const requestTweet = (tweetId, token) => {
     });
 }
 
-export default async function({ id }) {
+export default async function({ id, index }) {
     let guestToken = await getGuestToken();
     if (!guestToken) return { error: 'ErrorCouldntFetch' };
 
@@ -92,9 +92,13 @@ export default async function({ id }) {
     const baseTweet = tweet.data.tweetResult.result.legacy,
           repostedTweet = baseTweet.retweeted_status_result?.result.legacy.extended_entities;
 
-    const media = (
+    let media = (
         repostedTweet?.media || baseTweet.extended_entities.media
     )?.filter(m => ['video', 'animated_gif'].includes(m.type));
+
+    if (index < media?.length) {
+        media = [ media[index] ];
+    }
 
     switch (media?.length) {
         case undefined:

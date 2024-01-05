@@ -36,7 +36,8 @@ export default async function(host, patternMatch, url, lang, obj) {
         switch (host) {
             case "twitter":
                 r = await twitter({
-                    id: patternMatch["id"]
+                    id: patternMatch.id,
+                    index: patternMatch.index - 1
                 });
                 break;
             case "vk":
