@@ -12,6 +12,14 @@
             "status": "redirect"
         }
     }, {
+        "name": "video with mobile web mediaviewer",
+        "url": "https://twitter.com/XSpaces/status/1526955853743546372/mediaViewer?currentTweet=1526955853743546372&currentTweetUser=XSpaces&currentTweet=1526955853743546372&currentTweetUser=XSpaces",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
         "name": "embedded twitter video",
         "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
         "params": {

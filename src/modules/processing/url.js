@@ -34,6 +34,12 @@ export function aliasURL(url) {
             }
             break;
 
+        case "twitter":
+            if (url.pathname.toLowerCase().endsWith('/mediaviewer')) {
+                url = new URL(`https://twitter.com/${parts[1]}/${parts[2]}/${parts[3]}`);
+            }
+            break;
+
         case "twitch":
             if (url.hostname === 'clips.twitch.tv' && parts.length >= 2) {
                 url = new URL(`https://twitch.tv/_/clip/${parts[1]}`);
