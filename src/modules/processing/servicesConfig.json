@@ -15,7 +15,12 @@
             "alias": "twitter videos & voice",
             "altDomains": ["x.com", "vxtwitter.com", "fixvx.com"],
             "subdomains": ["mobile"],
-            "patterns": [":user/status/:id", ":user/status/:id/video/:v"],
+            "patterns": [
+                ":user/status/:id",
+                ":user/status/:id/video/:index",
+                ":user/status/:id/mediaviewer",
+                ":user/status/:id/mediaViewer"
+            ],
             "enabled": true
         },
         "vk": {
