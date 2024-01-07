@@ -96,20 +96,22 @@ export default async function({ id, index }) {
     let media = (repostedTweet?.media || baseTweet.extended_entities.media);
     media = media?.filter(m => m.video_info?.variants?.length);
 
-    if (index < media?.length) {
+    // check if there's a video at given index (/video/<index>)
+    if ([0, 1, 2, 3].includes(index) && index < media?.length) {
         media = [media[index]]
     }
+
     switch (media?.length) {
         case undefined:
         case 0:
-            return { error: 'ErrorNoVideosInTweet' }
+            return { error: 'ErrorNoVideosInTweet' };
         case 1:
             return {
                 type: needsFixing(media[0]) ? "remux" : "normal",
                 urls: bestQuality(media[0].video_info.variants),
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`
-            }
+            };
         default:
             const picker = media.map((video, i) => {
                 let url = bestQuality(video.video_info.variants);
@@ -127,6 +129,6 @@ export default async function({ id, index }) {
                     thumb: video.media_url_https,
                 }
             });
-            return { picker }
+            return { picker };
     }
 }
