@@ -966,7 +966,7 @@ button:active,
 }
 .popup,
 .scrollable #popup-content {
-    border-radius: 8px / 9px;
+    border-radius: 8px;
 }
 #popup-header .glass-bkg {
     border-top-left-radius: 8px 9px;
