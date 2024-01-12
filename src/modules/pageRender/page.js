@@ -44,35 +44,38 @@ export default function(obj) {
 <html lang="${obj.lang}">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}" />
+        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}">
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.webURL || process.env.selfURL}" />
-        <meta property="og:title" content="${t("AppTitleCobalt")}" />
-        <meta property="og:description" content="${t('EmbedBriefDescription')}" />
-        <meta property="og:image" content="${process.env.webURL || process.env.selfURL}icons/generic.png" />
-        <meta name="title" content="${t("AppTitleCobalt")}" />
-        <meta name="description" content="${t('AboutSummary')}" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="twitter:card" content="summary" />
+        <meta property="og:url" content="${process.env.webURL || process.env.selfURL}">
+        <meta property="og:title" content="${t("AppTitleCobalt")}">
+        <meta property="og:description" content="${t('EmbedBriefDescription')}">
+        <meta property="og:image" content="${process.env.webURL || process.env.selfURL}icons/generic.png">
+        <meta name="title" content="${t("AppTitleCobalt")}">
+        <meta name="description" content="${t('AboutSummary')}">
+        <meta name="theme-color" content="#000000">
+        <meta name="twitter:card" content="summary">
         
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="${t("AppTitleCobalt")}">
 
-        <link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+        <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
 
-        <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 
-        <link rel="manifest" href="manifest.webmanifest" />
-        <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
-        <link rel="stylesheet" href="cobalt.css" />
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload">
+        <link rel="stylesheet" href="cobalt.css">
+
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
-        <noscript>${t('NoScriptMessage')}</noscript>
+        <noscript>
+            <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
+        </noscript>
         ${multiPagePopup({
             name: "about",
             closeAria: t('AccessibilityGoBack'),
