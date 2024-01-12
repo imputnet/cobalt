@@ -62,5 +62,5 @@ export default function(emoji, size, disablePadding, fluent) {
 
     let filePath = `emoji/${names[emoji]}.svg`;
     if (fluent) filePath = `emoji/3d/${names[emoji]}.svg`;
-    return `<img class="emoji" draggable=false height="${size}" width="${size}" ${padding ? `style="${padding}"` : ''}alt="${emoji}" src="${filePath}" loading="lazy">`
+    return `<img class="emoji" draggable=false height="${size}" width="${size}" ${padding ? `style="${padding}" ` : ''}alt="${emoji}" src="${filePath}" loading="lazy">`
 }
