@@ -48,10 +48,10 @@ export default function(obj) {
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.webURL || process.env.selfURL}">
+        <meta property="og:url" content="${process.env.webURL}">
         <meta property="og:title" content="${t("AppTitleCobalt")}">
         <meta property="og:description" content="${t('EmbedBriefDescription')}">
-        <meta property="og:image" content="${process.env.webURL || process.env.selfURL}icons/generic.png">
+        <meta property="og:image" content="${process.env.webURL}icons/generic.png">
         <meta name="title" content="${t("AppTitleCobalt")}">
         <meta name="description" content="${t('AboutSummary')}">
         <meta name="theme-color" content="#000000">
