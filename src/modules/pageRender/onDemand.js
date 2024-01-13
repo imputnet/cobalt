@@ -20,11 +20,11 @@ export function changelogHistory() { // blockId 0
                 `width="${history[i]["banner"]["width"]}" ` +
                 `height="${history[i]["banner"]["height"]}" ` +
                 `onerror="this.style.opacity=0" loading="lazy">`+
-            `</img>
+            `
         </div>` : ''}
-        <div id="popup-desc" class="changelog-tags">${history[i]["version"]}</div>
-        <div id="popup-desc" class="changelog-subtitle">${history[i]["title"]}</div>
-        <div id="popup-desc" class="desc-padding">${history[i]["content"]}</div>`
+        <div class="popup-desc changelog-tags">${history[i]["version"]}</div>
+        <div class="popup-desc changelog-subtitle">${history[i]["title"]}</div>
+        <div class="popup-desc desc-padding">${history[i]["content"]}</div>`
     }
     render = cleanHTML(render);
     cache['0'] = render;
