@@ -324,7 +324,7 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "tiktok",
+                    name: "tiktok-watermark",
                     title: "tiktok",
                     body: checkbox([{
                         action: "disableTikTokWatermark",
@@ -400,7 +400,7 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "tiktok",
+                    name: "tiktok-audio",
                     title: "tiktok",
                     body: checkbox([{
                         action: "fullTikTokAudio",
