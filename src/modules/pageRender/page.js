@@ -43,7 +43,7 @@ export default function(obj) {
 <!DOCTYPE html>
 <html lang="${obj.lang}">
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8">
         <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}">
 
         <title>${t("AppTitleCobalt")}</title>
@@ -73,7 +73,7 @@ export default function(obj) {
         <link rel="stylesheet" href="cobalt.css">
 
     </head>
-    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
+    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet>
         <noscript>
             <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
         </noscript>
@@ -149,10 +149,10 @@ export default function(obj) {
                             body: `${t("SupportSelfTroubleshooting")}`
                             + `${socialLink(emoji("📢"), t("StatusPage"), links.statusPage)}`
                             + `${socialLink(emoji("🔧"), t("TroubleshootingGuide"), links.troubleshootingGuide)}`
-                            + `<br/>`
+                            + `<br>`
                             + `${t("FollowSupport")}`
                             + `${socialLinks(obj.lang)}`
-                            + `<br/>`
+                            + `<br>`
                             + `${t("SourceCode")}`
                             + `${socialLink(emoji("🐙"), repo.replace("https://github.com/", ''), repo)}`
                         }, {
@@ -196,7 +196,7 @@ export default function(obj) {
                                 `width="${changelogManager("banner")["width"]}" ` +
                                 `height="${changelogManager("banner")["height"]}" ` +
                                 `onerror="this.style.opacity=0" loading="lazy">`+
-                            `</img>
+                            `
                         </div>`: '',
                         raw: true
                     }, {
@@ -246,13 +246,14 @@ export default function(obj) {
                         text: `<div class="category-title">${t('DonateSub')}</div>`,
                         raw: true
                     }, {
-                        text: `<div class="changelog-banner">
+                        text: `
+                        <div class="changelog-banner">
                             <img class="changelog-img" ` +
-                                `src="updateBanners/catsleep.webp"` +
+                                `src="updateBanners/catsleep.webp" ` +
+                                `alt="a cat sleeping on a laptop keyboard" ` +
                                 `width="480" ` +
                                 `height="270" ` +
-                                `onerror="this.style.opacity=0" loading="lazy">`+
-                            `</img>
+                                `onerror="this.style.opacity=0" loading="lazy">
                         </div>`,
                         raw: true
                     }, {
@@ -572,9 +573,9 @@ export default function(obj) {
                 <div id="download-area">
                     <div id="top">
                         <div id="link-icon">${linkSVG}</div>
-                        <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
+                        <input id="url-input-area" class="mono" type="text" autocomplete="off" spellcheck="false" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()">
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
-                        <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
+                        <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled aria-label="${t('AccessibilityDownloadButton')}">
                     </div>
                     <div id="bottom">
                         <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
@@ -612,7 +613,7 @@ export default function(obj) {
                 }])}
             </footer>
         </div>
-        <script type="text/javascript">
+        <script>
             let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
             const loc = ${webLoc(t,
             [
@@ -636,7 +637,7 @@ export default function(obj) {
                 'FilenamePreviewAudioAuthor'
             ])}
         </script>
-        <script type="text/javascript" src="cobalt.js"></script>
+        <script src="cobalt.js"></script>
     </body>
 </html>
 `

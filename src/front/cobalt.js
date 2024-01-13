@@ -614,6 +614,11 @@ window.onload = () => {
     window.history.replaceState(null, '', window.location.pathname);
 
     notificationCheck();
+
+    // fix for animations not working in Safari
+    if (isIOS) {
+        document.addEventListener('touchstart', () => {}, true);
+    }
 }
 eid("url-input-area").addEventListener("keydown", (e) => {
     button();
