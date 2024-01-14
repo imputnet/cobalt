@@ -70,10 +70,9 @@ export default function(obj) {
         <link rel="manifest" href="manifest.webmanifest" />
         <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
         <link rel="stylesheet" href="cobalt.css" />
-
-        <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
+        <noscript>${t('NoScriptMessage')}</noscript>
         ${multiPagePopup({
             name: "about",
             closeAria: t('AccessibilityGoBack'),
@@ -609,32 +608,32 @@ export default function(obj) {
                 }])}
             </footer>
         </div>
+        <script type="text/javascript">
+            let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
+            const loc = ${webLoc(t,
+            [
+                'ErrorNoInternet',
+                'ErrorNoUrlReturned',
+                'ErrorUnknownStatus',
+                'ChangelogPressToHide',
+                'MediaPickerTitle',
+                'MediaPickerExplanationPhone',
+                'MediaPickerExplanationPC',
+                'ImagePickerTitle',
+                'ImagePickerExplanationPhone',
+                'ImagePickerExplanationPC',
+                'FeatureErrorGeneric',
+                'ClipboardErrorNoPermission',
+                'ClipboardErrorFirefox',
+                'DataTransferSuccess',
+                'DataTransferError',
+                'FilenamePreviewVideoTitle',
+                'FilenamePreviewAudioTitle',
+                'FilenamePreviewAudioAuthor'
+            ])}
+        </script>
+        <script type="text/javascript" src="cobalt.js"></script>
     </body>
-    <script type="text/javascript">
-        let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
-        const loc = ${webLoc(t,
-        [
-            'ErrorNoInternet',
-            'ErrorNoUrlReturned',
-            'ErrorUnknownStatus',
-            'ChangelogPressToHide',
-            'MediaPickerTitle',
-            'MediaPickerExplanationPhone',
-            'MediaPickerExplanationPC',
-            'ImagePickerTitle',
-            'ImagePickerExplanationPhone',
-            'ImagePickerExplanationPC',
-            'FeatureErrorGeneric',
-            'ClipboardErrorNoPermission',
-            'ClipboardErrorFirefox',
-            'DataTransferSuccess',
-            'DataTransferError',
-            'FilenamePreviewVideoTitle',
-            'FilenamePreviewAudioTitle',
-            'FilenamePreviewAudioAuthor'
-        ])}
-    </script>
-    <script type="text/javascript" src="cobalt.js"></script>
 </html>
 `
     } catch (err) {
