@@ -5,33 +5,35 @@ let changelog = loadJSON('./src/modules/changelog/changelog.json')
 
 export default function(string) {
     try {
+        const currentChangelog = changelog.current;
+
         switch (string) {
             case "version":
-                return `<span class="text-backdrop changelog-tag-version">v.${changelog["current"]["version"]}</span>${
-                    changelog["current"]["date"] ? `<span class="changelog-tag-date">· ${changelog["current"]["date"]}</span>` : ''
+                return `<span class="text-backdrop changelog-tag-version">v.${currentChangelog.version}</span>${
+                    currentChangelog.date ? `<span class="changelog-tag-date">· ${currentChangelog.date}</span>` : ''
                 }`
             case "title":
-                return replaceBase(changelog["current"]["title"]);
+                return replaceBase(currentChangelog.title);
             case "banner":
-                return changelog["current"]["banner"] ? {
-                    url: `updateBanners/${changelog["current"]["banner"]["file"]}`,
-                    width: changelog["current"]["banner"]["width"],
-                    height: changelog["current"]["banner"]["height"]
+                const currentBanner = changelog.current.banner;
+                return currentBanner ? {
+                    ...currentBanner,
+                    url: `updateBanners/${currentBanner.file}`
                 } : false;
             case "content":
-                return replaceBase(changelog["current"]["content"]);
+                return replaceBase(currentChangelog.content);
             case "history":
-                return changelog["history"].map((i) => {
+                return changelog.history.map((log) => {
+                    const banner = log.banner;
                     return {
-                        title: replaceBase(i["title"]),
-                        version: `<span class="text-backdrop changelog-tag-version">v.${i["version"]}</span>${
-                            i["date"] ? `<span class="changelog-tag-date">· ${i["date"]}</span>` : ''
+                        title: replaceBase(log.title),
+                        version: `<span class="text-backdrop changelog-tag-version">v.${log.version}</span>${
+                            log.date ? `<span class="changelog-tag-date">· ${log.date}</span>` : ''
                         }`,
-                        content: replaceBase(i["content"]),
-                        banner: i["banner"] ? {
-                            url: `updateBanners/${i["banner"]["file"]}`,
-                            width: i["banner"]["width"],
-                            height: i["banner"]["height"]
+                        content: replaceBase(log.content),
+                        banner: banner ? {
+                            ...banner,
+                            url: `updateBanners/${banner.file}`
                         } : false,
                     }
                 });
