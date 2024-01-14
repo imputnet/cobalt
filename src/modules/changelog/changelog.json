@@ -5,6 +5,7 @@
         "title": "new years clean up! bug fixes and fresh look for the home page",
         "banner": {
             "file": "catroomba.webp",
+            "alt": "a cat riding a roomba vacuum",
             "width": 300,
             "height": 168
         },
@@ -16,6 +17,7 @@
         "title": "bugfixes and better downloads!",
         "banner": {
             "file": "meowthpolishegg.webp",
+            "alt": "meowth polishing a togepi egg",
             "width": 640,
             "height": 480
         },
@@ -26,6 +28,7 @@
         "title": "customizable file names, instagram stories, and first cobalt sponsor!",
         "banner": {
             "file": "meowthcenter.webp",
+            "alt": "meowth plush in a datacenter wearing a hardhat, wielding a hammer",
             "width": 851,
             "height": 640
         },
@@ -36,6 +39,7 @@
         "title": "support for twitch clips and rutube!",
         "banner": {
             "file": "twitchupdate.webp",
+            "alt": "meowth plush staring into the camera, laptop with generic purple service in the background",
             "width": 851,
             "height": 640
         },
@@ -46,6 +50,7 @@
         "title": "new domain, what's coming in future, bug fixes, and more!",
         "banner": {
             "file": "newdomain.webp",
+            "alt": "text: new domain, same cobalt",
             "width": 960,
             "height": 540
         },
@@ -56,6 +61,7 @@
         "title": "extended video length limit, metadata toggle, ui improvements, and more!",
         "banner": {
             "file": "meowthsnap.webp",
+            "alt": "cartoon meowth pointing paw dramatically and saying something",
             "width": 500,
             "height": 280
         },
@@ -66,6 +72,7 @@
         "title": "instagram, streamable, video metadata, and more!",
         "banner": {
             "file": "meowthproductions.webp",
+            "alt": "meowth roaring in a fancy circle, à la MGM studios intro",
             "width": 640,
             "height": 358
         },
@@ -76,6 +83,7 @@
         "title": "biggest ui refresh yet!",
         "banner": {
             "file": "meowthcooking.webp",
+            "alt": "meowth handling orders in a restaurant",
             "width": 640,
             "height": 360
         },
@@ -86,6 +94,7 @@
         "title": "all network issues have been fixed!",
         "banner": {
             "file": "meowthhammer.webp",
+            "alt": "meowth plush holding a hammer in real life",
             "width": 1280,
             "height": 827
         },
@@ -96,6 +105,7 @@
         "title": "better reliability, new infrastructure, pinterest support, and way more!",
         "banner": {
             "file": "catswitchboxes.webp",
+            "alt": "a cat climbing into two empty boxes of asahi beer",
             "width": 600,
             "height": 314
         },
@@ -105,6 +115,7 @@
         "title": "instagram support, docker, and more!",
         "banner": {
             "file": "catphonestand.webp",
+            "alt": "a cat holding a phone under its chin while a person plays clash of clans on it",
             "width": 451,
             "height": 272
         },
@@ -114,6 +125,7 @@
         "title": "better looks, better feel",
         "banner": {
             "file": "cattired.webp",
+            "alt": "a cat laying on a sofa face down, wiggling its tail",
             "width": 640,
             "height": 286
         },
@@ -123,6 +135,7 @@
         "title": "fastest one in the game",
         "banner": {
             "file": "catspeed.webp",
+            "alt": "a cat running very fast in an exercise wheel",
             "width": 640,
             "height": 356
         },
@@ -132,6 +145,7 @@
         "title": "the evil has been defeated",
         "banner": {
             "file": "happymeowth.webp",
+            "alt": "meowth jumping up into the sky very excitedly",
             "width": 500,
             "height": 330
         },
@@ -141,6 +155,7 @@
         "title": "it's all about attention to detail!",
         "banner": {
             "file": "valentines.webp",
+            "alt": "relaxed meowth with sakura petals falling in front of them",
             "width": 489,
             "height": 374
         },
@@ -150,6 +165,7 @@
         "title": "prettier than ever",
         "banner": {
             "file": "catmakeup.webp",
+            "alt": "a cat being brushed with a powder makeup brush",
             "width": 394,
             "height": 266
         },
@@ -159,6 +175,7 @@
         "title": "we're better together! thank you for bug reports.",
         "banner": {
             "file": "bettertogether.webp",
+            "alt": "various different pokémon jumping in happiness",
             "width": 640,
             "height": 358
         },
@@ -168,6 +185,7 @@
         "title": "mute videos and proper soundcloud support",
         "banner": {
             "file": "shutup.webp",
+            "alt": "a cat yawning, with a crossed out loudspeaker icon next to it",
             "width": 1024,
             "height": 665
         },
@@ -177,6 +195,7 @@
         "title": "better, faster, stronger, stable",
         "banner": {
             "file": "meowthstrong.webp",
+            "alt": "meowth stretching",
             "width": 500,
             "height": 280
         },
@@ -186,6 +205,7 @@
         "title": "over 1 million monthly requests. thank you.",
         "banner": {
             "file": "onemillionr.webp",
+            "alt": "cobalt logo and a confetti emoji",
             "width": 1441,
             "height": 1441
         },
@@ -199,6 +219,7 @@
         "title": "developers, developers, developers, developers",
         "banner": {
             "file": "developers.webp",
+            "alt": "steve ballmer going \"developers, developers, developers\"",
             "width": 640,
             "height": 360
         },

@@ -189,15 +189,18 @@ export default function(obj) {
                         text: `<div class="category-title">${t('ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
-                        text: changelogManager("banner") ?
-                        `<div class="changelog-banner">
-                            <img class="changelog-img" ` +
-                                `src="${changelogManager("banner")["url"]}" ` +
-                                `width="${changelogManager("banner")["width"]}" ` +
-                                `height="${changelogManager("banner")["height"]}" ` +
-                                `onerror="this.style.opacity=0" loading="lazy">`+
-                            `
-                        </div>`: '',
+                        text: (() => {
+                            const banner = changelogManager('banner');
+                            if (!banner) return '';
+                            return `<div class="changelog-banner">
+                                        <img class="changelog-img" ` +
+                                            `src="${banner.url}" ` +
+                                            `alt="${banner.alt.replaceAll('"', '&quot;')}" ` +
+                                            `width="${banner.width}" ` +
+                                            `height="${banner.height}" ` +
+                                            `onerror="this.style.opacity=0" loading="lazy">
+                                    </div>`;
+                        })(),
                         raw: true
                     }, {
                         text: changelogManager("version"),
