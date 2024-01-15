@@ -9,6 +9,7 @@
         "reddit": {
             "alias": "reddit videos & gifs",
             "patterns": ["r/:sub/comments/:id/:title"],
+            "subdomains": "*",
             "enabled": true
         },
         "twitter": {
