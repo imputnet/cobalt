@@ -158,6 +158,8 @@
         "UrgentTwitterPatch": "fixes and easier downloads",
         "StatusPage": "service status page",
         "TroubleshootingGuide": "self-troubleshooting guide",
-        "UpdateNewYears": "new years clean up"
+        "UpdateNewYears": "new years clean up",
+        "SettingsTwitterGif": "convert gifs to .gif",
+        "SettingsTwitterGifDescription": ".gif is lossy and extremely inefficient. file sizes may be larger than expected. use only when necessary."
     }
 }

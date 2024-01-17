@@ -328,6 +328,16 @@ export default function(obj) {
                     }])
                 })
                 + settingsCategory({
+                    name: "twitter",
+                    title: "twitter",
+                    body: checkbox([{
+                        action: "twitterGif",
+                        name: t("SettingsTwitterGif"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTwitterGifDescription'))
+                })
+                + settingsCategory({
                     name: "codec",
                     title: t('SettingsCodecSubtitle'),
                     body: switcher({

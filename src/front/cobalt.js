@@ -30,6 +30,7 @@ const checkboxes = [
     "reduceTransparency",
     "disableAnimations",
     "disableMetadata",
+    "twitterGif",
 ];
 const exceptions = { // used for mobile devices
     "vQuality": "720"
@@ -381,6 +382,7 @@ async function download(url) {
     }
 
     if (sGet("disableMetadata") === "true") req.disableMetadata = true;
+    if (sGet("twitterGif") === "true") req.twitterGif = true;
 
     let j = await fetch(`${apiURL}/api/json`, {
         method: "POST",

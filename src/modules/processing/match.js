@@ -37,7 +37,8 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "twitter":
                 r = await twitter({
                     id: patternMatch.id,
-                    index: patternMatch.index - 1
+                    index: patternMatch.index - 1,
+                    toGif: obj.twitterGif
                 });
                 break;
             case "vk":
@@ -166,7 +167,11 @@ export default async function(host, patternMatch, url, lang, obj) {
                     : loc(lang, r.error)
             })
 
-        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, obj.filenamePattern)
+        return matchActionDecider(
+            r, host, obj.aFormat, isAudioOnly,
+            lang, isAudioMuted, disableMetadata,
+            obj.filenamePattern, obj.twitterGif
+        )
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }
