@@ -1162,5 +1162,14 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "ok": [{
+        "name": "regular video",
+        "url": "https://ok.ru/video/7204071410346",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }

@@ -117,7 +117,6 @@
         "ShareURL": "share",
         "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!",
         "ErrorTwitterRIP": "twitter has restricted access to any content to unauthenticated users. while there's a way to get regular tweets, spaces are, unfortunately, impossible to get at this time. i am looking into possible solutions.",
-        "UrgentDonate": "cobalt needs your help!",
         "PopupCloseDone": "done",
         "Accessibility": "accessibility",
         "SettingsReduceTransparency": "reduce transparency",
@@ -134,10 +133,7 @@
         "KeyboardShortcutClosePopup": "close all popups",
         "CollapseLegal": "terms and ethics",
         "FairUse": "cobalt is a web tool that makes it easier to download content from the internet and takes <span class=\"text-backdrop\">zero liability</span>. processing servers work like <span class=\"text-backdrop\">limited proxies</span>, so no media content is ever cached or stored.\n\nyou (end user) are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators.\n\nwhen used in education purposes (lecture, homework, etc) please attach the source link.\n\nfair use and credits benefit everyone.",
-        "UrgentFeatureUpdate71": "more supported services!",
-        "UrgentThanks": "thank you for support!",
         "SettingsDisableMetadata": "don't add metadata",
-        "UrgentNewDomain": "new domain, same cobalt",
         "NewDomainWelcomeTitle": "hey there!",
         "NewDomainWelcome": "cobalt is moving! same features, same owner, simply a more rememberable domain. and still no ads.\n\n<span class=\"text-backdrop\">cobalt.tools</span> is the new main domain, aka where you are now. make sure to update your bookmarks and reinstall the web app!",
         "DataTransferSuccess": "btw, your settings have been transferred automatically :)",
@@ -154,11 +150,12 @@
         "FilenamePreviewVideoTitle": "Video Title",
         "FilenamePreviewAudioTitle": "Audio Title",
         "FilenamePreviewAudioAuthor": "Audio Author",
-        "UrgentFilenameUpdate": "customizable file names!",
-        "UrgentTwitterPatch": "fixes and easier downloads",
         "StatusPage": "service status page",
         "TroubleshootingGuide": "self-troubleshooting guide",
         "DonateImageDescription": "cat sleeping on a laptop keyboard and typing letters repeatedly",
-        "UpdateNewYears": "new years clean up"
+        "UpdateNewYears": "new years clean up",
+        "SettingsTwitterGif": "convert gifs to .gif",
+        "SettingsTwitterGifDescription": "converting looping videos to .gif reduces quality and majorly increases file size. if you want best efficiency, keep this setting off.",
+        "UpdateTwitterGif": "twitter gifs and pinterest"
     }
 }

@@ -13,6 +13,7 @@ import reddit from "./services/reddit.js";
 import twitter from "./services/twitter.js";
 import youtube from "./services/youtube.js";
 import vk from "./services/vk.js";
+import ok from "./services/ok.js";
 import tiktok from "./services/tiktok.js";
 import tumblr from "./services/tumblr.js";
 import vimeo from "./services/vimeo.js";
@@ -37,24 +38,31 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "twitter":
                 r = await twitter({
                     id: patternMatch.id,
-                    index: patternMatch.index - 1
+                    index: patternMatch.index - 1,
+                    toGif: obj.twitterGif
                 });
                 break;
             case "vk":
                 r = await vk({
-                    userId: patternMatch["userId"],
-                    videoId: patternMatch["videoId"],
+                    userId: patternMatch.userId,
+                    videoId: patternMatch.videoId,
+                    quality: obj.vQuality
+                });
+                break;
+            case "ok":
+                r = await ok({
+                    id: patternMatch.id,
                     quality: obj.vQuality
                 });
                 break;
             case "bilibili":
                 r = await bilibili({
-                    id: patternMatch["id"].slice(0, 12)
+                    id: patternMatch.id.slice(0, 12)
                 });
                 break;
             case "youtube":
                 let fetchInfo = {
-                    id: patternMatch["id"].slice(0, 11),
+                    id: patternMatch.id.slice(0, 11),
                     quality: obj.vQuality,
                     format: obj.vCodec,
                     isAudioOnly: isAudioOnly,
@@ -72,16 +80,16 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "reddit":
                 r = await reddit({
-                    sub: patternMatch["sub"],
-                    id: patternMatch["id"]
+                    sub: patternMatch.sub,
+                    id: patternMatch.id
                 });
                 break;
             case "douyin":
             case "tiktok":
                 r = await tiktok({
                     host: host,
-                    postId: patternMatch["postId"],
-                    id: patternMatch["id"],
+                    postId: patternMatch.postId,
+                    id: patternMatch.id,
                     noWatermark: obj.isNoTTWatermark,
                     fullAudio: obj.isTTFullAudio,
                     isAudioOnly: isAudioOnly
@@ -96,7 +104,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "vimeo":
                 r = await vimeo({
-                    id: patternMatch["id"].slice(0, 11),
+                    id: patternMatch.id.slice(0, 11),
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly,
                     forceDash: isAudioOnly ? true : obj.vimeoDash
@@ -106,10 +114,10 @@ export default async function(host, patternMatch, url, lang, obj) {
                 isAudioOnly = true;
                 r = await soundcloud({
                     url,
-                    author: patternMatch["author"],
-                    song: patternMatch["song"],
-                    shortLink: patternMatch["shortLink"] || false,
-                    accessKey: patternMatch["accessKey"] || false
+                    author: patternMatch.author,
+                    song: patternMatch.song,
+                    shortLink: patternMatch.shortLink || false,
+                    accessKey: patternMatch.accessKey || false
                 });
                 break;
             case "instagram":
@@ -120,31 +128,32 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "vine":
                 r = await vine({
-                    id: patternMatch["id"]
+                    id: patternMatch.id
                 });
                 break;
             case "pinterest":
                 r = await pinterest({
-                    id: patternMatch["id"]
+                    id: patternMatch.id,
+                    shortLink: patternMatch.shortLink || false
                 });
                 break;
             case "streamable":
                 r = await streamable({
-                    id: patternMatch["id"],
+                    id: patternMatch.id,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly,
                 });
                 break;
             case "twitch":
                 r = await twitch({
-                    clipId: patternMatch["clip"] || false,
+                    clipId: patternMatch.clip || false,
                     quality: obj.vQuality,
                     isAudioOnly: obj.isAudioOnly
                 });
                 break;
             case "rutube":
                 r = await rutube({
-                    id: patternMatch["id"],
+                    id: patternMatch.id,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
                 });
@@ -166,7 +175,11 @@ export default async function(host, patternMatch, url, lang, obj) {
                     : loc(lang, r.error)
             })
 
-        return matchActionDecider(r, host, obj.aFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, obj.filenamePattern)
+        return matchActionDecider(
+            r, host, obj.aFormat, isAudioOnly,
+            lang, isAudioMuted, disableMetadata,
+            obj.filenamePattern, obj.twitterGif
+        )
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })
     }

@@ -72,7 +72,7 @@ const requestTweet = (tweetId, token) => {
     })
 }
 
-export default async function({ id, index }) {
+export default async function({ id, index, toGif }) {
     let guestToken = await getGuestToken();
     if (!guestToken) return { error: 'ErrorCouldntFetch' };
 
@@ -110,7 +110,8 @@ export default async function({ id, index }) {
                 type: needsFixing(media[0]) ? "remux" : "normal",
                 urls: bestQuality(media[0].video_info.variants),
                 filename: `twitter_${id}.mp4`,
-                audioFilename: `twitter_${id}_audio`
+                audioFilename: `twitter_${id}_audio`,
+                isGif: media[0].type === "animated_gif"
             };
         default:
             const picker = media.map((video, i) => {
@@ -120,7 +121,9 @@ export default async function({ id, index }) {
                         service: 'twitter',
                         type: 'remux',
                         u: url,
-                        filename: `twitter_${id}_${i + 1}.mp4`
+                        filename: `twitter_${id}_${i + 1}.mp4`,
+                        isGif: media[0].type === "animated_gif",
+                        toGif: toGif ?? false
                     })
                 }
                 return {

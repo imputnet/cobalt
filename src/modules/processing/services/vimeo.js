@@ -4,6 +4,7 @@ import { cleanString } from '../../sub/utils.js';
 const resolutionMatch = {
     "3840": "2160",
     "2732": "1440",
+    "2560": "1440",
     "2048": "1080",
     "1920": "1080",
     "1366": "720",
@@ -63,7 +64,7 @@ export default async function(obj) {
     if (!masterJSON) return { error: 'ErrorCouldntFetch' };
     if (!masterJSON.video) return { error: 'ErrorEmptyDownload' };
 
-    let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)).filter(a => a['format'] === "mp42"),
+    let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)).filter(a => ["dash", "mp42"].includes(a['format'])),
         bestVideo = masterJSON_Video[0];
     if (Number(quality) < Number(resolutionMatch[bestVideo["width"]])) {
         bestVideo = masterJSON_Video.find(i => resolutionMatch[i["width"]] === quality)

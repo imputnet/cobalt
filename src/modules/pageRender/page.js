@@ -336,6 +336,16 @@ export default function(obj) {
                     }])
                 })
                 + settingsCategory({
+                    name: "twitter",
+                    title: "twitter",
+                    body: checkbox([{
+                        action: "twitterGif",
+                        name: t("SettingsTwitterGif"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTwitterGifDescription'))
+                })
+                + settingsCategory({
                     name: "codec",
                     title: t('SettingsCodecSubtitle'),
                     body: switcher({
@@ -576,7 +586,7 @@ export default function(obj) {
                 <div id="download-area">
                     <div id="top">
                         <div id="link-icon">${linkSVG}</div>
-                        <input id="url-input-area" class="mono" type="text" autocomplete="off" spellcheck="false" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()">
+                        <input id="url-input-area" class="mono" type="text" autocomplete="off" spellcheck="false" maxlength="256" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()">
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                         <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled aria-label="${t('AccessibilityDownloadButton')}">
                     </div>
