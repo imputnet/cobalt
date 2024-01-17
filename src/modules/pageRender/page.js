@@ -73,7 +73,7 @@ export default function(obj) {
         <link rel="stylesheet" href="cobalt.css">
 
     </head>
-    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''} data-nosnippet>
+    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
         <noscript>
             <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
         </noscript>
