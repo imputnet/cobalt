@@ -17,7 +17,7 @@ export async function loadLoc() {
 
 export function replaceBase(s) {
     return s
-            .replace(/\n/g, '<br/>')
+            .replace(/\n/g, '<br>')
             .replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut)
             .replace(/{repo}/g, repo)
             .replace(/{statusPage}/g, links.statusPage)

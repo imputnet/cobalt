@@ -12,7 +12,7 @@ export default async function(o) {
 
     if (!html) return { error: 'ErrorCouldntFetch' };
 
-    // decode cyrillic from windows-1251 because vk still uses apis from prehistoring times
+    // decode cyrillic from windows-1251 because vk still uses apis from prehistoric times
     let decoder = new TextDecoder('windows-1251');
     html = decoder.decode(html);
 
@@ -35,7 +35,7 @@ export default async function(o) {
 
     let fileMetadata = {
         title: cleanString(js.player.params[0].md_title.trim()),
-        artist: cleanString(js.player.params[0].md_author.trim()),
+        author: cleanString(js.player.params[0].md_author.trim()),
     }
 
     if (url) return {
@@ -44,7 +44,7 @@ export default async function(o) {
             service: "vk",
             id: `${o.userId}_${o.videoId}`,
             title: fileMetadata.title,
-            author: fileMetadata.artist,
+            author: fileMetadata.author,
             resolution: `${quality}p`,
             qualityLabel: `${quality}p`,
             extension: "mp4"

@@ -90,7 +90,8 @@
         "mp4": ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
         "copy": ["-c:a", "copy"],
         "audio": ["-ar", "48000", "-ac", "2", "-b:a", "320k"],
-        "m4a": ["-movflags", "frag_keyframe+empty_moov"]
+        "m4a": ["-movflags", "frag_keyframe+empty_moov"],
+        "gif": ["-vf", "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse", "-loop", "0"]
     },
     "sponsors": [{
         "name": "royale",

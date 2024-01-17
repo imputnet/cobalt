@@ -25,6 +25,13 @@ export function aliasURL(url) {
                 }`)
             }
             break;
+        case "pin":
+            if (url.hostname === 'pin.it' && parts.length === 2) {
+                url = new URL(`https://pinterest.com/url_shortener/${
+                    encodeURIComponent(parts[1])
+                }`)
+            }
+            break;
 
         case "vxtwitter":
         case "fixvx":

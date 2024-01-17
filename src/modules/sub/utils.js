@@ -8,7 +8,7 @@ const apiVar = {
         aFormat: ["best", "mp3", "ogg", "wav", "opus"],
         filenamePattern: ["classic", "pretty", "basic", "nerdy"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata", "twitterGif"]
 }
 const forbiddenChars = ['}', '{', '(', ')', '\\', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
@@ -84,7 +84,8 @@ export function checkJSONPost(obj) {
         isAudioMuted: false,
         disableMetadata: false,
         dubLang: false,
-        vimeoDash: false
+        vimeoDash: false,
+        twitterGif: false
     }
     try {
         let objKeys = Object.keys(obj);

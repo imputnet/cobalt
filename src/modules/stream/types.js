@@ -212,3 +212,40 @@ export function streamVideoOnly(streamInfo, res) {
         shutdown();
     }
 }
+
+export function convertToGif(streamInfo, res) {
+    let process;
+    const shutdown = () => (killProcess(process), closeResponse(res));
+
+    try {
+        let args = [
+            '-loglevel', '-8'
+        ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push('-i', streamInfo.urls)
+        args = args.concat(ffmpegArgs["gif"]);
+        args.push('-f', "gif", 'pipe:3');
+
+        process = spawn(ffmpeg, args, {
+            windowsHide: true,
+            stdio: [
+                'inherit', 'inherit', 'inherit',
+                'pipe'
+            ],
+        });
+
+        const [,,, muxOutput] = process.stdio;
+
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename.split('.')[0] + ".gif"));
+
+        pipe(muxOutput, res, shutdown);
+
+        process.on('close', shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
+    }
+}
