@@ -160,6 +160,6 @@
         "TroubleshootingGuide": "self-troubleshooting guide",
         "UpdateNewYears": "new years clean up",
         "SettingsTwitterGif": "convert gifs to .gif",
-        "SettingsTwitterGifDescription": ".gif is lossy and extremely inefficient. file sizes may be larger than expected. use only when necessary."
+        "SettingsTwitterGifDescription": "converting looping videos to .gif reduces quality and majorly increases file size. if you want best efficiency, keep this setting off."
     }
 }
