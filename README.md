@@ -16,6 +16,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | bilibili.com                   | ✅            | ✅         | ✅         | ➖         | ➖              |
 | instagram posts & stories      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | instagram reels                | ✅            | ✅         | ✅         | ➖         | ➖              |
+| linkedin videos                | ✅            | ❌         | ❌         | ✅         | ✅              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
 | rutube                         | ✅            | ✅         | ✅         | ✅         | ✅              |

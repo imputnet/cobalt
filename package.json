@@ -34,6 +34,7 @@
         "express-rate-limit": "^6.3.0",
         "ffmpeg-static": "^5.1.0",
         "hls-parser": "^0.10.7",
+        "libxmljs": "^1.0.11",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
         "psl": "1.9.0",
