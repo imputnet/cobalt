@@ -5,6 +5,9 @@ export const testers = {
     "instagram": (patternMatch) =>
         patternMatch.postId?.length <= 12
         || (patternMatch.username?.length <= 30 && patternMatch.storyId?.length <= 24),
+    
+    "ok": (patternMatch) =>
+        patternMatch.id?.length <= 16,
 
     "pinterest": (patternMatch) =>
         patternMatch.id?.length <= 128,

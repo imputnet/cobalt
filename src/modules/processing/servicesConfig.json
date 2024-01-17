@@ -1,5 +1,5 @@
 {
-    "audioIgnore": ["vk"],
+    "audioIgnore": ["vk", "ok"],
     "config": {
         "bilibili": {
             "alias": "bilibili.com videos",
@@ -26,6 +26,12 @@
         "vk": {
             "alias": "vk video & clips",
             "patterns": ["video:userId_:videoId", "clip:userId_:videoId", "clips:duplicate?z=clip:userId_:videoId"],
+            "enabled": true
+        },
+        "ok": {
+            "alias": "ok video",
+            "tld": "ru",
+            "patterns": ["video/:id"],
             "enabled": true
         },
         "youtube": {
