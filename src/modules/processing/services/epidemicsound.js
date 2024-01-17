@@ -1,4 +1,4 @@
-export default async function (obj) {
+export default async function(obj) {
     let json = await fetch(`https://www.epidemicsound.com/json/track/${obj.id}`).then((r) => {
         return r.status === 200 ? r.json() : false
     }).catch(() => { return false });
