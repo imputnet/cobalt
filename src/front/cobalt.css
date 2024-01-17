@@ -465,8 +465,8 @@ button:active,
 .popup.small .explanation {
     margin-bottom: 0.9rem;
 }
-.close-error {
-    background: var(--accent);
+.popup.small .close-error.switch {
+    background: var(--accent)!important;
     color: var(--background);
 }
 .popup.scrollable {
