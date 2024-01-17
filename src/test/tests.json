@@ -1171,5 +1171,14 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "epidemicsound": [{
+        "name": "track",
+        "url": "https://www.epidemicsound.com/track/NpuE3YgGmN/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }
