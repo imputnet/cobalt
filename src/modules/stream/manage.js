@@ -43,7 +43,7 @@ export function createStream(obj) {
         exp = streamInfo.exp;
         ghmac = streamInfo.hmac;
     }
-    return `${process.env.apiURL || process.env.selfURL}api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
+    return `${process.env.apiURL}api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
 }
 
 export function verifyStream(id, hmac, exp) {

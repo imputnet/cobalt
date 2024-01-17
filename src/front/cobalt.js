@@ -236,7 +236,7 @@ function popup(type, action, text) {
                             `<a class="picker-image-container" ${
                                 isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` +
-                                `<img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'"></img>` +
+                                `<img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'">` +
                             `</a>`
                         }
                         break;
@@ -253,7 +253,7 @@ function popup(type, action, text) {
                             }>` + 
                                 `<div class="picker-element-name">${text.arr[i].type}</div>` +
                                 `<div class="imageBlock"></div>` +
-                                `<img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'"></img>` +
+                                `<img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'">` +
                             `</a>`
                         }
                         eid("picker-download").classList.remove("visible");
@@ -603,9 +603,9 @@ window.onload = () => {
             if (setUn !== null) {
                 if (setUn) {
                     sSet("migrated", "true")
-                    eid("desc-migration").innerHTML += `<br/><br/>${loc.DataTransferSuccess}`
+                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferSuccess}`
                 } else {
-                    eid("desc-migration").innerHTML += `<br/><br/>${loc.DataTransferError}`
+                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferError}`
                 }
             }
         }
@@ -616,6 +616,11 @@ window.onload = () => {
     window.history.replaceState(null, '', window.location.pathname);
 
     notificationCheck();
+
+    // fix for animations not working in Safari
+    if (isIOS) {
+        document.addEventListener('touchstart', () => {}, true);
+    }
 }
 eid("url-input-area").addEventListener("keydown", (e) => {
     button();
