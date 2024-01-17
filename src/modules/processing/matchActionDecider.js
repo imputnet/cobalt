@@ -18,10 +18,10 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
+    else if (r.isGif && toGif) action = "gif";
     else if (isAudioMuted) action = "muteVideo";
     else if (isAudioOnly) action = "audio";
     else if (r.isM3U8) action = "singleM3U8";
-    else if (r.isGif && toGif) action = "gif";
     else action = "video";
 
     if (action === "picker" || action === "audio") {
