@@ -133,7 +133,8 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "pinterest":
                 r = await pinterest({
-                    id: patternMatch.id
+                    id: patternMatch.id,
+                    shortLink: patternMatch.shortLink || false
                 });
                 break;
             case "streamable":
