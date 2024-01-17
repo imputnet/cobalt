@@ -8,14 +8,14 @@ const videoLinkBase = {
 export default async function(o) {
     let id = o.id, type = "regular";
 
-    if (id.includes("--")) {
-        id = id.split("--")[1];
-        type = "story";
-    }
     if (!o.id && o.shortLink) {
         id = await fetch(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`, { redirect: "manual" }).then((r) => {
             return r.headers.get("location").split('pin/')[1].split('/')[0]
         }).catch(() => {});
+    }
+    if (id.includes("--")) {
+        id = id.split("--")[1];
+        type = "story";
     }
     if (!id) return { error: 'ErrorCouldntFetch' };
 
