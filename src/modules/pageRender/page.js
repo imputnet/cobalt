@@ -253,7 +253,7 @@ export default function(obj) {
                         <div class="changelog-banner">
                             <img class="changelog-img" ` +
                                 `src="updateBanners/catsleep.webp" ` +
-                                `alt="a cat sleeping on a laptop keyboard" ` +
+                                `alt="${t("DonateImageDescription")}" ` +
                                 `width="480" ` +
                                 `height="270" ` +
                                 `onerror="this.style.opacity=0" loading="lazy">
