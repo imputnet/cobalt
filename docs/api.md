@@ -19,19 +19,20 @@ Content-Type: application/json
 ```
 
 ### request body variables
-| key               | type      | variables                          | default   | description                                                                    |
-|:------------------|:----------|:-----------------------------------|:----------|:-------------------------------------------------------------------------------|
-| `url`             | `string`  | URL encoded as URI                 | `null`    | **must** be included in every request.                                         |
-| `vCodec`          | `string`  | `h264 / av1 / vp9`                 | `h264`    | applies only to youtube downloads. `h264` is recommended for phones.           |
-| `vQuality`        | `string`  | `144 / ... / 2160 / max`           | `720`     | `720` quality is recommended for phones.                                       |
-| `aFormat`         | `string`  | `best / mp3 / ogg / wav / opus`    | `mp3`     |                                                                                |
-| `filenamePattern` | `string`  | `classic / pretty / basic / nerdy` | `classic` | changes the way files are named. previews can be seen in the web app.          |
-| `isAudioOnly`     | `boolean` | `true / false`                     | `false`   |                                                                                |
-| `isNoTTWatermark` | `boolean` | `true / false`                     | `false`   | changes whether downloaded tiktok videos have watermarks.                      |
-| `isTTFullAudio`   | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                     |
-| `isAudioMuted`    | `boolean` | `true / false`                     | `false`   | disables audio track in video downloads.                                       |
+| key               | type      | variables                          | default   | description                                                                     |
+|:------------------|:----------|:-----------------------------------|:----------|:--------------------------------------------------------------------------------|
+| `url`             | `string`  | URL encoded as URI                 | `null`    | **must** be included in every request.                                          |
+| `vCodec`          | `string`  | `h264 / av1 / vp9`                 | `h264`    | applies only to youtube downloads. `h264` is recommended for phones.            |
+| `vQuality`        | `string`  | `144 / ... / 2160 / max`           | `720`     | `720` quality is recommended for phones.                                        |
+| `aFormat`         | `string`  | `best / mp3 / ogg / wav / opus`    | `mp3`     |                                                                                 |
+| `filenamePattern` | `string`  | `classic / pretty / basic / nerdy` | `classic` | changes the way files are named. previews can be seen in the web app.           |
+| `isAudioOnly`     | `boolean` | `true / false`                     | `false`   |                                                                                 |
+| `isNoTTWatermark` | `boolean` | `true / false`                     | `false`   | changes whether downloaded tiktok videos have watermarks.                       |
+| `isTTFullAudio`   | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                      |
+| `isAudioMuted`    | `boolean` | `true / false`                     | `false`   | disables audio track in video downloads.                                        |
 | `dubLang`         | `boolean` | `true / false`                     | `false`   | backend uses Accept-Language header for youtube video audio tracks when `true`. |
-| `disableMetadata` | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                     |
+| `disableMetadata` | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                      |
+| `twitterGif`      | `boolean` | `true / false`                     | `false`   | changes whether twitter gifs are converted to .gif                              |
 
 ### response body variables
 | key          | type     | variables                                                   |
