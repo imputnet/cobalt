@@ -74,7 +74,7 @@
             "alias": "instagram reels, posts & stories",
             "patterns": [
                 "reels/:postId", "reel/:postId", "p/:postId",
-                "stories/:username/:storyId"
+                "tv/:postId", "stories/:username/:storyId"
             ],
             "enabled": true
         },
