@@ -900,6 +900,9 @@ button:active,
     opacity: 1;
     transition: opacity 0.2s ease-out;
 }
+.no-animation #home {
+    transition: none;
+}
 .sponsored-by-text {
     text-align: center!important;
     font-size: .85rem;
