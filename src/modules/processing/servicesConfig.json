@@ -87,7 +87,7 @@
         },
         "pinterest": {
             "alias": "pinterest videos & stories",
-            "patterns": ["pin/:id", "url_shortener/:shortLink"],
+            "patterns": ["pin/:id", "pin/:id/:garbage", "url_shortener/:shortLink"],
             "enabled": true
         },
         "streamable": {
