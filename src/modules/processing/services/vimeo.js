@@ -66,7 +66,6 @@ export default async function(obj) {
 
     let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)).filter(a => ["dash", "mp42"].includes(a['format'])),
         bestVideo = masterJSON_Video[0];
-    console.log(masterJSON_Video)
     if (Number(quality) < Number(resolutionMatch[bestVideo["width"]])) {
         bestVideo = masterJSON_Video.find(i => resolutionMatch[i["width"]] === quality)
     }
