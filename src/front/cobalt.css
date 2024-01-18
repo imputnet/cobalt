@@ -1180,8 +1180,3 @@ button:active,
         padding-right: 0.7rem;
     }
 }
-@media screen and (max-width: 400px) {
-    .popup-title {
-        line-height: inherit;
-    }
-}
