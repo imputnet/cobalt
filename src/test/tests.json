@@ -1171,5 +1171,14 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "bandcamp": [{
+        "name": "regular track",
+        "url": "https://home96.bandcamp.com/track/5",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }

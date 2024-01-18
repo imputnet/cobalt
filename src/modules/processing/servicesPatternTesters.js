@@ -1,11 +1,14 @@
 export const testers = {
+    "bandcamp": (patternMatch) =>
+        patternMatch.name?.length >= 0,
+
     "bilibili": (patternMatch) =>
         patternMatch.id?.length <= 12,
 
     "instagram": (patternMatch) =>
         patternMatch.postId?.length <= 12
         || (patternMatch.username?.length <= 30 && patternMatch.storyId?.length <= 24),
-    
+
     "ok": (patternMatch) =>
         patternMatch.id?.length <= 16,
 
@@ -19,12 +22,12 @@ export const testers = {
         patternMatch.id?.length === 32,
 
     "soundcloud": (patternMatch) =>
-        (patternMatch.author?.length <= 255 && patternMatch.song?.length <= 255) 
+        (patternMatch.author?.length <= 255 && patternMatch.song?.length <= 255)
         || patternMatch.shortLink?.length <= 32,
 
     "streamable": (patternMatch) =>
         patternMatch.id?.length === 6,
-    
+
     "tiktok": (patternMatch) =>
         patternMatch.postId?.length <= 21 || patternMatch.id?.length <= 13,
 

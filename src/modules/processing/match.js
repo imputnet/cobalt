@@ -24,6 +24,7 @@ import pinterest from "./services/pinterest.js";
 import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
+import bandcamp from "./services/bandcamp.js";
 
 export default async function(host, patternMatch, url, lang, obj) {
     assert(url instanceof URL);
@@ -156,6 +157,12 @@ export default async function(host, patternMatch, url, lang, obj) {
                     id: patternMatch.id,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
+                });
+                break;
+            case "bandcamp":
+                r = await bandcamp({
+                    url,
+                    name: patternMatch.name
                 });
                 break;
             default:
