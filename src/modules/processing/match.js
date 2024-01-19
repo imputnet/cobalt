@@ -39,7 +39,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                 r = await twitter({
                     id: patternMatch.id,
                     index: patternMatch.index - 1,
-                    toGif: obj.twitterGif
+                    toGif: !!obj.twitterGif
                 });
                 break;
             case "vk":

@@ -114,22 +114,23 @@ export default async function({ id, index, toGif }) {
                 isGif: media[0].type === "animated_gif"
             };
         default:
-            const picker = media.map((video, i) => {
-                let url = bestQuality(video.video_info.variants);
-                if (needsFixing(video)) {
+            const picker = media.map((content, i) => {
+                let url = bestQuality(content.video_info.variants);
+                const shouldRenderGif = content.type === 'animated_gif' && toGif;
+
+                if (needsFixing(content) || shouldRenderGif) {
                     url = createStream({
                         service: 'twitter',
-                        type: 'remux',
+                        type: shouldRenderGif ? 'gif' : 'remux',
                         u: url,
-                        filename: `twitter_${id}_${i + 1}.mp4`,
-                        isGif: media[0].type === "animated_gif",
-                        toGif: toGif ?? false
+                        filename: `twitter_${id}_${i + 1}.mp4`
                     })
                 }
+
                 return {
                     type: 'video',
                     url,
-                    thumb: video.media_url_https,
+                    thumb: content.media_url_https,
                 }
             });
             return { picker };
