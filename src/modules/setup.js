@@ -1,9 +1,10 @@
 import { existsSync, unlinkSync, appendFileSync } from "fs";
 import { createInterface } from "readline";
 import { Cyan, Bright } from "./sub/consoleText.js";
+import { loadJSON } from "./sub/loadFromFs.js";
 import { execSync } from "child_process";
 
-import { version } from "../modules/config.js";
+const { version } = loadJSON("./package.json");
 
 let envPath = './.env';
 let q = `${Cyan('?')} \x1b[1m`;
