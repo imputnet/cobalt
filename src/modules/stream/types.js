@@ -98,7 +98,7 @@ export async function streamLiveRender(streamInfo, res) {
         }
         args.push('-f', format, 'pipe:4');
 
-        process = spawn(getCommand(args), {
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
@@ -150,7 +150,7 @@ export function streamAudioOnly(streamInfo, res) {
         }
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
-        process = spawn(getCommand(args), {
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
@@ -198,7 +198,7 @@ export function streamVideoOnly(streamInfo, res) {
         }
         args.push('-f', format, 'pipe:3');
 
-        process = spawn(getCommand(args), {
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
@@ -235,7 +235,7 @@ export function convertToGif(streamInfo, res) {
         args = args.concat(ffmpegArgs["gif"]);
         args.push('-f', "gif", 'pipe:3');
 
-        process = spawn(getCommand(args), {
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
