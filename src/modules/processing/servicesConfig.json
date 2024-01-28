@@ -49,7 +49,7 @@
         },
         "tiktok": {
             "alias": "tiktok videos, photos & audio",
-            "patterns": [":user/video/:postId", ":id", "t/:id"],
+            "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId"],
             "subdomains": ["vt", "vm"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
