@@ -637,8 +637,6 @@ export default function(obj) {
                 'MediaPickerTitle',
                 'MediaPickerExplanationPhone',
                 'MediaPickerExplanationPC',
-                'ImagePickerExplanationPhone',
-                'ImagePickerExplanationPC',
                 'FeatureErrorGeneric',
                 'ClipboardErrorNoPermission',
                 'ClipboardErrorFirefox',

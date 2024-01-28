@@ -221,11 +221,11 @@ function popup(type, action, text) {
                 if (navigator.canShare) eid("pd-share").style.display = "flex";
                 break;
             case "picker":
+                eid("picker-title").innerHTML = loc.MediaPickerTitle;
+                eid("picker-subtitle").innerHTML = isMobile ? loc.MediaPickerExplanationPhone : loc.MediaPickerExplanationPC;
+
                 switch (text.type) {
                     case "images":
-                        eid("picker-title").innerHTML = loc.MediaPickerTitle;
-                        eid("picker-subtitle").innerHTML = isMobile ? loc.ImagePickerExplanationPhone : loc.ImagePickerExplanationPC;
-
                         eid("picker-holder").classList.remove("various");
 
                         eid("picker-download").href = text.audio;
@@ -241,9 +241,6 @@ function popup(type, action, text) {
                         }
                         break;
                     default:
-                        eid("picker-title").innerHTML = loc.MediaPickerTitle;
-                        eid("picker-subtitle").innerHTML = isMobile ? loc.MediaPickerExplanationPhone : loc.MediaPickerExplanationPC;
-
                         eid("picker-holder").classList.add("various");
 
                         for (let i in text.arr) {
