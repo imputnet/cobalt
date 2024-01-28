@@ -743,11 +743,13 @@ button:active,
 }
 #picker-holder {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     flex-wrap: wrap;
     align-content: space-around;
     padding-top: calc(env(safe-area-inset-top)/2 + 7.6rem);
     padding-bottom: calc(env(safe-area-inset-bottom)/2 + 4.8rem);
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
 }
 .imageBlock {
     width: 100%;
@@ -1152,6 +1154,10 @@ button:active,
     }
     .close-error {
         bottom: 3rem;
+    }
+    #picker-holder {
+        padding-left: 0;
+        padding-right: 0;
     }
     #picker-holder::-webkit-scrollbar {
         display: none;
