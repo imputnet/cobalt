@@ -35,10 +35,11 @@ export default async function(obj) {
             redirect: "manual",
             headers: { "user-agent": userAgent }
         }).then((r) => { return r.text() }).catch(() => { return false });
+
         if (!html) return { error: 'ErrorCouldntFetch' };
 
-        if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) {
-            postId = html.split('/video/')[1].split('?')[0].replace("/", '')
+        if (html.slice(0, 17) === '<a href="https://') {
+            postId = html.split('<a href="https://')[1].split('?')[0].split('/')[3]
         } else if (html.slice(0, 32) === '<a href="https://m.tiktok.com/v/' && html.includes('/v/')) {
             postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
         }
