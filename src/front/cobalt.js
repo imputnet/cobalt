@@ -223,7 +223,7 @@ function popup(type, action, text) {
             case "picker":
                 switch (text.type) {
                     case "images":
-                        eid("picker-title").innerHTML = loc.ImagePickerTitle;
+                        eid("picker-title").innerHTML = loc.MediaPickerTitle;
                         eid("picker-subtitle").innerHTML = isMobile ? loc.ImagePickerExplanationPhone : loc.ImagePickerExplanationPC;
 
                         eid("picker-holder").classList.remove("various");

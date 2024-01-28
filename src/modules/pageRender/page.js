@@ -637,7 +637,6 @@ export default function(obj) {
                 'MediaPickerTitle',
                 'MediaPickerExplanationPhone',
                 'MediaPickerExplanationPC',
-                'ImagePickerTitle',
                 'ImagePickerExplanationPhone',
                 'ImagePickerExplanationPC',
                 'FeatureErrorGeneric',
