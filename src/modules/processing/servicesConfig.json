@@ -106,6 +106,12 @@
             "tld": "ru",
             "patterns": ["video/:id", "play/embed/:id"],
             "enabled": true
+        },
+        "linkedin": {
+            "alias": "linkedin posts",
+            "subdomains": ["m"],
+            "patterns": ["posts/:id"],
+            "enabled": true
         }
     }
 }

@@ -1180,5 +1180,14 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "linkedin": [{
+        "name": "video post",
+        "url": "https://www.linkedin.com/posts/hadiyarajesh_kotlin-android-coroutines-activity-7144537175857037312-JKmR",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }
