@@ -40,22 +40,22 @@ export default async function(o) {
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
     let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
-        e["mime_type"].includes(c[o.format].codec) || e["mime_type"].includes(c[o.format].aCodec)
+        e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
-    bestQuality = adaptive_formats.find(i => i["has_video"]);
-    hasAudio = adaptive_formats.find(i => i["has_audio"]);
+    bestQuality = adaptive_formats.find(i => i.has_video);
+    hasAudio = adaptive_formats.find(i => i.has_audio);
 
     if (bestQuality) bestQuality = qual(bestQuality);
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]),
-        audio = adaptive_formats.find(i => checkBestAudio(i) && !i["is_dubbed"]);
+    let checkBestAudio = (i) => (i.has_audio && !i.has_video),
+        audio = adaptive_formats.find(i => checkBestAudio(i) && !i.is_dubbed);
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i =>
-            checkBestAudio(i) && i["language"] === o.dubLang && i["audio_track"] && !i["audio_track"].audio_is_default
+            checkBestAudio(i) && i.language === o.dubLang && i.audio_track && !i.audio_track.audio_is_default
         );
         if (dubbedAudio) {
             audio = dubbedAudio;
@@ -114,8 +114,10 @@ export default async function(o) {
         filenameAttributes.extension = c[o.format].container;
         filenameAttributes.youtubeFormat = o.format;
         return {
-            type, urls,
-            filenameAttributes, fileMetadata
+            type,
+            urls,
+            filenameAttributes, 
+            fileMetadata
         }
     }
 
