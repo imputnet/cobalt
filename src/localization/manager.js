@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { links, repo } from "../modules/config.js";
-import loadJson from "../modules/sub/loadJSON.js";
+import { loadJSON } from "../modules/sub/loadFromFs.js";
 
 const locPath = './src/localization/languages';
 
@@ -10,13 +10,18 @@ let languages = [];
 export async function loadLoc() {
     const files = await fs.promises.readdir(locPath).catch((e) => { return [] });
     files.forEach(file => {
-        loc[file.split('.')[0]] = loadJson(`${locPath}/${file}`);
+        loc[file.split('.')[0]] = loadJSON(`${locPath}/${file}`);
         languages.push(file.split('.')[0])
     });
 }
 
 export function replaceBase(s) {
-    return s.replace(/\n/g, '<br/>').replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut).replace(/{repo}/g, repo).replace(/\*;/g, "&bull;");
+    return s
+            .replace(/\n/g, '<br>')
+            .replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut)
+            .replace(/{repo}/g, repo)
+            .replace(/{statusPage}/g, links.statusPage)
+            .replace(/\*;/g, "&bull;");
 }
 export function replaceAll(lang, str, string, replacement) {
     let s = replaceBase(str[string])

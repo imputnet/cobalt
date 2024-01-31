@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.5.1",
+    "version": "7.9.5",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -12,7 +12,8 @@
         "start": "node src/cobalt",
         "setup": "node src/modules/setup",
         "test": "node src/test/test",
-        "build": "node src/modules/buildStatic"
+        "build": "node src/modules/buildStatic",
+        "testFilenames": "node src/test/testFilenamePresets"
     },
     "repository": {
         "type": "git",
@@ -24,6 +25,8 @@
     },
     "homepage": "https://github.com/wukko/cobalt#readme",
     "dependencies": {
+        "abort-controller": "3.0.0",
+        "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "esbuild": "^0.14.51",
@@ -33,9 +36,10 @@
         "hls-parser": "^0.10.7",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
+        "psl": "1.9.0",
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^5.4.0"
+        "youtubei.js": "^6.4.1"
     }
 }

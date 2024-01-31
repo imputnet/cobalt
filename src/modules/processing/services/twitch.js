@@ -1,4 +1,5 @@
 import { maxVideoDuration } from "../../config.js";
+import { cleanString } from '../../sub/utils.js';
 
 const gqlURL = "https://gql.twitch.tv/gql";
 const clientIdHead = { "client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko" };
@@ -67,8 +68,16 @@ export default async function (obj) {
             token: req_token[0].data.clip.playbackAccessToken.value
         })}`,
         fileMetadata: {
-            title: clipMetadata.title,
+            title: cleanString(clipMetadata.title.trim()),
             artist: `Twitch Clip by @${clipMetadata.broadcaster.login}, clipped by @${clipMetadata.curator.login}`,
+        },
+        filenameAttributes: {
+            service: "twitch",
+            id: clipMetadata.id,
+            title: cleanString(clipMetadata.title.trim()),
+            author: `${clipMetadata.broadcaster.login}, clipped by ${clipMetadata.curator.login}`,
+            qualityLabel: `${format.quality}p`,
+            extension: 'mp4'
         },
         filename: `twitchclip_${clipMetadata.id}_${format.quality}p.mp4`,
         audioFilename: `twitchclip_${clipMetadata.id}_audio`

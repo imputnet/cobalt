@@ -1,5 +1,6 @@
 import HLS from 'hls-parser';
 import { maxVideoDuration } from "../../config.js";
+import { cleanString } from '../../sub/utils.js';
 
 export default async function(obj) {
     let quality = obj.quality === "max" ? "9000" : obj.quality;
@@ -20,11 +21,23 @@ export default async function(obj) {
     if (Number(quality) < bestQuality.resolution.height) {
         bestQuality = m3u8.find((i) => (Number(quality) === i["resolution"].height));
     }
+    let fileMetadata = {
+        title: cleanString(play.title.trim()),
+        artist: cleanString(play.author.name.trim()),
+    }
 
     return {
         urls: bestQuality.uri,
         isM3U8: true,
-        audioFilename: `rutube_${play.id}_audio`,
-        filename: `rutube_${play.id}_${bestQuality.resolution.width}x${bestQuality.resolution.height}.mp4`
+        filenameAttributes: {
+            service: "rutube",
+            id: play.id,
+            title: fileMetadata.title,
+            author: fileMetadata.artist,
+            resolution: `${bestQuality.resolution.width}x${bestQuality.resolution.height}`,
+            qualityLabel: `${bestQuality.resolution.height}p`,
+            extension: "mp4"
+        },
+        fileMetadata: fileMetadata
     }
 }

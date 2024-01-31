@@ -11,6 +11,15 @@
             "code": 200,
             "status": "redirect"
         }
+    },
+    {
+        "name": "video with mobile web mediaviewer",
+        "url": "https://twitter.com/XSpaces/status/1526955853743546372/mediaViewer?currentTweet=1526955853743546372&currentTweetUser=XSpaces&currentTweet=1526955853743546372&currentTweetUser=XSpaces",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }, {
         "name": "embedded twitter video",
         "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
@@ -299,6 +308,14 @@
     }, {
         "name": "on.soundcloud link, different stream type",
         "url": "https://on.soundcloud.com/AG4c",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "no opus audio, fallback to mp3",
+        "url": "https://soundcloud.com/frums/credits",
         "params": {},
         "expected": {
             "code": 200,
@@ -1150,6 +1167,15 @@
         "params": {
             "isAudioMuted": true
         },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "ok": [{
+        "name": "regular video",
+        "url": "https://ok.ru/video/7204071410346",
+        "params": {},
         "expected": {
             "code": 200,
             "status": "stream"

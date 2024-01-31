@@ -56,7 +56,10 @@ export function updateCookie(cookie, headers) {
 
     cookie.unset(parsed.filter(c => c.expires < new Date()).map(c => c.name));
     parsed.filter(c => !c.expires || c.expires > new Date()).forEach(c => values[c.name] = c.value);
+    updateCookieValues(cookie, values);
+}
 
+export function updateCookieValues(cookie, values) {
     cookie.set(values);
     if (Object.keys(values).length) dirty = true
 }
