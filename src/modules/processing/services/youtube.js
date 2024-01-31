@@ -25,7 +25,11 @@ const c = {
 export default async function(o) {
     let info, isDubbed, quality = o.quality === "max" ? "9000" : o.quality; //set quality 9000(p) to be interpreted as max
     function qual(i) {
-        return i['quality_label'].split('p')[0].split('s')[0]
+        if (!i.quality_label) {
+            return;
+        }
+
+        return i.quality_label.split('p')[0].split('s')[0]
     }
 
     try {
