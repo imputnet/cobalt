@@ -40,22 +40,22 @@ export default async function(o) {
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
     let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
-        e["mime_type"].includes(c[o.format].codec) || e["mime_type"].includes(c[o.format].aCodec)
+        e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
-    bestQuality = adaptive_formats.find(i => i["has_video"]);
-    hasAudio = adaptive_formats.find(i => i["has_audio"]);
+    bestQuality = adaptive_formats.find(i => i.has_video);
+    hasAudio = adaptive_formats.find(i => i.has_audio);
 
     if (bestQuality) bestQuality = qual(bestQuality);
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
     if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let checkBestAudio = (i) => (i["has_audio"] && !i["has_video"]),
-        audio = adaptive_formats.find(i => checkBestAudio(i) && !i["is_dubbed"]);
+    let checkBestAudio = (i) => (i.has_audio && !i.has_video),
+        audio = adaptive_formats.find(i => checkBestAudio(i) && !i.is_dubbed);
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i =>
-            checkBestAudio(i) && i["language"] === o.dubLang && i["audio_track"] && !i["audio_track"].audio_is_default
+            checkBestAudio(i) && i.language === o.dubLang && i.audio_track && !i.audio_track.audio_is_default
         );
         if (dubbedAudio) {
             audio = dubbedAudio;
@@ -96,37 +96,34 @@ export default async function(o) {
         filenameAttributes: filenameAttributes,
         fileMetadata: fileMetadata
     }
-    let checkSingle = (i) => ((qual(i) === quality || qual(i) === bestQuality) && i["mime_type"].includes(c[o.format].codec)),
-        checkBestVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === bestQuality),
-        checkRightVideo = (i) => (i["has_video"] && !i["has_audio"] && qual(i) === quality);
+    const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality,
+        checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(c[o.format].codec),
+        checkRender = i => qual(i) === matchingQuality && i.has_video && !i.has_audio;
 
+    let match, type, urls;
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
-        let single = info.streaming_data.formats.find(i => checkSingle(i));
-        if (single) {
-            filenameAttributes.qualityLabel = single.quality_label;
-            filenameAttributes.resolution = `${single.width}x${single.height}`;
-            filenameAttributes.extension = c[o.format].container;
-            filenameAttributes.youtubeFormat = o.format;
-            return {
-                type: "bridge",
-                urls: single.url,
-                filenameAttributes: filenameAttributes,
-                fileMetadata: fileMetadata
-            }
-        }
+        match = info.streaming_data.formats.find(checkSingle);
+        type = "bridge";
+        urls = match?.url;
     }
 
-    let video = adaptive_formats.find(i => ((Number(quality) > Number(bestQuality)) ? checkBestVideo(i) : checkRightVideo(i)));
-    if (video && audio) {
-        filenameAttributes.qualityLabel = video.quality_label;
-        filenameAttributes.resolution = `${video.width}x${video.height}`;
+    const video = adaptive_formats.find(checkRender);
+    if (!match && video) {
+        match = video;
+        type = "render";
+        urls = [video.url, audio.url];
+    }
+
+    if (match) {
+        filenameAttributes.qualityLabel = match.quality_label;
+        filenameAttributes.resolution = `${match.width}x${match.height}`;
         filenameAttributes.extension = c[o.format].container;
         filenameAttributes.youtubeFormat = o.format;
         return {
-            type: "render",
-            urls: [video.url, audio.url],
-            filenameAttributes: filenameAttributes,
-            fileMetadata: fileMetadata
+            type,
+            urls,
+            filenameAttributes, 
+            fileMetadata
         }
     }
 
