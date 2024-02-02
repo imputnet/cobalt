@@ -155,6 +155,8 @@
         "DonateImageDescription": "cat sleeping on a laptop keyboard and typing letters repeatedly",
         "SettingsTwitterGif": "convert gifs to .gif",
         "SettingsTwitterGifDescription": "converting looping videos to .gif reduces quality and majorly increases file size. if you want best efficiency, keep this setting off.",
-        "UpdateTwitterGif": "twitter gifs and pinterest"
+        "UpdateTwitterGif": "twitter gifs and pinterest",
+        "ErrorTweetProtected": "this tweet is from a private account, so i can't see it. try another one!",
+        "ErrorTweetNSFW": "this tweet contains sensitive content, so i can't see it. try another one!"
     }
 }

@@ -86,7 +86,18 @@ export default async function({ id, index, toGif }) {
     tweet = await tweet.json();
 
     // {"data":{"tweetResult":{"result":{"__typename":"TweetUnavailable","reason":"Protected"}}}}
-    if (tweet?.data?.tweetResult?.result?.__typename !== "Tweet") {
+    const tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
+
+    if (tweetTypename === "TweetUnavailable") {
+        const reason = tweet?.data?.tweetResult?.result?.reason;
+        switch(reason) {
+            case "Protected":
+                return { error: 'ErrorTweetProtected' }
+            case "NsfwLoggedOut":
+                return { error: 'ErrorTweetNSFW' }
+        }
+    }
+    if (tweetTypename !== "Tweet") {
         return { error: 'ErrorTweetUnavailable' }
     }
 
