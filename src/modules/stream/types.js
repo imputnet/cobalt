@@ -1,10 +1,12 @@
-import ffmpeg from "ffmpeg-static";
-import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { spawn, pipe, killProcess } from "./shared.js";
-import { metadataManager } from "../sub/utils.js";
-import { request } from "undici";
-import { create as contentDisposition } from "content-disposition-header";
+import { request } from "undici"
+import ffmpeg from "ffmpeg-static"
 import { AbortController } from "abort-controller"
+import { create as contentDisposition } from "content-disposition-header"
+
+import { makeCut } from "./cut.js"
+import { metadataManager } from "../sub/utils.js"
+import { spawn, pipe, killProcess } from "./shared.js"
+import { ffmpegArgs, genericUserAgent } from "../config.js"
 
 function closeRequest(controller) {
     try { controller.abort() } catch {}
@@ -219,6 +221,33 @@ export function convertToGif(streamInfo, res) {
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename.split('.')[0] + ".gif"));
 
         pipe(muxOutput, res, shutdown);
+
+        process.on('close', shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
+    }
+}
+
+export async function streamClip(streamInfo, res) {
+    if (typeof streamInfo.urls === 'string')
+        streamInfo.urls = [streamInfo.urls];
+
+    const shutdown = () => (killProcess(process), closeResponse(res));
+
+    try {
+        const [ video, audio ] = streamInfo.urls;
+        const { start, end } = streamInfo.clip;
+        if (!start || !end || start === 'NaN' || end === 'NaN')
+            return shutdown();
+
+        const stream = await makeCut(video, { start, end }, audio);
+        process = stream.process;
+
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+
+        pipe(stream, res, shutdown);
 
         process.on('close', shutdown);
         res.on('finish', shutdown);
