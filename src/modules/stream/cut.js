@@ -1,6 +1,8 @@
+import ffmpeg from 'ffmpeg-static';
 import { strict as assert } from 'node:assert';
-import { spawn } from './shared.js';
 import { path as ffprobe } from 'ffprobe-static';
+
+import { spawn } from './shared.js';
 
 function mapFormat(format) {
     if (format?.includes('webm'))
@@ -116,7 +118,7 @@ async function getBoundingKeyframes(url, { start, end }) {
 
 function spawnStream(args, inputs = 0) {
     return spawn(
-        'ffmpeg',
+        ffmpeg,
         [ '-loglevel', '-8', ...args, 'pipe:' + (inputs + 3) ],
         {
             stdio: [
