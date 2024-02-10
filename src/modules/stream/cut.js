@@ -1,5 +1,5 @@
 import { strict as assert } from 'node:assert';
-import { spawn } from 'node:child_process';
+import { spawn } from './shared.js';
 import { path as ffprobe } from 'ffprobe-static';
 
 function mapFormat(format) {
