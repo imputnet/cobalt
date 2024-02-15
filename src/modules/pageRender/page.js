@@ -44,6 +44,7 @@ export default function(obj) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}">
+        <meta name="theme-color" content="#000">
 
         <title>${t("AppTitleCobalt")}</title>
 
