@@ -6,22 +6,27 @@ if you need help with installing docker, follow *only the first step* of these t
 - [how to install docker](https://www.digitalocean.com/community/tutorial-collections/how-to-install-and-use-docker)
 - [how to install docker compose](https://www.digitalocean.com/community/tutorial-collections/how-to-install-docker-compose)
 
-## how to run a cobalt docker package: 
-1. create a folder for cobalt config file, something like this:  
+## how to run a cobalt docker package:
+1. create a folder for cobalt config file, something like this:
+
     ```sh
     mkdir cobalt
-    ```  
+    ```
 
-2. go to cobalt folder, and create a docker compose config file:  
+2. go to cobalt folder, and create a docker compose config file:
+
     ```sh
     cd cobalt && nano docker-compose.yml
-    ```  
-    i'm using `nano` in this example, it may not be available in your distro. you can use any other text editor.  
+    ```
 
-3. copy and paste the [sample config from here](https://github.com/wukko/cobalt/blob/current/docs/examples/docker-compose.example.yml) for either web or api instance (or both, if you wish) and edit it to your needs.  
-    make sure to replace default URLs with your own or cobalt won't work correctly.  
+    i'm using `nano` in this example, it may not be available in your distro. you can use any other text editor.
+
+3. copy and paste the [sample config from here](https://github.com/wukko/cobalt/blob/current/docs/examples/docker-compose.example.yml) for either web or api instance (or both, if you wish) and edit it to your needs.
+
+    **make sure to replace default URLs with your own or cobalt won't work correctly.**
 
 4. finally, start the cobalt container (from cobalt directory):
+
     ```sh
     docker compose up -d
     ```

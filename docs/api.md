@@ -1,18 +1,19 @@
 # cobalt api documentation
-this document provides info about methods and acceptable variables for all cobalt api requests.  
+this document provides info about methods and acceptable variables for all cobalt api requests.
 
-```
-👍 you can use co.wuk.sh instance in your projects for free, just don't be an asshole.
+```yml
+# 👍 you can use co.wuk.sh instance in your projects for free, just don't be an asshole.
 ```
 
 ## POST: `/api/json`
-cobalt's main processing endpoint.  
+cobalt's main processing endpoint.
 
-request body type: `application/json`  
-response body type: `application/json`  
+request body type: `application/json`
 
-```
-⚠️ you must include Accept and Content-Type headers with every POST /api/json request.
+response body type: `application/json`
+
+```yml
+# ⚠️ you must include Accept and Content-Type headers with every POST /api/json request.
 
 Accept: application/json
 Content-Type: application/json
@@ -45,7 +46,7 @@ Content-Type: application/json
 | `audio`      | `string` | direct link to a file or a link to cobalt's live render     |
 
 ### picker item variables
-item type: `object` 
+item type: `object`
 
 | key     | type     | variables                                               | description                            |
 |:--------|:---------|:--------------------------------------------------------|:---------------------------------------|
@@ -54,7 +55,7 @@ item type: `object`
 | `thumb` | `string` | item thumbnail that's displayed in the picker           | used only for `video` type.            |
 
 ## GET: `/api/stream`
-cobalt's live render (or stream) endpoint. used for sending various media content over to the user.  
+cobalt's live render (or stream) endpoint. used for sending various media content over to the user.
 
 ### request query variables
 | key  | variables        | description                                                                                                                    |
@@ -65,7 +66,8 @@ cobalt's live render (or stream) endpoint. used for sending various media conten
 | `e`  | expiry timestamp |                                                                                                                                |
 
 ## GET: `/api/serverInfo`
-returns current basic server info.  
+returns current basic server info.
+
 response body type: `application/json`
 
 ### response body variables
