@@ -14,9 +14,8 @@ let rl = createInterface({ input: process.stdin, output: process.stdout });
 let final = () => {
     if (existsSync(envPath)) unlinkSync(envPath);
 
-    for (let i in ob) {
-        appendFileSync(envPath, `${i}=${ob[i]}\n`)
-    }
+    for (let i in ob)
+        appendFileSync(envPath, `${i}=${ob[i]}\n`);
     console.log(Bright("\nAwesome! I've created a fresh .env file for you."));
     console.log(`${Bright("Now I'll run")} ${Cyan("npm install")} ${Bright("to install all dependencies. It shouldn't take long.\n\n")}`);
     execSync('npm install', { stdio: [0, 1, 2] });
@@ -28,7 +27,7 @@ let final = () => {
 
 console.log(
     `${Cyan(`Hey, this is cobalt v.${version}!`)}\n${Bright("Let's start by creating a new ")}${Cyan(".env")}${Bright(" file. You can always change it later.")}`
-)
+);
 
 function setup() {
     console.log(Bright("\nWhat kind of server will this instance be?\nOptions: api, web."));
@@ -59,22 +58,22 @@ function setup() {
 
                             rl.question(q, apiCors => {
                                 let answCors = apiCors.toLowerCase().trim();
-                                if (answCors !== "y" && answCors !== "yes") ob['cors'] = '0'
-                                final()
+                                if (answCors !== "y" && answCors !== "yes") ob['cors'] = '0';
+                                final();
                             })
                         })
                     });
-    
+
                 })
                 break;
             case 'web':
                 console.log(Bright("\nAwesome! What's the domain this web app instance will be running on? (localhost)\nExample: cobalt.tools"));
-    
+
                 rl.question(q, webURL => {
                     ob['webURL'] = `http://localhost:9001/`;
                     ob['webPort'] = 9001;
                     if (webURL && webURL !== "localhost") ob['webURL'] = `https://${webURL.toLowerCase()}/`;
-    
+
                     console.log(
                         Bright("\nGreat! Now, what port will it be running on? (9001)")
                     )
@@ -90,16 +89,16 @@ function setup() {
                             ob['apiURL'] = `https://${apiURL.toLowerCase()}/`;
                             if (apiURL.includes(':')) ob['apiURL'] = `http://${apiURL.toLowerCase()}/`;
                             if (!apiURL) ob['apiURL'] = "https://co.wuk.sh/";
-                            final()
+                            final();
                         })
                     });
-    
+
                 });
                 break;
             default:
                 console.log(Bright("\nThis is not an option. Try again."));
-                setup()
+                setup();
         }
-    })
+    });
 }
-setup()
+setup();

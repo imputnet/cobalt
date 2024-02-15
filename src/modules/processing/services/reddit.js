@@ -9,7 +9,7 @@ async function getAccessToken() {
      * you can get these by making a reddit app and
      * authenticating an account against reddit's oauth2 api
      * see: https://github.com/reddit-archive/reddit/wiki/OAuth2
-     * 
+     *
      * any additional cookie fields are managed by this code and you
      * should not touch them unless you know what you're doing. **/
     const cookie = await getCookie('reddit');

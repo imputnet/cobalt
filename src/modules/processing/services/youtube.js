@@ -43,7 +43,7 @@ export default async function(o) {
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
-    let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
+    let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e =>
         e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
@@ -126,10 +126,10 @@ export default async function(o) {
         return {
             type,
             urls,
-            filenameAttributes, 
+            filenameAttributes,
             fileMetadata
         }
     }
 
-    return { error: 'ErrorYTTryOtherCodec' }
+    return { error: 'ErrorYTTryOtherCodec' };
 }

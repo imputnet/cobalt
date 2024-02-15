@@ -8,22 +8,21 @@ import changelogManager from "../changelog/changelogManager.js";
 let com = getCommitInfo();
 
 let enabledServices = Object.keys(s).filter(p => s[p].enabled).sort().map((p) => {
-    return `<br>&bull; ${s[p].alias ? s[p].alias : p}`
-}).join('').substring(4)
+    return `<br>&bull; ${s[p].alias ? s[p].alias : p}`;
+}).join('').substring(4);
 
-let donate = ``
-let donateLinks = ``
+let donate = ``;
+let donateLinks = ``;
 let audioFormats = supportedAudio.map((p) => {
-    return { "action": p }
+    return { "action": p };
 })
-audioFormats.unshift({ "action": "best" })
-for (let i in donations["links"]) {
-    donateLinks += `<a id="don-${i}" class="switch autowidth" href="${donations["links"][i]}" target="_blank">REPLACEME ${i}</a>`
-}
-let extr = ''
+audioFormats.unshift({ "action": "best" });
+for (let i in donations["links"])
+    donateLinks += `<a id="don-${i}" class="switch autowidth" href="${donations["links"][i]}" target="_blank">REPLACEME ${i}</a>`;
+let extr = '';
 for (let i in donations["crypto"]) {
-    donate += `<div class="subtitle${extr}">${i} (REPLACEME)</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations["crypto"][i]}</div>`
-    extr = ' top-margin'
+    donate += `<div class="subtitle${extr}">${i} (REPLACEME)</div><div id="don-${i}" class="text-to-copy" onClick="copy('don-${i}')">${donations["crypto"][i]}</div>`;
+    extr = ' top-margin';
 }
 
 export default function(obj) {
@@ -56,7 +55,7 @@ export default function(obj) {
         <meta name="description" content="${t('AboutSummary')}">
         <meta name="theme-color" content="#000000">
         <meta name="twitter:card" content="summary">
-        
+
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="${t("AppTitleCobalt")}">
@@ -107,7 +106,7 @@ export default function(obj) {
                         }, {
                             name: "keyboard",
                             title: `${emoji("⌨")} ${t("CollapseKeyboard")}`,
-                            body: 
+                            body:
                             `${t("KeyboardShortcutsIntro")}
                             ${keyboardShortcuts([{
                                 items: [{
@@ -650,7 +649,7 @@ export default function(obj) {
         <script src="cobalt.js"></script>
     </body>
 </html>
-`
+`;
     } catch (err) {
         return `${t('ErrorPageRenderFail', obj.hash)}`;
     }

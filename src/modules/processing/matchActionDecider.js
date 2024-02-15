@@ -40,7 +40,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
         case "photo":
             responseType = 1;
             break;
-        
+
         case "gif":
             params = { type: "gif" }
             break;
@@ -100,7 +100,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                         responseType = 1;
                     }
                     break;
-                
+
                 case "twitter":
                     if (r.type === "remux") {
                         params = { type: r.type };
@@ -125,14 +125,14 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             }
             break;
 
-        case "audio": 
+        case "audio":
             if ((host === "reddit" && r.typeId === 1) || audioIgnore.includes(host)) {
                 return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') })
             }
 
             let processType = "render",
                 copy = false;
-            
+
             if (!supportedAudio.includes(audioFormat)) {
                 audioFormat = "best"
             }

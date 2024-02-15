@@ -11,7 +11,7 @@ export default async function(obj) {
     if (!play.video_balancer || play.detail) return { error: 'ErrorEmptyDownload' };
 
     if (play.duration > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
-    
+
     let m3u8 = await fetch(play.video_balancer.m3u8).then((r) => { return r.text() }).catch(() => { return false });
     if (!m3u8) return { error: 'ErrorCouldntFetch' };
 

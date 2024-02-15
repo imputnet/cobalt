@@ -120,7 +120,7 @@ async function getStory(username, id) {
 
     const item = media.items[media.media_ids.indexOf(id)];
     if (!item) return { error: 'ErrorEmptyDownload' };
-    
+
     if (item.video_versions) {
         const video = item.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a)
         return {

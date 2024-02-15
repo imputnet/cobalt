@@ -31,49 +31,48 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
                     case "0":
                         r = changelogHistory();
                         j = r ? apiJSON(3, { t: r }) : apiJSON(0, {
-                            t: "couldn't render this block, please try again!"
-                        })
+                            t: "couldn't render this block, please try again!",
+                        });
                         break;
                     // celebrations emoji
                     case "1":
                         r = celebrationsEmoji();
-                        j = r ? apiJSON(3, { t: r }) : false
+                        j = r ? apiJSON(3, { t: r }) : false;
                         break;
                     default:
                         j = apiJSON(0, {
                             t: "couldn't find a block with this id"
-                        })
+                        });
                         break;
                 }
-                if (j.body) {
+                if (j.body)
                     return res.status(j.status).json(j.body);
-                } else {
+                else
                     return res.status(204).end();
-                }
             } else {
                 return res.status(400).json({
                     status: "error",
-                    text: "couldn't render this block, please try again!"
+                    text: "couldn't render this block, please try again!",
                 });
             }
         } catch (e) {
             return res.status(400).json({
                 status: "error",
-                text: "couldn't render this block, please try again!"
-            })
+                text: "couldn't render this block, please try again!",
+            });
         }
     });
     app.get("/status", (req, res) => {
-        return res.status(200).end()
+        return res.status(200).end();
     });
     app.get("/", (req, res) => {
-        return res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`)
+        return res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`);
     });
     app.get("/favicon.ico", (req, res) => {
-        return res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
+        return res.sendFile(`${__dirname}/src/front/icons/favicon.ico`);
     });
     app.get("/*", (req, res) => {
-        return res.redirect('/')
+        return res.redirect('/');
     });
 
     app.listen(process.env.webPort || 9001, () => {
@@ -82,6 +81,6 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
             `URL: ${Cyan(`${process.env.webURL}`)}\n` +
             `Port: ${process.env.webPort || 9001}\n`
-        )
-    })
+        );
+    });
 }

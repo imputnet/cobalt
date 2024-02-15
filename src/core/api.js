@@ -45,7 +45,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             });
         }
     });
-    
+
     const startTime = new Date();
     const startTimestamp = Math.floor(startTime.getTime());
 
@@ -95,10 +95,10 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                 let request = req.body;
                 if (contentCon && request.url) {
                     request.dubLang = request.dubLang ? lang : false;
-    
+
                     let chck = checkJSONPost(request);
                     if (!chck) throw new Error();
-    
+
                     j = await getJSON(chck.url, lang, chck);
                 } else {
                     j = apiJSON(0, {
@@ -119,7 +119,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             switch (req.params.type) {
                 case 'stream':
                     if (req.query.t && req.query.h && req.query.e && req.query.t.toString().length === 21
-                    && req.query.h.toString().length === 64 && req.query.e.toString().length === 13) {
+                      && req.query.h.toString().length === 64 && req.query.e.toString().length === 13) {
                         let streamInfo = verifyStream(req.query.t, req.query.h, req.query.e);
                         if (streamInfo.error) {
                             return res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
@@ -132,8 +132,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         return stream(res, streamInfo);
                     } else {
                         let j = apiJSON(0, {
-                            t: "stream token, hmac, or expiry timestamp is missing"
-                        })
+                            t: "stream token, hmac, or expiry timestamp is missing",
+                        });
                         return res.status(j.status).json(j.body);
                     }
                 case 'serverInfo':
@@ -149,7 +149,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                 default:
                     let j = apiJSON(0, {
                         t: "unknown response type"
-                    })
+                    });
                     return res.status(j.status).json(j.body);
             }
         } catch (e) {
@@ -160,13 +160,13 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
     });
     app.get('/api/status', (req, res) => {
-        res.status(200).end()
+        res.status(200).end();
     });
     app.get('/favicon.ico', (req, res) => {
-        res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
+        res.sendFile(`${__dirname}/src/front/icons/favicon.ico`);
     });
     app.get('/*', (req, res) => {
-        res.redirect('/api/json')
+        res.redirect('/api/json');
     });
 
     app.listen(process.env.apiPort || 9000, () => {
@@ -175,6 +175,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
             `URL: ${Cyan(`${process.env.apiURL}`)}\n` +
             `Port: ${process.env.apiPort || 9000}\n`
-        )
+        );
     });
 }

@@ -44,7 +44,7 @@ export async function buildFront(commitHash, branch) {
             minify: true,
             loader: { '.js': 'js', '.css': 'css', },
             charset: 'utf8'
-        })
+        });
     } catch (e) {
         return;
     }

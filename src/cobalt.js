@@ -26,14 +26,14 @@ const webMode = process.env.webURL && process.env.apiURL;
 
 if (apiMode) {
     const { runAPI } = await import('./core/api.js');
-    runAPI(express, app, gitCommit, gitBranch, __dirname)
+    runAPI(express, app, gitCommit, gitBranch, __dirname);
 } else if (webMode) {
     const { runWeb } = await import('./core/web.js');
-    await runWeb(express, app, gitCommit, gitBranch, __dirname)
+    await runWeb(express, app, gitCommit, gitBranch, __dirname);
 } else {
     console.log(
         Red(`cobalt wasn't configured yet or configuration is invalid.\n`)
         + Bright(`please run the setup script to fix this: `)
         + Green(`npm run setup`)
-    )
+    );
 }

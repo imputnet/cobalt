@@ -42,23 +42,23 @@ const pageQuery = new URLSearchParams(window.location.search);
 let store = {};
 
 function fixApiUrl(url) {
-    return url.endsWith('/') ? url.slice(0, -1) : url
+    return url.endsWith('/') ? url.slice(0, -1) : url;
 }
 
 let apiURL = fixApiUrl(defaultApiUrl);
 
 function changeApi(url) {
     apiURL = fixApiUrl(url);
-    return true
+    return true;
 }
 function eid(id) {
-    return document.getElementById(id)
+    return document.getElementById(id);
 }
 function sGet(id) {
-    return localStorage.getItem(id)
+    return localStorage.getItem(id);
 }
 function sSet(id, value) {
-    localStorage.setItem(id, value)
+    localStorage.setItem(id, value);
 }
 function enable(id) {
     eid(id).dataset.enabled = "true";
@@ -75,40 +75,39 @@ function opposite(state) {
 function changeDownloadButton(action, text) {
     switch (action) {
         case 0:
-            eid("download-button").disabled = true
+            eid("download-button").disabled = true;
             if (sGet("alwaysVisibleButton") === "true") {
-                eid("download-button").value = text
-                eid("download-button").style.padding = '0 1rem'
+                eid("download-button").value = text;
+                eid("download-button").style.padding = '0 1rem';
             } else {
-                eid("download-button").value = ''
-                eid("download-button").style.padding = '0'
+                eid("download-button").value = '';
+                eid("download-button").style.padding = '0';
             }
             break;
         case 1:
-            eid("download-button").disabled = false
-            eid("download-button").value = text
-            eid("download-button").style.padding = '0 1rem'
+            eid("download-button").disabled = false;
+            eid("download-button").value = text;
+            eid("download-button").style.padding = '0 1rem';
             break;
         case 2:
-            eid("download-button").disabled = true
-            eid("download-button").value = text
-            eid("download-button").style.padding = '0 1rem'
+            eid("download-button").disabled = true;
+            eid("download-button").value = text;
+            eid("download-button").style.padding = '0 1rem';
             break;
     }
 }
 document.addEventListener("keydown", (event) => {
     if (event.key === "Tab") {
-        eid("download-button").value = '>>'
-        eid("download-button").style.padding = '0 1rem'
+        eid("download-button").value = '>>';
+        eid("download-button").style.padding = '0 1rem';
     }
-})
+});
 function button() {
     let regexTest = regex.test(eid("url-input-area").value);
-    if ((eid("url-input-area").value).length > 0) {
+    if ((eid("url-input-area").value).length > 0)
         eid("url-clear").style.display = "block";
-    } else {
+    else
         eid("url-clear").style.display = "none";
-    }
     regexTest ? changeDownloadButton(1, '>>') : changeDownloadButton(0, '>>');
 }
 function clearInput() {
@@ -127,35 +126,32 @@ async function share(url) {
 function detectColorScheme() {
     let theme = "auto";
     let localTheme = sGet("theme");
-    if (localTheme) {
+    if (localTheme)
         theme = localTheme;
-    } else if (!window.matchMedia) {
-        theme = "dark"
-    }
+    else if (!window.matchMedia)
+        theme = "dark";
     document.documentElement.setAttribute("data-theme", theme);
 }
-function changeTab(evnt, tabId, tabClass) {
+function changeTab(event, tabId, tabClass) {
     if (tabId === "tab-settings-other") updateFilenamePreview();
 
     let tabcontent = document.getElementsByClassName(`tab-content-${tabClass}`);
     let tablinks = document.getElementsByClassName(`tab-${tabClass}`);
 
-    for (let i = 0; i < tabcontent.length; i++) {
+    for (let i = 0; i < tabcontent.length; i++)
         tabcontent[i].dataset.enabled = "false";
-    }
-    for (let i = 0; i < tablinks.length; i++) {
+    for (let i = 0; i < tablinks.length; i++)
         tablinks[i].dataset.enabled = "false";
-    }
-    
-    evnt.currentTarget.dataset.enabled = "true";
+
+    event.currentTarget.dataset.enabled = "true";
     eid(tabId).dataset.enabled = "true";
     eid(tabId).parentElement.scrollTop = 0;
 
     if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
     if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
 }
-function expandCollapsible(evnt) {
-    let classlist = evnt.currentTarget.parentNode.classList;
+function expandCollapsible(event) {
+    let classlist = event.currentTarget.parentNode.classList;
     let c = "expanded";
     !classlist.contains(c) ? classlist.add(c) : classlist.remove(c);
 }
@@ -166,7 +162,7 @@ function notificationCheck(type) {
             sSet("seenAbout", "true");
             break;
         case "changelog":
-            sSet("changelogStatus", version)
+            sSet("changelogStatus", version);
             break;
         default:
             changed = false;
@@ -174,8 +170,8 @@ function notificationCheck(type) {
     if (changed && sGet("changelogStatus") === `${version}` || type === "disable") {
         setTimeout(() => {
             eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(notification, '');
-            eid("tab-button-about-changelog").innerHTML = eid("tab-button-about-changelog").innerHTML.replace(notification, '')
-        }, 900)
+            eid("tab-button-about-changelog").innerHTML = eid("tab-button-about-changelog").innerHTML.replace(notification, '');
+        }, 900);
     }
     if (sGet("disableChangelog") !== "true") {
         if (!sGet("seenAbout") && !eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
@@ -187,9 +183,8 @@ function notificationCheck(type) {
 }
 function hideAllPopups() {
     let filter = document.getElementsByClassName('popup');
-    for (let i = 0; i < filter.length; i++) {
+    for (let i = 0; i < filter.length; i++)
         filter[i].classList.remove("visible");
-    }
     eid("popup-backdrop").classList.remove("visible");
     store.isPopupOpen = false;
 
@@ -237,7 +232,7 @@ function popup(type, action, text) {
                                 isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` +
                                 `<img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'">` +
-                            `</a>`
+                            `</a>`;
                         }
                         break;
                     default:
@@ -247,11 +242,11 @@ function popup(type, action, text) {
                             eid("picker-holder").innerHTML +=
                             `<a class="picker-image-container" ${
                                 isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
-                            }>` + 
+                            }>` +
                                 `<div class="picker-element-name">${text.arr[i].type}</div>` +
                                 (text.arr[i].type === 'photo' ? '' : '<div class="imageBlock"></div>') +
                                 `<img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'">` +
-                            `</a>`
+                            `</a>`;
                         }
                         eid("picker-download").classList.remove("visible");
                         break;
@@ -265,7 +260,7 @@ function popup(type, action, text) {
         if (type === "picker") {
             eid("picker-download").href = '/';
             eid("picker-download").classList.remove("visible");
-            eid("picker-holder").innerHTML = ''
+            eid("picker-holder").innerHTML = '';
         }
     }
     if (bottomPopups.includes(type)) eid(`popup-${type}-container`).classList.toggle("visible");
@@ -277,18 +272,16 @@ function changeSwitcher(li, b) {
     if (b) {
         if (!switchers[li].includes(b)) b = switchers[li][0];
         sSet(li, b);
-        for (let i in switchers[li]) {
-            (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
-        }
+        for (let i in switchers[li])
+            (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`);
         if (li === "theme") detectColorScheme();
         if (li === "filenamePattern") updateFilenamePreview();
     } else {
         let pref = switchers[li][0];
         if (isMobile && exceptions[li]) pref = exceptions[li];
         sSet(li, pref);
-        for (let i in switchers[li]) {
-            (switchers[li][i] === pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
-        }
+        for (let i in switchers[li])
+            (switchers[li][i] === pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`);
     }
 }
 function checkbox(action) {
@@ -303,7 +296,7 @@ function checkbox(action) {
 function changeButton(type, text) {
     switch (type) {
         case 0: //error
-            eid("url-input-area").disabled = false
+            eid("url-input-area").disabled = false;
             eid("url-clear").style.display = "block";
             changeDownloadButton(2, '!!');
             popup("error", 1, text);
@@ -312,18 +305,18 @@ function changeButton(type, text) {
         case 1: //enable back
             changeDownloadButton(1, '>>');
             eid("url-clear").style.display = "block";
-            eid("url-input-area").disabled = false
+            eid("url-input-area").disabled = false;
             break;
         case 2: //enable back + information popup
             popup("error", 1, text);
             changeDownloadButton(1, '>>');
             eid("url-clear").style.display = "block";
-            eid("url-input-area").disabled = false
+            eid("url-input-area").disabled = false;
             break;
     }
 }
 function internetError() {
-    eid("url-input-area").disabled = false
+    eid("url-input-area").disabled = false;
     changeDownloadButton(2, '!!');
     setTimeout(() => { changeButton(1); }, 2500);
     popup("error", 1, loc.ErrorNoInternet);
@@ -361,11 +354,10 @@ async function download(url) {
         filenamePattern: sGet("filenamePattern"),
         dubLang: false
     }
-    if (sGet("dubLang") === "auto") {
-        req.dubLang = true
-    } else if (sGet("dubLang") === "custom") {
-        req.dubLang = true
-    }
+    if (sGet("dubLang") === "auto")
+        req.dubLang = true;
+    else if (sGet("dubLang") === "custom")
+        req.dubLang = true;
     if (sGet("vimeoDash") === "true") req.vimeoDash = true;
     if (sGet("audioMode") === "true") {
         req.isAudioOnly = true;
@@ -388,14 +380,14 @@ async function download(url) {
     }).then((r) => { return r.json() }).catch((e) => { return false });
     if (!j) {
         internetError();
-        return
+        return;
     }
 
     if (j && j.status !== "error" && j.status !== "rate-limit") {
         if (j.text && (!j.url || !j.picker)) {
-            if (j.status === "success") {
-                changeButton(2, j.text)
-            } else changeButton(0, loc.ErrorNoUrlReturned);
+            if (j.status === "success")
+                changeButton(2, j.text);
+            else changeButton(0, loc.ErrorNoUrlReturned);
         }
         switch (j.status) {
             case "redirect":
@@ -412,27 +404,23 @@ async function download(url) {
                     changeDownloadButton(2, '>>>');
                     popup('picker', 1, { arr: j.picker, type: j.pickerType });
                     setTimeout(() => { changeButton(1) }, 2500);
-                } else {
-                    changeButton(0, loc.ErrorNoUrlReturned);
-                }
+                } else changeButton(0, loc.ErrorNoUrlReturned);
                 break;
             case "stream":
-                changeDownloadButton(2, '?..')
+                changeDownloadButton(2, '?..');
                 fetch(`${j.url}&p=1`).then(async (res) => {
                     let jp = await res.json();
                     if (jp.status === "continue") {
                         changeDownloadButton(2, '>>>');
-                        if (sGet("downloadPopup") === "true") {
-                            popup('download', 1, j.url)
-                        } else {
-                            if (isMobile || isSafari) {
+                        if (sGet("downloadPopup") === "true")
+                            popup('download', 1, j.url);
+                        else {
+                            if (isMobile || isSafari)
                                 window.location.href = j.url;
-                            } else window.open(j.url, '_blank');
+                            else window.open(j.url, '_blank');
                         }
                         setTimeout(() => { changeButton(1) }, 2500);
-                    } else {
-                        changeButton(0, jp.text);
-                    }
+                    } else changeButton(0, jp.text);
                 }).catch((error) => internetError());
                 break;
             case "success":
@@ -442,17 +430,14 @@ async function download(url) {
                 changeButton(0, loc.ErrorUnknownStatus);
                 break;
         }
-    } else if (j && j.text) {
-        changeButton(0, j.text);
-    }
+    } else if (j && j.text) changeButton(0, j.text);
 }
 async function loadCelebrationsEmoji() {
     let bac = eid("about-footer").innerHTML;
     try {
         let j = await fetch(`/onDemand?blockId=1`).then((r) => { if (r.status === 200) { return r.json() } else { return false } }).catch(() => { return false });
-        if (j && j.status === "success" && j.text) {
+        if (j && j.status === "success" && j.text)
             eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace('<img class="emoji" draggable="false" height="22" width="22" alt="🐲" src="emoji/dragon_face.svg" loading="lazy">', j.text);
-        }
     } catch (e) {
         eid("about-footer").innerHTML = bac;
     }
@@ -463,9 +448,9 @@ async function loadOnDemand(elementId, blockId) {
     eid(elementId).innerHTML = `<div class="loader">...</div>`;
 
     try {
-        if (store.historyContent) {
+        if (store.historyContent)
             j = store.historyContent;
-        } else {
+        else {
             await fetch(`/onDemand?blockId=${blockId}`).then(async(r) => {
                 j = await r.json();
                 if (j && j.status === "success") {
@@ -473,12 +458,12 @@ async function loadOnDemand(elementId, blockId) {
                 } else throw new Error();
             }).catch(() => { throw new Error() });
         }
-        if (j.text) {
+        if (j.text)
             eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.ChangelogPressToHide}</button>${j.text}`;
-        } else throw new Error()
+        else throw new Error();
     } catch (e) {
         eid(elementId).innerHTML = store.historyButton;
-        internetError()
+        internetError();
     }
 }
 function restoreUpdateHistory() {
@@ -491,20 +476,20 @@ function unpackSettings(b64) {
         let currentSettings = JSON.parse(JSON.stringify(localStorage));
         for (let s in settingsToImport) {
             if (checkboxes.includes(s) && (settingsToImport[s] === "true" || settingsToImport[s] === "false")
-                && currentSettings[s] !== settingsToImport[s]) {
+              && currentSettings[s] !== settingsToImport[s]) {
                 sSet(s, settingsToImport[s]);
-                changed = true
+                changed = true;
             }
             if (switchers[s] && switchers[s].includes(settingsToImport[s])
-                && currentSettings[s] !== settingsToImport[s]) {
+              && currentSettings[s] !== settingsToImport[s]) {
                 sSet(s, settingsToImport[s]);
-                changed = true
+                changed = true;
             }
         }
     } catch (e) {
         changed = false;
     }
-    return changed
+    return changed;
 }
 function updateFilenamePreview() {
     let videoFilePreview = ``;
@@ -523,55 +508,50 @@ function updateFilenamePreview() {
     switch(sGet("filenamePattern")) {
         case "classic":
             videoFilePreview = `youtube_yPYZpwSpKmA_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
-            + `${sGet("muteAudio") === "true" ? "_mute" : ""}.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+                + `${sGet("muteAudio") === "true" ? "_mute" : ""}.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
             audioFilePreview = `youtube_yPYZpwSpKmA_audio.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
             break;
         case "pretty":
             videoFilePreview =
             `${loc.FilenamePreviewVideoTitle} `
-            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
-            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
             audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
             break;
         case "basic":
             videoFilePreview =
             `${loc.FilenamePreviewVideoTitle} `
-            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}${sGet("muteAudio") === "true" ? " mute" : ""}).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}${sGet("muteAudio") === "true" ? " mute" : ""}).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
             audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
             break;
         case "nerdy":
             videoFilePreview =
             `${loc.FilenamePreviewVideoTitle} `
-            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
-            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, yPYZpwSpKmA).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, yPYZpwSpKmA).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
             audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud, 1242868615).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
             break;
     }
-    eid("video-filename-text").innerHTML = videoFilePreview
-    eid("audio-filename-text").innerHTML = audioFilePreview
+    eid("video-filename-text").innerHTML = videoFilePreview;
+    eid("audio-filename-text").innerHTML = audioFilePreview;
 }
 function loadSettings() {
     if (sGet("alwaysVisibleButton") === "true") {
         eid("alwaysVisibleButton").checked = true;
-        eid("download-button").value = '>>'
+        eid("download-button").value = '>>';
         eid("download-button").style.padding = '0 1rem';
     }
-    if (sGet("downloadPopup") === "true" && !isIOS) {
+    if (sGet("downloadPopup") === "true" && !isIOS)
         eid("downloadPopup").checked = true;
-    }
-    if (sGet("reduceTransparency") === "true" || isOldFirefox) {
+    if (sGet("reduceTransparency") === "true" || isOldFirefox)
         eid("cobalt-body").classList.add('no-transparency');
-    }
-    if (sGet("disableAnimations") === "true") {
+    if (sGet("disableAnimations") === "true")
         eid("cobalt-body").classList.add('no-animation');
-    }
-    for (let i = 0; i < checkboxes.length; i++) {
+    for (let i = 0; i < checkboxes.length; i++)
         if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
-    }
-    for (let i in switchers) {
-        changeSwitcher(i, sGet(i))
-    }
-    updateFilenamePreview()
+    for (let i in switchers)
+        changeSwitcher(i, sGet(i));
+    updateFilenamePreview();
 }
 window.onload = () => {
     loadCelebrationsEmoji();
@@ -587,22 +567,22 @@ window.onload = () => {
         eid("downloadPopup-chkbx").style.display = "none";
     }
 
-    eid("home").style.visibility = 'visible';
+    eid("home").style.visibility = "visible";
     eid("home").classList.toggle("visible");
 
     if (pageQuery.has("u") && regex.test(pageQuery.get("u"))) {
         eid("url-input-area").value = pageQuery.get("u");
-        button()
+        button();
     }
     if (pageQuery.has("migration")) {
         if (pageQuery.has("settingsData") && !sGet("migrated")) {
             let setUn = unpackSettings(pageQuery.get("settingsData"));
             if (setUn !== null) {
                 if (setUn) {
-                    sSet("migrated", "true")
-                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferSuccess}`
+                    sSet("migrated", "true");
+                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferSuccess}`;
                 } else {
-                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferError}`
+                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferError}`;
                 }
             }
         }
@@ -615,16 +595,15 @@ window.onload = () => {
     notificationCheck();
 
     // fix for animations not working in Safari
-    if (isIOS) {
+    if (isIOS)
         document.addEventListener('touchstart', () => {}, true);
-    }
 }
 eid("url-input-area").addEventListener("keydown", (e) => {
     button();
-})
+});
 eid("url-input-area").addEventListener("keyup", (e) => {
     if (e.key === 'Enter') eid("download-button").click();
-})
+});
 document.onkeydown = (e) => {
     if (!store.isPopupOpen) {
         if (e.metaKey || e.ctrlKey || e.key === "/") eid("url-input-area").focus();
@@ -636,13 +615,11 @@ document.onkeydown = (e) => {
         if (e.key === "D") pasteClipboard();
         if (e.key === "K") changeSwitcher('audioMode', 'false');
         if (e.key === "L") changeSwitcher('audioMode', 'true');
-        
+
         // popups
         if (e.key === "B") popup('about', 1, 'about'); // open about
         if (e.key === "N") popup('about', 1, 'changelog'); // open changelog
         if (e.key === "M") popup('settings', 1);
-        
-    } else {
-        if (e.key === "Escape") hideAllPopups();
-    }
+
+    } else if (e.key === "Escape") hideAllPopups();
 }

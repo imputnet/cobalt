@@ -7,10 +7,10 @@ const servicesConfigJson = loadJSON("./src/modules/processing/servicesConfig.jso
 Object.values(servicesConfigJson.config).forEach(service => {
     service.patterns = service.patterns.map(
         pattern => new UrlPattern(pattern, {
-            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.'
+            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.',
         })
     )
-})
+});
 
 export const
     services = servicesConfigJson.config,
@@ -26,4 +26,4 @@ export const
     supportedAudio = config.supportedAudio,
     celebrations = config.celebrations,
     links = config.links,
-    sponsors = config.sponsors
+    sponsors = config.sponsors;

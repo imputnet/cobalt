@@ -11,7 +11,7 @@ export async function loadLoc() {
     const files = await fs.promises.readdir(locPath).catch((e) => { return [] });
     files.forEach(file => {
         loc[file.split('.')[0]] = loadJSON(`${locPath}/${file}`);
-        languages.push(file.split('.')[0])
+        languages.push(file.split('.')[0]);
     });
 }
 
@@ -24,27 +24,27 @@ export function replaceBase(s) {
             .replace(/\*;/g, "&bull;");
 }
 export function replaceAll(lang, str, string, replacement) {
-    let s = replaceBase(str[string])
+    let s = replaceBase(str[string]);
     if (replacement) s = s.replace(/{s}/g, replacement);
     if (s.match('{')) {
         Object.keys(loc[lang]["substrings"]).forEach(sub => {
-            s = replaceBase(s.replace(`{${sub}}`, loc[lang]["substrings"][sub]))
+            s = replaceBase(s.replace(`{${sub}}`, loc[lang]["substrings"][sub]));
         });
     }
-    return s
+    return s;
 }
 export default function(lang, string, replacement) {
     try {
         if (!Object.keys(loc).includes(lang)) lang = 'en';
         let str = loc[lang]["strings"];
         if (str && str[string]) {
-            return replaceAll(lang, str, string, replacement)
+            return replaceAll(lang, str, string, replacement);
         } else {
             str = loc["en"]["strings"];
-            return replaceAll(lang, str, string, replacement)
+            return replaceAll(lang, str, string, replacement);
         }
     } catch (e) {
-        return `!!${string}!!`
+        return `!!${string}!!`;
     }
 }
 export const languageList = languages;

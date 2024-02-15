@@ -25,7 +25,7 @@ for (let i in services) {
         console.log(`\nRunning tests for ${i}...\n`)
         for (let k = 0; k < tests[i].length; k++) {
             let test = tests[i][k];
-            
+
             console.log(`Running test ${k+1}: ${test.name}`);
             console.log('params:');
             let params = {...{url: test.url}, ...test.params};

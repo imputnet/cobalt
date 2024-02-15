@@ -1018,7 +1018,7 @@ button:active,
 /* adapt the page according to screen size */
 @media screen and (max-width: 1550px) {
     .popup.small {
-        width: 25%
+        width: 25%;
     }
     .popup {
         width: 40%;
@@ -1026,7 +1026,7 @@ button:active,
 }
 @media screen and (max-width: 1440px) {
     .popup.small {
-        width: 30%
+        width: 30%;
     }
     .popup {
         width: 45%;
@@ -1039,7 +1039,7 @@ button:active,
 }
 @media screen and (max-width: 1200px) {
     .popup.small {
-        width: 35%
+        width: 35%;
     }
     .popup {
         width: 55%;
@@ -1047,7 +1047,7 @@ button:active,
 }
 @media screen and (max-width: 1025px) {
     .popup.small {
-        width: 40%
+        width: 40%;
     }
     .popup {
         width: 60%;

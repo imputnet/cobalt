@@ -8,18 +8,20 @@ export const backButtonSVG = `<svg width="22" height="22" viewBox="0 0 32 32" fi
 
 export const dropdownSVG = `<svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M28 12.0533L16 24L4 12.0533L6.03571 10L14.7188 18.4104L16.25 19.9348L17.7813 18.4104L25.9375 10L28 12.0533Z" fill="#E1E1E1"/>
-</svg>`
+</svg>`;
 
-export const linkSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="currentColor" d="M137.54 186.36a8 8 0 0 1 0 11.31l-9.94 10a56 56 0 0 1-79.22-79.27l24.12-24.12a56 56 0 0 1 76.81-2.28a8 8 0 1 1-10.64 12a40 40 0 0 0-54.85 1.63L59.7 139.72a40 40 0 0 0 56.58 56.58l9.94-9.94a8 8 0 0 1 11.32 0Zm70.08-138a56.08 56.08 0 0 0-79.22 0l-9.94 9.95a8 8 0 0 0 11.32 11.31l9.94-9.94a40 40 0 0 1 56.58 56.58l-24.12 24.14a40 40 0 0 1-54.85 1.6a8 8 0 1 0-10.64 12a56 56 0 0 0 76.81-2.26l24.12-24.12a56.08 56.08 0 0 0 0-79.24Z"/></svg>'
+export const linkSVG = `<svg width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+<path fill="currentColor" d="M137.54 186.36a8 8 0 0 1 0 11.31l-9.94 10a56 56 0 0 1-79.22-79.27l24.12-24.12a56 56 0 0 1 76.81-2.28a8 8 0 1 1-10.64 12a40 40 0 0 0-54.85 1.63L59.7 139.72a40 40 0 0 0 56.58 56.58l9.94-9.94a8 8 0 0 1 11.32 0Zm70.08-138a56.08 56.08 0 0 0-79.22 0l-9.94 9.95a8 8 0 0 0 11.32 11.31l9.94-9.94a40 40 0 0 1 56.58 56.58l-24.12 24.14a40 40 0 0 1-54.85 1.6a8 8 0 1 0-10.64 12a56 56 0 0 0 76.81-2.26l24.12-24.12a56.08 56.08 0 0 0 0-79.24Z"/>
+</svg>`;
 
 export function switcher(obj) {
     let items = ``;
-    if (obj.name === "download") {
+    if (obj.name === "download")
         items = obj.items;
-    } else {
+    else {
         for (let i = 0; i < obj.items.length; i++) {
             let classes = obj.items[i]["classes"] ? obj.items[i]["classes"] : [];
-            items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`
+            items += `<button id="${obj.name}-${obj.items[i]["action"]}" class="switch${classes.length > 0 ? ' ' + classes.join(' ') : ''}" onclick="changeSwitcher('${obj.name}', '${obj.items[i]["action"]}')">${obj.items[i]["text"] ? obj.items[i]["text"] : obj.items[i]["action"]}</button>`;
         }
     }
 
@@ -28,7 +30,7 @@ export function switcher(obj) {
             ${obj.subtitle ? `<div class="subtitle">${obj.subtitle}</div>` : ``}
             <div class="switches">${items}</div>
             ${obj.explanation ? `<div class="explanation">${obj.explanation}</div>` : ``}
-        </div>`
+        </div>`;
 }
 export function checkbox(obj) {
     let paddings = ["bottom-margin", "top-margin", "no-margin", "top-margin-only"];
@@ -39,14 +41,14 @@ export function checkbox(obj) {
         checkboxes += `<label id="${obj[i].action}-chkbx" class="checkbox${paddingClass}">
             <input id="${obj[i].action}" type="checkbox" aria-label="${obj[i].aria ? obj[i].aria : obj[i].name}" onclick="checkbox('${obj[i].action}')">
             <span>${obj[i].name}</span>
-        </label>`
+        </label>`;
     }
-    return checkboxes
+    return checkboxes;
 }
 export function sep(paddingType) {
-    let paddingClass = ``
+    let paddingClass = ``;
     switch(paddingType) {
-        case 0: 
+        case 0:
             paddingClass += ` top-margin`;
             break;
     }
@@ -56,14 +58,13 @@ export function popup(obj) {
     let classes = obj.classes ? obj.classes : [];
     let body = obj.body;
     if (Array.isArray(obj.body)) {
-        body = ``
+        body = ``;
         for (let i = 0; i < obj.body.length; i++) {
             if (obj.body[i]["text"].length > 0) {
-                classes = obj.body[i]["classes"] ?? []
-                if (i !== obj.body.length - 1 && !obj.body[i]["nopadding"]) {
-                    classes.push("desc-padding")
-                }
-                body += obj.body[i]["raw"] ? obj.body[i]["text"] : `<div class="${['popup-desc', ...classes].join(' ')}">${obj.body[i]["text"]}</div>`
+                classes = obj.body[i]["classes"] ?? [];
+                if (i !== obj.body.length - 1 && !obj.body[i]["nopadding"])
+                    classes.push("desc-padding");
+                body += obj.body[i]["raw"] ? obj.body[i]["text"] : `<div class="${['popup-desc', ...classes].join(' ')}">${obj.body[i]["text"]}</div>`;
             }
         }
     }
@@ -82,7 +83,7 @@ export function popup(obj) {
             ${body}${obj.buttonOnly ? `<button class="close-error switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
         ${classes.includes("small") ? `<div class="glass-bkg small"></div>` : ''}
-    ${obj.standalone ? `</div>` : ''}`
+    ${obj.standalone ? `</div>` : ''}`;
 }
 
 export function multiPagePopup(obj) {
@@ -93,8 +94,8 @@ export function multiPagePopup(obj) {
 
     let tabContent = ``;
     for (let i = 0; i < obj.tabs.length; i++) {
-        tabs += `<button id="tab-button-${obj.name}-${obj.tabs[i]["name"]}" class="switch tab tab-${obj.name}" onclick="changeTab(event, 'tab-${obj.name}-${obj.tabs[i]["name"]}', '${obj.name}')">${obj.tabs[i]["title"]}</button>`
-        tabContent += `<div id="tab-${obj.name}-${obj.tabs[i]["name"]}" class="popup-tab-content tab-content-${obj.name}">${obj.tabs[i]["content"]}</div>`
+        tabs += `<button id="tab-button-${obj.name}-${obj.tabs[i]["name"]}" class="switch tab tab-${obj.name}" onclick="changeTab(event, 'tab-${obj.name}-${obj.tabs[i]["name"]}', '${obj.name}')">${obj.tabs[i]["title"]}</button>`;
+        tabContent += `<div id="tab-${obj.name}-${obj.tabs[i]["name"]}" class="popup-tab-content tab-content-${obj.name}">${obj.tabs[i]["content"]}</div>`;
     }
 
     return `
@@ -112,7 +113,7 @@ export function multiPagePopup(obj) {
             <div class="switches popup-tabs-child">${tabs}</div>
             <div class="glass-bkg alone"></div>
         </div>
-    </div>`
+    </div>`;
 }
 export function collapsibleList(arr) {
     let items = ``;
@@ -125,7 +126,7 @@ export function collapsibleList(arr) {
                 <div class="collapse-indicator">${dropdownSVG}</div>
             </div>
             <div id="${arr[i]["name"]}-body" class="collapse-body">${arr[i]["body"]}</div>
-        </div>`
+        </div>`;
     }
     return items;
 }
@@ -133,11 +134,10 @@ export function popupWithBottomButtons(obj) {
     let tabs = `
     <button class="back-button switch tab-${obj.name}" onclick="popup('${obj.name}', 0)" ${obj.closeAria ? `aria-label="${obj.closeAria}"` : ''}>
         ${backButtonSVG}
-    </button>`
+    </button>`;
 
-    for (let i = 0; i < obj.buttons.length; i++) {
-        tabs += obj.buttons[i]
-    }
+    for (let i = 0; i < obj.buttons.length; i++)
+        tabs += obj.buttons[i];
     return `
     <div id="popup-${obj.name}" class="popup center box scrollable">
         <div class="popup-content">
@@ -154,30 +154,29 @@ export function popupWithBottomButtons(obj) {
             <div id="picker-buttons" class="switches popup-tabs-child">${tabs}</div>
             <div class="glass-bkg alone"></div>
         </div>
-    </div>`
+    </div>`;
 }
 export function socialLink(emji, name, url) {
-    return `<div class="cobalt-support-link">${emji} <a class="text-backdrop link" href="${url}" target="_blank">${name}</a></div>`
+    return `<div class="cobalt-support-link">${emji} <a class="text-backdrop link" href="${url}" target="_blank">${name}</a></div>`;
 }
 export function socialLinks(lang) {
     let links = authorInfo.support[lang] ? authorInfo.support[lang] : authorInfo.support.default;
     let r = ``;
-    for (let i in links) {
+    for (let i in links)
         r += socialLink(
             emoji(links[i].emoji), links[i].name, links[i].url
-        )
-    }
-    return r
+        );
+    return r;
 }
 export function settingsCategory(obj) {
     return `<div id="settings-${obj.name}" class="settings-category">
         <div class="category-title">${obj.title ?? obj.name}</div>
         <div class="category-content">${obj.body}</div>
-    </div>`
+    </div>`;
 }
 
 export function footerButtons(obj) {
-    let items = ``
+    let items = ``;
     for (let i = 0; i < obj.length; i++) {
         let buttonName = obj[i]["context"] ? `${obj[i]["name"]}-${obj[i]["context"]}` : obj[i]["name"],
             context = obj[i]["context"] ? `, '${obj[i]["context"]}'` : '',
@@ -196,11 +195,10 @@ export function footerButtons(obj) {
         </div>`;
         i++;
     }
-    return `
-    <div id="footer-buttons">${items}</div>`
+    return `<div id="footer-buttons">${items}</div>`;
 }
 export function explanation(text) {
-    return `<div class="explanation">${text}</div>`
+    return `<div class="explanation">${text}</div>`;
 }
 export function celebrationsEmoji() {
     try {
@@ -209,16 +207,16 @@ export function celebrationsEmoji() {
         let f = Object.keys(celebrations).includes(dm) ? celebrations[dm] : "🐲";
         return f != "🐲" ? emoji(f, 22) : false;
     } catch (e) {
-        return false
+        return false;
     }
 }
 export function urgentNotice(obj) {
     if (obj.visible) {
         return `<div id="urgent-notice" class="urgent-notice explanation">` +
             `<span class="urgent-text" onclick="${obj.action}">${emoji(obj.emoji, 18)} ${obj.text}</span>` +
-        `</div>`
+        `</div>`;
     }
-    return ``
+    return ``;
 }
 export function keyboardShortcuts(arr) {
     let base = `<div id="keyboard-shortcuts" class="explanation">`;
@@ -228,10 +226,10 @@ export function keyboardShortcuts(arr) {
         for (let c = 0; c < arr[i].items.length; c++) {
             let combo = arr[i].items[c].combo.split('+').map(
                 key => `<span class="text-backdrop key">${key}</span>`
-            ).join("+")
-            base += `<div class="shortcut">${combo}: ${arr[i].items[c].name}</div>`
+            ).join("+");
+            base += `<div class="shortcut">${combo}: ${arr[i].items[c].name}</div>`;
         }
-        base += `</div>`
+        base += `</div>`;
     }
     base += `</div>`;
 
@@ -239,30 +237,29 @@ export function keyboardShortcuts(arr) {
 }
 export function webLoc(t, arr) {
     let base = ``;
-    for (let i = 0; i < arr.length; i++) {
-        base += `${arr[i]}:` + "`" + t(arr[i]) + "`" + `,`
-    }
+    for (let i = 0; i < arr.length; i++)
+        base += `${arr[i]}:` + "`" + t(arr[i]) + "`" + `,`;
     return `{${base}};`
 }
 
 export function sponsoredList() {
     let base = ``;
-    let altText = ``
+    let altText = ``;
     for (let i = 0; i < sponsors.length; i++) {
         let s = sponsors[i];
         let loadedLogo = loadFile(`./src/front/sponsors/${s.name}.svg`);
 
         altText += `${s.fullName ? s.fullName : s.name}, `;
         base +=
-        `<a class="sponsored-logo ${s.name}" 
-            href="${s.url}" target="_blank" 
+        `<a class="sponsored-logo ${s.name}"
+            href="${s.url}" target="_blank"
             style="width: calc(${s.logo.width}px / ${s.logo.scale}); height: calc(${s.logo.height}px / ${s.logo.scale});">
             ${loadedLogo}
-        </a>`
+        </a>`;
     }
-    return `<div id="sponsored-logos" aria-label="${altText.slice(0, -2)}">${base}</div>`
+    return `<div id="sponsored-logos" aria-label="${altText.slice(0, -2)}">${base}</div>`;
 }
 
 export function betaTag() {
-    return process.env.isBeta ? '<span class="logo-sub">β</span>' : ''
+    return process.env.isBeta ? '<span class="logo-sub">β</span>' : '';
 }
