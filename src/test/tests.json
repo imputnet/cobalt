@@ -754,6 +754,15 @@
             "code": 200,
             "status": "stream"
         }
+    },
+    {
+        "name": "bilibili.tv link",
+        "url": "https://www.bilibili.tv/en/video/4789599404426256",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "tumblr": [{
         "name": "at.tumblr link",

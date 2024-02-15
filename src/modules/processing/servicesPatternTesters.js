@@ -1,6 +1,7 @@
 export const testers = {
-    "bilibili": (patternMatch) =>
-        patternMatch.id?.length <= 12 || patternMatch.shortLink?.length <= 16,
+    "bilibili": (patternMatch) => 
+        patternMatch.comId?.length <= 12 || patternMatch.comShortLink?.length <= 16
+        || patternMatch.tvId?.length <= 24,
 
     "instagram": (patternMatch) =>
         patternMatch.postId?.length <= 12
