@@ -24,6 +24,7 @@ const checkboxes = [
     "alwaysVisibleButton",
     "disableChangelog",
     "downloadPopup",
+    "wukkoDragonEmoji",
     "disableTikTokWatermark",
     "fullTikTokAudio",
     "muteAudio",
@@ -290,6 +291,14 @@ function checkbox(action) {
         case "alwaysVisibleButton": button(); break;
         case "reduceTransparency": eid("cobalt-body").classList.toggle('no-transparency'); break;
         case "disableAnimations": eid("cobalt-body").classList.toggle('no-animation'); break;
+        case "wukkoDragonEmoji":
+            for (const emoji of document.getElementsByClassName("emoji"))
+                if (emoji.attributes.src.value.match(/emoji\/dragon_face(?:_wukko)?\.svg/) !== null)
+                    if (sGet("wukkoDragonEmoji") === "true")
+                        emoji.attributes.src.value = "emoji/dragon_face_wukko.svg";
+                    else
+                        emoji.attributes.src.value = "emoji/dragon_face.svg";
+            break;
     }
     action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
 }
@@ -543,6 +552,14 @@ function loadSettings() {
     }
     if (sGet("downloadPopup") === "true" && !isIOS)
         eid("downloadPopup").checked = true;
+    if (sGet("wukkoDragonEmoji") === "true")
+        eid("wukkoDragonEmoji").checked = true;
+    for (const emoji of document.getElementsByClassName("emoji"))
+        if (emoji.attributes.src.value.match(/emoji\/dragon_face(?:_wukko)?\.svg/) !== null)
+            if (sGet("wukkoDragonEmoji") === "true")
+                emoji.attributes.src.value = "emoji/dragon_face_wukko.svg";
+            else
+                emoji.attributes.src.value = "emoji/dragon_face.svg";
     if (sGet("reduceTransparency") === "true" || isOldFirefox)
         eid("cobalt-body").classList.add('no-transparency');
     if (sGet("disableAnimations") === "true")

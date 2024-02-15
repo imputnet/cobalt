@@ -507,6 +507,9 @@ export default function(obj) {
                     }, {
                         action: "disableChangelog",
                         name: t("SettingsDisableNotifications"),
+                    }, {
+                        action: "wukkoDragonEmoji",
+                        name: t("SettingsEnableWukkoDragonEmoji"),
                         padding: "no-margin"
                     }])
                 })
