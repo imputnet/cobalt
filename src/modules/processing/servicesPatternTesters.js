@@ -1,6 +1,6 @@
 export const testers = {
     "bilibili": (patternMatch) =>
-        patternMatch.id?.length <= 12,
+        patternMatch.id?.length <= 12 || patternMatch.shortLink?.length <= 16,
 
     "instagram": (patternMatch) =>
         patternMatch.postId?.length <= 12

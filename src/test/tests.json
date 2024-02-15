@@ -746,6 +746,14 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "b23.tv shortlink",
+        "url": "https://b23.tv/lbMyOI9",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "tumblr": [{
         "name": "at.tumblr link",

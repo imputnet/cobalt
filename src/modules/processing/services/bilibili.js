@@ -1,8 +1,23 @@
 import { genericUserAgent, maxVideoDuration } from "../../config.js";
 
 // TO-DO: quality picking, bilibili.tv support, and higher quality downloads (currently requires an account)
-export default async function(obj) {
-    let html = await fetch(`https://bilibili.com/video/${obj.id}`, {
+export default async function({ id, shortLink }) {
+    if (shortLink) {
+        id = await fetch(`https://b23.tv/${shortLink}`, { redirect: 'manual' })
+            .then(r => r.status > 300 && r.status < 400 && r.headers.get('location'))
+            .then(url => {
+                const path = new URL(url).pathname;
+                if (path.startsWith('/video/'))
+                    return path.split('/')[2];
+            })
+            .catch(() => {})
+    }
+
+    if (!id) {
+        return { error: 'ErrorCouldntFetch' };
+    }
+
+    let html = await fetch(`https://bilibili.com/video/${id}`, {
         headers: { "user-agent": genericUserAgent }
     }).then((r) => { return r.text() }).catch(() => { return false });
     if (!html) return { error: 'ErrorCouldntFetch' };
@@ -21,7 +36,7 @@ export default async function(obj) {
 
     return {
         urls: [video[0]["baseUrl"], audio[0]["baseUrl"]],
-        audioFilename: `bilibili_${obj.id}_audio`,
-        filename: `bilibili_${obj.id}_${video[0]["width"]}x${video[0]["height"]}.mp4`
+        audioFilename: `bilibili_${id}_audio`,
+        filename: `bilibili_${id}_${video[0]["width"]}x${video[0]["height"]}.mp4`
     };
 }

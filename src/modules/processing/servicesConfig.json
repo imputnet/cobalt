@@ -3,7 +3,7 @@
     "config": {
         "bilibili": {
             "alias": "bilibili.com videos",
-            "patterns": ["video/:id"],
+            "patterns": ["video/:id", "_shortLink/:shortLink"],
             "enabled": true
         },
         "reddit": {
