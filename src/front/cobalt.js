@@ -292,12 +292,13 @@ function checkbox(action) {
         case "reduceTransparency": eid("cobalt-body").classList.toggle('no-transparency'); break;
         case "disableAnimations": eid("cobalt-body").classList.toggle('no-animation'); break;
         case "wukkoDragonEmoji":
-            for (const emoji of document.getElementsByClassName("emoji"))
-                if (emoji.attributes.src.value.match(/emoji\/dragon_face(?:_wukko)?\.svg/) !== null)
-                    if (sGet("wukkoDragonEmoji") === "true")
-                        emoji.attributes.src.value = "emoji/dragon_face_wukko.svg";
-                    else
-                        emoji.attributes.src.value = "emoji/dragon_face.svg";
+            document.getElementsByClassName("emoji").forEach((emoji) => {
+                if (emoji.attributes.src.value.match(/emoji\/dragon_face(?:_wukko)?\.svg/) === null)
+                    return;
+                emoji.attributes.src.value = sGet("wukkoDragonEmoji") === "true"
+                    ? "emoji/dragon_face_wukko.svg"
+                    : "emoji/dragon_face.svg";
+            });
             break;
     }
     action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
@@ -554,12 +555,13 @@ function loadSettings() {
         eid("downloadPopup").checked = true;
     if (sGet("wukkoDragonEmoji") === "true")
         eid("wukkoDragonEmoji").checked = true;
-    for (const emoji of document.getElementsByClassName("emoji"))
-        if (emoji.attributes.src.value.match(/emoji\/dragon_face(?:_wukko)?\.svg/) !== null)
-            if (sGet("wukkoDragonEmoji") === "true")
-                emoji.attributes.src.value = "emoji/dragon_face_wukko.svg";
-            else
-                emoji.attributes.src.value = "emoji/dragon_face.svg";
+    document.getElementsByClassName("emoji").forEach((emoji) => {
+        if (emoji.attributes.src.value.match(/emoji\/dragon_face(?:_wukko)?\.svg/) === null)
+            return;
+        emoji.attributes.src.value = sGet("wukkoDragonEmoji") === "true"
+            ? "emoji/dragon_face_wukko.svg"
+            : "emoji/dragon_face.svg";
+    });
     if (sGet("reduceTransparency") === "true" || isOldFirefox)
         eid("cobalt-body").classList.add('no-transparency');
     if (sGet("disableAnimations") === "true")
