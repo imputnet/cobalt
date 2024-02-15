@@ -506,7 +506,7 @@ export default function(obj) {
                         name: t("SettingsDisableMetadata")
                     }, {
                         action: "disableChangelog",
-                        name: t("SettingsDisableNotifications"),
+                        name: t("SettingsDisableNotifications")
                     }, {
                         action: "wukkoDragonEmoji",
                         name: t("SettingsEnableWukkoDragonEmoji"),
