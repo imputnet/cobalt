@@ -15,7 +15,7 @@ import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = process.env.cors === '0' ? {
-        origin: process.env.webURL,
+        origin: process.env.CORS_URL,
         optionsSuccessStatus: 200
     } : {};
 
