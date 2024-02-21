@@ -215,7 +215,7 @@ export function streamVideoOnly(streamInfo, res) {
             args.push('-an')
         }
 
-        if (['vimeo', 'rutube'].includes(streamInfo.service)) {
+        if (["vimeo", "rutube", "dailymotion"].includes(streamInfo.service)) {
             args.push('-bsf:a', 'aac_adtstoasc')
         }
 

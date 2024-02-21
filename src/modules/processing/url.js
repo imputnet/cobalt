@@ -59,6 +59,11 @@ export function aliasURL(url) {
                 url = new URL(`https://bilibili.com/_shortLink/${parts[1]}`)
             }
             break;
+
+        case "dai":
+            if (url.hostname === 'dai.ly' && parts.length === 2) {
+                url = new URL(`https://dailymotion.com/video/${parts[1]}`)
+            }
     }
 
     return url

@@ -14,6 +14,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | service                        | video + audio | only audio | only video | metadata | rich file names |
 | :--------                      | :-----------: | :--------: | :--------: | :------: | :-------------: |
 | bilibili.com                   | ✅            | ✅         | ✅         | ➖         | ➖              |
+| dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
 | instagram posts & stories      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | instagram reels                | ✅            | ✅         | ✅         | ➖         | ➖              |
 | ok video                       | ✅            | ❌         | ❌         | ✅         | ✅              |

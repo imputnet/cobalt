@@ -1197,5 +1197,30 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "dailymotion": [{
+        "name": "regular video",
+        "url": "https://www.dailymotion.com/video/x8t1eho",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private video",
+        "url": "https://www.dailymotion.com/video/k41fZWpx2TaAORA2nok",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "dai.ly shortened link",
+        "url": "https://dai.ly/k41fZWpx2TaAORA2nok",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }

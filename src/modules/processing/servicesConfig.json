@@ -109,6 +109,11 @@
             "tld": "ru",
             "patterns": ["video/:id", "play/embed/:id"],
             "enabled": true
+        },
+        "dailymotion": {
+            "alias": "dailymotion videos",
+            "patterns": ["video/:id"],
+            "enabled": true
         }
     }
 }
