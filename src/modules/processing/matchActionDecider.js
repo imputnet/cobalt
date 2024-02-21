@@ -143,7 +143,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             const isBestHostAudio = services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]);
 
             const isTikTok = host === "tiktok" || host === "douyin";
-            const isTumblr = host === "tumblr" && !r.filename;
+            const isTumblrAudio = host === "tumblr" && !r.filename;
             const isSoundCloud = host === "soundcloud";
 
             if (isTikTok && services.tiktok.audioFormats.includes(audioFormat)) {
@@ -168,17 +168,17 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 }
             }
 
-            if (isTumblr && isBestOrMp3) {
-                audioFormat = "mp3";
-                processType = "bridge"
-            }
-
             if (isBestAudioDefined || isBestHostAudio) {
                 audioFormat = services[host]["bestAudio"];
                 processType = "bridge";
             } else if (isBestAudio && !isSoundCloud) {
                 audioFormat = "m4a";
                 copy = true
+            }
+
+            if (isTumblrAudio && isBestOrMp3) {
+                audioFormat = "mp3";
+                processType = "bridge"
             }
 
             if (r.isM3U8 || host === "vimeo") {
