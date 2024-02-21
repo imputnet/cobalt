@@ -1,5 +1,8 @@
 {
     "instagram": [
         "mid=<replace>; ig_did=<with>; csrftoken=<your>; ds_user_id=<own>; sessionid=<cookies>"
+    ],
+    "reddit": [
+        "client_id=<replace_this>; client_secret=<replace_this>; refresh_token=<replace_this>"
     ]
 }
