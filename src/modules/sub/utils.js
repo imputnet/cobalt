@@ -1,14 +1,17 @@
+import { normalizeURL } from "../processing/url.js";
 import { createStream } from "../stream/manage.js";
+import ipaddr from "ipaddr.js";
 
 const apiVar = {
     allowed: {
         vCodec: ["h264", "av1", "vp9"],
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
-        aFormat: ["best", "mp3", "ogg", "wav", "opus"]
+        aFormat: ["best", "mp3", "ogg", "wav", "opus"],
+        filenamePattern: ["classic", "pretty", "basic", "nerdy"]
     },
-    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash"]
+    booleanOnly: ["isAudioOnly", "isNoTTWatermark", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata", "twitterGif"]
 }
-const forbiddenChars = ['}', '{', '(', ')', '\\', '%', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
+const forbiddenChars = ['}', '{', '(', ')', '\\', '>', '<', '^', '*', '!', '~', ';', ':', ',', '`', '[', ']', '#', '$', '"', "'", "@", '=='];
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
 
 export function apiJSON(type, obj) {
@@ -34,11 +37,13 @@ export function apiJSON(type, obj) {
                         break;
                 }
                 return { status: 200, body: { status: "picker", pickerType: pickerType, picker: obj.picker, audio: audio } };
+            case 6: // critical error, action should be taken by balancer/other server software
+                return { status: 500, body: { status: "error", text: obj.t, critical: true } };
             default:
                 return { status: 400, body: { status: "error", text: "Bad Request" } };
         }
     } catch (e) {
-        return { status: 500, body: { status: "error", text: "Internal Server Error" } };
+        return { status: 500, body: { status: "error", text: "Internal Server Error", critical: true } };
     }
 }
 export function metadataManager(obj) {
@@ -49,35 +54,10 @@ export function metadataManager(obj) {
     for (let i in keys) { if (tags.includes(keys[i])) commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`) }
     return commands;
 }
-export function cleanURL(url, host) {
-    switch(host) {
-        case "vk":
-            url = url.includes('clip') ? url.split('&')[0] : url.split('?')[0];
-            break;
-        case "youtube":
-            url = url.split('&')[0];
-            break;
-        case "tiktok":
-            url = url.replace(/@([a-zA-Z]+(\.[a-zA-Z]+)+)/, "@a")
-        case "pinterest":
-            url = url.replace(/:\/\/(?:www.)pinterest(?:\.[a-z.]+)/, "://pinterest.com")
-        default:
-            url = url.split('?')[0];
-            if (url.substring(url.length - 1) === "/") url = url.substring(0, url.length - 1);
-            break;
-    }
-    for (let i in forbiddenChars) {
-        url = url.replaceAll(forbiddenChars[i], '')
-    }
-    url = url.replace('https//', 'https://')
-    if (url.includes('youtube.com/shorts/')) {
-        url = url.split('?')[0].replace('shorts/', 'watch?v=');
-    }
-    return url.slice(0, 128)
-}
+
 export function cleanString(string) {
     for (let i in forbiddenCharsString) {
-        string = string.replaceAll(forbiddenCharsString[i], '')
+        string = string.replaceAll("/", "_").replaceAll(forbiddenCharsString[i], '')
     }
     return string;
 }
@@ -94,20 +74,24 @@ export function unicodeDecode(str) {
 }
 export function checkJSONPost(obj) {
     let def = {
+        url: normalizeURL(decodeURIComponent(obj.url)),
         vCodec: "h264",
         vQuality: "720",
         aFormat: "mp3",
+        filenamePattern: "classic",
         isAudioOnly: false,
         isNoTTWatermark: false,
         isTTFullAudio: false,
         isAudioMuted: false,
+        disableMetadata: false,
         dubLang: false,
-        vimeoDash: false
+        vimeoDash: false,
+        twitterGif: false
     }
     try {
         let objKeys = Object.keys(obj);
-        if (!(objKeys.length <= 9 && obj.url)) return false;
         let defKeys = Object.keys(def);
+        if (objKeys.length > defKeys.length + 1 || !obj.url) return false;
 
         for (let i in objKeys) {
             if (String(objKeys[i]) !== "url" && defKeys.includes(objKeys[i])) {
@@ -119,12 +103,8 @@ export function checkJSONPost(obj) {
             }
         }
 
-        if (def.dubLang) def.dubLang = verifyLanguageCode(obj.dubLang);
-
-        obj["url"] = decodeURIComponent(String(obj["url"]));
-        let hostname = obj["url"].replace("https://", "").replace(' ', '').split('&')[0].split("/")[0].split("."),
-            host = hostname[hostname.length - 2];
-        def["url"] = encodeURIComponent(cleanURL(obj["url"], host));
+        if (def.dubLang)
+            def.dubLang = verifyLanguageCode(obj.dubLang);
 
         return def
     } catch (e) {
@@ -132,19 +112,17 @@ export function checkJSONPost(obj) {
     }
 }
 export function getIP(req) {
-    return req.header('cf-connecting-ip') ? req.header('cf-connecting-ip') : req.ip;
-}
-export function getThreads() {
-    try {
-        if (process.env.ffmpegThreads && process.env.ffmpegThreads.length <= 3
-            && (Number(process.env.ffmpegThreads) >= 0 && Number(process.env.ffmpegThreads) <= 256)) {
-            return process.env.ffmpegThreads
-        } else {
-            return '0'
-        }
-    } catch (e) {
-        return '0'
+    const strippedIP = req.ip.replace(/^::ffff:/, '');
+    const ip = ipaddr.parse(strippedIP);
+    if (ip.kind() === 'ipv4') {
+        return strippedIP;
     }
+
+    const prefix = 56;
+    const v6Bytes = ip.toByteArray();
+          v6Bytes.fill(0, prefix / 8);
+
+    return ipaddr.fromByteArray(v6Bytes).toString();
 }
 export function cleanHTML(html) {
     let clean = html.replace(/ {4}/g, '');

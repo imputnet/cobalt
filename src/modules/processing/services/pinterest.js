@@ -1,24 +1,36 @@
-import { maxVideoDuration } from "../../config.js";
+import { genericUserAgent } from "../../config.js";
 
-export default async function(obj) {
-    const pinId = obj.id.split('--').reverse()[0];
-    if (!(/^\d+$/.test(pinId))) return { error: 'ErrorCantGetID' };
-    let data = await fetch(`https://www.pinterest.com/resource/PinResource/get?data=${encodeURIComponent(JSON.stringify({
-        options: {
-            field_set_key: "unauth_react_main_pin",
-            id: pinId
-        }
-    }))}`).then((r) => { return r.json() }).catch(() => { return false });
-    if (!data) return { error: 'ErrorCouldntFetch' };
+const videoLinkBase = {
+    "regular": "https://v1.pinimg.com/videos/mc/720p/",
+    "story": "https://v1.pinimg.com/videos/mc/720p/"
+}
 
-    data = data["resource_response"]["data"];
+export default async function(o) {
+    let id = o.id, type = "regular";
 
-    let video = null;
+    if (!o.id && o.shortLink) {
+        id = await fetch(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`, { redirect: "manual" }).then((r) => {
+            return r.headers.get("location").split('pin/')[1].split('/')[0]
+        }).catch(() => {});
+    }
+    if (id.includes("--")) {
+        id = id.split("--")[1];
+        type = "story";
+    }
+    if (!id) return { error: 'ErrorCouldntFetch' };
 
-    if (data.videos !== null) video = data.videos.video_list.V_720P;
-    else if (data.story_pin_data !== null) video = data.story_pin_data.pages[0].blocks[0].video.video_list.V_EXP7;
+    let html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
+        headers: { "user-agent": genericUserAgent }
+    }).then((r) => { return r.text() }).catch(() => { return false });
 
-    if (!video) return { error: 'ErrorEmptyDownload' };
-    if (video.duration > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
-    return { urls: video.url, filename: `pinterest_${pinId}.mp4`, audioFilename: `pinterest_${pinId}_audio` }
+    if (!html) return { error: 'ErrorCouldntFetch' };
+
+    let videoLink = html.split(`"url":"${videoLinkBase[type]}`)[1]?.split('"')[0];
+    if (!html.includes(videoLink)) return { error: 'ErrorEmptyDownload' };
+
+    return {
+        urls: `${videoLinkBase[type]}${videoLink}`,
+        filename: `pinterest_${o.id}.mp4`,
+        audioFilename: `pinterest_${o.id}_audio`
+    }
 }

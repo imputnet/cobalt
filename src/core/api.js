@@ -15,7 +15,7 @@ import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = process.env.cors === '0' ? {
-        origin: process.env.webURL,
+        origin: process.env.CORS_URL,
         optionsSuccessStatus: 200
     } : {};
 
@@ -24,7 +24,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 20,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
+        keyGenerator: req => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -37,7 +37,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 25,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: (req, res) => sha256(getIP(req), ipSalt),
+        keyGenerator: req => sha256(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -48,6 +48,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     
     const startTime = new Date();
     const startTimestamp = Math.floor(startTime.getTime());
+
+    app.set('trust proxy', ['loopback', 'uniquelocal']);
 
     app.use('/api/:type', cors(corsConfig));
     app.use('/api/json', apiLimiter);
@@ -97,7 +99,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                     let chck = checkJSONPost(request);
                     if (!chck) throw new Error();
     
-                    j = await getJSON(chck["url"], lang, chck);
+                    j = await getJSON(chck.url, lang, chck);
                 } else {
                     j = apiJSON(0, {
                         t: !contentCon ? "invalid content type header" : loc(lang, 'ErrorNoLink')
@@ -139,9 +141,9 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         version: version,
                         commit: gitCommit,
                         branch: gitBranch,
-                        name: process.env.apiName ? process.env.apiName : "unknown",
+                        name: process.env.apiName || "unknown",
                         url: process.env.apiURL,
-                        cors: process.env.cors && process.env.cors === "0" ? 0 : 1,
+                        cors: process.env?.cors === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
                 default:
@@ -167,12 +169,12 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         res.redirect('/api/json')
     });
 
-    app.listen(process.env.apiPort, () => {
+    app.listen(process.env.apiPort || 9000, () => {
         console.log(`\n` +
             `${Cyan("cobalt")} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
             `URL: ${Cyan(`${process.env.apiURL}`)}\n` +
-            `Port: ${process.env.apiPort}\n`
+            `Port: ${process.env.apiPort || 9000}\n`
         )
     });
 }

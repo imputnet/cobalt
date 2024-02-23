@@ -1,7 +1,16 @@
-import loadJson from "./sub/loadJSON.js";
-const config = loadJson("./src/config.json");
-const packageJson = loadJson("./package.json");
-const servicesConfigJson = loadJson("./src/modules/processing/servicesConfig.json");
+import UrlPattern from "url-pattern";
+import { loadJSON } from "./sub/loadFromFs.js";
+const config = loadJSON("./src/config.json");
+const packageJson = loadJSON("./package.json");
+const servicesConfigJson = loadJSON("./src/modules/processing/servicesConfig.json");
+
+Object.values(servicesConfigJson.config).forEach(service => {
+    service.patterns = service.patterns.map(
+        pattern => new UrlPattern(pattern, {
+            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.'
+        })
+    )
+})
 
 export const
     services = servicesConfigJson.config,
@@ -16,4 +25,5 @@ export const
     ffmpegArgs = config.ffmpegArgs,
     supportedAudio = config.supportedAudio,
     celebrations = config.celebrations,
-    links = config.links
+    links = config.links,
+    sponsors = config.sponsors

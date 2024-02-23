@@ -1,3 +1,5 @@
+const version = 41;
+
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.match("iphone os");
 const isMobile = ua.match("android") || ua.match("iphone os");
@@ -5,7 +7,6 @@ const isSafari = ua.match("safari/");
 const isFirefox = ua.match("firefox/");
 const isOldFirefox = ua.match("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
 
-const version = 34;
 const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
 const notification = `<div class="notification-dot"></div>`;
 
@@ -16,18 +17,38 @@ const switchers = {
     "aFormat": ["mp3", "best", "ogg", "wav", "opus"],
     "dubLang": ["original", "auto"],
     "vimeoDash": ["false", "true"],
-    "audioMode": ["false", "true"]
+    "audioMode": ["false", "true"],
+    "filenamePattern": ["classic", "pretty", "basic", "nerdy"]
 };
-const checkboxes = ["disableTikTokWatermark", "fullTikTokAudio", "muteAudio", "reduceTransparency", "disableAnimations"];
+const checkboxes = [
+    "alwaysVisibleButton",
+    "disableChangelog",
+    "downloadPopup",
+    "disableTikTokWatermark",
+    "fullTikTokAudio",
+    "muteAudio",
+    "reduceTransparency",
+    "disableAnimations",
+    "disableMetadata",
+    "twitterGif",
+];
 const exceptions = { // used for mobile devices
     "vQuality": "720"
 };
-const bottomPopups = ["error", "download"]
+const bottomPopups = ["error", "download"];
+
+const pageQuery = new URLSearchParams(window.location.search);
 
 let store = {};
 
-function changeAPI(url) {
-    apiURL = url;
+function fixApiUrl(url) {
+    return url.endsWith('/') ? url.slice(0, -1) : url
+}
+
+let apiURL = fixApiUrl(defaultApiUrl);
+
+function changeApi(url) {
+    apiURL = fixApiUrl(url);
     return true
 }
 function eid(id) {
@@ -114,6 +135,8 @@ function detectColorScheme() {
     document.documentElement.setAttribute("data-theme", theme);
 }
 function changeTab(evnt, tabId, tabClass) {
+    if (tabId === "tab-settings-other") updateFilenamePreview();
+
     let tabcontent = document.getElementsByClassName(`tab-content-${tabClass}`);
     let tablinks = document.getElementsByClassName(`tab-${tabClass}`);
 
@@ -126,6 +149,7 @@ function changeTab(evnt, tabId, tabClass) {
     
     evnt.currentTarget.dataset.enabled = "true";
     eid(tabId).dataset.enabled = "true";
+    eid(tabId).parentElement.scrollTop = 0;
 
     if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
     if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
@@ -180,7 +204,7 @@ function popup(type, action, text) {
         store.isPopupOpen = true;
         switch (type) {
             case "about":
-                let tabId = sGet("seenAbout") ? "changelog" : "about";
+                let tabId = sGet("changelogStatus") !== `${version}` ? "changelog" : "about";
                 if (text) tabId = text;
                 eid(`tab-button-${type}-${tabId}`).click();
                 break;
@@ -197,11 +221,11 @@ function popup(type, action, text) {
                 if (navigator.canShare) eid("pd-share").style.display = "flex";
                 break;
             case "picker":
+                eid("picker-title").innerHTML = loc.MediaPickerTitle;
+                eid("picker-subtitle").innerHTML = isMobile ? loc.MediaPickerExplanationPhone : loc.MediaPickerExplanationPC;
+
                 switch (text.type) {
                     case "images":
-                        eid("picker-title").innerHTML = loc.pickerImages;
-                        eid("picker-subtitle").innerHTML = loc.pickerImagesExpl;
-
                         eid("picker-holder").classList.remove("various");
 
                         eid("picker-download").href = text.audio;
@@ -210,26 +234,23 @@ function popup(type, action, text) {
                         for (let i in text.arr) {
                             eid("picker-holder").innerHTML +=
                             `<a class="picker-image-container" ${
-                                isIOS ? `onClick="share('${text.arr[i]["url"]}')` : `href="${text.arr[i]["url"]}" target="_blank"`
+                                isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` +
-                                `<img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'"></img>` +
+                                `<img class="picker-image" src="${text.arr[i]["url"]}" onerror="this.parentNode.style.display='none'">` +
                             `</a>`
                         }
                         break;
                     default:
-                        eid("picker-title").innerHTML = loc.pickerDefault;
-                        eid("picker-subtitle").innerHTML = loc.pickerDefaultExpl;
-
                         eid("picker-holder").classList.add("various");
 
                         for (let i in text.arr) {
                             eid("picker-holder").innerHTML +=
                             `<a class="picker-image-container" ${
-                                isIOS ? `onClick="share('${text.arr[i]["url"]}')` : `href="${text.arr[i]["url"]}" target="_blank"`
+                                isIOS ? `onClick="share('${text.arr[i]["url"]}')"` : `href="${text.arr[i]["url"]}" target="_blank"`
                             }>` + 
                                 `<div class="picker-element-name">${text.arr[i].type}</div>` +
-                                `<div class="imageBlock"></div>` +
-                                `<img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'"></img>` +
+                                (text.arr[i].type === 'photo' ? '' : '<div class="imageBlock"></div>') +
+                                `<img class="picker-image" src="${text.arr[i]["thumb"]}" onerror="this.style.display='none'">` +
                             `</a>`
                         }
                         eid("picker-download").classList.remove("visible");
@@ -260,6 +281,7 @@ function changeSwitcher(li, b) {
             (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
         }
         if (li === "theme") detectColorScheme();
+        if (li === "filenamePattern") updateFilenamePreview();
     } else {
         let pref = switchers[li][0];
         if (isMobile && exceptions[li]) pref = exceptions[li];
@@ -277,28 +299,6 @@ function checkbox(action) {
         case "disableAnimations": eid("cobalt-body").classList.toggle('no-animation'); break;
     }
     action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
-}
-function loadSettings() {
-    if (sGet("alwaysVisibleButton") === "true") {
-        eid("alwaysVisibleButton").checked = true;
-        eid("download-button").value = '>>'
-        eid("download-button").style.padding = '0 1rem';
-    }
-    if (sGet("downloadPopup") === "true" && !isIOS) {
-        eid("downloadPopup").checked = true;
-    }
-    if (sGet("reduceTransparency") === "true" || isOldFirefox) {
-        eid("cobalt-body").classList.toggle('no-transparency');
-    }
-    if (sGet("disableAnimations") === "true") {
-        eid("cobalt-body").classList.toggle('no-animation');
-    }
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
-    }
-    for (let i in switchers) {
-        changeSwitcher(i, sGet(i))
-    }
 }
 function changeButton(type, text) {
     switch (type) {
@@ -326,7 +326,7 @@ function internetError() {
     eid("url-input-area").disabled = false
     changeDownloadButton(2, '!!');
     setTimeout(() => { changeButton(1); }, 2500);
-    popup("error", 1, loc.noInternet);
+    popup("error", 1, loc.ErrorNoInternet);
 }
 function resetSettings() {
     localStorage.clear();
@@ -340,13 +340,13 @@ async function pasteClipboard() {
             download(eid("url-input-area").value);
         }
     } catch (e) {
-        let errorMessage = loc.featureErrorGeneric;
+        let errorMessage = loc.FeatureErrorGeneric;
         let doError = true;
         let error = String(e).toLowerCase();
 
-        if (error.includes("denied")) errorMessage = loc.clipboardErrorNoPermission;
+        if (error.includes("denied")) errorMessage = loc.ClipboardErrorNoPermission;
         if (error.includes("dismissed") || isIOS) doError = false;
-        if (error.includes("function") && isFirefox) errorMessage = loc.clipboardErrorFirefox;
+        if (error.includes("function") && isFirefox) errorMessage = loc.ClipboardErrorFirefox;
 
         if (doError) popup("error", 1, errorMessage);
     }
@@ -356,8 +356,9 @@ async function download(url) {
     eid("url-clear").style.display = "none";
     eid("url-input-area").disabled = true;
     let req = {
-        url: encodeURIComponent(url.split("&")[0].split('%')[0]),
+        url,
         aFormat: sGet("aFormat").slice(0, 4),
+        filenamePattern: sGet("filenamePattern"),
         dubLang: false
     }
     if (sGet("dubLang") === "auto") {
@@ -377,6 +378,9 @@ async function download(url) {
         if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
 
+    if (sGet("disableMetadata") === "true") req.disableMetadata = true;
+    if (sGet("twitterGif") === "true") req.twitterGif = true;
+
     let j = await fetch(`${apiURL}/api/json`, {
         method: "POST",
         body: JSON.stringify(req),
@@ -391,7 +395,7 @@ async function download(url) {
         if (j.text && (!j.url || !j.picker)) {
             if (j.status === "success") {
                 changeButton(2, j.text)
-            } else changeButton(0, loc.noURLReturned);
+            } else changeButton(0, loc.ErrorNoUrlReturned);
         }
         switch (j.status) {
             case "redirect":
@@ -409,7 +413,7 @@ async function download(url) {
                     popup('picker', 1, { arr: j.picker, type: j.pickerType });
                     setTimeout(() => { changeButton(1) }, 2500);
                 } else {
-                    changeButton(0, loc.noURLReturned);
+                    changeButton(0, loc.ErrorNoUrlReturned);
                 }
                 break;
             case "stream":
@@ -418,9 +422,13 @@ async function download(url) {
                     let jp = await res.json();
                     if (jp.status === "continue") {
                         changeDownloadButton(2, '>>>');
-                        if (isMobile || isSafari) {
-                            window.location.href = j.url;
-                        } else window.open(j.url, '_blank');
+                        if (sGet("downloadPopup") === "true") {
+                            popup('download', 1, j.url)
+                        } else {
+                            if (isMobile || isSafari) {
+                                window.location.href = j.url;
+                            } else window.open(j.url, '_blank');
+                        }
                         setTimeout(() => { changeButton(1) }, 2500);
                     } else {
                         changeButton(0, jp.text);
@@ -431,7 +439,7 @@ async function download(url) {
                 changeButton(2, j.text);
                 break;
             default:
-                changeButton(0, loc.unknownStatus);
+                changeButton(0, loc.ErrorUnknownStatus);
                 break;
         }
     } else if (j && j.text) {
@@ -466,7 +474,7 @@ async function loadOnDemand(elementId, blockId) {
             }).catch(() => { throw new Error() });
         }
         if (j.text) {
-            eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.collapseHistory}</button>${j.text}`;
+            eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.ChangelogPressToHide}</button>${j.text}`;
         } else throw new Error()
     } catch (e) {
         eid(elementId).innerHTML = store.historyButton;
@@ -476,25 +484,139 @@ async function loadOnDemand(elementId, blockId) {
 function restoreUpdateHistory() {
     eid("changelog-history").innerHTML = store.historyButton;
 }
+function unpackSettings(b64) {
+    let changed = null;
+    try {
+        let settingsToImport = JSON.parse(atob(b64));
+        let currentSettings = JSON.parse(JSON.stringify(localStorage));
+        for (let s in settingsToImport) {
+            if (checkboxes.includes(s) && (settingsToImport[s] === "true" || settingsToImport[s] === "false")
+                && currentSettings[s] !== settingsToImport[s]) {
+                sSet(s, settingsToImport[s]);
+                changed = true
+            }
+            if (switchers[s] && switchers[s].includes(settingsToImport[s])
+                && currentSettings[s] !== settingsToImport[s]) {
+                sSet(s, settingsToImport[s]);
+                changed = true
+            }
+        }
+    } catch (e) {
+        changed = false;
+    }
+    return changed
+}
+function updateFilenamePreview() {
+    let videoFilePreview = ``;
+    let audioFilePreview = ``;
+    let resMatch = {
+        "max": "3840x2160",
+        "2160": "3840x2160",
+        "1440": "2560x1440",
+        "1080": "1920x1080",
+        "720": "1280x720",
+        "480": "854x480",
+        "360": "640x360",
+    }
+    // "dubLang"
+    // sGet("muteAudio") === "true"
+    switch(sGet("filenamePattern")) {
+        case "classic":
+            videoFilePreview = `youtube_yPYZpwSpKmA_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
+            + `${sGet("muteAudio") === "true" ? "_mute" : ""}.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `youtube_yPYZpwSpKmA_audio.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "pretty":
+            videoFilePreview =
+            `${loc.FilenamePreviewVideoTitle} `
+            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "basic":
+            videoFilePreview =
+            `${loc.FilenamePreviewVideoTitle} `
+            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}${sGet("muteAudio") === "true" ? " mute" : ""}).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "nerdy":
+            videoFilePreview =
+            `${loc.FilenamePreviewVideoTitle} `
+            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, yPYZpwSpKmA).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud, 1242868615).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+    }
+    eid("video-filename-text").innerHTML = videoFilePreview
+    eid("audio-filename-text").innerHTML = audioFilePreview
+}
+function loadSettings() {
+    if (sGet("alwaysVisibleButton") === "true") {
+        eid("alwaysVisibleButton").checked = true;
+        eid("download-button").value = '>>'
+        eid("download-button").style.padding = '0 1rem';
+    }
+    if (sGet("downloadPopup") === "true" && !isIOS) {
+        eid("downloadPopup").checked = true;
+    }
+    if (sGet("reduceTransparency") === "true" || isOldFirefox) {
+        eid("cobalt-body").classList.add('no-transparency');
+    }
+    if (sGet("disableAnimations") === "true") {
+        eid("cobalt-body").classList.add('no-animation');
+    }
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
+    }
+    for (let i in switchers) {
+        changeSwitcher(i, sGet(i))
+    }
+    updateFilenamePreview()
+}
 window.onload = () => {
+    loadCelebrationsEmoji();
+
     loadSettings();
     detectColorScheme();
+
     changeDownloadButton(0, '>>');
-    notificationCheck();
-    loadCelebrationsEmoji();
+    eid("url-input-area").value = "";
+
     if (isIOS) {
         sSet("downloadPopup", "true");
         eid("downloadPopup-chkbx").style.display = "none";
     }
-    eid("url-input-area").value = "";
 
     eid("home").style.visibility = 'visible';
     eid("home").classList.toggle("visible");
 
-    let urlQuery = new URLSearchParams(window.location.search).get("u");
-    if (urlQuery !== null && regex.test(urlQuery)) {
-        eid("url-input-area").value = urlQuery;
-        button();
+    if (pageQuery.has("u") && regex.test(pageQuery.get("u"))) {
+        eid("url-input-area").value = pageQuery.get("u");
+        button()
+    }
+    if (pageQuery.has("migration")) {
+        if (pageQuery.has("settingsData") && !sGet("migrated")) {
+            let setUn = unpackSettings(pageQuery.get("settingsData"));
+            if (setUn !== null) {
+                if (setUn) {
+                    sSet("migrated", "true")
+                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferSuccess}`
+                } else {
+                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferError}`
+                }
+            }
+        }
+        loadSettings();
+        detectColorScheme();
+        popup("migration", 1);
+    }
+    window.history.replaceState(null, '', window.location.pathname);
+
+    notificationCheck();
+
+    // fix for animations not working in Safari
+    if (isIOS) {
+        document.addEventListener('touchstart', () => {}, true);
     }
 }
 eid("url-input-area").addEventListener("keydown", (e) => {
@@ -505,8 +627,10 @@ eid("url-input-area").addEventListener("keyup", (e) => {
 })
 document.onkeydown = (e) => {
     if (!store.isPopupOpen) {
-        if (e.ctrlKey || e.key === "/") eid("url-input-area").focus();
+        if (e.metaKey || e.ctrlKey || e.key === "/") eid("url-input-area").focus();
         if (e.key === "Escape" || e.key === "Clear") clearInput();
+
+        if (e.target === eid("url-input-area")) return;
 
         // top buttons
         if (e.key === "D") pasteClipboard();

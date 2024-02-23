@@ -1,5 +1,5 @@
 {
-    "audioIgnore": ["vk"],
+    "audioIgnore": ["vk", "ok"],
     "config": {
         "bilibili": {
             "alias": "bilibili.com videos",
@@ -9,11 +9,19 @@
         "reddit": {
             "alias": "reddit videos & gifs",
             "patterns": ["r/:sub/comments/:id/:title"],
+            "subdomains": "*",
             "enabled": true
         },
         "twitter": {
             "alias": "twitter videos & voice",
-            "patterns": [":user/status/:id", ":user/status/:id/video/:v", "i/spaces/:spaceId"],
+            "altDomains": ["x.com", "vxtwitter.com", "fixvx.com"],
+            "subdomains": ["mobile"],
+            "patterns": [
+                ":user/status/:id",
+                ":user/status/:id/video/:index",
+                ":user/status/:id/mediaviewer",
+                ":user/status/:id/mediaViewer"
+            ],
             "enabled": true
         },
         "vk": {
@@ -21,40 +29,54 @@
             "patterns": ["video:userId_:videoId", "clip:userId_:videoId", "clips:duplicate?z=clip:userId_:videoId"],
             "enabled": true
         },
+        "ok": {
+            "alias": "ok video",
+            "tld": "ru",
+            "patterns": ["video/:id"],
+            "enabled": true
+        },
         "youtube": {
-            "alias": "youtube videos & shorts & music",
-            "patterns": ["watch?v=:id", "embed/:id"],
+            "alias": "youtube videos, shorts & music",
+            "patterns": ["watch?v=:id", "embed/:id", "watch/:id"],
+            "subdomains": ["music", "m"],
             "bestAudio": "opus",
             "enabled": true
         },
         "tumblr": {
             "patterns": ["post/:id", "blog/view/:user/:id", ":user/:id", ":user/:id/:trackingId"],
+            "subdomains": "*",
             "enabled": true
         },
         "tiktok": {
-            "alias": "tiktok videos & photos & audio",
-            "patterns": [":user/video/:postId", ":id", "t/:id"],
+            "alias": "tiktok videos, photos & audio",
+            "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId"],
+            "subdomains": ["vt", "vm"],
             "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
         },
         "douyin": {
             "alias": "douyin videos & audio",
             "patterns": ["video/:postId", ":id"],
+            "subdomains": ["v"],
             "enabled": false
         },
         "vimeo": {
-            "patterns": [":id"],
+            "patterns": [":id", "video/:id"],
             "enabled": true,
             "bestAudio": "mp3"
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
-            "bestAudio": "none",
+            "subdomains": ["on"],
+            "audioFormats": ["best", "opus", "mp3"],
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels & posts",
-            "patterns": ["reels/:id", "reel/:id", "p/:id"],
+            "alias": "instagram reels, posts & stories",
+            "patterns": [
+                "reels/:postId", "reel/:postId", "p/:postId",
+                "tv/:postId", "stories/:username/:storyId"
+            ],
             "enabled": true
         },
         "vine": {
@@ -65,7 +87,7 @@
         },
         "pinterest": {
             "alias": "pinterest videos & stories",
-            "patterns": ["pin/:id"],
+            "patterns": ["pin/:id", "pin/:id/:garbage", "url_shortener/:shortLink"],
             "enabled": true
         },
         "nicovideo": {
@@ -78,6 +100,18 @@
             "alias": "streamable.com",
             "patterns": [":id", "o/:id", "e/:id", "s/:id"],
             "enabled": true
+        },
+        "twitch": {
+            "alias": "twitch clips",
+            "tld": "tv",
+            "patterns": [":channel/clip/:clip"],
+            "enabled": true
+        },
+        "rutube": {
+            "alias": "rutube videos",
+            "tld": "ru",
+            "patterns": ["video/:id", "play/embed/:id"],
+            "enabled": true
         }
-    }    
+    }
 }

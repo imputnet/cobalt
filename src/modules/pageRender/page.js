@@ -1,5 +1,5 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, urgentNotice, keyboardShortcuts } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio } from "../config.js";
+import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag, linkSVG } from "./elements.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, links } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
@@ -7,9 +7,7 @@ import changelogManager from "../changelog/changelogManager.js";
 
 let com = getCommitInfo();
 
-let enabledServices = Object.keys(s).filter((p) => {
-    if (s[p].enabled) return true;
-}).sort().map((p) => {
+let enabledServices = Object.keys(s).filter(p => s[p].enabled).sort().map((p) => {
     return `<br>&bull; ${s[p].alias ? s[p].alias : p}`
 }).join('').substring(4)
 
@@ -35,7 +33,7 @@ export default function(obj) {
     let isIOS = ua.match("iphone os");
     let isMobile = ua.match("android") || ua.match("iphone os");
 
-    let platform = isMobile ? "m" : "p";
+    let platform = isMobile ? "m" : "d";
     if (isMobile && isIOS) platform = "i";
 
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
@@ -45,40 +43,40 @@ export default function(obj) {
 <!DOCTYPE html>
 <html lang="${obj.lang}">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}">
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.webURL || process.env.selfURL}" />
-        <meta property="og:title" content="${t("AppTitleCobalt")}" />
-        <meta property="og:description" content="${t('EmbedBriefDescription')}" />
-        <meta property="og:image" content="${process.env.webURL || process.env.selfURL}icons/generic.png" />
-        <meta name="title" content="${t("AppTitleCobalt")}" />
-        <meta name="description" content="${t('AboutSummary')}" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="twitter:card" content="summary" />
+        <meta property="og:url" content="${process.env.webURL}">
+        <meta property="og:title" content="${t("AppTitleCobalt")}">
+        <meta property="og:description" content="${t('EmbedBriefDescription')}">
+        <meta property="og:image" content="${process.env.webURL}icons/generic.png">
+        <meta name="title" content="${t("AppTitleCobalt")}">
+        <meta name="description" content="${t('AboutSummary')}">
+        <meta name="theme-color" content="#000000">
+        <meta name="twitter:card" content="summary">
         
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="${t("AppTitleCobalt")}">
 
-        <link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+        <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
 
-        <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 
-        <link rel="manifest" href="manifest.webmanifest" />
-        <link rel="stylesheet" href="fonts/notosansmono.css" rel="preload" />
-        <link rel="stylesheet" href="cobalt.css" />
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="preload" href="fonts/notosansmono.css" as="style">
+        <link rel="stylesheet" href="fonts/notosansmono.css">
+        <link rel="stylesheet" href="cobalt.css">
 
-        <link rel="me" href="${authorInfo.support.mastodon.url}">
-
-        <noscript><div style="margin: 2rem;">${t('NoScriptMessage')}</div></noscript>
     </head>
-    <body id="cobalt-body" ${platform === "p" ? 'class="desktop"' : ''} data-nosnippet ontouchstart>
-        <body id="notification-area"></div>
+    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
+        <noscript>
+            <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
+        </noscript>
         ${multiPagePopup({
             name: "about",
             closeAria: t('AccessibilityGoBack'),
@@ -101,7 +99,11 @@ export default function(obj) {
                         text: collapsibleList([{
                             name: "services",
                             title: `${emoji("🔗")} ${t("CollapseServices")}`,
-                            body: `${enabledServices}<br/><br/>${t("ServicesNote")}`
+                            body: `${enabledServices}`
+                            + `<div class="explanation embedded">${t("SupportNotAffiliated")}`
+                            + `${obj.lang === "ru" ? `<br>${t("SupportMetaNoticeRU")}` : ''}`
+                            + `</div>`
+                            + `${t("ServicesNote")}`
                         }, {
                             name: "keyboard",
                             title: `${emoji("⌨")} ${t("CollapseKeyboard")}`,
@@ -120,7 +122,7 @@ export default function(obj) {
                                 }]
                             }, {
                                 items: [{
-                                    combo: "Ctrl+V",
+                                    combo: "⌘/Ctrl+V",
                                     name: t("KeyboardShortcutQuickPaste")
                                 }, {
                                     combo: "Esc",
@@ -144,23 +146,15 @@ export default function(obj) {
                         }, {
                             name: "support",
                             title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
-                            body: 
-                            `${t("SupportSelfTroubleshooting")}<br/><br/>
-                            ${t("FollowSupport")}<br/>
-                            ${socialLink(
-                                emoji("🐦"), "twitter", authorInfo.support.twitter.handle, authorInfo.support.twitter.url
-                            )}
-                            ${socialLink(
-                                emoji("👾"), "discord", authorInfo.support.discord.handle, authorInfo.support.discord.url
-                            )}
-                            ${socialLink(
-                                emoji("🐘"), "mastodon", authorInfo.support.mastodon.handle, authorInfo.support.mastodon.url
-                            )}<br/>
-                            ${t("SourceCode")}<br/>
-                            ${socialLink(
-                                emoji("🐙"), "github", repo.replace("https://github.com/", ''), repo
-                            )}<br/>
-                            ${t("SupportNote")}`
+                            body: `${t("SupportSelfTroubleshooting")}`
+                            + `${socialLink(emoji("📢"), t("StatusPage"), links.statusPage)}`
+                            + `${socialLink(emoji("🔧"), t("TroubleshootingGuide"), links.troubleshootingGuide)}`
+                            + `<br>`
+                            + `${t("FollowSupport")}`
+                            + `${socialLinks(obj.lang)}`
+                            + `<br>`
+                            + `${t("SourceCode")}`
+                            + `${socialLink(emoji("🐙"), repo.replace("https://github.com/", ''), repo)}`
                         }, {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
@@ -170,7 +164,17 @@ export default function(obj) {
                             title: `${emoji("📑")} ${t("CollapseLegal")}`,
                             body: t("FairUse")
                         }])
-                    }]
+                    },
+                    ...(process.env.showSponsors ?
+                    [{
+                        text: t("SponsoredBy"),
+                        classes: ["sponsored-by-text"],
+                        nopadding: true
+                    }, {
+                        text: sponsoredList(),
+                        raw: true
+                    }] : []
+                    )]
                 })
             }, {
                 name: "changelog",
@@ -185,15 +189,18 @@ export default function(obj) {
                         text: `<div class="category-title">${t('ChangelogLastMajor')}</div>`,
                         raw: true
                     }, {
-                        text: changelogManager("banner") ?
-                        `<div class="changelog-banner">
-                            <img class="changelog-img" ` +
-                                `src="${changelogManager("banner")["url"]}" ` +
-                                `width="${changelogManager("banner")["width"]}" ` +
-                                `height="${changelogManager("banner")["height"]}" ` +
-                                `onerror="this.style.opacity=0" loading="lazy">`+
-                            `</img>
-                        </div>`: '',
+                        text: (() => {
+                            const banner = changelogManager('banner');
+                            if (!banner) return '';
+                            return `<div class="changelog-banner">
+                                        <img class="changelog-img" ` +
+                                            `src="${banner.url}" ` +
+                                            `alt="${banner.alt.replaceAll('"', '&quot;')}" ` +
+                                            `width="${banner.width}" ` +
+                                            `height="${banner.height}" ` +
+                                            `onerror="this.style.opacity=0" loading="lazy">
+                                    </div>`;
+                        })(),
                         raw: true
                     }, {
                         text: changelogManager("version"),
@@ -242,13 +249,14 @@ export default function(obj) {
                         text: `<div class="category-title">${t('DonateSub')}</div>`,
                         raw: true
                     }, {
-                        text: `<div class="changelog-banner">
+                        text: `
+                        <div class="changelog-banner">
                             <img class="changelog-img" ` +
-                                `src="updateBanners/catsleep.webp"` +
+                                `src="updateBanners/catsleep.webp" ` +
+                                `alt="${t("DonateImageDescription")}" ` +
                                 `width="480" ` +
                                 `height="270" ` +
-                                `onerror="this.style.opacity=0" loading="lazy">`+
-                            `</img>
+                                `onerror="this.style.opacity=0" loading="lazy">
                         </div>`,
                         raw: true
                     }, {
@@ -319,7 +327,7 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "tiktok",
+                    name: "tiktok-watermark",
                     title: "tiktok",
                     body: checkbox([{
                         action: "disableTikTokWatermark",
@@ -328,7 +336,18 @@ export default function(obj) {
                     }])
                 })
                 + settingsCategory({
-                    name: t('SettingsCodecSubtitle'),
+                    name: "twitter",
+                    title: "twitter",
+                    body: checkbox([{
+                        action: "twitterGif",
+                        name: t("SettingsTwitterGif"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTwitterGifDescription'))
+                })
+                + settingsCategory({
+                    name: "codec",
+                    title: t('SettingsCodecSubtitle'),
                     body: switcher({
                         name: "vCodec",
                         explanation: t('SettingsCodecDescription'),
@@ -345,7 +364,8 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: t('SettingsVimeoPrefer'),
+                    name: "vimeo",
+                    title: t('SettingsVimeoPrefer'),
                     body: switcher({
                         name: "vimeoDash",
                         explanation: t('SettingsVimeoPreferDescription'),
@@ -393,7 +413,7 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "tiktok",
+                    name: "tiktok-audio",
                     title: "tiktok",
                     body: checkbox([{
                         action: "fullTikTokAudio",
@@ -423,6 +443,43 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
+                    name: "filename",
+                    title: t('FilenameTitle'),
+                    body: switcher({
+                        name: "filenamePattern",
+                        items: [{
+                            action: "classic",
+                            text: t('FilenamePatternClassic')
+                        }, {
+                            action: "basic",
+                            text: t('FilenamePatternBasic')
+                        }, {
+                            action: "pretty",
+                            text: t('FilenamePatternPretty')
+                        }, {
+                            action: "nerdy",
+                            text: t('FilenamePatternNerdy')
+                        }]
+                    })
+                    + `<div id="filename-preview">
+                        <div id="video-filename" class="filename-item line">
+                            ${emoji('🎞️', 32, 1, 1)}
+                            <div class="filename-container">
+                                <div class="filename-label">${t('Preview')}</div>
+                                <div id="video-filename-text"></div>
+                            </div>
+                        </div>
+                        <div id="audio-filename" class="filename-item">
+                            ${emoji('🎧', 32, 1, 1)}
+                            <div class="filename-container">
+                                <div class="filename-label">${t('Preview')}</div>
+                                <div id="audio-filename-text"></div>
+                            </div>
+                        </div>
+                    </div>`
+                    + explanation(t('FilenameDescription'))
+                })
+                + settingsCategory({
                     name: "accessibility",
                     title: t('Accessibility'),
                     body: checkbox([{
@@ -442,16 +499,19 @@ export default function(obj) {
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
                     body: checkbox([{
-                        action: "disableChangelog",
-                        name: t("SettingsDisableNotifications")
-                    }, {
                         action: "downloadPopup",
                         name: t("SettingsEnableDownloadPopup"),
-                        padding: "no-margin",
                         aria: t("AccessibilityEnableDownloadPopup")
+                    }, {
+                        action: "disableMetadata",
+                        name: t("SettingsDisableMetadata")
+                    }, {
+                        action: "disableChangelog",
+                        name: t("SettingsDisableNotifications"),
+                        padding: "no-margin"
                     }])
                 })
-            }],
+            }]
         })}
         ${popupWithBottomButtons({
             name: "picker",
@@ -468,7 +528,7 @@ export default function(obj) {
                 name: "download",
                 standalone: true,
                 buttonOnly: true,
-                classes: ["small", "glass-bkg"],
+                classes: ["small"],
                 header: {
                     closeAria: t('AccessibilityGoBack'),
                     emoji: emoji("🐱", 78, 1, 1),
@@ -489,31 +549,46 @@ export default function(obj) {
                 name: "error",
                 standalone: true,
                 buttonOnly: true,
-                classes: ["small", "glass-bkg"],
+                classes: ["small"],
                 header: {
-                    closeAria: t('AccessibilityGoBack'),
                     title: t('TitlePopupError'),
                     emoji: emoji("😿", 78, 1, 1),
                 },
-                body: `<div id="desc-error" class="desc-padding subtext"></div>`,
+                body: `<div id="desc-error" class="desc-padding subtext desc-error"></div>`,
                 buttonText: t('ErrorPopupCloseButton')
             })}
+        </div>
+        <div id="popup-migration-container" class="popup-from-bottom">
+            ${popup({
+                name: "migration",
+                standalone: true,
+                buttonOnly: true,
+                classes: ["small"],
+                header: {
+                    title: t('NewDomainWelcomeTitle'),
+                    emoji: emoji("😸", 78, 1, 1),
+                },
+                body: `<div id="desc-migration" class="desc-padding subtext desc-error">${t('NewDomainWelcome')}</div>`,
+                buttonText: t('ErrorPopupCloseButton')
+            })}
+            <div id="popup-backdrop-message" onclick="popup('message', 0)"></div>
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🔗",
-                text: t("UrgentFeatureUpdate71"),
+                emoji: "🎬",
+                text: t("UpdateTwitterGif"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
             <div id="cobalt-main-box" class="center">
-                <div id="logo">${t("AppTitleCobalt")}</div>
+                <div id="logo">${t("AppTitleCobalt")}${betaTag()}</div>
                 <div id="download-area">
                     <div id="top">
-                        <input id="url-input-area" class="mono" type="text" autocorrect="off" maxlength="128" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()"></input>
+                        <div id="link-icon">${linkSVG}</div>
+                        <input id="url-input-area" class="mono" type="text" autocomplete="off" spellcheck="false" maxlength="256" autocapitalize="off" placeholder="${t('LinkInput')}" aria-label="${t('AccessibilityInputArea')}" oninput="button()">
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
-                        <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled=true aria-label="${t('AccessibilityDownloadButton')}">
+                        <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled aria-label="${t('AccessibilityDownloadButton')}">
                     </div>
                     <div id="bottom">
                         <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
@@ -551,24 +626,29 @@ export default function(obj) {
                 }])}
             </footer>
         </div>
+        <script>
+            let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
+            const loc = ${webLoc(t,
+            [
+                'ErrorNoInternet',
+                'ErrorNoUrlReturned',
+                'ErrorUnknownStatus',
+                'ChangelogPressToHide',
+                'MediaPickerTitle',
+                'MediaPickerExplanationPhone',
+                'MediaPickerExplanationPC',
+                'FeatureErrorGeneric',
+                'ClipboardErrorNoPermission',
+                'ClipboardErrorFirefox',
+                'DataTransferSuccess',
+                'DataTransferError',
+                'FilenamePreviewVideoTitle',
+                'FilenamePreviewAudioTitle',
+                'FilenamePreviewAudioAuthor'
+            ])}
+        </script>
+        <script src="cobalt.js"></script>
     </body>
-    <script type="text/javascript">
-        const loc = {
-            noInternet: ` + "`" + t('ErrorNoInternet') + "`" + `,
-            noURLReturned: ` + "`" + t('ErrorNoUrlReturned') + "`" + `,
-            unknownStatus: ` + "`" + t('ErrorUnknownStatus') + "`" + `,
-            collapseHistory: ` + "`" + t('ChangelogPressToHide') + "`" + `,
-            pickerDefault: ` + "`" + t('MediaPickerTitle') + "`" + `,
-            pickerImages: ` + "`" + t('ImagePickerTitle') + "`" + `,
-            pickerImagesExpl: ` + "`" + t(`ImagePickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-            pickerDefaultExpl: ` + "`" + t(`MediaPickerExplanation${isMobile ? "Phone" : "PC"}`) + "`" + `,
-            featureErrorGeneric: ` + "`" + t('FeatureErrorGeneric') + "`" + `,
-            clipboardErrorNoPermission: ` + "`" + t('ClipboardErrorNoPermission') + "`" + `,
-            clipboardErrorFirefox: ` + "`" + t('ClipboardErrorFirefox') + "`" + `,
-        };
-        let apiURL = '${process.env.apiURL ? process.env.apiURL.slice(0, -1) : ''}';
-    </script>
-    <script type="text/javascript" src="cobalt.js"></script>
 </html>
 `
     } catch (err) {

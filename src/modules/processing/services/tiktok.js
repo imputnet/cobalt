@@ -17,13 +17,13 @@ function selector(j, h, id) {
     let t;
     switch (h) {
         case "tiktok":
-            t = j["aweme_list"].filter((v) => { if (v["aweme_id"] === id) return true })[0];
+            t = j["aweme_list"].filter(v => v["aweme_id"] === id)[0];
             break;
         case "douyin":
             t = j['aweme_detail'];
             break;
     }
-    if (t.length < 3) return false;
+    if (t?.length < 3) return false;
     return t;
 }
 
@@ -35,10 +35,11 @@ export default async function(obj) {
             redirect: "manual",
             headers: { "user-agent": userAgent }
         }).then((r) => { return r.text() }).catch(() => { return false });
+
         if (!html) return { error: 'ErrorCouldntFetch' };
 
-        if (html.slice(0, 17) === '<a href="https://' && html.includes('/video/')) {
-            postId = html.split('/video/')[1].split('?')[0].replace("/", '')
+        if (html.slice(0, 17) === '<a href="https://') {
+            postId = html.split('<a href="https://')[1].split('?')[0].split('/')[3]
         } else if (html.slice(0, 32) === '<a href="https://m.tiktok.com/v/' && html.includes('/v/')) {
             postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
         }
@@ -92,7 +93,7 @@ export default async function(obj) {
         let imageLinks = [];
         for (let i in images) {
             let sel = obj.host === "tiktok" ? images[i]["display_image"]["url_list"] : images[i]["url_list"];
-            sel = sel.filter((p) => { if (p.includes(".jpeg?")) return true; })
+            sel = sel.filter(p => p.includes(".jpeg?"))
             imageLinks.push({url: sel[0]})
         }
         return {

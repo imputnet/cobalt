@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { getJSON } from "../modules/api.js";
 import { services } from "../modules/config.js";
-import loadJSON from "../modules/sub/loadJSON.js";
+import { loadJSON } from "../modules/sub/loadFromFs.js";
 import { checkJSONPost } from "../modules/sub/utils.js";
 
 let tests = loadJSON('./src/test/tests.json');

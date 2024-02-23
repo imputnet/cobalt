@@ -11,13 +11,13 @@ export default async function(obj) {
     let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
     if (streamData.data.timelength > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
-    let video = streamData["data"]["dash"]["video"].filter((v) => {
-        if (!v["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")) return true;
-    }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
+    let video = streamData["data"]["dash"]["video"].filter(v => 
+        !v["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")
+    ).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
 
-    let audio = streamData["data"]["dash"]["audio"].filter((a) => {
-        if (!a["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")) return true;
-    }).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
+    let audio = streamData["data"]["dash"]["audio"].filter(a => 
+        !a["baseUrl"].includes("https://upos-sz-mirrorcosov.bilivideo.com/")
+    ).sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
 
     return {
         urls: [video[0]["baseUrl"], audio[0]["baseUrl"]],

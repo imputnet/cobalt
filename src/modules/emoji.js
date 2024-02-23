@@ -33,12 +33,22 @@ const names = {
     "🔗": "link",
     "⌨": "keyboard",
     "📑": "boring_document",
-    "🧮": "abacus"
+    "🧮": "abacus",
+    "😸": "cat_grin",
+    "📰": "newspaper",
+    "🎞️": "film_frames",
+    "🎧": "headphone",
+    "📧": "email",
+    "📬": "mailbox",
+    "📢": "loudspeaker",
+    "🔧": "wrench",
+    "🫧": "bubbles"
 }
 let sizing = {
     18: 0.8,
     22: 0.4,
     30: 0.7,
+    32: 0.8,
     48: 0.9,
     64: 0.9,
     78: 0.9
@@ -52,5 +62,5 @@ export default function(emoji, size, disablePadding, fluent) {
 
     let filePath = `emoji/${names[emoji]}.svg`;
     if (fluent) filePath = `emoji/3d/${names[emoji]}.svg`;
-    return `<img class="emoji" draggable=false height="${size}" width="${size}" ${padding ? `style="${padding}"` : ''}alt="${emoji}" src="${filePath}" loading="lazy">`
+    return `<img class="emoji" draggable=false height="${size}" width="${size}" ${padding ? `style="${padding}" ` : ''}alt="${emoji}" src="${filePath}" loading="lazy">`
 }

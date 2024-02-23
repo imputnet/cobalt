@@ -11,6 +11,15 @@
             "code": 200,
             "status": "redirect"
         }
+    },
+    {
+        "name": "video with mobile web mediaviewer",
+        "url": "https://twitter.com/XSpaces/status/1526955853743546372/mediaViewer?currentTweet=1526955853743546372&currentTweetUser=XSpaces&currentTweet=1526955853743546372&currentTweetUser=XSpaces",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }, {
         "name": "embedded twitter video",
         "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
@@ -97,7 +106,7 @@
         }
     }, {
         "name": "retweeted video",
-        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
+        "url": "https://twitter.com/uwukko/status/1696901469633421344",
         "params": {},
         "expected": {
             "code": 200,
@@ -304,6 +313,14 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "no opus audio, fallback to mp3",
+        "url": "https://soundcloud.com/frums/credits",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "youtube": [{
         "name": "4k video (h264, 1440)",
@@ -461,6 +478,14 @@
             "vCodec": "vp9",
             "vQuality": "max"
         },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "live link, defaults",
+        "url": "https://www.youtube.com/live/ENxZS6PUDuI?feature=shared",
+        "params": {},
         "expected": {
             "code": 200,
             "status": "stream"
@@ -1081,6 +1106,99 @@
         "expected": {
             "code": 400,
             "status": "error"
+        }
+    }],
+    "twitch": [{
+        "name": "clip",
+        "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "clip (isAudioOnly)",
+        "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "clip (isAudioMuted)",
+        "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "rutube": [{
+        "name": "regular video",
+        "url": "https://rutube.ru/video/b2f6c27649907c2fde0af411b03825eb/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video (isAudioMuted)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "russian region lock",
+        "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video (isAudioOnly)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "vertical video (isAudioMuted)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "ok": [{
+        "name": "regular video",
+        "url": "https://ok.ru/video/7204071410346",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
         }
     }]
 }

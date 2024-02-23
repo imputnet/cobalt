@@ -1,44 +1,91 @@
 import { spawn } from "child_process";
 import ffmpeg from "ffmpeg-static";
 import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { getThreads, metadataManager } from "../sub/utils.js";
-import { request } from 'undici';
+import { metadataManager } from "../sub/utils.js";
+import { request } from "undici";
+import { create as contentDisposition } from "content-disposition-header";
+import { AbortController } from "abort-controller"
 
-function fail(res) {
+function closeRequest(controller) {
+    try { controller.abort() } catch {}
+}
+
+function closeResponse(res) {
     if (!res.headersSent) res.sendStatus(500);
     return res.destroy();
 }
 
+function killProcess(p) {
+    // ask the process to terminate itself gracefully
+    p?.kill('SIGTERM');
+    setTimeout(() => {
+        if (p?.exitCode === null)
+            // brutally murder the process if it didn't quit
+            p?.kill('SIGKILL');
+    }, 5000);
+}
+
+function pipe(from, to, done) {
+    from.on('error', done)
+        .on('close', done);
+
+    to.on('error', done)
+      .on('close', done);
+
+    from.pipe(to);
+}
+
+function getCommand(args) {
+    if (process.env.PROCESSING_PRIORITY && process.platform !== "win32") {
+        return ['nice', ['-n', process.env.PROCESSING_PRIORITY, ffmpeg, ...args]]
+    }
+    return [ffmpeg, args]
+}
+
 export async function streamDefault(streamInfo, res) {
+    const abortController = new AbortController();
+    const shutdown = () => (closeRequest(abortController), closeResponse(res));
+
     try {
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
-        let regFilename = !streamInfo.mute ? streamInfo.filename : `${streamInfo.filename.split('.')[0]}_mute.${format}`;
-        res.setHeader('Content-disposition', `attachment; filename="${streamInfo.isAudioOnly ? `${streamInfo.filename}.${streamInfo.audioFormat}` : regFilename}"`);
+        let filename = streamInfo.filename;
+        if (streamInfo.isAudioOnly) {
+            filename = `${streamInfo.filename}.${streamInfo.audioFormat}`
+        }
+        res.setHeader('Content-disposition', contentDisposition(filename));
 
         const { body: stream, headers } = await request(streamInfo.urls, {
-            headers: { 'user-agent': genericUserAgent }
+            headers: { 'user-agent': genericUserAgent },
+            signal: abortController.signal,
+            maxRedirections: 16
         });
 
         res.setHeader('content-type', headers['content-type']);
         res.setHeader('content-length', headers['content-length']);
 
-        stream.pipe(res).on('error', () => fail(res));
-        stream.on('error', () => fail(res));
-        stream.on('aborted', () => fail(res));
-    } catch (e) {
-        fail(res);
+        pipe(stream, res, shutdown);
+    } catch {
+        shutdown();
     }
 }
-export async function streamLiveRender(streamInfo, res) {
-    try {
-        if (streamInfo.urls.length !== 2) return fail(res);
 
-        let { body: audio } = await request(streamInfo.urls[1]);
+export async function streamLiveRender(streamInfo, res) {
+    let abortController = new AbortController(), process;
+    const shutdown = () => (
+        closeRequest(abortController),
+        killProcess(process),
+        closeResponse(res)
+    );
+
+    try {
+        if (streamInfo.urls.length !== 2) return shutdown();
+
+        const { body: audio } = await request(streamInfo.urls[1], {
+            maxRedirections: 16, signal: abortController.signal
+        });
 
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1],
         args = [
             '-loglevel', '-8',
-            '-threads', `${getThreads()}`,
             '-i', streamInfo.urls[0],
             '-i', 'pipe:3',
             '-map', '0:v',
@@ -46,141 +93,172 @@ export async function streamLiveRender(streamInfo, res) {
         ];
 
         args = args.concat(ffmpegArgs[format]);
-        if (streamInfo.metadata) args = args.concat(metadataManager(streamInfo.metadata));
+        if (streamInfo.metadata) {
+            args = args.concat(metadataManager(streamInfo.metadata))
+        }
         args.push('-f', format, 'pipe:4');
-        let ffmpegProcess = spawn(ffmpeg, args, {
+
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe', 'pipe'
             ],
         });
+
+        const [,,, audioInput, muxOutput] = process.stdio;
+
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}"`);
-        res.on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
-        ffmpegProcess.stdio[4].pipe(res).on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
-        audio.pipe(ffmpegProcess.stdio[3]).on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
-        
-        audio.on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
-        audio.on('aborted', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
-        ffmpegProcess.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('exit', () => ffmpegProcess.kill());
-        res.on('finish', () => ffmpegProcess.kill());
-        res.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
+        audio.on('error', shutdown);
+        audioInput.on('error', shutdown);
+        audio.pipe(audioInput);
+        pipe(muxOutput, res, shutdown);
 
-    } catch (e) {
-        fail(res);
+        process.on('close', shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
     }
 }
+
 export function streamAudioOnly(streamInfo, res) {
+    let process;
+    const shutdown = () => (killProcess(process), closeResponse(res));
+
     try {
         let args = [
-            '-loglevel', '-8',
-            '-threads', `${getThreads()}`,
-            '-i', streamInfo.urls
+            '-loglevel', '-8'
         ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push(
+            '-i', streamInfo.urls,
+            '-vn'
+        )
+
         if (streamInfo.metadata) {
-            if (streamInfo.metadata.cover) { // currently corrupts the audio
-                args.push('-i', streamInfo.metadata.cover, '-map', '0:a', '-map', '1:0')
-            } else {
-                args.push('-vn')
-            }
             args = args.concat(metadataManager(streamInfo.metadata))
-        } else {
-            args.push('-vn')
         }
         let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"];
         args = args.concat(arg);
 
-        if (ffmpegArgs[streamInfo.audioFormat]) args = args.concat(ffmpegArgs[streamInfo.audioFormat]);
+        if (ffmpegArgs[streamInfo.audioFormat]) {
+            args = args.concat(ffmpegArgs[streamInfo.audioFormat])
+        }
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
-        const ffmpegProcess = spawn(ffmpeg, args, {
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe'
             ],
         });
-        res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename}.${streamInfo.audioFormat}"`);
-        ffmpegProcess.stdio[3].pipe(res);
 
-        ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
-        ffmpegProcess.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('exit', () => ffmpegProcess.kill());
-        res.on('finish', () => ffmpegProcess.kill());
-        res.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
-        });
-    } catch (e) {
-        fail(res);
+        const [,,, muxOutput] = process.stdio;
+
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', contentDisposition(`${streamInfo.filename}.${streamInfo.audioFormat}`));
+
+        pipe(muxOutput, res, shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
     }
 }
+
 export function streamVideoOnly(streamInfo, res) {
+    let process;
+    const shutdown = () => (killProcess(process), closeResponse(res));
+
     try {
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1], args = [
-            '-loglevel', '-8',
-            '-threads', `${getThreads()}`,
+        let args = [
+            '-loglevel', '-8'
+        ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push(
             '-i', streamInfo.urls,
             '-c', 'copy'
-        ]
-        if (streamInfo.mute) args.push('-an');
-        if (streamInfo.service === "vimeo") args.push('-bsf:a', 'aac_adtstoasc');
-        if (format === "mp4") {
-            // for some reason, downloading nicovideo with the `empty_moov` flag
-            // will only download one second of video
-            // TODO: figure out why
-            const movflags = streamInfo.service === 'nicovideo'
-                ? 'faststart+frag_keyframe'
-                : 'faststart+frag_keyframe+empty_moov';
-            args.push('-movflags', movflags);
+        )
+
+        if (streamInfo.mute) {
+            args.push('-an')
         }
+
+        if (streamInfo.service === "vimeo" || streamInfo.service === "rutube") {
+            args.push('-bsf:a', 'aac_adtstoasc')
+        }
+
+        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
+        if (format === "mp4") {
+            const movflags = streamInfo.service === 'nicovideo'
+                             ? 'faststart+frag_keyframe'
+                             : 'faststart+frag_keyframe+empty_moov';
+            args.push('-movflags', movflags)
+        }
+
         args.push('-f', format, 'pipe:3');
-        const ffmpegProcess = spawn(ffmpeg, args, {
+
+        process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe'
             ],
         });
-        res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', `attachment; filename="${streamInfo.filename.split('.')[0]}${streamInfo.mute ? '_mute' : ''}.${format}"`);
-        ffmpegProcess.stdio[3].pipe(res);
 
-        ffmpegProcess.on('disconnect', () => ffmpegProcess.kill());
-        ffmpegProcess.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('exit', () => ffmpegProcess.kill());
-        res.on('finish', () => ffmpegProcess.kill());
-        res.on('close', () => ffmpegProcess.kill());
-        ffmpegProcess.on('error', () => {
-            ffmpegProcess.kill();
-            fail(res);
+        const [,,, muxOutput] = process.stdio;
+
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+
+        pipe(muxOutput, res, shutdown);
+
+        process.on('close', shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
+    }
+}
+
+export function convertToGif(streamInfo, res) {
+    let process;
+    const shutdown = () => (killProcess(process), closeResponse(res));
+
+    try {
+        let args = [
+            '-loglevel', '-8'
+        ]
+        if (streamInfo.service === "twitter") {
+            args.push('-seekable', '0')
+        }
+        args.push('-i', streamInfo.urls)
+        args = args.concat(ffmpegArgs["gif"]);
+        args.push('-f', "gif", 'pipe:3');
+
+        process = spawn(...getCommand(args), {
+            windowsHide: true,
+            stdio: [
+                'inherit', 'inherit', 'inherit',
+                'pipe'
+            ],
         });
-    } catch (e) {
-        fail(res);
+
+        const [,,, muxOutput] = process.stdio;
+
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename.split('.')[0] + ".gif"));
+
+        pipe(muxOutput, res, shutdown);
+
+        process.on('close', shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
     }
 }
