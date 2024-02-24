@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.10.3",
+    "version": "7.10.4",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -41,6 +41,6 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^6.4.1"
+        "youtubei.js": "^9.1.0"
     }
 }
