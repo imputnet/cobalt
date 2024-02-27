@@ -368,7 +368,7 @@ button:active,
 .footer-button {
     width: auto!important;
     color: var(--accent-subtext);
-    padding: var(--gap) 1.2rem!important;
+    padding: var(--gap) 1rem!important;
     align-content: center;
 }
 .notification-dot {
@@ -772,7 +772,7 @@ button:active,
 }
 #cobalt-main-box #bottom button {
     width: auto;
-    padding: var(--gap) 1.2rem;
+    padding: var(--gap) 1rem;
 }
 .collapse-list {
     background: var(--subbackground);
