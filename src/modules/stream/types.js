@@ -1,10 +1,12 @@
-import { spawn } from "child_process";
-import ffmpeg from "ffmpeg-static";
-import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { metadataManager } from "../sub/utils.js";
-import { request } from "undici";
-import { create as contentDisposition } from "content-disposition-header";
+import { request } from "undici"
+import ffmpeg from "ffmpeg-static"
 import { AbortController } from "abort-controller"
+import { create as contentDisposition } from "content-disposition-header"
+
+import { makeCut } from "./cut.js"
+import { metadataManager } from "../sub/utils.js"
+import { spawn, pipe, killProcess } from "./shared.js"
+import { ffmpegArgs, genericUserAgent } from "../config.js"
 
 function closeRequest(controller) {
     try { controller.abort() } catch {}
@@ -13,33 +15,6 @@ function closeRequest(controller) {
 function closeResponse(res) {
     if (!res.headersSent) res.sendStatus(500);
     return res.destroy();
-}
-
-function killProcess(p) {
-    // ask the process to terminate itself gracefully
-    p?.kill('SIGTERM');
-    setTimeout(() => {
-        if (p?.exitCode === null)
-            // brutally murder the process if it didn't quit
-            p?.kill('SIGKILL');
-    }, 5000);
-}
-
-function pipe(from, to, done) {
-    from.on('error', done)
-        .on('close', done);
-
-    to.on('error', done)
-      .on('close', done);
-
-    from.pipe(to);
-}
-
-function getCommand(args) {
-    if (process.env.PROCESSING_PRIORITY && process.platform !== "win32") {
-        return ['nice', ['-n', process.env.PROCESSING_PRIORITY, ffmpeg, ...args]]
-    }
-    return [ffmpeg, args]
 }
 
 export async function streamDefault(streamInfo, res) {
@@ -98,8 +73,7 @@ export async function streamLiveRender(streamInfo, res) {
         }
         args.push('-f', format, 'pipe:4');
 
-        process = spawn(...getCommand(args), {
-            windowsHide: true,
+        process = spawn(ffmpeg, args, {
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe', 'pipe'
@@ -140,18 +114,18 @@ export function streamAudioOnly(streamInfo, res) {
         )
 
         if (streamInfo.metadata) {
-            args = args.concat(metadataManager(streamInfo.metadata))
+            args.push(...metadataManager(streamInfo.metadata))
         }
-        let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"];
-        args = args.concat(arg);
+
+        args.push(...ffmpegArgs[streamInfo.copy ? "copy" : "audio"]);
 
         if (ffmpegArgs[streamInfo.audioFormat]) {
-            args = args.concat(ffmpegArgs[streamInfo.audioFormat])
+            args.push(...ffmpegArgs[streamInfo.audioFormat]);
         }
+
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
-        process = spawn(...getCommand(args), {
-            windowsHide: true,
+        process = spawn(ffmpeg, args, {
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe'
@@ -198,8 +172,7 @@ export function streamVideoOnly(streamInfo, res) {
         }
         args.push('-f', format, 'pipe:3');
 
-        process = spawn(...getCommand(args), {
-            windowsHide: true,
+        process = spawn(ffmpeg, args, {
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe'
@@ -235,8 +208,7 @@ export function convertToGif(streamInfo, res) {
         args = args.concat(ffmpegArgs["gif"]);
         args.push('-f', "gif", 'pipe:3');
 
-        process = spawn(...getCommand(args), {
-            windowsHide: true,
+        process = spawn(ffmpeg, args, {
             stdio: [
                 'inherit', 'inherit', 'inherit',
                 'pipe'
@@ -249,6 +221,33 @@ export function convertToGif(streamInfo, res) {
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename.split('.')[0] + ".gif"));
 
         pipe(muxOutput, res, shutdown);
+
+        process.on('close', shutdown);
+        res.on('finish', shutdown);
+    } catch {
+        shutdown();
+    }
+}
+
+export async function streamClip(streamInfo, res) {
+    if (typeof streamInfo.urls === 'string')
+        streamInfo.urls = [streamInfo.urls];
+
+    const shutdown = () => (killProcess(process), closeResponse(res));
+
+    try {
+        const [ video, audio ] = streamInfo.urls;
+        const { start, end } = streamInfo.clip;
+        if (!start || !end || start === 'NaN' || end === 'NaN')
+            return shutdown();
+
+        const stream = await makeCut(video, { start, end }, audio);
+        process = stream.process;
+
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+
+        pipe(stream, res, shutdown);
 
         process.on('close', shutdown);
         res.on('finish', shutdown);

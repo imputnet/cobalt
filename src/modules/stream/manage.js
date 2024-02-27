@@ -34,6 +34,10 @@ export function createStream(obj) {
             isAudioOnly: !!obj.isAudioOnly,
             audioFormat: obj.audioFormat,
             time: obj.time ? obj.time : false,
+            clip: obj.clip ? {
+                start: parseFloat(obj.clip.start).toFixed(6),
+                end: parseFloat(obj.clip.end).toFixed(6),
+            } : false,
             copy: !!obj.copy,
             mute: !!obj.mute,
             metadata: obj.fileMetadata ? obj.fileMetadata : false

@@ -18,6 +18,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
+    else if (r.isClip) action = "clip"; // TODO: user-specified clips
     else if (r.isGif && toGif) action = "gif";
     else if (isAudioMuted) action = "muteVideo";
     else if (isAudioOnly) action = "audio";
@@ -40,7 +41,11 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
         case "photo":
             responseType = 1;
             break;
-        
+
+        case "clip":
+            params = { type: "clip" }
+            break;
+
         case "gif":
             params = { type: "gif" }
             break;

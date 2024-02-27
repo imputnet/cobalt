@@ -1,4 +1,4 @@
-import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly, convertToGif } from "./types.js";
+import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly, streamClip, convertToGif } from "./types.js";
 
 export default async function(res, streamInfo) {
     try {
@@ -16,6 +16,9 @@ export default async function(res, streamInfo) {
             case "remux":
             case "mute":
                 streamVideoOnly(streamInfo, res);
+                break;
+            case "clip":
+                streamClip(streamInfo, res);
                 break;
             default:
                 await streamDefault(streamInfo, res);
