@@ -104,6 +104,7 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "vimeo":
                 r = await vimeo({
                     id: patternMatch.id.slice(0, 11),
+                    password: patternMatch.password,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly,
                     forceDash: isAudioOnly ? true : obj.vimeoDash

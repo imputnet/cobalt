@@ -42,7 +42,8 @@ export const testers = {
         patternMatch.id?.length < 20,
 
     "vimeo": (patternMatch) =>
-        patternMatch.id?.length <= 11,
+        patternMatch.id?.length <= 11
+        && (!patternMatch.password || patternMatch.password.length < 16),
 
     "vine": (patternMatch) =>
         patternMatch.id?.length <= 12,

@@ -847,6 +847,14 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "private video",
+        "url": "https://vimeo.com/903115595/f14d06da38",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "reddit": [{
         "name": "video with audio",

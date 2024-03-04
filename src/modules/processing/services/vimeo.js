@@ -28,7 +28,14 @@ export default async function(obj) {
     let quality = obj.quality === "max" ? "9000" : obj.quality;
     if (!quality || obj.isAudioOnly) quality = "9000";
 
-    let api = await fetch(`https://player.vimeo.com/video/${obj.id}/config`).then((r) => { return r.json() }).catch(() => { return false });
+    const url = new URL(`https://player.vimeo.com/video/${obj.id}/config`);
+    if (obj.password) {
+        url.searchParams.set('h', obj.password);
+    }
+
+    let api = await fetch(url)
+                    .then(r => r.json())
+                    .catch(() => {});
     if (!api) return { error: 'ErrorCouldntFetch' };
 
     let downloadType = "dash";
