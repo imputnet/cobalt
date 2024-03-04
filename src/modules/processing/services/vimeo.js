@@ -71,6 +71,7 @@ export default async function(obj) {
     }
 
     let masterM3U8 = `${masterJSONURL.split("/sep/")[0]}/sep/video/${bestVideo.id}/master.m3u8`;
+    const fallbackResolution = bestVideo.height > bestVideo.width ? bestVideo.width : bestVideo.height;
 
     return {
         urls: masterM3U8,
@@ -81,8 +82,8 @@ export default async function(obj) {
             id: obj.id,
             title: fileMetadata.title,
             author: fileMetadata.artist,
-            resolution: `${bestVideo["width"]}x${bestVideo["height"]}`,
-            qualityLabel: `${resolutionMatch[bestVideo["width"]]}p`,
+            resolution: `${bestVideo.width}x${bestVideo.height}`,
+            qualityLabel: `${resolutionMatch[bestVideo.width] || fallbackResolution}p`,
             extension: "mp4"
         }
     }
