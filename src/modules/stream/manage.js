@@ -19,8 +19,8 @@ const hmacSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
     const streamID = nanoid(),
-        iv = randomBytes(16).toString('base64'),
-        secret = randomBytes(256).toString('base64'),
+        iv = randomBytes(16).toString('base64url'),
+        secret = randomBytes(256).toString('base64url'),
         exp = new Date().getTime() + streamLifespan,
         hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
