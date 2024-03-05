@@ -2,7 +2,7 @@ import NodeCache from "node-cache";
 import { randomBytes } from "crypto";
 import { nanoid } from 'nanoid';
 
-import { sha256 } from "../sub/crypto.js";
+import { decryptStream, encryptStream, sha256 } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 
 const streamCache = new NodeCache({
@@ -15,48 +15,69 @@ streamCache.on("expired", (key) => {
     streamCache.del(key);
 })
 
-const streamSalt = randomBytes(64).toString('hex');
+const hmacSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
-    let streamID = nanoid(),
+    const streamID = nanoid(),
+        iv = randomBytes(16).toString('base64'),
+        secret = randomBytes(256).toString('base64'),
         exp = Math.floor(new Date().getTime()) + streamLifespan,
-        ghmac = sha256(`${streamID},${obj.service},${exp}`, streamSalt);
-
-    if (!streamCache.has(streamID)) {
-        streamCache.set(streamID, {
-            id: streamID,
+        hmac = sha256(`${streamID},${exp},${iv},${secret}`, hmacSalt),
+        streamData = {
             service: obj.service,
             type: obj.type,
             urls: obj.u,
             filename: obj.filename,
-            hmac: ghmac,
             exp: exp,
-            isAudioOnly: !!obj.isAudioOnly,
             audioFormat: obj.audioFormat,
-            time: obj.time ? obj.time : false,
+            isAudioOnly: !!obj.isAudioOnly,
+            time: obj.time || false,
             copy: !!obj.copy,
             mute: !!obj.mute,
-            metadata: obj.fileMetadata ? obj.fileMetadata : false
-        });
-    } else {
-        let streamInfo = streamCache.get(streamID);
-        exp = streamInfo.exp;
-        ghmac = streamInfo.hmac;
+            metadata: obj.fileMetadata || false
+        };
+
+    streamCache.set(
+        streamID,
+        encryptStream(streamData, iv, secret)
+    )
+
+    let streamLink = new URL('/api/stream', process.env.apiURL);
+
+    const params = {
+        't': streamID,
+        'e': exp,
+        'h': hmac,
+        's': secret,
+        'i': iv
     }
-    return `${process.env.apiURL}api/stream?t=${streamID}&e=${exp}&h=${ghmac}`;
+
+    for (const [key, value] of Object.entries(params)) {
+        streamLink.searchParams.append(key, value);
+    }
+
+    return streamLink.toString();
 }
 
-export function verifyStream(id, hmac, exp) {
+export function verifyStream(id, hmac, exp, secret, iv) {
     try {
-        let streamInfo = streamCache.get(id.toString());
+        const ghmac = sha256(`${id},${exp},${iv},${secret}`, hmacSalt);
+
+        if (ghmac !== String(hmac)) {
+            return {
+                error: "i couldn't verify if you have access to this stream. go back and try again!",
+                status: 401
+            }
+        }
+
+        const streamInfo = JSON.parse(decryptStream(streamCache.get(id.toString()), iv, secret));
+    
         if (!streamInfo) return {
             error: "this download link has expired or doesn't exist. go back and try again!",
             status: 400
         }
 
-        let ghmac = sha256(`${id},${streamInfo.service},${exp}`, streamSalt);
-        if (String(hmac) === ghmac && String(exp) === String(streamInfo.exp) && ghmac === String(streamInfo.hmac)
-            && Number(exp) > Math.floor(new Date().getTime())) {
+        if (String(exp) === String(streamInfo.exp) && Number(exp) > Math.floor(new Date().getTime())) {
             return streamInfo;
         }
         return {
@@ -64,6 +85,6 @@ export function verifyStream(id, hmac, exp) {
             status: 401
         }
     } catch (e) {
-        return { status: 500, body: { status: "error", text: "Internal Server Error" } };
+        return { status: 500, body: { status: "error", text: "couldn't verify this stream. request a new one!" } };
     }
 }
