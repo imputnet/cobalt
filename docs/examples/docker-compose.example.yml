@@ -13,17 +13,17 @@ services:
 
         ports:
             - 9000:9000/tcp
-            # if you're using a reverse proxy, uncomment the next line:
+            # if you're using a reverse proxy, uncomment the next line and remove the one above (9000:9000/tcp):
             #- 127.0.0.1:9000:9000
 
         environment:
             # replace apiURL with your instance's target url in same format
-            - apiURL=https://co.wuk.sh/
+            - API_URL=https://co.wuk.sh/
             # replace apiName with your instance's distinctive name
-            - apiName=eu-nl
+            - API_NAME=eu-nl
             # if you want to use cookies when fetching data from services, uncomment the next line
-            #- cookiePath=/cookies.json
-            # see cookies_example.json for example file.
+            #- COOKIE_PATH=/cookies.json
+            # see cookies.example.json for example file.
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
 
@@ -43,14 +43,14 @@ services:
 
         ports:
             - 9001:9001/tcp
-            # if you're using a reverse proxy, uncomment the next line:
+            # if you're using a reverse proxy, uncomment the next line and remove the one above (9001:9001/tcp):
             #- 127.0.0.1:9001:9001
 
         environment:
-            # replace webURL with your instance's target url in same format
-            - webURL=https://cobalt.tools/
-            # replace apiURL with preferred api instance url
-            - apiURL=https://co.wuk.sh/
+            # replace https://cobalt.tools/ with your instance's target url in same format
+            - WEB_URL=https://cobalt.tools/
+            # replace https://co.wuk.sh/ with preferred api instance url
+            - API_URL=https://co.wuk.sh/
 
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
