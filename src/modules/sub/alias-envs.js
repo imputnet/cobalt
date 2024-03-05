@@ -7,7 +7,7 @@ const mapping = {
     cors: 'CORS_WILDCARD',
     cookiePath: 'COOKIE_PATH',
     webPort: 'WEB_PORT',
-    webUrl: 'WEB_URL',
+    webURL: 'WEB_URL',
     showSponsors: 'SHOW_SPONSORS',
     isBeta: 'IS_BETA'
 }
