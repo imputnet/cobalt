@@ -24,14 +24,13 @@ export function createStream(obj) {
         exp = new Date().getTime() + streamLifespan,
         hmac = sha256(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
-            service: obj.service,
+            exp: exp,
             type: obj.type,
             urls: obj.u,
+            service: obj.service,
             filename: obj.filename,
-            exp: exp,
             audioFormat: obj.audioFormat,
             isAudioOnly: !!obj.isAudioOnly,
-            time: obj.time || false,
             copy: !!obj.copy,
             mute: !!obj.mute,
             metadata: obj.fileMetadata || false
