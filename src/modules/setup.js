@@ -59,7 +59,7 @@ function setup() {
 
                             rl.question(q, apiCors => {
                                 let answCors = apiCors.toLowerCase().trim();
-                                if (answCors !== "y" && answCors !== "yes") ob['ENABLE_CORS'] = '0'
+                                if (answCors !== "y" && answCors !== "yes") ob['CORS_WILDCARD'] = '0'
                                 final()
                             })
                         })

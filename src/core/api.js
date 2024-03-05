@@ -14,7 +14,7 @@ import { sha256 } from "../modules/sub/crypto.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
-    const corsConfig = process.env.ENABLE_CORS === '0' ? {
+    const corsConfig = process.env.CORS_WILDCARD === '0' ? {
         origin: process.env.CORS_URL,
         optionsSuccessStatus: 200
     } : {};
@@ -143,7 +143,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         branch: gitBranch,
                         name: process.env.API_NAME || "unknown",
                         url: process.env.API_URL,
-                        cors: process.env?.ENABLE_CORS === "0" ? 0 : 1,
+                        cors_wildcard: process.env?.CORS_WILDCARD === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
                 default:

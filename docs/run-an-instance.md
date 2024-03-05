@@ -55,7 +55,7 @@ sudo service nscd start
 | `API_PORT`            | `9000`    |  `9000`                 | changes port from which api server is accessible.                            |
 | `API_URL`             | ➖        | `https://co.wuk.sh/`    | changes url from which api server is accessible. <br> ***REQUIRED TO RUN API***.  |
 | `API_NAME`            | `unknown` | `ams-1`                 | api server name that is shown in `/api/serverInfo`.                          |
-| `ENABLE_CORS`         | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled.          |
+| `CORS_WILDCARD`       | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled.          |
 | `CORS_URL`            | not used  | `https://cobalt.tools/` | cross-origin resource sharing url. api will be available only from this url. |
 | `COOKIE_PATH`         | not used  | `/cookies.json`         | path for cookie file relative to main folder.                                |
 | `PROCESSING_PRIORITY` | not used  | `10`                    | changes `nice` value* for ffmpeg subprocess. available only on unix systems. |
