@@ -2,7 +2,7 @@
     "audioIgnore": ["vk", "ok"],
     "config": {
         "bilibili": {
-            "alias": "bilibili videos",
+            "alias": "bilibili.com & bilibili.tv",
             "patterns": [
                 "video/:comId", "_shortLink/:comShortLink",
                 "_tv/:lang/video/:tvId", "_tv/video/:tvId"
