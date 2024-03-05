@@ -128,7 +128,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                     const q = req.query;
                     const checkQueries = q.t && q.e && q.h && q.s && q.i;
                     const checkBaseLength = q.t.length === 21 && q.e.length === 13;
-                    const checkSafeLength = q.h.length === 44 && q.s.length === 344 && q.i.length === 24;
+                    const checkSafeLength = q.h.length === 43 && q.s.length === 342 && q.i.length === 22;
 
                     if (checkQueries && checkBaseLength && checkSafeLength) {
                         let streamInfo = verifyStream(q.t, q.h, q.e, q.s, q.i);
