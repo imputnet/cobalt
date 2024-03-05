@@ -1,4 +1,5 @@
 import "dotenv/config";
+import "../modules/sub/alias-envs.js";
 
 import { getJSON } from "../modules/api.js";
 import { services } from "../modules/config.js";

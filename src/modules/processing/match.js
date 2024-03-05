@@ -24,6 +24,7 @@ import pinterest from "./services/pinterest.js";
 import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
+import dailymotion from "./services/dailymotion.js";
 
 export default async function(host, patternMatch, url, lang, obj) {
     assert(url instanceof URL);
@@ -56,9 +57,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                 });
                 break;
             case "bilibili":
-                r = await bilibili({
-                    id: patternMatch.id.slice(0, 12)
-                });
+                r = await bilibili(patternMatch);
                 break;
             case "youtube":
                 let fetchInfo = {
@@ -105,6 +104,7 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "vimeo":
                 r = await vimeo({
                     id: patternMatch.id.slice(0, 11),
+                    password: patternMatch.password,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly,
                     forceDash: isAudioOnly ? true : obj.vimeoDash
@@ -157,6 +157,9 @@ export default async function(host, patternMatch, url, lang, obj) {
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
                 });
+                break;
+            case "dailymotion":
+                r = await dailymotion(patternMatch);
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });

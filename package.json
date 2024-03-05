@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.10.4",
+    "version": "7.11",
     "author": "wukko",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -37,9 +37,9 @@
         "ipaddr.js": "2.1.0",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
-        "psl": "1.9.0",
+        "psl": "https://github.com/lupomontero/psl#5eadae91361d8289d582700f90582b0d0cb73155",
         "set-cookie-parser": "2.6.0",
-        "undici": "^5.19.1",
+        "undici": "^6.7.0",
         "url-pattern": "1.0.3",
         "youtubei.js": "^9.1.0"
     }

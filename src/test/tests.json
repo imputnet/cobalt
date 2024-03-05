@@ -746,6 +746,23 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "b23.tv shortlink",
+        "url": "https://b23.tv/lbMyOI9",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    },
+    {
+        "name": "bilibili.tv link",
+        "url": "https://www.bilibili.tv/en/video/4789599404426256",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "tumblr": [{
         "name": "at.tumblr link",
@@ -773,7 +790,7 @@
         }
     }, {
         "name": "tumblr audio",
-        "url": "https://rf9weu8hjf789234hf9.tumblr.com/post/172006661342/everyone-thats-made-a-video-out-of-this-without",
+        "url": "https://www.tumblr.com/zedneon/737815079301562368/zedneon-ft-mr-sauceman-tech-n9ne-speed-of?source=share",
         "params": {},
         "expected": {
             "code": 200,
@@ -826,6 +843,14 @@
         "params": {
             "vQuality": "360"
         },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private video",
+        "url": "https://vimeo.com/903115595/f14d06da38",
+        "params": {},
         "expected": {
             "code": 200,
             "status": "stream"
@@ -1175,6 +1200,31 @@
     "ok": [{
         "name": "regular video",
         "url": "https://ok.ru/video/7204071410346",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
+    "dailymotion": [{
+        "name": "regular video",
+        "url": "https://www.dailymotion.com/video/x8t1eho",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "private video",
+        "url": "https://www.dailymotion.com/video/k41fZWpx2TaAORA2nok",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "dai.ly shortened link",
+        "url": "https://dai.ly/k41fZWpx2TaAORA2nok",
         "params": {},
         "expected": {
             "code": 200,

@@ -16,6 +16,7 @@ export function aliasURL(url) {
                 url.search = `?v=${encodeURIComponent(parts[2])}`
             }
             break;
+
         case "youtu":
             if (url.hostname === 'youtu.be' && parts.length >= 2) {
                 /* youtu.be urls can be weird, e.g. https://youtu.be/<id>//asdasd// still works
@@ -25,6 +26,7 @@ export function aliasURL(url) {
                 }`)
             }
             break;
+
         case "pin":
             if (url.hostname === 'pin.it' && parts.length === 2) {
                 url = new URL(`https://pinterest.com/url_shortener/${
@@ -46,6 +48,22 @@ export function aliasURL(url) {
                 url = new URL(`https://twitch.tv/_/clip/${parts[1]}`);
             }
             break;
+
+        case "bilibili":
+            if (host.tld === 'tv') {
+                url = new URL(`https://bilibili.com/_tv${url.pathname}`);
+            }
+            break;
+        case "b23":
+            if (url.hostname === 'b23.tv' && parts.length === 2) {
+                url = new URL(`https://bilibili.com/_shortLink/${parts[1]}`)
+            }
+            break;
+
+        case "dai":
+            if (url.hostname === 'dai.ly' && parts.length === 2) {
+                url = new URL(`https://dailymotion.com/video/${parts[1]}`)
+            }
     }
 
     return url

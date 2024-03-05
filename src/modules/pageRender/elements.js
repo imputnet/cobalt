@@ -264,5 +264,5 @@ export function sponsoredList() {
 }
 
 export function betaTag() {
-    return process.env.isBeta ? '<span class="logo-sub">β</span>' : ''
+    return process.env.IS_BETA ? '<span class="logo-sub">β</span>' : ''
 }

@@ -76,12 +76,12 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
         return res.redirect('/')
     });
 
-    app.listen(process.env.webPort || 9001, () => {
+    app.listen(process.env.WEB_PORT || 9001, () => {
         console.log(`\n` +
             `${Cyan("cobalt")} WEB ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
-            `URL: ${Cyan(`${process.env.webURL}`)}\n` +
-            `Port: ${process.env.webPort || 9001}\n`
+            `URL: ${Cyan(`${process.env.WEB_URL}`)}\n` +
+            `Port: ${process.env.WEB_PORT || 9001}\n`
         )
     })
 }

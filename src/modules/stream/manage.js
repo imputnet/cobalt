@@ -41,7 +41,7 @@ export function createStream(obj) {
         encryptStream(streamData, iv, secret)
     )
 
-    let streamLink = new URL('/api/stream', process.env.apiURL);
+    let streamLink = new URL('/api/stream', process.env.API_URL);
 
     const params = {
         't': streamID,
