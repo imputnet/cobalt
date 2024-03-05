@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'fs/promises';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 
 const WRITE_INTERVAL = 60000,
-      cookiePath = process.env.cookiePath,
+      cookiePath = process.env.COOKIE_PATH,
       COUNTER = Symbol('counter');
 
 let cookies = {}, dirty = false, intervalId;

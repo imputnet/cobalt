@@ -14,7 +14,7 @@ import { sha256 } from "../modules/sub/crypto.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
-    const corsConfig = process.env.cors === '0' ? {
+    const corsConfig = process.env.ENABLE_CORS === '0' ? {
         origin: process.env.CORS_URL,
         optionsSuccessStatus: 200
     } : {};
@@ -141,9 +141,9 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         version: version,
                         commit: gitCommit,
                         branch: gitBranch,
-                        name: process.env.apiName || "unknown",
-                        url: process.env.apiURL,
-                        cors: process.env?.cors === "0" ? 0 : 1,
+                        name: process.env.API_NAME || "unknown",
+                        url: process.env.API_URL,
+                        cors: process.env?.ENABLE_CORS === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
                 default:
@@ -169,12 +169,12 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         res.redirect('/api/json')
     });
 
-    app.listen(process.env.apiPort || 9000, () => {
+    app.listen(process.env.API_PORT || 9000, () => {
         console.log(`\n` +
             `${Cyan("cobalt")} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
-            `URL: ${Cyan(`${process.env.apiURL}`)}\n` +
-            `Port: ${process.env.apiPort || 9000}\n`
+            `URL: ${Cyan(`${process.env.API_URL}`)}\n` +
+            `Port: ${process.env.API_PORT || 9000}\n`
         )
     });
 }
