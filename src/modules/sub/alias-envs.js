@@ -18,5 +18,6 @@ for (const [ oldEnv, newEnv ] of Object.entries(mapping)) {
         console.error(`${Red('[!]')} ${oldEnv} is deprecated and will be removed in a future version.`);
         console.error(`    You should use ${newEnv} instead.`);
         console.error();
+        delete process.env[oldEnv];
     }
 }
