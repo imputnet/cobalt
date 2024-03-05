@@ -38,7 +38,7 @@
         "node-cache": "^5.1.2",
         "psl": "https://github.com/lupomontero/psl#5eadae91361d8289d582700f90582b0d0cb73155",
         "set-cookie-parser": "2.6.0",
-        "undici": "^5.19.1",
+        "undici": "^6.7.0",
         "url-pattern": "1.0.3",
         "youtubei.js": "^6.4.1"
     }
