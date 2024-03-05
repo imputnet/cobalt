@@ -13,7 +13,7 @@ export function encryptStream(str, iv, secret) {
     const key = scryptSync(Buffer.from(secret, "base64"), "salt", keyLength);
     const cipher = createCipheriv(algorithm, key, Buffer.from(iv, "base64"));
 
-    return Buffer.from(cipher.update(buff, "utf8", "binary") + cipher.final("binary"), "binary");
+    return Buffer.concat([ cipher.update(buff), cipher.final() ])
 }
 
 export function decryptStream(buf, iv, secret) {
@@ -22,5 +22,5 @@ export function decryptStream(buf, iv, secret) {
     const key = scryptSync(Buffer.from(secret, "base64"), "salt", keyLength);
     const decipher = createDecipheriv(algorithm, key, Buffer.from(iv, "base64"));
 
-    return decipher.update(buff, "binary", "utf8") + decipher.final("utf8");
+    return Buffer.concat([ decipher.update(buff), decipher.final() ])
 }
