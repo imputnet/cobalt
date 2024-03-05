@@ -52,8 +52,8 @@ function setup() {
                         console.log(Bright("\nWhat will your instance's name be? Usually it's something like eu-nl aka region-country. (local)"));
 
                         rl.question(q, apiName => {
-                            ob['API_URL'] = apiName.toLowerCase();
-                            if (!apiName || apiName === "local") ob['API_URL'] = "local";
+                            ob['API_NAME'] = apiName.toLowerCase();
+                            if (!apiName || apiName === "local") ob['API_NAME'] = "local";
 
                             console.log(Bright("\nOne last thing: would you like to enable CORS? It allows other websites and extensions to use your instance's API.\ny/n (n)"));
 
