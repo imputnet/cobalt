@@ -47,7 +47,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     });
     
     const startTime = new Date();
-    const startTimestamp = Math.floor(startTime.getTime());
+    const startTimestamp = startTime.getTime();
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
