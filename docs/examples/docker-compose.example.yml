@@ -17,9 +17,9 @@ services:
             #- 127.0.0.1:9000:9000
 
         environment:
-            # replace apiURL with your instance's target url in same format
+            # replace https://co.wuk.sh/ with your instance's target url in same format
             - API_URL=https://co.wuk.sh/
-            # replace apiName with your instance's distinctive name
+            # replace eu-nl with your instance's distinctive name
             - API_NAME=eu-nl
             # if you want to use cookies when fetching data from services, uncomment the next line
             #- COOKIE_PATH=/cookies.json
