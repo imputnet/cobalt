@@ -21,7 +21,7 @@ export function createStream(obj) {
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64'),
         secret = randomBytes(256).toString('base64'),
-        exp = Math.floor(new Date().getTime()) + streamLifespan,
+        exp = new Date().getTime() + streamLifespan,
         hmac = sha256(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
             service: obj.service,
@@ -77,7 +77,7 @@ export function verifyStream(id, hmac, exp, secret, iv) {
             status: 400
         }
 
-        if (String(exp) === String(streamInfo.exp) && Number(exp) > Math.floor(new Date().getTime())) {
+        if (String(exp) === String(streamInfo.exp) && Number(exp) > new Date().getTime()) {
             return streamInfo;
         }
         return {
