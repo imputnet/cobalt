@@ -46,6 +46,7 @@
             "enabled": true
         },
         "tumblr": {
+            "alias": "tumblr video & audio",
             "patterns": ["post/:id", "blog/view/:user/:id", ":user/:id", ":user/:id/:trackingId"],
             "subdomains": "*",
             "enabled": true
