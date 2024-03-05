@@ -2,7 +2,7 @@ import NodeCache from "node-cache";
 import { randomBytes } from "crypto";
 import { nanoid } from 'nanoid';
 
-import { decryptStream, encryptStream, sha256 } from "../sub/crypto.js";
+import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 
 const streamCache = new NodeCache({
@@ -22,7 +22,7 @@ export function createStream(obj) {
         iv = randomBytes(16).toString('base64'),
         secret = randomBytes(256).toString('base64'),
         exp = new Date().getTime() + streamLifespan,
-        hmac = sha256(`${streamID},${exp},${iv},${secret}`, hmacSalt),
+        hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
             exp: exp,
             type: obj.type,
@@ -60,7 +60,7 @@ export function createStream(obj) {
 
 export function verifyStream(id, hmac, exp, secret, iv) {
     try {
-        const ghmac = sha256(`${id},${exp},${iv},${secret}`, hmacSalt);
+        const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
 
         if (ghmac !== String(hmac)) {
             return {

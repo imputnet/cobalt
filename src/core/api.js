@@ -10,7 +10,7 @@ import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/util
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
-import { sha256 } from "../modules/sub/crypto.js";
+import { generateHmac } from "../modules/sub/crypto.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
@@ -24,7 +24,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 20,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => sha256(getIP(req), ipSalt),
+        keyGenerator: req => generateHmac(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -37,7 +37,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 25,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => sha256(getIP(req), ipSalt),
+        keyGenerator: req => generateHmac(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",

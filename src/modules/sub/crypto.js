@@ -3,7 +3,7 @@ import { createHmac, createCipheriv, createDecipheriv, scryptSync } from "crypto
 const algorithm = "aes256"
 const keyLength = 32;
 
-export function sha256(str, salt) {
+export function generateHmac(str, salt) {
     return createHmac("sha256", salt).update(str).digest("base64");
 }
 
