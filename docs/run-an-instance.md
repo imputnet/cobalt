@@ -47,3 +47,25 @@ setup script installs all needed `npm` dependencies, but you have to install `no
 sudo apt install nscd
 sudo service nscd start
 ```
+
+## list of all environment variables
+### variables for api
+| variable name         | default   | example                 | description                                                                  |
+|:----------------------|:----------|:------------------------|:-----------------------------------------------------------------------------|
+| `API_PORT`            | `9000`    |  `9000`                 | changes port from which api server is accessible.                            |
+| `API_URL`             | ➖        | `https://co.wuk.sh/`    | changes url from which api server is accessible. <br> ***REQUIRED TO RUN API***.  |
+| `API_NAME`            | `unknown` | `ams-1`                 | api server name that is shown in `/api/serverInfo`.                          |
+| `ENABLE_CORS`         | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled.          |
+| `CORS_URL`            | not used  | `https://cobalt.tools/` | cross-origin resource sharing url. api will be available only from this url. |
+| `COOKIE_PATH`         | not used  | `/cookies.json`         | path for cookie file relative to main folder.                                |
+| `PROCESSING_PRIORITY` | not used  | `10`                    | changes `nice` value* for ffmpeg subprocess. available only on unix systems. |
+
+\* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
+
+### variables for web
+| variable name   | default | example                 | description                                                                      |
+|:--------------- |:--------|:------------------------|:---------------------------------------------------------------------------------|
+| `WEB_PORT`      | `9001`  |  `9001`                 | changes port from which frontend server is accessible.                           |
+| `WEB_URL`       | ➖      | `https://cobalt.tools/` | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
+| `SHOW_SPONSORS` | `0`     | `1`                     | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
+| `IS_BETA`       | `0`     | `1`                     | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
