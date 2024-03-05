@@ -10,7 +10,7 @@ import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/util
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
-import { sha256 } from "../modules/sub/crypto.js";
+import { generateHmac } from "../modules/sub/crypto.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
@@ -24,7 +24,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 20,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => sha256(getIP(req), ipSalt),
+        keyGenerator: req => generateHmac(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -37,7 +37,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         max: 25,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => sha256(getIP(req), ipSalt),
+        keyGenerator: req => generateHmac(getIP(req), ipSalt),
         handler: (req, res, next, opt) => {
             return res.status(429).json({
                 "status": "rate-limit",
@@ -47,11 +47,15 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     });
     
     const startTime = new Date();
-    const startTimestamp = Math.floor(startTime.getTime());
+    const startTimestamp = startTime.getTime();
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
-    app.use('/api/:type', cors(corsConfig));
+    app.use('/api/:type', cors({
+        methods: ['GET', 'POST'],
+        ...corsConfig
+    }));
+
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
     app.use('/api/onDemand', apiLimiter);
@@ -60,6 +64,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
         next();
     });
+
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
             let acceptCon = String(req.header('Accept')) === "application/json";
@@ -71,6 +76,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             }
         }
     }));
+
     // handle express.json errors properly (https://github.com/expressjs/express/issues/4065)
     app.use('/api/json', (err, req, res, next) => {
         let errorText = "invalid json body";
@@ -86,6 +92,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             next();
         }
     });
+
     app.post('/api/json', async (req, res) => {
         try {
             let lang = languageCode(req);
@@ -118,13 +125,17 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         try {
             switch (req.params.type) {
                 case 'stream':
-                    if (req.query.t && req.query.h && req.query.e && req.query.t.toString().length === 21
-                    && req.query.h.toString().length === 64 && req.query.e.toString().length === 13) {
-                        let streamInfo = verifyStream(req.query.t, req.query.h, req.query.e);
+                    const q = req.query;
+                    const checkQueries = q.t && q.e && q.h && q.s && q.i;
+                    const checkBaseLength = q.t.length === 21 && q.e.length === 13;
+                    const checkSafeLength = q.h.length === 43 && q.s.length === 43 && q.i.length === 22;
+
+                    if (checkQueries && checkBaseLength && checkSafeLength) {
+                        let streamInfo = verifyStream(q.t, q.h, q.e, q.s, q.i);
                         if (streamInfo.error) {
                             return res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
                         }
-                        if (req.query.p) {
+                        if (q.p) {
                             return res.status(200).json({
                                 status: "continue"
                             });
@@ -132,7 +143,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         return stream(res, streamInfo);
                     } else {
                         let j = apiJSON(0, {
-                            t: "stream token, hmac, or expiry timestamp is missing"
+                            t: "bad request. stream link may be incomplete or corrupted."
                         })
                         return res.status(j.status).json(j.body);
                     }
@@ -159,12 +170,15 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             });
         }
     });
+
     app.get('/api/status', (req, res) => {
         res.status(200).end()
     });
+
     app.get('/favicon.ico', (req, res) => {
         res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
     });
+
     app.get('/*', (req, res) => {
         res.redirect('/api/json')
     });
