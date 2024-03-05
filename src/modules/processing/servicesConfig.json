@@ -2,8 +2,11 @@
     "audioIgnore": ["vk", "ok"],
     "config": {
         "bilibili": {
-            "alias": "bilibili.com videos",
-            "patterns": ["video/:id"],
+            "alias": "bilibili videos",
+            "patterns": [
+                "video/:comId", "_shortLink/:comShortLink",
+                "_tv/:lang/video/:tvId", "_tv/video/:tvId"
+            ],
             "enabled": true
         },
         "reddit": {

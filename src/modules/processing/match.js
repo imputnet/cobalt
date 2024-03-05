@@ -56,9 +56,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                 });
                 break;
             case "bilibili":
-                r = await bilibili({
-                    id: patternMatch.id.slice(0, 12)
-                });
+                r = await bilibili(patternMatch);
                 break;
             case "youtube":
                 let fetchInfo = {

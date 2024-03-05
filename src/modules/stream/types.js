@@ -80,17 +80,33 @@ export async function streamLiveRender(streamInfo, res) {
         if (streamInfo.urls.length !== 2) return shutdown();
 
         const { body: audio } = await request(streamInfo.urls[1], {
-            maxRedirections: 16, signal: abortController.signal
+            maxRedirections: 16, signal: abortController.signal,
+            headers: {
+                'user-agent': genericUserAgent,
+                referer: streamInfo.service === 'bilibili'
+                            ? 'https://www.bilibili.com/'
+                            : undefined,
+            }
         });
 
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1],
-        args = [
+        const format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
+        let args = [
             '-loglevel', '-8',
+            '-user_agent', genericUserAgent
+        ];
+
+        if (streamInfo.service === 'bilibili') {
+            args.push(
+                '-headers', 'Referer: https://www.bilibili.com/\r\n',
+            )
+        }
+
+        args.push(
             '-i', streamInfo.urls[0],
             '-i', 'pipe:3',
             '-map', '0:v',
             '-map', '1:a',
-        ];
+        );
 
         args = args.concat(ffmpegArgs[format]);
         if (streamInfo.metadata) {
@@ -129,11 +145,16 @@ export function streamAudioOnly(streamInfo, res) {
 
     try {
         let args = [
-            '-loglevel', '-8'
-        ]
+            '-loglevel', '-8',
+            '-user_agent', genericUserAgent
+        ];
+
         if (streamInfo.service === "twitter") {
-            args.push('-seekable', '0')
+            args.push('-seekable', '0');
+        } else if (streamInfo.service === 'bilibili') {
+            args.push('-headers', 'Referer: https://www.bilibili.com/\r\n');
         }
+
         args.push(
             '-i', streamInfo.urls,
             '-vn'
@@ -178,17 +199,23 @@ export function streamVideoOnly(streamInfo, res) {
         let args = [
             '-loglevel', '-8'
         ]
+
         if (streamInfo.service === "twitter") {
             args.push('-seekable', '0')
+        } else if (streamInfo.service === 'bilibili') {
+            args.push('-headers', 'Referer: https://www.bilibili.com/\r\n')
         }
+
         args.push(
             '-i', streamInfo.urls,
             '-c', 'copy'
         )
+
         if (streamInfo.mute) {
             args.push('-an')
         }
-        if (streamInfo.service === "vimeo" || streamInfo.service === "rutube") {
+
+        if (['vimeo', 'rutube'].includes(streamInfo.service)) {
             args.push('-bsf:a', 'aac_adtstoasc')
         }
 
