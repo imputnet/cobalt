@@ -143,7 +143,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         branch: gitBranch,
                         name: process.env.API_NAME || "unknown",
                         url: process.env.API_URL,
-                        cors_wildcard: process.env?.CORS_WILDCARD === "0" ? 0 : 1,
+                        cors: process.env?.CORS_WILDCARD === "0" ? 0 : 1,
                         startTime: `${startTimestamp}`
                     });
                 default:
