@@ -48,10 +48,10 @@ export default function(obj) {
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.webURL}">
+        <meta property="og:url" content="${process.env.WEB_URL}">
         <meta property="og:title" content="${t("AppTitleCobalt")}">
         <meta property="og:description" content="${t('EmbedBriefDescription')}">
-        <meta property="og:image" content="${process.env.webURL}icons/generic.png">
+        <meta property="og:image" content="${process.env.WEB_URL}icons/generic.png">
         <meta name="title" content="${t("AppTitleCobalt")}">
         <meta name="description" content="${t('AboutSummary')}">
         <meta name="theme-color" content="#000000">
@@ -165,7 +165,7 @@ export default function(obj) {
                             body: t("FairUse")
                         }])
                     },
-                    ...(process.env.showSponsors ?
+                    ...(process.env.SHOW_SPONSORS ?
                     [{
                         text: t("SponsoredBy"),
                         classes: ["sponsored-by-text"],
@@ -627,7 +627,7 @@ export default function(obj) {
             </footer>
         </div>
         <script>
-            let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
+            let defaultApiUrl = '${process.env.API_URL || ''}';
             const loc = ${webLoc(t,
             [
                 'ErrorNoInternet',
