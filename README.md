@@ -13,7 +13,8 @@ this list is not final and keeps expanding over time. if support for a service y
 
 | service                        | video + audio | only audio | only video | metadata | rich file names |
 | :--------                      | :-----------: | :--------: | :--------: | :------: | :-------------: |
-| bilibili.com                   | ✅            | ✅         | ✅         | ➖         | ➖              |
+| bilibili.com & bilibili.tv     | ✅            | ✅         | ✅         | ➖         | ➖              |
+| dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
 | instagram posts & stories      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | instagram reels                | ✅            | ✅         | ✅         | ➖         | ➖              |
 | ok video                       | ✅            | ❌         | ❌         | ✅         | ✅              |
@@ -68,14 +69,23 @@ cobalt is ***NOT*** a piracy tool and cannot be used as such. it can only downlo
 
 cobalt is my passion project, update schedule depends solely on my free time, motivation, and mood. don't expect any consistency in update releases.
 
-## cobalt licenses
+## cobalt license
 cobalt code is licensed under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
 
-update banners and various assets of cobalt branding included within the repo are *not* covered by the AGPL-3.0 license and cannot be used using same terms. 
+cobalt branding, mascots, and other related assets included in the repo are ***copyrighted*** and not covered by the AGPL-3.0 license. you ***cannot*** use them under same terms.  
+
+you are allowed to host an ***unmodified*** instance of cobalt with branding, but this ***does not*** give you permission to use it anywhere else, or make derivatives of it in any way.
+
+### notes:
+- mascots and other assets are a part of the branding.
+
+- when making an alternative version of the project, please replace or remove all branding (including the name).
+
+- you **must** link the original repo when using any parts of code (such as using separate processing modules in your project) or forking the project.
+
+- if you make a modified version of cobalt, the codebase **must** be published under the same license (according to AGPL-3.0).
 
 ## 3rd party licenses
-[Fluent Emoji by Microsoft](https://github.com/microsoft/fluentui-emoji) (used in cobalt) is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE) license.  
-
-[Noto Sans Mono](https://fonts.google.com/noto/specimen/Noto+Sans+Mono/) fonts (used in cobalt) are licensed under the [OFL](https://fonts.google.com/noto/specimen/Noto+Sans+Mono/about) license.
-
-many update banners were taken from [tenor.com](https://tenor.com/).
+- [Fluent Emoji by Microsoft](https://github.com/microsoft/fluentui-emoji) (used in cobalt) is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE) license.  
+- [Noto Sans Mono](https://fonts.google.com/noto/specimen/Noto+Sans+Mono/) fonts (used in cobalt) are licensed under the [OFL](https://fonts.google.com/noto/specimen/Noto+Sans+Mono/about) license.  
+- many update banners were taken from [tenor.com](https://tenor.com/).  

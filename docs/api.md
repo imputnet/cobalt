@@ -54,15 +54,12 @@ item type: `object`
 | `thumb` | `string` | item thumbnail that's displayed in the picker           | used only for `video` type.            |
 
 ## GET: `/api/stream`
-cobalt's live render (or stream) endpoint. used for sending various media content over to the user.  
+cobalt's live render (or stream) endpoint. usually, you will receive a url to this endpoint
+from a successful call to `/api/json`. however, the parameters passed to it are **opaque**
+and **unmodifiable** from your (the api client's) perspective, and can change between versions.
 
-### request query variables
-| key  | variables        | description                                                                                                                    |
-|:-----|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------|
-| `p`  | `1`              | used for probing whether user is rate limited.                                                                                 |
-| `t`  | stream token     | unique stream id. used for retrieving cached stream info data.                                                                 |
-| `h`  | hmac             | hashed combination of: (hashed) ip address, stream token, expiry timestamp, and service name. used for verification of stream. |
-| `e`  | expiry timestamp |                                                                                                                                |
+therefore you don't need to worry about what they mean - but if you really want to know, you can
+[read the source code](../src/modules/stream/manage.js).
 
 ## GET: `/api/serverInfo`
 returns current basic server info.  

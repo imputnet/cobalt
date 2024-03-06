@@ -19,6 +19,7 @@ export function replaceBase(s) {
     return s
             .replace(/\n/g, '<br>')
             .replace(/{saveToGalleryShortcut}/g, links.saveToGalleryShortcut)
+            .replace(/{saveToFilesShortcut}/g, links.saveToFilesShortcut)
             .replace(/{repo}/g, repo)
             .replace(/{statusPage}/g, links.statusPage)
             .replace(/\*;/g, "&bull;");

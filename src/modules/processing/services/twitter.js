@@ -104,7 +104,7 @@ export default async function({ id, index, toGif }) {
     const baseTweet = tweet.data.tweetResult.result.legacy,
           repostedTweet = baseTweet.retweeted_status_result?.result.legacy.extended_entities;
 
-    let media = (repostedTweet?.media || baseTweet.extended_entities.media);
+    let media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
     media = media?.filter(m => m.video_info?.variants?.length);
 
     // check if there's a video at given index (/video/<index>)

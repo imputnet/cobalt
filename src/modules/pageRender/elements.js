@@ -69,15 +69,17 @@ export function popup(obj) {
     }
     return `
     ${obj.standalone ? `<div id="popup-${obj.name}" class="popup center${!obj.buttonOnly ? " box" : ''}${classes.length > 0 ? ' ' + classes.join(' ') : ''}">` : ''}
-        <div class="popup-header">
-            <div class="popup-header-contents">
-                ${obj.buttonOnly ? obj.header.emoji : ``}
-                ${obj.header.aboveTitle ? `<a class="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
-                ${obj.header.title ? `<div class="popup-title">${obj.header.title}</div>` : ''}
-                ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
-            </div>
-            ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>` : ''}
-        </div>
+        ${obj.buttonOnly ? obj.header.emoji : ``}
+        ${obj.name === "error" ? `` :
+            `<div class="popup-header">
+                <div class="popup-header-contents">
+                    ${obj.header.aboveTitle ? `<a class="popup-above-title" target="_blank" href="${obj.header.aboveTitle.url}">${obj.header.aboveTitle.text}</a>` : ''}
+                    ${obj.header.title ? `<div class="popup-title">${obj.header.title}</div>` : ''}
+                    ${obj.header.subtitle ? `<div id="popup-subtitle">${obj.header.subtitle}</div>` : ''}
+                </div>
+                ${!obj.buttonOnly ? `<div class="glass-bkg alone"></div>` : ''}
+            </div>`
+        }
         <div class="popup-content popup-content-inner">
             ${body}${obj.buttonOnly ? `<button class="close-error switch" onclick="popup('${obj.name}', 0)">${obj.buttonText}</button>` : ''}
         </div>
@@ -264,5 +266,5 @@ export function sponsoredList() {
 }
 
 export function betaTag() {
-    return process.env.isBeta ? '<span class="logo-sub">β</span>' : ''
+    return process.env.IS_BETA ? '<span class="logo-sub">β</span>' : ''
 }

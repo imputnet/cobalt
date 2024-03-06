@@ -1,6 +1,9 @@
 export const testers = {
-    "bilibili": (patternMatch) =>
-        patternMatch.id?.length <= 12,
+    "bilibili": (patternMatch) => 
+        patternMatch.comId?.length <= 12 || patternMatch.comShortLink?.length <= 16
+        || patternMatch.tvId?.length <= 24,
+
+    "dailymotion": (patternMatch) => patternMatch.id?.length <= 32,
 
     "instagram": (patternMatch) =>
         patternMatch.postId?.length <= 12
@@ -39,7 +42,8 @@ export const testers = {
         patternMatch.id?.length < 20,
 
     "vimeo": (patternMatch) =>
-        patternMatch.id?.length <= 11,
+        patternMatch.id?.length <= 11
+        && (!patternMatch.password || patternMatch.password.length < 16),
 
     "vine": (patternMatch) =>
         patternMatch.id?.length <= 12,

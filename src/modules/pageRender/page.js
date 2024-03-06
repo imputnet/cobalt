@@ -48,10 +48,10 @@ export default function(obj) {
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.webURL}">
+        <meta property="og:url" content="${process.env.WEB_URL}">
         <meta property="og:title" content="${t("AppTitleCobalt")}">
         <meta property="og:description" content="${t('EmbedBriefDescription')}">
-        <meta property="og:image" content="${process.env.webURL}icons/generic.png">
+        <meta property="og:image" content="${process.env.WEB_URL}icons/generic.png">
         <meta name="title" content="${t("AppTitleCobalt")}">
         <meta name="description" content="${t('AboutSummary')}">
         <meta name="theme-color" content="#000000">
@@ -68,10 +68,12 @@ export default function(obj) {
         <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 
         <link rel="manifest" href="manifest.webmanifest">
-        <link rel="preload" href="fonts/notosansmono.css" as="style">
         <link rel="stylesheet" href="fonts/notosansmono.css">
         <link rel="stylesheet" href="cobalt.css">
 
+        <link rel="preload" href="fonts/notosansmono.css" as="style">
+        <link rel="preload" href="assets/meowbalt/error.png" as="image">
+        <link rel="preload" href="assets/meowbalt/question.png" as="image">
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
         <noscript>
@@ -165,7 +167,7 @@ export default function(obj) {
                             body: t("FairUse")
                         }])
                     },
-                    ...(process.env.showSponsors ?
+                    ...(process.env.SHOW_SPONSORS ?
                     [{
                         text: t("SponsoredBy"),
                         classes: ["sponsored-by-text"],
@@ -531,7 +533,9 @@ export default function(obj) {
                 classes: ["small"],
                 header: {
                     closeAria: t('AccessibilityGoBack'),
-                    emoji: emoji("🐱", 78, 1, 1),
+                    emoji: `<img class="popout-meowbalt" `
+                              + `draggable="false" loading="lazy" `
+                              + `alt="😿" src="assets/meowbalt/question.png">`,
                     title: t('TitlePopupDownload')
                 },
                 body: switcher({
@@ -551,33 +555,19 @@ export default function(obj) {
                 buttonOnly: true,
                 classes: ["small"],
                 header: {
-                    title: t('TitlePopupError'),
-                    emoji: emoji("😿", 78, 1, 1),
+                    emoji: `<img class="popout-meowbalt" `
+                              + `draggable="false" loading="lazy" `
+                              + `alt="😿" src="assets/meowbalt/error.png">`,
                 },
                 body: `<div id="desc-error" class="desc-padding subtext desc-error"></div>`,
                 buttonText: t('ErrorPopupCloseButton')
             })}
         </div>
-        <div id="popup-migration-container" class="popup-from-bottom">
-            ${popup({
-                name: "migration",
-                standalone: true,
-                buttonOnly: true,
-                classes: ["small"],
-                header: {
-                    title: t('NewDomainWelcomeTitle'),
-                    emoji: emoji("😸", 78, 1, 1),
-                },
-                body: `<div id="desc-migration" class="desc-padding subtext desc-error">${t('NewDomainWelcome')}</div>`,
-                buttonText: t('ErrorPopupCloseButton')
-            })}
-            <div id="popup-backdrop-message" onclick="popup('message', 0)"></div>
-        </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🎬",
-                text: t("UpdateTwitterGif"),
+                emoji: "🔒",
+                text: t("UpdateEncryption"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
@@ -627,7 +617,7 @@ export default function(obj) {
             </footer>
         </div>
         <script>
-            let defaultApiUrl = '${process.env.apiURL ? process.env.apiURL : ''}';
+            let defaultApiUrl = '${process.env.API_URL || ''}';
             const loc = ${webLoc(t,
             [
                 'ErrorNoInternet',

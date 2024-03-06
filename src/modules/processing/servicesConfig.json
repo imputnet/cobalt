@@ -2,8 +2,11 @@
     "audioIgnore": ["vk", "ok"],
     "config": {
         "bilibili": {
-            "alias": "bilibili.com videos",
-            "patterns": ["video/:id"],
+            "alias": "bilibili.com & bilibili.tv",
+            "patterns": [
+                "video/:comId", "_shortLink/:comShortLink",
+                "_tv/:lang/video/:tvId", "_tv/video/:tvId"
+            ],
             "enabled": true
         },
         "reddit": {
@@ -32,7 +35,7 @@
         "ok": {
             "alias": "ok video",
             "tld": "ru",
-            "patterns": ["video/:id"],
+            "patterns": ["video/:id", "videoembed/:id"],
             "enabled": true
         },
         "youtube": {
@@ -43,6 +46,7 @@
             "enabled": true
         },
         "tumblr": {
+            "alias": "tumblr video & audio",
             "patterns": ["post/:id", "blog/view/:user/:id", ":user/:id", ":user/:id/:trackingId"],
             "subdomains": "*",
             "enabled": true
@@ -61,7 +65,7 @@
             "enabled": false
         },
         "vimeo": {
-            "patterns": [":id", "video/:id"],
+            "patterns": [":id", "video/:id", ":id/:password"],
             "enabled": true,
             "bestAudio": "mp3"
         },
@@ -105,6 +109,11 @@
             "alias": "rutube videos",
             "tld": "ru",
             "patterns": ["video/:id", "play/embed/:id"],
+            "enabled": true
+        },
+        "dailymotion": {
+            "alias": "dailymotion videos",
+            "patterns": ["video/:id"],
             "enabled": true
         }
     }
