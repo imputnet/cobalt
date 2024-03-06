@@ -37,7 +37,7 @@
         "ipaddr.js": "2.1.0",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
-        "psl": "https://github.com/lupomontero/psl#5eadae91361d8289d582700f90582b0d0cb73155",
+        "psl": "1.9.0",
         "set-cookie-parser": "2.6.0",
         "undici": "^6.7.0",
         "url-pattern": "1.0.3",
