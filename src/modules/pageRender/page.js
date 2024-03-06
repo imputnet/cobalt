@@ -534,7 +534,7 @@ export default function(obj) {
                 header: {
                     closeAria: t('AccessibilityGoBack'),
                     emoji: `<img class="popout-meowbalt" `
-                              + `draggable="false" loading="lazy"`
+                              + `draggable="false" loading="lazy" `
                               + `alt="😿" src="assets/meowbalt/question.png">`,
                     title: t('TitlePopupDownload')
                 },
@@ -556,7 +556,7 @@ export default function(obj) {
                 classes: ["small"],
                 header: {
                     emoji: `<img class="popout-meowbalt" `
-                              + `draggable="false" loading="lazy"`
+                              + `draggable="false" loading="lazy" `
                               + `alt="😿" src="assets/meowbalt/error.png">`,
                 },
                 body: `<div id="desc-error" class="desc-padding subtext desc-error"></div>`,
