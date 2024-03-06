@@ -54,7 +54,8 @@
         }
     },
     "links": {
-        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/b401917928fd407daf1db0fd07eb7e78",
+        "saveToGalleryShortcut": "https://www.icloud.com/shortcuts/14e9aebf04b24156acc34ceccf7e6fcd",
+        "saveToFilesShortcut": "https://www.icloud.com/shortcuts/2134cd9d4d6b41448b2201f933542b2e",
         "statusPage": "https://status.cobalt.tools/",
         "troubleshootingGuide": "https://github.com/wukko/cobalt/blob/current/docs/troubleshooting.md"
     },
