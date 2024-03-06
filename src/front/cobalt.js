@@ -600,15 +600,11 @@ window.onload = () => {
             if (setUn !== null) {
                 if (setUn) {
                     sSet("migrated", "true")
-                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferSuccess}`
-                } else {
-                    eid("desc-migration").innerHTML += `<br><br>${loc.DataTransferError}`
                 }
             }
         }
         loadSettings();
         detectColorScheme();
-        popup("migration", 1);
     }
     window.history.replaceState(null, '', window.location.pathname);
 
