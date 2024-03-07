@@ -491,7 +491,9 @@ button:active,
     pointer-events: none;
     height: 180px;
     width: 180px;
-    aspect-ratio: 1/1;
+}
+#popup-download .popout-meowbalt {
+    left: -2rem;
 }
 .popup.scrollable {
     height: 95%;
@@ -1156,6 +1158,9 @@ button:active,
         position: absolute;
         padding-bottom: calc(env(safe-area-inset-bottom)/2 + 1.7rem);
         transform: translateY(30rem);
+    }
+    #popup-download .popout-meowbalt {
+        left: unset;
     }
     .glass-bkg.small {
         border: none;
