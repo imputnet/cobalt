@@ -67,6 +67,6 @@ sudo service nscd start
 |:--------------- |:--------|:------------------------|:--------------------------------------------------------------------------------------|
 | `WEB_PORT`      | `9001`  |  `9001`                 | changes port from which frontend server is accessible.                                |
 | `WEB_URL`       | ➖      | `https://cobalt.tools/` | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
-| `API_URL`       | ➖      | `https://co.wuk.sh/`    | changes url from which api server is accessible.                                      |
+| `API_URL`       | ➖      | `https://co.wuk.sh/`    | changes url which is used for api requests by frontend clients.                       |
 | `SHOW_SPONSORS` | `0`     | `1`                     | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
 | `IS_BETA`       | `0`     | `1`                     | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
