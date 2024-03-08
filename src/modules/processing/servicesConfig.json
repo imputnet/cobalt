@@ -71,7 +71,7 @@
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
-            "subdomains": ["on"],
+            "subdomains": ["on", "m"],
             "audioFormats": ["best", "opus", "mp3"],
             "enabled": true
         },
