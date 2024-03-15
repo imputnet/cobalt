@@ -4,7 +4,7 @@ const userAgent = genericUserAgent.split(' Chrome/1')[0],
     config = {
     tiktok: {
         short: "https://vt.tiktok.com/",
-        api: "https://api2.musical.ly/aweme/v1/feed/?aweme_id={postId}&version_code=262&app_name=musical_ly&channel=App&device_id=null&os_version=14.4.2&device_platform=iphone&device_type=iPhone9&region=US&carrier_region=US"
+        api: "https://api22-normal-c-useast2a.tiktokv.com/aweme/v1/feed/?aweme_id={postId}&version_code=262&app_name=musical_ly&channel=App&device_id=null&os_version=14.4.2&device_platform=iphone&device_type=iPhone9&region=US&carrier_region=US"
     },
     douyin: {
         short: "https://v.douyin.com/",
