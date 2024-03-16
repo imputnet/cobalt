@@ -89,3 +89,39 @@ you are allowed to host an ***unmodified*** instance of cobalt with branding, bu
 - [Fluent Emoji by Microsoft](https://github.com/microsoft/fluentui-emoji) (used in cobalt) is under [MIT](https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE) license.  
 - [Noto Sans Mono](https://fonts.google.com/noto/specimen/Noto+Sans+Mono/) fonts (used in cobalt) are licensed under the [OFL](https://fonts.google.com/noto/specimen/Noto+Sans+Mono/about) license.  
 - many update banners were taken from [tenor.com](https://tenor.com/).  
+
+## acknowledgements
+### ffmpeg
+cobalt heavily relies on ffmpeg for converting and merging media files. it's an absolutely amazing piece of software offered for anyone for free, yet doesn't recieve as much credit as it should.
+
+you can [support ffmpeg here](https://ffmpeg.org/donations.html)!
+
+#### ffmpeg-static
+we use [ffmpeg-static](https://github.com/eugeneware/ffmpeg-static) to get binaries for ffmpeg depending on the platform.
+
+you can support the developer via various methods listed on project's github page! (linked above)
+
+### youtube.js
+cobalt relies on [youtube.js](https://github.com/LuanRT/YouTube.js) for interacting with innertube api. without this project it wouldn't be possible.  
+
+you can support the developer via various methods listed on project's github page! (linked above)
+
+### many others
+cobalt also depends on:
+
+- [content-disposition-header](https://www.npmjs.com/package/content-disposition-header) to simplify the provision of `content-disposition` headers.
+- [cors](https://www.npmjs.com/package/cors) to manage cross-origin resource sharing within expressjs.
+- [dotenv](https://www.npmjs.com/package/dotenv) to load environment variables from the `.env` file.
+- [esbuild](https://www.npmjs.com/package/esbuild) to minify the frontend files.
+- [express](https://www.npmjs.com/package/express) as the backbone of cobalt servers.
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) to rate limit api endpoints.
+- [hls-parser](https://www.npmjs.com/package/hls-parser) to parse `m3u8` playlists for certain services.
+- [ipaddr.js](https://www.npmjs.com/package/ipaddr.js) to parse ip addresses (for rate limiting).
+- [nanoid](https://www.npmjs.com/package/nanoid) to generate unique (temporary) identifiers for each requested stream.
+- [node-cache](https://www.npmjs.com/package/node-cache) to cache stream info in server ram for a limited amount of time.
+- [psl](https://www.npmjs.com/package/psl) as the domain name parser.
+- [set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser) to parse recieve cookies from certain services.
+- [undici](https://www.npmjs.com/package/undici) for http requests
+- [url-pattern](https://www.npmjs.com/package/url-pattern) to match provided links with supported patterns.
+
+...and many other packages that these packages rely on.
