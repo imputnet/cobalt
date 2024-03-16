@@ -68,7 +68,7 @@ export default async function(obj) {
     }
 
     if (!obj.isAudioOnly && !images) {
-        video = obj.host === "tiktok" ? detail.video.play_addr.url_list[0] : detail.video.play_addr.url_list[0];
+        video = detail.video.play_addr.url_list[0];
         videoFilename = `${filenameBase}.mp4`;
     } else {
         let fallback = detail.video.play_addr.url_list[0];
