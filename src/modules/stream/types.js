@@ -4,7 +4,6 @@ import { ffmpegArgs, genericUserAgent } from "../config.js";
 import { metadataManager } from "../sub/utils.js";
 import { request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
-import { AbortController } from "abort-controller"
 
 function closeRequest(controller) {
     try { controller.abort() } catch {}

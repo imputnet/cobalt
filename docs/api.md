@@ -27,7 +27,6 @@ Content-Type: application/json
 | `aFormat`         | `string`  | `best / mp3 / ogg / wav / opus`    | `mp3`     |                                                                                 |
 | `filenamePattern` | `string`  | `classic / pretty / basic / nerdy` | `classic` | changes the way files are named. previews can be seen in the web app.           |
 | `isAudioOnly`     | `boolean` | `true / false`                     | `false`   |                                                                                 |
-| `isNoTTWatermark` | `boolean` | `true / false`                     | `false`   | changes whether downloaded tiktok videos have watermarks.                       |
 | `isTTFullAudio`   | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                      |
 | `isAudioMuted`    | `boolean` | `true / false`                     | `false`   | disables audio track in video downloads.                                        |
 | `dubLang`         | `boolean` | `true / false`                     | `false`   | backend uses Accept-Language header for youtube video audio tracks when `true`. |

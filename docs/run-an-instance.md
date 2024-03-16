@@ -63,10 +63,13 @@ sudo service nscd start
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
 ### variables for web
-| variable name   | default              | example                 | description                                                                           |
-|:--------------- |:---------------------|:------------------------|:--------------------------------------------------------------------------------------|
-| `WEB_PORT`      | `9001`               |  `9001`                 | changes port from which frontend server is accessible.                                |
-| `WEB_URL`       | ➖                   | `https://cobalt.tools/` | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
-| `API_URL`       | `https://co.wuk.sh/` | `https://co.wuk.sh/`    | changes url which is used for api requests by frontend clients.                       |
-| `SHOW_SPONSORS` | `0`                  | `1`                     | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
-| `IS_BETA`       | `0`                  | `1`                     | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
+| variable name        | default              | example                 | description                                                                           |
+|:---------------------|:---------------------|:------------------------|:--------------------------------------------------------------------------------------|
+| `WEB_PORT`           | `9001`               |  `9001`                 | changes port from which frontend server is accessible.                                |
+| `WEB_URL`            | ➖                   | `https://cobalt.tools/` | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
+| `API_URL`            | `https://co.wuk.sh/` | `https://co.wuk.sh/`    | changes url which is used for api requests by frontend clients.                       |
+| `SHOW_SPONSORS`      | `0`                  | `1`                     | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
+| `IS_BETA`            | `0`                  | `1`                     | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
+| `PLAUSIBLE_HOSTNAME` | ➖                   | `plausible.io`*         | enables plausible analytics with provided hostname as receiver backend.               |
+
+\* don't use plausible.io as receiver backend unless you paid for their cloud service. use your own domain when hosting community edition of plausible. refer to their [docs](https://plausible.io/docs) when needed.

@@ -74,6 +74,14 @@ export default function(obj) {
         <link rel="preload" href="fonts/notosansmono.css" as="style">
         <link rel="preload" href="assets/meowbalt/error.png" as="image">
         <link rel="preload" href="assets/meowbalt/question.png" as="image">
+
+        ${process.env.PLAUSIBLE_HOSTNAME ?
+            `<script 
+                defer 
+                data-domain="${new URL(process.env.WEB_URL).hostname}" 
+                src="https://${process.env.PLAUSIBLE_HOSTNAME}/js/script.js"
+            ></script>`
+        : ''}
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
         <noscript>
@@ -160,7 +168,9 @@ export default function(obj) {
                         }, {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
-                            body: t("PrivacyPolicy")
+                            body: t("PrivacyPolicy") + `${
+                                process.env.PLAUSIBLE_HOSTNAME ? `<br><br>${t("AnalyticsDescription")}` : ''
+                            }`
                         }, {
                             name: "legal",
                             title: `${emoji("📑")} ${t("CollapseLegal")}`,
@@ -329,15 +339,6 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "tiktok-watermark",
-                    title: "tiktok",
-                    body: checkbox([{
-                        action: "disableTikTokWatermark",
-                        name: t("SettingsRemoveWatermark"),
-                        padding: "no-margin"
-                    }])
-                })
-                + settingsCategory({
                     name: "twitter",
                     title: "twitter",
                     body: checkbox([{
@@ -497,6 +498,21 @@ export default function(obj) {
                         padding: "no-margin"
                     }])
                 })
+                + (() => {
+                    if (process.env.PLAUSIBLE_HOSTNAME) {
+                        return settingsCategory({
+                            name: "privacy",
+                            title: t('PrivateAnalytics'),
+                            body: checkbox([{
+                                action: "plausible_ignore",
+                                name: t("SettingsDisableAnalytics"),
+                                padding: "no-margin"
+                            }])
+                            + explanation(t('SettingsAnalyticsExplanation'))
+                        })
+                    }
+                    return ''
+                })()
                 + settingsCategory({
                     name: "miscellaneous",
                     title: t('Miscellaneous'),
