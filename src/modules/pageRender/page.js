@@ -74,6 +74,14 @@ export default function(obj) {
         <link rel="preload" href="fonts/notosansmono.css" as="style">
         <link rel="preload" href="assets/meowbalt/error.png" as="image">
         <link rel="preload" href="assets/meowbalt/question.png" as="image">
+
+        ${process.env.PLAUSIBLE_HOSTNAME ?
+            `<script 
+                defer 
+                data-domain="${new URL(process.env.WEB_URL).hostname}" 
+                src="https://${process.env.PLAUSIBLE_HOSTNAME}/js/script.js"
+            ></script>`
+        : ''}
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
         <noscript>
