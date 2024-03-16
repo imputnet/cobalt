@@ -92,19 +92,19 @@ you are allowed to host an ***unmodified*** instance of cobalt with branding, bu
 
 ## acknowledgements
 ### ffmpeg
-cobalt heavily relies on ffmpeg for converting and merging media files. it's an absolutely amazing piece of software offered for anyone for free, yet doesn't recieve as much credit as it should.
+cobalt heavily relies on ffmpeg for converting and merging media files. it's an absolutely amazing piece of software offered for anyone for free, yet doesn't receive as much credit as it should.
 
 you can [support ffmpeg here](https://ffmpeg.org/donations.html)!
 
 #### ffmpeg-static
 we use [ffmpeg-static](https://github.com/eugeneware/ffmpeg-static) to get binaries for ffmpeg depending on the platform.
 
-you can support the developer via various methods listed on project's github page! (linked above)
+you can support the developer via various methods listed on their github page! (linked above)
 
 ### youtube.js
-cobalt relies on [youtube.js](https://github.com/LuanRT/YouTube.js) for interacting with innertube api. without this project it wouldn't be possible.  
+cobalt relies on [youtube.js](https://github.com/LuanRT/YouTube.js) for interacting with the innertube api, it wouldn't have been possible.  
 
-you can support the developer via various methods listed on project's github page! (linked above)
+you can support the developer via various methods listed on their github page! (linked above)
 
 ### many others
 cobalt also depends on:
@@ -120,8 +120,8 @@ cobalt also depends on:
 - [nanoid](https://www.npmjs.com/package/nanoid) to generate unique (temporary) identifiers for each requested stream.
 - [node-cache](https://www.npmjs.com/package/node-cache) to cache stream info in server ram for a limited amount of time.
 - [psl](https://www.npmjs.com/package/psl) as the domain name parser.
-- [set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser) to parse recieve cookies from certain services.
-- [undici](https://www.npmjs.com/package/undici) for http requests
+- [set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser) to parse cookies that cobalt receives from certain services.
+- [undici](https://www.npmjs.com/package/undici) for making http requests
 - [url-pattern](https://www.npmjs.com/package/url-pattern) to match provided links with supported patterns.
 
 ...and many other packages that these packages rely on.
