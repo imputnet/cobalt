@@ -169,6 +169,9 @@ export default function(obj) {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
                             body: t("PrivacyPolicy")
+                                  + `<br>`
+                                  + `<br>`
+                                  + t("AnalyticsDescription")
                         }, {
                             name: "legal",
                             title: `${emoji("📑")} ${t("CollapseLegal")}`,
@@ -495,6 +498,16 @@ export default function(obj) {
                         name: t("SettingsDisableAnimations"),
                         padding: "no-margin"
                     }])
+                })
+                + settingsCategory({
+                    name: "privacy",
+                    title: t('PrivateAnalytics'),
+                    body: checkbox([{
+                        action: "plausible_ignore",
+                        name: t("SettingsDisableAnalytics"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsAnalyticsExplanation'))
                 })
                 + settingsCategory({
                     name: "miscellaneous",

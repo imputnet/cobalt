@@ -155,6 +155,10 @@
         "SettingsTwitterGifDescription": "converting looping videos to .gif reduces quality and majorly increases file size. if you want best efficiency, keep this setting off.",
         "ErrorTweetProtected": "this tweet is from a private account, so i can't see it. try another one!",
         "ErrorTweetNSFW": "this tweet contains sensitive content, so i can't see it. try another one!",
-        "UpdateEncryption": "encryption and new services"
+        "UpdateEncryption": "encryption and new services",
+        "PrivateAnalytics": "private analytics",
+        "SettingsDisableAnalytics": "opt out of private analytics",
+        "SettingsAnalyticsExplanation": "enable if you don't want to be included in anonymous traffic stats. read more about this in about > privacy policy (tl;dr: nothing about you is ever stored or tracked, no cookies are used).",
+        "AnalyticsDescription": "cobalt uses a self-hosted plausible instance to get an approximate number of how many people use it.\n\nplausible is fully compliant with GDPR, CCPA and PECR, doesn't use cookies, and never stores any identifiable info, not even your ip address.\n\nall data is aggregated and never personalized. nothing about what you download is ever saved anywhere. it's used just for anonymous traffic stats, nothing more.\n\nplausible is fully open source, just like cobalt, and if you want to learn more about it, you can do so <a class=\"text-backdrop link\" href=\"https://plausible.io\" target=\"_blank\">here</a>. if you wish to opt out of traffic stats, you can do it in settings > other."
     }
 }

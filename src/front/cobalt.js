@@ -30,6 +30,7 @@ const checkboxes = [
     "disableAnimations",
     "disableMetadata",
     "twitterGif",
+    "plausible_ignore"
 ];
 const exceptions = { // used for mobile devices
     "vQuality": "720"
