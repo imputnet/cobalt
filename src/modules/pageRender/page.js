@@ -168,10 +168,9 @@ export default function(obj) {
                         }, {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
-                            body: t("PrivacyPolicy")
-                                  + `<br>`
-                                  + `<br>`
-                                  + t("AnalyticsDescription")
+                            body: t("PrivacyPolicy") + `${
+                                process.env.PLAUSIBLE_HOSTNAME ? `<br><br>${t("AnalyticsDescription")}` : ''
+                            }`
                         }, {
                             name: "legal",
                             title: `${emoji("📑")} ${t("CollapseLegal")}`,
@@ -499,16 +498,21 @@ export default function(obj) {
                         padding: "no-margin"
                     }])
                 })
-                + settingsCategory({
-                    name: "privacy",
-                    title: t('PrivateAnalytics'),
-                    body: checkbox([{
-                        action: "plausible_ignore",
-                        name: t("SettingsDisableAnalytics"),
-                        padding: "no-margin"
-                    }])
-                    + explanation(t('SettingsAnalyticsExplanation'))
-                })
+                + (() => {
+                    if (process.env.PLAUSIBLE_HOSTNAME) {
+                        return settingsCategory({
+                            name: "privacy",
+                            title: t('PrivateAnalytics'),
+                            body: checkbox([{
+                                action: "plausible_ignore",
+                                name: t("SettingsDisableAnalytics"),
+                                padding: "no-margin"
+                            }])
+                            + explanation(t('SettingsAnalyticsExplanation'))
+                        })
+                    }
+                    return ''
+                })()
                 + settingsCategory({
                     name: "miscellaneous",
                     title: t('Miscellaneous'),

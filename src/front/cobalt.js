@@ -564,7 +564,12 @@ function loadSettings() {
         eid("cobalt-body").classList.add('no-animation');
     }
     for (let i = 0; i < checkboxes.length; i++) {
-        if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
+        try {
+            if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
+        }
+        catch {
+            console.error(`checkbox ${checkboxes[i]} failed to initialize`)
+        }
     }
     for (let i in switchers) {
         changeSwitcher(i, sGet(i))
