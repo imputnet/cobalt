@@ -62,7 +62,6 @@
         "SettingsAudioFormatBest": "лучший",
         "SettingsAudioFormatDescription": "когда выбран \"лучший\", ты получишь аудио без каких-либо изменений. такое, какое оно есть на стороне сервиса. если же выбрано что-то другое, то аудио будет немного сжато.",
         "Keyphrase": "сохраняй то, что любишь",
-        "SettingsRemoveWatermark": "убрать ватермарку",
         "ErrorPopupCloseButton": "ясно",
         "ErrorLengthAudioConvert": "я не могу конвертировать аудио дольше чем {s} минут(ы). выбери \"лучший\" формат, чтобы обойти ограничения.",
         "SettingsAudioFullTikTok": "полное аудио",

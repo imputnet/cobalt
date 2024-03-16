@@ -89,7 +89,6 @@ export default async function(host, patternMatch, url, lang, obj) {
                     host: host,
                     postId: patternMatch.postId,
                     id: patternMatch.id,
-                    noWatermark: obj.isNoTTWatermark,
                     fullAudio: obj.isTTFullAudio,
                     isAudioOnly: isAudioOnly
                 });

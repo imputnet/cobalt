@@ -58,7 +58,9 @@ export default async function(obj) {
     detail = selector(detail, obj.host, postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
 
-    let video, videoFilename, audioFilename, isMp3, audio, images, filenameBase = `${obj.host}_${postId}`;
+    let video, videoFilename, audioFilename, isMp3, audio, images,
+        filenameBase = `${obj.host}_${detail.author.unique_id}_${postId}`;
+
     if (obj.host === "tiktok") {
         images = detail.image_post_info ? detail.image_post_info.images : false
     } else {
@@ -66,14 +68,10 @@ export default async function(obj) {
     }
 
     if (!obj.isAudioOnly && !images) {
-        video = obj.host === "tiktok" ? detail.video.download_addr.url_list[0] : detail.video.play_addr.url_list[2].replace("/play/", "/playwm/");
-        videoFilename = `${filenameBase}_video.mp4`;
-        if (obj.noWatermark) {
-            video = obj.host === "tiktok" ? detail.video.play_addr.url_list[0] : detail.video.play_addr.url_list[0];
-            videoFilename = `${filenameBase}_video_nw.mp4` // nw - no watermark
-        }
+        video = obj.host === "tiktok" ? detail.video.play_addr.url_list[0] : detail.video.play_addr.url_list[0];
+        videoFilename = `${filenameBase}.mp4`;
     } else {
-        let fallback = obj.host === "douyin" ? detail.video.play_addr.url_list[0].replace("playwm", "play") : detail.video.play_addr.url_list[0];
+        let fallback = detail.video.play_addr.url_list[0];
         audio = fallback;
         audioFilename = `${filenameBase}_audio_fv`;  // fv - from video
         if (obj.fullAudio || fallback.includes("music")) {

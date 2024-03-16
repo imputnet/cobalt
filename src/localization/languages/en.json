@@ -62,7 +62,6 @@
         "SettingsAudioFormatBest": "best",
         "SettingsAudioFormatDescription": "when \"best\" format is selected, you get audio the way it is on service's side. it's not re-encoded. everything else will be re-encoded.",
         "Keyphrase": "save what you love",
-        "SettingsRemoveWatermark": "disable watermark",
         "ErrorPopupCloseButton": "got it",
         "ErrorLengthAudioConvert": "i can't convert audio longer than {s} minutes. pick \"best\" format if you want to avoid limitations!",
         "SettingsAudioFullTikTok": "full audio",

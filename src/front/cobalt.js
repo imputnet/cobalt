@@ -24,7 +24,6 @@ const checkboxes = [
     "alwaysVisibleButton",
     "disableChangelog",
     "downloadPopup",
-    "disableTikTokWatermark",
     "fullTikTokAudio",
     "muteAudio",
     "reduceTransparency",
@@ -369,13 +368,11 @@ async function download(url) {
     if (sGet("vimeoDash") === "true") req.vimeoDash = true;
     if (sGet("audioMode") === "true") {
         req.isAudioOnly = true;
-        req.isNoTTWatermark = true; // video tiktok no watermark
         if (sGet("fullTikTokAudio") === "true") req.isTTFullAudio = true; // audio tiktok full
     } else {
         req.vQuality = sGet("vQuality").slice(0, 4);
         if (sGet("muteAudio") === "true") req.isAudioMuted = true;
         if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
-        if ((url.includes("tiktok.com/") || url.includes("douyin.com/")) && sGet("disableTikTokWatermark") === "true") req.isNoTTWatermark = true;
     }
 
     if (sGet("disableMetadata") === "true") req.disableMetadata = true;

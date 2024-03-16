@@ -337,15 +337,6 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "tiktok-watermark",
-                    title: "tiktok",
-                    body: checkbox([{
-                        action: "disableTikTokWatermark",
-                        name: t("SettingsRemoveWatermark"),
-                        padding: "no-margin"
-                    }])
-                })
-                + settingsCategory({
                     name: "twitter",
                     title: "twitter",
                     body: checkbox([{
