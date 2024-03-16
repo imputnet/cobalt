@@ -102,7 +102,7 @@ we use [ffmpeg-static](https://github.com/eugeneware/ffmpeg-static) to get binar
 you can support the developer via various methods listed on their github page! (linked above)
 
 ### youtube.js
-cobalt relies on [youtube.js](https://github.com/LuanRT/YouTube.js) for interacting with the innertube api, it wouldn't have been possible.  
+cobalt relies on [youtube.js](https://github.com/LuanRT/YouTube.js) for interacting with the innertube api, it wouldn't have been possible without it.  
 
 you can support the developer via various methods listed on their github page! (linked above)
 
