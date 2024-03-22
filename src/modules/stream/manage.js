@@ -5,6 +5,15 @@ import { nanoid } from 'nanoid';
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 
+const streamNoAccess = {
+    error: "i couldn't verify if you have access to this stream. go back and try again!",
+    status: 401
+}
+const streamNoExist = {
+    error: "this download link has expired or doesn't exist. go back and try again!",
+    status: 400
+}
+
 const streamCache = new NodeCache({
     stdTTL: streamLifespan/1000,
     checkperiod: 10,
@@ -61,29 +70,24 @@ export function createStream(obj) {
 export function verifyStream(id, hmac, exp, secret, iv) {
     try {
         const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
+        const cache = streamCache.get(id.toString());
 
-        if (ghmac !== String(hmac)) {
-            return {
-                error: "i couldn't verify if you have access to this stream. go back and try again!",
-                status: 401
-            }
-        }
+        if (ghmac !== String(hmac)) return streamNoAccess;
+        if (!cache) return streamNoExist;
 
-        const streamInfo = JSON.parse(decryptStream(streamCache.get(id.toString()), iv, secret));
-    
-        if (!streamInfo) return {
-            error: "this download link has expired or doesn't exist. go back and try again!",
-            status: 400
-        }
+        const streamInfo = JSON.parse(decryptStream(cache, iv, secret));
 
-        if (String(exp) === String(streamInfo.exp) && Number(exp) > new Date().getTime()) {
-            return streamInfo;
-        }
+        if (!streamInfo) return streamNoExist;
+
+        if (Number(exp) <= new Date().getTime())
+            return streamNoExist;
+
+        return streamInfo;
+    }
+    catch (e) {
         return {
-            error: "i couldn't verify if you have access to this stream. go back and try again!",
-            status: 401
+            error: "something went wrong and i couldn't verify this stream. go back and try again!",
+            status: 500
         }
-    } catch (e) {
-        return { status: 500, body: { status: "error", text: "couldn't verify this stream. request a new one!" } };
     }
 }
