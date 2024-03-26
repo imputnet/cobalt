@@ -25,6 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import loom from "./services/loom.js";
+import facebook from "./services/facebook.js";
 
 let freebind;
 
@@ -192,6 +193,8 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await loom({
                     id: patternMatch.id
                 });
+            case "facebook":
+                r = await facebook(patternMatch);
                 break;
             default:
                 return createResponse("error", {
