@@ -4,8 +4,8 @@ const userAgent = genericUserAgent.split(' Chrome/1')[0],
     config = {
     tiktok: {
         short: "https://vt.tiktok.com/",
-        api: "https://api22-normal-c-useast2a.tiktokv.com/aweme/v1/feed/?aweme_id={postId}&version_code=262&app_name=musical_ly&channel=App&device_id=null&os_version=14.4.2&device_platform=iphone&device_type=iPhone9&region=US&carrier_region=US",
-        userAgent: "TikTok 26.2.0 rv:262018 (iPhone; iOS 14.4.2; en_US) Cronet"
+        api: "https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/?aweme_id={postId}&region=US&carrier_region=US",
+        userAgent: "TikTok/338014 CFNetwork/1410.1 Darwin/22.6.0"
     },
     douyin: {
         short: "https://v.douyin.com/",
@@ -32,6 +32,8 @@ function selector(j, h, id) {
 export default async function(obj) {
     let postId = obj.postId ? obj.postId : false;
 
+    if (!process.env.TIKTOK_DEVICE_INFO) return { error: 'ErrorCouldntFetch' };
+
     if (!postId) {
         let html = await fetch(`${config[obj.host].short}${obj.id}`, {
             redirect: "manual",
@@ -48,12 +50,15 @@ export default async function(obj) {
     }
     if (!postId) return { error: 'ErrorCantGetID' };
 
+    let deviceInfo = JSON.parse(process.env.TIKTOK_DEVICE_INFO);
+        deviceInfo = new URLSearchParams(deviceInfo).toString();
+
     let detail;
-    detail = await fetch(config[obj.host].api.replace("{postId}", postId), {
-        headers: {
-            "user-agent": config[obj.host].userAgent
-        }
-    }).then((r) => { return r.json() }).catch(() => { return false });
+        detail = await fetch(`${config[obj.host].api.replace("{postId}", postId)}&${deviceInfo}`, {
+            headers: {
+                "user-agent": config[obj.host].userAgent
+            }
+        }).then((r) => { return r.json() }).catch(() => { return false });
 
     detail = selector(detail, obj.host, postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
