@@ -47,11 +47,15 @@ export default async function(obj) {
 
     images = detail.image_post_info ? detail.image_post_info.images : false;
 
+    let playAddr = detail.video.play_addr_h264;
+
+    if (!playAddr) playAddr = detail.video.play_addr;
+
     if (!obj.isAudioOnly && !images) {
-        video = detail.video.play_addr.url_list[0];
+        video = playAddr.url_list[0];
         videoFilename = `${filenameBase}.mp4`;
     } else {
-        let fallback = detail.video.play_addr.url_list[0];
+        let fallback = playAddr.url_list[0];
         audio = fallback;
         audioFilename = `${filenameBase}_audio_fv`;  // fv - from video
         if (obj.fullAudio || fallback.includes("music")) {
