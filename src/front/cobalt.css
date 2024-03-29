@@ -452,6 +452,7 @@ button:active,
     display: flex;
     flex-direction: column;
     gap: 18px;
+    width: 100%;
 }
 .popup.small.visible {
     transform: translate(-50%, -50%);
