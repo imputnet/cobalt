@@ -8,7 +8,7 @@ services:
 
         init: true
 
-        # if container doesn't run detached on your machine, uncomment the next line:
+        # if container doesn't run detached on your machine, uncomment the next line
         #tty: true
 
         ports:
@@ -36,7 +36,7 @@ services:
 
         init: true
 
-        # if container doesn't run detached on your machine, uncomment the next line:
+        # if container doesn't run detached on your machine, uncomment the next line
         #tty: true
 
         ports:
