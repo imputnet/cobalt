@@ -15,7 +15,7 @@ export default async function(obj) {
             headers: {
                 "user-agent": genericUserAgent.split(' Chrome/1')[0]
             }
-        }).then((r) => { return r.text() }).catch(() => { return false });
+        }).then(r => r.text()).catch(() => {});
 
         if (!html) return { error: 'ErrorCouldntFetch' };
 
@@ -37,7 +37,7 @@ export default async function(obj) {
         headers: {
             "user-agent": apiUserAgent
         }
-    }).then((r) => { return r.json() }).catch(() => { return false });
+    }).then(r => r.json()).catch(() => {});
 
     detail = detail?.aweme_list?.find(v => v.aweme_id === postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
@@ -45,7 +45,7 @@ export default async function(obj) {
     let video, videoFilename, audioFilename, isMp3, audio, images,
         filenameBase = `tiktok_${detail.author.unique_id}_${postId}`;
 
-    images = detail.image_post_info ? detail.image_post_info.images : false;
+    images = detail.image_post_info?.images;
 
     let playAddr = detail.video.play_addr_h264;
 
