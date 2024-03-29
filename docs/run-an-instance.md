@@ -67,7 +67,7 @@ sudo service nscd start
 you need to get your own device info for tiktok functionality to work. this can be done by proxying the app through any request-intercepting proxy (such as [mitmproxy](https://mitmproxy.org)). you need to disable ssl pinning to see requests. there will be no assistance provided by cobalt for this.
 
 example config (replace **ALL** values with ones you got from mitm):
-```json
+```
 '{
     "iid": "<install_id here>",
     "device_id": "<device_id here>",
