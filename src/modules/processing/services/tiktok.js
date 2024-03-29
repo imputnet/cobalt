@@ -39,7 +39,7 @@ export default async function(obj) {
         }
     }).then((r) => { return r.json() }).catch(() => { return false });
 
-    detail = detail?.aweme_list?.filter(v => v.aweme_id === postId)[0];
+    detail = detail?.aweme_list?.find(v => v.aweme_id === postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
 
     let video, videoFilename, audioFilename, isMp3, audio, images,
