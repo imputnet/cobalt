@@ -4,7 +4,7 @@ best way to save what you love: [cobalt.tools](https://cobalt.tools/)
 ![cobalt logo with repeated logo (double arrow) pattern background](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")  
 
 ## what's cobalt?
-cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or analytics***.  
+cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or invasive analytics***.  
 
 paste the link, get the file, move on. it's that simple. just how it should be.
 
@@ -121,7 +121,7 @@ cobalt also depends on:
 - [node-cache](https://www.npmjs.com/package/node-cache) to cache stream info in server ram for a limited amount of time.
 - [psl](https://www.npmjs.com/package/psl) as the domain name parser.
 - [set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser) to parse cookies that cobalt receives from certain services.
-- [undici](https://www.npmjs.com/package/undici) for making http requests
+- [undici](https://www.npmjs.com/package/undici) for making http requests.
 - [url-pattern](https://www.npmjs.com/package/url-pattern) to match provided links with supported patterns.
 
 ...and many other packages that these packages rely on.
