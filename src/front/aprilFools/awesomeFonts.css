@@ -1,0 +1,10 @@
+@font-face {
+    font-family: Comic Mono;
+    font-weight: normal;
+    src: url(./assets/ComicMono.ttf);
+}
+@font-face {
+    font-family: Shantell Sans;
+    font-weight: normal;
+    src: url(./assets/ShantellSans.ttf);
+}

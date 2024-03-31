@@ -654,6 +654,8 @@ export default function(obj) {
             ])}
         </script>
         <script src="cobalt.js"></script>
+        <!--- Awesome theme --->
+        <script src="aprilFools/awesomeTheme.js"></script>
     </body>
 </html>
 `

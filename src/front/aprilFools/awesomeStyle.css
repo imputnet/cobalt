@@ -1,0 +1,27 @@
+/* happy april fools! */
+
+:root {
+    --font-mono: 'Comic Mono', 'Comic Sans MS', 'Comic Sans', 'Comic Neue', 'Shantell Sans', cursive;
+}
+* {
+    text-transform: capitalize;
+    letter-spacing: 0.03rem;
+}
+.text-to-copy {
+    text-transform: none;
+}
+#download-button,
+#url-clear {
+    font-family: 'Noto Sans Mono', 'Consolas', 'SF Mono', monospace;
+}
+#home::before {
+    opacity: 0.1;
+    content: '';
+    background: url(/aprilFools/assets/bliss.webp);
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
