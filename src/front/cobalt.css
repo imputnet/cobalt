@@ -262,9 +262,8 @@ button:active,
     align-items: center;
 }
 #logo {
-    text-align: left;
+    text-align: center;
     font-size: 1rem;
-    white-space: nowrap;
     height: 2.5rem;
     align-items: center;
     display: flex;
