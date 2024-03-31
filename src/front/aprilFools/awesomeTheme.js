@@ -26,10 +26,10 @@ if (date.getMonth() === 3 && date.getDate() === 1) {
 
     switch(document.documentElement.lang) {
         case "en":
-            eid("logo").innerHTML = "Cobalt Media Downloader Ultra Pro Plus Max 2024";
+            document.getElementById("logo").innerHTML = "Cobalt Media Downloader Ultra Pro Plus Max 2024";
             break;
         case "ru":
-            eid("logo").innerHTML = "Кобальт Медиа Загрузчик Ультра Про Плюс Макс 2024";
+            document.getElementById("logo").innerHTML = "Кобальт Медиа Загрузчик Ультра Про Плюс Макс 2024";
             break;
     }
 }
