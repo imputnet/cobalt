@@ -4,7 +4,7 @@ function changeIcon(button, src) {
 
 // load an Awesome theme on an Awesome day
 let date = new Date();
-if (date.getMonth() === 2 && date.getDate() === 31) {
+if (date.getMonth() === 3 && date.getDate() === 1) {
     let head = document.head;
 
     head.appendChild(document.createElement('link')).rel = 'stylesheet';
