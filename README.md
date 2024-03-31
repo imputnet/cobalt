@@ -67,8 +67,6 @@ cobalt is a tool for easing content downloads from internet and takes ***zero li
 
 cobalt is ***NOT*** a piracy tool and cannot be used as such. it can only download free, publicly accessible content. such content can be easily downloaded through any browser's dev tools. pressing one button is easier, so i made a convenient, ad-less tool for such repeated actions.
 
-cobalt is my passion project, update schedule depends solely on my free time, motivation, and mood. don't expect any consistency in update releases.
-
 ## cobalt license
 cobalt code is licensed under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
 
