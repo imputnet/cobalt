@@ -653,9 +653,10 @@ export default function(obj) {
                 'FilenamePreviewAudioAuthor'
             ])}
         </script>
-        <script src="cobalt.js"></script>
         <!--- Awesome theme --->
         <script src="aprilFools/awesomeTheme.js"></script>
+        <!--- Awesome theme --->
+        <script src="cobalt.js"></script>
     </body>
 </html>
 `
