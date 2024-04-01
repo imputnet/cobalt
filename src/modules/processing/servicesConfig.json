@@ -22,6 +22,7 @@
             "patterns": [
                 ":user/status/:id",
                 ":user/status/:id/video/:index",
+                ":user/status/:id/photo/:index",
                 ":user/status/:id/mediaviewer",
                 ":user/status/:id/mediaViewer"
             ],
