@@ -15,13 +15,22 @@ const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', 
 
 export function apiJSON(type, obj) {
     try {
+        try {
+            var filename = obj.filename;
+            if (obj.isAudioOnly == true && typeof filename == 'string' && !filename.endsWith(".mp3") && !filename.endsWith(".ogg") && !filename.endsWith(".wav") && !filename.endsWith(".opus")) {
+                obj.filename = filename + '.mp3';
+            }
+        } catch (e) {
+            return { status: 500, body: { status: "error", text: "Internal Server Error", critical: true } };
+        }
+
         switch (type) {
             case 0:
                 return { status: 400, body: { status: "error", text: obj.t } };
             case 1:
-                return { status: 200, body: { status: "redirect", url: obj.u } };
+                return { status: 200, body: { status: "redirect", url: obj.u, filename: obj.filename } };
             case 2:
-                return { status: 200, body: { status: "stream", url: createStream(obj) } };
+                return { status: 200, body: { status: "stream", url: createStream(obj), filename: obj.filename } };
             case 3:
                 return { status: 200, body: { status: "success", text: obj.t } };
             case 4:
