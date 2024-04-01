@@ -67,7 +67,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
-            let acceptCon = String(req.header('Accept')) === "application/json";
+            let acceptCon = String(req.header('Accept')) === "application/json" || String(req.header('Accept')) === "application/json; charset=utf-8";
             if (acceptCon) {
                 if (buf.length > 720) throw new Error();
                 JSON.parse(buf);
@@ -80,7 +80,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     // handle express.json errors properly (https://github.com/expressjs/express/issues/4065)
     app.use('/api/json', (err, req, res, next) => {
         let errorText = "invalid json body";
-        let acceptCon = String(req.header('Accept')) !== "application/json";
+        let acceptCon = String(req.header('Accept')) !== "application/json" && String(req.header('Accept')) !== "application/json; charset=utf-8";
 
         if (err || acceptCon) {
             if (acceptCon) errorText = "invalid accept header";
@@ -98,7 +98,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             let lang = languageCode(req);
             let j = apiJSON(0, { t: "bad request" });
             try {
-                let contentCon = String(req.header('Content-Type')) === "application/json";
+                let contentCon = String(req.header('Accept')) === "application/json" || String(req.header('Accept')) === "application/json; charset=utf-8";
                 let request = req.body;
                 if (contentCon && request.url) {
                     request.dubLang = request.dubLang ? lang : false;
