@@ -799,7 +799,7 @@ button:active,
 }
 #cobalt-main-box #bottom button {
     width: auto;
-    padding: var(--gap) 1rem;
+    padding: var(--gap) 0.9rem;
 }
 .collapse-list {
     background: var(--subbackground);
