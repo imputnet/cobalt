@@ -22,7 +22,6 @@ const switchers = {
 };
 const checkboxes = [
     "alwaysVisibleButton",
-    "disableChangelog",
     "downloadPopup",
     "fullTikTokAudio",
     "muteAudio",
@@ -171,17 +170,21 @@ function notificationCheck(type) {
         default:
             changed = false;
     }
-    if (changed && sGet("changelogStatus") === `${version}` || type === "disable") {
+    if (changed && sGet("changelogStatus") === `${version}`) {
         setTimeout(() => {
             eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(notification, '');
             eid("tab-button-about-changelog").innerHTML = eid("tab-button-about-changelog").innerHTML.replace(notification, '')
         }, 900)
     }
-    if (sGet("disableChangelog") !== "true") {
-        if (!sGet("seenAbout") && !eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
-        if (sGet("changelogStatus") !== `${version}`) {
-            if (!eid("about-footer").innerHTML.includes(notification)) eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
-            if (!eid("tab-button-about-changelog").innerHTML.includes(notification)) eid("tab-button-about-changelog").innerHTML = `${notification}${eid("tab-button-about-changelog").innerHTML}`;
+    if (!sGet("seenAbout") && !eid("about-footer").innerHTML.includes(notification)) {
+        eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
+    }
+    if (sGet("changelogStatus") !== `${version}`) {
+        if (!eid("about-footer").innerHTML.includes(notification)) {
+            eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
+        }
+        if (!eid("tab-button-about-changelog").innerHTML.includes(notification)) {
+            eid("tab-button-about-changelog").innerHTML = `${notification}${eid("tab-button-about-changelog").innerHTML}`;
         }
     }
 }
@@ -298,7 +301,6 @@ function checkbox(action) {
         case "reduceTransparency": eid("cobalt-body").classList.toggle('no-transparency'); break;
         case "disableAnimations": eid("cobalt-body").classList.toggle('no-animation'); break;
     }
-    action === "disableChangelog" && sGet(action) === "true" ? notificationCheck("disable") : notificationCheck();
 }
 function changeButton(type, text) {
     switch (type) {
