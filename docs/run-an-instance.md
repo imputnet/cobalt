@@ -59,8 +59,31 @@ sudo service nscd start
 | `CORS_URL`            | not used  | `https://cobalt.tools/` | cross-origin resource sharing url. api will be available only from this url if `CORS_WILDCARD` is set to `0`. |
 | `COOKIE_PATH`         | not used  | `/cookies.json`         | path for cookie file relative to main folder. |
 | `PROCESSING_PRIORITY` | not used  | `10`                    | changes `nice` value* for ffmpeg subprocess. available only on unix systems. |
+| `TIKTOK_DEVICE_INFO`  | ➖        | *see below*                    | device info (including `iid` and `device_id`) for tiktok functionality. required for tiktok to work. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
+
+#### TIKTOK_DEVICE_INFO
+you need to get your own device info for tiktok functionality to work. this can be done by proxying the app through any request-intercepting proxy (such as [mitmproxy](https://mitmproxy.org)). you need to disable ssl pinning to see requests. there will be no assistance provided by cobalt for this.
+
+example config (replace **ALL** values with ones you got from mitm):
+```
+'{
+    "iid": "<install_id here>",
+    "device_id": "<device_id here>",
+    "channel": "googleplay",
+    "app_name": "musical_ly",
+    "version_code": "310503",
+    "device_platform": "android",
+    "device_type": "Redmi+7",
+    "os_version": "13"
+}'
+```
+
+you can compress the json to save space. if you're using a `.env` file then the line would would look like this (***note the quotes***):
+```
+TIKTOK_DEVICE_INFO='{"iid":"<install_id here>","device_id":"<device_id here>","channel":"googleplay","app_name":"musical_ly","version_code":"310503","device_platform":"android","device_type":"Redmi+7","os_version":"13"}'
+```
 
 ### variables for web
 | variable name        | default              | example                 | description                                                                           |

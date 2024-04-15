@@ -8,7 +8,7 @@ services:
 
         init: true
 
-        # if container doesn't run detached on your machine, uncomment the next line:
+        # if container doesn't run detached on your machine, uncomment the next line
         #tty: true
 
         ports:
@@ -18,12 +18,10 @@ services:
 
         environment:
             # replace https://co.wuk.sh/ with your instance's target url in same format
-            - API_URL=https://co.wuk.sh/
+            API_URL: "https://co.wuk.sh/"
             # replace eu-nl with your instance's distinctive name
-            - API_NAME=eu-nl
-            # if you want to use cookies when fetching data from services, uncomment the next line
-            #- COOKIE_PATH=/cookies.json
-            # see cookies.example.json for example file.
+            API_NAME: "eu-nl"
+            # see docs/run-an-instance.md for more information
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
 
@@ -38,7 +36,7 @@ services:
 
         init: true
 
-        # if container doesn't run detached on your machine, uncomment the next line:
+        # if container doesn't run detached on your machine, uncomment the next line
         #tty: true
 
         ports:
@@ -48,9 +46,9 @@ services:
 
         environment:
             # replace https://cobalt.tools/ with your instance's target url in same format
-            - WEB_URL=https://cobalt.tools/
+            WEB_URL: "https://cobalt.tools/"
             # replace https://co.wuk.sh/ with preferred api instance url
-            - API_URL=https://co.wuk.sh/
+            API_URL: "https://co.wuk.sh/"
 
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt

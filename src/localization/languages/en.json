@@ -1,7 +1,7 @@
 {
     "name": "english",
     "substrings": {
-        "ContactLink": "check the <a class=\"text-backdrop link\" href=\"{statusPage}\" target=\"_blank\">status page</a> or <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>."
+        "ContactLink": "check the <a class=\"text-backdrop link\" href=\"{statusPage}\" target=\"_blank\">status page</a> or <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>"
     },
     "strings": {
         "AppTitleCobalt": "cobalt",
@@ -80,7 +80,6 @@
         "Miscellaneous": "miscellaneous",
         "ModeToggleAuto": "auto",
         "ModeToggleAudio": "audio",
-        "SettingsDisableNotifications": "hide notifications",
         "MediaPickerTitle": "pick what to save",
         "MediaPickerExplanationPC": "click or right click to download what you want.",
         "MediaPickerExplanationPhone": "press or press and hold to download what you want.",

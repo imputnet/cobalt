@@ -262,9 +262,8 @@ button:active,
     align-items: center;
 }
 #logo {
-    text-align: left;
+    text-align: center;
     font-size: 1rem;
-    white-space: nowrap;
     height: 2.5rem;
     align-items: center;
     display: flex;
@@ -452,6 +451,7 @@ button:active,
     display: flex;
     flex-direction: column;
     gap: 18px;
+    width: 100%;
 }
 .popup.small.visible {
     transform: translate(-50%, -50%);
@@ -799,7 +799,7 @@ button:active,
 }
 #cobalt-main-box #bottom button {
     width: auto;
-    padding: var(--gap) 1rem;
+    padding: var(--gap) 0.9rem;
 }
 .collapse-list {
     background: var(--subbackground);
@@ -990,47 +990,47 @@ button:active,
 .text-to-copy,
 .text-to-copy.text-backdrop,
 #filename-preview {
-    border-radius: 8px / 9px;
+    border-radius: 9px;
 }
 [type=checkbox] {
-    border-radius: 3px / 4px;
+    border-radius: 4px;
 }
 .popup,
 .scrollable .popup-content {
     border-radius: 12px;
 }
 .popup-header .glass-bkg {
-    border-top-left-radius: 11px 12px;
-    border-top-right-radius: 11px 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     border-bottom: var(--accent-highlight) solid 0.1rem;
     top: -1px;
 }
 .popup-tabs .glass-bkg {
-    border-bottom-left-radius: 11px 12px;
-    border-bottom-right-radius: 11px 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     border-top: var(--accent-highlight) solid 0.1rem;
     bottom: -1px;
 }
 .switches .switch:first-child {
-    border-top-left-radius: 8px 9px;
-    border-bottom-left-radius: 8px 9px;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
 }
 .switches .switch:last-child {
-    border-top-right-radius: 8px 9px;
-    border-bottom-right-radius: 8px 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
 }
 .text-backdrop {
-    border-radius: 4px / 5px;
+    border-radius: 4px;
 }
 .collapse-list:first-child,
 .collapse-list:first-child .collapse-header {
-    border-top-left-radius: 7px 8px;
-    border-top-right-radius: 7px 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 .collapse-list:last-child,
 .collapse-list:last-child .collapse-header {
-    border-bottom-left-radius: 7px 8px;
-    border-bottom-right-radius: 7px 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 .collapse-list:last-child.expanded .collapse-header {
     border-radius: 0;

@@ -523,10 +523,6 @@ export default function(obj) {
                     }, {
                         action: "disableMetadata",
                         name: t("SettingsDisableMetadata")
-                    }, {
-                        action: "disableChangelog",
-                        name: t("SettingsDisableNotifications"),
-                        padding: "no-margin"
                     }])
                 })
             }]
