@@ -27,7 +27,7 @@ async function findDtsgId(cookie) {
         const token = data.match(/"dtsg":{"token":"(.*?)"/)[1];
 
         cachedDtsg.value = token;
-        cachedDtsg.expiry = Date.now() + 86400000;
+        cachedDtsg.expiry = Date.now() + 86390000;
 
         if (token) return token;
         return false;
