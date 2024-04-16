@@ -1,6 +1,7 @@
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { randomBytes } from "crypto";
+import expressPrometheusMiddleware from "express-prometheus-middleware";
 
 const ipSalt = randomBytes(64).toString('hex');
 
@@ -64,6 +65,13 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
         next();
     });
+
+    app.use(expressPrometheusMiddleware({
+        metricsPath: "/metrics",
+        collectDefaultMetrics: true,
+        collectGCMetrics: true,
+        metricsApp: app,
+    }))
 
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
