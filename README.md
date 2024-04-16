@@ -1,7 +1,7 @@
 # cobalt
 best way to save what you love: [cobalt.tools](https://cobalt.tools/)  
 
-![cobalt logo with repeated logo (double arrow) pattern background](/src/front/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")  
+![cobalt logo with repeated logo (double arrow) pattern background](/web/public/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")
 
 ## what's cobalt?
 cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or invasive analytics***.  

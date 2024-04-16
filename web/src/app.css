@@ -1,0 +1,5 @@
+html,
+body {
+    margin: 0;
+    height: calc(100% + env(safe-area-inset-top)/2);
+}
