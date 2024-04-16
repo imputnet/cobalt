@@ -12,5 +12,10 @@
         "@sveltejs/vite-plugin-svelte": "^3.1.0",
         "svelte": "^4.2.12",
         "vite": "^5.2.0"
+    },
+    "dependencies": {
+        "@fontsource-variable/noto-sans-mono": "^5.0.19",
+        "@fontsource/redaction-10": "^5.0.1",
+        "@tabler/icons-svelte": "^3.2.0"
     }
 }

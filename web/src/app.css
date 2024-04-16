@@ -1,5 +1,17 @@
 html,
-body {
+body,
+#app {
     margin: 0;
     height: calc(100% + env(safe-area-inset-top)/2);
+    user-select: none;
+    -webkit-user-select: none;
+}
+svg, img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+:root {
+    --accent: #000000;
+    --gray: #6e6e6e;
 }
