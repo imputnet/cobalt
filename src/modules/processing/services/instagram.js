@@ -162,7 +162,7 @@ async function getStory(username, id) {
         media = data?.data?.xdt_api__v1__feed__reels_media?.reels_media?.find(m => m.id === userId);
     } catch {}
 
-    const item = media.items.filter(m => m.pk === id)[0];
+    const item = media.items.find(m => m.pk === id);
     if (!item) return { error: 'ErrorEmptyDownload' };
     
     if (item.video_versions) {
