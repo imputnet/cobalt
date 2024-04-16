@@ -1,7 +1,10 @@
 import { maxVideoDuration } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 
-let cachedID = {};
+const cachedID = {
+    version: '',
+    id: ''
+};
 
 async function findClientID() {
     try {
