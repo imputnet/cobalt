@@ -25,6 +25,11 @@ export const testers = {
         (patternMatch.author?.length <= 255 && patternMatch.song?.length <= 255) 
         || patternMatch.shortLink?.length <= 32,
 
+    "snapchat": (patternMatch) =>
+        (patternMatch.username?.length <= 32 && patternMatch.storyId?.length <= 255) 
+        || patternMatch.spotlightId?.length <= 255 
+        || patternMatch.shortLink?.length <= 16,
+
     "streamable": (patternMatch) =>
         patternMatch.id?.length === 6,
     

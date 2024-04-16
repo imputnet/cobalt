@@ -120,6 +120,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "tumblr":
                 case "pinterest":
                 case "streamable":
+                case "snapchat":
                     responseType = 1;
                     break;
             }

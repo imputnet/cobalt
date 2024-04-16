@@ -25,6 +25,7 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
+import snapchat from "./services/snapchat.js";
 
 export default async function(host, patternMatch, url, lang, obj) {
     assert(url instanceof URL);
@@ -157,6 +158,15 @@ export default async function(host, patternMatch, url, lang, obj) {
                 break;
             case "dailymotion":
                 r = await dailymotion(patternMatch);
+                break;
+            case "snapchat":
+                r = await snapchat({
+                    url,
+                    username: patternMatch.username,
+                    storyId: patternMatch.storyId,
+                    spotlightId: patternMatch.spotlightId,
+                    shortLink: patternMatch.shortLink || false
+                });
                 break;
             default:
                 return apiJSON(0, { t: errorUnsupported(lang) });

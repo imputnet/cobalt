@@ -116,6 +116,12 @@
             "alias": "dailymotion videos",
             "patterns": ["video/:id"],
             "enabled": true
+        },
+        "snapchat": {
+            "alias": "snapchat stories & spotlights",
+            "subdomains": ["t", "story"],
+            "patterns": [":shortLink", "spotlight/:spotlightId", "add/:username/:storyId", "u/:username/:storyId"],
+            "enabled": true
         }
     }
 }
