@@ -94,5 +94,7 @@ TIKTOK_DEVICE_INFO='{"iid":"<install_id here>","device_id":"<device_id here>","c
 | `SHOW_SPONSORS`      | `0`                  | `1`                     | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
 | `IS_BETA`            | `0`                  | `1`                     | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
 | `PLAUSIBLE_HOSTNAME` | ➖                   | `plausible.io`*         | enables plausible analytics with provided hostname as receiver backend.               |
+| `UMAMI_HOSTNAME`     | ➖                   | `us.umami.is`           | enables umami analytics with provided hostname as receiver backend.                   |
+| `UMAMI_WEBSITE_ID`   | ➖                   | `website id`            | umami analytics website id                                                           |
 
 \* don't use plausible.io as receiver backend unless you paid for their cloud service. use your own domain when hosting community edition of plausible. refer to their [docs](https://plausible.io/docs) when needed.
