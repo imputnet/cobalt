@@ -16,8 +16,6 @@ export default async function(obj) {
         link = `https://www.snapchat.com/add/${obj.username}/${obj.storyId}`
     } else if (!link && obj.spotlightId) {
         link = `https://www.snapchat.com/spotlight/${obj.spotlightId}`
-    } else if (link?.startsWith('https://www.snapchat.com/download')) {
-        return { error: 'ErrorCouldntFetch' };
     }
 
     const path = new URL(link).pathname;
