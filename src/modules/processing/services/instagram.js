@@ -3,9 +3,10 @@ import { genericUserAgent } from "../../config.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
 
 const commonInstagramHeaders = {
-    'User-Agent': genericUserAgent,
+    'user-agent': genericUserAgent,
     'sec-gpc': '1',
-    'Sec-Fetch-Site': 'same-origin',
+    'sec-fetch-site': 'same-origin',
+    'x-ig-app-id': '936619743392459'
 }
 
 const cachedDtsg = {
@@ -137,22 +138,31 @@ async function usernameToId(username, cookie) {
 
 async function getStory(username, id) {
     const cookie = getCookie('instagram');
-    if (!cookie) return { error: 'ErrorUnsupported' }
+    if (!cookie) return { error: 'ErrorUnsupported' };
 
     const userId = await usernameToId(username, cookie);
-    if (!userId) return { error: 'ErrorEmptyDownload' }
+    if (!userId) return { error: 'ErrorEmptyDownload' };
+    
+    const dtsgId = await findDtsgId(cookie);
 
-    const url = new URL('https://www.instagram.com/api/v1/feed/reels_media/');
-          url.searchParams.set('reel_ids', userId);
-          url.searchParams.set('media_id', id);
+    const url = new URL('https://www.instagram.com/api/graphql/');
+    const requestData = {
+        fb_dtsg: dtsgId,
+        jazoest: '26438',
+        variables: JSON.stringify({
+            reel_ids_arr : [ userId ],
+        }),
+        server_timestamps: true,
+        doc_id: '25317500907894419'
+    };
 
     let media;
     try {
-        const data = await request(url, cookie);
-        media = data?.reels_media?.find(m => m.id === userId);
+        const data = (await request(url, cookie, 'POST', requestData));
+        media = data?.data?.xdt_api__v1__feed__reels_media?.reels_media?.find(m => m.id === userId);
     } catch {}
 
-    const item = media.items[media.media_ids.indexOf(id)];
+    const item = media.items.filter(m => m.pk === id)[0];
     if (!item) return { error: 'ErrorEmptyDownload' };
     
     if (item.video_versions) {
