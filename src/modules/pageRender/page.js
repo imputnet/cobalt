@@ -82,6 +82,13 @@ export default function(obj) {
                 src="https://${process.env.PLAUSIBLE_HOSTNAME}/js/script.js"
             ></script>`
         : ''}
+        ${process.env.UMAMI_HOSTNAME && process.env.UMAMI_WEBSITE_ID ?
+            `<script 
+                defer 
+                data-website-id="${process.env.UMAMI_WEBSITE_ID}" 
+                src="https://${process.env.UMAMI_HOSTNAME}/script.js"
+            ></script>`
+        : ''}
     </head>
     <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
         <noscript>
@@ -169,7 +176,9 @@ export default function(obj) {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
                             body: t("PrivacyPolicy") + `${
-                                process.env.PLAUSIBLE_HOSTNAME ? `<br><br>${t("AnalyticsDescription")}` : ''
+                                process.env.PLAUSIBLE_HOSTNAME ? `<br><br>${t("AnalyticsDescriptionPlausible")}` : ''
+                            }`  + `${
+                                process.env.UMAMI_HOSTNAME && process.env.UMAMI_WEBSITE_ID ? `<br><br>${t("AnalyticsDescriptionUmami")}` : ''
                             }`
                         }, {
                             name: "legal",
@@ -505,6 +514,17 @@ export default function(obj) {
                             title: t('PrivateAnalytics'),
                             body: checkbox([{
                                 action: "plausible_ignore",
+                                name: t("SettingsDisableAnalytics"),
+                                padding: "no-margin"
+                            }])
+                            + explanation(t('SettingsAnalyticsExplanation'))
+                        })
+                    } else if (process.env.UMAMI_HOSTNAME && process.env.UMAMI_WEBSITE_ID) {
+                        return settingsCategory({
+                            name: "privacy",
+                            title: t('PrivateAnalytics'),
+                            body: checkbox([{
+                                action: "umami.disabled",
                                 name: t("SettingsDisableAnalytics"),
                                 padding: "no-margin"
                             }])

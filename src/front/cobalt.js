@@ -29,7 +29,8 @@ const checkboxes = [
     "disableAnimations",
     "disableMetadata",
     "twitterGif",
-    "plausible_ignore"
+    "plausible_ignore",
+    "umami.disabled"
 ];
 const exceptions = { // used for mobile devices
     "vQuality": "720"
