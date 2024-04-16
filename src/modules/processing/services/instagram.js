@@ -70,31 +70,41 @@ async function getPost(id) {
             dtsgId = await findDtsgId(cookie);
         }
 
-        const url = new URL('https://www.instagram.com/graphql/query/');
+        const url = new URL('https://www.instagram.com/api/graphql/');
 
         const requestData = {
-            jazoest: '26297',
+            jazoest: '26406',
             variables: JSON.stringify({
               shortcode: id,
               __relay_internal__pv__PolarisShareMenurelayprovider: false
             }),
-            doc_id: '24852649951017035'
+            doc_id: '7153618348081770'
         };
         if (dtsgId) {
             requestData.fb_dtsg = dtsgId;
         }
 
-        data = (await request(url, cookie, 'POST', requestData)).data;
+        data = (await request(url, cookie, 'POST', requestData))
+                .data
+                ?.xdt_api__v1__media__shortcode__web_info
+                ?.items
+                ?.[0];
     } catch {}
 
     if (!data) return { error: 'ErrorCouldntFetch' };
 
-    const sidecar = data?.xdt_shortcode_media?.edge_sidecar_to_children;
-    if (sidecar) {
-        const picker = sidecar.edges.filter(e => e.node?.display_url)
+    const carousel = data.carousel_media;
+    if (carousel) {
+        const picker = carousel.filter(e => e?.image_versions2)
             .map(e => {
-                const type = e.node?.is_video ? "video" : "photo";
-                const url = type === "video" ? e.node?.video_url : e.node?.display_url;
+                const type = e.video_versions ? "video" : "photo";
+                const imageUrl = e.image_versions2.candidates[0].url;
+                
+                let url = imageUrl;
+                if (type === 'video') {
+                    const video = e.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a);
+                    url = video.url;
+                }
 
                 return {
                     type, url,
@@ -103,22 +113,23 @@ async function getPost(id) {
                     thumb: createStream({
                         service: "instagram",
                         type: "default",
-                        u: e.node?.display_url,
+                        u: imageUrl,
                         filename: "image.jpg"
                     })
                 }
             });
 
         if (picker.length) return { picker }
-    } else if (data?.xdt_shortcode_media?.video_url) {
+    } else if (data.video_versions) {
+        const video = data.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a)
         return {
-            urls: data.xdt_shortcode_media.video_url,
+            urls: video.url,
             filename: `instagram_${id}.mp4`,
             audioFilename: `instagram_${id}_audio`
         }
-    } else if (data?.xdt_shortcode_media?.display_url) {
+    } else if (data.image_versions2?.candidates) {
         return {
-            urls: data.xdt_shortcode_media.display_url,
+            urls: data.image_versions2.candidates[0].url,
             isPhoto: true
         }
     }
