@@ -3,28 +3,54 @@ import { genericUserAgent } from "../../config.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
 
 const commonInstagramHeaders = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'User-Agent': genericUserAgent,
-    'X-Ig-App-Id': '936619743392459',
-    'X-Asbd-Id': '129477',
-    'x-requested-with': 'XMLHttpRequest',
-    'Sec-Fetch-Dest': 'empty',
-    'Sec-Fetch-Mode': 'cors',
+    'sec-gpc': '1',
     'Sec-Fetch-Site': 'same-origin',
-    'upgrade-insecure-requests': '1',
-    'accept-encoding': 'gzip, deflate, br',
-    'accept-language': 'en-US,en;q=0.9,en;q=0.8',
 }
 
-async function request(url, cookie) {
+const cachedDtsg = {
+    value: '',
+    expiry: 0
+}
+
+async function findDtsgId(cookie) {
+    try {
+        if (cachedDtsg.expiry > Date.now()) return cachedDtsg.value;
+
+        const data = await fetch('https://www.instagram.com/', {
+            headers: {
+                ...commonInstagramHeaders,
+                cookie
+            }
+        }).then(r => r.text());
+
+        const token = data.match(/"dtsg":{"token":"(.*?)"/)[1];
+
+        cachedDtsg.value = token;
+        cachedDtsg.expiry = Date.now() + 86400000;
+
+        if (token) return token;
+        return false;
+    }
+    catch {}
+}
+
+async function request(url, cookie, method = 'GET', requestData) {
+    let headers = {
+        ...commonInstagramHeaders,
+        'x-ig-www-claim': cookie?._wwwClaim || '0',
+        'x-csrftoken': cookie?.values()?.csrftoken,
+        cookie
+    }
+    if (method === 'POST') {
+        headers['content-type'] = 'application/x-www-form-urlencoded';
+    }
+
     const data = await fetch(url, {
-        headers: {
-            ...commonInstagramHeaders,
-            'x-ig-www-claim': cookie?._wwwClaim || '0',
-            'x-csrftoken': cookie?.values()?.csrftoken,
-            cookie
-        }
-    })
+        method,
+        headers,
+        body: requestData && new URLSearchParams(requestData),
+    });
 
     if (data.headers.get('X-Ig-Set-Www-Claim') && cookie)
         cookie._wwwClaim = data.headers.get('X-Ig-Set-Www-Claim');
@@ -37,24 +63,32 @@ async function getPost(id) {
     let data;
     try {
         const cookie = getCookie('instagram');
+        let dtsgId;
+
+        if (cookie) {
+            dtsgId = await findDtsgId(cookie);
+        }
 
         const url = new URL('https://www.instagram.com/graphql/query/');
-        url.searchParams.set('query_hash', 'b3055c01b4b222b8a47dc12b090e4e64')
-        url.searchParams.set('variables', JSON.stringify({
-            child_comment_count: 3,
-            fetch_comment_count: 40,
-            has_threaded_comments: true,
-            parent_comment_count: 24,
-            shortcode: id
-        }))
 
-        data = (await request(url, cookie)).data;
+        const requestData = {
+            jazoest: '26297',
+            variables: JSON.stringify({
+              shortcode: id,
+              __relay_internal__pv__PolarisShareMenurelayprovider: false
+            }),
+            doc_id: '24852649951017035'
+        };
+        if (dtsgId) {
+            requestData.fb_dtsg = dtsgId;
+        }
 
+        data = (await request(url, cookie, 'POST', requestData)).data;
     } catch {}
 
     if (!data) return { error: 'ErrorCouldntFetch' };
 
-    const sidecar = data?.shortcode_media?.edge_sidecar_to_children;
+    const sidecar = data?.xdt_shortcode_media?.edge_sidecar_to_children;
     if (sidecar) {
         const picker = sidecar.edges.filter(e => e.node?.display_url)
             .map(e => {
@@ -75,15 +109,15 @@ async function getPost(id) {
             });
 
         if (picker.length) return { picker }
-    } else if (data?.shortcode_media?.video_url) {
+    } else if (data?.xdt_shortcode_media?.video_url) {
         return {
-            urls: data.shortcode_media.video_url,
+            urls: data.xdt_shortcode_media.video_url,
             filename: `instagram_${id}.mp4`,
             audioFilename: `instagram_${id}_audio`
         }
-    } else if (data?.shortcode_media?.display_url) {
+    } else if (data?.xdt_shortcode_media?.display_url) {
         return {
-            urls: data.shortcode_media.display_url,
+            urls: data.xdt_shortcode_media.display_url,
             isPhoto: true
         }
     }
