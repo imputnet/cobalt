@@ -17,6 +17,7 @@
         letter-spacing: -0.07em;
         font-family: 'Redaction 10', serif;
         margin: 0;
+        color: var(--accent);
     }
 </style>
 

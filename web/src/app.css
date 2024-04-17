@@ -5,6 +5,7 @@ body,
     height: calc(100% + env(safe-area-inset-top)/2);
     user-select: none;
     -webkit-user-select: none;
+    background: var(--background);
 }
 svg, img {
     pointer-events: none;
@@ -13,5 +14,10 @@ svg, img {
 
 :root {
     --accent: #000000;
+    --background: #ffffff;
     --gray: #6e6e6e;
+
+    --button: rgb(232, 232, 232);
+    --button-hover: rgb(215, 215, 215);
+    --button-hover-transparent: rgba(215, 215, 215, 0.5);
 }

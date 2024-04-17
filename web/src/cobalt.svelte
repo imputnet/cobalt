@@ -17,8 +17,12 @@
         height: 100%;
     }
     :global(*) {
-        font-family: 'Noto Sans Mono', monospace;
+        font-family: "Noto Sans Mono", "Consolas", "SF Mono", monospace;
         font-weight: 500;
+    }
+    :global(::placeholder) {
+        color: var(--gray);
+        opacity: 1;
     }
 </style>
 <main>

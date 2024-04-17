@@ -1,11 +1,14 @@
 <script>
     import IconLink from '@tabler/icons-svelte/IconLink.svelte';
+    import Button from '../Buttons/Button.svelte';
+    import ClearButton from '../Buttons/ClearButton.svelte';
+    import DownloadButton from '../Buttons/DownloadButton.svelte';
 
     let inputContainer;
     let link = "";
     let isFocused = false;
 
-    const testLink = (/** @type {string} */ link) => {
+    const validLink = (link) => {
         try {
             return /^https?:/i.test(new URL(link).protocol);
         } catch {
@@ -36,15 +39,18 @@
         border-radius: 12px;
         padding: 0 10px;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         font-size: 14px;
         flex: 1
     }
-    :global(#input-container.focused) {
+    #input-container.downloadable {
+        padding-right: 0;
+    }
+    #input-container.focused {
         outline: var(--accent) 1px solid;
         border: var(--accent) 1px solid;
     }
-    :global(#input-container.focused) :global(#input-link-icon) {
+    #input-container.focused :global(#input-link-icon) {
         stroke: var(--accent);
     }
     #link-area {
@@ -52,6 +58,7 @@
         width: 100%;
         margin: 0;
         padding: 10px 0;
+        height: 20px;
 
         align-items: center;
 
@@ -62,19 +69,22 @@
 
         -webkit-tap-highlight-color: transparent;
         flex: 1;
-    }
-    #link-area::placeholder {
-        color: var(--gray);
+
+        /* workaround for safari */
+        font-size: inherit;
     }
     #button-container {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
+    #mode-switcher {
+        display: flex;
+    }
 </style>
 
 <div id="pager">
-    <div id="input-container" class:focused={isFocused} bind:this={inputContainer}>
+    <div id="input-container" class:focused={isFocused} class:downloadable={validLink(link)} bind:this={inputContainer}>
         <IconLink id="input-link-icon" color="var(--gray)" size="20px"/>
     
         <!-- svelte-ignore a11y-autofocus -->
@@ -97,21 +107,25 @@
             autofocus>
 
         {#if link.length > 0}
-            <button id="clear-button" on:click={() => link = ""}>✕</button>
+            <ClearButton click={() => link = ""} />
         {/if}
-        {#if testLink(link)}
-            <input
-                id="download-button"
-                aria-label="download button"
-                type="submit"
-                value=">>">
+        {#if validLink(link)}
+            <DownloadButton />
         {/if}
     </div>
     <div id="button-container">
         <div id="mode-switcher">
-            <button id="auto-mode-button">auto</button>
-            <button id="audio-mode-button">audio</button>
+            <button id="auto-mode-button">
+                auto
+            </button>
+            <button id="audio-mode-button">
+                audio
+            </button>
         </div>
-        <button id="paste-button" on:click={pasteClipboard}>paste</button>
+        <Button
+            id="paste-button"
+            click={pasteClipboard}
+            text="paste"
+        />
     </div>
 </div>
