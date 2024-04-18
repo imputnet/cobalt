@@ -64,6 +64,16 @@ export function aliasURL(url) {
             if (url.hostname === 'dai.ly' && parts.length === 2) {
                 url = new URL(`https://dailymotion.com/video/${parts[1]}`)
             }
+		
+		case "facebook":
+        case "fb":
+            if (url.searchParams.get('v')) {
+                url = new URL(`https://web.facebook.com/user/videos/${url.searchParams.get('v')}`)
+            }
+            if (url.hostname === 'fb.watch') {
+                url = new URL(`https://web.facebook.com/_shortLink/${parts[1]}`)
+            }
+            break;
     }
 
     return url
