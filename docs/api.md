@@ -59,7 +59,7 @@ from a successful call to `/api/json`. however, the parameters passed to it are 
 and **unmodifiable** from your (the api client's) perspective, and can change between versions.
 
 therefore you don't need to worry about what they mean - but if you really want to know, you can
-[read the source code](../src/modules/stream/manage.js).
+[read the source code](/src/modules/stream/manage.js).
 
 ## GET: `/api/serverInfo`
 returns current basic server info.  
