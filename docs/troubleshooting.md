@@ -34,4 +34,4 @@ you can fix this issue by changing a single preference in `about:config`.
 
    ![screenshot showing "dom.events.asyncclipboard.readtext" preference on about:config page, this one with "true" text highlighted](images/troubleshooting/clipboard/toggled.png)
 
-6. go back to cobalt, reload the page, press `paste and download` button again. this time it works! enjoy simpler downloading experience :)
+6. go back to cobalt, reload the page, press `paste` button again. this time it works! enjoy simpler downloading experience :)
