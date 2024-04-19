@@ -51,9 +51,12 @@ this list is not final and keeps expanding over time. if support for a service y
 | youtube    | supports videos, music, and shorts. 8K, 4K, HDR, VR, and high FPS videos. rich metadata & dubs. h264/av1/vp9 codecs. |
 
 ## cobalt api
-cobalt has an open api that you can use in projects *for completely free~*. it's easy and straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/api.md) to learn how to use it. 
+cobalt has an open api that you can use in your projects *for free~*. it's easy and straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/api.md) to learn how to use it. 
 
-you can use the main api instance ([co.wuk.sh](https://co.wuk.sh/)) in your projects.
+✅ you can use the main api instance ([co.wuk.sh](https://co.wuk.sh/)) in your **personal** projects.  
+❌ you cannot use the free api commercially (anywhere that's gated behind paywalls or ads). host your own instance for this.
+
+we reserve the right to restrict abusive/excessive access to the main instance api.
 
 ## how to run your own instance
 if you want to run your own instance for whatever purpose, [follow this guide](https://github.com/wukko/cobalt/blob/current/docs/run-an-instance.md).  
