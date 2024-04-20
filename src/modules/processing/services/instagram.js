@@ -201,7 +201,7 @@ async function getPost(id) {
         const cookie = getCookie('instagram');
 
         data = await requestHTML(id);
-        if (!data) data = await requestHTML(id, cookie);
+        if (!data && cookie) data = await requestHTML(id, cookie);
 
         if (!data) {
             dataType = 'new';
