@@ -60,7 +60,7 @@ async function request(url, cookie, method = 'GET', requestData) {
     return data.json();
 }
 
-async function requestHTML(id, cookie = {}) {
+async function requestHTML(id, cookie) {
     const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
         headers: {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
