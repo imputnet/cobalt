@@ -116,7 +116,7 @@ async function requestGQL(id, cookie) {
             ?.[0];
 }
 
-async function extractOldPost(data, id) {
+function extractOldPost(data, id) {
     const sidecar = data?.gql_data?.shortcode_media?.edge_sidecar_to_children;
     if (sidecar) {
         const picker = sidecar.edges.filter(e => e.node?.display_url)
@@ -152,7 +152,7 @@ async function extractOldPost(data, id) {
     }
 }
 
-async function extractNewPost(data, id) {
+function extractNewPost(data, id) {
     const carousel = data.carousel_media;
     if (carousel) {
         const picker = carousel.filter(e => e?.image_versions2)
