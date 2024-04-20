@@ -140,7 +140,7 @@ function extractOldPost(data, id) {
         if (picker.length) return { picker }
     } else if (data?.gql_data?.shortcode_media?.video_url) {
         return {
-            urls: data.shortcode_media.video_url,
+            urls: data.gql_data.shortcode_media.video_url,
             filename: `instagram_${id}.mp4`,
             audioFilename: `instagram_${id}_audio`
         }
