@@ -14,3 +14,6 @@ docker-compose.yml
 
 # cookie file
 cookies.json
+
+# pnpm-lock
+pnpm-lock.yaml
