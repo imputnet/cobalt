@@ -1,8 +1,17 @@
 import HLSParser from 'hls-parser';
 import { maxVideoDuration } from '../../../core/config.js';
+import { Counter } from 'prom-client';
 
 let _token;
+let successDailymotionStreamCount = new Counter({
+    name: "cobalt_success_dailymotion_stream_count",
+    help: "Success Dailymotion stream counts"
+});
 
+let failedDailymotionStreamCount = new Counter({
+    name: "cobalt_dailymotion_stream_count",
+    help: "Failed Dailymotion stream counts"
+});
 function getExp(token) {
     return JSON.parse(
         Buffer.from(token.split('.')[1], 'base64')
@@ -29,7 +38,7 @@ const getToken = async () => {
     }
 }
 
-export default async function({ id }) {
+async function download({ id }) {
     const token = await getToken();
     if (!token) return { error: 'ErrorSomethingWentWrong' };
 
@@ -104,4 +113,14 @@ export default async function({ id }) {
         },
         fileMetadata
     }
+}
+
+export default async function ({ id }) {
+    let status = await download({ id })
+    if (status.error) {
+        failedDailymotionStreamCount.inc()
+    } else {
+        successDailymotionStreamCount.inc()
+    }
+    return status
 }

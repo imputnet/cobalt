@@ -13,7 +13,7 @@ import stream from "../modules/stream/stream.js";
 import { generateHmac } from "../modules/util/crypto.js";
 import { verifyStream } from "../modules/stream/manage.js";
 
-export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
+export function runAPI(express, app, gitCommit, gitBranch, __dirname) {    
     const corsConfig = process.env.CORS_WILDCARD === '0' ? {
         origin: process.env.CORS_URL,
         optionsSuccessStatus: 200
@@ -62,8 +62,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.use(expressPrometheusMiddleware({
         metricsApp: app,
-        collectGCMetrics: true,
-        
+        collectGCMetrics: true
     }))
 
     app.use((req, res, next) => {

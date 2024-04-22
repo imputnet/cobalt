@@ -1,6 +1,16 @@
 import { genericUserAgent, maxVideoDuration } from "../../../core/config.js";
+import { Counter } from "prom-client";
 
 // TO-DO: higher quality downloads (currently requires an account)
+
+let successBilibiliStreamCount = new Counter({
+    name: "cobalt_bilibili_stream_count",
+    help: "Successful Bilibili stream counts"
+});
+let failedBilibiliStreamCount = new Counter({
+    name: "cobalt_bilibili_stream_count",
+    help: "Failed Bilibili stream counts"
+});
 
 function com_resolveShortlink(shortId) {
     return fetch(`https://b23.tv/${shortId}`, { redirect: 'manual' })
@@ -11,7 +21,7 @@ function com_resolveShortlink(shortId) {
                 if (path.startsWith('/video/'))
                     return path.split('/')[2];
             })
-            .catch(() => {})
+            .catch(() => { failedBilibiliStreamCount.inc() })
 }
 
 function getBest(content) {
@@ -96,10 +106,22 @@ export default async function({ comId, tvId, comShortLink }) {
     }
 
     if (comId) {
-        return com_download(comId);
+        let status = com_download(comId);
+        if (!status) {
+            failedBilibiliStreamCount.inc();
+        } else {
+            successBilibiliStreamCount.inc();
+        }
+        return status;
     } else if (tvId) {
-        return tv_download(tvId);
+        let status = tv_download(tvId);
+        if (!status) {
+            failedBilibiliStreamCount.inc()
+        } else {
+            successBilibiliStreamCount.inc()
+        }
+        return status
     }
-
+    failedBilibiliStreamCount.inc()
     return { error: 'ErrorCouldntFetch' };
 }
