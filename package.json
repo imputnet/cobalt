@@ -40,6 +40,6 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^6.7.0",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^9.2.0"
+        "youtubei.js": "^9.3.0"
     }
 }
