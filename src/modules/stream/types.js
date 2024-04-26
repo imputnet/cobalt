@@ -1,9 +1,11 @@
-import { spawn } from "child_process";
-import ffmpeg from "ffmpeg-static";
-import { ffmpegArgs, genericUserAgent } from "../config.js";
-import { metadataManager } from "../sub/utils.js";
 import { request } from "undici";
+import ffmpeg from "ffmpeg-static";
+import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
+
+import { metadataManager } from "../sub/utils.js";
+import { destroyInternalStream } from "./manage.js";
+import { ffmpegArgs, genericUserAgent } from "../config.js";
 
 const defaultHeaders = {
     'user-agent': genericUserAgent
@@ -67,7 +69,11 @@ function getCommand(args) {
 
 export async function streamDefault(streamInfo, res) {
     const abortController = new AbortController();
-    const shutdown = () => (closeRequest(abortController), closeResponse(res));
+    const shutdown = () => (
+        closeRequest(abortController),
+        closeResponse(res),
+        destroyInternalStream(streamInfo.urls)
+    );
 
     try {
         let filename = streamInfo.filename;
@@ -91,13 +97,12 @@ export async function streamDefault(streamInfo, res) {
     }
 }
 
-export async function streamLiveRender(streamInfo, res) {
-    let process, abortController = new AbortController();
-
+export function streamLiveRender(streamInfo, res) {
+    let process;
     const shutdown = () => (
-        closeRequest(abortController),
         killProcess(process),
-        closeResponse(res)
+        closeResponse(res),
+        streamInfo.urls.map(destroyInternalStream)
     );
 
     const headers = getHeaders(streamInfo.service);
@@ -106,19 +111,13 @@ export async function streamLiveRender(streamInfo, res) {
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
 
-        const { body: audio } = await request(streamInfo.urls[1], {
-            headers,
-            signal: abortController.signal,
-            maxRedirections: 16
-        });
-
         const format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
 
         let args = [
             '-loglevel', '-8',
             '-headers', rawHeaders,
             '-i', streamInfo.urls[0],
-            '-i', 'pipe:3',
+            '-i', streamInfo.urls[1],
             '-map', '0:v',
             '-map', '1:a',
         ]
@@ -129,25 +128,21 @@ export async function streamLiveRender(streamInfo, res) {
             args = args.concat(metadataManager(streamInfo.metadata))
         }
 
-        args.push('-f', format, 'pipe:4');
+        args.push('-f', format, 'pipe:3');
 
         process = spawn(...getCommand(args), {
             windowsHide: true,
             stdio: [
                 'inherit', 'inherit', 'inherit',
-                'pipe', 'pipe'
+                'pipe'
             ],
         });
 
-        const [,,, audioInput, muxOutput] = process.stdio;
+        const [,,, muxOutput] = process.stdio;
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        audio.on('error', shutdown);
-        audioInput.on('error', shutdown);
-
-        audio.pipe(audioInput);
         pipe(muxOutput, res, shutdown);
 
         process.on('close', shutdown);
@@ -159,7 +154,11 @@ export async function streamLiveRender(streamInfo, res) {
 
 export function streamAudioOnly(streamInfo, res) {
     let process;
-    const shutdown = () => (killProcess(process), closeResponse(res));
+    const shutdown = () => (
+        killProcess(process),
+        closeResponse(res),
+        destroyInternalStream(streamInfo.urls)
+    );
 
     try {
         let args = [
@@ -209,7 +208,11 @@ export function streamAudioOnly(streamInfo, res) {
 
 export function streamVideoOnly(streamInfo, res) {
     let process;
-    const shutdown = () => (killProcess(process), closeResponse(res));
+    const shutdown = () => (
+        killProcess(process),
+        closeResponse(res),
+        destroyInternalStream(streamInfo.urls)
+    );
 
     try {
         let args = [

@@ -11,7 +11,7 @@ import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
 import { generateHmac } from "../modules/sub/crypto.js";
-import { verifyStream } from "../modules/stream/manage.js";
+import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = process.env.CORS_WILDCARD === '0' ? {
@@ -123,13 +123,13 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.get('/api/:type', (req, res) => {
         try {
+            let j;
             switch (req.params.type) {
                 case 'stream':
                     const q = req.query;
                     const checkQueries = q.t && q.e && q.h && q.s && q.i;
                     const checkBaseLength = q.t.length === 21 && q.e.length === 13;
                     const checkSafeLength = q.h.length === 43 && q.s.length === 43 && q.i.length === 22;
-
                     if (checkQueries && checkBaseLength && checkSafeLength) {
                         let streamInfo = verifyStream(q.t, q.h, q.e, q.s, q.i);
                         if (streamInfo.error) {
@@ -141,12 +141,23 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                             });
                         }
                         return stream(res, streamInfo);
-                    } else {
-                        let j = apiJSON(0, {
-                            t: "bad request. stream link may be incomplete or corrupted."
-                        })
-                        return res.status(j.status).json(j.body);
-                    }
+                    } 
+
+                    j = apiJSON(0, {
+                        t: "bad request. stream link may be incomplete or corrupted."
+                    })
+                    return res.status(j.status).json(j.body);
+                case 'istream':
+                    if (!req.ip.endsWith('127.0.0.1'))
+                        return res.sendStatus(403);
+                    if (('' + req.query.t).length !== 21)
+                        return res.sendStatus(400);
+    
+                    let streamInfo = getInternalStream(req.query.t);
+                    if (!streamInfo) return res.sendStatus(404);
+                    streamInfo.headers = req.headers;
+    
+                    return stream(res, { type: 'internal', ...streamInfo });
                 case 'serverInfo':
                     return res.status(200).json({
                         version: version,
@@ -158,7 +169,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         startTime: `${startTimestamp}`
                     });
                 default:
-                    let j = apiJSON(0, {
+                    j = apiJSON(0, {
                         t: "unknown response type"
                     })
                     return res.status(j.status).json(j.body);
