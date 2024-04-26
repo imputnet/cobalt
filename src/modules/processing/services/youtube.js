@@ -33,7 +33,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'YTMUSIC_ANDROID');
+        info = await yt.getBasicInfo(o.id, 'WEB');
     } catch (e) {
         return { error: 'ErrorCantConnectToServiceAPI' };
     }
@@ -43,7 +43,9 @@ export default async function(o) {
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
-    let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
+    let bestQuality, hasAudio;
+
+    let adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
         e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
@@ -96,7 +98,7 @@ export default async function(o) {
     if (hasAudio && o.isAudioOnly) return {
         type: "render",
         isAudioOnly: true,
-        urls: audio.url,
+        urls: audio.decipher(yt.session.player),
         filenameAttributes: filenameAttributes,
         fileMetadata: fileMetadata
     }
@@ -108,14 +110,14 @@ export default async function(o) {
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         match = info.streaming_data.formats.find(checkSingle);
         type = "bridge";
-        urls = match?.url;
+        urls = match?.decipher(yt.session.player);
     }
 
     const video = adaptive_formats.find(checkRender);
     if (!match && video) {
         match = video;
         type = "render";
-        urls = [video.url, audio.url];
+        urls = [video.decipher(yt.session.player), audio.decipher(yt.session.player)];
     }
 
     if (match) {
