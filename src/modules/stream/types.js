@@ -5,6 +5,30 @@ import { metadataManager } from "../sub/utils.js";
 import { request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
 
+const defaultHeaders = {
+    'user-agent': genericUserAgent
+}
+const serviceHeaders = {
+    bilibili: {
+        referer: 'https://www.bilibili.com/'
+    },
+    youtube: {
+        accept: '*/*',
+        origin: 'https://www.youtube.com',
+        referer: 'https://www.youtube.com',
+        DNT: '?1'
+    }
+}
+
+function getHeaders(service) {
+    return { ...defaultHeaders, ...serviceHeaders[service] }
+}
+function toRawHeaders(headers) {
+    return Object.entries(headers)
+                 .map(([key, value]) => `${key}: ${value}\r\n`)
+                 .join('');
+}
+
 function closeRequest(controller) {
     try { controller.abort() } catch {}
 }
@@ -53,7 +77,7 @@ export async function streamDefault(streamInfo, res) {
         res.setHeader('Content-disposition', contentDisposition(filename));
 
         const { body: stream, headers } = await request(streamInfo.urls, {
-            headers: { 'user-agent': genericUserAgent },
+            headers: getHeaders(streamInfo.service),
             signal: abortController.signal,
             maxRedirections: 16
         });
@@ -68,49 +92,43 @@ export async function streamDefault(streamInfo, res) {
 }
 
 export async function streamLiveRender(streamInfo, res) {
-    let abortController = new AbortController(), process;
+    let process, abortController = new AbortController();
+
     const shutdown = () => (
         closeRequest(abortController),
         killProcess(process),
         closeResponse(res)
     );
 
+    const headers = getHeaders(streamInfo.service);
+    const rawHeaders = toRawHeaders(headers);
+
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
 
         const { body: audio } = await request(streamInfo.urls[1], {
-            maxRedirections: 16, signal: abortController.signal,
-            headers: {
-                'user-agent': genericUserAgent,
-                referer: streamInfo.service === 'bilibili'
-                            ? 'https://www.bilibili.com/'
-                            : undefined,
-            }
+            headers,
+            signal: abortController.signal,
+            maxRedirections: 16
         });
 
         const format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
+
         let args = [
             '-loglevel', '-8',
-            '-user_agent', genericUserAgent
-        ];
-
-        if (streamInfo.service === 'bilibili') {
-            args.push(
-                '-headers', 'Referer: https://www.bilibili.com/\r\n',
-            )
-        }
-
-        args.push(
+            '-headers', rawHeaders,
             '-i', streamInfo.urls[0],
             '-i', 'pipe:3',
             '-map', '0:v',
             '-map', '1:a',
-        );
+        ]
 
         args = args.concat(ffmpegArgs[format]);
+
         if (streamInfo.metadata) {
             args = args.concat(metadataManager(streamInfo.metadata))
         }
+
         args.push('-f', format, 'pipe:4');
 
         process = spawn(...getCommand(args), {
@@ -128,6 +146,7 @@ export async function streamLiveRender(streamInfo, res) {
 
         audio.on('error', shutdown);
         audioInput.on('error', shutdown);
+
         audio.pipe(audioInput);
         pipe(muxOutput, res, shutdown);
 
@@ -145,13 +164,11 @@ export function streamAudioOnly(streamInfo, res) {
     try {
         let args = [
             '-loglevel', '-8',
-            '-user_agent', genericUserAgent
-        ];
+            '-headers', toRawHeaders(getHeaders(streamInfo.service)),
+        ]
 
         if (streamInfo.service === "twitter") {
             args.push('-seekable', '0');
-        } else if (streamInfo.service === 'bilibili') {
-            args.push('-headers', 'Referer: https://www.bilibili.com/\r\n');
         }
 
         args.push(
@@ -162,12 +179,12 @@ export function streamAudioOnly(streamInfo, res) {
         if (streamInfo.metadata) {
             args = args.concat(metadataManager(streamInfo.metadata))
         }
-        let arg = streamInfo.copy ? ffmpegArgs["copy"] : ffmpegArgs["audio"];
-        args = args.concat(arg);
 
+        args = args.concat(ffmpegArgs[streamInfo.copy ? 'copy' : 'audio']);
         if (ffmpegArgs[streamInfo.audioFormat]) {
             args = args.concat(ffmpegArgs[streamInfo.audioFormat])
         }
+
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
         process = spawn(...getCommand(args), {
@@ -196,13 +213,12 @@ export function streamVideoOnly(streamInfo, res) {
 
     try {
         let args = [
-            '-loglevel', '-8'
+            '-loglevel', '-8',
+            '-headers', toRawHeaders(getHeaders(streamInfo.service)),
         ]
 
         if (streamInfo.service === "twitter") {
             args.push('-seekable', '0')
-        } else if (streamInfo.service === 'bilibili') {
-            args.push('-headers', 'Referer: https://www.bilibili.com/\r\n')
         }
 
         args.push(
@@ -222,6 +238,7 @@ export function streamVideoOnly(streamInfo, res) {
         if (format === "mp4") {
             args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
         }
+
         args.push('-f', format, 'pipe:3');
 
         process = spawn(...getCommand(args), {
@@ -254,10 +271,12 @@ export function convertToGif(streamInfo, res) {
         let args = [
             '-loglevel', '-8'
         ]
+
         if (streamInfo.service === "twitter") {
             args.push('-seekable', '0')
         }
-        args.push('-i', streamInfo.urls)
+
+        args.push('-i', streamInfo.urls);
         args = args.concat(ffmpegArgs["gif"]);
         args.push('-f', "gif", 'pipe:3');
 
