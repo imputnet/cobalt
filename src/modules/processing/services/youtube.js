@@ -33,7 +33,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'ANDROID');
+        info = await yt.getBasicInfo(o.id, 'YTMUSIC_ANDROID');
     } catch (e) {
         return { error: 'ErrorCantConnectToServiceAPI' };
     }
