@@ -58,7 +58,11 @@ async function handleYoutubeStream(streamInfo, res) {
 
         const stream = chunkedStream(streamInfo, size);
 
-        res.setHeader('content-type', req.headers.get('content-type'));
+        for (const headerName of ['content-type', 'content-length']) {
+            const headerValue = req.headers.get(headerName);
+            if (headerValue) res.setHeader(headerName, headerValue);
+        }
+
         stream.pipe(res);
         stream.on('error', () => res.destroy());
     } catch {
