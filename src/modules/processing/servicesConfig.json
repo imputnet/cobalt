@@ -67,7 +67,7 @@
             "enabled": false
         },
         "vimeo": {
-            "patterns": [":id", "video/:id", ":id/:password"],
+            "patterns": [":id", "video/:id", ":id/:password", "/channels/:user/:id"],
             "enabled": true,
             "bestAudio": "mp3"
         },
