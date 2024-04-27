@@ -1,7 +1,7 @@
-import { request } from 'undici'
-import { Readable } from 'node:stream'
-import { assert } from 'console'
-import { getHeaders } from './shared.js'
+import { request } from 'undici';
+import { Readable } from 'node:stream';
+import { assert } from 'console';
+import { getHeaders } from './shared.js';
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;

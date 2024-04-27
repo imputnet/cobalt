@@ -1,5 +1,5 @@
 import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly, convertToGif } from "./types.js";
-import { internalStream } from './internal.js'
+import { internalStream } from './internal.js';
 
 export default async function(res, streamInfo) {
     try {
@@ -24,7 +24,7 @@ export default async function(res, streamInfo) {
                 await streamDefault(streamInfo, res);
                 break;
         }
-    } catch (e) {
+    } catch {
         res.status(500).json({ status: "error", text: "Internal Server Error" });
     }
 }
