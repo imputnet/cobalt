@@ -79,6 +79,7 @@ export function createInternalStream(obj = {}) {
     const streamID = nanoid();
     internalStreamCache[streamID] = {
         url: obj.url,
+        service: obj.service,
         controller: new AbortController()
     };
 
@@ -117,10 +118,16 @@ export function verifyStream(id, hmac, exp, secret, iv) {
         }        
 
         if (typeof streamInfo.originalUrls === 'string') {
-            streamInfo.urls = createInternalStream({ url: streamInfo.originalUrls });
+            streamInfo.urls = createInternalStream({
+                url: streamInfo.originalUrls,
+                ...streamInfo
+            });
         } else if (Array.isArray(streamInfo.originalUrls)) {
             for (const idx in streamInfo.originalUrls) {
-                streamInfo.originalUrls[idx] = createInternalStream({ url: streamInfo.originalUrls[idx] });
+                streamInfo.originalUrls[idx] = createInternalStream({
+                    url: streamInfo.originalUrls[idx],
+                    ...streamInfo
+                });
             }
         } else throw 'invalid urls';
 
