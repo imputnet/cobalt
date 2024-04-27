@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
+import { strict as assert } from "assert";
 
 const streamNoAccess = {
     error: "i couldn't verify if you have access to this stream. go back and try again!",
@@ -24,6 +25,7 @@ streamCache.on("expired", (key) => {
     streamCache.del(key);
 })
 
+const internalStreamCache = {};
 const hmacSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
@@ -67,6 +69,35 @@ export function createStream(obj) {
     return streamLink.toString();
 }
 
+export function getInternalStream(id) {
+    return internalStreamCache[id];
+}
+
+export function createInternalStream(obj = {}) {
+    assert(typeof obj.url === 'string');
+
+    const streamID = nanoid();
+    internalStreamCache[streamID] = {
+        url: obj.url,
+        service: obj.service,
+        controller: new AbortController()
+    };
+
+    let streamLink = new URL('/api/istream', `http://127.0.0.1:${process.env.API_PORT}`);
+    streamLink.searchParams.set('t', streamID);
+    return streamLink.toString();
+}
+
+export function destroyInternalStream(url) {
+    const id = new URL(url).searchParams.get('t');
+    assert(id);
+
+    if (internalStreamCache[id]) {
+        internalStreamCache[id].controller.abort();
+        delete internalStreamCache[id];
+    }
+}
+
 export function verifyStream(id, hmac, exp, secret, iv) {
     try {
         const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
@@ -82,9 +113,27 @@ export function verifyStream(id, hmac, exp, secret, iv) {
         if (Number(exp) <= new Date().getTime())
             return streamNoExist;
 
+        if (!streamInfo.originalUrls) {
+            streamInfo.originalUrls = streamInfo.urls;
+        }        
+
+        if (typeof streamInfo.originalUrls === 'string') {
+            streamInfo.urls = createInternalStream({
+                url: streamInfo.originalUrls,
+                ...streamInfo
+            });
+        } else if (Array.isArray(streamInfo.originalUrls)) {
+            for (const idx in streamInfo.originalUrls) {
+                streamInfo.originalUrls[idx] = createInternalStream({
+                    url: streamInfo.originalUrls[idx],
+                    ...streamInfo
+                });
+            }
+        } else throw 'invalid urls';
+
         return streamInfo;
     }
-    catch (e) {
+    catch {
         return {
             error: "something went wrong and i couldn't verify this stream. go back and try again!",
             status: 500

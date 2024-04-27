@@ -23,7 +23,9 @@ const c = {
 }
 
 export default async function(o) {
-    let info, isDubbed, quality = o.quality === "max" ? "9000" : o.quality; //set quality 9000(p) to be interpreted as max
+    let info, isDubbed,
+        quality = o.quality === "max" ? "9000" : o.quality; // 9000(p) - max quality
+
     function qual(i) {
         if (!i.quality_label) {
             return;
@@ -33,7 +35,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'ANDROID');
+        info = await yt.getBasicInfo(o.id, 'WEB');
     } catch (e) {
         return { error: 'ErrorCantConnectToServiceAPI' };
     }
@@ -43,7 +45,18 @@ export default async function(o) {
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
-    let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
+    // return a critical error if returned video is "Video Not Available"
+    // or a similar stub by youtube
+    if (info.basic_info.id !== o.id) {
+        return {
+            error: 'ErrorCantConnectToServiceAPI',
+            critical: true
+        }
+    }
+
+    let bestQuality, hasAudio;
+
+    let adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
         e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
@@ -87,16 +100,10 @@ export default async function(o) {
         youtubeDubName: isDubbed ? o.dubLang : false
     }
 
-    if (filenameAttributes.title === "Video Not Available" && filenameAttributes.author === "YouTube Viewers")
-        return {
-            error: 'ErrorCantConnectToServiceAPI',
-            critical: true
-        }
-
     if (hasAudio && o.isAudioOnly) return {
         type: "render",
         isAudioOnly: true,
-        urls: audio.url,
+        urls: audio.decipher(yt.session.player),
         filenameAttributes: filenameAttributes,
         fileMetadata: fileMetadata
     }
@@ -108,14 +115,14 @@ export default async function(o) {
     if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
         match = info.streaming_data.formats.find(checkSingle);
         type = "bridge";
-        urls = match?.url;
+        urls = match?.decipher(yt.session.player);
     }
 
     const video = adaptive_formats.find(checkRender);
     if (!match && video) {
         match = video;
         type = "render";
-        urls = [video.url, audio.url];
+        urls = [video.decipher(yt.session.player), audio.decipher(yt.session.player)];
     }
 
     if (match) {
