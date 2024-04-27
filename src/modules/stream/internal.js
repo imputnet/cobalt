@@ -77,7 +77,10 @@ export async function internalStream(streamInfo, res) {
 
     try {
         const req = await request(streamInfo.url, {
-            headers: streamInfo.headers,
+            headers: {
+                ...streamInfo.headers,
+                host: undefined
+            },
             signal: streamInfo.controller.signal,
             maxRedirections: 16
         });
