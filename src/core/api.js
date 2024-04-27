@@ -131,14 +131,14 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                     const checkBaseLength = q.t.length === 21 && q.e.length === 13;
                     const checkSafeLength = q.h.length === 43 && q.s.length === 43 && q.i.length === 22;
                     if (checkQueries && checkBaseLength && checkSafeLength) {
-                        let streamInfo = verifyStream(q.t, q.h, q.e, q.s, q.i);
-                        if (streamInfo.error) {
-                            return res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
-                        }
                         if (q.p) {
                             return res.status(200).json({
                                 status: "continue"
-                            });
+                            })
+                        }
+                        let streamInfo = verifyStream(q.t, q.h, q.e, q.s, q.i);
+                        if (streamInfo.error) {
+                            return res.status(streamInfo.status).json(apiJSON(0, { t: streamInfo.error }).body);
                         }
                         return stream(res, streamInfo);
                     } 
