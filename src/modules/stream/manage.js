@@ -133,7 +133,7 @@ export function verifyStream(id, hmac, exp, secret, iv) {
 
         return streamInfo;
     }
-    catch (e) {
+    catch {
         return {
             error: "something went wrong and i couldn't verify this stream. go back and try again!",
             status: 500
