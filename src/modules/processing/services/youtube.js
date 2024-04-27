@@ -23,7 +23,9 @@ const c = {
 }
 
 export default async function(o) {
-    let info, isDubbed, quality = o.quality === "max" ? "9000" : o.quality; //set quality 9000(p) to be interpreted as max
+    let info, isDubbed,
+        quality = o.quality === "max" ? "9000" : o.quality; // 9000(p) - max quality
+
     function qual(i) {
         if (!i.quality_label) {
             return;
@@ -42,6 +44,15 @@ export default async function(o) {
 
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
+
+    // return a critical error if returned video is "Video Not Available"
+    // or a similar stub by youtube
+    if (info.basic_info.id !== o.id) {
+        return {
+            error: 'ErrorCantConnectToServiceAPI',
+            critical: true
+        }
+    }
 
     let bestQuality, hasAudio;
 
@@ -88,12 +99,6 @@ export default async function(o) {
         author: fileMetadata.artist,
         youtubeDubName: isDubbed ? o.dubLang : false
     }
-
-    if (filenameAttributes.title === "Video Not Available" && filenameAttributes.author === "YouTube Viewers")
-        return {
-            error: 'ErrorCantConnectToServiceAPI',
-            critical: true
-        }
 
     if (hasAudio && o.isAudioOnly) return {
         type: "render",
