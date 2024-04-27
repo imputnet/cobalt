@@ -88,8 +88,11 @@ export async function streamDefault(streamInfo, res) {
             maxRedirections: 16
         });
 
-        res.setHeader('content-type', headers['content-type']);
-        res.setHeader('content-length', headers['content-length']);
+        for (const headerName of ['content-type', 'content-length']) {
+            if (headers[headerName]) {
+                res.setHeader(headerName, headers[headerName]);
+            }
+        }
 
         pipe(stream, res, shutdown);
     } catch {
