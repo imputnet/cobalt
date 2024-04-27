@@ -6,6 +6,8 @@ import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { streamLifespan } from "../config.js";
 import { strict as assert } from "assert";
 
+const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
+
 const streamNoAccess = {
     error: "i couldn't verify if you have access to this stream. go back and try again!",
     status: 401
@@ -73,12 +75,12 @@ export function getInternalStream(id) {
     return internalStreamCache[id];
 }
 
-export function createInternalStream(obj = {}) {
-    assert(typeof obj.url === 'string');
+export function createInternalStream(url, obj = {}) {
+    assert(typeof url === 'string');
 
     const streamID = nanoid();
     internalStreamCache[streamID] = {
-        url: obj.url,
+        url,
         service: obj.service,
         controller: new AbortController()
     };
@@ -89,13 +91,39 @@ export function createInternalStream(obj = {}) {
 }
 
 export function destroyInternalStream(url) {
-    const id = new URL(url).searchParams.get('t');
-    assert(id);
+    url = new URL(url);
+    if (url.hostname !== '127.0.0.1') {
+        return;
+    }
+
+    const id = url.searchParams.get('t');
 
     if (internalStreamCache[id]) {
         internalStreamCache[id].controller.abort();
         delete internalStreamCache[id];
     }
+}
+
+function wrapStream(streamInfo) {
+    /* m3u8 links are currently not supported
+     * for internal streams, skip them */
+    if (M3U_SERVICES.includes(streamInfo.service)) {
+        return streamInfo;
+    }
+
+    const url = streamInfo.urls;
+
+    if (typeof url === 'string') {
+        streamInfo.urls = createInternalStream(url, streamInfo);
+    } else if (Array.isArray(url)) {
+        for (const idx in streamInfo.urls) {
+            streamInfo.urls[idx] = createInternalStream(
+                streamInfo.urls[idx], streamInfo
+            );
+        }
+    } else throw 'invalid urls';
+
+    return streamInfo;
 }
 
 export function verifyStream(id, hmac, exp, secret, iv) {
@@ -113,25 +141,7 @@ export function verifyStream(id, hmac, exp, secret, iv) {
         if (Number(exp) <= new Date().getTime())
             return streamNoExist;
 
-        if (!streamInfo.originalUrls) {
-            streamInfo.originalUrls = streamInfo.urls;
-        }        
-
-        if (typeof streamInfo.originalUrls === 'string') {
-            streamInfo.urls = createInternalStream({
-                url: streamInfo.originalUrls,
-                ...streamInfo
-            });
-        } else if (Array.isArray(streamInfo.originalUrls)) {
-            for (const idx in streamInfo.originalUrls) {
-                streamInfo.originalUrls[idx] = createInternalStream({
-                    url: streamInfo.originalUrls[idx],
-                    ...streamInfo
-                });
-            }
-        } else throw 'invalid urls';
-
-        return streamInfo;
+        return wrapStream(streamInfo);
     }
     catch {
         return {
