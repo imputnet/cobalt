@@ -7,6 +7,7 @@
                 "video/:comId", "_shortLink/:comShortLink",
                 "_tv/:lang/video/:tvId", "_tv/video/:tvId"
             ],
+            "subdomains": ["m"],
             "enabled": true
         },
         "reddit": {
