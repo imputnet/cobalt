@@ -5,26 +5,9 @@ import { create as contentDisposition } from "content-disposition-header";
 
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
-import { ffmpegArgs, genericUserAgent } from "../config.js";
+import { ffmpegArgs } from "../config.js";
+import { getHeaders } from "./shared.js";
 
-const defaultHeaders = {
-    'user-agent': genericUserAgent
-}
-const serviceHeaders = {
-    bilibili: {
-        referer: 'https://www.bilibili.com/'
-    },
-    youtube: {
-        accept: '*/*',
-        origin: 'https://www.youtube.com',
-        referer: 'https://www.youtube.com',
-        DNT: '?1'
-    }
-}
-
-function getHeaders(service) {
-    return { ...defaultHeaders, ...serviceHeaders[service] }
-}
 function toRawHeaders(headers) {
     return Object.entries(headers)
                  .map(([key, value]) => `${key}: ${value}\r\n`)
