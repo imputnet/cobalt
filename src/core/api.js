@@ -14,7 +14,7 @@ import { generateHmac } from "../modules/sub/crypto.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
-    const corsConfig = env.corsWildcard ? {
+    const corsConfig = !env.corsWildcard ? {
         origin: env.corsURL,
         optionsSuccessStatus: 200
     } : {};
