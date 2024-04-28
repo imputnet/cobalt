@@ -1,4 +1,4 @@
-import { genericUserAgent } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 
 const shortDomain = "https://vt.tiktok.com/";
 const apiPath = "https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/?region=US&carrier_region=US";
@@ -7,7 +7,7 @@ const apiUserAgent = "TikTok/338014 CFNetwork/1410.1 Darwin/22.6.0";
 export default async function(obj) {
     let postId = obj.postId ? obj.postId : false;
 
-    if (!process.env.TIKTOK_DEVICE_INFO) return { error: 'ErrorCouldntFetch' };
+    if (!env.tiktokDeviceInfo) return { error: 'ErrorCouldntFetch' };
 
     if (!postId) {
         let html = await fetch(`${shortDomain}${obj.id}`, {
@@ -27,8 +27,7 @@ export default async function(obj) {
     }
     if (!postId) return { error: 'ErrorCantGetID' };
 
-    let deviceInfo = JSON.parse(process.env.TIKTOK_DEVICE_INFO);
-        deviceInfo = new URLSearchParams(deviceInfo).toString();
+    let deviceInfo = new URLSearchParams(env.tiktokDeviceInfo).toString();
 
     let apiURL = new URL(apiPath);
         apiURL.searchParams.append("aweme_id", postId);

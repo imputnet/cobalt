@@ -3,7 +3,7 @@ import { randomBytes } from "crypto";
 import { nanoid } from 'nanoid';
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { streamLifespan } from "../config.js";
+import { streamLifespan, env } from "../config.js";
 import { strict as assert } from "assert";
 
 const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
@@ -54,7 +54,7 @@ export function createStream(obj) {
         encryptStream(streamData, iv, secret)
     )
 
-    let streamLink = new URL('/api/stream', process.env.API_URL);
+    let streamLink = new URL('/api/stream', env.apiURL);
 
     const params = {
         't': streamID,
@@ -85,7 +85,7 @@ export function createInternalStream(url, obj = {}) {
         controller: new AbortController()
     };
 
-    let streamLink = new URL('/api/istream', `http://127.0.0.1:${process.env.API_PORT || 9000}`);
+    let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);
     streamLink.searchParams.set('t', streamID);
     return streamLink.toString();
 }

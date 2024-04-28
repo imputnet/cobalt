@@ -1,5 +1,5 @@
 import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag, linkSVG } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio, links } from "../config.js";
+import { services as s, authorInfo, version, repo, donations, supportedAudio, links, env } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
@@ -48,10 +48,10 @@ export default function(obj) {
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.WEB_URL}">
+        <meta property="og:url" content="${env.webURL}">
         <meta property="og:title" content="${t("AppTitleCobalt")}">
         <meta property="og:description" content="${t('EmbedBriefDescription')}">
-        <meta property="og:image" content="${process.env.WEB_URL}icons/generic.png">
+        <meta property="og:image" content="${env.webURL}icons/generic.png">
         <meta name="title" content="${t("AppTitleCobalt")}">
         <meta name="description" content="${t('AboutSummary')}">
         <meta name="theme-color" content="#000000">
@@ -75,11 +75,11 @@ export default function(obj) {
         <link rel="preload" href="assets/meowbalt/error.png" as="image">
         <link rel="preload" href="assets/meowbalt/question.png" as="image">
 
-        ${process.env.PLAUSIBLE_HOSTNAME ?
+        ${env.plausibleHostname ?
             `<script 
                 defer 
-                data-domain="${new URL(process.env.WEB_URL).hostname}" 
-                src="https://${process.env.PLAUSIBLE_HOSTNAME}/js/script.js"
+                data-domain="${new URL(env.webURL).hostname}" 
+                src="https://${env.plausibleHostname}/js/script.js"
             ></script>`
         : ''}
     </head>
@@ -169,7 +169,7 @@ export default function(obj) {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
                             body: t("PrivacyPolicy") + `${
-                                process.env.PLAUSIBLE_HOSTNAME ? `<br><br>${t("AnalyticsDescription")}` : ''
+                                env.plausibleHostname ? `<br><br>${t("AnalyticsDescription")}` : ''
                             }`
                         }, {
                             name: "legal",
@@ -177,7 +177,7 @@ export default function(obj) {
                             body: t("FairUse")
                         }])
                     },
-                    ...(process.env.SHOW_SPONSORS ?
+                    ...(env.showSponsors ?
                     [{
                         text: t("SponsoredBy"),
                         classes: ["sponsored-by-text"],
@@ -499,7 +499,7 @@ export default function(obj) {
                     }])
                 })
                 + (() => {
-                    if (process.env.PLAUSIBLE_HOSTNAME) {
+                    if (env.plausibleHostname) {
                         return settingsCategory({
                             name: "privacy",
                             title: t('PrivateAnalytics'),
@@ -629,7 +629,7 @@ export default function(obj) {
             </footer>
         </div>
         <script>
-            let defaultApiUrl = '${process.env.API_URL || ''}';
+            let defaultApiUrl = '${env.apiURL}';
             const loc = ${webLoc(t,
             [
                 'ErrorNoInternet',

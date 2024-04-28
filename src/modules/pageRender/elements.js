@@ -1,4 +1,4 @@
-import { authorInfo, celebrations, sponsors } from "../config.js";
+import { authorInfo, celebrations, sponsors, env } from "../config.js";
 import emoji from "../emoji.js";
 import { loadFile } from "../sub/loadFromFs.js";
 
@@ -266,5 +266,5 @@ export function sponsoredList() {
 }
 
 export function betaTag() {
-    return process.env.IS_BETA ? '<span class="logo-sub">β</span>' : ''
+    return env.isBeta ? '<span class="logo-sub">β</span>' : ''
 }
