@@ -21,7 +21,7 @@ const
         webURL: process.env.WEB_URL || '',
         showSponsors: !!process.env.SHOW_SPONSORS,
         isBeta: !!process.env.IS_BETA,
-        plausibleHostname: process.env.PLAUSIBLE_HOSTNAME || '',
+        plausibleHostname: process.env.PLAUSIBLE_HOSTNAME,
         apiURL
     },
 
@@ -30,8 +30,8 @@ const
         apiPort: process.env.API_PORT || 9000,
         apiName: process.env.API_NAME || 'unknown',
         corsWildcard: process.env.CORS_WILDCARD !== '0',
-        corsURL: process.env.CORS_URL || '',
-        cookiePath: process.env.COOKIE_PATH || '',
+        corsURL: process.env.CORS_URL,
+        cookiePath: process.env.COOKIE_PATH,
         processingPriority: process.env.PROCESSING_PRIORITY && parseInt(process.env.PROCESSING_PRIORITY),
         tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
         apiURL
@@ -52,6 +52,6 @@ export const
     celebrations = config.celebrations,
     links = config.links,
     sponsors = config.sponsors,
-    mode = (process.env.API_URL && !process.env.WEB_URL) ? 'API' :
-        (process.env.WEB_URL && process.env.API_URL) ? 'WEB' : undefined,
+    mode = (apiURL && !webEnvs.webURL) ? 'API' :
+        (webEnvs.webURL && apiURL) ? 'WEB' : undefined,
     env = mode === 'API' ? apiEnvs : webEnvs
