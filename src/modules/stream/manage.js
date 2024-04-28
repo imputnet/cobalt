@@ -85,7 +85,7 @@ export function createInternalStream(url, obj = {}) {
         controller: new AbortController()
     };
 
-    let streamLink = new URL('/api/istream', `http://127.0.0.1:${process.env.API_PORT}`);
+    let streamLink = new URL('/api/istream', `http://127.0.0.1:${process.env.API_PORT || 9000}`);
     streamLink.searchParams.set('t', streamID);
     return streamLink.toString();
 }
