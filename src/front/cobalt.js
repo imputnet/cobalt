@@ -245,6 +245,7 @@ const hideAllPopups = () => {
 const popup = (type, action, text) => {
     if (action === 1) {
         hideAllPopups(); // hide the previous popup before showing a new one
+        history.pushState(type, "");
         store.isPopupOpen = true;
         switch (type) {
             case "about":
@@ -306,6 +307,7 @@ const popup = (type, action, text) => {
         }
     } else {
         store.isPopupOpen = false;
+        history.back();
         if (type === "picker") {
             eid("picker-download").href = '/';
             eid("picker-download").classList.remove("visible");
@@ -651,6 +653,11 @@ document.onkeydown = (e) => {
         if (e.key === "M") popup('settings', 1);
         
     } else {
-        if (e.key === "Escape") hideAllPopups();
+        if (e.key === "Escape") history.back();
     }
 }
+window.addEventListener("popstate", (e) => {
+    if (store.isPopupOpen) {
+        hideAllPopups();
+    }
+})
