@@ -1,9 +1,29 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag, linkSVG } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio, links, env } from "../config.js";
+import { services as s, version, repo, donations, supportedAudio, links, env } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
 import changelogManager from "../changelog/changelogManager.js";
+
+import {
+    checkbox,
+    collapsibleList,
+    explanation,
+    footerButtons,
+    multiPagePopup,
+    popup,
+    popupWithBottomButtons, 
+    sep,
+    settingsCategory,
+    switcher,
+    socialLink,
+    socialLinks,
+    urgentNotice,
+    keyboardShortcuts,
+    webLoc,
+    sponsoredList,
+    betaTag,
+    linkSVG
+} from "./elements.js";
 
 let com = getCommitInfo();
 
@@ -98,7 +118,7 @@ export default function(obj) {
                     header: {
                         aboveTitle: {
                             text: t('MadeWithLove'),
-                            url: authorInfo.link
+                            url: repo
                         },
                         closeAria: t('AccessibilityGoBack'),
                         title: `${emoji("🔮", 30)} ${t('TitlePopupAbout')}`
@@ -285,12 +305,6 @@ export default function(obj) {
                     }, {
                         text: donate.replace(/REPLACEME/g, t('ClickToCopy')),
                         classes: ["desc-padding"]
-                    }, {
-                        text: sep(),
-                        raw: true
-                    }, {
-                        text: t('DonateHireMe', authorInfo.link),
-                        classes: ["desc-padding"]
                     }]
                 })
             }],
@@ -339,16 +353,6 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "twitter",
-                    title: "twitter",
-                    body: checkbox([{
-                        action: "twitterGif",
-                        name: t("SettingsTwitterGif"),
-                        padding: "no-margin"
-                    }])
-                    + explanation(t('SettingsTwitterGifDescription'))
-                })
-                + settingsCategory({
                     name: "codec",
                     title: t('SettingsCodecSubtitle'),
                     body: switcher({
@@ -367,19 +371,24 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "vimeo",
-                    title: t('SettingsVimeoPrefer'),
-                    body: switcher({
-                        name: "vimeoDash",
-                        explanation: t('SettingsVimeoPreferDescription'),
-                        items: [{
-                            action: "false",
-                            text: "progressive"
-                        }, {
-                            action: "true",
-                            text: "dash"
-                        }]
-                    })
+                    name: "twitter",
+                    title: "twitter",
+                    body: checkbox([{
+                        action: "twitterGif",
+                        name: t("SettingsTwitterGif"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTwitterGifDescription'))
+                })
+                + settingsCategory({
+                    name: "tiktok",
+                    title: "tiktok",
+                    body: checkbox([{
+                        action: "tiktokH265",
+                        name: t("SettingsTikTokH265"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTikTokH265Description'))
                 })
             }, {
                 name: "audio",
@@ -401,19 +410,14 @@ export default function(obj) {
                     + explanation(t('SettingsVideoMuteExplanation'))
                 })
                 + settingsCategory({
-                    name: "dub",
+                    name: "youtube-dub",
                     title: t("SettingsAudioDub"),
-                    body: switcher({
-                        name: "dubLang",
-                        explanation: t('SettingsAudioDubDescription'),
-                        items: [{
-                            action: "original",
-                            text: t('SettingsDubDefault')
-                        }, {
-                            action: "auto",
-                            text: t('SettingsDubAuto')
-                        }]
-                    })
+                    body: checkbox([{
+                        action: "ytDub",
+                        name: t("SettingsYoutubeDub"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsYoutubeDubDescription'))
                 })
                 + settingsCategory({
                     name: "tiktok-audio",
