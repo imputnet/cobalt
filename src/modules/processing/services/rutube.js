@@ -4,10 +4,10 @@ import { maxVideoDuration } from "../../config.js";
 import { cleanString } from '../../sub/utils.js';
 
 async function requestJSON(url) {
-    let r = await fetch(url)
-            .then((r) => { return r.json() })
-            .catch(() => {});
-    return r
+    try {
+        const r = await fetch(url);
+        return await r.json();
+    } catch {}
 }
 
 export default async function(obj) {
