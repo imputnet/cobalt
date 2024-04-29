@@ -19,7 +19,7 @@ export const testers = {
         patternMatch.sub?.length <= 22 && patternMatch.id?.length <= 10,
 
     "rutube": (patternMatch) =>
-        patternMatch.id?.length === 32,
+        patternMatch.id?.length === 32 || patternMatch.yappyId?.length === 32,
 
     "soundcloud": (patternMatch) =>
         (patternMatch.author?.length <= 255 && patternMatch.song?.length <= 255) 

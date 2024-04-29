@@ -1,22 +1,16 @@
 import { genericUserAgent } from "../../config.js";
 
-const videoLinkBase = {
-    "regular": "https://v1.pinimg.com/videos/mc/720p/",
-    "story": "https://v1.pinimg.com/videos/mc/720p/"
-}
+const linkRegex = /"url":"(https:\/\/v1.pinimg.com\/videos\/.*?)"/g;
 
 export default async function(o) {
-    let id = o.id, type = "regular";
+    let id = o.id;
 
     if (!o.id && o.shortLink) {
         id = await fetch(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`, { redirect: "manual" }).then((r) => {
             return r.headers.get("location").split('pin/')[1].split('/')[0]
         }).catch(() => {});
     }
-    if (id.includes("--")) {
-        id = id.split("--")[1];
-        type = "story";
-    }
+    if (id.includes("--")) id = id.split("--")[1];
     if (!id) return { error: 'ErrorCouldntFetch' };
 
     let html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
@@ -25,11 +19,14 @@ export default async function(o) {
 
     if (!html) return { error: 'ErrorCouldntFetch' };
 
-    let videoLink = html.split(`"url":"${videoLinkBase[type]}`)[1]?.split('"')[0];
-    if (!html.includes(videoLink)) return { error: 'ErrorEmptyDownload' };
+    let videoLink = [...html.matchAll(linkRegex)]
+                    .map(([, link]) => link)
+                    .filter(a => a.endsWith('.mp4') && a.includes('720p'))[0];
+
+    if (!videoLink) return { error: 'ErrorEmptyDownload' };
 
     return {
-        urls: `${videoLinkBase[type]}${videoLink}`,
+        urls: videoLink,
         filename: `pinterest_${o.id}.mp4`,
         audioFilename: `pinterest_${o.id}_audio`
     }

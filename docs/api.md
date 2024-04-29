@@ -32,7 +32,7 @@ Content-Type: application/json
 | `dubLang`         | `boolean` | `true / false`                     | `false`   | backend uses Accept-Language header for youtube video audio tracks when `true`. |
 | `disableMetadata` | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                      |
 | `twitterGif`      | `boolean` | `true / false`                     | `false`   | changes whether twitter gifs are converted to .gif                              |
-| `vimeoDash`       | `boolean` | `true / false`                     | `false`   | changes whether streamed file type is preferred for vimeo videos.               |
+| `tiktokH265`      | `boolean` | `true / false`                     | `false`   | changes whether 1080p h265 videos are preferred or not.                         |
 
 ### response body variables
 | key          | type     | variables                                                   |
