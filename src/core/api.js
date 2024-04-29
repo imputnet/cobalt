@@ -33,7 +33,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
     });
     const apiLimiterStream = rateLimit({
-        windowMs: 60000,
+        windowMs: 180000,
         max: 25,
         standardHeaders: true,
         legacyHeaders: false,
