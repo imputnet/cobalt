@@ -64,6 +64,12 @@ export function aliasURL(url) {
             if (url.hostname === 'dai.ly' && parts.length === 2) {
                 url = new URL(`https://dailymotion.com/video/${parts[1]}`)
             }
+            break;
+        case "ddinstagram":
+            if (services.instagram.altDomains.includes(host.domain) && [null, 'd', 'g'].includes(host.subdomain)) {
+                url.hostname = 'instagram.com';
+            }
+            break;
     }
 
     return url
