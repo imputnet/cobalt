@@ -96,23 +96,17 @@ async function requestMobileApi(id, cookie) {
             ...mobileHeaders,
             cookie
         }
-    }).then(r => r.text());
+    }).then(r => r.json()).catch(() => {});
 
-    let parsedOembed;
-    try {
-        parsedOembed = JSON.parse(oembed)
-    } catch {
-        return false;
-    }
-    const mediaId = parsedOembed?.media_id;
-
+    const mediaId = oembed?.media_id;
     if (!mediaId) return false;
+
     const mediaInfo = await fetch(`https://i.instagram.com/api/v1/media/${mediaId}/info/`, {
         headers: {
             ...mobileHeaders,
             cookie
         }
-    }).then(r => r.json());
+    }).then(r => r.json()).catch(() => {});
 
     return mediaInfo?.items?.[0];
 }
@@ -122,7 +116,7 @@ async function requestHTML(id, cookie) {
             ...embedHeaders,
             cookie
         }
-    }).then(r => r.text());
+    }).then(r => r.text()).catch(() => {});
 
     let embedData = JSON.parse(data?.match(/"init",\[\],\[(.*?)\]\],/)[1]);
 
@@ -239,7 +233,7 @@ function extractNewPost(data, id) {
 }
 
 async function getPost(id) {
-    let data, result, dataType = 'new';
+    let data, result;
     try {
         const cookie = getCookie('instagram');
 
@@ -259,13 +253,9 @@ async function getPost(id) {
     if (!data) return { error: 'ErrorCouldntFetch' };
 
     if (data?.gql_data) {
-        dataType = 'old'
-    }
-
-    if (dataType === 'new') {
-        result = extractNewPost(data, id)
-    } else {
         result = extractOldPost(data, id)
+    } else {
+        result = extractNewPost(data, id)
     }
 
     if (result) return result;
