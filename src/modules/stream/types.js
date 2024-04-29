@@ -103,6 +103,7 @@ export function streamLiveRender(streamInfo, res) {
             '-loglevel', '-8',
             '-headers', rawHeaders,
             '-i', streamInfo.urls[0],
+            '-headers', rawHeaders,
             '-i', streamInfo.urls[1],
             '-map', '0:v',
             '-map', '1:a',
