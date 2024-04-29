@@ -140,9 +140,7 @@ const copy = (id, data) => {
     }
 }
 
-const share = async(url) => {
-    try { await navigator.share({url: url}) } catch {}
-}
+const share = url => navigator?.share({ url }).catch(() => {});
 
 const detectColorScheme = () => {
     let theme = "auto";
@@ -153,6 +151,57 @@ const detectColorScheme = () => {
         theme = "dark"
     }
     document.documentElement.setAttribute("data-theme", theme);
+}
+
+const updateFilenamePreview = () => {
+    let videoFilePreview = ``;
+    let audioFilePreview = ``;
+    let resMatch = {
+        "max": "3840x2160",
+        "2160": "3840x2160",
+        "1440": "2560x1440",
+        "1080": "1920x1080",
+        "720": "1280x720",
+        "480": "854x480",
+        "360": "640x360",
+    }
+
+    switch(sGet("filenamePattern")) {
+        case "classic":
+            videoFilePreview = `youtube_dQw4w9WgXcQ_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
+                + `${sGet("muteAudio") === "true" ? "_mute" : ""}`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `youtube_dQw4w9WgXcQ_audio`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "basic":
+            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, `
+                + `${sGet('vCodec')}${sGet("muteAudio") === "true" ? ", mute" : ""})`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "pretty":
+            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube)`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud)`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "nerdy":
+            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, dQw4w9WgXcQ)`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} `
+                + `(soundcloud, 1242868615)`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+    }
+    eid("video-filename-text").innerHTML = videoFilePreview
+    eid("audio-filename-text").innerHTML = audioFilePreview
 }
 
 const changeTab = (evnt, tabId, tabClass) => {
@@ -331,28 +380,6 @@ const resetSettings = () => {
     window.location.reload();
 }
 
-const pasteClipboard = async() => {
-    try {
-        navigator.clipboard.readText().then(text => {
-            let matchLink = text.match(/https?:\/\/[^\s]+/g);
-            if (matchLink) {
-                eid("url-input-area").value = text;
-                download(eid("url-input-area").value);
-            }
-        })
-    } catch (e) {
-        let errorMessage = loc.FeatureErrorGeneric;
-        let doError = true;
-        let error = String(e).toLowerCase();
-
-        if (error.includes("denied")) errorMessage = loc.ClipboardErrorNoPermission;
-        if (error.includes("dismissed") || isIOS) doError = false;
-        if (error.includes("function") && isFirefox) errorMessage = loc.ClipboardErrorFirefox;
-
-        if (doError) popup("error", 1, errorMessage);
-    }
-}
-
 const download = async(url) => {
     changeDownloadButton("disabled", '...');
 
@@ -369,7 +396,7 @@ const download = async(url) => {
         isTTFullAudio: lazyGet("fullTikTokAudio"),
         isAudioMuted: lazyGet("muteAudio"),
         disableMetadata: lazyGet("disableMetadata"),
-        dubLang: lazyGet("dubLang"),
+        dubLang: lazyGet("ytDub"),
         twitterGif: lazyGet("twitterGif"),
         tiktokH265: lazyGet("tiktokH265"),
     }
@@ -463,6 +490,26 @@ const download = async(url) => {
     }
 }
 
+const pasteClipboard = async() => {
+    try {
+        let clipboard = await navigator.clipboard.readText();
+        if (clipboard.match(/https?:\/\/[^\s]+/g)) {
+            eid("url-input-area").value = text;
+            download(eid("url-input-area").value);
+        }
+    } catch (e) {
+        let errorMessage = loc.FeatureErrorGeneric;
+        let doError = true;
+        let error = String(e).toLowerCase();
+
+        if (error.includes("denied")) errorMessage = loc.ClipboardErrorNoPermission;
+        if (error.includes("dismissed") || isIOS) doError = false;
+        if (error.includes("function") && isFirefox) errorMessage = loc.ClipboardErrorFirefox;
+
+        if (doError) popup("error", 1, errorMessage);
+    }
+}
+
 const loadCelebrationsEmoji = async() => {
     let aboutButtonBackup = eid("about-footer").innerHTML;
     try {
@@ -511,57 +558,6 @@ const loadOnDemand = async(elementId, blockId) => {
 
 const restoreUpdateHistory = () => {
     eid("changelog-history").innerHTML = store.historyButton;
-}
-
-const updateFilenamePreview = () => {
-    let videoFilePreview = ``;
-    let audioFilePreview = ``;
-    let resMatch = {
-        "max": "3840x2160",
-        "2160": "3840x2160",
-        "1440": "2560x1440",
-        "1080": "1920x1080",
-        "720": "1280x720",
-        "480": "854x480",
-        "360": "640x360",
-    }
-
-    switch(sGet("filenamePattern")) {
-        case "classic":
-            videoFilePreview = `youtube_dQw4w9WgXcQ_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
-                + `${sGet("muteAudio") === "true" ? "_mute" : ""}`
-                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `youtube_dQw4w9WgXcQ_audio`
-                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-        case "basic":
-            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
-                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, `
-                + `${sGet('vCodec')}${sGet("muteAudio") === "true" ? ", mute" : ""})`
-                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}`
-                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-        case "pretty":
-            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
-                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
-                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube)`
-                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud)`
-                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-        case "nerdy":
-            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
-                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
-                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, dQw4w9WgXcQ)`
-                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} `
-                + `(soundcloud, 1242868615)`
-                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-    }
-    eid("video-filename-text").innerHTML = videoFilePreview
-    eid("audio-filename-text").innerHTML = audioFilePreview
 }
 
 const loadSettings = () => {
