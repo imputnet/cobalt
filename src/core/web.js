@@ -1,4 +1,4 @@
-import { genericUserAgent, version } from "../modules/config.js";
+import { genericUserAgent, version, env } from "../modules/config.js";
 import { apiJSON, languageCode } from "../modules/sub/utils.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 
@@ -76,12 +76,12 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
         return res.redirect('/')
     });
 
-    app.listen(process.env.WEB_PORT || 9001, () => {
+    app.listen(env.webPort, () => {
         console.log(`\n` +
             `${Cyan("cobalt")} WEB ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
-            `URL: ${Cyan(`${process.env.WEB_URL}`)}\n` +
-            `Port: ${process.env.WEB_PORT || 9001}\n`
+            `URL: ${Cyan(`${env.webURL}`)}\n` +
+            `Port: ${env.webPort}\n`
         )
     })
 }
