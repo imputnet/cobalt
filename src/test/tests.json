@@ -976,6 +976,38 @@
             "code": 200,
             "status": "redirect"
         }
+    }, {
+        "name": "regular picture",
+        "url": "https://www.pinterest.com/pin/412994228343400946/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular picture (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/412994228343400946/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular gif",
+        "url": "https://www.pinterest.com/pin/814447913881127862/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular gif (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/814447913881127862/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }],
     "streamable": [{
         "name": "regular video",

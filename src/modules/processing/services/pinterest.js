@@ -1,6 +1,7 @@
 import { genericUserAgent } from "../../config.js";
 
-const linkRegex = /"url":"(https:\/\/v1.pinimg.com\/videos\/.*?)"/g;
+const videoRegex = /"url":"(https:\/\/v1.pinimg.com\/videos\/.*?)"/g;
+const imageRegex = /src="(https:\/\/i\.pinimg\.com\/.*\.(jpg|gif))"/g;
 
 export default async function(o) {
     let id = o.id;
@@ -19,15 +20,24 @@ export default async function(o) {
 
     if (!html) return { error: 'ErrorCouldntFetch' };
 
-    let videoLink = [...html.matchAll(linkRegex)]
+    let videoLink = [...html.matchAll(videoRegex)]
                     .map(([, link]) => link)
                     .filter(a => a.endsWith('.mp4') && a.includes('720p'))[0];
 
-    if (!videoLink) return { error: 'ErrorEmptyDownload' };
-
-    return {
+    if (videoLink) return {
         urls: videoLink,
         filename: `pinterest_${o.id}.mp4`,
         audioFilename: `pinterest_${o.id}_audio`
     }
+
+    let imageLink = [...html.matchAll(imageRegex)]
+                    .map(([, link]) => link)
+                    .filter(a => a.endsWith('.jpg') || a.endsWith('.gif'))[0];
+                    
+    if (imageLink) return {
+        urls: imageLink,
+        isPhoto: true
+    }
+
+    return { error: 'ErrorEmptyDownload' };
 }
