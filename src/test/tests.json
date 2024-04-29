@@ -1062,6 +1062,22 @@
             "status": "stream"
         }
     }, {
+        "name": "yappy",
+        "url": "https://rutube.ru/yappy/f1771e86294748eea8ecb2ac88e55740/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "shorts",
+        "url": "https://rutube.ru/shorts/935c1afafd0e7d52836d671967d53dac/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
         "name": "vertical video (isAudioOnly)",
         "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
         "params": {
