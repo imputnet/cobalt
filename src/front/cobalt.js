@@ -32,7 +32,7 @@ let store = {};
 
 const validLink = (link) => {
     try {
-        return /^https?:/i.test(new URL(link).protocol);
+        return /^https:/i.test(new URL(link).protocol);
     } catch {
         return false
     }
@@ -493,8 +493,9 @@ const download = async(url) => {
 const pasteClipboard = async() => {
     try {
         let clipboard = await navigator.clipboard.readText();
-        if (clipboard.test(/https?:\/\/[^\s]+/g)) {
-            eid("url-input-area").value = text;
+        let onlyURL = clipboard.match(/https:\/\/[^\s]+/g)
+        if (onlyURL) {
+            eid("url-input-area").value = onlyURL;
             download(eid("url-input-area").value);
         }
     } catch (e) {
