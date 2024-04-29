@@ -88,7 +88,8 @@ export default async function(host, patternMatch, url, lang, obj) {
                     postId: patternMatch.postId,
                     id: patternMatch.id,
                     fullAudio: obj.isTTFullAudio,
-                    isAudioOnly: isAudioOnly
+                    isAudioOnly: isAudioOnly,
+                    h265: obj.tiktokH265
                 });
                 break;
             case "tumblr":
@@ -103,8 +104,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                     id: patternMatch.id.slice(0, 11),
                     password: patternMatch.password,
                     quality: obj.vQuality,
-                    isAudioOnly: isAudioOnly,
-                    forceDash: isAudioOnly ? true : obj.vimeoDash
+                    isAudioOnly: isAudioOnly
                 });
                 break;
             case "soundcloud":
