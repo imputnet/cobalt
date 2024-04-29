@@ -151,6 +151,7 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "rutube":
                 r = await rutube({
                     id: patternMatch.id,
+                    yappyId: patternMatch.yappyId,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
                 });

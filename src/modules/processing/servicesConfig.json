@@ -110,7 +110,7 @@
         "rutube": {
             "alias": "rutube videos",
             "tld": "ru",
-            "patterns": ["video/:id", "play/embed/:id"],
+            "patterns": ["video/:id", "play/embed/:id", "shorts/:id", "yappy/:yappyId"],
             "enabled": true
         },
         "dailymotion": {
