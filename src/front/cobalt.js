@@ -493,7 +493,7 @@ const download = async(url) => {
 const pasteClipboard = async() => {
     try {
         let clipboard = await navigator.clipboard.readText();
-        if (clipboard.match(/https?:\/\/[^\s]+/g)) {
+        if (clipboard.test(/https?:\/\/[^\s]+/g)) {
             eid("url-input-area").value = text;
             download(eid("url-input-area").value);
         }
