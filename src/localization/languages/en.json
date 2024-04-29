@@ -104,7 +104,7 @@
         "ErrorYTUnavailable": "this youtube video is unavailable. it could be age or region restricted. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality in settings!",
         "SettingsCodecSubtitle": "youtube codec",
-        "SettingsCodecDescription": "h264: best support across apps/platforms, average detail level. max quality is 1080p.\nav1: best quality, small file size, most detail. supports 8k & HDR.\nvp9: same quality as av1, but file is x2 bigger. supports 4k & HDR.\n\npick h264 if you want best compatibility.\n\npick av1 if you want best quality and efficiency.",
+        "SettingsCodecDescription": "h264: best support across apps/platforms, average detail level. max quality is 1080p.\nav1: best quality, small file size, most detail. supports 8k & HDR.\nvp9: same quality as av1, but file is x2 bigger. supports 4k & HDR.\n\npick h264 if you want best compatibility.\npick av1 if you want best quality and efficiency.",
         "SettingsAudioDub": "youtube audio track",
         "SettingsAudioDubDescription": "defines which audio track will be used. if dubbed track isn't available, original video language is used instead.\n\noriginal: original video language is used.\nauto: default browser (and cobalt) language is used.",
         "SettingsDubDefault": "original",
