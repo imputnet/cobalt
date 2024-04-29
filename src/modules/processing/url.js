@@ -66,7 +66,7 @@ export function aliasURL(url) {
             }
             break;
         case "ddinstagram":
-            if (services.instagram.altDomains.includes(host.domain) && (host.subdomain === null || services.instagram.subdomains.includes(host.subdomain))) {
+            if (services.instagram.altDomains.includes(host.domain) && [null, 'd', 'g'].includes(host.subdomain)) {
                 url.hostname = 'instagram.com';
             }
             break;

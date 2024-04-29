@@ -79,7 +79,6 @@
         },
         "instagram": {
             "alias": "instagram reels, posts & stories",
-            "subdomains": ["d", "g"],
             "altDomains": ["ddinstagram.com"],
             "patterns": [
                 "reels/:postId", ":username/reel/:postId", "reel/:postId", "p/:postId", ":username/p/:postId",
