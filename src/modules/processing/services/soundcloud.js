@@ -4,7 +4,7 @@ import { cleanString } from "../../sub/utils.js";
 const cachedID = {
     version: '',
     id: ''
-};
+}
 
 async function findClientID() {
     try {
@@ -32,9 +32,7 @@ async function findClientID() {
         cachedID.id = clientid;
 
         return clientid;
-    } catch (e) {
-        return false;
-    }
+    } catch {}
 }
 
 export default async function(obj) {
@@ -58,27 +56,30 @@ export default async function(obj) {
 
     let json = await fetch(`https://api-v2.soundcloud.com/resolve?url=${link}&client_id=${clientId}`).then((r) => {
         return r.status === 200 ? r.json() : false
-    }).catch(() => { return false });
+    }).catch(() => {});
+
     if (!json) return { error: 'ErrorCouldntFetch' };
 
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
 
-    let isMp3,
-        selectedStream = json.media.transcodings.filter(v => v.preset === "opus_0_0")
+    let bestAudio = "opus",
+        selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0");
 
     // fall back to mp3 if no opus is available
     if (selectedStream.length === 0) {
-        selectedStream = json.media.transcodings.filter(v => v.preset === "mp3_0_0")
-        isMp3 = true
+        selectedStream = json.media.transcodings.find(v => v.preset === "mp3_0_0");
+        bestAudio = "mp3"
     }
-    let fileUrlBase = selectedStream[0]["url"];
+
+    let fileUrlBase = selectedStream.url;
     let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
 
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
 
-    if (json.duration > maxVideoDuration) return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };
+    if (json.duration > maxVideoDuration)
+        return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };
 
-    let file = await fetch(fileUrl).then(async (r) => { return (await r.json()).url }).catch(() => { return false });
+    let file = await fetch(fileUrl).then(async (r) => { return (await r.json()).url }).catch(() => {});
     if (!file) return { error: 'ErrorCouldntFetch' };
 
     let fileMetadata = {
@@ -94,7 +95,7 @@ export default async function(obj) {
             title: fileMetadata.title,
             author: fileMetadata.artist
         },
-        isMp3,
+        bestAudio,
         fileMetadata
     }
 }

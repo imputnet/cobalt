@@ -4,7 +4,7 @@ import { cleanString } from '../../sub/utils.js';
 
 const yt = await Innertube.create();
 
-const c = {
+const codecMatch = {
     h264: {
         codec: "avc1",
         aCodec: "mp4a",
@@ -23,8 +23,8 @@ const c = {
 }
 
 export default async function(o) {
-    let info, isDubbed,
-        quality = o.quality === "max" ? "9000" : o.quality; // 9000(p) - max quality
+    let info, isDubbed, format = o.format || "h264";
+    let quality = o.quality === "max" ? "9000" : o.quality; // 9000(p) - max quality
 
     function qual(i) {
         if (!i.quality_label) {
@@ -56,9 +56,15 @@ export default async function(o) {
 
     let bestQuality, hasAudio;
 
-    let adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
-        e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
+    const filterByCodec = (formats) => formats.filter(e => 
+        e.mime_type.includes(codecMatch[format].codec) || e.mime_type.includes(codecMatch[format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
+
+    let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
+    if (adaptive_formats.length === 0 && format === "vp9") {
+        format = "h264"
+        adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats)
+    }
 
     bestQuality = adaptive_formats.find(i => i.has_video);
     hasAudio = adaptive_formats.find(i => i.has_audio);
@@ -105,14 +111,15 @@ export default async function(o) {
         isAudioOnly: true,
         urls: audio.decipher(yt.session.player),
         filenameAttributes: filenameAttributes,
-        fileMetadata: fileMetadata
+        fileMetadata: fileMetadata,
+        bestAudio: format === "h264" ? 'm4a' : 'opus'
     }
     const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality,
-        checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(c[o.format].codec),
+        checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(codecMatch[format].codec),
         checkRender = i => qual(i) === matchingQuality && i.has_video && !i.has_audio;
 
     let match, type, urls;
-    if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
+    if (!o.isAudioOnly && !o.isAudioMuted && format === 'h264') {
         match = info.streaming_data.formats.find(checkSingle);
         type = "bridge";
         urls = match?.decipher(yt.session.player);
@@ -128,8 +135,8 @@ export default async function(o) {
     if (match) {
         filenameAttributes.qualityLabel = match.quality_label;
         filenameAttributes.resolution = `${match.width}x${match.height}`;
-        filenameAttributes.extension = c[o.format].container;
-        filenameAttributes.youtubeFormat = o.format;
+        filenameAttributes.extension = codecMatch[format].container;
+        filenameAttributes.youtubeFormat = format;
         return {
             type,
             urls,
