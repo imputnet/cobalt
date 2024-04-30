@@ -63,13 +63,13 @@ export default async function(obj) {
 
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
 
-    let isMp3,
+    let bestAudio = 'opus',
         selectedStream = json.media.transcodings.filter(v => v.preset === "opus_0_0")
 
     // fall back to mp3 if no opus is available
     if (selectedStream.length === 0) {
         selectedStream = json.media.transcodings.filter(v => v.preset === "mp3_0_0")
-        isMp3 = true
+        bestAudio = 'mp3'
     }
     let fileUrlBase = selectedStream[0]["url"];
     let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
@@ -94,7 +94,7 @@ export default async function(obj) {
             title: fileMetadata.title,
             author: fileMetadata.artist
         },
-        isMp3,
+        bestAudio,
         fileMetadata
     }
 }
