@@ -137,10 +137,11 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 audioFormat = "best"
             }
 
+            const serviceBestAudio = r.bestAudio || services[host]["bestAudio"];
             const isBestAudio = audioFormat === "best";
             const isBestOrMp3 = audioFormat === "mp3" || isBestAudio;
-            const isBestAudioDefined = isBestAudio && services[host]["bestAudio"];
-            const isBestHostAudio = services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]);
+            const isBestAudioDefined = isBestAudio && serviceBestAudio;
+            const isBestHostAudio = serviceBestAudio && (audioFormat === serviceBestAudio);
 
             const isTikTok = host === "tiktok" || host === "douyin";
             const isTumblrAudio = host === "tumblr" && !r.filename;
@@ -169,7 +170,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             }
 
             if (isBestAudioDefined || isBestHostAudio) {
-                audioFormat = services[host]["bestAudio"];
+                audioFormat = serviceBestAudio;
                 processType = "bridge";
             } else if (isBestAudio && !isSoundCloud) {
                 audioFormat = "m4a";
