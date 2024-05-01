@@ -8,7 +8,7 @@
         "LinkInput": "paste the link here",
         "AboutSummary": "cobalt is your go-to place for downloads from social and media platforms. zero ads, trackers, or other creepy bullshit. simply paste a share link and you're ready to rock!",
         "EmbedBriefDescription": "save what you love. no ads, trackers, or other creepy bullshit.",
-        "MadeWithLove": "made with &lt;3 by wukko",
+        "MadeWithLove": "made with &lt;3 by imput",
         "AccessibilityInputArea": "link input area",
         "AccessibilityOpenAbout": "open about popup",
         "AccessibilityDownloadButton": "download button",
@@ -90,7 +90,6 @@
         "DonateSub": "help it stay online",
         "DonateExplanation": "cobalt doesn't shove ads in your face and doesn't sell your personal data, meaning that it's <span class=\"text-backdrop\">completely free to use</span> for everyone. but development and maintenance of a media-heavy service used by over 750k people is quite costly. both in terms of time and money.\n\nif cobalt helped you in the past and you want to keep it growing and evolving, you can return the favor by making a donation!\n\nyour donation will help all cobalt users: educators, students, content creators, artists, musicians, and many, many more!\n\nin past, donations have let cobalt:\n*; increase stability and uptime to nearly 100%.\n*; speed up ALL downloads, especially heavier ones.\n*; open the api for free public use.\n*; withstand several huge user influxes with 0 downtime.\n*; add resource-intensive features (such as gif conversion).\n*; continue improving our infrastructure.\n*; keep developers happy.\n\n<span class=\"text-backdrop\">every cent matters and is extremely appreciated</span>, you can truly make a difference!\n\nif you can't donate, share cobalt with a friend! we don't get ads anywhere, so cobalt is spread by word of mouth.\nsharing is the easiest way to help achieve the goal of better internet for everyone.",
         "DonateVia": "donate via",
-        "DonateHireMe": "...or you can <a class=\"text-backdrop link\" href=\"{s}\" target=\"_blank\">hire me</a> :)",
         "SettingsVideoMute": "mute audio",
         "SettingsVideoMuteExplanation": "removes audio from video downloads when possible.",
         "ErrorSoundCloudNoClientId": "i couldn't get the temporary token that's required to download songs from soundcloud. try again, but if issue persists, {ContactLink}.",
@@ -106,11 +105,6 @@
         "SettingsCodecSubtitle": "youtube codec",
         "SettingsCodecDescription": "h264: best support across apps/platforms, average detail level. max quality is 1080p.\nav1: best quality, small file size, most detail. supports 8k & HDR.\nvp9: same quality as av1, but file is x2 bigger. supports 4k & HDR.\n\npick h264 if you want best compatibility.\npick av1 if you want best quality and efficiency.",
         "SettingsAudioDub": "youtube audio track",
-        "SettingsAudioDubDescription": "defines which audio track will be used. if dubbed track isn't available, original video language is used instead.\n\noriginal: original video language is used.\nauto: default browser (and cobalt) language is used.",
-        "SettingsDubDefault": "original",
-        "SettingsDubAuto": "auto",
-        "SettingsVimeoPrefer": "vimeo downloads type",
-        "SettingsVimeoPreferDescription": "progressive: direct file link to vimeo's cdn. max quality is 1080p.\ndash: video and audio are merged by cobalt into one file. max quality is 4k.\n\npick \"progressive\" if you want best editor/player/social media compatibility. if progressive download isn't available, dash is used instead.",
         "ShareURL": "share",
         "ErrorTweetUnavailable": "couldn't find anything about this tweet. this could be because its visibility is limited. try another one!",
         "PopupCloseDone": "done",
@@ -157,6 +151,10 @@
         "PrivateAnalytics": "private analytics",
         "SettingsDisableAnalytics": "opt out of private analytics",
         "SettingsAnalyticsExplanation": "enable if you don't want to be included in anonymous traffic stats. read more about this in about > privacy policy (tl;dr: nothing about you is ever stored or tracked, no cookies are used).",
-        "AnalyticsDescription": "cobalt uses a self-hosted plausible instance to get an approximate number of how many people use it.\n\nplausible is fully compliant with GDPR, CCPA and PECR, doesn't use cookies, and never stores any identifiable info, not even your ip address.\n\nall data is aggregated and never personalized. nothing about what you download is ever saved anywhere. it's used just for anonymous traffic stats, nothing more.\n\nplausible is fully open source, just like cobalt, and if you want to learn more about it, you can do so <a class=\"text-backdrop link\" href=\"https://plausible.io\" target=\"_blank\">here</a>. if you wish to opt out of traffic stats, you can do it in settings > other."
+        "AnalyticsDescription": "cobalt uses a self-hosted plausible instance to get an approximate number of how many people use it.\n\nplausible is fully compliant with GDPR, CCPA and PECR, doesn't use cookies, and never stores any identifiable info, not even your ip address.\n\nall data is aggregated and never personalized. nothing about what you download is ever saved anywhere. it's used just for anonymous traffic stats, nothing more.\n\nplausible is fully open source, just like cobalt, and if you want to learn more about it, you can do so <a class=\"text-backdrop link\" href=\"https://plausible.io\" target=\"_blank\">here</a>. if you wish to opt out of traffic stats, you can do it in settings > other.",
+        "SettingsTikTokH265": "prefer h265",
+        "SettingsTikTokH265Description": "download 1080p videos from tiktok in h265/hevc format when available.",
+        "SettingsYoutubeDub": "use browser language",
+        "SettingsYoutubeDubDescription": "uses your browser's default language for youtube dubbed audio tracks. works even if cobalt ui isn't translated to your language."
     }
 }

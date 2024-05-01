@@ -57,7 +57,6 @@
             "alias": "tiktok videos, photos & audio",
             "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId"],
             "subdomains": ["vt", "vm"],
-            "audioFormats": ["best", "m4a", "mp3"],
             "enabled": true
         },
         "douyin": {
@@ -74,11 +73,11 @@
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
             "subdomains": ["on", "m"],
-            "audioFormats": ["best", "opus", "mp3"],
             "enabled": true
         },
         "instagram": {
             "alias": "instagram reels, posts & stories",
+            "altDomains": ["ddinstagram.com"],
             "patterns": [
                 "reels/:postId", ":username/reel/:postId", "reel/:postId", "p/:postId", ":username/p/:postId",
                 "tv/:postId", "stories/:username/:storyId"

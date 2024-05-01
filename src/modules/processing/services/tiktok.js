@@ -41,14 +41,15 @@ export default async function(obj) {
     detail = detail?.aweme_list?.find(v => v.aweme_id === postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
 
-    let video, videoFilename, audioFilename, isMp3, audio, images,
-        filenameBase = `tiktok_${detail.author.unique_id}_${postId}`;
+    let video, videoFilename, audioFilename, audio, images,
+        filenameBase = `tiktok_${detail.author.unique_id}_${postId}`,
+        bestAudio = 'm4a';
 
     images = detail.image_post_info?.images;
 
     let playAddr = detail.video.play_addr_h264;
-
-    if (!playAddr) playAddr = detail.video.play_addr;
+    if ((obj.h265 || !playAddr) && detail.video.play_addr)
+        playAddr = detail.video.play_addr;
 
     if (!obj.isAudioOnly && !images) {
         video = playAddr.url_list[0];
@@ -56,12 +57,12 @@ export default async function(obj) {
     } else {
         let fallback = playAddr.url_list[0];
         audio = fallback;
-        audioFilename = `${filenameBase}_audio_fv`;  // fv - from video
+        audioFilename = `${filenameBase}_audio`;
         if (obj.fullAudio || fallback.includes("music")) {
             audio = detail.music.play_url.url_list[0]
-            audioFilename = `${filenameBase}_audio`
+            audioFilename = `${filenameBase}_audio_original`
         }
-        if (audio.slice(-4) === ".mp3") isMp3 = true;
+        if (audio.slice(-4) === ".mp3") bestAudio = 'mp3';
     }
 
     if (video) return {
@@ -72,7 +73,7 @@ export default async function(obj) {
         urls: audio,
         audioFilename: audioFilename,
         isAudioOnly: true,
-        isMp3: isMp3
+        bestAudio
     }
     if (images) {
         let imageLinks = [];
@@ -86,13 +87,13 @@ export default async function(obj) {
             urls: audio,
             audioFilename: audioFilename,
             isAudioOnly: true,
-            isMp3: isMp3
+            bestAudio
         }
     }
     if (audio) return {
         urls: audio,
         audioFilename: audioFilename,
         isAudioOnly: true,
-        isMp3: isMp3
+        bestAudio
     }
 }
