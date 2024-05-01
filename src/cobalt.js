@@ -6,6 +6,7 @@ import express from "express";
 import { Bright, Green, Red } from "./modules/sub/consoleText.js";
 import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
 import { loadLoc } from "./localization/manager.js";
+import { mode } from "./modules/config.js"
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -22,13 +23,10 @@ app.disable('x-powered-by');
 
 await loadLoc();
 
-const apiMode = process.env.API_URL && !process.env.WEB_URL;
-const webMode = process.env.WEB_URL && process.env.API_URL;
-
-if (apiMode) {
+if (mode === 'API') {
     const { runAPI } = await import('./core/api.js');
     runAPI(express, app, gitCommit, gitBranch, __dirname)
-} else if (webMode) {
+} else if (mode === 'WEB') {
     const { runWeb } = await import('./core/web.js');
     await runWeb(express, app, gitCommit, gitBranch, __dirname)
 } else {

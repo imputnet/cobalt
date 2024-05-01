@@ -39,7 +39,7 @@ export default async function(obj) {
     if (!api) return { error: 'ErrorCouldntFetch' };
 
     let downloadType = "dash";
-    if (!obj.forceDash && JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
+    if (!obj.isAudioOnly && JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
 
     let fileMetadata = {
         title: cleanString(api.video.title.trim()),

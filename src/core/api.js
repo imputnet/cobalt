@@ -4,7 +4,7 @@ import { randomBytes } from "crypto";
 
 const ipSalt = randomBytes(64).toString('hex');
 
-import { version } from "../modules/config.js";
+import { env, version } from "../modules/config.js";
 import { getJSON } from "../modules/api.js";
 import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/utils.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
@@ -14,8 +14,8 @@ import { generateHmac } from "../modules/sub/crypto.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
-    const corsConfig = process.env.CORS_WILDCARD === '0' ? {
-        origin: process.env.CORS_URL,
+    const corsConfig = !env.corsWildcard ? {
+        origin: env.corsURL,
         optionsSuccessStatus: 200
     } : {};
 
@@ -163,9 +163,9 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         version: version,
                         commit: gitCommit,
                         branch: gitBranch,
-                        name: process.env.API_NAME || "unknown",
-                        url: process.env.API_URL,
-                        cors: process.env?.CORS_WILDCARD === "0" ? 0 : 1,
+                        name: env.apiName,
+                        url: env.apiURL,
+                        cors: Number(env.corsWildcard),
                         startTime: `${startTimestamp}`
                     });
                 default:
@@ -194,12 +194,12 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         res.redirect('/api/json')
     });
 
-    app.listen(process.env.API_PORT || 9000, () => {
+    app.listen(env.apiPort, () => {
         console.log(`\n` +
             `${Cyan("cobalt")} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
             `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
-            `URL: ${Cyan(`${process.env.API_URL}`)}\n` +
-            `Port: ${process.env.API_PORT || 9000}\n`
+            `URL: ${Cyan(`${env.apiURL}`)}\n` +
+            `Port: ${env.apiPort}\n`
         )
     });
 }

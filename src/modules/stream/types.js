@@ -5,7 +5,7 @@ import { create as contentDisposition } from "content-disposition-header";
 
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
-import { ffmpegArgs } from "../config.js";
+import { env, ffmpegArgs } from "../config.js";
 import { getHeaders } from "./shared.js";
 
 function toRawHeaders(headers) {
@@ -44,8 +44,8 @@ function pipe(from, to, done) {
 }
 
 function getCommand(args) {
-    if (process.env.PROCESSING_PRIORITY && process.platform !== "win32") {
-        return ['nice', ['-n', process.env.PROCESSING_PRIORITY, ffmpeg, ...args]]
+    if (!isNaN(env.processingPriority) && process.platform !== "win32") {
+        return ['nice', ['-n', env.processingPriority.toString(), ffmpeg, ...args]]
     }
     return [ffmpeg, args]
 }
@@ -103,6 +103,7 @@ export function streamLiveRender(streamInfo, res) {
             '-loglevel', '-8',
             '-headers', rawHeaders,
             '-i', streamInfo.urls[0],
+            '-headers', rawHeaders,
             '-i', streamInfo.urls[1],
             '-map', '0:v',
             '-map', '1:a',

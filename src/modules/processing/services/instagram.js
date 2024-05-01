@@ -2,11 +2,38 @@ import { createStream } from "../../stream/manage.js";
 import { genericUserAgent } from "../../config.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
 
-const commonInstagramHeaders = {
-    'user-agent': genericUserAgent,
-    'sec-gpc': '1',
-    'sec-fetch-site': 'same-origin',
-    'x-ig-app-id': '936619743392459'
+const commonHeaders = {
+    "user-agent": genericUserAgent,
+    "sec-gpc": "1",
+    "sec-fetch-site": "same-origin",
+    "x-ig-app-id": "936619743392459"
+}
+const mobileHeaders = {
+    "x-ig-app-locale": "en_US",
+    "x-ig-device-locale": "en_US",
+    "x-ig-mapped-locale": "en_US",
+    "user-agent": "Instagram 275.0.0.27.98 Android (33/13; 280dpi; 720x1423; Xiaomi; Redmi 7; onclite; qcom; en_US; 458229237)",
+    "accept-language": "en-US",
+    "x-fb-http-engine": "Liger",
+    "x-fb-client-ip": "True",
+    "x-fb-server-cluster": "True",
+    "content-length": "0",
+}
+const embedHeaders = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Cache-Control": "max-age=0",
+    "Dnt": "1",
+    "Priority": "u=0, i",
+    "Sec-Ch-Ua": 'Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": "macOS",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
 }
 
 const cachedDtsg = {
@@ -20,7 +47,7 @@ async function findDtsgId(cookie) {
 
         const data = await fetch('https://www.instagram.com/', {
             headers: {
-                ...commonInstagramHeaders,
+                ...commonHeaders,
                 cookie
             }
         }).then(r => r.text());
@@ -38,7 +65,7 @@ async function findDtsgId(cookie) {
 
 async function request(url, cookie, method = 'GET', requestData) {
     let headers = {
-        ...commonInstagramHeaders,
+        ...commonHeaders,
         'x-ig-www-claim': cookie?._wwwClaim || '0',
         'x-csrftoken': cookie?.values()?.csrftoken,
         cookie
@@ -60,26 +87,36 @@ async function request(url, cookie, method = 'GET', requestData) {
     return data.json();
 }
 
+async function requestMobileApi(id, cookie) {
+    const oembedURL = new URL('https://i.instagram.com/api/v1/oembed/');
+    oembedURL.searchParams.set('url', `https://www.instagram.com/p/${id}/`);
+
+    const oembed = await fetch(oembedURL, {
+        headers: {
+            ...mobileHeaders,
+            cookie
+        }
+    }).then(r => r.json()).catch(() => {});
+
+    const mediaId = oembed?.media_id;
+    if (!mediaId) return false;
+
+    const mediaInfo = await fetch(`https://i.instagram.com/api/v1/media/${mediaId}/info/`, {
+        headers: {
+            ...mobileHeaders,
+            cookie
+        }
+    }).then(r => r.json()).catch(() => {});
+
+    return mediaInfo?.items?.[0];
+}
 async function requestHTML(id, cookie) {
     const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
         headers: {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-            "Accept-Language": "en-GB,en;q=0.9",
-            "Cache-Control": "max-age=0",
-            "Dnt": "1",
-            "Priority": "u=0, i",
-            "Sec-Ch-Ua": 'Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99',
-            "Sec-Ch-Ua-Mobile": "?0",
-            "Sec-Ch-Ua-Platform": "macOS",
-            "Sec-Fetch-Dest": "document",
-            "Sec-Fetch-Mode": "navigate",
-            "Sec-Fetch-Site": "none",
-            "Sec-Fetch-User": "?1",
-            "Upgrade-Insecure-Requests": "1",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            ...cookie
+            ...embedHeaders,
+            cookie
         }
-    }).then(r => r.text());
+    }).then(r => r.text()).catch(() => {});
 
     let embedData = JSON.parse(data?.match(/"init",\[\],\[(.*?)\]\],/)[1]);
 
@@ -196,25 +233,29 @@ function extractNewPost(data, id) {
 }
 
 async function getPost(id) {
-    let data, result, dataType = 'old';
+    let data, result;
     try {
         const cookie = getCookie('instagram');
 
-        data = await requestHTML(id);
+        // mobile api (no cookie, cookie)
+        data = await requestMobileApi(id);
+        if (!data && cookie) data = await requestMobileApi(id, cookie);
+
+        // html embed (no cookie, cookie)
+        if (!data) data = await requestHTML(id);
         if (!data && cookie) data = await requestHTML(id, cookie);
 
-        if (!data) {
-            dataType = 'new';
-            data = await requestGQL(id, cookie);
-        }
+        // web app graphql api (no cookie, cookie)
+        if (!data) data = await requestGQL(id);
+        if (!data && cookie) data = await requestGQL(id, cookie);
     } catch {}
 
     if (!data) return { error: 'ErrorCouldntFetch' };
 
-    if (dataType === 'new') {
-        result = extractNewPost(data, id)
-    } else {
+    if (data?.gql_data) {
         result = extractOldPost(data, id)
+    } else {
+        result = extractNewPost(data, id)
     }
 
     if (result) return result;
