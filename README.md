@@ -49,6 +49,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | twitter/x  | lets you pick what to save from multi-media posts. may not be 100% reliable due to current management.               |
 | vimeo      | audio downloads are only available for dash.                                                                         |
 | youtube    | supports videos, music, and shorts. 8K, 4K, HDR, VR, and high FPS videos. rich metadata & dubs. h264/av1/vp9 codecs. |
+| pinterest  | supports gifs, videos, and images                                                                                    |
 
 ## cobalt api
 cobalt has an open api that you can use in your projects *for free~*. it's easy and straightforward to use, [check out the docs](/docs/api.md) to learn how to use it. 
