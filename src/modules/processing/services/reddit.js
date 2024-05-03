@@ -59,10 +59,7 @@ export default async function(obj) {
 
     let data = await fetch(
         url, {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-                accessToken
-            }
+            headers: accessToken && { authorization: `Bearer ${accessToken}` }
         }
     ).then(r => r.json() ).catch(() => {});
 
@@ -103,9 +100,7 @@ export default async function(obj) {
             if (Number(r.status) === 200) {
                 audio = true
             }
-        }).catch(() => {
-            audio = false
-        })
+        }).catch(() => {})
     }
 
     let id = video.split('/')[3];
