@@ -16,7 +16,8 @@ export const testers = {
         patternMatch.id?.length <= 128 || patternMatch.shortLink?.length <= 32,
 
     "reddit": (patternMatch) =>
-        patternMatch.sub?.length <= 22 && patternMatch.id?.length <= 10,
+        (patternMatch.sub?.length <= 22 && patternMatch.id?.length <= 10)
+        || (patternMatch.user?.length <= 22 && patternMatch.id?.length <= 10),
 
     "rutube": (patternMatch) =>
         patternMatch.id?.length === 32 || patternMatch.yappyId?.length === 32,

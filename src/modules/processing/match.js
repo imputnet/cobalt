@@ -80,7 +80,8 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "reddit":
                 r = await reddit({
                     sub: patternMatch.sub,
-                    id: patternMatch.id
+                    id: patternMatch.id,
+                    user: patternMatch.user
                 });
                 break;
             case "tiktok":
