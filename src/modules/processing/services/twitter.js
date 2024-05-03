@@ -1,5 +1,6 @@
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
+import { getCookie, updateCookie } from "../cookie/manager.js";
 
 const graphqlURL = 'https://twitter.com/i/api/graphql/5GOHgZe-8U2j5sVHQzEm9A/TweetResultByRestId';
 const tokenURL = 'https://api.twitter.com/1.1/guest/activate.json';
@@ -49,8 +50,25 @@ const getGuestToken = async (forceReload = false) => {
     }
 }
 
-const requestTweet = (tweetId, token) => {
+const requestTweet = async(tweetId, token, cookie) => {
     const graphqlTweetURL = new URL(graphqlURL);
+
+    let headers = {
+        ...commonHeaders,
+        'content-type': 'application/json',
+        'x-guest-token': token,
+        cookie: `guest_id=${encodeURIComponent(`v1:${token}`)}`
+    }
+
+    if (cookie) {
+        headers = {
+            ...commonHeaders,
+            'content-type': 'application/json',
+            'X-Twitter-Auth-Type': 'OAuth2Session',
+            'x-csrf-token': cookie.values().ct0,
+            cookie
+        }
+    }
 
     graphqlTweetURL.searchParams.set('variables',
         JSON.stringify({
@@ -62,31 +80,39 @@ const requestTweet = (tweetId, token) => {
     );
     graphqlTweetURL.searchParams.set('features', tweetFeatures);
 
-    return fetch(graphqlTweetURL, {
-        headers: {
-            ...commonHeaders,
-            'content-type': 'application/json',
-            'x-guest-token': token,
-            cookie: `guest_id=${encodeURIComponent(`v1:${token}`)}`
-        }
-    })
+    let result = await fetch(graphqlTweetURL, { headers });
+    updateCookie(cookie, result.headers);
+
+    // we might have been missing the `ct0` cookie, retry
+    if (result.status === 403 && result.headers.get('set-cookie')) {
+        result = await fetch(graphqlTweetURL, {
+            headers: {
+                ...headers,
+                'x-csrf-token': cookie.values().ct0
+            }
+        });
+    }
+
+    return result
 }
 
 export default async function({ id, index, toGif }) {
+    const cookie = await getCookie('twitter');
+
     let guestToken = await getGuestToken();
     if (!guestToken) return { error: 'ErrorCouldntFetch' };
 
     let tweet = await requestTweet(id, guestToken);
 
-    if ([403, 429].includes(tweet.status)) { // get new token & retry
+    // get new token & retry if old one expired
+    if ([403, 429].includes(tweet.status)) {
         guestToken = await getGuestToken(true);
         tweet = await requestTweet(id, guestToken)
     }
 
     tweet = await tweet.json();
 
-    // {"data":{"tweetResult":{"result":{"__typename":"TweetUnavailable","reason":"Protected"}}}}
-    const tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
+    let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
 
     if (tweetTypename === "TweetUnavailable") {
         const reason = tweet?.data?.tweetResult?.result?.reason;
@@ -94,21 +120,32 @@ export default async function({ id, index, toGif }) {
             case "Protected":
                 return { error: 'ErrorTweetProtected' }
             case "NsfwLoggedOut":
-                return { error: 'ErrorTweetNSFW' }
+                if (cookie) {
+                    tweet = await requestTweet(id, guestToken, cookie);
+                    tweet = await tweet.json();
+                    tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
+                } else return { error: 'ErrorTweetNSFW' }
         }
     }
-    if (tweetTypename !== "Tweet") {
+
+    if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
         return { error: 'ErrorTweetUnavailable' }
     }
 
-    const baseTweet = tweet.data.tweetResult.result.legacy,
-          repostedTweet = baseTweet.retweeted_status_result?.result.legacy.extended_entities;
+    let tweetResult = tweet.data.tweetResult.result,
+        baseTweet = tweetResult.legacy,
+        repostedTweet = baseTweet?.retweeted_status_result?.result.legacy.extended_entities;
+
+    if (tweetTypename === "TweetWithVisibilityResults") {
+        baseTweet = tweetResult.tweet.legacy;
+        repostedTweet = baseTweet?.retweeted_status_result?.result.tweet.legacy.extended_entities;
+    }
 
     let media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
     media = media?.filter(m => m.video_info?.variants?.length);
 
     // check if there's a video at given index (/video/<index>)
-    if ([0, 1, 2, 3].includes(index) && index < media?.length) {
+    if (index >= 0 && index < media?.length) {
         media = [media[index]]
     }
 

@@ -4,5 +4,8 @@
     ],
     "reddit": [
         "client_id=<replace_this>; client_secret=<replace_this>; refresh_token=<replace_this>"
+    ],
+    "twitter": [
+        "auth_token=<replace_this>; ct0=<replace_this>"
     ]
 }
