@@ -12,7 +12,7 @@
         },
         "reddit": {
             "alias": "reddit videos & gifs",
-            "patterns": ["r/:sub/comments/:id/:title"],
+            "patterns": ["r/:sub/comments/:id/:title", "user/:user/comments/:id/:title"],
             "subdomains": "*",
             "enabled": true
         },
