@@ -243,9 +243,9 @@ async function getPost(id) {
         const token = bearer?.values()?.token;
 
         // get media_id for mobile api, three methods
-        let media_id = getMediaId(id);
-        if (!media_id && token) media_id = getMediaId(id, { token });
-        if (!media_id && cookie) media_id = getMediaId(id, { cookie });
+        let media_id = await getMediaId(id);
+        if (!media_id && token) media_id = await getMediaId(id, { token });
+        if (!media_id && cookie) media_id = await getMediaId(id, { cookie });
 
         // mobile api (bearer)
         if (media_id && token) data = await requestMobileApi(id, { token });
