@@ -51,7 +51,7 @@ export default async function(obj) {
     let url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
 
     if (obj.user) {
-        url = new URL(`https://www.reddit.com/user/${obj.user}/comments/${obj.id}.json`);
+        url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
     }
 
     const accessToken = await getAccessToken();
