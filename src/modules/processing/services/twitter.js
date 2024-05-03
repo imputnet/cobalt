@@ -63,8 +63,8 @@ const requestTweet = async(tweetId, token, cookie) => {
     if (cookie) {
         headers = {
             ...commonHeaders,
-            'X-Twitter-Auth-Type': 'OAuth2Session',
             'content-type': 'application/json',
+            'X-Twitter-Auth-Type': 'OAuth2Session',
             'x-csrf-token': cookie.values().ct0,
             cookie
         }
@@ -81,10 +81,7 @@ const requestTweet = async(tweetId, token, cookie) => {
     graphqlTweetURL.searchParams.set('features', tweetFeatures);
 
     let result = await fetch(graphqlTweetURL, { headers });
-
-    if (cookie) {
-        updateCookie(cookie, result.headers);
-    }
+    updateCookie(cookie, result.headers);
 
     return result
 }
@@ -124,6 +121,7 @@ export default async function({ id, index, toGif }) {
     if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
         return { error: 'ErrorTweetUnavailable' }
     }
+
     let tweetResult = tweet.data.tweetResult.result,
         baseTweet = tweetResult.legacy,
         repostedTweet = baseTweet?.retweeted_status_result?.result.legacy.extended_entities;
@@ -137,7 +135,7 @@ export default async function({ id, index, toGif }) {
     media = media?.filter(m => m.video_info?.variants?.length);
 
     // check if there's a video at given index (/video/<index>)
-    if ([0, 1, 2, 3].includes(index) && index < media?.length) {
+    if (index >= 0 && index < media?.length) {
         media = [media[index]]
     }
 
