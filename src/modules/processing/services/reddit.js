@@ -48,43 +48,73 @@ async function getAccessToken() {
 }
 
 export default async function(obj) {
-    const url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
+    let url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
+
+    if (obj.user) {
+        url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
+    }
 
     const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';
 
     let data = await fetch(
-        url, { headers: accessToken && { authorization: `Bearer ${accessToken}` } }
-    ).then((r) => { return r.json() }).catch(() => { return false });
-    if (!data) return { error: 'ErrorCouldntFetch' };
+        url, {
+            headers: accessToken && { authorization: `Bearer ${accessToken}` }
+        }
+    ).then(r => r.json() ).catch(() => {});
 
-    data = data[0]["data"]["children"][0]["data"];
+    if (!data || !Array.isArray(data)) return { error: 'ErrorCouldntFetch' };
 
-    if (data.url.endsWith('.gif')) return { typeId: 1, urls: data.url };
+    data = data[0]?.data?.children[0]?.data;
 
-    if (!("reddit_video" in data["secure_media"])) return { error: 'ErrorEmptyDownload' };
-    if (data["secure_media"]["reddit_video"]["duration"] * 1000 > maxVideoDuration) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (data?.url?.endsWith('.gif')) return {
+        typeId: 1,
+        urls: data.url
+    }
+
+    if (!data.secure_media?.reddit_video)
+        return { error: 'ErrorEmptyDownload' };
+
+    if (data.secure_media?.reddit_video?.duration * 1000 > maxVideoDuration)
+        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
 
     let audio = false,
-        video = data["secure_media"]["reddit_video"]["fallback_url"].split('?')[0],
-        audioFileLink = video.match('.mp4') ? `${video.split('_')[0]}_audio.mp4` : `${data["secure_media"]["reddit_video"]["fallback_url"].split('DASH')[0]}audio`;
+        video = data.secure_media?.reddit_video?.fallback_url?.split('?')[0],
+        audioFileLink = `${data.secure_media?.reddit_video?.fallback_url?.split('DASH')[0]}audio`;
 
-    await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
+    if (video.match('.mp4')) {
+        audioFileLink = `${video.split('_')[0]}_audio.mp4`
+    }
+
+    // test the existence of audio
+    await fetch(audioFileLink, { method: "HEAD" }).then((r) => {
+        if (Number(r.status) === 200) {
+            audio = true
+        }
+    }).catch(() => {})
 
     // fallback for videos with variable audio quality
     if (!audio) {
         audioFileLink = `${video.split('_')[0]}_AUDIO_128.mp4`
-        await fetch(audioFileLink, { method: "HEAD" }).then((r) => { if (Number(r.status) === 200) audio = true }).catch(() => { audio = false });
+        await fetch(audioFileLink, { method: "HEAD" }).then((r) => {
+            if (Number(r.status) === 200) {
+                audio = true
+            }
+        }).catch(() => {})
     }
 
     let id = video.split('/')[3];
 
-    if (!audio) return { typeId: 1, urls: video };
+    if (!audio) return {
+        typeId: 1,
+        urls: video
+    }
+
     return {
         typeId: 2,
         type: "render",
         urls: [video, audioFileLink],
         audioFilename: `reddit_${id}_audio`,
         filename: `reddit_${id}.mp4`
-    };
+    }
 }

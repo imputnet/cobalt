@@ -86,24 +86,26 @@ async function request(url, cookie, method = 'GET', requestData) {
     updateCookie(cookie, data.headers);
     return data.json();
 }
-
-async function requestMobileApi(id, cookie) {
+async function getMediaId(id, { cookie, token } = {}) {
     const oembedURL = new URL('https://i.instagram.com/api/v1/oembed/');
     oembedURL.searchParams.set('url', `https://www.instagram.com/p/${id}/`);
 
     const oembed = await fetch(oembedURL, {
         headers: {
             ...mobileHeaders,
+            ...( token && { authorization: `Bearer ${token}` } ),
             cookie
         }
     }).then(r => r.json()).catch(() => {});
 
-    const mediaId = oembed?.media_id;
-    if (!mediaId) return false;
+    return oembed?.media_id;
+}
 
+async function requestMobileApi(mediaId, { cookie, token } = {}) {
     const mediaInfo = await fetch(`https://i.instagram.com/api/v1/media/${mediaId}/info/`, {
         headers: {
             ...mobileHeaders,
+            ...( token && { authorization: `Bearer ${token}` } ),
             cookie
         }
     }).then(r => r.json()).catch(() => {});
@@ -236,10 +238,21 @@ async function getPost(id) {
     let data, result;
     try {
         const cookie = getCookie('instagram');
+    
+        const bearer = getCookie('instagram_bearer');
+        const token = bearer?.values()?.token;
+
+        // get media_id for mobile api, three methods
+        let media_id = await getMediaId(id);
+        if (!media_id && token) media_id = await getMediaId(id, { token });
+        if (!media_id && cookie) media_id = await getMediaId(id, { cookie });
+
+        // mobile api (bearer)
+        if (media_id && token) data = await requestMobileApi(id, { token });
 
         // mobile api (no cookie, cookie)
-        data = await requestMobileApi(id);
-        if (!data && cookie) data = await requestMobileApi(id, cookie);
+        if (!data && media_id) data = await requestMobileApi(id);
+        if (!data && media_id && cookie) data = await requestMobileApi(id, { cookie });
 
         // html embed (no cookie, cookie)
         if (!data) data = await requestHTML(id);
