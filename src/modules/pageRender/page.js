@@ -349,6 +349,12 @@ export default function(obj) {
                         }, {
                             action: "360",
                             text: "360p"
+                        }, {
+                            action: "240",
+                            text: "240p"
+                        }, {
+                            action: "144",
+                            text: "144p"
                         }]
                     })
                 })
