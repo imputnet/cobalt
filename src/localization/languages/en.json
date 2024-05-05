@@ -147,7 +147,6 @@
         "SettingsTwitterGifDescription": "converting looping videos to .gif reduces quality and majorly increases file size. if you want best efficiency, keep this setting off.",
         "ErrorTweetProtected": "this tweet is from a private account, so i can't see it. try another one!",
         "ErrorTweetNSFW": "this tweet contains sensitive content, so i can't see it. try another one!",
-        "UpdateEncryption": "encryption and new services",
         "PrivateAnalytics": "private analytics",
         "SettingsDisableAnalytics": "opt out of private analytics",
         "SettingsAnalyticsExplanation": "enable if you don't want to be included in anonymous traffic stats. read more about this in about > privacy policy (tl;dr: nothing about you is ever stored or tracked, no cookies are used).",
@@ -155,6 +154,7 @@
         "SettingsTikTokH265": "prefer h265",
         "SettingsTikTokH265Description": "download 1080p videos from tiktok in h265/hevc format when available.",
         "SettingsYoutubeDub": "use browser language",
-        "SettingsYoutubeDubDescription": "uses your browser's default language for youtube dubbed audio tracks. works even if cobalt ui isn't translated to your language."
+        "SettingsYoutubeDubDescription": "uses your browser's default language for youtube dubbed audio tracks. works even if cobalt ui isn't translated to your language.",
+        "UpdateIstream": "better service support and ux"
     }
 }
