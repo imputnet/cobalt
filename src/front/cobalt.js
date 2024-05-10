@@ -1,9 +1,9 @@
 const ua = navigator.userAgent.toLowerCase();
-const isIOS = ua.match("iphone os");
-const isMobile = ua.match("android") || ua.match("iphone os");
-const isSafari = ua.match("safari/");
-const isFirefox = ua.match("firefox/");
-const isOldFirefox = ua.match("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
+const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
+const isMobile = ua.includes("android") || ua.includes("iphone os");
+const isSafari = ua.includes("safari/");
+const isFirefox = ua.includes("firefox/");
+const isOldFirefox = ua.includes("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
 
 const switchers = {
     "theme": ["auto", "light", "dark"],
