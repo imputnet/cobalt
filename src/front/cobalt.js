@@ -1,6 +1,6 @@
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
-const isMobile = ua.includes("android") || ua.includes("iphone os");
+const isMobile = ua.includes("android") || isIOS;
 const isSafari = ua.includes("safari/");
 const isFirefox = ua.includes("firefox/");
 const isOldFirefox = ua.includes("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
@@ -575,6 +575,14 @@ const loadSettings = () => {
     }
     if (sGet("disableAnimations") === "true") {
         eid("cobalt-body").classList.add('no-animation');
+    }
+    if (!isMobile) {
+        eid("cobalt-body").classList.add('desktop');
+    }
+    if (isIOS) {
+        eid("download-switcher")
+            .querySelector(".explanation")
+            .innerHTML = loc.DownloadPopupDescriptionIOS;
     }
     for (let i = 0; i < checkboxes.length; i++) {
         try {

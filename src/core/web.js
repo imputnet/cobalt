@@ -1,4 +1,4 @@
-import { genericUserAgent, version, env } from "../modules/config.js";
+import { version, env } from "../modules/config.js";
 import { apiJSON, languageCode } from "../modules/sub/utils.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 
@@ -67,7 +67,7 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
         return res.status(200).end()
     });
     app.get("/", (req, res) => {
-        return res.sendFile(`${__dirname}/${findRendered(languageCode(req), req.header('user-agent') ? req.header('user-agent') : genericUserAgent)}`)
+        return res.sendFile(`${__dirname}/${findRendered(languageCode(req))}`)
     });
     app.get("/favicon.ico", (req, res) => {
         return res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
