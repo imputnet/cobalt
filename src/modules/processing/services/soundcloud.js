@@ -63,11 +63,12 @@ export default async function(obj) {
     if (!json["media"]["transcodings"]) return { error: 'ErrorEmptyDownload' };
 
     let bestAudio = "opus",
-        selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0");
+        selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0"),
+        mp3Media = json.media.transcodings.find(v => v.preset === "mp3_0_0");
 
-    // fall back to mp3 if no opus is available
-    if (selectedStream.length === 0) {
-        selectedStream = json.media.transcodings.find(v => v.preset === "mp3_0_0");
+    // use mp3 if present if user prefers it or if opus isn't available
+    if (mp3Media && (obj.format === "mp3" || !selectedStream)) {
+        selectedStream = mp3Media;
         bestAudio = "mp3"
     }
 

@@ -114,6 +114,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                     url,
                     author: patternMatch.author,
                     song: patternMatch.song,
+                    format: obj.aFormat,
                     shortLink: patternMatch.shortLink || false,
                     accessKey: patternMatch.accessKey || false
                 });
