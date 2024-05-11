@@ -127,7 +127,8 @@
                 "_shortLink/:shortLink",
                 ":username/videos/:caption/:id",
                 ":username/videos/:id",
-                "reel/:id"
+                "reel/:id",
+                "share/v/:id"
             ],
             "enabled": true
         }

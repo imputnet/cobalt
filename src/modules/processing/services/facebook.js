@@ -24,8 +24,9 @@ function resolveUrl(url) {
         .catch(() => false)
 }
 
-export default async function ({ shortLink, username, id }) {
+export default async function (sourceUrl, { shortLink, username, id }) {
     const isShortLink = !!shortLink?.length
+    const isSharedLink = !!sourceUrl.match(/\/share\/v\//)?.length
 
     let url = isShortLink
         ? `https://fb.watch/${shortLink}`
@@ -33,6 +34,10 @@ export default async function ({ shortLink, username, id }) {
 
     if (isShortLink) {
         url = await resolveUrl(url)
+    }
+
+    if (isSharedLink) {
+        url = sourceUrl
     }
 
     const html = await fetch(url, { headers })
