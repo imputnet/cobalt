@@ -74,7 +74,7 @@ function aliasURL(url) {
                 url = new URL(`https://web.facebook.com/_shortLink/${parts[1]}`)
             }
             break;
-            break;
+
         case "ddinstagram":
             if (services.instagram.altDomains.includes(host.domain) && [null, 'd', 'g'].includes(host.subdomain)) {
                 url.hostname = 'instagram.com';
