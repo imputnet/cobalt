@@ -25,9 +25,21 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
+import { env } from '../config.js';
 
+let freebind;
 export default async function(host, patternMatch, url, lang, obj) {
     assert(url instanceof URL);
+    let dispatcher, requestIP;
+
+    if (env.freebindCIDR) {
+        if (!freebind) {
+            freebind = await import('freebind');
+        }
+
+        requestIP = freebind.ip.random(env.freebindCIDR);
+        dispatcher = freebind.dispatcherFromIP(requestIP, { strict: false });
+    }
 
     try {
         let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
@@ -66,7 +78,8 @@ export default async function(host, patternMatch, url, lang, obj) {
                     format: obj.vCodec,
                     isAudioOnly: isAudioOnly,
                     isAudioMuted: obj.isAudioMuted,
-                    dubLang: obj.dubLang
+                    dubLang: obj.dubLang,
+                    dispatcher
                 }
 
                 if (url.hostname === 'music.youtube.com' || isAudioOnly === true) {
@@ -122,7 +135,8 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "instagram":
                 r = await instagram({
                     ...patternMatch,
-                    quality: obj.vQuality
+                    quality: obj.vQuality,
+                    dispatcher
                 })
                 break;
             case "vine":

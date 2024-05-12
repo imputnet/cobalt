@@ -41,5 +41,8 @@
         "undici": "^6.7.0",
         "url-pattern": "1.0.3",
         "youtubei.js": "^9.3.0"
+    },
+    "optionalDependencies": {
+        "freebind": "^0.2.2"
     }
 }
