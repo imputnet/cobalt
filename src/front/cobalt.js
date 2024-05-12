@@ -52,22 +52,13 @@ const changeApi = (url) => {
 const eid = (id) => {
     return document.getElementById(id)
 }
+
 const sGet = (id) =>{
     return localStorage.getItem(id)
 }
 const sSet = (id, value) => {
     localStorage.setItem(id, value)
 }
-const enable = (id) => {
-    eid(id).dataset.enabled = "true";
-}
-const disable = (id) => {
-    eid(id).dataset.enabled = "false";
-}
-const opposite = (state) => {
-    return state === "true" ? "false" : "true";
-}
-
 const lazyGet = (key) => {
     const value = sGet(key);
     if (key in switchers) {
@@ -142,15 +133,53 @@ const copy = (id, data) => {
 
 const share = url => navigator?.share({ url }).catch(() => {});
 
-const detectColorScheme = () => {
+const preferredColorScheme = () => {
     let theme = "auto";
     let localTheme = sGet("theme");
+    let isLightPreferred = false;
+
     if (localTheme) {
         theme = localTheme;
-    } else if (!window.matchMedia) {
-        theme = "dark"
     }
+    if (window.matchMedia) {
+        isLightPreferred = window.matchMedia('(prefers-color-scheme: light)').matches;
+    }
+    if (theme === "auto") {
+        theme = isLightPreferred ? "light" : "dark"
+    }
+
+    return theme
+}
+
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+        changeStatusBarColor()
+        detectColorScheme()
+    })
+}
+
+const changeStatusBarColor = () => {
+    const theme = preferredColorScheme();
+    const colors = {
+        "dark": "#000000",
+        "light": "#ffffff",
+        "dark-popup": "#191919",
+        "light-popup": "#e8e8e8"
+    }
+
+    let state = store.isPopupOpen ? "dark-popup" : "dark";
+
+    if (theme === "light") {
+        state = store.isPopupOpen ? "light-popup" : "light";
+    }
+
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', colors[state]);
+}
+const detectColorScheme = () => {
+    let theme = preferredColorScheme();
+
     document.documentElement.setAttribute("data-theme", theme);
+    changeStatusBarColor(theme);
 }
 
 const updateFilenamePreview = () => {
@@ -246,6 +275,9 @@ const popup = (type, action, text) => {
     if (action === 1) {
         hideAllPopups(); // hide the previous popup before showing a new one
         store.isPopupOpen = true;
+
+        // if not a small popup, update status bar color to match the popup header
+        if (!bottomPopups.includes(type)) changeStatusBarColor();
         switch (type) {
             case "about":
                 let tabId = "about";
@@ -306,32 +338,49 @@ const popup = (type, action, text) => {
         }
     } else {
         store.isPopupOpen = false;
+
+        // reset status bar to base color 
+        changeStatusBarColor();
+
         if (type === "picker") {
             eid("picker-download").href = '/';
             eid("picker-download").classList.remove("visible");
             eid("picker-holder").innerHTML = ''
         }
     }
-    if (bottomPopups.includes(type)) eid(`popup-${type}-container`).classList.toggle("visible");
+    if (bottomPopups.includes(type)) {
+        eid(`popup-${type}-container`).classList.toggle("visible");
+    }
     eid("popup-backdrop").classList.toggle("visible");
     eid(`popup-${type}`).classList.toggle("visible");
     eid(`popup-${type}`).focus();
 }
 
-const changeSwitcher = (li, b) => {
-    if (b) {
-        if (!switchers[li].includes(b)) b = switchers[li][0];
-        sSet(li, b);
-        for (let i in switchers[li]) {
-            (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
+const changeSwitcher = (switcher, state) => {
+    if (state) {
+        if (!switchers[switcher].includes(state)) {
+            state = switchers[switcher][0];
         }
-        if (li === "theme") detectColorScheme();
-        if (li === "filenamePattern") updateFilenamePreview();
+        sSet(switcher, state);
+
+        for (let i in switchers[switcher]) {
+            if (switchers[switcher][i] === state) {
+                eid(`${switcher}-${state}`).dataset.enabled = "true";
+            } else {
+                eid(`${switcher}-${switchers[switcher][i]}`).dataset.enabled = "false";
+            }
+        }
+        if (switcher === "theme") detectColorScheme();
+        if (switcher === "filenamePattern") updateFilenamePreview();
     } else {
-        let pref = switchers[li][0];
-        sSet(li, pref);
-        for (let i in switchers[li]) {
-            (switchers[li][i] === pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
+        let defaultValue = switchers[switcher][0];
+        sSet(switcher, defaultValue);
+        for (let i in switchers[switcher]) {
+            if (switchers[switcher][i] === defaultValue) {
+                eid(`${switcher}-${defaultValue}`).dataset.enabled = "true";
+            } else {
+                eid(`${switcher}-${switchers[switcher][i]}`).dataset.enabled = "false";
+            }
         }
     }
 }
