@@ -156,8 +156,8 @@ const changeStatusBarColor = () => {
     const colors = {
         "dark": "#000000",
         "light": "#ffffff",
-        "dark-popup": "#191919",
-        "light-popup": "#e8e8e8"
+        "dark-popup": "#151515",
+        "light-popup": "#ebebeb"
     }
 
     let state = store.isPopupOpen ? "dark-popup" : "dark";
