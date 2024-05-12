@@ -47,6 +47,7 @@
 }
 html,
 body {
+    height: calc(100% + env(safe-area-inset-top) / 2);
     margin: 0;
     background: var(--background);
     background-color: var(--background);
@@ -1195,10 +1196,6 @@ button:active,
     }
 }
 @media screen and (max-width: 535px) and (display-mode: standalone) {
-    html,
-    body {
-        height: calc(100% + env(safe-area-inset-top) / 2);
-    }
     .popup-header {
         padding-top: max(
             calc(env(safe-area-inset-top)),
