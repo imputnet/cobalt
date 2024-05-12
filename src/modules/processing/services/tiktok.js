@@ -48,8 +48,12 @@ export default async function(obj) {
     images = detail.image_post_info?.images;
 
     let playAddr = detail.video.play_addr_h264;
-    if ((obj.h265 || !playAddr) && detail.video.play_addr)
-        playAddr = detail.video.play_addr;
+    if (obj.h265) {
+        playAddr = detail.video.bit_rate[0].play_addr
+    }
+    if (!playAddr && detail.video.play_addr) {
+        playAddr = detail.video.play_addr
+    }
 
     if (!obj.isAudioOnly && !images) {
         video = playAddr.url_list[0];
