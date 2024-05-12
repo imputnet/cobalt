@@ -168,7 +168,6 @@ const changeStatusBarColor = () => {
     }
 
     document.querySelector('meta[name="theme-color"]').setAttribute('content', colors[state]);
-    document.querySelector('meta[name="background-color"]').setAttribute('content', colors[state]);
 }
 const detectColorScheme = () => {
     document.documentElement.setAttribute("data-theme", preferredColorScheme());

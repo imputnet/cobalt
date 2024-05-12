@@ -50,7 +50,6 @@ body {
     height: calc(100% + env(safe-area-inset-top) / 2);
     margin: 0;
     background: var(--background);
-    background-color: var(--background);
     color: var(--accent);
     -webkit-tap-highlight-color: var(--transparent);
     font-family: var(--font-mono);

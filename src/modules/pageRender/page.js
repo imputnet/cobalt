@@ -86,7 +86,6 @@ export default function(obj) {
         <link rel="stylesheet" href="cobalt.css">
 
         <meta name="theme-color" content="#000000">
-        <meta name="background-color" content="#000000">
 
         <link rel="preload" href="fonts/notosansmono.css" as="style">
         <link rel="preload" href="assets/meowbalt/error.png" as="image">
