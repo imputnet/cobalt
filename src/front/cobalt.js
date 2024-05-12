@@ -151,13 +151,6 @@ const preferredColorScheme = () => {
     return theme
 }
 
-if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
-        changeStatusBarColor()
-        detectColorScheme()
-    })
-}
-
 const changeStatusBarColor = () => {
     const theme = preferredColorScheme();
     const colors = {
@@ -176,10 +169,15 @@ const changeStatusBarColor = () => {
     document.querySelector('meta[name="theme-color"]').setAttribute('content', colors[state]);
 }
 const detectColorScheme = () => {
-    let theme = preferredColorScheme();
+    document.documentElement.setAttribute("data-theme", preferredColorScheme());
+    changeStatusBarColor();
+}
 
-    document.documentElement.setAttribute("data-theme", theme);
-    changeStatusBarColor(theme);
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+        changeStatusBarColor()
+        detectColorScheme()
+    })
 }
 
 const updateFilenamePreview = () => {
