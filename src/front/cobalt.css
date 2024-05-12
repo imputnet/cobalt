@@ -1171,7 +1171,7 @@ button:active,
     .tab-content-settings,
     #picker-holder {
         padding-bottom: calc(var(--padding) + 3.5rem);
-        padding-top: calc(var(--padding) + 3rem);
+        padding-top: calc(var(--padding) + 3rem - var(--padding-small));
     }
     #footer,
     .popup-tabs {
@@ -1191,7 +1191,7 @@ button:active,
     }
     .tab-content-settings,
     #tab-about-about .popup-content-inner {
-        padding-top: 5rem;
+        padding-top: calc(5rem - var(--padding-small));
     }
 }
 @media screen and (max-width: 535px) and (display-mode: standalone) {
@@ -1251,5 +1251,19 @@ button:active,
             calc(env(safe-area-inset-bottom) + var(--padding) + 2rem),
             calc(4rem - var(--padding) + var(--padding-small))
         );
+    }
+
+    .android .popup-header {
+        padding-top: var(--padding);
+    }
+    .android .popup-content-inner,
+    .android .tab-content-settings,
+    .android #picker-holder {
+        padding-bottom: calc(var(--padding) + 3.5rem);
+        padding-top: calc(var(--padding) + 3rem - var(--padding-small));
+    }
+    .android .tab-content-settings,
+    .android #tab-about-about .popup-content-inner {
+        padding-top: calc(5rem - var(--padding-small));
     }
 }

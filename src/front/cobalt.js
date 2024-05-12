@@ -1,5 +1,6 @@
 const ua = navigator.userAgent.toLowerCase();
 const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
+const isAndroid = ua.includes("android");
 const isMobile = ua.includes("android") || isIOS;
 const isSafari = ua.includes("safari/");
 const isFirefox = ua.includes("firefox/");
@@ -167,6 +168,7 @@ const changeStatusBarColor = () => {
     }
 
     document.querySelector('meta[name="theme-color"]').setAttribute('content', colors[state]);
+    document.querySelector('meta[name="background-color"]').setAttribute('content', colors[state]);
 }
 const detectColorScheme = () => {
     document.documentElement.setAttribute("data-theme", preferredColorScheme());
@@ -625,6 +627,9 @@ const loadSettings = () => {
     }
     if (!isMobile) {
         eid("cobalt-body").classList.add('desktop');
+    }
+    if (isAndroid) {
+        eid("cobalt-body").classList.add('android');
     }
     if (isIOS) {
         eid("download-switcher")

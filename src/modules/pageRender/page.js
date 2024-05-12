@@ -69,7 +69,6 @@ export default function(obj) {
         <meta property="og:image" content="${env.webURL}icons/generic.png">
         <meta name="title" content="${t("AppTitleCobalt")}">
         <meta name="description" content="${t('AboutSummary')}">
-        <meta name="theme-color" content="#000000">
         <meta name="twitter:card" content="summary">
         
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -85,6 +84,9 @@ export default function(obj) {
         <link rel="manifest" href="manifest.webmanifest">
         <link rel="stylesheet" href="fonts/notosansmono.css">
         <link rel="stylesheet" href="cobalt.css">
+
+        <meta name="theme-color" content="#000000">
+        <meta name="background-color" content="#000000">
 
         <link rel="preload" href="fonts/notosansmono.css" as="style">
         <link rel="preload" href="assets/meowbalt/error.png" as="image">
