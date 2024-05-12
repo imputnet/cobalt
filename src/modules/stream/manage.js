@@ -6,6 +6,9 @@ import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { streamLifespan, env } from "../config.js";
 import { strict as assert } from "assert";
 
+// optional dependency
+const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
+
 const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
 
 const streamNoAccess = {
@@ -46,7 +49,8 @@ export function createStream(obj) {
             isAudioOnly: !!obj.isAudioOnly,
             copy: !!obj.copy,
             mute: !!obj.mute,
-            metadata: obj.fileMetadata || false
+            metadata: obj.fileMetadata || false,
+            requestIP: obj.requestIP
         };
 
     streamCache.set(
@@ -78,11 +82,17 @@ export function getInternalStream(id) {
 export function createInternalStream(url, obj = {}) {
     assert(typeof url === 'string');
 
+    let dispatcher;
+    if (obj.requestIP) {
+        dispatcher = freebind?.dispatcherFromIP(obj.requestIP, { strict: false })
+    }
+
     const streamID = nanoid();
     internalStreamCache[streamID] = {
         url,
         service: obj.service,
-        controller: new AbortController()
+        controller: new AbortController(),
+        dispatcher
     };
 
     let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);

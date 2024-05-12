@@ -195,7 +195,8 @@ export default async function(host, patternMatch, url, lang, obj) {
         return matchActionDecider(
             r, host, obj.aFormat, isAudioOnly,
             lang, isAudioMuted, disableMetadata,
-            obj.filenamePattern, obj.twitterGif
+            obj.filenamePattern, obj.twitterGif,
+            requestIP
         )
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })

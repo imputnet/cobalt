@@ -3,7 +3,7 @@ import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
 
-export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif) {
+export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
     let action,
         responseType = 2,
         defaultParams = {
@@ -11,7 +11,8 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             service: host,
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenamePattern, isAudioOnly, isAudioMuted) : r.filename,
-            fileMetadata: !disableMetadata ? r.fileMetadata : false
+            fileMetadata: !disableMetadata ? r.fileMetadata : false,
+            requestIP
         },
         params = {},
         audioFormat = String(userFormat);
