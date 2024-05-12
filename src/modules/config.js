@@ -1,5 +1,6 @@
 import UrlPattern from "url-pattern";
 import { loadJSON } from "./sub/loadFromFs.js";
+
 const config = loadJSON("./src/config.json");
 const packageJson = loadJSON("./package.json");
 const servicesConfigJson = loadJSON("./src/modules/processing/servicesConfig.json");
@@ -37,6 +38,7 @@ const
                                 && process.env.PROCESSING_PRIORITY
                                 && parseInt(process.env.PROCESSING_PRIORITY),
         tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
+        freebindCIDR: process.platform === 'linux' && process.env.FREEBIND_CIDR,
         apiURL
     }
 
