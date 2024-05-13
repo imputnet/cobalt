@@ -48,7 +48,7 @@ export default async function(obj) {
             const data = JSON.parse(nextDataString);
             const storyId = data.query.profileParams[1];
 
-            if (storyId) {
+            if (storyId && data.props.pageProps.story) {
                 const story = data.props.pageProps.story.snapList.find((snap) => snap.snapId.value === storyId);
                 if (story) {
                     if (story.snapMediaType === 0)
