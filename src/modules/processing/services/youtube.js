@@ -66,8 +66,8 @@ export default async function(o) {
         adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats)
     }
 
-    bestQuality = adaptive_formats.find(i => i.has_video);
-    hasAudio = adaptive_formats.find(i => i.has_audio);
+    bestQuality = adaptive_formats.find(i => i.has_video && i.content_length);
+    hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
 
     if (bestQuality) bestQuality = qual(bestQuality);
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
