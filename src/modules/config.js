@@ -29,6 +29,7 @@ const
     apiEnvs = {
         apiPort: process.env.API_PORT || 9000,
         apiName: process.env.API_NAME || 'unknown',
+        listenAddress: process.env.API_LISTEN_ADDRESS,
         corsWildcard: process.env.CORS_WILDCARD !== '0',
         corsURL: process.env.CORS_URL,
         cookiePath: process.env.COOKIE_PATH,
