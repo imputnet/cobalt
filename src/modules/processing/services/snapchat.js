@@ -59,8 +59,8 @@ export default async function(obj) {
 
                     return {
                         urls: story.snapUrls.mediaUrl,
-                        filename: `snapchat_${id}.mp4`,
-                        audioFilename: `snapchat_${id}_audio`
+                        filename: `snapchat_${storyId}.mp4`,
+                        audioFilename: `snapchat_${storyId}_audio`
                     }
                 }
             }
