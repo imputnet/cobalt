@@ -34,7 +34,7 @@ const
         corsWildcard: process.env.CORS_WILDCARD !== '0',
         corsURL: process.env.CORS_URL,
         cookiePath: process.env.COOKIE_PATH,
-        processingPriority: process.platform !== "win32"
+        processingPriority: process.platform !== 'win32'
                                 && process.env.PROCESSING_PRIORITY
                                 && parseInt(process.env.PROCESSING_PRIORITY),
         tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
@@ -49,7 +49,7 @@ export const
     streamLifespan = config.streamLifespan,
     maxVideoDuration = config.maxVideoDuration,
     genericUserAgent = config.genericUserAgent,
-    repo = packageJson["bugs"]["url"].replace('/issues', ''),
+    repo = packageJson.bugs.url.replace('/issues', ''),
     authorInfo = config.authorInfo,
     donations = config.donations,
     ffmpegArgs = config.ffmpegArgs,
