@@ -25,7 +25,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
-        handler: (req, res, next, opt) => {
+        handler: (req, res) => {
             return res.status(429).json({
                 "status": "rate-limit",
                 "text": loc(languageCode(req), 'ErrorRateLimit')
@@ -38,7 +38,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
-        handler: (req, res, next, opt) => {
+        handler: (req, res) => {
             return res.status(429).json({
                 "status": "rate-limit",
                 "text": loc(languageCode(req), 'ErrorRateLimit')

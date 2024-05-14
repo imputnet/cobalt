@@ -679,7 +679,7 @@ window.onload = () => {
     }
 }
 
-eid("url-input-area").addEventListener("keydown", (e) => {
+eid("url-input-area").addEventListener("keydown", () => {
     button();
 })
 eid("url-input-area").addEventListener("keyup", (e) => {
