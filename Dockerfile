@@ -8,7 +8,7 @@ RUN rm -rf /var/lib/apt/lists/*
 COPY package*.json ./
 RUN npm install
 
-RUN git clone -n https://github.com/wukko/cobalt.git --depth 1 && mv cobalt/.git ./ && rm -rf cobalt
+RUN git clone -n https://github.com/imputnet/cobalt.git --depth 1 && mv cobalt/.git ./ && rm -rf cobalt
 
 COPY . .
 EXPOSE 9000
