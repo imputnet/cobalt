@@ -32,7 +32,9 @@ const
         corsWildcard: process.env.CORS_WILDCARD !== '0',
         corsURL: process.env.CORS_URL,
         cookiePath: process.env.COOKIE_PATH,
-        processingPriority: process.env.PROCESSING_PRIORITY && parseInt(process.env.PROCESSING_PRIORITY),
+        processingPriority: process.platform !== "win32"
+                                && process.env.PROCESSING_PRIORITY
+                                && parseInt(process.env.PROCESSING_PRIORITY),
         tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
         apiURL
     }

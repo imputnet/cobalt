@@ -44,7 +44,7 @@ function pipe(from, to, done) {
 }
 
 function getCommand(args) {
-    if (!isNaN(env.processingPriority) && process.platform !== "win32") {
+    if (!isNaN(env.processingPriority)) {
         return ['nice', ['-n', env.processingPriority.toString(), ffmpeg, ...args]]
     }
     return [ffmpeg, args]
