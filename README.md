@@ -42,7 +42,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | service    | notes or features                                                                                                    |
 | :--------  | :-----                                                                                                               |
 | instagram  | supports photos, videos, and stories. lets you pick what to save from multi-media posts.                             |
-| pinterest  | supports videos and stories.                                                                                         |
+| pinterest  | supports photos, gifs, videos and stories.                                                                           |
 | reddit     | supports gifs and videos.                                                                                            |
 | soundcloud | supports private links.                                                                                              |
 | tiktok     | supports videos with or without watermark, images from slideshow without watermark, and full (original) audios.      |
