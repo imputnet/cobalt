@@ -79,7 +79,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     // handle express.json errors properly (https://github.com/expressjs/express/issues/4065)
     app.use('/api/json', (err, req, res, next) => {
-        const errorText = "invalid json body";
+        let errorText = "invalid json body";
         const acceptHeader = String(req.header('Accept')) !== "application/json";
 
         if (err || acceptHeader) {
