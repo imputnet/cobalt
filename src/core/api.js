@@ -7,7 +7,7 @@ const ipSalt = randomBytes(64).toString('hex');
 import { env, version } from "../modules/config.js";
 import match from "../modules/processing/match.js";
 import { languageCode } from "../modules/sub/utils.js";
-import { createResponse, verifyRequest, getIP } from "../modules/processing/request.js";
+import { createResponse, normalizeRequest, getIP } from "../modules/processing/request.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
@@ -113,7 +113,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
 
         request.dubLang = request.dubLang ? lang : false;
-        const normalizedRequest = verifyRequest(request);
+        const normalizedRequest = normalizeRequest(request);
         if (!normalizedRequest) {
             return fail('ErrorCantProcess');
         }

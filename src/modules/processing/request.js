@@ -101,7 +101,7 @@ export function createResponse(responseType, responseData) {
     }
 }
 
-export function verifyRequest(request) {
+export function normalizeRequest(request) {
     try {
         let template = {
             url: normalizeURL(decodeURIComponent(request.url)),
