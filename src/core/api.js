@@ -113,7 +113,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
                         return apiJSON(0, { t: errorUnsupported(lang) })
                     }
     
-                    j = await match(parsed.host, parsed.patternMatch, chck.url, lang, chck)
+                    j = await match(parsed.host, parsed.patternMatch, lang, chck)
                             .catch(() => apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') }))
                 } else {
                     j = apiJSON(0, {

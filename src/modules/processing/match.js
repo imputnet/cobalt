@@ -28,7 +28,8 @@ import dailymotion from "./services/dailymotion.js";
 import { env } from '../config.js';
 
 let freebind;
-export default async function(host, patternMatch, url, lang, obj) {
+export default async function(host, patternMatch, lang, obj) {
+    const { url } = obj;
     assert(url instanceof URL);
     let dispatcher, requestIP;
 
