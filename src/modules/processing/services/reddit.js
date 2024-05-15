@@ -59,9 +59,13 @@ export default async function(obj) {
 
     let data = await fetch(
         url, {
-            headers: accessToken && { authorization: `Bearer ${accessToken}` }
+            headers: {
+                'User-Agent': genericUserAgent,
+                accept: 'application/json',
+                authorization: accessToken && `Bearer ${accessToken}`
+            }
         }
-    ).then(r => r.json() ).catch(() => {});
+    ).then(r => r.json()).catch(() => {});
 
     if (!data || !Array.isArray(data)) return { error: 'ErrorCouldntFetch' };
 
