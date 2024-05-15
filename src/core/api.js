@@ -95,37 +95,42 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
     });
 
+    const acceptRegex = /^application\/json(; charset=utf-8)?$/;
     app.post('/api/json', async (req, res) => {
-        try {
-            let lang = languageCode(req);
-            let j = apiJSON(0, { t: "bad request" });
-            try {
-                let contentCon = String(req.header('Content-Type')) === "application/json";
-                let request = req.body;
-                if (contentCon && request.url) {
-                    request.dubLang = request.dubLang ? lang : false;
-    
-                    let chck = checkJSONPost(request);
-                    if (!chck) throw new Error();
+        const request = req.body;
+        const lang = languageCode(req);
+        const fail = (t) => {
+            const { status, body } = apiJSON(0, { t: loc(lang, t) });
+            res.status(status).json(body);
+        }
 
-                    const parsed = extract(chck.url);
-                    if (parsed === null) {
-                        return apiJSON(0, { t: errorUnsupported(lang) })
-                    }
-    
-                    j = await match(parsed.host, parsed.patternMatch, lang, chck)
-                            .catch(() => apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') }))
-                } else {
-                    j = apiJSON(0, {
-                        t: !contentCon ? "invalid content type header" : loc(lang, 'ErrorNoLink')
-                    });
-                }
-            } catch (e) {
-                j = apiJSON(0, { t: loc(lang, 'ErrorCantProcess') });
-            }
-            return res.status(j.status).json(j.body);
-        } catch (e) {
-            return res.destroy();
+        if (!acceptRegex.test(req.header('Content-Type'))) {
+            return fail('ErrorInvalidContentType');
+        }
+
+        if (!request.url) {
+            return fail('ErrorNoLink');
+        }
+
+        request.dubLang = request.dubLang ? lang : false;
+        const normalizedRequest = checkJSONPost(request);
+        if (!normalizedRequest) {
+            return fail('ErrorCantProcess');
+        }
+
+        const parsed = extract(normalizedRequest.url);
+        if (parsed === null) {
+            return fail('ErrorUnsupported');
+        }
+
+        try {
+            const result = await match(
+                parsed.host, parsed.patternMatch, lang, normalizedRequest
+            );
+
+            res.status(result.status).json(result.body);
+        } catch {
+            fail('ErrorSomethingWentWrong');
         }
     });
 
