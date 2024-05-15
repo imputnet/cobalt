@@ -1,8 +1,9 @@
-import { Innertube } from 'youtubei.js';
+import { Innertube, Session } from 'youtubei.js';
 import { maxVideoDuration } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
+import { fetch } from 'undici'
 
-const yt = await Innertube.create();
+const ytBase = await Innertube.create();
 
 const codecMatch = {
     h264: {
@@ -22,7 +23,27 @@ const codecMatch = {
     }
 }
 
+const cloneInnertube = (customFetch) => {
+    const session = new Session(
+        ytBase.session.context,
+        ytBase.session.key,
+        ytBase.session.api_version,
+        ytBase.session.account_index,
+        ytBase.session.player,
+        undefined,
+        customFetch ?? ytBase.session.http.fetch,
+        ytBase.session.cache
+    );
+
+    const yt = new Innertube(session);
+    return yt;
+}
+
 export default async function(o) {
+    const yt = cloneInnertube(
+        (input, init) => fetch(input, { ...init, dispatcher: o.dispatcher })
+    );
+
     let info, isDubbed, format = o.format || "h264";
     let quality = o.quality === "max" ? "9000" : o.quality; // 9000(p) - max quality
 

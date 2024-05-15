@@ -38,8 +38,11 @@
         "node-cache": "^5.1.2",
         "psl": "1.9.0",
         "set-cookie-parser": "2.6.0",
-        "undici": "^6.7.0",
+        "undici": "^5.19.1",
         "url-pattern": "1.0.3",
         "youtubei.js": "^9.3.0"
+    },
+    "optionalDependencies": {
+        "freebind": "^0.2.2"
     }
 }

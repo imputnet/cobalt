@@ -1,5 +1,6 @@
 import UrlPattern from "url-pattern";
 import { loadJSON } from "./sub/loadFromFs.js";
+
 const config = loadJSON("./src/config.json");
 const packageJson = loadJSON("./package.json");
 const servicesConfigJson = loadJSON("./src/modules/processing/servicesConfig.json");
@@ -29,13 +30,15 @@ const
     apiEnvs = {
         apiPort: process.env.API_PORT || 9000,
         apiName: process.env.API_NAME || 'unknown',
+        listenAddress: process.env.API_LISTEN_ADDRESS,
         corsWildcard: process.env.CORS_WILDCARD !== '0',
         corsURL: process.env.CORS_URL,
         cookiePath: process.env.COOKIE_PATH,
-        processingPriority: process.platform !== "win32"
+        processingPriority: process.platform !== 'win32'
                                 && process.env.PROCESSING_PRIORITY
                                 && parseInt(process.env.PROCESSING_PRIORITY),
         tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
+        freebindCIDR: process.platform === 'linux' && process.env.FREEBIND_CIDR,
         apiURL
     }
 
@@ -46,7 +49,7 @@ export const
     streamLifespan = config.streamLifespan,
     maxVideoDuration = config.maxVideoDuration,
     genericUserAgent = config.genericUserAgent,
-    repo = packageJson["bugs"]["url"].replace('/issues', ''),
+    repo = packageJson.bugs.url.replace('/issues', ''),
     authorInfo = config.authorInfo,
     donations = config.donations,
     ffmpegArgs = config.ffmpegArgs,

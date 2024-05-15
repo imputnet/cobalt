@@ -18,6 +18,7 @@ async function* readChunks(streamInfo, size) {
                 ...getHeaders('youtube'),
                 Range: `bytes=${read}-${read + CHUNK_SIZE}`
             },
+            dispatcher: streamInfo.dispatcher,
             signal: streamInfo.controller.signal
         });
 
@@ -47,6 +48,7 @@ async function handleYoutubeStream(streamInfo, res) {
         const req = await fetch(streamInfo.url, {
             headers: getHeaders('youtube'),
             method: 'HEAD',
+            dispatcher: streamInfo.dispatcher,
             signal: streamInfo.controller.signal
         });
 
@@ -81,6 +83,7 @@ export async function internalStream(streamInfo, res) {
                 ...streamInfo.headers,
                 host: undefined
             },
+            dispatcher: streamInfo.dispatcher,
             signal: streamInfo.controller.signal,
             maxRedirections: 16
         });

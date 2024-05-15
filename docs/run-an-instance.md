@@ -53,13 +53,15 @@ sudo service nscd start
 | variable name         | default   | example                 | description |
 |:----------------------|:----------|:------------------------|:------------|
 | `API_PORT`            | `9000`    |  `9000`                 | changes port from which api server is accessible. |
+| `API_LISTEN_ADDRESS`  | `0.0.0.0` |  `127.0.0.1`            | changes address from which api server is accessible. **if you are using docker, you usually don't need to configure this.** |
 | `API_URL`             | ➖        | `https://co.wuk.sh/`    | changes url from which api server is accessible. <br> ***REQUIRED TO RUN API***. |
 | `API_NAME`            | `unknown` | `ams-1`                 | api server name that is shown in `/api/serverInfo`. |
 | `CORS_WILDCARD`       | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled. |
 | `CORS_URL`            | not used  | `https://cobalt.tools/` | cross-origin resource sharing url. api will be available only from this url if `CORS_WILDCARD` is set to `0`. |
 | `COOKIE_PATH`         | not used  | `/cookies.json`         | path for cookie file relative to main folder. |
 | `PROCESSING_PRIORITY` | not used  | `10`                    | changes `nice` value* for ffmpeg subprocess. available only on unix systems. |
-| `TIKTOK_DEVICE_INFO`  | ➖        | *see below*                    | device info (including `iid` and `device_id`) for tiktok functionality. required for tiktok to work. |
+| `TIKTOK_DEVICE_INFO`  | ➖        | *see below*             | device info (including `iid` and `device_id`) for tiktok functionality. required for tiktok to work. |
+| `FREEBIND_CIDR`       | ➖        | `2001:db8::/32`         | IPv6 prefix used for randomly assigning addresses to cobalt requests. only supported on linux systems. for more info, see below. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
@@ -84,6 +86,12 @@ you can compress the json to save space. if you're using a `.env` file then the 
 ```
 TIKTOK_DEVICE_INFO='{"iid":"<install_id here>","device_id":"<device_id here>","channel":"googleplay","app_name":"musical_ly","version_code":"310503","device_platform":"android","device_type":"Redmi+7","os_version":"13"}'
 ```
+
+#### FREEBIND_CIDR
+setting a `FREEBIND_CIDR` allows cobalt to pick a random IP for every download and use it for all
+requests it makes for that particular download. to use freebind in cobalt, you need to follow its [setup instructions](https://github.com/imputnet/freebind.js?tab=readme-ov-file#setup) first. if you configure this option while running cobalt
+in a docker container, you also need to set the `API_LISTEN_ADDRESS` env to `127.0.0.1`, and set
+`network_mode` for the container to `host`.
 
 ### variables for web
 | variable name        | default              | example                 | description                                                                           |
