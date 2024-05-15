@@ -1,11 +1,11 @@
 import { audioIgnore, services, supportedAudio } from "../config.js";
-import { apiJSON } from "../sub/utils.js";
+import { createResponse } from "../processing/request.js";
 import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
 
 export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
     let action,
-        responseType = 2,
+        responseType = "stream",
         defaultParams = {
             u: r.urls,
             service: host,
@@ -36,10 +36,10 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
     switch (action) {
         default:
-            return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') });
+            return createResponse("error", { t: loc(lang, 'ErrorEmptyDownload') });
 
         case "photo":
-            responseType = 1;
+            responseType = "redirect";
             break;
         
         case "gif":
@@ -56,11 +56,12 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
                 mute: true
             }
-            if (host === "reddit" && r.typeId === 1) responseType = 1;
+            if (host === "reddit" && r.typeId === "redirect")
+                responseType = "redirect";
             break;
 
         case "picker":
-            responseType = 5;
+            responseType = "picker";
             switch (host) {
                 case "instagram":
                 case "twitter":
@@ -98,7 +99,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     if (Array.isArray(r.urls)) {
                         params = { type: "render" }
                     } else {
-                        responseType = 1;
+                        responseType = "redirect";
                     }
                     break;
                 
@@ -106,7 +107,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     if (r.type === "remux") {
                         params = { type: r.type };
                     } else {
-                        responseType = 1;
+                        responseType = "redirect";
                     }
                     break;
 
@@ -121,14 +122,15 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "tumblr":
                 case "pinterest":
                 case "streamable":
-                    responseType = 1;
+                    responseType = "redirect";
                     break;
             }
             break;
 
         case "audio": 
-            if ((host === "reddit" && r.typeId === 1) || audioIgnore.includes(host)) {
-                return apiJSON(0, { t: loc(lang, 'ErrorEmptyDownload') })
+            if (audioIgnore.includes(host)
+                || (host === "reddit" && r.typeId === "redirect")) {
+                return createResponse("error", { t: loc(lang, 'ErrorEmptyDownload') })
             }
 
             let processType = "render",
@@ -178,5 +180,5 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             break;
     }
 
-    return apiJSON(responseType, {...defaultParams, ...params})
+    return createResponse(responseType, {...defaultParams, ...params})
 }

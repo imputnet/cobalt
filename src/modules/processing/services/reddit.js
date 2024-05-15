@@ -68,7 +68,7 @@ export default async function(obj) {
     data = data[0]?.data?.children[0]?.data;
 
     if (data?.url?.endsWith('.gif')) return {
-        typeId: 1,
+        typeId: "redirect",
         urls: data.url
     }
 
@@ -106,12 +106,12 @@ export default async function(obj) {
     let id = video.split('/')[3];
 
     if (!audio) return {
-        typeId: 1,
+        typeId: "redirect",
         urls: video
     }
 
     return {
-        typeId: 2,
+        typeId: "stream",
         type: "render",
         urls: [video, audioFileLink],
         audioFilename: `reddit_${id}_audio`,

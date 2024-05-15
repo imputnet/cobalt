@@ -6,14 +6,14 @@ const ipSalt = randomBytes(64).toString('hex');
 
 import { env, version } from "../modules/config.js";
 import match from "../modules/processing/match.js";
-import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/utils.js";
+import { languageCode } from "../modules/sub/utils.js";
+import { createResponse, verifyRequest, getIP } from "../modules/processing/request.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
 import { generateHmac } from "../modules/sub/crypto.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
 import { extract } from "../modules/processing/url.js";
-import { errorUnsupported } from "../modules/sub/errors.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = !env.corsWildcard ? {
@@ -100,7 +100,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         const request = req.body;
         const lang = languageCode(req);
         const fail = (t) => {
-            const { status, body } = apiJSON(0, { t: loc(lang, t) });
+            const { status, body } = createResponse("error", { t: loc(lang, t) });
             res.status(status).json(body);
         }
 
@@ -113,7 +113,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
 
         request.dubLang = request.dubLang ? lang : false;
-        const normalizedRequest = checkJSONPost(request);
+        const normalizedRequest = verifyRequest(request);
         if (!normalizedRequest) {
             return fail('ErrorCantProcess');
         }

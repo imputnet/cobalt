@@ -1,6 +1,6 @@
 import { strict as assert } from "node:assert";
 
-import { apiJSON } from "../sub/utils.js";
+import { createResponse } from "../processing/request.js";
 import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
 
 import loc from "../../localization/manager.js";
@@ -45,8 +45,8 @@ export default async function(host, patternMatch, lang, obj) {
     try {
         let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
 
-        if (!testers[host]) return apiJSON(0, { t: errorUnsupported(lang) });
-        if (!(testers[host](patternMatch))) return apiJSON(0, { t: brokenLink(lang, host) });
+        if (!testers[host]) return createResponse("error", { t: errorUnsupported(lang) });
+        if (!(testers[host](patternMatch))) return createResponse("error", { t: brokenLink(lang, host) });
 
         switch (host) {
             case "twitter":
@@ -177,17 +177,17 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await dailymotion(patternMatch);
                 break;
             default:
-                return apiJSON(0, { t: errorUnsupported(lang) });
+                return createResponse("error", { t: errorUnsupported(lang) });
         }
 
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
 
         if (r.error && r.critical)
-            return apiJSON(6, { t: loc(lang, r.error) })
+            return createResponse("critical", { t: loc(lang, r.error) })
 
         if (r.error)
-            return apiJSON(0, {
+            return createResponse("error", {
                 t: Array.isArray(r.error)
                     ? loc(lang, r.error[0], r.error[1])
                     : loc(lang, r.error)
@@ -199,7 +199,7 @@ export default async function(host, patternMatch, lang, obj) {
             obj.filenamePattern, obj.twitterGif,
             requestIP
         )
-    } catch (e) {
-        return apiJSON(0, { t: genericError(lang, host) })
+    } catch {
+        return createResponse("error", { t: genericError(lang, host) })
     }
 }
