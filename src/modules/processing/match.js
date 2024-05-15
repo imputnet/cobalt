@@ -1,8 +1,7 @@
 import { strict as assert } from "node:assert";
 
+import { env } from '../config.js';
 import { createResponse } from "../processing/request.js";
-import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
-
 import loc from "../../localization/manager.js";
 
 import { testers } from "./servicesPatternTesters.js";
@@ -25,9 +24,9 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
-import { env } from '../config.js';
 
 let freebind;
+
 export default async function(host, patternMatch, lang, obj) {
     const { url } = obj;
     assert(url instanceof URL);
@@ -43,10 +42,20 @@ export default async function(host, patternMatch, lang, obj) {
     }
 
     try {
-        let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
+        let r,
+            isAudioOnly = !!obj.isAudioOnly,
+            disableMetadata = !!obj.disableMetadata;
 
-        if (!testers[host]) return createResponse("error", { t: errorUnsupported(lang) });
-        if (!(testers[host](patternMatch))) return createResponse("error", { t: brokenLink(lang, host) });
+        if (!testers[host]) {
+            return createResponse("error", {
+                t: loc(lang, 'ErrorUnsupported')
+            });
+        }
+        if (!(testers[host](patternMatch))) {
+            return createResponse("error", {
+                t: loc(lang, 'ErrorBrokenLink', host)
+            });
+        }
 
         switch (host) {
             case "twitter":
@@ -177,21 +186,26 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await dailymotion(patternMatch);
                 break;
             default:
-                return createResponse("error", { t: errorUnsupported(lang) });
+                return createResponse("error", {
+                    t: loc(lang, 'ErrorUnsupported')
+                });
         }
 
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
 
-        if (r.error && r.critical)
-            return createResponse("critical", { t: loc(lang, r.error) })
-
-        if (r.error)
+        if (r.error && r.critical) {
+            return createResponse("critical", {
+                t: loc(lang, r.error)
+            })
+        }
+        if (r.error) {
             return createResponse("error", {
                 t: Array.isArray(r.error)
                     ? loc(lang, r.error[0], r.error[1])
                     : loc(lang, r.error)
             })
+        }
 
         return matchActionDecider(
             r, host, obj.aFormat, isAudioOnly,
@@ -200,6 +214,8 @@ export default async function(host, patternMatch, lang, obj) {
             requestIP
         )
     } catch {
-        return createResponse("error", { t: genericError(lang, host) })
+        return createResponse("error", {
+            t: loc(lang, 'ErrorBadFetch', host)
+        })
     }
 }
