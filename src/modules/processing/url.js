@@ -125,3 +125,29 @@ export function getHostIfValid(url) {
 
     return host.sld;
 }
+
+
+export function extract(url) {
+    const host = getHostIfValid(url);
+
+    if (!host || !services[host].enabled) {
+        return null;
+    }
+
+    let patternMatch;
+    for (const pattern of services[host].patterns) {
+        patternMatch = pattern.match(
+            url.pathname.substring(1) + url.search
+        );
+
+        if (patternMatch) {
+            break;
+        }
+    }
+
+    if (!patternMatch) {
+        return null;
+    }
+
+    return { host, patternMatch };
+}
