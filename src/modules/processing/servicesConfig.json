@@ -93,7 +93,7 @@
             "enabled": true
         },
         "pinterest": {
-            "alias": "pinterest videos & stories",
+            "alias": "pinterest (all media)",
             "patterns": ["pin/:id", "pin/:id/:garbage", "url_shortener/:shortLink"],
             "enabled": true
         },
