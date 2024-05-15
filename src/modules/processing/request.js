@@ -22,6 +22,17 @@ const apiVar = {
 }
 
 export function createResponse(responseType, responseData) {
+    const internalError = (text) => {
+        return {
+            status: 500,
+            body: {
+                status: "error",
+                text: text || "Internal Server Error",
+                critical: true
+            }
+        }
+    }
+
     try {
         let status = 200,
             response = {};
@@ -72,6 +83,8 @@ export function createResponse(responseType, responseData) {
                     audio: audio
                 }
                 break;
+            case "critical": 
+                return internalError(responseData.t)
             default: 
                 throw "unreachable"
         }
@@ -83,13 +96,7 @@ export function createResponse(responseType, responseData) {
             }
         }
     } catch {
-        return {
-            status: 500,
-            body: {
-                status: "error",
-                text: "Internal Server Error"
-            }
-        }
+        return internalError()
     }
 }
 
