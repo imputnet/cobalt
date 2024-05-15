@@ -22,7 +22,7 @@ export default async function(o) {
 
     let videoLink = [...html.matchAll(videoRegex)]
                     .map(([, link]) => link)
-                    .filter(a => a.endsWith('.mp4') && a.includes('720p'))[0];
+                    .find(a => a.endsWith('.mp4') && a.includes('720p'));
 
     if (videoLink) return {
         urls: videoLink,
@@ -32,7 +32,7 @@ export default async function(o) {
 
     let imageLink = [...html.matchAll(imageRegex)]
                     .map(([, link]) => link)
-                    .filter(a => a.endsWith('.jpg') || a.endsWith('.gif'))[0];
+                    .find(a => a.endsWith('.jpg') || a.endsWith('.gif'));
                     
     if (imageLink) return {
         urls: imageLink,
