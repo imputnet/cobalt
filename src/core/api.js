@@ -5,13 +5,15 @@ import { randomBytes } from "crypto";
 const ipSalt = randomBytes(64).toString('hex');
 
 import { env, version } from "../modules/config.js";
-import { getJSON } from "../modules/api.js";
+import match from "../modules/processing/match.js";
 import { apiJSON, checkJSONPost, getIP, languageCode } from "../modules/sub/utils.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import stream from "../modules/stream/stream.js";
 import loc from "../localization/manager.js";
 import { generateHmac } from "../modules/sub/crypto.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
+import { extract } from "../modules/processing/url.js";
+import { errorUnsupported } from "../modules/sub/errors.js";
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const corsConfig = !env.corsWildcard ? {
@@ -105,8 +107,14 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     
                     let chck = checkJSONPost(request);
                     if (!chck) throw new Error();
+
+                    const parsed = extract(chck.url);
+                    if (parsed === null) {
+                        return apiJSON(0, { t: errorUnsupported(lang) })
+                    }
     
-                    j = await getJSON(chck.url, lang, chck);
+                    j = await match(parsed.host, parsed.patternMatch, chck.url, lang, chck)
+                            .catch(() => apiJSON(0, { t: loc(lang, 'ErrorSomethingWentWrong') }))
                 } else {
                     j = apiJSON(0, {
                         t: !contentCon ? "invalid content type header" : loc(lang, 'ErrorNoLink')
