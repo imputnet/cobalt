@@ -25,6 +25,6 @@ export default async function(res, streamInfo) {
                 break;
         }
     } catch {
-        res.status(500).json({ status: "error", text: "Internal Server Error" });
+        res.sendStatus(500);
     }
 }
