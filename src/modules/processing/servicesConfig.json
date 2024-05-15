@@ -59,12 +59,6 @@
             "subdomains": ["vt", "vm"],
             "enabled": true
         },
-        "douyin": {
-            "alias": "douyin videos & audio",
-            "patterns": ["video/:postId", ":id"],
-            "subdomains": ["v"],
-            "enabled": false
-        },
         "vimeo": {
             "patterns": [":id", "video/:id", ":id/:password", "/channels/:user/:id"],
             "enabled": true,

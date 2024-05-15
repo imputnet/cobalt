@@ -67,7 +67,6 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "twitter":
                     params = { picker: r.picker };
                     break;
-                case "douyin":
                 case "tiktok":
                     let pickerType = "render";
                     if (audioFormat === "mp3" || audioFormat === "best") {
@@ -112,7 +111,6 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     break;
 
                 case "vk":
-                case "douyin":
                 case "tiktok":
                     params = { type: "bridge" };
                     break;
