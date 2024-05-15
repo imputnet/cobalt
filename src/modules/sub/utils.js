@@ -27,9 +27,9 @@ export function cleanString(string) {
     return string;
 }
 export function verifyLanguageCode(code) {
-    const languageCode = String(code.slice(0, 2).toLowerCase());
-    if (RegExp(/[a-z]{2}/).test(languageCode)) {
-        return languageCode
+    const code = String(code.slice(0, 2).toLowerCase());
+    if (RegExp(/[a-z]{2}/).test(code)) {
+        return code
     }
     return "en"
 }
