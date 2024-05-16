@@ -45,6 +45,7 @@ const
         rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
 
         durationLimit: (process.env.DURATION_LIMIT && parseInt(process.env.DURATION_LIMIT)) || 10800,
+        streamLifespan: 90,
 
         processingPriority: process.platform !== 'win32'
                                 && process.env.PROCESSING_PRIORITY
@@ -55,7 +56,6 @@ export const
     services = servicesConfigJson.config,
     audioIgnore = servicesConfigJson.audioIgnore,
     version = packageJson.version,
-    streamLifespan = config.streamLifespan,
     genericUserAgent = config.genericUserAgent,
     repo = packageJson.bugs.url.replace('/issues', ''),
     authorInfo = config.authorInfo,

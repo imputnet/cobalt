@@ -3,7 +3,7 @@ import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { streamLifespan, env } from "../config.js";
+import { env } from "../config.js";
 import { strict as assert } from "assert";
 
 // optional dependency
@@ -12,7 +12,7 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
 
 const streamCache = new NodeCache({
-    stdTTL: streamLifespan/1000,
+    stdTTL: env.streamLifespan/1000,
     checkperiod: 10,
     deleteOnExpire: true
 })
@@ -28,7 +28,7 @@ export function createStream(obj) {
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64url'),
         secret = randomBytes(32).toString('base64url'),
-        exp = new Date().getTime() + streamLifespan,
+        exp = new Date().getTime() + env.streamLifespan,
         hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
             exp: exp,
