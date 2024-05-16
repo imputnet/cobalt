@@ -12,7 +12,7 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
 
 const streamCache = new NodeCache({
-    stdTTL: env.streamLifespan/1000,
+    stdTTL: env.streamLifespan,
     checkperiod: 10,
     deleteOnExpire: true
 })
@@ -28,7 +28,7 @@ export function createStream(obj) {
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64url'),
         secret = randomBytes(32).toString('base64url'),
-        exp = new Date().getTime() + env.streamLifespan,
+        exp = new Date().getTime() + env.streamLifespan * 1000,
         hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
             exp: exp,
