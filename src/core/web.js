@@ -1,12 +1,14 @@
-import { version, env } from "../modules/config.js";
-import { apiJSON, languageCode } from "../modules/sub/utils.js";
+
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
+import { languageCode } from "../modules/sub/utils.js";
+import { version, env } from "../modules/config.js";
 
 import { buildFront } from "../modules/build.js";
 import findRendered from "../modules/pageRender/findRendered.js";
 
 import { celebrationsEmoji } from "../modules/pageRender/elements.js";
 import { changelogHistory } from "../modules/pageRender/onDemand.js";
+import { createResponse } from "../modules/processing/request.js";
 
 export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
     const startTime = new Date();
@@ -20,33 +22,40 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
     app.use((req, res, next) => {
         try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
         next();
-    });
+    })
+
     app.get('/onDemand', (req, res) => {
         try {
             if (req.query.blockId) {
                 let blockId = req.query.blockId.slice(0, 3);
-                let r, j;
+                let blockData;
                 switch(blockId) {
                     // changelog history
                     case "0":
-                        r = changelogHistory();
-                        j = r ? apiJSON(3, { t: r }) : apiJSON(0, {
-                            t: "couldn't render this block, please try again!"
-                        })
+                        let history = changelogHistory();
+                        if (history) {
+                            blockData = createResponse("success", { t: history })
+                        } else {
+                            blockData = createResponse("error", {
+                                t: "couldn't render this block, please try again!"
+                            })
+                        }
                         break;
                     // celebrations emoji
                     case "1":
-                        r = celebrationsEmoji();
-                        j = r ? apiJSON(3, { t: r }) : false
+                        let celebration = celebrationsEmoji();
+                        if (celebration) {
+                            blockData = createResponse("success", { t: celebration })
+                        }
                         break;
                     default:
-                        j = apiJSON(0, {
+                        blockData = createResponse("error", {
                             t: "couldn't find a block with this id"
                         })
                         break;
                 }
-                if (j.body) {
-                    return res.status(j.status).json(j.body);
+                if (blockData?.body) {
+                    return res.status(blockData.status).json(blockData.body);
                 } else {
                     return res.status(204).end();
                 }
@@ -56,25 +65,25 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
                     text: "couldn't render this block, please try again!"
                 });
             }
-        } catch (e) {
+        } catch {
             return res.status(400).json({
                 status: "error",
                 text: "couldn't render this block, please try again!"
             })
         }
-    });
-    app.get("/status", (req, res) => {
-        return res.status(200).end()
-    });
+    })
+
     app.get("/", (req, res) => {
         return res.sendFile(`${__dirname}/${findRendered(languageCode(req))}`)
-    });
+    })
+
     app.get("/favicon.ico", (req, res) => {
         return res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
-    });
+    })
+
     app.get("/*", (req, res) => {
         return res.redirect('/')
-    });
+    })
 
     app.listen(env.webPort, () => {
         console.log(`\n` +
