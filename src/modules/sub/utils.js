@@ -127,3 +127,9 @@ export function cleanHTML(html) {
     clean = clean.replace(/\n/g, '');
     return clean
 }
+export async function getRedirectingURL(url) {
+    return await fetch(url, { redirect: 'manual' }).then((r) => {
+        if ([301, 302, 303].includes(r.status) && r.headers.has('location'))
+            return r.headers.get('location');
+    }).catch(() => null);
+}
