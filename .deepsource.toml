@@ -1,11 +1,7 @@
 version = 1
 
-test_patterns = [
-    "src/test/test.js"
-]
-
 [[analyzers]]
 name = "javascript"
-enabled = true
-    [analyzers.meta]
-        environment = ["nodejs"]
+
+  [analyzers.meta]
+  environment = ["nodejs"]

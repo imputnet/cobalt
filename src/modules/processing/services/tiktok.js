@@ -1,4 +1,4 @@
-import { genericUserAgent } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 
 const shortDomain = "https://vt.tiktok.com/";
 const apiPath = "https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/?region=US&carrier_region=US";
@@ -7,7 +7,7 @@ const apiUserAgent = "TikTok/338014 CFNetwork/1410.1 Darwin/22.6.0";
 export default async function(obj) {
     let postId = obj.postId ? obj.postId : false;
 
-    if (!process.env.TIKTOK_DEVICE_INFO) return { error: 'ErrorCouldntFetch' };
+    if (!env.tiktokDeviceInfo) return { error: 'ErrorCouldntFetch' };
 
     if (!postId) {
         let html = await fetch(`${shortDomain}${obj.id}`, {
@@ -27,8 +27,7 @@ export default async function(obj) {
     }
     if (!postId) return { error: 'ErrorCantGetID' };
 
-    let deviceInfo = JSON.parse(process.env.TIKTOK_DEVICE_INFO);
-        deviceInfo = new URLSearchParams(deviceInfo).toString();
+    let deviceInfo = new URLSearchParams(env.tiktokDeviceInfo).toString();
 
     let apiURL = new URL(apiPath);
         apiURL.searchParams.append("aweme_id", postId);
@@ -42,14 +41,19 @@ export default async function(obj) {
     detail = detail?.aweme_list?.find(v => v.aweme_id === postId);
     if (!detail) return { error: 'ErrorCouldntFetch' };
 
-    let video, videoFilename, audioFilename, isMp3, audio, images,
-        filenameBase = `tiktok_${detail.author.unique_id}_${postId}`;
+    let video, videoFilename, audioFilename, audio, images,
+        filenameBase = `tiktok_${detail.author.unique_id}_${postId}`,
+        bestAudio = 'm4a';
 
     images = detail.image_post_info?.images;
 
     let playAddr = detail.video.play_addr_h264;
-
-    if (!playAddr) playAddr = detail.video.play_addr;
+    if (obj.h265) {
+        playAddr = detail.video.bit_rate[0].play_addr
+    }
+    if (!playAddr && detail.video.play_addr) {
+        playAddr = detail.video.play_addr
+    }
 
     if (!obj.isAudioOnly && !images) {
         video = playAddr.url_list[0];
@@ -57,12 +61,12 @@ export default async function(obj) {
     } else {
         let fallback = playAddr.url_list[0];
         audio = fallback;
-        audioFilename = `${filenameBase}_audio_fv`;  // fv - from video
+        audioFilename = `${filenameBase}_audio`;
         if (obj.fullAudio || fallback.includes("music")) {
             audio = detail.music.play_url.url_list[0]
-            audioFilename = `${filenameBase}_audio`
+            audioFilename = `${filenameBase}_audio_original`
         }
-        if (audio.slice(-4) === ".mp3") isMp3 = true;
+        if (audio.slice(-4) === ".mp3") bestAudio = 'mp3';
     }
 
     if (video) return {
@@ -73,7 +77,7 @@ export default async function(obj) {
         urls: audio,
         audioFilename: audioFilename,
         isAudioOnly: true,
-        isMp3: isMp3
+        bestAudio
     }
     if (images) {
         let imageLinks = [];
@@ -87,13 +91,13 @@ export default async function(obj) {
             urls: audio,
             audioFilename: audioFilename,
             isAudioOnly: true,
-            isMp3: isMp3
+            bestAudio
         }
     }
     if (audio) return {
         urls: audio,
         audioFilename: audioFilename,
         isAudioOnly: true,
-        isMp3: isMp3
+        bestAudio
     }
 }

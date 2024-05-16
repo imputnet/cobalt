@@ -1,4 +1,4 @@
-import { createHmac, createCipheriv, createDecipheriv, scryptSync } from "crypto";
+import { createHmac, createCipheriv, createDecipheriv } from "crypto";
 
 const algorithm = "aes256"
 

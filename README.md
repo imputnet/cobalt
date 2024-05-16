@@ -1,7 +1,7 @@
 # cobalt
 best way to save what you love: [cobalt.tools](https://cobalt.tools/)  
 
-![cobalt logo with repeated logo (double arrow) pattern background](https://raw.githubusercontent.com/wukko/cobalt/current/src/front/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")  
+![cobalt logo with repeated logo (double arrow) pattern background](/src/front/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")  
 
 ## what's cobalt?
 cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or invasive analytics***.  
@@ -43,7 +43,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | service    | notes or features                                                                                                    |
 | :--------  | :-----                                                                                                               |
 | instagram  | supports photos, videos, and stories. lets you pick what to save from multi-media posts.                             |
-| pinterest  | supports videos and stories.                                                                                         |
+| pinterest  | supports photos, gifs, videos and stories.                                                                           |
 | reddit     | supports gifs and videos.                                                                                            |
 | snapchat   | supports spotlights and stories. lets you pick what to save from stories.                                            |
 | soundcloud | supports private links.                                                                                              |
@@ -53,12 +53,15 @@ this list is not final and keeps expanding over time. if support for a service y
 | youtube    | supports videos, music, and shorts. 8K, 4K, HDR, VR, and high FPS videos. rich metadata & dubs. h264/av1/vp9 codecs. |
 
 ## cobalt api
-cobalt has an open api that you can use in projects *for completely free~*. it's easy and straightforward to use, [check out the docs](https://github.com/wukko/cobalt/blob/current/docs/api.md) to learn how to use it. 
+cobalt has an open api that you can use in your projects *for free~*. it's easy and straightforward to use, [check out the docs](/docs/api.md) to learn how to use it. 
 
-you can use the main api instance ([co.wuk.sh](https://co.wuk.sh/)) in your projects.
+✅ you can use the main api instance ([co.wuk.sh](https://co.wuk.sh/)) in your **personal** projects.  
+❌ you cannot use the free api commercially (anywhere that's gated behind paywalls or ads). host your own instance for this.
+
+we reserve the right to restrict abusive/excessive access to the main instance api.
 
 ## how to run your own instance
-if you want to run your own instance for whatever purpose, [follow this guide](https://github.com/wukko/cobalt/blob/current/docs/run-an-instance.md).  
+if you want to run your own instance for whatever purpose, [follow this guide](/docs/run-an-instance.md).  
 it's *highly* recommended to use a docker compose method unless you run for developing/debugging purposes.
 
 ## sponsors 
@@ -70,7 +73,7 @@ cobalt is a tool for easing content downloads from internet and takes ***zero li
 cobalt is ***NOT*** a piracy tool and cannot be used as such. it can only download free, publicly accessible content. such content can be easily downloaded through any browser's dev tools. pressing one button is easier, so i made a convenient, ad-less tool for such repeated actions.
 
 ## cobalt license
-cobalt code is licensed under [AGPL-3.0](https://github.com/wukko/cobalt/blob/current/LICENSE).
+cobalt code is licensed under [AGPL-3.0](/LICENSE).
 
 cobalt branding, mascots, and other related assets included in the repo are ***copyrighted*** and not covered by the AGPL-3.0 license. you ***cannot*** use them under same terms.  
 

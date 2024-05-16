@@ -1,10 +1,11 @@
-import { Innertube } from 'youtubei.js';
+import { Innertube, Session } from 'youtubei.js';
 import { maxVideoDuration } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
+import { fetch } from 'undici'
 
-const yt = await Innertube.create();
+const ytBase = await Innertube.create();
 
-const c = {
+const codecMatch = {
     h264: {
         codec: "avc1",
         aCodec: "mp4a",
@@ -22,8 +23,30 @@ const c = {
     }
 }
 
+const cloneInnertube = (customFetch) => {
+    const session = new Session(
+        ytBase.session.context,
+        ytBase.session.key,
+        ytBase.session.api_version,
+        ytBase.session.account_index,
+        ytBase.session.player,
+        undefined,
+        customFetch ?? ytBase.session.http.fetch,
+        ytBase.session.cache
+    );
+
+    const yt = new Innertube(session);
+    return yt;
+}
+
 export default async function(o) {
-    let info, isDubbed, quality = o.quality === "max" ? "9000" : o.quality; //set quality 9000(p) to be interpreted as max
+    const yt = cloneInnertube(
+        (input, init) => fetch(input, { ...init, dispatcher: o.dispatcher })
+    );
+
+    let info, isDubbed, format = o.format || "h264";
+    let quality = o.quality === "max" ? "9000" : o.quality; // 9000(p) - max quality
+
     function qual(i) {
         if (!i.quality_label) {
             return;
@@ -33,7 +56,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'ANDROID');
+        info = await yt.getBasicInfo(o.id, 'WEB');
     } catch (e) {
         return { error: 'ErrorCantConnectToServiceAPI' };
     }
@@ -43,12 +66,29 @@ export default async function(o) {
     if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
-    let bestQuality, hasAudio, adaptive_formats = info.streaming_data.adaptive_formats.filter(e => 
-        e.mime_type.includes(c[o.format].codec) || e.mime_type.includes(c[o.format].aCodec)
+    // return a critical error if returned video is "Video Not Available"
+    // or a similar stub by youtube
+    if (info.basic_info.id !== o.id) {
+        return {
+            error: 'ErrorCantConnectToServiceAPI',
+            critical: true
+        }
+    }
+
+    let bestQuality, hasAudio;
+
+    const filterByCodec = (formats) => formats.filter(e => 
+        e.mime_type.includes(codecMatch[format].codec) || e.mime_type.includes(codecMatch[format].aCodec)
     ).sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
 
-    bestQuality = adaptive_formats.find(i => i.has_video);
-    hasAudio = adaptive_formats.find(i => i.has_audio);
+    let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
+    if (adaptive_formats.length === 0 && format === "vp9") {
+        format = "h264"
+        adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats)
+    }
+
+    bestQuality = adaptive_formats.find(i => i.has_video && i.content_length);
+    hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
 
     if (bestQuality) bestQuality = qual(bestQuality);
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
@@ -87,42 +127,37 @@ export default async function(o) {
         youtubeDubName: isDubbed ? o.dubLang : false
     }
 
-    if (filenameAttributes.title === "Video Not Available" && filenameAttributes.author === "YouTube Viewers")
-        return {
-            error: 'ErrorCantConnectToServiceAPI',
-            critical: true
-        }
-
     if (hasAudio && o.isAudioOnly) return {
         type: "render",
         isAudioOnly: true,
-        urls: audio.url,
+        urls: audio.decipher(yt.session.player),
         filenameAttributes: filenameAttributes,
-        fileMetadata: fileMetadata
+        fileMetadata: fileMetadata,
+        bestAudio: format === "h264" ? 'm4a' : 'opus'
     }
     const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality,
-        checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(c[o.format].codec),
+        checkSingle = i => qual(i) === matchingQuality && i.mime_type.includes(codecMatch[format].codec),
         checkRender = i => qual(i) === matchingQuality && i.has_video && !i.has_audio;
 
     let match, type, urls;
-    if (!o.isAudioOnly && !o.isAudioMuted && o.format === 'h264') {
+    if (!o.isAudioOnly && !o.isAudioMuted && format === 'h264') {
         match = info.streaming_data.formats.find(checkSingle);
         type = "bridge";
-        urls = match?.url;
+        urls = match?.decipher(yt.session.player);
     }
 
     const video = adaptive_formats.find(checkRender);
     if (!match && video) {
         match = video;
         type = "render";
-        urls = [video.url, audio.url];
+        urls = [video.decipher(yt.session.player), audio.decipher(yt.session.player)];
     }
 
     if (match) {
         filenameAttributes.qualityLabel = match.quality_label;
         filenameAttributes.resolution = `${match.width}x${match.height}`;
-        filenameAttributes.extension = c[o.format].container;
-        filenameAttributes.youtubeFormat = o.format;
+        filenameAttributes.extension = codecMatch[format].container;
+        filenameAttributes.youtubeFormat = format;
         return {
             type,
             urls,

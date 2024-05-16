@@ -13,9 +13,6 @@ export async function buildFront(commitHash, branch) {
         // build html
         if (!fs.existsSync('./build/')){
             fs.mkdirSync('./build/');
-            fs.mkdirSync('./build/ios/');
-            fs.mkdirSync('./build/pc/');
-            fs.mkdirSync('./build/mob/');
         }
         // get rid of old build path
         if (fs.existsSync('./min')) {
@@ -26,16 +23,9 @@ export async function buildFront(commitHash, branch) {
             let params = {
                 "hash": commitHash,
                 "lang": i,
-                "useragent": "pc",
                 "branch": branch
             }
-            fs.writeFileSync(`./build/pc/${i}.html`, cleanHTML(page(params)));
-
-            params["useragent"] = "iphone os";
-            fs.writeFileSync(`./build/ios/${i}.html`, cleanHTML(page(params)));
-
-            params["useragent"] = "android";
-            fs.writeFileSync(`./build/mob/${i}.html`, cleanHTML(page(params)));
+            fs.writeFileSync(`./build/${i}.html`, cleanHTML(page(params)));
         }
         // build js & css
         await esbuild.build({
@@ -45,7 +35,7 @@ export async function buildFront(commitHash, branch) {
             loader: { '.js': 'js', '.css': 'css', },
             charset: 'utf8'
         })
-    } catch (e) {
+    } catch {
         return;
     }
 }

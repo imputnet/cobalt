@@ -1,8 +1,8 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.12.4",
-    "author": "wukko",
+    "version": "7.13.3",
+    "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
     "engines": {
@@ -17,13 +17,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/wukko/cobalt.git"
+        "url": "git+https://github.com/imputnet/cobalt.git"
     },
     "license": "AGPL-3.0",
     "bugs": {
-        "url": "https://github.com/wukko/cobalt/issues"
+        "url": "https://github.com/imputnet/cobalt/issues"
     },
-    "homepage": "https://github.com/wukko/cobalt#readme",
+    "homepage": "https://github.com/imputnet/cobalt#readme",
     "dependencies": {
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
@@ -38,8 +38,11 @@
         "node-cache": "^5.1.2",
         "psl": "1.9.0",
         "set-cookie-parser": "2.6.0",
-        "undici": "^6.7.0",
+        "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^9.2.0"
+        "youtubei.js": "^9.3.0"
+    },
+    "optionalDependencies": {
+        "freebind": "^0.2.2"
     }
 }

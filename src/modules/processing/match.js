@@ -26,9 +26,21 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
+import { env } from '../config.js';
 
+let freebind;
 export default async function(host, patternMatch, url, lang, obj) {
     assert(url instanceof URL);
+    let dispatcher, requestIP;
+
+    if (env.freebindCIDR) {
+        if (!freebind) {
+            freebind = await import('freebind');
+        }
+
+        requestIP = freebind.ip.random(env.freebindCIDR);
+        dispatcher = freebind.dispatcherFromIP(requestIP, { strict: false });
+    }
 
     try {
         let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
@@ -67,7 +79,8 @@ export default async function(host, patternMatch, url, lang, obj) {
                     format: obj.vCodec,
                     isAudioOnly: isAudioOnly,
                     isAudioMuted: obj.isAudioMuted,
-                    dubLang: obj.dubLang
+                    dubLang: obj.dubLang,
+                    dispatcher
                 }
 
                 if (url.hostname === 'music.youtube.com' || isAudioOnly === true) {
@@ -81,7 +94,8 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "reddit":
                 r = await reddit({
                     sub: patternMatch.sub,
-                    id: patternMatch.id
+                    id: patternMatch.id,
+                    user: patternMatch.user
                 });
                 break;
             case "tiktok":
@@ -89,7 +103,8 @@ export default async function(host, patternMatch, url, lang, obj) {
                     postId: patternMatch.postId,
                     id: patternMatch.id,
                     fullAudio: obj.isTTFullAudio,
-                    isAudioOnly: isAudioOnly
+                    isAudioOnly: isAudioOnly,
+                    h265: obj.tiktokH265
                 });
                 break;
             case "tumblr":
@@ -104,8 +119,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                     id: patternMatch.id.slice(0, 11),
                     password: patternMatch.password,
                     quality: obj.vQuality,
-                    isAudioOnly: isAudioOnly,
-                    forceDash: isAudioOnly ? true : obj.vimeoDash
+                    isAudioOnly: isAudioOnly
                 });
                 break;
             case "soundcloud":
@@ -114,6 +128,7 @@ export default async function(host, patternMatch, url, lang, obj) {
                     url,
                     author: patternMatch.author,
                     song: patternMatch.song,
+                    format: obj.aFormat,
                     shortLink: patternMatch.shortLink || false,
                     accessKey: patternMatch.accessKey || false
                 });
@@ -121,7 +136,8 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "instagram":
                 r = await instagram({
                     ...patternMatch,
-                    quality: obj.vQuality
+                    quality: obj.vQuality,
+                    dispatcher
                 })
                 break;
             case "vine":
@@ -152,6 +168,7 @@ export default async function(host, patternMatch, url, lang, obj) {
             case "rutube":
                 r = await rutube({
                     id: patternMatch.id,
+                    yappyId: patternMatch.yappyId,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
                 });
@@ -188,7 +205,8 @@ export default async function(host, patternMatch, url, lang, obj) {
         return matchActionDecider(
             r, host, obj.aFormat, isAudioOnly,
             lang, isAudioMuted, disableMetadata,
-            obj.filenamePattern, obj.twitterGif
+            obj.filenamePattern, obj.twitterGif,
+            requestIP
         )
     } catch (e) {
         return apiJSON(0, { t: genericError(lang, host) })

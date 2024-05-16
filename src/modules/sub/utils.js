@@ -9,7 +9,15 @@ const apiVar = {
         aFormat: ["best", "mp3", "ogg", "wav", "opus"],
         filenamePattern: ["classic", "pretty", "basic", "nerdy"]
     },
-    booleanOnly: ["isAudioOnly", "isTTFullAudio", "isAudioMuted", "dubLang", "vimeoDash", "disableMetadata", "twitterGif"]
+    booleanOnly: [
+        "isAudioOnly",
+        "isTTFullAudio",
+        "isAudioMuted",
+        "dubLang",
+        "disableMetadata",
+        "twitterGif",
+        "tiktokH265"
+    ]
 }
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
 
@@ -83,8 +91,8 @@ export function checkJSONPost(obj) {
         isAudioMuted: false,
         disableMetadata: false,
         dubLang: false,
-        vimeoDash: false,
-        twitterGif: false
+        twitterGif: false,
+        tiktokH265: false
     }
     try {
         let objKeys = Object.keys(obj);

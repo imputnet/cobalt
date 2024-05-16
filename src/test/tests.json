@@ -878,6 +878,30 @@
             "code": 200,
             "status": "redirect"
         }
+    }, {
+        "name": "ddinstagram link",
+        "url": "https://ddinstagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "d.ddinstagram.com link",
+        "url": "https://d.ddinstagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "g.ddinstagram.com link",
+        "url": "https://g.ddinstagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }],
     "vine": [{
         "name": "regular vine link (9+10=21)",
@@ -947,6 +971,38 @@
     }, {
         "name": "story",
         "url": "https://www.pinterest.com/pin/gadget-cool-products-amazon-product-technology-kitchen-gadgets--1084663891475263837/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular picture",
+        "url": "https://www.pinterest.com/pin/412994228343400946/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular picture (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/412994228343400946/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular gif",
+        "url": "https://www.pinterest.com/pin/814447913881127862/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "regular gif (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/814447913881127862/",
         "params": {},
         "expected": {
             "code": 200,
@@ -1056,6 +1112,22 @@
     }, {
         "name": "vertical video",
         "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "yappy",
+        "url": "https://rutube.ru/yappy/f1771e86294748eea8ecb2ac88e55740/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "shorts",
+        "url": "https://rutube.ru/shorts/935c1afafd0e7d52836d671967d53dac/",
         "params": {},
         "expected": {
             "code": 200,

@@ -3,7 +3,7 @@ import { apiJSON } from "../sub/utils.js";
 import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
 
-export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif) {
+export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
     let action,
         responseType = 2,
         defaultParams = {
@@ -11,7 +11,8 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             service: host,
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenamePattern, isAudioOnly, isAudioMuted) : r.filename,
-            fileMetadata: !disableMetadata ? r.fileMetadata : false
+            fileMetadata: !disableMetadata ? r.fileMetadata : false,
+            requestIP
         },
         params = {},
         audioFormat = String(userFormat);
@@ -139,40 +140,22 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 audioFormat = "best"
             }
 
+            const serviceBestAudio = r.bestAudio || services[host]["bestAudio"];
             const isBestAudio = audioFormat === "best";
-            const isBestOrMp3 = audioFormat === "mp3" || isBestAudio;
-            const isBestAudioDefined = isBestAudio && services[host]["bestAudio"];
-            const isBestHostAudio = services[host]["bestAudio"] && (audioFormat === services[host]["bestAudio"]);
+            const isBestOrMp3 = isBestAudio || audioFormat === "mp3";
+            const isBestAudioDefined = isBestAudio && serviceBestAudio;
+            const isBestHostAudio = serviceBestAudio && (audioFormat === serviceBestAudio);
 
-            const isTikTok = host === "tiktok" || host === "douyin";
             const isTumblrAudio = host === "tumblr" && !r.filename;
             const isSoundCloud = host === "soundcloud";
 
-            if (isTikTok && services.tiktok.audioFormats.includes(audioFormat)) {
-                if (r.isMp3 && isBestOrMp3) {
-                    audioFormat = "mp3";
-                    processType = "bridge"
-                } else if (isBestAudio) {
-                    audioFormat = "m4a";
-                    processType = "bridge"
-                }
-            }
-
-            if (isSoundCloud && services.soundcloud.audioFormats.includes(audioFormat)) {
-                if (r.isMp3 && isBestOrMp3) {
-                    audioFormat = "mp3";
-                    processType = "render"
-                    copy = true
-                } else if (isBestAudio || audioFormat === "opus") {
-                    audioFormat = "opus";
-                    processType = "render"
-                    copy = true
-                }
-            }
-
             if (isBestAudioDefined || isBestHostAudio) {
-                audioFormat = services[host]["bestAudio"];
+                audioFormat = serviceBestAudio;
                 processType = "bridge";
+                if (isSoundCloud) {
+                    processType = "render"
+                    copy = true
+                }
             } else if (isBestAudio && !isSoundCloud) {
                 audioFormat = "m4a";
                 copy = true

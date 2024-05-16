@@ -1,9 +1,29 @@
-import { checkbox, collapsibleList, explanation, footerButtons, multiPagePopup, popup, popupWithBottomButtons, sep, settingsCategory, switcher, socialLink, socialLinks, urgentNotice, keyboardShortcuts, webLoc, sponsoredList, betaTag, linkSVG } from "./elements.js";
-import { services as s, authorInfo, version, repo, donations, supportedAudio, links } from "../config.js";
+import { services as s, version, repo, donations, supportedAudio, links, env } from "../config.js";
 import { getCommitInfo } from "../sub/currentCommit.js";
 import loc from "../../localization/manager.js";
 import emoji from "../emoji.js";
 import changelogManager from "../changelog/changelogManager.js";
+
+import {
+    checkbox,
+    collapsibleList,
+    explanation,
+    footerButtons,
+    multiPagePopup,
+    popup,
+    popupWithBottomButtons, 
+    sep,
+    settingsCategory,
+    switcher,
+    socialLink,
+    socialLinks,
+    urgentNotice,
+    keyboardShortcuts,
+    webLoc,
+    sponsoredList,
+    betaTag,
+    linkSVG
+} from "./elements.js";
 
 let com = getCommitInfo();
 
@@ -27,14 +47,9 @@ for (let i in donations["crypto"]) {
 }
 
 export default function(obj) {
-    const t = (str, replace) => { return loc(obj.lang, str, replace) };
-
-    let ua = obj.useragent.toLowerCase();
-    let isIOS = ua.match("iphone os");
-    let isMobile = ua.match("android") || ua.match("iphone os");
-
-    let platform = isMobile ? "m" : "d";
-    if (isMobile && isIOS) platform = "i";
+    const t = (str, replace) => {
+        return loc(obj.lang, str, replace)
+    }
 
     audioFormats[0]["text"] = t('SettingsAudioFormatBest');
 
@@ -44,17 +59,16 @@ export default function(obj) {
 <html lang="${obj.lang}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=${isIOS ? `1` : `5`}">
+        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
 
         <title>${t("AppTitleCobalt")}</title>
 
-        <meta property="og:url" content="${process.env.WEB_URL}">
+        <meta property="og:url" content="${env.webURL}">
         <meta property="og:title" content="${t("AppTitleCobalt")}">
         <meta property="og:description" content="${t('EmbedBriefDescription')}">
-        <meta property="og:image" content="${process.env.WEB_URL}icons/generic.png">
+        <meta property="og:image" content="${env.webURL}icons/generic.png">
         <meta name="title" content="${t("AppTitleCobalt")}">
         <meta name="description" content="${t('AboutSummary')}">
-        <meta name="theme-color" content="#000000">
         <meta name="twitter:card" content="summary">
         
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -71,19 +85,21 @@ export default function(obj) {
         <link rel="stylesheet" href="fonts/notosansmono.css">
         <link rel="stylesheet" href="cobalt.css">
 
+        <meta name="theme-color" content="#000000">
+
         <link rel="preload" href="fonts/notosansmono.css" as="style">
         <link rel="preload" href="assets/meowbalt/error.png" as="image">
         <link rel="preload" href="assets/meowbalt/question.png" as="image">
 
-        ${process.env.PLAUSIBLE_HOSTNAME ?
+        ${env.plausibleHostname ?
             `<script 
                 defer 
-                data-domain="${new URL(process.env.WEB_URL).hostname}" 
-                src="https://${process.env.PLAUSIBLE_HOSTNAME}/js/script.js"
+                data-domain="${new URL(env.webURL).hostname}" 
+                src="https://${env.plausibleHostname}/js/script.js"
             ></script>`
         : ''}
     </head>
-    <body id="cobalt-body" ${platform === "d" ? 'class="desktop"' : ''}>
+    <body id="cobalt-body">
         <noscript>
             <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
         </noscript>
@@ -98,7 +114,7 @@ export default function(obj) {
                     header: {
                         aboveTitle: {
                             text: t('MadeWithLove'),
-                            url: authorInfo.link
+                            url: repo
                         },
                         closeAria: t('AccessibilityGoBack'),
                         title: `${emoji("🔮", 30)} ${t('TitlePopupAbout')}`
@@ -169,7 +185,7 @@ export default function(obj) {
                             name: "privacy",
                             title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
                             body: t("PrivacyPolicy") + `${
-                                process.env.PLAUSIBLE_HOSTNAME ? `<br><br>${t("AnalyticsDescription")}` : ''
+                                env.plausibleHostname ? `<br><br>${t("AnalyticsDescription")}` : ''
                             }`
                         }, {
                             name: "legal",
@@ -177,7 +193,7 @@ export default function(obj) {
                             body: t("FairUse")
                         }])
                     },
-                    ...(process.env.SHOW_SPONSORS ?
+                    ...(env.showSponsors ?
                     [{
                         text: t("SponsoredBy"),
                         classes: ["sponsored-by-text"],
@@ -285,12 +301,6 @@ export default function(obj) {
                     }, {
                         text: donate.replace(/REPLACEME/g, t('ClickToCopy')),
                         classes: ["desc-padding"]
-                    }, {
-                        text: sep(),
-                        raw: true
-                    }, {
-                        text: t('DonateHireMe', authorInfo.link),
-                        classes: ["desc-padding"]
                     }]
                 })
             }],
@@ -300,7 +310,7 @@ export default function(obj) {
             closeAria: t('AccessibilityGoBack'),
             header: {
                 aboveTitle: {
-                    text: `v.${version}-${obj.hash}${platform} (${obj.branch})`,
+                    text: `v.${version}-${obj.hash} (${obj.branch})`,
                     url: `${repo}/commit/${obj.hash}`
                 },
                 title: `${emoji("⚙️", 30)} ${t('TitlePopupSettings')}`
@@ -335,18 +345,14 @@ export default function(obj) {
                         }, {
                             action: "360",
                             text: "360p"
+                        }, {
+                            action: "240",
+                            text: "240p"
+                        }, {
+                            action: "144",
+                            text: "144p"
                         }]
                     })
-                })
-                + settingsCategory({
-                    name: "twitter",
-                    title: "twitter",
-                    body: checkbox([{
-                        action: "twitterGif",
-                        name: t("SettingsTwitterGif"),
-                        padding: "no-margin"
-                    }])
-                    + explanation(t('SettingsTwitterGifDescription'))
                 })
                 + settingsCategory({
                     name: "codec",
@@ -367,19 +373,24 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "vimeo",
-                    title: t('SettingsVimeoPrefer'),
-                    body: switcher({
-                        name: "vimeoDash",
-                        explanation: t('SettingsVimeoPreferDescription'),
-                        items: [{
-                            action: "false",
-                            text: "progressive"
-                        }, {
-                            action: "true",
-                            text: "dash"
-                        }]
-                    })
+                    name: "twitter",
+                    title: "twitter",
+                    body: checkbox([{
+                        action: "twitterGif",
+                        name: t("SettingsTwitterGif"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTwitterGifDescription'))
+                })
+                + settingsCategory({
+                    name: "tiktok",
+                    title: "tiktok",
+                    body: checkbox([{
+                        action: "tiktokH265",
+                        name: t("SettingsTikTokH265"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsTikTokH265Description'))
                 })
             }, {
                 name: "audio",
@@ -401,19 +412,14 @@ export default function(obj) {
                     + explanation(t('SettingsVideoMuteExplanation'))
                 })
                 + settingsCategory({
-                    name: "dub",
+                    name: "youtube-dub",
                     title: t("SettingsAudioDub"),
-                    body: switcher({
-                        name: "dubLang",
-                        explanation: t('SettingsAudioDubDescription'),
-                        items: [{
-                            action: "original",
-                            text: t('SettingsDubDefault')
-                        }, {
-                            action: "auto",
-                            text: t('SettingsDubAuto')
-                        }]
-                    })
+                    body: checkbox([{
+                        action: "ytDub",
+                        name: t("SettingsYoutubeDub"),
+                        padding: "no-margin"
+                    }])
+                    + explanation(t('SettingsYoutubeDubDescription'))
                 })
                 + settingsCategory({
                     name: "tiktok-audio",
@@ -499,7 +505,7 @@ export default function(obj) {
                     }])
                 })
                 + (() => {
-                    if (process.env.PLAUSIBLE_HOSTNAME) {
+                    if (env.plausibleHostname) {
                         return settingsCategory({
                             name: "privacy",
                             title: t('PrivateAnalytics'),
@@ -552,7 +558,7 @@ export default function(obj) {
                 },
                 body: switcher({
                     name: "download",
-                    explanation: `${!isIOS ? t('DownloadPopupDescription') : t('DownloadPopupDescriptionIOS')}`,
+                    explanation: t('DownloadPopupDescription'),
                     items: `<a id="pd-download" class="switch full" target="_blank" href="/"><span>${t('Download')}</span></a>
                     <div id="pd-share" class="switch full">${t('ShareURL')}</div>
                     <div id="pd-copy" class="switch full">${t('CopyURL')}</div>`
@@ -578,8 +584,8 @@ export default function(obj) {
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🔒",
-                text: t("UpdateEncryption"),
+                emoji: "🫧",
+                text: t("UpdateIstream"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
@@ -629,7 +635,7 @@ export default function(obj) {
             </footer>
         </div>
         <script>
-            let defaultApiUrl = '${process.env.API_URL || ''}';
+            let defaultApiUrl = '${env.apiURL}';
             const loc = ${webLoc(t,
             [
                 'ErrorNoInternet',
@@ -646,7 +652,8 @@ export default function(obj) {
                 'DataTransferError',
                 'FilenamePreviewVideoTitle',
                 'FilenamePreviewAudioTitle',
-                'FilenamePreviewAudioAuthor'
+                'FilenamePreviewAudioAuthor',
+                'DownloadPopupDescriptionIOS'
             ])}
         </script>
         <script src="cobalt.js"></script>

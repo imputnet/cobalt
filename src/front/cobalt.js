@@ -1,25 +1,19 @@
-const version = 42;
-
 const ua = navigator.userAgent.toLowerCase();
-const isIOS = ua.match("iphone os");
-const isMobile = ua.match("android") || ua.match("iphone os");
-const isSafari = ua.match("safari/");
-const isFirefox = ua.match("firefox/");
-const isOldFirefox = ua.match("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
-
-const regex = new RegExp(/https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/);
-const notification = `<span class="notification-dot"></span>`;
+const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
+const isAndroid = ua.includes("android");
+const isMobile = ua.includes("android") || isIOS;
+const isSafari = ua.includes("safari/");
+const isFirefox = ua.includes("firefox/");
+const isOldFirefox = ua.includes("firefox/") && ua.split("firefox/")[1].split('.')[0] < 103;
 
 const switchers = {
     "theme": ["auto", "light", "dark"],
     "vCodec": ["h264", "av1", "vp9"],
-    "vQuality": ["1080", "max", "2160", "1440", "720", "480", "360"],
+    "vQuality": ["720", "max", "2160", "1440", "1080", "480", "360", "240", "144"],
     "aFormat": ["mp3", "best", "ogg", "wav", "opus"],
-    "dubLang": ["original", "auto"],
-    "vimeoDash": ["false", "true"],
     "audioMode": ["false", "true"],
     "filenamePattern": ["classic", "pretty", "basic", "nerdy"]
-};
+}
 const checkboxes = [
     "alwaysVisibleButton",
     "downloadPopup",
@@ -29,111 +23,216 @@ const checkboxes = [
     "disableAnimations",
     "disableMetadata",
     "twitterGif",
-    "plausible_ignore"
-];
-const exceptions = { // used for mobile devices
-    "vQuality": "720"
-};
-const bottomPopups = ["error", "download"];
-
-const pageQuery = new URLSearchParams(window.location.search);
+    "plausible_ignore",
+    "ytDub",
+    "tiktokH265"
+]
+const bottomPopups = ["error", "download"]
 
 let store = {};
 
-function fixApiUrl(url) {
+const validLink = (link) => {
+    try {
+        return /^https:/i.test(new URL(link).protocol);
+    } catch {
+        return false
+    }
+}
+
+const fixApiUrl = (url) => {
     return url.endsWith('/') ? url.slice(0, -1) : url
 }
 
 let apiURL = fixApiUrl(defaultApiUrl);
 
-function changeApi(url) {
+const changeApi = (url) => {
     apiURL = fixApiUrl(url);
     return true
 }
-function eid(id) {
+
+const eid = (id) => {
     return document.getElementById(id)
 }
-function sGet(id) {
+
+const sGet = (id) =>{
     return localStorage.getItem(id)
 }
-function sSet(id, value) {
+const sSet = (id, value) => {
     localStorage.setItem(id, value)
 }
-function enable(id) {
-    eid(id).dataset.enabled = "true";
+const lazyGet = (key) => {
+    const value = sGet(key);
+    if (key in switchers) {
+        if (switchers[key][0] !== value)
+            return value;
+    } else if (checkboxes.includes(key)) {
+        if (value === 'true')
+            return true;
+    }
 }
-function disable(id) {
-    eid(id).dataset.enabled = "false";
-}
-function vis(state) {
-    return (state === 1) ? "visible" : "hidden";
-}
-function opposite(state) {
-    return state === "true" ? "false" : "true";
-}
-function changeDownloadButton(action, text) {
+
+const changeDownloadButton = (action, text) => {
     switch (action) {
-        case 0:
+        case "hidden": // hidden, but only visible when alwaysVisibleButton is true
             eid("download-button").disabled = true
             if (sGet("alwaysVisibleButton") === "true") {
-                eid("download-button").value = text
+                eid("download-button").value = '>>'
                 eid("download-button").style.padding = '0 1rem'
             } else {
                 eid("download-button").value = ''
                 eid("download-button").style.padding = '0'
             }
             break;
-        case 1:
-            eid("download-button").disabled = false
-            eid("download-button").value = text
-            eid("download-button").style.padding = '0 1rem'
-            break;
-        case 2:
+        case "disabled":
             eid("download-button").disabled = true
             eid("download-button").value = text
             eid("download-button").style.padding = '0 1rem'
             break;
+        default:
+            eid("download-button").disabled = false
+            eid("download-button").value = '>>'
+            eid("download-button").style.padding = '0 1rem'
+            break;
     }
 }
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Tab") {
-        eid("download-button").value = '>>'
-        eid("download-button").style.padding = '0 1rem'
-    }
-})
-function button() {
-    let regexTest = regex.test(eid("url-input-area").value);
+
+const button = () => {
+    let regexTest = validLink(eid("url-input-area").value);
+
+    eid("url-clear").style.display = "none";
+
     if ((eid("url-input-area").value).length > 0) {
         eid("url-clear").style.display = "block";
-    } else {
-        eid("url-clear").style.display = "none";
     }
-    regexTest ? changeDownloadButton(1, '>>') : changeDownloadButton(0, '>>');
+
+    if (regexTest) {
+        changeDownloadButton()
+    } else {
+        changeDownloadButton("hidden")
+    }
 }
-function clearInput() {
+
+const clearInput = () => {
     eid("url-input-area").value = '';
     button();
 }
-function copy(id, data) {
-    let e = document.getElementById(id);
-    e.classList.add("text-backdrop");
-    setTimeout(() => { e.classList.remove("text-backdrop") }, 600);
-    data ? navigator.clipboard.writeText(data) : navigator.clipboard.writeText(e.innerText);
+
+const copy = (id, data) => {
+    let target = document.getElementById(id);
+    target.classList.add("text-backdrop");
+
+    setTimeout(() => {
+        target.classList.remove("text-backdrop")
+    }, 600);
+
+    if (data) {
+        navigator.clipboard.writeText(data)
+    } else {
+        navigator.clipboard.writeText(e.innerText)
+    }
 }
-async function share(url) {
-    try { await navigator.share({url: url}) } catch (e) {}
-}
-function detectColorScheme() {
+
+const share = url => navigator?.share({ url }).catch(() => {});
+
+const preferredColorScheme = () => {
     let theme = "auto";
     let localTheme = sGet("theme");
+    let isLightPreferred = false;
+
     if (localTheme) {
         theme = localTheme;
-    } else if (!window.matchMedia) {
-        theme = "dark"
     }
-    document.documentElement.setAttribute("data-theme", theme);
+    if (window.matchMedia) {
+        isLightPreferred = window.matchMedia('(prefers-color-scheme: light)').matches;
+    }
+    if (theme === "auto") {
+        theme = isLightPreferred ? "light" : "dark"
+    }
+
+    return theme
 }
-function changeTab(evnt, tabId, tabClass) {
+
+const changeStatusBarColor = () => {
+    const theme = preferredColorScheme();
+    const colors = {
+        "dark": "#000000",
+        "light": "#ffffff",
+        "dark-popup": "#151515",
+        "light-popup": "#ebebeb"
+    }
+
+    let state = store.isPopupOpen ? "dark-popup" : "dark";
+
+    if (theme === "light") {
+        state = store.isPopupOpen ? "light-popup" : "light";
+    }
+
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', colors[state]);
+}
+const detectColorScheme = () => {
+    document.documentElement.setAttribute("data-theme", preferredColorScheme());
+    changeStatusBarColor();
+}
+
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+        changeStatusBarColor()
+        detectColorScheme()
+    })
+}
+
+const updateFilenamePreview = () => {
+    let videoFilePreview = ``;
+    let audioFilePreview = ``;
+    let resMatch = {
+        "max": "3840x2160",
+        "2160": "3840x2160",
+        "1440": "2560x1440",
+        "1080": "1920x1080",
+        "720": "1280x720",
+        "480": "854x480",
+        "360": "640x360",
+    }
+
+    switch(sGet("filenamePattern")) {
+        case "classic":
+            videoFilePreview = `youtube_dQw4w9WgXcQ_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
+                + `${sGet("muteAudio") === "true" ? "_mute" : ""}`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `youtube_dQw4w9WgXcQ_audio`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "basic":
+            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, `
+                + `${sGet('vCodec')}${sGet("muteAudio") === "true" ? ", mute" : ""})`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "pretty":
+            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube)`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud)`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+        case "nerdy":
+            videoFilePreview = `${loc.FilenamePreviewVideoTitle} `
+                + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
+                + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, dQw4w9WgXcQ)`
+                + `.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
+            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} `
+                + `(soundcloud, 1242868615)`
+                + `.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
+            break;
+    }
+    eid("video-filename-text").innerHTML = videoFilePreview
+    eid("audio-filename-text").innerHTML = audioFilePreview
+}
+
+const changeTab = (evnt, tabId, tabClass) => {
     if (tabId === "tab-settings-other") updateFilenamePreview();
 
     let tabcontent = document.getElementsByClassName(`tab-content-${tabClass}`);
@@ -149,46 +248,15 @@ function changeTab(evnt, tabId, tabClass) {
     evnt.currentTarget.dataset.enabled = "true";
     eid(tabId).dataset.enabled = "true";
     eid(tabId).parentElement.scrollTop = 0;
-
-    if (tabId === "tab-about-changelog" && sGet("changelogStatus") !== `${version}`) notificationCheck("changelog");
-    if (tabId === "tab-about-about" && !sGet("seenAbout")) notificationCheck("about");
 }
-function expandCollapsible(evnt) {
+
+const expandCollapsible = (evnt) => {
     let classlist = evnt.currentTarget.parentNode.classList;
     let c = "expanded";
     !classlist.contains(c) ? classlist.add(c) : classlist.remove(c);
 }
-function notificationCheck(type) {
-    let changed = true;
-    switch (type) {
-        case "about":
-            sSet("seenAbout", "true");
-            break;
-        case "changelog":
-            sSet("changelogStatus", version)
-            break;
-        default:
-            changed = false;
-    }
-    if (changed && sGet("changelogStatus") === `${version}`) {
-        setTimeout(() => {
-            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(notification, '');
-            eid("tab-button-about-changelog").innerHTML = eid("tab-button-about-changelog").innerHTML.replace(notification, '')
-        }, 900)
-    }
-    if (!sGet("seenAbout") && !eid("about-footer").innerHTML.includes(notification)) {
-        eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
-    }
-    if (sGet("changelogStatus") !== `${version}`) {
-        if (!eid("about-footer").innerHTML.includes(notification)) {
-            eid("about-footer").innerHTML = `${notification}${eid("about-footer").innerHTML}`;
-        }
-        if (!eid("tab-button-about-changelog").innerHTML.includes(notification)) {
-            eid("tab-button-about-changelog").innerHTML = `${notification}${eid("tab-button-about-changelog").innerHTML}`;
-        }
-    }
-}
-function hideAllPopups() {
+
+const hideAllPopups = () => {
     let filter = document.getElementsByClassName('popup');
     for (let i = 0; i < filter.length; i++) {
         filter[i].classList.remove("visible");
@@ -201,13 +269,17 @@ function hideAllPopups() {
     eid("picker-download").href = '/';
     eid("picker-download").classList.remove("visible");
 }
-function popup(type, action, text) {
+
+const popup = (type, action, text) => {
     if (action === 1) {
         hideAllPopups(); // hide the previous popup before showing a new one
         store.isPopupOpen = true;
+
+        // if not a small popup, update status bar color to match the popup header
+        if (!bottomPopups.includes(type)) changeStatusBarColor();
         switch (type) {
             case "about":
-                let tabId = sGet("changelogStatus") !== `${version}` ? "changelog" : "about";
+                let tabId = "about";
                 if (text) tabId = text;
                 eid(`tab-button-${type}-${tabId}`).click();
                 break;
@@ -265,36 +337,54 @@ function popup(type, action, text) {
         }
     } else {
         store.isPopupOpen = false;
+
+        // reset status bar to base color 
+        changeStatusBarColor();
+
         if (type === "picker") {
             eid("picker-download").href = '/';
             eid("picker-download").classList.remove("visible");
             eid("picker-holder").innerHTML = ''
         }
     }
-    if (bottomPopups.includes(type)) eid(`popup-${type}-container`).classList.toggle("visible");
+    if (bottomPopups.includes(type)) {
+        eid(`popup-${type}-container`).classList.toggle("visible");
+    }
     eid("popup-backdrop").classList.toggle("visible");
     eid(`popup-${type}`).classList.toggle("visible");
     eid(`popup-${type}`).focus();
 }
-function changeSwitcher(li, b) {
-    if (b) {
-        if (!switchers[li].includes(b)) b = switchers[li][0];
-        sSet(li, b);
-        for (let i in switchers[li]) {
-            (switchers[li][i] === b) ? enable(`${li}-${b}`) : disable(`${li}-${switchers[li][i]}`)
+
+const changeSwitcher = (switcher, state) => {
+    if (state) {
+        if (!switchers[switcher].includes(state)) {
+            state = switchers[switcher][0];
         }
-        if (li === "theme") detectColorScheme();
-        if (li === "filenamePattern") updateFilenamePreview();
+        sSet(switcher, state);
+
+        for (let i in switchers[switcher]) {
+            if (switchers[switcher][i] === state) {
+                eid(`${switcher}-${state}`).dataset.enabled = "true";
+            } else {
+                eid(`${switcher}-${switchers[switcher][i]}`).dataset.enabled = "false";
+            }
+        }
+        if (switcher === "theme") detectColorScheme();
+        if (switcher === "filenamePattern") updateFilenamePreview();
     } else {
-        let pref = switchers[li][0];
-        if (isMobile && exceptions[li]) pref = exceptions[li];
-        sSet(li, pref);
-        for (let i in switchers[li]) {
-            (switchers[li][i] === pref) ? enable(`${li}-${pref}`) : disable(`${li}-${switchers[li][i]}`)
+        let defaultValue = switchers[switcher][0];
+        sSet(switcher, defaultValue);
+        for (let i in switchers[switcher]) {
+            if (switchers[switcher][i] === defaultValue) {
+                eid(`${switcher}-${defaultValue}`).dataset.enabled = "true";
+            } else {
+                eid(`${switcher}-${switchers[switcher][i]}`).dataset.enabled = "false";
+            }
         }
     }
 }
-function checkbox(action) {
+
+const checkbox = (action) => {
     sSet(action, !!eid(action).checked);
     switch(action) {
         case "alwaysVisibleButton": button(); break;
@@ -302,43 +392,158 @@ function checkbox(action) {
         case "disableAnimations": eid("cobalt-body").classList.toggle('no-animation'); break;
     }
 }
-function changeButton(type, text) {
+
+const changeButton = (type, text) => {
     switch (type) {
-        case 0: //error
+        case "error": //error
             eid("url-input-area").disabled = false
             eid("url-clear").style.display = "block";
-            changeDownloadButton(2, '!!');
+            changeDownloadButton("disabled", '!!');
             popup("error", 1, text);
-            setTimeout(() => { changeButton(1); }, 2500);
+            setTimeout(() => { changeButton("default") }, 2500);
             break;
-        case 1: //enable back
-            changeDownloadButton(1, '>>');
+        case "default": //enable back
+            changeDownloadButton();
             eid("url-clear").style.display = "block";
             eid("url-input-area").disabled = false
             break;
-        case 2: //enable back + information popup
+        case "error-default": //enable back + information popup
             popup("error", 1, text);
-            changeDownloadButton(1, '>>');
+            changeDownloadButton();
             eid("url-clear").style.display = "block";
             eid("url-input-area").disabled = false
             break;
     }
 }
-function internetError() {
+
+const internetError = () => {
     eid("url-input-area").disabled = false
-    changeDownloadButton(2, '!!');
-    setTimeout(() => { changeButton(1); }, 2500);
+    changeDownloadButton("disabled", '!!');
+    setTimeout(() => { changeButton("default") }, 2500);
     popup("error", 1, loc.ErrorNoInternet);
 }
-function resetSettings() {
+
+const resetSettings = () => {
     localStorage.clear();
     window.location.reload();
 }
-async function pasteClipboard() {
+
+const download = async(url) => {
+    changeDownloadButton("disabled", '...');
+
+    eid("url-clear").style.display = "none";
+    eid("url-input-area").disabled = true;
+
+    let req = {
+        url,
+        vCodec: lazyGet("vCodec"),
+        vQuality: lazyGet("vQuality"),
+        aFormat: lazyGet("aFormat"),
+        filenamePattern: lazyGet("filenamePattern"),
+        isAudioOnly: lazyGet("audioMode"),
+        isTTFullAudio: lazyGet("fullTikTokAudio"),
+        isAudioMuted: lazyGet("muteAudio"),
+        disableMetadata: lazyGet("disableMetadata"),
+        dubLang: lazyGet("ytDub"),
+        twitterGif: lazyGet("twitterGif"),
+        tiktokH265: lazyGet("tiktokH265"),
+    }
+
+    let j = await fetch(`${apiURL}/api/json`, {
+        method: "POST",
+        body: JSON.stringify(req),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then(r => r.json()).catch(() => {});
+
+    if (!j) {
+        internetError();
+        return;
+    }
+
+    if ((j.status === "error" || j.status === "rate-limit") && j && j.text) {
+        changeButton("error", j.text);
+        return;
+    }
+
+    if (j.text && (!j.url || !j.picker)) {
+        if (j.status === "success") {
+            changeButton("error-default", j.text)
+        } else {
+            changeButton("error", loc.ErrorNoUrlReturned);
+        }
+    }
+    switch (j.status) {
+        case "redirect":
+            changeDownloadButton("disabled", '>>>');
+            setTimeout(() => { changeButton("default") }, 1500);
+
+            if (sGet("downloadPopup") === "true") {
+                popup('download', 1, j.url)
+            } else {
+                window.open(j.url, '_blank')
+            }
+            break;
+        case "stream":
+            changeDownloadButton("disabled", '?..');
+
+            let probeStream = await fetch(`${j.url}&p=1`).then(r => r.json()).catch(() => {});
+            if (!probeStream) return internetError();
+
+            if (probeStream.status !== "continue") {
+                changeButton("error", probeStream.text);
+                return;
+            }
+
+            changeDownloadButton("disabled", '>>>');
+            if (sGet("downloadPopup") === "true") {
+                popup('download', 1, j.url)
+            } else {
+                if (isMobile || isSafari) {
+                    window.location.href = j.url;
+                } else {
+                    window.open(j.url, '_blank');
+                }
+            }
+            setTimeout(() => { changeButton("default") }, 2500);
+            break;
+        case "picker":
+            if (j.audio && j.picker) {
+                changeDownloadButton("disabled", '>>>');
+                popup('picker', 1, {
+                    audio: j.audio,
+                    arr: j.picker,
+                    type: j.pickerType
+                });
+                setTimeout(() => { changeButton("default") }, 2500);
+            } else if (j.picker) {
+                changeDownloadButton("disabled", '>>>');
+                popup('picker', 1, {
+                    arr: j.picker,
+                    type: j.pickerType
+                });
+                setTimeout(() => { changeButton("default") }, 2500);
+            } else {
+                changeButton("error", loc.ErrorNoUrlReturned);
+            }
+            break;
+        case "success":
+            changeButton("error-default", j.text);
+            break;
+        default:
+            changeButton("error", loc.ErrorUnknownStatus);
+            break;
+    }
+}
+
+const pasteClipboard = async() => {
     try {
-        let t = await navigator.clipboard.readText();
-        if (regex.test(t)) {
-            eid("url-input-area").value = t;
+        let clipboard = await navigator.clipboard.readText();
+        let onlyURL = clipboard.match(/https:\/\/[^\s]+/g)
+        if (onlyURL) {
+            eid("url-input-area").value = onlyURL;
             download(eid("url-input-area").value);
         }
     } catch (e) {
@@ -353,204 +558,58 @@ async function pasteClipboard() {
         if (doError) popup("error", 1, errorMessage);
     }
 }
-async function download(url) {
-    changeDownloadButton(2, '...');
-    eid("url-clear").style.display = "none";
-    eid("url-input-area").disabled = true;
-    let req = {
-        url,
-        aFormat: sGet("aFormat").slice(0, 4),
-        filenamePattern: sGet("filenamePattern"),
-        dubLang: false
-    }
-    if (sGet("dubLang") === "auto") {
-        req.dubLang = true
-    } else if (sGet("dubLang") === "custom") {
-        req.dubLang = true
-    }
-    if (sGet("vimeoDash") === "true") req.vimeoDash = true;
-    if (sGet("audioMode") === "true") {
-        req.isAudioOnly = true;
-        if (sGet("fullTikTokAudio") === "true") req.isTTFullAudio = true; // audio tiktok full
-    } else {
-        req.vQuality = sGet("vQuality").slice(0, 4);
-        if (sGet("muteAudio") === "true") req.isAudioMuted = true;
-        if (url.includes("youtube.com/") || url.includes("/youtu.be/")) req.vCodec = sGet("vCodec").slice(0, 4);
-    }
 
-    if (sGet("disableMetadata") === "true") req.disableMetadata = true;
-    if (sGet("twitterGif") === "true") req.twitterGif = true;
-
-    let j = await fetch(`${apiURL}/api/json`, {
-        method: "POST",
-        body: JSON.stringify(req),
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    }).then((r) => { return r.json() }).catch((e) => { return false });
-    if (!j) {
-        internetError();
-        return
-    }
-
-    if (j && j.status !== "error" && j.status !== "rate-limit") {
-        if (j.text && (!j.url || !j.picker)) {
-            if (j.status === "success") {
-                changeButton(2, j.text)
-            } else changeButton(0, loc.ErrorNoUrlReturned);
-        }
-        switch (j.status) {
-            case "redirect":
-                changeDownloadButton(2, '>>>');
-                setTimeout(() => { changeButton(1); }, 1500);
-                sGet("downloadPopup") === "true" ? popup('download', 1, j.url) : window.open(j.url, '_blank');
-                break;
-            case "picker":
-                if (j.audio && j.picker) {
-                    changeDownloadButton(2, '>>>');
-                    popup('picker', 1, { audio: j.audio, arr: j.picker, type: j.pickerType });
-                    setTimeout(() => { changeButton(1) }, 2500);
-                } else if (j.picker) {
-                    changeDownloadButton(2, '>>>');
-                    popup('picker', 1, { arr: j.picker, type: j.pickerType });
-                    setTimeout(() => { changeButton(1) }, 2500);
-                } else {
-                    changeButton(0, loc.ErrorNoUrlReturned);
-                }
-                break;
-            case "stream":
-                changeDownloadButton(2, '?..')
-                fetch(`${j.url}&p=1`).then(async (res) => {
-                    let jp = await res.json();
-                    if (jp.status === "continue") {
-                        changeDownloadButton(2, '>>>');
-                        if (sGet("downloadPopup") === "true") {
-                            popup('download', 1, j.url)
-                        } else {
-                            if (isMobile || isSafari) {
-                                window.location.href = j.url;
-                            } else window.open(j.url, '_blank');
-                        }
-                        setTimeout(() => { changeButton(1) }, 2500);
-                    } else {
-                        changeButton(0, jp.text);
-                    }
-                }).catch((error) => internetError());
-                break;
-            case "success":
-                changeButton(2, j.text);
-                break;
-            default:
-                changeButton(0, loc.ErrorUnknownStatus);
-                break;
-        }
-    } else if (j && j.text) {
-        changeButton(0, j.text);
-    }
-}
-async function loadCelebrationsEmoji() {
-    let bac = eid("about-footer").innerHTML;
+const loadCelebrationsEmoji = async() => {
+    let aboutButtonBackup = eid("about-footer").innerHTML;
     try {
-        let j = await fetch(`/onDemand?blockId=1`).then((r) => { if (r.status === 200) { return r.json() } else { return false } }).catch(() => { return false });
+        let j = await fetch(`/onDemand?blockId=1`).then(r => r.json()).catch(() => {});
+
         if (j && j.status === "success" && j.text) {
-            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace('<img class="emoji" draggable="false" height="22" width="22" alt="🐲" src="emoji/dragon_face.svg" loading="lazy">', j.text);
+            eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(
+                `<img class="emoji"
+                    draggable="false"
+                    height="22"
+                    width="22
+                    alt="🐲"
+                    src="emoji/dragon_face.svg"
+                    loading="lazy">`,
+                j.text
+            )
         }
-    } catch (e) {
-        eid("about-footer").innerHTML = bac;
+    } catch {
+        eid("about-footer").innerHTML = aboutButtonBackup;
     }
 }
-async function loadOnDemand(elementId, blockId) {
-    let j = {};
+
+const loadOnDemand = async(elementId, blockId) => {
     store.historyButton = eid(elementId).innerHTML;
     eid(elementId).innerHTML = `<div class="loader">...</div>`;
 
     try {
-        if (store.historyContent) {
-            j = store.historyContent;
-        } else {
-            await fetch(`/onDemand?blockId=${blockId}`).then(async(r) => {
-                j = await r.json();
-                if (j && j.status === "success") {
-                    store.historyContent = j;
-                } else throw new Error();
-            }).catch(() => { throw new Error() });
+        if (!store.historyContent) {
+            let j = await fetch(`/onDemand?blockId=${blockId}`).then(r => r.json()).catch(() => {});
+            if (!j) throw new Error();
+
+            if (j.status === "success") {
+                store.historyContent = j.text
+            }
         }
-        if (j.text) {
-            eid(elementId).innerHTML = `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">${loc.ChangelogPressToHide}</button>${j.text}`;
-        } else throw new Error()
-    } catch (e) {
+        eid(elementId).innerHTML =
+            `<button class="switch bottom-margin" onclick="restoreUpdateHistory()">
+                ${loc.ChangelogPressToHide}
+            </button>
+            ${store.historyContent}`;
+    } catch {
         eid(elementId).innerHTML = store.historyButton;
         internetError()
     }
 }
-function restoreUpdateHistory() {
+
+const restoreUpdateHistory = () => {
     eid("changelog-history").innerHTML = store.historyButton;
 }
-function unpackSettings(b64) {
-    let changed = null;
-    try {
-        let settingsToImport = JSON.parse(atob(b64));
-        let currentSettings = JSON.parse(JSON.stringify(localStorage));
-        for (let s in settingsToImport) {
-            if (checkboxes.includes(s) && (settingsToImport[s] === "true" || settingsToImport[s] === "false")
-                && currentSettings[s] !== settingsToImport[s]) {
-                sSet(s, settingsToImport[s]);
-                changed = true
-            }
-            if (switchers[s] && switchers[s].includes(settingsToImport[s])
-                && currentSettings[s] !== settingsToImport[s]) {
-                sSet(s, settingsToImport[s]);
-                changed = true
-            }
-        }
-    } catch (e) {
-        changed = false;
-    }
-    return changed
-}
-function updateFilenamePreview() {
-    let videoFilePreview = ``;
-    let audioFilePreview = ``;
-    let resMatch = {
-        "max": "3840x2160",
-        "2160": "3840x2160",
-        "1440": "2560x1440",
-        "1080": "1920x1080",
-        "720": "1280x720",
-        "480": "854x480",
-        "360": "640x360",
-    }
-    // "dubLang"
-    // sGet("muteAudio") === "true"
-    switch(sGet("filenamePattern")) {
-        case "classic":
-            videoFilePreview = `youtube_yPYZpwSpKmA_${resMatch[sGet('vQuality')]}_${sGet('vCodec')}`
-            + `${sGet("muteAudio") === "true" ? "_mute" : ""}.${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `youtube_yPYZpwSpKmA_audio.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-        case "pretty":
-            videoFilePreview =
-            `${loc.FilenamePreviewVideoTitle} `
-            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
-            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-        case "basic":
-            videoFilePreview =
-            `${loc.FilenamePreviewVideoTitle} `
-            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}${sGet("muteAudio") === "true" ? " mute" : ""}).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor}.${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-        case "nerdy":
-            videoFilePreview =
-            `${loc.FilenamePreviewVideoTitle} `
-            + `(${sGet('vQuality') === "max" ? "2160p" : `${sGet('vQuality')}p`}, ${sGet('vCodec')}, `
-            + `${sGet("muteAudio") === "true" ? "mute, " : ""}youtube, yPYZpwSpKmA).${sGet('vCodec') === "vp9" ? 'webm' : 'mp4'}`;
-            audioFilePreview = `${loc.FilenamePreviewAudioTitle} - ${loc.FilenamePreviewAudioAuthor} (soundcloud, 1242868615).${sGet('aFormat') !== "best" ? sGet('aFormat') : 'opus'}`;
-            break;
-    }
-    eid("video-filename-text").innerHTML = videoFilePreview
-    eid("audio-filename-text").innerHTML = audioFilePreview
-}
-function loadSettings() {
+
+const loadSettings = () => {
     if (sGet("alwaysVisibleButton") === "true") {
         eid("alwaysVisibleButton").checked = true;
         eid("download-button").value = '>>'
@@ -565,6 +624,17 @@ function loadSettings() {
     if (sGet("disableAnimations") === "true") {
         eid("cobalt-body").classList.add('no-animation');
     }
+    if (!isMobile) {
+        eid("cobalt-body").classList.add('desktop');
+    }
+    if (isAndroid) {
+        eid("cobalt-body").classList.add('android');
+    }
+    if (isIOS) {
+        eid("download-switcher")
+            .querySelector(".explanation")
+            .innerHTML = loc.DownloadPopupDescriptionIOS;
+    }
     for (let i = 0; i < checkboxes.length; i++) {
         try {
             if (sGet(checkboxes[i]) === "true") eid(checkboxes[i]).checked = true;
@@ -578,13 +648,14 @@ function loadSettings() {
     }
     updateFilenamePreview()
 }
+
 window.onload = () => {
     loadCelebrationsEmoji();
 
     loadSettings();
     detectColorScheme();
 
-    changeDownloadButton(0, '>>');
+    changeDownloadButton("hidden");
     eid("url-input-area").value = "";
 
     if (isIOS) {
@@ -595,36 +666,31 @@ window.onload = () => {
     eid("home").style.visibility = 'visible';
     eid("home").classList.toggle("visible");
 
-    if (pageQuery.has("u") && regex.test(pageQuery.get("u"))) {
+    const pageQuery = new URLSearchParams(window.location.search);
+    if (pageQuery.has("u") && validLink(pageQuery.get("u"))) {
         eid("url-input-area").value = pageQuery.get("u");
         button()
     }
-    if (pageQuery.has("migration")) {
-        if (pageQuery.has("settingsData") && !sGet("migrated")) {
-            let setUn = unpackSettings(pageQuery.get("settingsData"));
-            if (setUn !== null) {
-                if (setUn) {
-                    sSet("migrated", "true")
-                }
-            }
-        }
-        loadSettings();
-        detectColorScheme();
-    }
     window.history.replaceState(null, '', window.location.pathname);
-
-    notificationCheck();
 
     // fix for animations not working in Safari
     if (isIOS) {
         document.addEventListener('touchstart', () => {}, true);
     }
 }
-eid("url-input-area").addEventListener("keydown", (e) => {
+
+eid("url-input-area").addEventListener("keydown", () => {
     button();
 })
 eid("url-input-area").addEventListener("keyup", (e) => {
     if (e.key === 'Enter') eid("download-button").click();
+})
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") {
+        eid("download-button").value = '>>'
+        eid("download-button").style.padding = '0 1rem'
+    }
 })
 document.onkeydown = (e) => {
     if (!store.isPopupOpen) {

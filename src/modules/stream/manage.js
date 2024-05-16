@@ -3,7 +3,13 @@ import { randomBytes } from "crypto";
 import { nanoid } from 'nanoid';
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { streamLifespan } from "../config.js";
+import { streamLifespan, env } from "../config.js";
+import { strict as assert } from "assert";
+
+// optional dependency
+const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
+
+const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
 
 const streamNoAccess = {
     error: "i couldn't verify if you have access to this stream. go back and try again!",
@@ -24,6 +30,7 @@ streamCache.on("expired", (key) => {
     streamCache.del(key);
 })
 
+const internalStreamCache = {};
 const hmacSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
@@ -42,7 +49,8 @@ export function createStream(obj) {
             isAudioOnly: !!obj.isAudioOnly,
             copy: !!obj.copy,
             mute: !!obj.mute,
-            metadata: obj.fileMetadata || false
+            metadata: obj.fileMetadata || false,
+            requestIP: obj.requestIP
         };
 
     streamCache.set(
@@ -50,7 +58,7 @@ export function createStream(obj) {
         encryptStream(streamData, iv, secret)
     )
 
-    let streamLink = new URL('/api/stream', process.env.API_URL);
+    let streamLink = new URL('/api/stream', env.apiURL);
 
     const params = {
         't': streamID,
@@ -65,6 +73,67 @@ export function createStream(obj) {
     }
 
     return streamLink.toString();
+}
+
+export function getInternalStream(id) {
+    return internalStreamCache[id];
+}
+
+export function createInternalStream(url, obj = {}) {
+    assert(typeof url === 'string');
+
+    let dispatcher;
+    if (obj.requestIP) {
+        dispatcher = freebind?.dispatcherFromIP(obj.requestIP, { strict: false })
+    }
+
+    const streamID = nanoid();
+    internalStreamCache[streamID] = {
+        url,
+        service: obj.service,
+        controller: new AbortController(),
+        dispatcher
+    };
+
+    let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);
+    streamLink.searchParams.set('t', streamID);
+    return streamLink.toString();
+}
+
+export function destroyInternalStream(url) {
+    url = new URL(url);
+    if (url.hostname !== '127.0.0.1') {
+        return;
+    }
+
+    const id = url.searchParams.get('t');
+
+    if (internalStreamCache[id]) {
+        internalStreamCache[id].controller.abort();
+        delete internalStreamCache[id];
+    }
+}
+
+function wrapStream(streamInfo) {
+    /* m3u8 links are currently not supported
+     * for internal streams, skip them */
+    if (M3U_SERVICES.includes(streamInfo.service)) {
+        return streamInfo;
+    }
+
+    const url = streamInfo.urls;
+
+    if (typeof url === 'string') {
+        streamInfo.urls = createInternalStream(url, streamInfo);
+    } else if (Array.isArray(url)) {
+        for (const idx in streamInfo.urls) {
+            streamInfo.urls[idx] = createInternalStream(
+                streamInfo.urls[idx], streamInfo
+            );
+        }
+    } else throw 'invalid urls';
+
+    return streamInfo;
 }
 
 export function verifyStream(id, hmac, exp, secret, iv) {
@@ -82,9 +151,9 @@ export function verifyStream(id, hmac, exp, secret, iv) {
         if (Number(exp) <= new Date().getTime())
             return streamNoExist;
 
-        return streamInfo;
+        return wrapStream(streamInfo);
     }
-    catch (e) {
+    catch {
         return {
             error: "something went wrong and i couldn't verify this stream. go back and try again!",
             status: 500
