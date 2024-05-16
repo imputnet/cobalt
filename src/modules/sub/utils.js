@@ -136,7 +136,7 @@ export function cleanHTML(html) {
     return clean
 }
 export async function getRedirectingURL(url) {
-    return await fetch(url, { redirect: 'manual' }).then((r) => {
+    return fetch(url, { redirect: 'manual' }).then((r) => {
         if ([301, 302, 303].includes(r.status) && r.headers.has('location'))
             return r.headers.get('location');
     }).catch(() => null);

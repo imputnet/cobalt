@@ -64,7 +64,7 @@ export default async function(obj) {
     let pathname;
     if (obj.url.hostname === 't.snapchat.com' && obj.shortLink) {
         const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
-        if (link && !link.startsWith('https://www.snapchat.com/')) return { error: 'ErrorCouldntFetch' };
+        if (!link || !link.startsWith('https://www.snapchat.com/')) return { error: 'ErrorCouldntFetch' };
         pathname = new URL(link).pathname;
     }
 
