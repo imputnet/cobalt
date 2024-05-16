@@ -23,7 +23,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
-        max: env.rateLimitMax || 20,
+        max: env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
@@ -37,7 +37,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     const apiLimiterStream = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
-        max: env.rateLimitMax || 20,
+        max: env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
