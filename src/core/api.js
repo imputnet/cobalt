@@ -53,7 +53,13 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.use('/api', cors({
         methods: ['GET', 'POST'],
-        ...corsConfig
+        exposedHeaders: [
+            'Ratelimit-Limit',
+            'Ratelimit-Policy',
+            'Ratelimit-Remaining',
+            'Ratelimit-Reset'
+        ],
+        ...corsConfig,
     }))
 
     app.use('/api/json', apiLimiter);
