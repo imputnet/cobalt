@@ -75,7 +75,7 @@ export default async function(obj) {
     let fileUrlBase = selectedStream.url;
     let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
 
-    if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:")
+    if (!fileUrl.startsWith("https://api-v2.soundcloud.com/media/soundcloud:tracks:"))
         return { error: 'ErrorEmptyDownload' };
 
     if (json.duration > env.durationLimit * 1000)
