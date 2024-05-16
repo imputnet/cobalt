@@ -1,6 +1,10 @@
-import { createHmac, createCipheriv, createDecipheriv } from "crypto";
+import { createHmac, createCipheriv, createDecipheriv, randomBytes } from "crypto";
 
-const algorithm = "aes256"
+const algorithm = "aes256";
+
+export function generateSalt() {
+    return randomBytes(64).toString('hex');
+}
 
 export function generateHmac(str, salt) {
     return createHmac("sha256", salt).update(str).digest("base64url");

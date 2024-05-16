@@ -1,25 +1,40 @@
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { randomBytes } from "crypto";
-
-const ipSalt = randomBytes(64).toString('hex');
 
 import { env, version } from "../modules/config.js";
-import match from "../modules/processing/match.js";
-import { languageCode } from "../modules/sub/utils.js";
-import { createResponse, normalizeRequest, getIP } from "../modules/processing/request.js";
+
+import { generateHmac, generateSalt } from "../modules/sub/crypto.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
-import stream from "../modules/stream/stream.js";
+import { languageCode } from "../modules/sub/utils.js";
 import loc from "../localization/manager.js";
-import { generateHmac } from "../modules/sub/crypto.js";
+
+import { createResponse, normalizeRequest, getIP } from "../modules/processing/request.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
 import { extract } from "../modules/processing/url.js";
+import match from "../modules/processing/match.js";
+import stream from "../modules/stream/stream.js";
+
+const acceptRegex = /^application\/json(; charset=utf-8)?$/;
+
+const ipSalt = generateSalt();
+const corsConfig = env.corsWildcard ? {} : {
+    origin: env.corsURL,
+    optionsSuccessStatus: 200
+}
 
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
-    const corsConfig = env.corsWildcard ? {} : {
-        origin: env.corsURL,
-        optionsSuccessStatus: 200
-    };
+    const startTime = new Date();
+    const startTimestamp = startTime.getTime();
+    
+    const serverInfo = {
+        version: version,
+        commit: gitCommit,
+        branch: gitBranch,
+        name: env.apiName,
+        url: env.apiURL,
+        cors: Number(env.corsWildcard),
+        startTime: `${startTimestamp}`
+    }
 
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
@@ -45,9 +60,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             return res.sendStatus(429)
         }
     })
-    
-    const startTime = new Date();
-    const startTimestamp = startTime.getTime();
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
@@ -100,8 +112,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             next();
         }
     })
-
-    const acceptRegex = /^application\/json(; charset=utf-8)?$/;
 
     app.post('/api/json', async (req, res) => {
         const request = req.body;
@@ -192,15 +202,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.get('/api/serverInfo', (req, res) => {
         try {
-            return res.status(200).json({
-                version: version,
-                commit: gitCommit,
-                branch: gitBranch,
-                name: env.apiName,
-                url: env.apiURL,
-                cors: Number(env.corsWildcard),
-                startTime: `${startTimestamp}`
-            });
+            return res.status(200).json(serverInfo);
         } catch {
             return res.destroy();
         }
