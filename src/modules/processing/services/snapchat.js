@@ -60,7 +60,6 @@ async function getStory(pathname) {
 }
 
 export default async function(obj) {
-    try {
     let pathname;
     if (obj.url.hostname === 't.snapchat.com' && obj.shortLink) {
         const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
@@ -85,10 +84,6 @@ export default async function(obj) {
         const result = await getStory(pathname);
         if (result) return result;
     }
-
-} catch (e) {
-    console.log(e)
-}
 
     return { error: 'ErrorCouldntFetch' };
 }
