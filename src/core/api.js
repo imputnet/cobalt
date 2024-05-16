@@ -22,8 +22,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     };
 
     const apiLimiter = rateLimit({
-        windowMs: 60000,
-        max: 20,
+        windowMs: env.rateLimitWindow * 1000,
+        max: env.rateLimitMax || 20,
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
@@ -36,8 +36,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     })
 
     const apiLimiterStream = rateLimit({
-        windowMs: 60000,
-        max: 25,
+        windowMs: env.rateLimitWindow * 1000,
+        max: env.rateLimitMax || 20,
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
@@ -51,7 +51,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
-    app.use('/api/:type', cors({
+    app.use('/api', cors({
         methods: ['GET', 'POST'],
         ...corsConfig
     }))
