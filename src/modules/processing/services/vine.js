@@ -1,5 +1,8 @@
 export default async function(obj) {
-    let post = await fetch(`https://archive.vine.co/posts/${obj.id}.json`).then((r) => { return r.json() }).catch(() => { return false });
+    let post = await fetch(`https://archive.vine.co/posts/${obj.id}.json`)
+                    .then(r => r.json())
+                    .catch(() => {});
+
     if (!post) return { error: 'ErrorEmptyDownload' };
 
     if (post.videoUrl) return {

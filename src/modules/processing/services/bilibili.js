@@ -31,7 +31,7 @@ function extractBestQuality(dashData) {
 async function com_download(id) {
     let html = await fetch(`https://bilibili.com/video/${id}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then(r => r.text()).catch(() => {});
     if (!html) return { error: 'ErrorCouldntFetch' };
 
     if (!(html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"'))) {

@@ -8,7 +8,7 @@ export default async function(o) {
 
     html = await fetch(`https://vk.com/video${o.userId}_${o.videoId}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.arrayBuffer() }).catch(() => { return false });
+    }).then(r => r.arrayBuffer()).catch(() => {});
 
     if (!html) return { error: 'ErrorCouldntFetch' };
 
@@ -21,7 +21,8 @@ export default async function(o) {
     let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
 
     if (Number(js.mvData.is_active_live) !== 0) return { error: 'ErrorLiveVideo' };
-    if (js.mvData.duration > env.durationLimit) return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+    if (js.mvData.duration > env.durationLimit)
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     for (let i in resolutions) {
         if (js.player.params[0][`url${resolutions[i]}`]) {

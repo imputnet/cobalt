@@ -32,7 +32,7 @@ async function getAccessToken() {
             'accept': 'application/json'
         },
         body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(values.refresh_token)}`
-    }).then(r => r.json()).catch(_ => {});
+    }).then(r => r.json()).catch(() => {});
     if (!data) return;
 
     const { access_token, refresh_token, expires_in } = data;
@@ -91,7 +91,7 @@ export default async function(obj) {
     }
 
     // test the existence of audio
-    await fetch(audioFileLink, { method: "HEAD" }).then((r) => {
+    await fetch(audioFileLink, { method: "HEAD" }).then(r => {
         if (Number(r.status) === 200) {
             audio = true
         }
@@ -100,7 +100,7 @@ export default async function(obj) {
     // fallback for videos with variable audio quality
     if (!audio) {
         audioFileLink = `${video.split('_')[0]}_AUDIO_128.mp4`
-        await fetch(audioFileLink, { method: "HEAD" }).then((r) => {
+        await fetch(audioFileLink, { method: "HEAD" }).then(r => {
             if (Number(r.status) === 200) {
                 audio = true
             }

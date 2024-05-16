@@ -7,16 +7,16 @@ export default async function(o) {
     let id = o.id;
 
     if (!o.id && o.shortLink) {
-        id = await fetch(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`, { redirect: "manual" }).then((r) => {
-            return r.headers.get("location").split('pin/')[1].split('/')[0]
-        }).catch(() => {});
+        id = await fetch(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`, { redirect: "manual" })
+                   .then(r => r.headers.get("location").split('pin/')[1].split('/')[0])
+                   .catch(() => {});
     }
     if (id.includes("--")) id = id.split("--")[1];
     if (!id) return { error: 'ErrorCouldntFetch' };
 
     let html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then(r => r.text()).catch(() => {});
 
     if (!html) return { error: 'ErrorCouldntFetch' };
 

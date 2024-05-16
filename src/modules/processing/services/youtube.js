@@ -57,7 +57,7 @@ export default async function(o) {
 
     try {
         info = await yt.getBasicInfo(o.id, 'WEB');
-    } catch (e) {
+    } catch {
         return { error: 'ErrorCantConnectToServiceAPI' };
     }
 

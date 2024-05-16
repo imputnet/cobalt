@@ -48,7 +48,7 @@ export default async function(obj) {
 
     let bestQuality = m3u8[0];
     if (Number(quality) < bestQuality.resolution.height) {
-        bestQuality = m3u8.find((i) => (Number(quality) === i["resolution"].height));
+        bestQuality = m3u8.find((i) => (Number(quality) === i.resolution.height));
     }
 
     let fileMetadata = {
