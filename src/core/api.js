@@ -206,10 +206,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
     })
 
-    app.get('/api/status', (req, res) => {
-        res.status(200).end()
-    })
-
     app.get('/favicon.ico', (req, res) => {
         res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
     })
