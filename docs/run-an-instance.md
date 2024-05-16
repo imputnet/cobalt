@@ -52,8 +52,8 @@ sudo service nscd start
 ### variables for api
 | variable name         | default   | example                 | description |
 |:----------------------|:----------|:------------------------|:------------|
-| `API_PORT`            | `9000`    |  `9000`                 | changes port from which api server is accessible. |
-| `API_LISTEN_ADDRESS`  | `0.0.0.0` |  `127.0.0.1`            | changes address from which api server is accessible. **if you are using docker, you usually don't need to configure this.** |
+| `API_PORT`            | `9000`    | `9000`                  | changes port from which api server is accessible. |
+| `API_LISTEN_ADDRESS`  | `0.0.0.0` | `127.0.0.1`             | changes address from which api server is accessible. **if you are using docker, you usually don't need to configure this.** |
 | `API_URL`             | ➖        | `https://co.wuk.sh/`    | changes url from which api server is accessible. <br> ***REQUIRED TO RUN THE API***. |
 | `API_NAME`            | `unknown` | `ams-1`                 | api server name that is shown in `/api/serverInfo`. |
 | `CORS_WILDCARD`       | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled. |
@@ -62,8 +62,9 @@ sudo service nscd start
 | `TIKTOK_DEVICE_INFO`  | ➖        | *see below*             | device info (including `iid` and `device_id`) for tiktok functionality. required for tiktok to work. see below for more info. |
 | `PROCESSING_PRIORITY` | not used  | `10`                    | changes `nice` value* for ffmpeg subprocess. available only on unix systems. |
 | `FREEBIND_CIDR`       | ➖        | `2001:db8::/32`         | IPv6 prefix used for randomly assigning addresses to cobalt requests. only supported on linux systems. see below for more info. |
-| `RATELIMIT_WINDOW`    | `60`      | `120`                    | rate limit time window in **seconds**. |
+| `RATELIMIT_WINDOW`    | `60`      | `120`                   | rate limit time window in **seconds**. |
 | `RATELIMIT_MAX`       | `20`      | `30`                    | max requests per time window. requests above this amount will be blocked for the rate limit window duration. |
+| `DURATION_LIMIT`      | `10800`   | `18000`                 | max allowed video duration in **seconds**. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
