@@ -24,7 +24,7 @@
         "ErrorBrokenLink": "{s} is supported, but something is wrong with your link. maybe you didn't copy it fully?",
         "ErrorNoLink": "i can't guess what you want to download! please give me a link :(",
         "ErrorPageRenderFail": "if you're reading this, then there's something wrong with the page renderer. please {ContactLink}. make sure to provide the domain this error is present on and current commit hash ({s}). thank you in advance :D",
-        "ErrorRateLimit": "you're making too many requests. try again in a minute!",
+        "ErrorRateLimit": "you're making too many requests. try again in {s} seconds!",
         "ErrorCouldntFetch": "i couldn't find anything about this link. check if it works and try again! some content may be region restricted, so keep that in mind.",
         "ErrorLengthLimit": "i can't process videos longer than {s} minutes, so pick something shorter instead!",
         "ErrorBadFetch": "something went wrong when i tried getting info about your link. are you sure it works? check if it does, and try again.",

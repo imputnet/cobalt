@@ -45,7 +45,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         handler: (req, res) => {
             return res.status(429).json({
                 "status": "rate-limit",
-                "text": loc(languageCode(req), 'ErrorRateLimit')
+                "text": loc(languageCode(req), 'ErrorRateLimit', env.rateLimitWindow)
             });
         }
     })
