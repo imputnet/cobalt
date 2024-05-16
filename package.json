@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.13.3",
+    "version": "7.14",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
