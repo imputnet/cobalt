@@ -58,17 +58,19 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.use('/api/json', apiLimiter);
     app.use('/api/stream', apiLimiterStream);
-    app.use('/api/onDemand', apiLimiter);
 
     app.use((req, res, next) => {
-        try { decodeURIComponent(req.path) } catch (e) { return res.redirect('/') }
+        try {
+            decodeURIComponent(req.path)
+        } catch { 
+            return res.redirect('/')
+        }
         next();
     })
 
     app.use('/api/json', express.json({
         verify: (req, res, buf) => {
-            const acceptHeader = String(req.header('Accept')) === "application/json";
-            if (acceptHeader) {
+            if (String(req.header('Accept')) === "application/json") {
                 if (buf.length > 720) throw new Error();
                 JSON.parse(buf);
             } else {
