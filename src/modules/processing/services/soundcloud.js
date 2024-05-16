@@ -1,4 +1,4 @@
-import { maxVideoDuration } from "../../config.js";
+import { env } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 
 const cachedID = {
@@ -77,8 +77,8 @@ export default async function(obj) {
 
     if (fileUrl.substring(0, 54) !== "https://api-v2.soundcloud.com/media/soundcloud:tracks:") return { error: 'ErrorEmptyDownload' };
 
-    if (json.duration > maxVideoDuration)
-        return { error: ['ErrorLengthAudioConvert', maxVideoDuration / 60000] };
+    if (json.duration > env.durationLimit * 1000)
+        return { error: ['ErrorLengthAudioConvert', env.durationLimit / 60] };
 
     let file = await fetch(fileUrl).then(async (r) => { return (await r.json()).url }).catch(() => {});
     if (!file) return { error: 'ErrorCouldntFetch' };

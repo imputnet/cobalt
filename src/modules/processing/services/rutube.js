@@ -1,6 +1,6 @@
 import HLS from 'hls-parser';
 
-import { maxVideoDuration } from "../../config.js";
+import { env } from "../../config.js";
 import { cleanString } from '../../sub/utils.js';
 
 async function requestJSON(url) {
@@ -35,8 +35,8 @@ export default async function(obj) {
     if (play.detail || !play.video_balancer) return { error: 'ErrorEmptyDownload' };
     if (play.live_streams?.hls) return { error: 'ErrorLiveVideo' };
 
-    if (play.duration > maxVideoDuration)
-        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (play.duration > env.durationLimit * 1000)
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let m3u8 = await fetch(play.video_balancer.m3u8)
                      .then(r => r.text())

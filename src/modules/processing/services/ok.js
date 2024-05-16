@@ -1,4 +1,4 @@
-import { genericUserAgent, maxVideoDuration } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 
 const resolutions = {
@@ -29,7 +29,7 @@ export default async function(o) {
 
     if (videoData.provider !== "UPLOADED_ODKL") return { error: 'ErrorUnsupported' };
     if (videoData.movie.is_live) return { error: 'ErrorLiveVideo' };
-    if (videoData.movie.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (videoData.movie.duration > env.durationLimit) return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let videos = videoData.videos.filter(v => !v.disallowed);
     let bestVideo = videos.find(v => resolutions[v.name] === quality) || videos[videos.length - 1];

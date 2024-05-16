@@ -1,5 +1,5 @@
 import HLSParser from 'hls-parser';
-import { maxVideoDuration } from '../../config.js';
+import { env } from '../../config.js';
 
 let _token;
 
@@ -73,8 +73,8 @@ export default async function({ id }) {
         return { error: 'ErrorEmptyDownload' }
     }
 
-    if (media.duration * 1000 > maxVideoDuration) {
-        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (media.duration > env.durationLimit) {
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
     }
 
     const manifest = await fetch(media.hlsURL).then(r => r.text()).catch(() => {});

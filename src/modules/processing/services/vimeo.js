@@ -1,4 +1,4 @@
-import { maxVideoDuration } from "../../config.js";
+import { env } from "../../config.js";
 import { cleanString } from '../../sub/utils.js';
 
 const resolutionMatch = {
@@ -63,7 +63,7 @@ export default async function(obj) {
         }
     }
 
-    if (api.video.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (api.video.duration > env.durationLimit) return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let masterJSONURL = api["request"]["files"]["dash"]["cdns"]["akfire_interconnect_quic"]["url"];
     let masterJSON = await fetch(masterJSONURL).then((r) => { return r.json() }).catch(() => { return false });

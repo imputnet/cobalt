@@ -1,4 +1,4 @@
-import { genericUserAgent, maxVideoDuration } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 async function getAccessToken() {
@@ -79,8 +79,8 @@ export default async function(obj) {
     if (!data.secure_media?.reddit_video)
         return { error: 'ErrorEmptyDownload' };
 
-    if (data.secure_media?.reddit_video?.duration * 1000 > maxVideoDuration)
-        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (data.secure_media?.reddit_video?.duration > env.durationLimit)
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let audio = false,
         video = data.secure_media?.reddit_video?.fallback_url?.split('?')[0],

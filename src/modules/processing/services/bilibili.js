@@ -1,4 +1,4 @@
-import { genericUserAgent, maxVideoDuration } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 
 // TO-DO: higher quality downloads (currently requires an account)
 
@@ -39,8 +39,8 @@ async function com_download(id) {
     }
 
     let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
-    if (streamData.data.timelength > maxVideoDuration) {
-        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (streamData.data.timelength > env.durationLimit * 1000) {
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
     }
 
     const [ video, audio ] = extractBestQuality(streamData.data.dash);
@@ -79,8 +79,8 @@ async function tv_download(id) {
         return { error: 'ErrorEmptyDownload' };
     }
 
-    if (video.duration > maxVideoDuration) {
-        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (video.duration > env.durationLimit * 1000) {
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
     }
 
     return {

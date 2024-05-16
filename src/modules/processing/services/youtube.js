@@ -1,5 +1,5 @@
 import { Innertube, Session } from 'youtubei.js';
-import { maxVideoDuration } from '../../config.js';
+import { env } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
 import { fetch } from 'undici'
 
@@ -92,7 +92,7 @@ export default async function(o) {
 
     if (bestQuality) bestQuality = qual(bestQuality);
     if (!bestQuality && !o.isAudioOnly || !hasAudio) return { error: 'ErrorYTTryOtherCodec' };
-    if (info.basic_info.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (info.basic_info.duration > env.durationLimit) return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let checkBestAudio = (i) => (i.has_audio && !i.has_video),
         audio = adaptive_formats.find(i => checkBestAudio(i) && !i.is_dubbed);

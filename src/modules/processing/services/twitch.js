@@ -1,4 +1,4 @@
-import { maxVideoDuration } from "../../config.js";
+import { env } from "../../config.js";
 import { cleanString } from '../../sub/utils.js';
 
 const gqlURL = "https://gql.twitch.tv/gql";
@@ -34,7 +34,7 @@ export default async function (obj) {
 
     let clipMetadata = req_metadata.data.clip;
 
-    if (clipMetadata.durationSeconds > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (clipMetadata.durationSeconds > env.durationLimit) return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
     if (!clipMetadata.videoQualities || !clipMetadata.broadcaster) return { error: 'ErrorEmptyDownload' };
 
     let req_token = await fetch(gqlURL, {
