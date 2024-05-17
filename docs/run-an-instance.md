@@ -35,7 +35,7 @@ it's highly recommended to use a reverse proxy (such as nginx) if you want your 
 ## using regular node.js (useful for local development)
 setup script installs all needed `npm` dependencies, but you have to install `node.js` *(version 18 or above)* and `git` yourself.
 
-1. clone the repo: `git clone https://github.com/wukko/cobalt`.
+1. clone the repo: `git clone https://github.com/imputnet/cobalt`.
 2. run setup script and follow instructions: `npm run setup`. you need to host api and web instances separately, so pick whichever applies.
 3. run cobalt via `npm start`.
 4. done.
