@@ -155,7 +155,7 @@
         "SettingsTikTokH265Description": "download 1080p videos from tiktok in h265/hevc format when available.",
         "SettingsYoutubeDub": "use browser language",
         "SettingsYoutubeDubDescription": "uses your browser's default language for youtube dubbed audio tracks. works even if cobalt ui isn't translated to your language.",
-        "UpdateIstream": "better service support and ux",
-        "ErrorInvalidContentType": "invalid content type header"
+        "ErrorInvalidContentType": "invalid content type header",
+        "UpdateOneMillion": "1 million users and blazing speed"
     }
 }
