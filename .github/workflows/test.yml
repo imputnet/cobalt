@@ -1,0 +1,25 @@
+name: Run tests
+
+on:
+  pull_request:
+  push:
+    branches: [ current ]
+
+jobs:
+  test-web:
+    name: web sanity check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run test script
+        run: .github/test.sh web
+
+  test-api:
+    name: api sanity check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run test script
+        run: .github/test.sh api
