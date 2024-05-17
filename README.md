@@ -3,6 +3,9 @@ best way to save what you love: [cobalt.tools](https://cobalt.tools/)
 
 ![cobalt logo with repeated logo (double arrow) pattern background](/src/front/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")  
 
+[💬 community discord server](https://discord.gg/pQPt8HBUPu)  
+[🐦 twitter/x](https://x.com/justusecobalt)  
+
 ## what's cobalt?
 cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or invasive analytics***.  
 
@@ -62,7 +65,7 @@ we reserve the right to restrict abusive/excessive access to the main instance a
 if you want to run your own instance for whatever purpose, [follow this guide](/docs/run-an-instance.md).  
 it's *highly* recommended to use a docker compose method unless you run for developing/debugging purposes.
 
-## sponsors 
+## partners 
 cobalt is sponsored by [royalehosting.net](https://royalehosting.net/), all main instances are currently hosted on their network :)  
 
 ## ethics and disclaimer
