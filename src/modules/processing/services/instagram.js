@@ -338,7 +338,7 @@ export default function(obj) {
             }
         }
 
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'ErrorUnsupported' };
     }
 
     const { postId, storyId, username } = obj;
