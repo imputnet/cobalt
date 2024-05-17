@@ -18,8 +18,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | :--------                      | :-----------: | :--------: | :--------: | :------: | :-------------: |
 | bilibili.com & bilibili.tv     | ✅            | ✅         | ✅         | ➖         | ➖              |
 | dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
-| instagram posts & stories      | ✅            | ✅         | ✅         | ➖         | ➖              |
-| instagram reels                | ✅            | ✅         | ✅         | ➖         | ➖              |
+| instagram posts & reels        | ✅            | ✅         | ✅         | ➖         | ➖              |
 | ok video                       | ✅            | ❌         | ❌         | ✅         | ✅              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
@@ -44,7 +43,7 @@ this list is not final and keeps expanding over time. if support for a service y
 ### additional notes or features (per service)
 | service    | notes or features                                                                                                    |
 | :--------  | :-----                                                                                                               |
-| instagram  | supports photos, videos, and stories. lets you pick what to save from multi-media posts.                             |
+| instagram  | supports reels, photos, and videos. lets you pick what to save from multi-media posts.                               |
 | pinterest  | supports photos, gifs, videos and stories.                                                                           |
 | reddit     | supports gifs and videos.                                                                                            |
 | soundcloud | supports private links.                                                                                              |
