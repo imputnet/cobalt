@@ -252,7 +252,7 @@ button:active,
     flex-direction: row;
 }
 #cobalt-main-box #bottom {
-    padding-top: 1rem;
+    padding-top: calc(1rem - var(--padding-small));
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -610,7 +610,7 @@ button:active,
     margin-top: 0.5rem;
 }
 .explanation {
-    margin-top: 0.8rem;
+    margin-top: var(--padding);
     width: 100%;
     font-size: 0.8rem;
     text-align: left;
