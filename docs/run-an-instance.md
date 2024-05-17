@@ -41,7 +41,7 @@ setup script installs all needed `npm` dependencies, but you have to install `no
 4. done.
 
 ### ubuntu 22.04 workaround
-`nscd` needs to be installed and running so that the `ffmpeg-static` binary can resolve DNS ([#101](https://github.com/wukko/cobalt/issues/101#issuecomment-1494822258)):
+`nscd` needs to be installed and running so that the `ffmpeg-static` binary can resolve DNS ([#101](https://github.com/imputnet/cobalt/issues/101#issuecomment-1494822258)):
 
 ```bash
 sudo apt install nscd
