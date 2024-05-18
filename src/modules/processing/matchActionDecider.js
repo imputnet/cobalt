@@ -2,6 +2,7 @@ import { audioIgnore, services, supportedAudio } from "../config.js";
 import { createResponse } from "../processing/request.js";
 import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
+import { createStream } from "../stream/manage.js";
 
 export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
     let action,
@@ -41,7 +42,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
         case "photo":
             responseType = "redirect";
             break;
-        
+
         case "gif":
             params = { type: "gif" }
             break;
@@ -76,8 +77,13 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     params = {
                         type: pickerType,
                         picker: r.picker,
-                        u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
-                        copy: audioFormat === "best" ? true : false
+                        u: createStream({
+                            service: "tiktok",
+                            type: pickerType,
+                            u: r.urls,
+                            filename: r.audioFilename,
+                        }),
+                        copy: audioFormat === "best"
                     }
             }
             break;
@@ -101,7 +107,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                         responseType = "redirect";
                     }
                     break;
-                
+
                 case "twitter":
                     if (r.type === "remux") {
                         params = { type: r.type };
@@ -125,7 +131,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             }
             break;
 
-        case "audio": 
+        case "audio":
             if (audioIgnore.includes(host)
                 || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", { t: loc(lang, 'ErrorEmptyDownload') })
@@ -133,7 +139,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
             let processType = "render",
                 copy = false;
-            
+
             if (!supportedAudio.includes(audioFormat)) {
                 audioFormat = "best"
             }
