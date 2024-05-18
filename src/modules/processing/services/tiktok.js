@@ -45,7 +45,7 @@ export default async function(obj) {
     const detail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
 
     let video, videoFilename, audioFilename, audio, images,
-        filenameBase = `tiktok_${detail.author.unique_id}_${postId}`,
+        filenameBase = `tiktok_${detail.author.uniqueId}_${postId}`,
         bestAudio = 'm4a';
 
     images = detail.imagePost?.images;
