@@ -162,7 +162,7 @@
         "SettingsTikTokH265Description": "ينزل فيديوهات بدقة 1080 من تيك توك بضيغة h265 أو hevc عند توافرها.",
         "SettingsYoutubeDub": "إستخدم لغة المتصفح",
         "SettingsYoutubeDubDescription": "يستخدم لغة متصفحك الافتراضية للمقطع المدبلج الصوتي.",
-        "ErrorInvalidContentType": "نهذا النوع من المحتوى غير صالح",
+        "ErrorInvalidContentType": "هذا النوع من المحتوى غير صالح",
         "UpdateOneMillion": "1 مليون مستخدم!!!",
     }
 }
