@@ -110,6 +110,12 @@
             "alias": "dailymotion videos",
             "patterns": ["video/:id"],
             "enabled": true
+        },
+        "nicovideo": {
+            "alias": "niconico videos",
+            "tld": "jp",
+            "patterns": ["watch/:id"],
+            "enabled": true
         }
     }
 }
