@@ -111,7 +111,6 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await tiktok({
                     postId: patternMatch.postId,
                     id: patternMatch.id,
-                    user: patternMatch.user,
                     fullAudio: obj.isTTFullAudio,
                     isAudioOnly: isAudioOnly,
                     h265: obj.tiktokH265

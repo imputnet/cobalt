@@ -8,9 +8,8 @@ export const cookie = new Cookie({})
 
 export default async function(obj) {
     let postId = obj.postId
-    let username = obj.user
 
-    if (!username || !postId) {
+    if (!postId) {
         let html = await fetch(`${shortDomain}${obj.id}`, {
             redirect: "manual",
             headers: {
@@ -22,14 +21,13 @@ export default async function(obj) {
 
         if (html.startsWith('<a href="https://')) {
             const { patternMatch } = extract(html.split('<a href="https://')[1].split('?')[0])
-            username = patternMatch.user
             postId = patternMatch.postId
         }
     }
-    if (!username || !postId) return { error: 'ErrorCantGetID' };
+    if (!postId) return { error: 'ErrorCantGetID' };
 
     // should always be /video/, even for photos
-    const res = await fetch(`https://tiktok.com/${username}/video/${postId}`, {
+    const res = await fetch(`https://tiktok.com/@i/video/${postId}`, {
         headers: {
             "user-agent": genericUserAgent,
             cookie,
