@@ -65,7 +65,7 @@ if you want to run your own instance for whatever purpose, [follow this guide](/
 it's *highly* recommended to use a docker compose method unless you run for developing/debugging purposes.
 
 ## partners 
-cobalt is sponsored by [royalehosting.net](https://royalehosting.net/), all main instances are currently hosted on their network :)  
+cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt), all main instances are currently hosted on their network :)  
 
 ## ethics and disclaimer
 cobalt is a tool for easing content downloads from internet and takes ***zero liability***. you are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators. fair use and credits benefit everyone.
