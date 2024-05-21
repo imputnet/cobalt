@@ -16,6 +16,11 @@ const serviceHeaders = {
     }
 }
 
+export function closeResponse(res) {
+    if (!res.headersSent) res.sendStatus(500);
+    return res.destroy();
+}
+
 export function getHeaders(service) {
     return { ...defaultHeaders, ...serviceHeaders[service] }
 }
