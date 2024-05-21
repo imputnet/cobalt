@@ -70,8 +70,8 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     break;
                 case "tiktok":
                     let audioStreamType = "render";
-                    if (audioFormat === r.bestAudio || audioFormat === "best") {
-                        audioFormat = r.bestAudio;
+                    if (audioFormat === "mp3" || audioFormat === "best") {
+                        audioFormat = "mp3";
                         audioStreamType = "bridge"
                     }
                     params = {
