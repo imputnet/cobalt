@@ -23,5 +23,5 @@ const serviceHeaders = {
 export function getHeaders(service) {
     // Converting all header values to strings
     return Object.entries({ ...defaultHeaders, ...serviceHeaders[service] })
-        .reduce((p, c) => ({ ...p, [c[0]]: String(c[1]) }), {})
+        .reduce((p, [key, val]) => ({ ...p, [key]: String(val) }), {})
 }
