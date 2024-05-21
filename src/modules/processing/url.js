@@ -127,6 +127,10 @@ export function normalizeURL(url) {
 }
 
 export function extract(url) {
+    if (!(url instanceof URL)) {
+        url = new URL(url);
+    }
+
     const host = getHostIfValid(url);
 
     if (!host || !services[host].enabled) {
