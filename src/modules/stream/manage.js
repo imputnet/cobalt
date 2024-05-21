@@ -9,7 +9,7 @@ import { strict as assert } from "assert";
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 
-const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
+const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube', 'nicovideo'];
 
 const streamCache = new NodeCache({
     stdTTL: env.streamLifespan,
