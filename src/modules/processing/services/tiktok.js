@@ -67,7 +67,7 @@ export default async function(obj) {
         audio = playAddr;
         audioFilename = `${filenameBase}_audio`;
 
-        if (obj.fullAudio) {
+        if (obj.fullAudio || !audio) {
             audio = detail.music.playUrl;
             audioFilename += `_original`
         }
