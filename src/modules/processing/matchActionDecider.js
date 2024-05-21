@@ -70,7 +70,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     break;
                 case "tiktok":
                     let audioStreamType = "render";
-                    if (audioFormat === "mp3" || audioFormat === "best") {
+                    if (r.bestAudio === "mp3" && (audioFormat === "mp3" || audioFormat === "best")) {
                         audioFormat = "mp3";
                         audioStreamType = "bridge"
                     }
@@ -153,11 +153,12 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
             const isTumblrAudio = host === "tumblr" && !r.filename;
             const isSoundCloud = host === "soundcloud";
+            const isTiktok = host === "tiktok";
 
             if (isBestAudioDefined || isBestHostAudio) {
                 audioFormat = serviceBestAudio;
                 processType = "bridge";
-                if (isSoundCloud) {
+                if (isSoundCloud || (isTiktok && audioFormat === "m4a")) {
                     processType = "render"
                     copy = true
                 }
