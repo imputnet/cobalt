@@ -38,11 +38,17 @@ export default async function(obj) {
     updateCookie(cookie, res.headers)
 
     const html = await res.text()
-    const json = html
-        .split('<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application/json">')[1]
-        .split('</script>')[0]
-    const data = JSON.parse(json)
-    const detail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
+
+    let detail
+    try {
+        const json = html
+            .split('<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application/json">')[1]
+            .split('</script>')[0]
+        const data = JSON.parse(json)
+        detail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
+    } catch {
+        return { error: 'ErrorCouldntFetch' };
+    }
 
     let video, videoFilename, audioFilename, audio, images,
         filenameBase = `tiktok_${detail.author.uniqueId}_${postId}`,
