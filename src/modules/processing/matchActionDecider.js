@@ -69,19 +69,20 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     params = { picker: r.picker };
                     break;
                 case "tiktok":
-                    let pickerType = "render";
-                    if (audioFormat === "mp3" || audioFormat === "best") {
-                        audioFormat = "mp3";
-                        pickerType = "bridge"
+                    let audioStreamType = "render";
+                    if (audioFormat === r.bestAudio || audioFormat === "best") {
+                        audioFormat = r.bestAudio;
+                        audioStreamType = "bridge"
                     }
                     params = {
-                        type: pickerType,
                         picker: r.picker,
                         u: createStream({
                             service: "tiktok",
-                            type: pickerType,
+                            type: audioStreamType,
                             u: r.urls,
                             filename: r.audioFilename,
+                            isAudioOnly: true,
+                            audioFormat,
                         }),
                         copy: audioFormat === "best"
                     }
