@@ -1,14 +1,14 @@
 import { genericUserAgent } from "../../config.js";
 import { updateCookie } from "../cookie/manager.js";
+import { extract } from "../url.js";
 import Cookie from "../cookie/cookie.js";
 
-const fullDomain = "https://tiktok.com/";
 const shortDomain = "https://vt.tiktok.com/";
 export const cookie = new Cookie({})
 
 export default async function(obj) {
-    let postId = obj.postId || false
-    let username = obj.user || false
+    let postId = obj.postId
+    let username = obj.user
 
     if (!username || !postId) {
         let html = await fetch(`${shortDomain}${obj.id}`, {
@@ -20,16 +20,16 @@ export default async function(obj) {
 
         if (!html) return { error: 'ErrorCouldntFetch' };
 
-        if (html.slice(0, 17) === '<a href="https://') {
-            const fullLink = html.split('<a href="https://')[1].split('?')[0].split('/')
-            username = fullLink[1]
-            postId = fullLink[3]
+        if (html.startsWith('<a href="https://')) {
+            const { patternMatch } = extract(html.split('<a href="https://')[1].split('?')[0])
+            username = patternMatch.user
+            postId = patternMatch.postId
         }
     }
     if (!username || !postId) return { error: 'ErrorCantGetID' };
 
     // should always be /video/, even for photos
-    const res = await fetch(`${fullDomain}${username}/video/${postId}`, {
+    const res = await fetch(`https://tiktok.com/${username}/video/${postId}`, {
         headers: {
             "user-agent": genericUserAgent,
             cookie,
@@ -62,7 +62,7 @@ export default async function(obj) {
     } else {
         audio = detail.music.playUrl || playAddr;
         audioFilename = `${filenameBase}_audio`;
-        if (audio.slice(-4) === ".mp3") bestAudio = 'mp3';
+        if (audio.endsWith(".mp3")) bestAudio = 'mp3';
     }
 
     if (video) return {
