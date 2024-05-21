@@ -4,10 +4,10 @@ import { extract } from "../url.js";
 import Cookie from "../cookie/cookie.js";
 
 const shortDomain = "https://vt.tiktok.com/";
-export const cookie = new Cookie({})
+export const cookie = new Cookie({});
 
 export default async function(obj) {
-    let postId = obj.postId
+    let postId = obj.postId;
 
     if (!postId) {
         let html = await fetch(`${shortDomain}${obj.id}`, {
@@ -20,7 +20,7 @@ export default async function(obj) {
         if (!html) return { error: 'ErrorCouldntFetch' };
 
         if (html.startsWith('<a href="https://')) {
-            const { patternMatch } = extract(html.split('<a href="https://')[1].split('?')[0])
+            const { patternMatch } = extract(html.split('<a href="https://')[1].split('?')[0]);
             postId = patternMatch.postId
         }
     }
@@ -33,11 +33,11 @@ export default async function(obj) {
             cookie,
         }
     })
-    updateCookie(cookie, res.headers)
+    updateCookie(cookie, res.headers);
 
-    const html = await res.text()
+    const html = await res.text();
 
-    let detail
+    let detail;
     try {
         const json = html
             .split('<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application/json">')[1]
@@ -64,9 +64,14 @@ export default async function(obj) {
         video = playAddr;
         videoFilename = `${filenameBase}.mp4`;
     } else {
-        audio = detail.music.playUrl || playAddr;
+        audio = playAddr;
         audioFilename = `${filenameBase}_audio`;
-        if (audio.endsWith(".mp3")) bestAudio = 'mp3';
+
+        if (obj.fullAudio) {
+            audio = detail.music.playUrl;
+            audioFilename += `_original`
+        }
+        if (audio.includes("mime_type=audio_mpeg")) bestAudio = 'mp3';
     }
 
     if (video) return {
