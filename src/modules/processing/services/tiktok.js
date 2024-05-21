@@ -20,7 +20,8 @@ export default async function(obj) {
         if (!html) return { error: 'ErrorCouldntFetch' };
 
         if (html.startsWith('<a href="https://')) {
-            const { patternMatch } = extract(html.split('<a href="https://')[1].split('?')[0]);
+            const extractedURL = html.split('<a href="')[1].split('?')[0];
+            const { patternMatch } = extract(extractedURL);
             postId = patternMatch.postId
         }
     }
