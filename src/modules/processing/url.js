@@ -2,7 +2,7 @@ import { services } from "../config.js";
 import { strict as assert } from "node:assert";
 import psl from "psl";
 
-export function aliasURL(url) {
+function aliasURL(url) {
     assert(url instanceof URL);
 
     const host = psl.parse(url.hostname);
@@ -75,7 +75,7 @@ export function aliasURL(url) {
     return url
 }
 
-export function cleanURL(url) {
+function cleanURL(url) {
     assert(url instanceof URL);
     const host = psl.parse(url.hostname).sld;
     let stripQuery = true;
@@ -103,15 +103,7 @@ export function cleanURL(url) {
     return url
 }
 
-export function normalizeURL(url) {
-    return cleanURL(
-        aliasURL(
-            new URL(url.replace(/^https\/\//, 'https://'))
-        )
-    );
-}
-
-export function getHostIfValid(url) {
+function getHostIfValid(url) {
     const host = psl.parse(url.hostname);
     if (host.error) return;
 
@@ -124,4 +116,41 @@ export function getHostIfValid(url) {
     if (!validSubdomain && !anySubdomainAllowed) return;
 
     return host.sld;
+}
+
+export function normalizeURL(url) {
+    return cleanURL(
+        aliasURL(
+            new URL(url.replace(/^https\/\//, 'https://'))
+        )
+    );
+}
+
+export function extract(url) {
+    if (!(url instanceof URL)) {
+        url = new URL(url);
+    }
+
+    const host = getHostIfValid(url);
+
+    if (!host || !services[host].enabled) {
+        return null;
+    }
+
+    let patternMatch;
+    for (const pattern of services[host].patterns) {
+        patternMatch = pattern.match(
+            url.pathname.substring(1) + url.search
+        );
+
+        if (patternMatch) {
+            break;
+        }
+    }
+
+    if (!patternMatch) {
+        return null;
+    }
+
+    return { host, patternMatch };
 }

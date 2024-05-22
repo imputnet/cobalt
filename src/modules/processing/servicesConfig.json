@@ -55,15 +55,9 @@
         },
         "tiktok": {
             "alias": "tiktok videos, photos & audio",
-            "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId"],
-            "subdomains": ["vt", "vm"],
+            "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId", "v/:id.html"],
+            "subdomains": ["vt", "vm", "m"],
             "enabled": true
-        },
-        "douyin": {
-            "alias": "douyin videos & audio",
-            "patterns": ["video/:postId", ":id"],
-            "subdomains": ["v"],
-            "enabled": false
         },
         "vimeo": {
             "patterns": [":id", "video/:id", ":id/:password", "/channels/:user/:id"],
@@ -76,7 +70,7 @@
             "enabled": true
         },
         "instagram": {
-            "alias": "instagram reels, posts & stories",
+            "alias": "instagram posts & reels",
             "altDomains": ["ddinstagram.com"],
             "patterns": [
                 "reels/:postId", ":username/reel/:postId", "reel/:postId", "p/:postId", ":username/p/:postId",

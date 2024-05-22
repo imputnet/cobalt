@@ -1,8 +1,7 @@
 import { strict as assert } from "node:assert";
 
-import { apiJSON } from "../sub/utils.js";
-import { errorUnsupported, genericError, brokenLink } from "../sub/errors.js";
-
+import { env } from '../config.js';
+import { createResponse } from "../processing/request.js";
 import loc from "../../localization/manager.js";
 
 import { testers } from "./servicesPatternTesters.js";
@@ -29,7 +28,9 @@ import snapchat from "./services/snapchat.js";
 import { env } from '../config.js';
 
 let freebind;
-export default async function(host, patternMatch, url, lang, obj) {
+
+export default async function(host, patternMatch, lang, obj) {
+    const { url } = obj;
     assert(url instanceof URL);
     let dispatcher, requestIP;
 
@@ -43,10 +44,20 @@ export default async function(host, patternMatch, url, lang, obj) {
     }
 
     try {
-        let r, isAudioOnly = !!obj.isAudioOnly, disableMetadata = !!obj.disableMetadata;
+        let r,
+            isAudioOnly = !!obj.isAudioOnly,
+            disableMetadata = !!obj.disableMetadata;
 
-        if (!testers[host]) return apiJSON(0, { t: errorUnsupported(lang) });
-        if (!(testers[host](patternMatch))) return apiJSON(0, { t: brokenLink(lang, host) });
+        if (!testers[host]) {
+            return createResponse("error", {
+                t: loc(lang, 'ErrorUnsupported')
+            });
+        }
+        if (!(testers[host](patternMatch))) {
+            return createResponse("error", {
+                t: loc(lang, 'ErrorBrokenLink', host)
+            });
+        }
 
         switch (host) {
             case "twitter":
@@ -186,21 +197,26 @@ export default async function(host, patternMatch, url, lang, obj) {
                 });
                 break;
             default:
-                return apiJSON(0, { t: errorUnsupported(lang) });
+                return createResponse("error", {
+                    t: loc(lang, 'ErrorUnsupported')
+                });
         }
 
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
 
-        if (r.error && r.critical)
-            return apiJSON(6, { t: loc(lang, r.error) })
-
-        if (r.error)
-            return apiJSON(0, {
+        if (r.error && r.critical) {
+            return createResponse("critical", {
+                t: loc(lang, r.error)
+            })
+        }
+        if (r.error) {
+            return createResponse("error", {
                 t: Array.isArray(r.error)
                     ? loc(lang, r.error[0], r.error[1])
                     : loc(lang, r.error)
             })
+        }
 
         return matchActionDecider(
             r, host, obj.aFormat, isAudioOnly,
@@ -208,7 +224,9 @@ export default async function(host, patternMatch, url, lang, obj) {
             obj.filenamePattern, obj.twitterGif,
             requestIP
         )
-    } catch (e) {
-        return apiJSON(0, { t: genericError(lang, host) })
+    } catch {
+        return createResponse("error", {
+            t: loc(lang, 'ErrorBadFetch', host)
+        })
     }
 }

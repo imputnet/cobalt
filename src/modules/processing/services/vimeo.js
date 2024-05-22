@@ -1,4 +1,4 @@
-import { maxVideoDuration } from "../../config.js";
+import { env } from "../../config.js";
 import { cleanString } from '../../sub/utils.js';
 
 const resolutionMatch = {
@@ -39,7 +39,9 @@ export default async function(obj) {
     if (!api) return { error: 'ErrorCouldntFetch' };
 
     let downloadType = "dash";
-    if (!obj.isAudioOnly && JSON.stringify(api).includes('"progressive":[{')) downloadType = "progressive";
+
+    if (!obj.isAudioOnly && JSON.stringify(api).includes('"progressive":[{'))
+        downloadType = "progressive";
 
     let fileMetadata = {
         title: cleanString(api.video.title.trim()),
@@ -48,33 +50,43 @@ export default async function(obj) {
 
     if (downloadType !== "dash") {
         if (qualityMatch[quality]) quality = qualityMatch[quality];
-        let all = api["request"]["files"]["progressive"].sort((a, b) => Number(b.width) - Number(a.width));
+        let all = api.request.files.progressive.sort((a, b) => Number(b.width) - Number(a.width));
         let best = all[0];
 
-        let bestQuality = all[0]["quality"].split('p')[0];
-        bestQuality = qualityMatch[bestQuality] ? qualityMatch[bestQuality] : bestQuality;
-        if (Number(quality) < Number(bestQuality)) best = all.find(i => i["quality"].split('p')[0] === quality);
+        let bestQuality = all[0].quality.split('p')[0];
+        if (qualityMatch[bestQuality]) {
+            bestQuality = qualityMatch[bestQuality]
+        }
+
+        if (Number(quality) < Number(bestQuality)) {
+            best = all.find(i => i.quality.split('p')[0] === quality);
+        }
 
         if (!best) return { error: 'ErrorEmptyDownload' };
+
         return {
-            urls: best["url"],
+            urls: best.url,
             audioFilename: `vimeo_${obj.id}_audio`,
-            filename: `vimeo_${obj.id}_${best["width"]}x${best["height"]}.mp4`
+            filename: `vimeo_${obj.id}_${best.width}x${best.height}.mp4`
         }
     }
 
-    if (api.video.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (api.video.duration > env.durationLimit)
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
-    let masterJSONURL = api["request"]["files"]["dash"]["cdns"]["akfire_interconnect_quic"]["url"];
-    let masterJSON = await fetch(masterJSONURL).then((r) => { return r.json() }).catch(() => { return false });
+    let masterJSONURL = api.request.files.dash.cdns.akfire_interconnect_quic.url;
+    let masterJSON = await fetch(masterJSONURL).then(r => r.json()).catch(() => {});
 
     if (!masterJSON) return { error: 'ErrorCouldntFetch' };
     if (!masterJSON.video) return { error: 'ErrorEmptyDownload' };
 
-    let masterJSON_Video = masterJSON.video.sort((a, b) => Number(b.width) - Number(a.width)).filter(a => ["dash", "mp42"].includes(a['format'])),
-        bestVideo = masterJSON_Video[0];
-    if (Number(quality) < Number(resolutionMatch[bestVideo["width"]])) {
-        bestVideo = masterJSON_Video.find(i => resolutionMatch[i["width"]] === quality)
+    let masterJSON_Video = masterJSON.video
+                            .sort((a, b) => Number(b.width) - Number(a.width))
+                            .filter(a => ["dash", "mp42"].includes(a.format));
+
+    let bestVideo = masterJSON_Video[0];
+    if (Number(quality) < Number(resolutionMatch[bestVideo.width])) {
+        bestVideo = masterJSON_Video.find(i => resolutionMatch[i.width] === quality)
     }
 
     let masterM3U8 = `${masterJSONURL.split("/sep/")[0]}/sep/video/${bestVideo.id}/master.m3u8`;

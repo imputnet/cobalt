@@ -1,4 +1,4 @@
-import { genericUserAgent, maxVideoDuration } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 async function getAccessToken() {
@@ -32,7 +32,7 @@ async function getAccessToken() {
             'accept': 'application/json'
         },
         body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(values.refresh_token)}`
-    }).then(r => r.json()).catch(_ => {});
+    }).then(r => r.json()).catch(() => {});
     if (!data) return;
 
     const { access_token, refresh_token, expires_in } = data;
@@ -59,24 +59,28 @@ export default async function(obj) {
 
     let data = await fetch(
         url, {
-            headers: accessToken && { authorization: `Bearer ${accessToken}` }
+            headers: {
+                'User-Agent': genericUserAgent,
+                accept: 'application/json',
+                authorization: accessToken && `Bearer ${accessToken}`
+            }
         }
-    ).then(r => r.json() ).catch(() => {});
+    ).then(r => r.json()).catch(() => {});
 
     if (!data || !Array.isArray(data)) return { error: 'ErrorCouldntFetch' };
 
     data = data[0]?.data?.children[0]?.data;
 
     if (data?.url?.endsWith('.gif')) return {
-        typeId: 1,
+        typeId: "redirect",
         urls: data.url
     }
 
     if (!data.secure_media?.reddit_video)
         return { error: 'ErrorEmptyDownload' };
 
-    if (data.secure_media?.reddit_video?.duration * 1000 > maxVideoDuration)
-        return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (data.secure_media?.reddit_video?.duration > env.durationLimit)
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let audio = false,
         video = data.secure_media?.reddit_video?.fallback_url?.split('?')[0],
@@ -87,7 +91,7 @@ export default async function(obj) {
     }
 
     // test the existence of audio
-    await fetch(audioFileLink, { method: "HEAD" }).then((r) => {
+    await fetch(audioFileLink, { method: "HEAD" }).then(r => {
         if (Number(r.status) === 200) {
             audio = true
         }
@@ -96,7 +100,7 @@ export default async function(obj) {
     // fallback for videos with variable audio quality
     if (!audio) {
         audioFileLink = `${video.split('_')[0]}_AUDIO_128.mp4`
-        await fetch(audioFileLink, { method: "HEAD" }).then((r) => {
+        await fetch(audioFileLink, { method: "HEAD" }).then(r => {
             if (Number(r.status) === 200) {
                 audio = true
             }
@@ -106,12 +110,12 @@ export default async function(obj) {
     let id = video.split('/')[3];
 
     if (!audio) return {
-        typeId: 1,
+        typeId: "redirect",
         urls: video
     }
 
     return {
-        typeId: 2,
+        typeId: "stream",
         type: "render",
         urls: [video, audioFileLink],
         audioFilename: `reddit_${id}_audio`,

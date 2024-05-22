@@ -28,26 +28,33 @@ const
 
     // API mode related environment variables
     apiEnvs = {
+        apiURL,
         apiPort: process.env.API_PORT || 9000,
         apiName: process.env.API_NAME || 'unknown',
+
         listenAddress: process.env.API_LISTEN_ADDRESS,
+        freebindCIDR: process.platform === 'linux' && process.env.FREEBIND_CIDR,
+
         corsWildcard: process.env.CORS_WILDCARD !== '0',
         corsURL: process.env.CORS_URL,
+
         cookiePath: process.env.COOKIE_PATH,
+
+        rateLimitWindow: (process.env.RATELIMIT_WINDOW  && parseInt(process.env.RATELIMIT_WINDOW)) || 60,
+        rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
+
+        durationLimit: (process.env.DURATION_LIMIT && parseInt(process.env.DURATION_LIMIT)) || 10800,
+        streamLifespan: 90,
+
         processingPriority: process.platform !== 'win32'
                                 && process.env.PROCESSING_PRIORITY
-                                && parseInt(process.env.PROCESSING_PRIORITY),
-        tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
-        freebindCIDR: process.platform === 'linux' && process.env.FREEBIND_CIDR,
-        apiURL
+                                && parseInt(process.env.PROCESSING_PRIORITY)
     }
 
 export const
     services = servicesConfigJson.config,
     audioIgnore = servicesConfigJson.audioIgnore,
     version = packageJson.version,
-    streamLifespan = config.streamLifespan,
-    maxVideoDuration = config.maxVideoDuration,
     genericUserAgent = config.genericUserAgent,
     repo = packageJson.bugs.url.replace('/issues', ''),
     authorInfo = config.authorInfo,

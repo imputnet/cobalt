@@ -1,11 +1,14 @@
 import "dotenv/config";
 import "../modules/sub/alias-envs.js";
 
-import { getJSON } from "../modules/api.js";
 import { services } from "../modules/config.js";
+import { extract } from "../modules/processing/url.js";
+import match from "../modules/processing/match.js";
 import { loadJSON } from "../modules/sub/loadFromFs.js";
-import { checkJSONPost } from "../modules/sub/utils.js";
+import { normalizeRequest } from "../modules/processing/request.js";
+import { env } from "../modules/config.js";
 
+env.apiURL = 'http://localhost:9000'
 let tests = loadJSON('./src/test/tests.json');
 
 let noTest = [];
@@ -32,10 +35,14 @@ for (let i in services) {
             let params = {...{url: test.url}, ...test.params};
             console.log(params);
 
-            let chck = checkJSONPost(params);
+            let chck = normalizeRequest(params);
             if (chck) {
-                chck["ip"] = "d21ec524bc2ade41bef569c0361ac57728c69e2764b5cb3cb310fe36568ca53f"; // random sha256
-                let j = await getJSON(chck["url"], "en", chck);
+                const parsed = extract(chck.url);
+                if (parsed === null) {
+                    throw `Invalid URL: ${chck.url}`
+                }
+
+                let j = await match(parsed.host, parsed.patternMatch, "en", chck);
                 console.log('\nReceived:');
                 console.log(j)
                 if (j.status === test.expected.code && j.body.status === test.expected.status) {

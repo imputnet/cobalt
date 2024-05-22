@@ -1,9 +1,9 @@
 import NodeCache from "node-cache";
 import { randomBytes } from "crypto";
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { streamLifespan, env } from "../config.js";
+import { env } from "../config.js";
 import { strict as assert } from "assert";
 
 // optional dependency
@@ -11,17 +11,8 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 
 const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
 
-const streamNoAccess = {
-    error: "i couldn't verify if you have access to this stream. go back and try again!",
-    status: 401
-}
-const streamNoExist = {
-    error: "this download link has expired or doesn't exist. go back and try again!",
-    status: 400
-}
-
 const streamCache = new NodeCache({
-    stdTTL: streamLifespan/1000,
+    stdTTL: env.streamLifespan,
     checkperiod: 10,
     deleteOnExpire: true
 })
@@ -37,7 +28,7 @@ export function createStream(obj) {
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64url'),
         secret = randomBytes(32).toString('base64url'),
-        exp = new Date().getTime() + streamLifespan,
+        exp = new Date().getTime() + env.streamLifespan * 1000,
         hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
         streamData = {
             exp: exp,
@@ -61,11 +52,11 @@ export function createStream(obj) {
     let streamLink = new URL('/api/stream', env.apiURL);
 
     const params = {
-        't': streamID,
-        'e': exp,
-        'h': hmac,
-        's': secret,
-        'i': iv
+        'id': streamID,
+        'exp': exp,
+        'sig': hmac,
+        'sec': secret,
+        'iv': iv
     }
 
     for (const [key, value] of Object.entries(params)) {
@@ -96,7 +87,7 @@ export function createInternalStream(url, obj = {}) {
     };
 
     let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);
-    streamLink.searchParams.set('t', streamID);
+    streamLink.searchParams.set('id', streamID);
     return streamLink.toString();
 }
 
@@ -106,7 +97,7 @@ export function destroyInternalStream(url) {
         return;
     }
 
-    const id = url.searchParams.get('t');
+    const id = url.searchParams.get('id');
 
     if (internalStreamCache[id]) {
         internalStreamCache[id].controller.abort();
@@ -141,22 +132,19 @@ export function verifyStream(id, hmac, exp, secret, iv) {
         const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
         const cache = streamCache.get(id.toString());
 
-        if (ghmac !== String(hmac)) return streamNoAccess;
-        if (!cache) return streamNoExist;
+        if (ghmac !== String(hmac)) return { status: 401 };
+        if (!cache) return { status: 404 };
 
         const streamInfo = JSON.parse(decryptStream(cache, iv, secret));
 
-        if (!streamInfo) return streamNoExist;
+        if (!streamInfo) return { status: 404 };
 
         if (Number(exp) <= new Date().getTime())
-            return streamNoExist;
+            return { status: 404 };
 
         return wrapStream(streamInfo);
     }
     catch {
-        return {
-            error: "something went wrong and i couldn't verify this stream. go back and try again!",
-            status: 500
-        }
+        return { status: 500 };
     }
 }

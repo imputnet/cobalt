@@ -3,6 +3,9 @@ best way to save what you love: [cobalt.tools](https://cobalt.tools/)
 
 ![cobalt logo with repeated logo (double arrow) pattern background](/src/front/icons/pattern.png "cobalt logo with repeated logo (double arrow) pattern background")  
 
+[💬 community discord server](https://discord.gg/pQPt8HBUPu)  
+[🐦 twitter/x](https://x.com/justusecobalt)  
+
 ## what's cobalt?
 cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or invasive analytics***.  
 
@@ -15,8 +18,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | :--------                      | :-----------: | :--------: | :--------: | :------: | :-------------: |
 | bilibili.com & bilibili.tv     | ✅            | ✅         | ✅         | ➖         | ➖              |
 | dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
-| instagram posts & stories      | ✅            | ✅         | ✅         | ➖         | ➖              |
-| instagram reels                | ✅            | ✅         | ✅         | ➖         | ➖              |
+| instagram posts & reels        | ✅            | ✅         | ✅         | ➖         | ➖              |
 | ok video                       | ✅            | ❌         | ❌         | ✅         | ✅              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
@@ -42,7 +44,7 @@ this list is not final and keeps expanding over time. if support for a service y
 ### additional notes or features (per service)
 | service    | notes or features                                                                                                    |
 | :--------  | :-----                                                                                                               |
-| instagram  | supports photos, videos, and stories. lets you pick what to save from multi-media posts.                             |
+| instagram  | supports reels, photos, and videos. lets you pick what to save from multi-media posts.                               |
 | pinterest  | supports photos, gifs, videos and stories.                                                                           |
 | reddit     | supports gifs and videos.                                                                                            |
 | snapchat   | supports spotlights and stories. lets you pick what to save from stories.                                            |
@@ -55,7 +57,7 @@ this list is not final and keeps expanding over time. if support for a service y
 ## cobalt api
 cobalt has an open api that you can use in your projects *for free~*. it's easy and straightforward to use, [check out the docs](/docs/api.md) to learn how to use it. 
 
-✅ you can use the main api instance ([co.wuk.sh](https://co.wuk.sh/)) in your **personal** projects.  
+✅ you can use the main api instance ([api.cobalt.tools](https://api.cobalt.tools/)) in your **personal** projects.  
 ❌ you cannot use the free api commercially (anywhere that's gated behind paywalls or ads). host your own instance for this.
 
 we reserve the right to restrict abusive/excessive access to the main instance api.
@@ -64,8 +66,8 @@ we reserve the right to restrict abusive/excessive access to the main instance a
 if you want to run your own instance for whatever purpose, [follow this guide](/docs/run-an-instance.md).  
 it's *highly* recommended to use a docker compose method unless you run for developing/debugging purposes.
 
-## sponsors 
-cobalt is sponsored by [royalehosting.net](https://royalehosting.net/), all main instances are currently hosted on their network :)  
+## partners 
+cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt), all main instances are currently hosted on their network :)  
 
 ## ethics and disclaimer
 cobalt is a tool for easing content downloads from internet and takes ***zero liability***. you are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators. fair use and credits benefit everyone.

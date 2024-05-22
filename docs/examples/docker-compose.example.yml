@@ -17,8 +17,8 @@ services:
             #- 127.0.0.1:9000:9000
 
         environment:
-            # replace https://co.wuk.sh/ with your instance's target url in same format
-            API_URL: "https://co.wuk.sh/"
+            # replace https://api.cobalt.tools/ with your instance's target url in same format
+            API_URL: "https://api.cobalt.tools/"
             # replace eu-nl with your instance's distinctive name
             API_NAME: "eu-nl"
             # if you want to use cookies when fetching data from services, uncomment the next line and the lines under volume
@@ -49,8 +49,8 @@ services:
         environment:
             # replace https://cobalt.tools/ with your instance's target url in same format
             WEB_URL: "https://cobalt.tools/"
-            # replace https://co.wuk.sh/ with preferred api instance url
-            API_URL: "https://co.wuk.sh/"
+            # replace https://api.cobalt.tools/ with preferred api instance url
+            API_URL: "https://api.cobalt.tools/"
 
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
@@ -59,6 +59,6 @@ services:
     watchtower:
         image: ghcr.io/containrrr/watchtower
         restart: unless-stopped
-        command: --cleanup --scope cobalt --interval 900
+        command: --cleanup --scope cobalt --interval 900 --include-restarting
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock

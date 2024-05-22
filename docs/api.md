@@ -2,7 +2,7 @@
 this document provides info about methods and acceptable variables for all cobalt api requests.  
 
 ```
-👍 you can use co.wuk.sh instance in your projects for free, just don't be an asshole.
+👍 you can use api.cobalt.tools in your projects for free, just don't be an asshole.
 ```
 
 ## POST: `/api/json`

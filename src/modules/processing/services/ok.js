@@ -1,4 +1,4 @@
-import { genericUserAgent, maxVideoDuration } from "../../config.js";
+import { genericUserAgent, env } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 
 const resolutions = {
@@ -17,19 +17,27 @@ export default async function(o) {
 
     let html = await fetch(`https://ok.ru/video/${o.id}`, {
         headers: { "user-agent": genericUserAgent }
-    }).then((r) => { return r.text() }).catch(() => { return false });
+    }).then(r => r.text()).catch(() => {});
 
     if (!html) return { error: 'ErrorCouldntFetch' };
     if (!html.includes(`<div data-module="OKVideo" data-options="{`)) {
         return { error: 'ErrorEmptyDownload' };
     }
 
-    let videoData = html.split(`<div data-module="OKVideo" data-options="`)[1].split('" data-')[0].replaceAll("&quot;", '"');
+    let videoData = html.split(`<div data-module="OKVideo" data-options="`)[1]
+                        .split('" data-')[0]
+                        .replaceAll("&quot;", '"');
+
     videoData = JSON.parse(JSON.parse(videoData).flashvars.metadata);
 
-    if (videoData.provider !== "UPLOADED_ODKL") return { error: 'ErrorUnsupported' };
-    if (videoData.movie.is_live) return { error: 'ErrorLiveVideo' };
-    if (videoData.movie.duration > maxVideoDuration / 1000) return { error: ['ErrorLengthLimit', maxVideoDuration / 60000] };
+    if (videoData.provider !== "UPLOADED_ODKL")
+        return { error: 'ErrorUnsupported' };
+
+    if (videoData.movie.is_live)
+        return { error: 'ErrorLiveVideo' };
+
+    if (videoData.movie.duration > env.durationLimit)
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
     let videos = videoData.videos.filter(v => !v.disallowed);
     let bestVideo = videos.find(v => resolutions[v.name] === quality) || videos[videos.length - 1];

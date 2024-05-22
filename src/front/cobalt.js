@@ -563,16 +563,9 @@ const loadCelebrationsEmoji = async() => {
     let aboutButtonBackup = eid("about-footer").innerHTML;
     try {
         let j = await fetch(`/onDemand?blockId=1`).then(r => r.json()).catch(() => {});
-
         if (j && j.status === "success" && j.text) {
             eid("about-footer").innerHTML = eid("about-footer").innerHTML.replace(
-                `<img class="emoji"
-                    draggable="false"
-                    height="22"
-                    width="22
-                    alt="🐲"
-                    src="emoji/dragon_face.svg"
-                    loading="lazy">`,
+                `${aboutButtonBackup.split('> ')[0]}>`,
                 j.text
             )
         }
