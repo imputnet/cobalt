@@ -191,6 +191,7 @@ export default async function(host, patternMatch, lang, obj) {
                     id: patternMatch.id,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly,
+                    isAudioMuted: obj.isAudioMuted,
                 });
                 break;
             default:

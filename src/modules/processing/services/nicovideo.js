@@ -18,8 +18,9 @@ const NICOVIDEO_HLS_API_URL =
   "https://nvapi.nicovideo.jp/v1/watch/%s/access-rights/hls?actionTrackId=%s";
 
 class CobaltError extends Error {
-  constructor(localizatedMessage) {
-    this.localizatedMessage = localizatedMessage;
+  constructor(locMessage) {
+    super(); // gdsfkgjsoiredgjhredszdfpijgkertoindsuf
+    this.locMessage = locMessage;
   }
 }
 
@@ -113,7 +114,7 @@ async function fetchContentURL(id, actionTrackId, accessRightKey, outputs) {
   return data.data.contentUrl;
 }
 
-async function getHLSContent(contentURL, quality, isAudioOnly) {
+async function getHLSContent(contentURL, quality, isAudioOnly, isAudioMuted) {
   const hls = await fetch(contentURL)
     .then((response) => response.text())
     .then((response) => HLS.parse(response));
@@ -137,31 +138,41 @@ async function getHLSContent(contentURL, quality, isAudioOnly) {
     ? { resolution: null, urls: audioUrl, type: "audio" }
     : {
         resolution: hlsContent.resolution,
-        urls: [hlsContent.uri, audioUrl],
+        urls: isAudioMuted ? hlsContent.uri : [hlsContent.uri, audioUrl],
         type: "video",
       };
 }
 
-export default async function nicovideo({ id, quality, isAudioOnly }) {
+export default async function nicovideo({
+  id,
+  quality,
+  isAudioOnly,
+  isAudioMuted,
+}) {
   try {
-    const { actionTrackId, title, author, lengthInSeconds } = await getBasicVideoInformation(id);
+    const { actionTrackId, title, author, lengthInSeconds } =
+      await getBasicVideoInformation(id);
 
     if (lengthInSeconds > env.durationLimit) {
-      throw new CobaltError(['ErrorLengthLimit', env.durationLimit / 60]);
+      throw new CobaltError(["ErrorLengthLimit", env.durationLimit / 60]);
     }
 
     const { resolution, urls, type } = await fetchGuestData(id, actionTrackId)
       .then(({ accessRightKey, outputs }) =>
         fetchContentURL(id, actionTrackId, accessRightKey, outputs)
       )
-      .then((contentURL) => getHLSContent(contentURL, quality, isAudioOnly));
+      .then((contentURL) =>
+        getHLSContent(contentURL, quality, isAudioOnly, isAudioMuted)
+      );
 
     return {
       urls,
       isAudioOnly: type === "audio",
       fileMetadata: {
         title: cleanString(title.trim()),
-        artist: cleanString(author.nickname.trim()),
+        artist: author.nickname
+          ? cleanString(author.nickname.trim())
+          : undefined,
       },
       // bible accurate object concatenation
       filenameAttributes: {
@@ -177,9 +188,10 @@ export default async function nicovideo({ id, quality, isAudioOnly }) {
             }
           : {}),
       },
-      ...(type === "audio" ? { isM3U8: true, bestAudio: "mp3" } : {}),
+      ...(type === "audio" || typeof urls === "string" ? { isM3U8: true } : {}),
+      ...(type === "audio" ? { bestAudio: "mp3" } : {}),
     };
   } catch (error) {
-    return { error: error.localizatedMessage ?? "ErrorSomethingWentWrong" };
+    return { error: error.locMessage ?? "ErrorSomethingWentWrong" };
   }
 }
