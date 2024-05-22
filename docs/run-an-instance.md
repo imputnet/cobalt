@@ -54,7 +54,7 @@ sudo service nscd start
 |:----------------------|:----------|:------------------------|:------------|
 | `API_PORT`            | `9000`    | `9000`                  | changes port from which api server is accessible. |
 | `API_LISTEN_ADDRESS`  | `0.0.0.0` | `127.0.0.1`             | changes address from which api server is accessible. **if you are using docker, you usually don't need to configure this.** |
-| `API_URL`             | ➖        | `https://co.wuk.sh/`    | changes url from which api server is accessible. <br> ***REQUIRED TO RUN THE API***. |
+| `API_URL`             | ➖        | `https://api.cobalt.tools/` | changes url from which api server is accessible. <br> ***REQUIRED TO RUN THE API***. |
 | `API_NAME`            | `unknown` | `ams-1`                 | api server name that is shown in `/api/serverInfo`. |
 | `CORS_WILDCARD`       | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled. |
 | `CORS_URL`            | not used  | `https://cobalt.tools/` | cross-origin resource sharing url. api will be available only from this url if `CORS_WILDCARD` is set to `0`. |
@@ -74,13 +74,13 @@ in a docker container, you also need to set the `API_LISTEN_ADDRESS` env to `127
 `network_mode` for the container to `host`.
 
 ### variables for web
-| variable name        | default              | example                 | description                                                                           |
-|:---------------------|:---------------------|:------------------------|:--------------------------------------------------------------------------------------|
-| `WEB_PORT`           | `9001`               |  `9001`                 | changes port from which frontend server is accessible.                                |
-| `WEB_URL`            | ➖                   | `https://cobalt.tools/` | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
-| `API_URL`            | `https://co.wuk.sh/` | `https://co.wuk.sh/`    | changes url which is used for api requests by frontend clients.                       |
-| `SHOW_SPONSORS`      | `0`                  | `1`                     | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
-| `IS_BETA`            | `0`                  | `1`                     | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
-| `PLAUSIBLE_HOSTNAME` | ➖                   | `plausible.io`*         | enables plausible analytics with provided hostname as receiver backend.               |
+| variable name        | default                     | example                     | description                                                                           |
+|:---------------------|:----------------------------|:----------------------------|:--------------------------------------------------------------------------------------|
+| `WEB_PORT`           | `9001`                      |  `9001`                     | changes port from which frontend server is accessible.                                |
+| `WEB_URL`            | ➖                          | `https://cobalt.tools/`     | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
+| `API_URL`            | `https://api.cobalt.tools/` | `https://api.cobalt.tools/` | changes url which is used for api requests by frontend clients.                       |
+| `SHOW_SPONSORS`      | `0`                         | `1`                         | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
+| `IS_BETA`            | `0`                         | `1`                         | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
+| `PLAUSIBLE_HOSTNAME` | ➖                          | `plausible.io`*             | enables plausible analytics with provided hostname as receiver backend.               |
 
 \* don't use plausible.io as receiver backend unless you paid for their cloud service. use your own domain when hosting community edition of plausible. refer to their [docs](https://plausible.io/docs) when needed.
