@@ -91,7 +91,7 @@ async function fetchContentURL(id, actionTrackId, accessRightKey, outputs) {
   return data.data.contentUrl;
 }
 
-async function getHLSContent(contentURL, quality) {
+async function getHLSContent(contentURL, quality, isAudioOnly) {
   const hls = await fetch(contentURL)
     .then((response) => response.text())
     .then((response) => HLS.parse(response));
@@ -110,41 +110,48 @@ async function getHLSContent(contentURL, quality) {
       .shift();
   }
 
-  return {
-    resolution: hlsContent.resolution,
-    urls: [hlsContent.uri, hlsContent.audio.pop().uri],
-  };
+  const audioUrl = hlsContent.audio.pop().uri;
+  return isAudioOnly
+    ? { resolution: null, urls: audioUrl, type: "audio" }
+    : {
+        resolution: hlsContent.resolution,
+        urls: [hlsContent.uri, audioUrl],
+        type: "video",
+      };
 }
 
-// TODO @synzr only audio support
 // TODO @synzr better error handling
-export default async function nicovideo({ id, quality }) {
+export default async function nicovideo({ id, quality, isAudioOnly }) {
   try {
     const { actionTrackId, title, author } = await getBasicVideoInformation(id);
-    const {
-      resolution,
-      urls: [video, audio],
-    } = await fetchGuestData(id, actionTrackId)
+    const { resolution, urls, type } = await fetchGuestData(id, actionTrackId)
       .then(({ accessRightKey, outputs }) =>
         fetchContentURL(id, actionTrackId, accessRightKey, outputs)
       )
-      .then((contentURL) => getHLSContent(contentURL, quality));
+      .then((contentURL) => getHLSContent(contentURL, quality, isAudioOnly));
 
     return {
-      urls: [video, audio],
+      urls,
+      isAudioOnly: type === "audio",
+      fileMetadata: {
+        title: cleanString(title.trim()),
+        artist: cleanString(author.nickname.trim()),
+      },
+      // bible accurate object concatenation
       filenameAttributes: {
         service: "nicovideo",
         id,
         title,
         author: author.nickname,
-        resolution: `${resolution.width}x${resolution.height}`,
-        qualityLabel: `${resolution.height}p`,
-        extension: "mp4",
+        ...(type === "video"
+          ? {
+              extension: "mp4",
+              qualityLabel: `${resolution.height}p`,
+              resolution: `${resolution.width}x${resolution.height}`,
+            }
+          : {}),
       },
-      fileMetadata: {
-        title: cleanString(title.trim()),
-        artist: cleanString(author.nickname.trim()),
-      },
+      ...(type === "audio" ? { isM3U8: true, bestAudio: "mp3" } : {}),
     };
   } catch (error) {
     return { error: "ErrorEmptyDownload" };

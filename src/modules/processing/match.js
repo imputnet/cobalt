@@ -189,7 +189,8 @@ export default async function(host, patternMatch, lang, obj) {
             case "nicovideo":
                 r = await nicovideo({
                     id: patternMatch.id,
-                    quality: obj.vQuality
+                    quality: obj.vQuality,
+                    isAudioOnly: isAudioOnly,
                 });
                 break;
             default:
