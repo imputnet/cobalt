@@ -163,52 +163,48 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         const checkBaseLength = id.length === 21 && exp.length === 13;
         const checkSafeLength = sig.length === 43 && sec.length === 43 && iv.length === 22;
 
-        if (checkQueries && checkBaseLength && checkSafeLength) {
-            // rate limit probe, will not return json after 8.0
-            if (req.query.p) {
-                return res.status(200).json({
-                    status: "continue"
-                })
-            }
-            try {
-                const streamInfo = verifyStream(id, sig, exp, sec, iv);
-                if (!streamInfo?.service) {
-                    return res.sendStatus(streamInfo.status);
-                }
-                return stream(res, streamInfo);
-            } catch {
-                return res.destroy();
-            }
+        if (!checkQueries || !checkBaseLength || !checkSafeLength) {
+            return res.sendStatus(400);
         }
-        return res.sendStatus(400);
+
+        // rate limit probe, will not return json after 8.0
+        if (req.query.p) {
+            return res.status(200).json({
+                status: "continue"
+            })
+        }
+
+        const streamInfo = verifyStream(id, sig, exp, sec, iv);
+        if (!streamInfo?.service) {
+            return res.sendStatus(streamInfo.status);
+        }
+        return stream(res, streamInfo);
     })
 
     app.get('/api/istream', (req, res) => {
-        try {
-            if (!req.ip.endsWith('127.0.0.1'))
-                return res.sendStatus(403);
-            if (String(req.query.id).length !== 21)
-                return res.sendStatus(400);
-
-            const streamInfo = getInternalStream(req.query.id);
-            if (!streamInfo) return res.sendStatus(404);
-            streamInfo.headers = {
-                ...req.headers,
-                ...streamInfo.headers
-            };
-    
-            return stream(res, { type: 'internal', ...streamInfo });
-        } catch {
-            return res.destroy();
+        if (!req.ip.endsWith('127.0.0.1')) {
+            return res.sendStatus(403);
         }
+
+        if (String(req.query.id).length !== 21) {
+            return res.sendStatus(400);
+        }
+
+        const streamInfo = getInternalStream(req.query.id);
+        if (!streamInfo) {
+            return res.sendStatus(404);
+        }
+
+        streamInfo.headers = {
+            ...req.headers,
+            ...streamInfo.headers
+        };
+
+        return stream(res, { type: 'internal', ...streamInfo });
     })
 
-    app.get('/api/serverInfo', (req, res) => {
-        try {
-            return res.status(200).json(serverInfo);
-        } catch {
-            return res.destroy();
-        }
+    app.get('/api/serverInfo', (_, res) => {
+        return res.status(200).json(serverInfo);
     })
 
     app.get('/favicon.ico', (req, res) => {
