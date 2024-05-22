@@ -1,13 +1,13 @@
-import { genericUserAgent, env } from "../../config.js";
+import { genericUserAgent } from "../../config.js";
+import { updateCookie } from "../cookie/manager.js";
+import { extract } from "../url.js";
+import Cookie from "../cookie/cookie.js";
 
 const shortDomain = "https://vt.tiktok.com/";
-const apiPath = "https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/?region=US&carrier_region=US";
-const apiUserAgent = "TikTok/338014 CFNetwork/1410.1 Darwin/22.6.0";
+export const cookie = new Cookie({});
 
 export default async function(obj) {
-    let postId = obj.postId ? obj.postId : false;
-
-    if (!env.tiktokDeviceInfo) return { error: 'ErrorCouldntFetch' };
+    let postId = obj.postId;
 
     if (!postId) {
         let html = await fetch(`${shortDomain}${obj.id}`, {
@@ -19,54 +19,60 @@ export default async function(obj) {
 
         if (!html) return { error: 'ErrorCouldntFetch' };
 
-        if (html.slice(0, 17) === '<a href="https://') {
-            postId = html.split('<a href="https://')[1].split('?')[0].split('/')[3]
-        } else if (html.slice(0, 32) === '<a href="https://m.tiktok.com/v/' && html.includes('/v/')) {
-            postId = html.split('/v/')[1].split('.html')[0].replace("/", '')
+        if (html.startsWith('<a href="https://')) {
+            const extractedURL = html.split('<a href="')[1].split('?')[0];
+            const { patternMatch } = extract(extractedURL);
+            postId = patternMatch.postId
         }
     }
     if (!postId) return { error: 'ErrorCantGetID' };
 
-    let deviceInfo = new URLSearchParams(env.tiktokDeviceInfo).toString();
-
-    let apiURL = new URL(apiPath);
-        apiURL.searchParams.append("aweme_id", postId);
-
-    let detail = await fetch(`${apiURL.href}&${deviceInfo}`, {
+    // should always be /video/, even for photos
+    const res = await fetch(`https://tiktok.com/@i/video/${postId}`, {
         headers: {
-            "user-agent": apiUserAgent
+            "user-agent": genericUserAgent,
+            cookie,
         }
-    }).then(r => r.json()).catch(() => {});
+    })
+    updateCookie(cookie, res.headers);
 
-    detail = detail?.aweme_list?.find(v => v.aweme_id === postId);
-    if (!detail) return { error: 'ErrorCouldntFetch' };
+    const html = await res.text();
+
+    let detail;
+    try {
+        const json = html
+            .split('<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application/json">')[1]
+            .split('</script>')[0]
+        const data = JSON.parse(json)
+        detail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
+    } catch {
+        return { error: 'ErrorCouldntFetch' };
+    }
 
     let video, videoFilename, audioFilename, audio, images,
-        filenameBase = `tiktok_${detail.author.unique_id}_${postId}`,
+        filenameBase = `tiktok_${detail.author.uniqueId}_${postId}`,
         bestAudio = 'm4a';
 
-    images = detail.image_post_info?.images;
+    images = detail.imagePost?.images;
 
-    let playAddr = detail.video.play_addr_h264;
+    let playAddr = detail.video.playAddr;
     if (obj.h265) {
-        playAddr = detail.video.bit_rate[0].play_addr
-    }
-    if (!playAddr && detail.video.play_addr) {
-        playAddr = detail.video.play_addr
+        const h265PlayAddr = detail.video.bitrateInfo.find(b => b.CodecType.includes("h265"))?.PlayAddr.UrlList[0]
+        playAddr = h265PlayAddr || playAddr
     }
 
     if (!obj.isAudioOnly && !images) {
-        video = playAddr.url_list[0];
+        video = playAddr;
         videoFilename = `${filenameBase}.mp4`;
     } else {
-        let fallback = playAddr.url_list[0];
-        audio = fallback;
+        audio = playAddr;
         audioFilename = `${filenameBase}_audio`;
-        if (obj.fullAudio || fallback.includes("music")) {
-            audio = detail.music.play_url.url_list[0]
-            audioFilename = `${filenameBase}_audio_original`
+
+        if (obj.fullAudio || !audio) {
+            audio = detail.music.playUrl;
+            audioFilename += `_original`
         }
-        if (audio.slice(-4) === ".mp3") bestAudio = 'mp3';
+        if (audio.includes("mime_type=audio_mpeg")) bestAudio = 'mp3';
     }
 
     if (video) return {
@@ -80,12 +86,9 @@ export default async function(obj) {
         bestAudio
     }
     if (images) {
-        let imageLinks = [];
-        for (let i in images) {
-            let sel = images[i].display_image.url_list;
-            sel = sel.filter(p => p.includes(".jpeg?"))
-            imageLinks.push({url: sel[0]})
-        }
+        let imageLinks = images
+            .map(i => i.imageURL.urlList.find(p => p.includes(".jpeg?")))
+            .map(url => ({ url }))
         return {
             picker: imageLinks,
             urls: audio,

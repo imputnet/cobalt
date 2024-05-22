@@ -6,7 +6,7 @@ import { create as contentDisposition } from "content-disposition-header";
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { env, ffmpegArgs } from "../config.js";
-import { getHeaders } from "./shared.js";
+import { getHeaders, closeResponse } from "./shared.js";
 
 function toRawHeaders(headers) {
     return Object.entries(headers)
@@ -16,11 +16,6 @@ function toRawHeaders(headers) {
 
 function closeRequest(controller) {
     try { controller.abort() } catch {}
-}
-
-function closeResponse(res) {
-    if (!res.headersSent) res.sendStatus(500);
-    return res.destroy();
 }
 
 function killProcess(p) {

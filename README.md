@@ -55,7 +55,7 @@ this list is not final and keeps expanding over time. if support for a service y
 ## cobalt api
 cobalt has an open api that you can use in your projects *for free~*. it's easy and straightforward to use, [check out the docs](/docs/api.md) to learn how to use it. 
 
-✅ you can use the main api instance ([co.wuk.sh](https://co.wuk.sh/)) in your **personal** projects.  
+✅ you can use the main api instance ([api.cobalt.tools](https://api.cobalt.tools/)) in your **personal** projects.  
 ❌ you cannot use the free api commercially (anywhere that's gated behind paywalls or ads). host your own instance for this.
 
 we reserve the right to restrict abusive/excessive access to the main instance api.
@@ -65,7 +65,7 @@ if you want to run your own instance for whatever purpose, [follow this guide](/
 it's *highly* recommended to use a docker compose method unless you run for developing/debugging purposes.
 
 ## partners 
-cobalt is sponsored by [royalehosting.net](https://royalehosting.net/), all main instances are currently hosted on their network :)  
+cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt), all main instances are currently hosted on their network :)  
 
 ## ethics and disclaimer
 cobalt is a tool for easing content downloads from internet and takes ***zero liability***. you are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators. fair use and credits benefit everyone.

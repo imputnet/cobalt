@@ -39,7 +39,6 @@ const
         corsURL: process.env.CORS_URL,
 
         cookiePath: process.env.COOKIE_PATH,
-        tiktokDeviceInfo: process.env.TIKTOK_DEVICE_INFO && JSON.parse(process.env.TIKTOK_DEVICE_INFO),
 
         rateLimitWindow: (process.env.RATELIMIT_WINDOW  && parseInt(process.env.RATELIMIT_WINDOW)) || 60,
         rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
