@@ -1,4 +1,5 @@
 import { genericUserAgent } from "../../config.js";
+import { cleanString } from "../../sub/utils.js";
 import HLS from "hls-parser";
 import util from "node:util";
 
@@ -10,34 +11,34 @@ const NICOVIDEO_EMBED_FRONTEND_HEADERS = {
 };
 
 const NICOVIDEO_EMBED_URL = "https://embed.nicovideo.jp/watch/%s";
+const NICOVIDEO_AUTHOR_DATA_URL = "https://embed.nicovideo.jp/users/%d";
 const NICOVIDEO_GUEST_API_URL =
   "https://www.nicovideo.jp/api/watch/v3_guest/%s?_frontendId=70&_frontendVersion=0&actionTrackId=%s";
 const NICOVIDEO_HLS_API_URL =
   "https://nvapi.nicovideo.jp/v1/watch/%s/access-rights/hls?actionTrackId=%s";
 
-const ACTION_TRACK_ID_REGEXP =
-  /&quot;actionTrackId&quot;:&quot;[A-Za-z0-9]+_[0-9]+&quot;/;
-
-async function getActionTrackId(id) {
+async function getBasicVideoInformation(id) {
   const page = await fetch(util.format(NICOVIDEO_EMBED_URL, id), {
     headers: { "user-agent": genericUserAgent },
   }).then((response) => response.text());
 
-  if (!ACTION_TRACK_ID_REGEXP.test(page)) {
-    throw new Error(); // we can't fetch the embed page
-  }
+  const data = JSON.parse(
+    page
+      .split('data-props="')
+      .pop()
+      .split('" data-style-map="')
+      .shift()
+      .replaceAll("&quot;", '"')
+  );
 
-  const actionTrackId = page
-    // getting the regexp results
-    .match(ACTION_TRACK_ID_REGEXP)
-    .shift()
-    // getting the actionTrackId field's value
-    .split(":&quot;")
-    .pop()
-    // cleaning from double quotation mark
-    .replaceAll("&quot;", "");
+  const author = await fetch(
+    util.format(NICOVIDEO_AUTHOR_DATA_URL, data.videoUploaderId),
+    {
+      headers: { "user-agent": genericUserAgent },
+    }
+  ).then((response) => response.json());
 
-  return actionTrackId;
+  return { ...data, author };
 }
 
 async function fetchGuestData(id, actionTrackId) {
@@ -90,34 +91,60 @@ async function fetchContentURL(id, actionTrackId, accessRightKey, outputs) {
   return data.data.contentUrl;
 }
 
-async function getHighestQualityHLS(contentURL) {
+async function getHLSContent(contentURL, quality) {
   const hls = await fetch(contentURL)
     .then((response) => response.text())
     .then((response) => HLS.parse(response));
 
-  const highestQualityHLS = hls.variants
-    .sort(
-      (firstVariant, secondVariant) =>
-        firstVariant.bandwidth - secondVariant.bandwidth
-    )
-    .pop();
+  const height = quality === "max" ? 9000 : parseInt(quality, 10);
+  let hlsContent = hls.variants.find(
+    (variant) => variant.resolution.height === height
+  );
 
-  return [highestQualityHLS.uri, highestQualityHLS.audio.pop().uri];
+  if (hlsContent === undefined) {
+    hlsContent = hls.variants
+      .sort(
+        (firstVariant, secondVariant) =>
+          firstVariant.bandwidth - secondVariant.bandwidth
+      )
+      .shift();
+  }
+
+  return {
+    resolution: hlsContent.resolution,
+    urls: [hlsContent.uri, hlsContent.audio.pop().uri],
+  };
 }
 
-export default async function nicovideo({ id }) {
+// TODO @synzr only audio support
+// TODO @synzr better error handling
+export default async function nicovideo({ id, quality }) {
   try {
-    const actionTrackId = await getActionTrackId(id);
-    const [video, audio] = await fetchGuestData(id, actionTrackId)
+    const { actionTrackId, title, author } = await getBasicVideoInformation(id);
+    const {
+      resolution,
+      urls: [video, audio],
+    } = await fetchGuestData(id, actionTrackId)
       .then(({ accessRightKey, outputs }) =>
         fetchContentURL(id, actionTrackId, accessRightKey, outputs)
       )
-      .then((contentURL) => getHighestQualityHLS(contentURL));
+      .then((contentURL) => getHLSContent(contentURL, quality));
 
     return {
       urls: [video, audio],
-      // TODO @synzr get video information from embed page props
-      filenameAttributes: { service: "nicovideo", id, extension: "mp4" },
+      filenameAttributes: {
+        service: "nicovideo",
+        id,
+        title,
+        author: author.nickname,
+        resolution: `${resolution.width}x${resolution.height}`,
+        qualityLabel: `${resolution.height}p`,
+        extension: "mp4",
+      },
+      fileMetadata: {
+        title: cleanString(title.trim()),
+        artist: cleanString(author.nickname.trim()),
+      },
     };
   } catch (error) {
     return { error: "ErrorEmptyDownload" };

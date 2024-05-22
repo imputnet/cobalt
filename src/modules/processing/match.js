@@ -187,7 +187,10 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await dailymotion(patternMatch);
                 break;
             case "nicovideo":
-                r = await nicovideo({ id: patternMatch.id });
+                r = await nicovideo({
+                    id: patternMatch.id,
+                    quality: obj.vQuality
+                });
                 break;
             default:
                 return createResponse("error", {

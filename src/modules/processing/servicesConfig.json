@@ -115,6 +115,7 @@
             "alias": "niconico videos",
             "tld": "jp",
             "patterns": ["watch/:id"],
+            "subdomains": ["www", "sp", "embed"],
             "enabled": true
         }
     }
