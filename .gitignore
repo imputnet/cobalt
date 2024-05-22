@@ -4,17 +4,9 @@ desktop.ini
 
 # npm
 node_modules
-package-lock.json
 
 # secrets
 .env
-
-# page build
-min
-build
-
-# stuff i already made but delayed
-future
 
 # docker
 docker-compose.yml
@@ -24,3 +16,6 @@ docker-compose.yml
 
 # cookie file
 cookies.json
+
+# page build
+build
