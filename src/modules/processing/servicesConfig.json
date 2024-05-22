@@ -55,8 +55,8 @@
         },
         "tiktok": {
             "alias": "tiktok videos, photos & audio",
-            "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId"],
-            "subdomains": ["vt", "vm"],
+            "patterns": [":user/video/:postId", ":id", "t/:id", ":user/photo/:postId", "v/:id.html"],
+            "subdomains": ["vt", "vm", "m"],
             "enabled": true
         },
         "vimeo": {
