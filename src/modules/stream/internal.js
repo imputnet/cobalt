@@ -55,8 +55,9 @@ async function handleYoutubeStream(streamInfo, res) {
         streamInfo.url = req.url;
         const size = BigInt(req.headers.get('content-length'));
 
-        if (req.status !== 200 || !size)
-            return res.destroy();
+        if (req.status !== 200 || !size) {
+            return res.end();
+        }
 
         const stream = chunkedStream(streamInfo, size);
 
@@ -66,9 +67,9 @@ async function handleYoutubeStream(streamInfo, res) {
         }
 
         stream.pipe(res);
-        stream.on('error', () => res.destroy());
+        stream.on('error', () => res.end());
     } catch {
-        res.destroy();
+        res.end();
     }
 }
 
@@ -94,10 +95,10 @@ export async function internalStream(streamInfo, res) {
             res.setHeader(name, value)
 
         if (req.statusCode < 200 || req.statusCode > 299)
-            return res.destroy();
+            return res.end();
 
         req.body.pipe(res);
-        req.body.on('error', () => res.destroy());
+        req.body.on('error', () => res.end());
     } catch {
         streamInfo.controller.abort();
     }
