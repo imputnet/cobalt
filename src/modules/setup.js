@@ -36,7 +36,7 @@ function setup() {
     rl.question(q, r1 => {
         switch (r1.toLowerCase()) {
             case 'api':
-                console.log(Bright("\nCool! What's the domain this API instance will be running on? (localhost)\nExample: co.wuk.sh"));
+                console.log(Bright("\nCool! What's the domain this API instance will be running on? (localhost)\nExample: api.cobalt.tools"));
 
                 rl.question(q, apiURL => {
                     ob.API_URL = `http://localhost:9000/`;
@@ -83,13 +83,13 @@ function setup() {
                         if (webPort && (webURL === "localhost" || !webURL)) ob.WEB_URL = `http://localhost:${webPort}/`;
 
                         console.log(
-                            Bright("\nOne last thing: what default API domain should be used? (co.wuk.sh)\nIf it's hosted locally, make sure to include the port:") + Cyan(" localhost:9000")
+                            Bright("\nOne last thing: what default API domain should be used? (api.cobalt.tools)\nIf it's hosted locally, make sure to include the port:") + Cyan(" localhost:9000")
                         );
 
                         rl.question(q, apiURL => {
                             ob.API_URL = `https://${apiURL.toLowerCase()}/`;
                             if (apiURL.includes(':')) ob.API_URL = `http://${apiURL.toLowerCase()}/`;
-                            if (!apiURL) ob.API_URL = "https://co.wuk.sh/";
+                            if (!apiURL) ob.API_URL = "https://api.cobalt.tools/";
                             final()
                         })
                     });
