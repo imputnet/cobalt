@@ -58,7 +58,7 @@ async function fetchGuestData(id, actionTrackId) {
   const { id: audioId } = audios
     .filter((audio) => audio.isAvailable)
     .sort((firstAudio, secondAudio) => firstAudio.bitrate - secondAudio.bitrate)
-    .pop();
+    .shift();
 
   return {
     accessRightKey,
