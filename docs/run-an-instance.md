@@ -59,7 +59,6 @@ sudo service nscd start
 | `CORS_WILDCARD`       | `1`       | `0`                     | toggles cross-origin resource sharing. <br> `0`: disabled. `1`: enabled. |
 | `CORS_URL`            | not used  | `https://cobalt.tools/` | cross-origin resource sharing url. api will be available only from this url if `CORS_WILDCARD` is set to `0`. |
 | `COOKIE_PATH`         | not used  | `/cookies.json`         | path for cookie file relative to main folder. |
-| `TIKTOK_DEVICE_INFO`  | ➖        | *see below*             | device info (including `iid` and `device_id`) for tiktok functionality. required for tiktok to work. see below for more info. |
 | `PROCESSING_PRIORITY` | not used  | `10`                    | changes `nice` value* for ffmpeg subprocess. available only on unix systems. |
 | `FREEBIND_CIDR`       | ➖        | `2001:db8::/32`         | IPv6 prefix used for randomly assigning addresses to cobalt requests. only supported on linux systems. see below for more info. |
 | `RATELIMIT_WINDOW`    | `60`      | `120`                   | rate limit time window in **seconds**. |
@@ -67,28 +66,6 @@ sudo service nscd start
 | `DURATION_LIMIT`      | `10800`   | `18000`                 | max allowed video duration in **seconds**. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
-
-#### TIKTOK_DEVICE_INFO
-you need to get your own device info for tiktok functionality to work. this can be done by proxying the app through any request-intercepting proxy (such as [mitmproxy](https://mitmproxy.org)). you need to disable ssl pinning to see requests. there will be no assistance provided by cobalt for this.
-
-example config (replace **ALL** values with ones you got from mitm):
-```
-'{
-    "iid": "<install_id here>",
-    "device_id": "<device_id here>",
-    "channel": "googleplay",
-    "app_name": "musical_ly",
-    "version_code": "310503",
-    "device_platform": "android",
-    "device_type": "Redmi+7",
-    "os_version": "13"
-}'
-```
-
-you can compress the json to save space. if you're using a `.env` file then the line would would look like this (***note the quotes***):
-```
-TIKTOK_DEVICE_INFO='{"iid":"<install_id here>","device_id":"<device_id here>","channel":"googleplay","app_name":"musical_ly","version_code":"310503","device_platform":"android","device_type":"Redmi+7","os_version":"13"}'
-```
 
 #### FREEBIND_CIDR
 setting a `FREEBIND_CIDR` allows cobalt to pick a random IP for every download and use it for all
