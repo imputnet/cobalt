@@ -4,9 +4,9 @@ import { extract } from "../url.js";
 import Cookie from "../cookie/cookie.js";
 
 const shortDomain = "https://vt.tiktok.com/";
-export const cookie = new Cookie({});
 
 export default async function(obj) {
+    const cookie = new Cookie({});
     let postId = obj.postId;
 
     if (!postId) {
@@ -75,32 +75,46 @@ export default async function(obj) {
         if (audio.includes("mime_type=audio_mpeg")) bestAudio = 'mp3';
     }
 
-    if (video) return {
-        urls: video,
-        filename: videoFilename
+    if (video) {
+        return {
+            urls: video,
+            filename: videoFilename,
+            headers: { cookie }
+        }
     }
-    if (images && obj.isAudioOnly) return {
-        urls: audio,
-        audioFilename: audioFilename,
-        isAudioOnly: true,
-        bestAudio
+
+    if (images && obj.isAudioOnly) {
+        return {
+            urls: audio,
+            audioFilename: audioFilename,
+            isAudioOnly: true,
+            bestAudio,
+            headers: { cookie }
+        }
     }
+
     if (images) {
         let imageLinks = images
             .map(i => i.imageURL.urlList.find(p => p.includes(".jpeg?")))
-            .map(url => ({ url }))
+            .map(url => ({ url }));
+
         return {
             picker: imageLinks,
             urls: audio,
             audioFilename: audioFilename,
             isAudioOnly: true,
-            bestAudio
+            bestAudio,
+            headers: { cookie }
         }
     }
-    if (audio) return {
-        urls: audio,
-        audioFilename: audioFilename,
-        isAudioOnly: true,
-        bestAudio
+
+    if (audio) {
+        return {
+            urls: audio,
+            audioFilename: audioFilename,
+            isAudioOnly: true,
+            bestAudio,
+            headers: { cookie }
+        }
     }
 }
