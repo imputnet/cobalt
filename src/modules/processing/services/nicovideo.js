@@ -77,8 +77,9 @@ async function fetchGuestData(id, actionTrackId) {
   // getting the HQ audio
   const { id: audioId } = audios
     .filter((audio) => audio.isAvailable)
-    .sort((firstAudio, secondAudio) => firstAudio.bitrate - secondAudio.bitrate)
-    .shift();
+    .reduce((firstAudio, secondAudio) =>
+      firstAudio.bitRate > secondAudio.bitRate ? firstAudio : secondAudio
+    );
 
   return {
     accessRightKey,
@@ -125,12 +126,11 @@ async function getHLSContent(contentURL, quality, isAudioOnly, isAudioMuted) {
   );
 
   if (hlsContent === undefined) {
-    hlsContent = hls.variants
-      .sort(
-        (firstVariant, secondVariant) =>
-          firstVariant.bandwidth - secondVariant.bandwidth
-      )
-      .shift();
+    hlsContent = hls.variants.reduce((firstVariant, secondVariant) =>
+      firstVariant.bandwidth > secondVariant.bandwidth
+        ? firstVariant
+        : secondVariant
+    );
   }
 
   const audioUrl = hlsContent.audio.pop().uri;
