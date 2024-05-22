@@ -1,4 +1,4 @@
-import { genericUserAgent } from "../../config.js";
+import { env, genericUserAgent } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 import HLS from "hls-parser";
 import util from "node:util";
@@ -144,7 +144,12 @@ async function getHLSContent(contentURL, quality, isAudioOnly) {
 
 export default async function nicovideo({ id, quality, isAudioOnly }) {
   try {
-    const { actionTrackId, title, author } = await getBasicVideoInformation(id);
+    const { actionTrackId, title, author, lengthInSeconds } = await getBasicVideoInformation(id);
+
+    if (lengthInSeconds > env.durationLimit) {
+      throw new CobaltError(['ErrorLengthLimit', env.durationLimit / 60]);
+    }
+
     const { resolution, urls, type } = await fetchGuestData(id, actionTrackId)
       .then(({ accessRightKey, outputs }) =>
         fetchContentURL(id, actionTrackId, accessRightKey, outputs)
