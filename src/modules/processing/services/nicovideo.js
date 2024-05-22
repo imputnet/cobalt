@@ -17,10 +17,20 @@ const NICOVIDEO_GUEST_API_URL =
 const NICOVIDEO_HLS_API_URL =
   "https://nvapi.nicovideo.jp/v1/watch/%s/access-rights/hls?actionTrackId=%s";
 
+class CobaltError extends Error {
+  constructor(localizatedMessage) {
+    this.localizatedMessage = localizatedMessage;
+  }
+}
+
 async function getBasicVideoInformation(id) {
   const page = await fetch(util.format(NICOVIDEO_EMBED_URL, id), {
     headers: { "user-agent": genericUserAgent },
-  }).then((response) => response.text());
+  })
+    .then((response) => response.text())
+    .catch(() => {
+      throw new CobaltError("ErrorCouldntFetch");
+    });
 
   const data = JSON.parse(
     page
@@ -36,7 +46,11 @@ async function getBasicVideoInformation(id) {
     {
       headers: { "user-agent": genericUserAgent },
     }
-  ).then((response) => response.json());
+  )
+    .then((response) => response.json())
+    .catch(() => {
+      throw new CobaltError("ErrorCouldntFetch");
+    });
 
   return { ...data, author };
 }
@@ -47,10 +61,14 @@ async function fetchGuestData(id, actionTrackId) {
     {
       headers: { "user-agent": genericUserAgent },
     }
-  ).then((response) => response.json());
+  )
+    .then((response) => response.json())
+    .catch(() => {
+      throw new CobaltError("ErrorCouldntFetch");
+    });
 
   if (data?.meta?.status !== 200) {
-    throw new Error();
+    throw new CobaltError("ErrorBadFetch");
   }
 
   const { videos, audios, accessRightKey } = data.data.media.domand;
@@ -82,10 +100,14 @@ async function fetchContentURL(id, actionTrackId, accessRightKey, outputs) {
       },
       body: JSON.stringify({ outputs }),
     }
-  ).then((response) => response.json());
+  )
+    .then((response) => response.json())
+    .catch(() => {
+      throw new CobaltError("ErrorCouldntFetch");
+    });
 
   if (data?.meta?.status !== 201) {
-    throw new Error();
+    throw new CobaltError("ErrorBadFetch");
   }
 
   return data.data.contentUrl;
@@ -120,7 +142,6 @@ async function getHLSContent(contentURL, quality, isAudioOnly) {
       };
 }
 
-// TODO @synzr better error handling
 export default async function nicovideo({ id, quality, isAudioOnly }) {
   try {
     const { actionTrackId, title, author } = await getBasicVideoInformation(id);
@@ -154,6 +175,6 @@ export default async function nicovideo({ id, quality, isAudioOnly }) {
       ...(type === "audio" ? { isM3U8: true, bestAudio: "mp3" } : {}),
     };
   } catch (error) {
-    return { error: "ErrorEmptyDownload" };
+    return { error: error.localizatedMessage ?? "ErrorSomethingWentWrong" };
   }
 }
