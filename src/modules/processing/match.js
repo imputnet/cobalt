@@ -25,7 +25,6 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
-import { env } from '../config.js';
 
 let freebind;
 

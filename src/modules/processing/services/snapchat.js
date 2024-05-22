@@ -1,16 +1,16 @@
 import { genericUserAgent } from "../../config.js";
 import { getRedirectingURL } from "../../sub/utils.js";
+import { extract, normalizeURL } from "../url.js";
 
 const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(https:\/\/cf-st\.sc-cdn\.net\/d\/[\w.?=]+&amp;uc=\d+)" as="video"\/>/;
 const NEXT_DATA_REGEX = /<script id="__NEXT_DATA__" type="application\/json">({.+})<\/script><\/body><\/html>$/;
 
-async function getSpotlight(pathname) {
-    const html = await fetch(`https://www.snapchat.com${pathname}`, {
+async function getSpotlight(id) {
+    const html = await fetch(`https://www.snapchat.com/spotlight/${id}`, {
         headers: { 'User-Agent': genericUserAgent }
     }).then((r) => r.text()).catch(() => null);
     if (!html) return { error: 'ErrorCouldntFetch' };
 
-    const id = pathname.split('/')[2];
     const videoURL = html.match(SPOTLIGHT_VIDEO_REGEX)?.[1];
     if (videoURL) return {
         urls: videoURL,
@@ -19,8 +19,8 @@ async function getSpotlight(pathname) {
     }
 }
 
-async function getStory(pathname) {
-    const html = await fetch(`https://www.snapchat.com${pathname}`, {
+async function getStory(username, storyId) {
+    const html = await fetch(`https://www.snapchat.com/add/${username}${storyId ? `/${storyId}` : ''}`, {
         headers: { 'User-Agent': genericUserAgent }
     }).then((r) => r.text()).catch(() => null);
     if (!html) return { error: 'ErrorCouldntFetch' };
@@ -28,10 +28,10 @@ async function getStory(pathname) {
     const nextDataString = html.match(NEXT_DATA_REGEX)?.[1];
     if (nextDataString) {
         const data = JSON.parse(nextDataString);
-        const storyId = data.query.profileParams[1];
+        const storyIdParam = data.query.profileParams[1];
 
-        if (storyId && data.props.pageProps.story) {
-            const story = data.props.pageProps.story.snapList.find((snap) => snap.snapId.value === storyId);
+        if (storyIdParam && data.props.pageProps.story) {
+            const story = data.props.pageProps.story.snapList.find((snap) => snap.snapId.value === storyIdParam);
             if (story) {
                 if (story.snapMediaType === 0)
                     return {
@@ -48,7 +48,7 @@ async function getStory(pathname) {
         }
 
         const defaultStory = data.props.pageProps.curatedHighlights[0];
-        if (defaultStory)
+        if (defaultStory) {
             return {
                 picker: defaultStory.snapList.map((snap) => ({
                     type: snap.snapMediaType === 0 ? 'photo' : 'video',
@@ -56,32 +56,25 @@ async function getStory(pathname) {
                     thumb: snap.snapUrls.mediaPreviewUrl.value
                 }))
             }
+        }
     }
 }
 
 export default async function(obj) {
-    let pathname;
+    let params = obj;
     if (obj.url.hostname === 't.snapchat.com' && obj.shortLink) {
         const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
         if (!link || !link.startsWith('https://www.snapchat.com/')) return { error: 'ErrorCouldntFetch' };
-        pathname = new URL(link).pathname;
+        const extractResult = extract(normalizeURL(link));
+        if (!extractResult || extractResult.host !== 'snapchat') return { error: 'ErrorCouldntFetch' };
+        params = extractResult.patternMatch;
     }
 
-    if (!pathname) {
-        if (obj.username && obj.storyId) {
-            pathname = `/add/${obj.username}/${obj.storyId}`;
-        } else if (obj.username) {
-            pathname = `/add/${obj.username}`;
-        } else if (obj.spotlightId) {
-            pathname = `/spotlight/${obj.spotlightId}`;
-        }
-    }
-
-    if (pathname.startsWith('/spotlight/')) {
-        const result = await getSpotlight(pathname);
+    if (params.spotlightId) {
+        const result = await getSpotlight(params.spotlightId);
         if (result) return result;
-    } else if (pathname.startsWith('/add/')) {
-        const result = await getStory(pathname);
+    } else if (params.username) {
+        const result = await getStory(params.username, params.storyId);
         if (result) return result;
     }
 
