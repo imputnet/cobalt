@@ -3,9 +3,10 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN apt-get update && \
-    apt-get install -y git python3 build-essential && \
-    npm install && \
+RUN apt-get update                                    && \
+    apt-get install -y git python3 build-essential    && \
+    npm ci                                            && \
+    npm cache clean --force                           && \
     apt purge --autoremove -y python3 build-essential && \
     rm -rf ~/.cache/ /var/lib/apt/lists/*
 
