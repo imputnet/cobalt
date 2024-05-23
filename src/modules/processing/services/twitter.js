@@ -37,14 +37,15 @@ function bestQuality(arr) {
 }
 
 let _cachedToken;
-const getGuestToken = async (forceReload = false) => {
+const getGuestToken = async (dispatcher, forceReload = false) => {
     if (_cachedToken && !forceReload) {
         return _cachedToken;
     }
 
     const tokenResponse = await fetch(tokenURL, {
         method: 'POST',
-        headers: commonHeaders
+        headers: commonHeaders,
+        dispatcher
     }).then(r => r.status === 200 && r.json()).catch(() => {})
 
     if (tokenResponse?.guest_token) {
@@ -52,7 +53,7 @@ const getGuestToken = async (forceReload = false) => {
     }
 }
 
-const requestTweet = async(tweetId, token, cookie) => {
+const requestTweet = async(dispatcher, tweetId, token, cookie) => {
     const graphqlTweetURL = new URL(graphqlURL);
 
     let headers = {
@@ -83,7 +84,7 @@ const requestTweet = async(tweetId, token, cookie) => {
     graphqlTweetURL.searchParams.set('features', tweetFeatures);
     graphqlTweetURL.searchParams.set('fieldToggles', tweetFieldToggles);
 
-    let result = await fetch(graphqlTweetURL, { headers });
+    let result = await fetch(graphqlTweetURL, { headers, dispatcher });
     updateCookie(cookie, result.headers);
 
     // we might have been missing the `ct0` cookie, retry
@@ -92,25 +93,26 @@ const requestTweet = async(tweetId, token, cookie) => {
             headers: {
                 ...headers,
                 'x-csrf-token': cookie.values().ct0
-            }
+            },
+            dispatcher
         });
     }
 
     return result
 }
 
-export default async function({ id, index, toGif }) {
+export default async function({ id, index, toGif, dispatcher }) {
     const cookie = await getCookie('twitter');
 
-    let guestToken = await getGuestToken();
+    let guestToken = await getGuestToken(dispatcher);
     if (!guestToken) return { error: 'ErrorCouldntFetch' };
 
-    let tweet = await requestTweet(id, guestToken);
+    let tweet = await requestTweet(dispatcher, id, guestToken);
 
     // get new token & retry if old one expired
     if ([403, 429].includes(tweet.status)) {
-        guestToken = await getGuestToken(true);
-        tweet = await requestTweet(id, guestToken)
+        guestToken = await getGuestToken(dispatcher, true);
+        tweet = await requestTweet(dispatcher, id, guestToken)
     }
 
     tweet = await tweet.json();
@@ -124,7 +126,7 @@ export default async function({ id, index, toGif }) {
                 return { error: 'ErrorTweetProtected' }
             case "NsfwLoggedOut":
                 if (cookie) {
-                    tweet = await requestTweet(id, guestToken, cookie);
+                    tweet = await requestTweet(dispatcher, id, guestToken, cookie);
                     tweet = await tweet.json();
                     tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
                 } else return { error: 'ErrorTweetNSFW' }
