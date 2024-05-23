@@ -192,8 +192,11 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
             const streamInfo = getInternalStream(req.query.id);
             if (!streamInfo) return res.sendStatus(404);
-            streamInfo.headers = req.headers;
-
+            streamInfo.headers = {
+                ...req.headers,
+                ...streamInfo.headers
+            };
+    
             return stream(res, { type: 'internal', ...streamInfo });
         } catch {
             return res.destroy();

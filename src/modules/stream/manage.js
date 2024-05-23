@@ -38,6 +38,7 @@ export function createStream(obj) {
             filename: obj.filename,
             audioFormat: obj.audioFormat,
             isAudioOnly: !!obj.isAudioOnly,
+            headers: obj.headers,
             copy: !!obj.copy,
             mute: !!obj.mute,
             metadata: obj.fileMetadata || false,
@@ -82,6 +83,7 @@ export function createInternalStream(url, obj = {}) {
     internalStreamCache[streamID] = {
         url,
         service: obj.service,
+        headers: obj.headers,
         controller: new AbortController(),
         dispatcher
     };
