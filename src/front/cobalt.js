@@ -128,7 +128,7 @@ const copy = (id, data) => {
     if (data) {
         navigator.clipboard.writeText(data)
     } else {
-        navigator.clipboard.writeText(e.innerText)
+        navigator.clipboard.writeText(target.textContent)
     }
 }
 
