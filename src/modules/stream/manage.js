@@ -108,12 +108,6 @@ export function destroyInternalStream(url) {
 }
 
 function wrapStream(streamInfo) {
-    /* m3u8 links are currently not supported
-     * for internal streams, skip them */
-    if (M3U_SERVICES.includes(streamInfo.service)) {
-        return streamInfo;
-    }
-
     const url = streamInfo.urls;
 
     if (typeof url === 'string') {

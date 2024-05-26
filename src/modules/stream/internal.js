@@ -1,7 +1,9 @@
 import { request } from 'undici';
 import { Readable } from 'node:stream';
 import { assert } from 'console';
+import { createInternalStream } from './manage.js';
 import { getHeaders } from './shared.js';
+import HLS from 'hls-parser';
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
@@ -73,6 +75,36 @@ async function handleYoutubeStream(streamInfo, res) {
     }
 }
 
+function transformHLSMediaPlaylist(streamInfo, hlsPlaylist) {
+    function generateInternalStreamsOfSegments(segment) {
+        const fullUri = new URL(segment.uri, streamInfo.url).toString();
+        segment.uri = createInternalStream(fullUri, streamInfo);
+
+        return segment;
+    }
+
+    hlsPlaylist.segments =
+        hlsPlaylist.segments.map(generateInternalStreamsOfSegments);
+    hlsPlaylist.prefetchSegments =
+        hlsPlaylist.prefetchSegments.map(generateInternalStreamsOfSegments);
+
+    return hlsPlaylist;
+}
+
+async function handleHLSPlaylist(streamInfo, req, res) {
+    let hlsPlaylist = await req.body.text();
+    hlsPlaylist = HLS.parse(hlsPlaylist);
+
+    // NOTE no processing module is passing the master playlist
+    assert(!hlsPlaylist.isMasterPlaylist);
+
+    hlsPlaylist = transformHLSMediaPlaylist(streamInfo, hlsPlaylist);
+    hlsPlaylist = HLS.stringify(hlsPlaylist);
+
+    res.write(hlsPlaylist);
+    res.end();
+}
+
 export async function internalStream(streamInfo, res) {
     if (streamInfo.service === 'youtube') {
         return handleYoutubeStream(streamInfo, res);
@@ -97,8 +129,12 @@ export async function internalStream(streamInfo, res) {
         if (req.statusCode < 200 || req.statusCode > 299)
             return res.end();
 
-        req.body.pipe(res);
-        req.body.on('error', () => res.end());
+        if (["application/vnd.apple.mpegurl", "audio/mpegurl"].includes(req.headers['content-type'])) {
+            await handleHLSPlaylist(streamInfo, req, res);
+        } else {
+            req.body.pipe(res);
+            req.body.on('error', () => res.end());
+        }
     } catch {
         streamInfo.controller.abort();
     }
