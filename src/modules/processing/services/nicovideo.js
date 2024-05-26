@@ -188,7 +188,7 @@ export default async function nicovideo({
             }
           : {}),
       },
-      ...(type === "audio" || typeof urls === "string" ? { isM3U8: true } : {}),
+      ...(typeof urls === "string" ? { isM3U8: true } : {}),
       ...(type === "audio" ? { bestAudio: "mp3" } : {}),
     };
   } catch (error) {
