@@ -7,9 +7,7 @@ import { env } from "../config.js";
 import { strict as assert } from "assert";
 
 // optional dependency
-const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
-
-const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
+const freebind = env.freebindCIDR && await import('freebind').catch(() => {})
 
 const streamCache = new NodeCache({
     stdTTL: env.streamLifespan,
