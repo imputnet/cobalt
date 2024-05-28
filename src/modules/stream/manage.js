@@ -3,13 +3,11 @@ import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { env } from "../config.js";
+import { env, hlsExceptions } from "../config.js";
 import { strict as assert } from "assert";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
-
-const M3U_SERVICES = ['dailymotion', 'vimeo', 'rutube'];
 
 const streamCache = new NodeCache({
     stdTTL: env.streamLifespan,
@@ -110,7 +108,7 @@ export function destroyInternalStream(url) {
 function wrapStream(streamInfo) {
     /* m3u8 links are currently not supported
      * for internal streams, skip them */
-    if (M3U_SERVICES.includes(streamInfo.service)) {
+    if (hlsExceptions.includes(streamInfo.service)) {
         return streamInfo;
     }
 
