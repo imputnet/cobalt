@@ -1,6 +1,6 @@
 {
     "audioIgnore": ["vk", "ok"],
-    "hlsExceptions": ["dailymotion", "vimeo", "rutube", "reddit"],
+    "hlsExceptions": ["dailymotion", "vimeo", "rutube"],
     "config": {
         "bilibili": {
             "alias": "bilibili.com & bilibili.tv",
