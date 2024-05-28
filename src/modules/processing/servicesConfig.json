@@ -61,8 +61,9 @@
         },
         "vimeo": {
             "patterns": [":id", "video/:id", ":id/:password", "/channels/:user/:id"],
-            "enabled": true,
-            "bestAudio": "mp3"
+            "subdomains": ["player"],
+            "bestAudio": "mp3",
+            "enabled": true
         },
         "soundcloud": {
             "patterns": [":author/:song/s-:accessKey", ":author/:song", ":shortLink"],
