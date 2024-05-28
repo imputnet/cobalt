@@ -107,7 +107,7 @@ export default async function(obj) {
         }).catch(() => {})
     }
 
-    let id = video.split('/')[3];
+    let id = `${String(obj.sub).toLowerCase()}_${obj.id}`;
 
     if (!audio) return {
         typeId: "redirect",
