@@ -29,3 +29,9 @@ export function getHeaders(service) {
     return Object.entries({ ...defaultHeaders, ...serviceHeaders[service] })
         .reduce((p, [key, val]) => ({ ...p, [key]: String(val) }), {})
 }
+
+const M3U_SERVICES = ["dailymotion", "vimeo", "rutube", "nicovideo"];
+
+export function isM3UService(service) { 
+    return M3U_SERVICES.includes(service);    
+}

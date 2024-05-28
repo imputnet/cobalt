@@ -94,6 +94,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
         case "video":
             switch (host) {
                 case "bilibili":
+                case "nicovideo":
                     params = { type: "render" };
                     break;
                 case "youtube":

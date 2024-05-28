@@ -531,6 +531,45 @@
             "status": "error"
         }
     }],
+    "nicovideo": [{
+        "name": "only 360p video",
+        "url": "https://www.nicovideo.jp/watch/sm13876659",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "only 360p video muted",
+        "url": "https://www.nicovideo.jp/watch/sm7055008",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "niconico video converted to audio",
+        "url": "https://www.nicovideo.jp/watch/sm6287843",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "max 720p video in 480p",
+        "url": "https://www.nicovideo.jp/watch/sm43808466",
+        "params": {
+            "vQuality": "480"
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }],
     "bilibili": [{
         "name": "1080p video",
         "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",

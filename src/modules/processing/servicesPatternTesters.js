@@ -54,4 +54,8 @@ export const testers = {
 
     "youtube": (patternMatch) =>
         patternMatch.id?.length <= 11,
+
+    "nicovideo": (patternMatch) =>
+        // checking if this page is video and if identifier is number
+        patternMatch.id.startsWith("sm") && !isNaN(parseInt(patternMatch.id.substring(2), 10))
 }
