@@ -89,11 +89,14 @@ export default async function(obj) {
         bestVideo = masterJSON_Video.find(i => resolutionMatch[i.width] === quality)
     }
 
-    let masterM3U8 = `${masterJSONURL.split("/sep/")[0]}/sep/video/${bestVideo.id}/master.m3u8`;
+    const playlistTemplate = `${masterJSONURL.split("/sep/")[0]}/sep/{type}/${bestVideo.id}/playlist.m3u8`;
     const fallbackResolution = bestVideo.height > bestVideo.width ? bestVideo.width : bestVideo.height;
 
     return {
-        urls: masterM3U8,
+        urls: [
+            playlistTemplate.replace('{type}', 'video'),
+            playlistTemplate.replace('{type}', 'audio')
+        ],
         isM3U8: true,
         fileMetadata: fileMetadata,
         filenameAttributes: {
