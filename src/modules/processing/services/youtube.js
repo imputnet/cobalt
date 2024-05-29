@@ -62,8 +62,12 @@ export default async function(o) {
 
     try {
         info = await yt.getBasicInfo(o.id, 'WEB');
-    } catch {
-        return { error: 'ErrorCantConnectToServiceAPI' };
+    } catch(e) {
+        if (e?.message === 'This video is unavailable') {
+            return { error: 'ErrorCouldntFetch' };
+        } else {
+            return { error: 'ErrorCantConnectToServiceAPI' };
+        }
     }
 
     if (!info) return { error: 'ErrorCantConnectToServiceAPI' };
