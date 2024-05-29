@@ -1,5 +1,5 @@
 {
-    "audioIgnore": ["vk", "ok"],
+    "audioIgnore": ["vk", "ok", "loom"],
     "hlsExceptions": ["dailymotion", "vimeo", "rutube"],
     "config": {
         "bilibili": {
@@ -111,6 +111,11 @@
         "dailymotion": {
             "alias": "dailymotion videos",
             "patterns": ["video/:id"],
+            "enabled": true
+        },
+        "loom": {
+            "alias": "loom videos",
+            "patterns": ["share/:id"],
             "enabled": true
         }
     }

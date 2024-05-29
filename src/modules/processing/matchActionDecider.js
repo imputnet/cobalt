@@ -129,6 +129,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "tumblr":
                 case "pinterest":
                 case "streamable":
+                case "loom":
                     responseType = "redirect";
                     break;
             }

@@ -19,7 +19,8 @@ this list is not final and keeps expanding over time. if support for a service y
 | bilibili.com & bilibili.tv     | ✅            | ✅         | ✅         | ➖         | ➖              |
 | dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
 | instagram posts & reels        | ✅            | ✅         | ✅         | ➖         | ➖              |
-| ok video                       | ✅            | ❌         | ❌         | ✅         | ✅              |
+| loom                           | ✅            | ❌         | ✅         | ✅         | ➖              |
+| ok video                       | ✅            | ❌         | ✅         | ✅         | ✅              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
 | rutube                         | ✅            | ✅         | ✅         | ✅         | ✅              |
@@ -31,7 +32,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | twitter/x                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vimeo                          | ✅            | ✅         | ✅         | ✅         | ✅              |
 | vine archive                   | ✅            | ✅         | ✅         | ➖         | ➖              |
-| vk videos & clips              | ✅            | ❌         | ❌         | ✅         | ✅              |
+| vk videos & clips              | ✅            | ❌         | ✅         | ✅         | ✅              |
 | youtube videos, shorts & music | ✅            | ✅         | ✅         | ✅         | ✅              |
 
 | emoji   | meaning                 |

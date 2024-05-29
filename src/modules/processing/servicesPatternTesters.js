@@ -8,7 +8,10 @@ export const testers = {
     "instagram": (patternMatch) =>
         patternMatch.postId?.length <= 12
         || (patternMatch.username?.length <= 30 && patternMatch.storyId?.length <= 24),
-    
+
+    "loom": (patternMatch) =>
+        patternMatch.id?.length <= 32,
+
     "ok": (patternMatch) =>
         patternMatch.id?.length <= 16,
 
@@ -29,7 +32,7 @@ export const testers = {
 
     "streamable": (patternMatch) =>
         patternMatch.id?.length === 6,
-    
+
     "tiktok": (patternMatch) =>
         patternMatch.postId?.length <= 21 || patternMatch.id?.length <= 13,
 
