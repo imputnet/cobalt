@@ -179,6 +179,7 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await rutube({
                     id: patternMatch.id,
                     yappyId: patternMatch.yappyId,
+                    key: patternMatch.key,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
                 });

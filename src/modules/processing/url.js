@@ -100,6 +100,11 @@ function cleanURL(url) {
                 limitQuery('v')
             }
             break;
+        case "rutube":
+            if (url.searchParams.get('p')) {
+                limitQuery('p')
+            }
+            break;
     }
 
     if (stripQuery) {

@@ -1089,6 +1089,14 @@
             "code": 200,
             "status": "stream"
         }
+    }, {
+        "name": "private video",
+        "url": "https://rutube.ru/video/private/1161415be0e686214bb2a498165cab3e/?p=_IL1G8RSnKutunnTYwhZ5A",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }],
     "ok": [{
         "name": "regular video",

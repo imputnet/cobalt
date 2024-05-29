@@ -20,6 +20,7 @@ export const testers = {
         || (patternMatch.user?.length <= 22 && patternMatch.id?.length <= 10),
 
     "rutube": (patternMatch) =>
+        (patternMatch.id?.length === 32 && patternMatch.key?.length <= 32) ||
         patternMatch.id?.length === 32 || patternMatch.yappyId?.length === 32,
 
     "soundcloud": (patternMatch) =>
