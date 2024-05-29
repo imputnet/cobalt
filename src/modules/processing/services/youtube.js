@@ -3,7 +3,7 @@ import { env } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
 import { fetch } from 'undici'
 
-const ytBase = await Innertube.create();
+const ytBase = Innertube.create().catch(e => e);
 
 const codecMatch = {
     h264: {
@@ -23,16 +23,21 @@ const codecMatch = {
     }
 }
 
-const cloneInnertube = (customFetch) => {
+const cloneInnertube = async (customFetch) => {
+    const innertube = await ytBase;
+    if (innertube instanceof Error) {
+        throw innertube;
+    }
+
     const session = new Session(
-        ytBase.session.context,
-        ytBase.session.key,
-        ytBase.session.api_version,
-        ytBase.session.account_index,
-        ytBase.session.player,
+        innertube.session.context,
+        innertube.session.key,
+        innertube.session.api_version,
+        innertube.session.account_index,
+        innertube.session.player,
         undefined,
-        customFetch ?? ytBase.session.http.fetch,
-        ytBase.session.cache
+        customFetch ?? innertube.session.http.fetch,
+        innertube.session.cache
     );
 
     const yt = new Innertube(session);
@@ -40,7 +45,7 @@ const cloneInnertube = (customFetch) => {
 }
 
 export default async function(o) {
-    const yt = cloneInnertube(
+    const yt = await cloneInnertube(
         (input, init) => fetch(input, { ...init, dispatcher: o.dispatcher })
     );
 
