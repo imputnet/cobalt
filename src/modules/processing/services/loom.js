@@ -13,12 +13,12 @@ export default async function({ id }) {
             "apollographql-client-version": "14c0b42",
             "x-loom-request-source": "loom_web_14c0b42",
         },
-        body: {
+        body: JSON.stringify({
             force_original: false,
             password: null,
             anonID: null,
             deviceID: null
-        }
+        })
     })
     .then(r => r.status === 200 ? r.json() : false)
     .catch(() => {});
