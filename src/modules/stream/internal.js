@@ -1,9 +1,8 @@
 import { request } from 'undici';
 import { Readable } from 'node:stream';
 import { assert } from 'console';
-import { createInternalStream } from './manage.js';
 import { getHeaders } from './shared.js';
-import HLS from 'hls-parser';
+import { handleHlsPlaylist, isHLSRequest } from './internal-hls.js';
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
@@ -75,34 +74,6 @@ async function handleYoutubeStream(streamInfo, res) {
     }
 }
 
-function transformHlsMediaPlaylist(streamInfo, hlsPlaylist) {
-    const makeInternalSegments = (segment) => {
-        const fullUri = new URL(segment.uri, streamInfo.url).toString();
-        segment.uri = createInternalStream(fullUri, streamInfo);
-
-        return segment;
-    }
-
-    hlsPlaylist.segments = hlsPlaylist.segments.map(makeInternalSegments);
-    hlsPlaylist.prefetchSegments = hlsPlaylist.prefetchSegments.map(makeInternalSegments);
-
-    return hlsPlaylist;
-}
-
-async function handleHlsPlaylist(streamInfo, req, res) {
-    let hlsPlaylist = await req.body.text();
-    hlsPlaylist = HLS.parse(hlsPlaylist);
-
-    // NOTE no processing module is passing the master playlist
-    assert(!hlsPlaylist.isMasterPlaylist);
-
-    hlsPlaylist = transformHlsMediaPlaylist(streamInfo, hlsPlaylist);
-    hlsPlaylist = HLS.stringify(hlsPlaylist);
-
-    res.write(hlsPlaylist);
-    res.end();
-}
-
 const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegURL"];
 
 export async function internalStream(streamInfo, res) {
@@ -129,7 +100,7 @@ export async function internalStream(streamInfo, res) {
         if (req.statusCode < 200 || req.statusCode > 299)
             return res.end();
 
-        if (HLS_MIME_TYPES.includes(req.headers['content-type'])) {
+        if (isHLSRequest(req)) {
             await handleHlsPlaylist(streamInfo, req, res);
         } else {
             req.body.pipe(res);
