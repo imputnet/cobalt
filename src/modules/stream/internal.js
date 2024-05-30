@@ -74,8 +74,6 @@ async function handleYoutubeStream(streamInfo, res) {
     }
 }
 
-const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegURL"];
-
 export async function internalStream(streamInfo, res) {
     if (streamInfo.service === 'youtube') {
         return handleYoutubeStream(streamInfo, res);
