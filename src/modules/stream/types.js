@@ -5,7 +5,7 @@ import { create as contentDisposition } from "content-disposition-header";
 
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
-import { env, ffmpegArgs } from "../config.js";
+import { env, ffmpegArgs, hlsExceptions } from "../config.js";
 import { getHeaders, closeResponse } from "./shared.js";
 
 function toRawHeaders(headers) {
@@ -215,7 +215,7 @@ export function streamVideoOnly(streamInfo, res) {
             args.push('-an')
         }
 
-        if (["vimeo", "rutube", "dailymotion"].includes(streamInfo.service)) {
+        if (hlsExceptions.includes(streamInfo.service)) {
             args.push('-bsf:a', 'aac_adtstoasc')
         }
 

@@ -9,6 +9,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
         responseType = "stream",
         defaultParams = {
             u: r.urls,
+            headers: r.headers,
             service: host,
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenamePattern, isAudioOnly, isAudioMuted) : r.filename,
@@ -81,6 +82,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                             service: "tiktok",
                             type: audioStreamType,
                             u: r.urls,
+                            headers: r.headers,
                             filename: r.audioFilename,
                             isAudioOnly: true,
                             audioFormat,
@@ -129,6 +131,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "pinterest":
                 case "streamable":
                 case "snapchat":
+                case "loom":
                     responseType = "redirect";
                     break;
             }

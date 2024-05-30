@@ -6,6 +6,19 @@ on:
     branches: [ current ]
 
 jobs:
+  check-lockfile:
+    name: check lockfile correctness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check that lockfile does not need an update
+        run: |
+          cp package-lock.json before.json
+          npm ci
+          npm i --package-lock-only
+          diff before.json package-lock.json
+
   test-web:
     name: web sanity check
     runs-on: ubuntu-latest
