@@ -3,7 +3,7 @@ import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { env, hlsExceptions } from "../config.js";
+import { env } from "../config.js";
 import { strict as assert } from "assert";
 
 // optional dependency
