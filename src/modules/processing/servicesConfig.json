@@ -15,7 +15,7 @@
             "alias": "reddit videos & gifs",
             "patterns": ["r/:sub/comments/:id/:title", "user/:user/comments/:id/:title"],
             "subdomains": "*",
-            "enabled": true
+            "enabled": false
         },
         "twitter": {
             "alias": "twitter videos & voice",
