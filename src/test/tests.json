@@ -1160,5 +1160,81 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "odysee": [{
+        "name": "video link in a /creator:letter/video:letter format",
+        "url": "https://odysee.com/@endermanch:d/deleting-windows-11-in-recycle-bin:c",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /creator/video:letter format",
+        "url": "https://odysee.com/@endermanch/deleting-windows-11-in-recycle-bin:c",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /creator:letter/video format",
+        "url": "https://odysee.com/@endermanch:d/deleting-windows-11-in-recycle-bin",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /creator/video format",
+        "url": "https://odysee.com/@endermanch/deleting-windows-11-in-recycle-bin",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /video:letter format",
+        "url": "https://odysee.com/deleting-windows-11-in-recycle-bin:c",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /video format",
+        "url": "https://odysee.com/deleting-windows-11-in-recycle-bin",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /video format (muted)",
+        "url": "https://odysee.com/deleting-windows-11-in-recycle-bin",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video link in a /video format (audio only)",
+        "url": "https://odysee.com/deleting-windows-11-in-recycle-bin",
+        "params": {
+            "isAudiOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }]
 }
