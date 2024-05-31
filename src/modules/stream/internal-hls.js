@@ -8,7 +8,7 @@ function transformObject(streamInfo, hlsObject) {
     }
 
     const fullUrl = hlsObject.uri.startsWith("/")
-        ? new URL(url, base).toString()
+        ? new URL(hlsObject.uri, streamInfo.url).toString()
         : new URL(path.join(streamInfo.url, "/../", hlsObject.uri)).toString();
     hlsObject.uri = createInternalStream(fullUrl, streamInfo);
 
