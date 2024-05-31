@@ -12,7 +12,7 @@ export default async function({ id }) {
 
     // i couldn't find any other way to do this
     var requestLines = requestText.split('\n');
-    var contentline = requestLines[reqlines.length - 32];
+    var contentline = requestLines[requestLines.length - 32];
     var videoUrl = contentline.split('"')[3];
 
     if (videoUrl?.includes('.mp4')) {
