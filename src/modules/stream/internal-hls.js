@@ -52,6 +52,5 @@ export async function handleHlsPlaylist(streamInfo, req, res) {
 
     hlsPlaylist = HLS.stringify(hlsPlaylist);
 
-    res.write(hlsPlaylist);
-    res.end();
+    res.send(hlsPlaylist);
 }
