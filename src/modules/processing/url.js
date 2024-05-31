@@ -78,17 +78,33 @@ function aliasURL(url) {
 function cleanURL(url) {
     assert(url instanceof URL);
     const host = psl.parse(url.hostname).sld;
+
     let stripQuery = true;
 
-    if (host === 'pinterest') {
-        url.hostname = 'pinterest.com'
-    } else if (host === 'vk' && url.pathname.includes('/clip')) {
-        if (url.searchParams.get('z'))
-            url.search = '?z=' + encodeURIComponent(url.searchParams.get('z'));
+    const limitQuery = (param) => {
+        url.search = `?${param}=` + encodeURIComponent(url.searchParams.get(param));
         stripQuery = false;
-    } else if (host === 'youtube' && url.searchParams.get('v')) {
-        url.search = '?v=' + encodeURIComponent(url.searchParams.get('v'));
-        stripQuery = false;
+    }
+
+    switch (host) {
+        case "pinterest":
+            url.hostname = 'pinterest.com';
+            break;
+        case "vk":
+            if (url.pathname.includes('/clip') && url.searchParams.get('z')) {
+                limitQuery('z')
+            }
+            break;
+        case "youtube":
+            if (url.searchParams.get('v')) {
+                limitQuery('v')
+            }
+            break;
+        case "rutube":
+            if (url.searchParams.get('p')) {
+                limitQuery('p')
+            }
+            break;
     }
 
     if (stripQuery) {

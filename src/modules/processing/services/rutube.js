@@ -12,10 +12,10 @@ async function requestJSON(url) {
 
 export default async function(obj) {
     if (obj.yappyId) {
-        let yappy = await requestJSON(
+        const yappy = await requestJSON(
             `https://rutube.ru/pangolin/api/web/yappy/yappypage/?client=wdp&videoId=${obj.yappyId}&page=1&page_size=15`
         )
-        let yappyURL = yappy?.results?.find(r => r.id === obj.yappyId)?.link;
+        const yappyURL = yappy?.results?.find(r => r.id === obj.yappyId)?.link;
         if (!yappyURL) return { error: 'ErrorEmptyDownload' };
 
         return {
@@ -25,11 +25,12 @@ export default async function(obj) {
         }
     }
 
-    let quality = obj.quality === "max" ? "9000" : obj.quality;
+    const quality = obj.quality === "max" ? "9000" : obj.quality;
 
-    let play = await requestJSON(
-        `https://rutube.ru/api/play/options/${obj.id}/?no_404=true&referer&pver=v2`
-    )
+    const requestURL = new URL(`https://rutube.ru/api/play/options/${obj.id}/?no_404=true&referer&pver=v2`);
+    if (obj.key) requestURL.searchParams.set('p', obj.key);
+
+    const play = await requestJSON(requestURL);
     if (!play) return { error: 'ErrorCouldntFetch' };
 
     if (play.detail || !play.video_balancer) return { error: 'ErrorEmptyDownload' };
@@ -51,7 +52,7 @@ export default async function(obj) {
         bestQuality = m3u8.find((i) => (Number(quality) === i.resolution.height));
     }
 
-    let fileMetadata = {
+    const fileMetadata = {
         title: cleanString(play.title.trim()),
         artist: cleanString(play.author.name.trim()),
     }

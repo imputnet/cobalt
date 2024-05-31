@@ -196,8 +196,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
 
         streamInfo.headers = {
-            ...req.headers,
-            ...streamInfo.headers
+            ...streamInfo.headers,
+            ...req.headers
         };
 
         return stream(res, { type: 'internal', ...streamInfo });

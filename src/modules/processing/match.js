@@ -24,6 +24,7 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
+import loom from "./services/loom.js";
 
 let freebind;
 
@@ -179,12 +180,18 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await rutube({
                     id: patternMatch.id,
                     yappyId: patternMatch.yappyId,
+                    key: patternMatch.key,
                     quality: obj.vQuality,
                     isAudioOnly: isAudioOnly
                 });
                 break;
             case "dailymotion":
                 r = await dailymotion(patternMatch);
+                break;
+            case "loom":
+                r = await loom({
+                    id: patternMatch.id
+                });
                 break;
             default:
                 return createResponse("error", {

@@ -53,6 +53,7 @@ const
 
 export const
     services = servicesConfigJson.config,
+    hlsExceptions = servicesConfigJson.hlsExceptions,
     audioIgnore = servicesConfigJson.audioIgnore,
     version = packageJson.version,
     genericUserAgent = config.genericUserAgent,

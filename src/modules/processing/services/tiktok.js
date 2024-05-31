@@ -57,7 +57,7 @@ export default async function(obj) {
 
     let playAddr = detail.video.playAddr;
     if (obj.h265) {
-        const h265PlayAddr = detail.video.bitrateInfo.find(b => b.CodecType.includes("h265"))?.PlayAddr.UrlList[0]
+        const h265PlayAddr = detail?.video?.bitrateInfo?.find(b => b.CodecType.includes("h265"))?.PlayAddr.UrlList[0]
         playAddr = h265PlayAddr || playAddr
     }
 
