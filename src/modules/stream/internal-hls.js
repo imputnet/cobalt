@@ -4,7 +4,7 @@ import path from "node:path";
 
 function transformObject(streamInfo, hlsObject) {
     if (hlsObject === undefined) {
-        return (hlsObject) => transformObject(streamInfo, hlsObject);
+        return (object) => transformObject(streamInfo, object);
     }
 
     const fullUrl = hlsObject.uri.startsWith("/")
