@@ -1,7 +1,7 @@
 import { genericUserAgent } from "../../config.js";
 
 export default async function({ id }) {
-    const req = await fetch(`https://odysee.com/${id}`, {
+    const requestText = await fetch(`https://odysee.com/${id}`, {
         method: "GET",
         headers: {
             "user-agent": genericUserAgent
@@ -11,8 +11,8 @@ export default async function({ id }) {
     .catch(() => {});
 
     // i couldn't find any other way to do this
-    var reqlines = req.split('\n');
-    var contentline = reqlines[reqlines.length - 32];
+    var requestLines = requestText.split('\n');
+    var contentline = requestLines[reqlines.length - 32];
     var videoUrl = contentline.split('"')[3];
 
     if (videoUrl?.includes('.mp4')) {
