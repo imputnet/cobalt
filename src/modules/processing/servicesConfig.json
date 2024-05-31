@@ -1,5 +1,5 @@
 {
-    "audioIgnore": ["vk", "ok", "loom"],
+    "audioIgnore": ["vk", "ok", "loom", "odysee"],
     "hlsExceptions": ["dailymotion", "vimeo", "rutube"],
     "config": {
         "bilibili": {
@@ -116,6 +116,11 @@
         "loom": {
             "alias": "loom videos",
             "patterns": ["share/:id"],
+            "enabled": true
+        },
+        "odysee": {
+            "alias": "odysee videos",
+            "patterns": [":creator/:id", ":id"],
             "enabled": true
         }
     }

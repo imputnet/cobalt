@@ -15,6 +15,9 @@ export const testers = {
     "ok": (patternMatch) =>
         patternMatch.id?.length <= 16,
 
+    "odysee": (patternMatch) =>
+        patternMatch.id?.length <= 255,
+
     "pinterest": (patternMatch) =>
         patternMatch.id?.length <= 128 || patternMatch.shortLink?.length <= 32,
 

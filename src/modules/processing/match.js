@@ -25,6 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import loom from "./services/loom.js";
+import odysee from "./services/odysee.js";
 
 let freebind;
 
@@ -190,6 +191,11 @@ export default async function(host, patternMatch, lang, obj) {
                 break;
             case "loom":
                 r = await loom({
+                    id: patternMatch.id
+                });
+                break;
+            case "odysee":
+                r = await odysee({
                     id: patternMatch.id
                 });
                 break;
