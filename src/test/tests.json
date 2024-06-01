@@ -1230,7 +1230,7 @@
         "name": "video link in a /video format (audio only)",
         "url": "https://odysee.com/deleting-windows-11-in-recycle-bin",
         "params": {
-            "isAudiOnly": true
+            "isAudioOnly": true
         },
         "expected": {
             "code": 200,
