@@ -10,10 +10,8 @@ export default async function({ id }) {
     .then(req => {return req.text()})
     .catch(() => {});
 
-    // i couldn't find any other way to do this
-    var requestLines = requestText.split('\n');
-    var contentline = requestLines[requestLines.length - 32];
-    var videoUrl = contentline.split('"')[3];
+    if (!requestText.includes('"contentUrl": ')) return { error: 'ErrorEmptyDownload' };
+    var videoUrl = requestText.split('"contentUrl": "')[1].split('"')[0];
 
     if (videoUrl?.includes('.mp4')) {
         return {
