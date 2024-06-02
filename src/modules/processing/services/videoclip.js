@@ -2,7 +2,7 @@ import { genericUserAgent } from "../../config.js";
 
 export default async function({ id }) {
     const modifiedId = id.split("_")[0]
-    const requestText = await fetch(`https://videoclip.bg/watch/${id}`, {
+    const requestText = await fetch(`https://www.videoclip.bg/watch/${id}`, {
         method: "GET",
         headers: {
             "user-agent": genericUserAgent
