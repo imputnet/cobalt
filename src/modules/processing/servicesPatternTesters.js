@@ -1,4 +1,6 @@
 export const testers = {
+    "videoclip": (patternMatch) => patternMatch.id?.match(/^[0-9]/),
+
     "bilibili": (patternMatch) => 
         patternMatch.comId?.length <= 12 || patternMatch.comShortLink?.length <= 16
         || patternMatch.tvId?.length <= 24,

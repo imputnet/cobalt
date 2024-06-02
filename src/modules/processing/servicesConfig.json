@@ -1,6 +1,6 @@
 {
     "audioIgnore": ["vk", "ok", "loom"],
-    "hlsExceptions": ["dailymotion", "vimeo", "rutube"],
+    "hlsExceptions": ["dailymotion", "vimeo", "rutube", "videoclip"],
     "config": {
         "bilibili": {
             "alias": "bilibili.com & bilibili.tv",
@@ -117,6 +117,12 @@
         "loom": {
             "alias": "loom videos",
             "patterns": ["share/:id"],
+            "enabled": true
+        },
+        "videoclip": {
+            "alias": "loom videos",
+            "tld": "bg",
+            "patterns": ["watch/:id"],
             "enabled": true
         }
     }

@@ -99,6 +99,13 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
         case "video":
             switch (host) {
+                case "videoclip":
+                    if (r.urls.endsWith(".m3u8")) {
+                        params = { type: "render" }
+                    } else {
+                        responseType = "redirect";
+                    }
+                    break;
                 case "bilibili":
                     params = { type: "render" };
                     break;

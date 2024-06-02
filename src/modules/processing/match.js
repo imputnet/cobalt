@@ -188,6 +188,11 @@ export default async function(host, patternMatch, lang, obj) {
             case "dailymotion":
                 r = await dailymotion(patternMatch);
                 break;
+            case "videoclip":
+                r = await videoclip({
+                    id: patternMatch.id
+                });
+                break;
             case "loom":
                 r = await loom({
                     id: patternMatch.id
