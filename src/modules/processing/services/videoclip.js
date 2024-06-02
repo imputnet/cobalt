@@ -14,7 +14,7 @@ export default async function({ id }) {
     var videoTag = requestText.split('<video')[1];
     var videoSource = videoTag.split(">")[1].split('<source')[1].split('"')[1].split('//')[1];
     if (videoSource.endsWith(".mpd")) {
-        var videoSource = videoTag.split(">")[2].split('<source')[1].split('"')[1].split('//')[1];
+        videoSource = videoTag.split(">")[2].split('<source')[1].split('"')[1].split('//')[1];
     } else if (!videoSource.endsWith(".mp4")) {
         return { error: 'ErrorCouldntFetch'};
     }
