@@ -25,6 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import loom from "./services/loom.js";
+import videoclip from "./services/videoclip.js";
 
 let freebind;
 
