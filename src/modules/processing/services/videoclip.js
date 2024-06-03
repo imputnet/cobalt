@@ -27,5 +27,5 @@ export default async function({ id }) {
         }
     }
 
-    return { error: 'bErrorEmptyDownload' }
+    return { error: 'ErrorEmptyDownload' }
 }
