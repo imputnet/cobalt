@@ -120,7 +120,7 @@
             "enabled": true
         },
         "videoclip": {
-            "alias": "loom videos",
+            "alias": "videoclip.bg videos",
             "tld": "bg",
             "patterns": ["watch/:id"],
             "enabled": true
