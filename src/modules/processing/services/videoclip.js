@@ -21,7 +21,7 @@ export default async function({ id }) {
 
     if (videoSource) {
         return {
-            urls: "https://" + videoSource,
+            urls: "https://www." + videoSource,
             filename: `videoclip_${modifiedId}.mp4`,
             audioFilename: `videoclip_${modifiedId}_audio`
         }
