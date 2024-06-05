@@ -22,6 +22,7 @@ export default async function({ id }) {
     if (videoSource) {
         return {
             urls: "https://www." + videoSource,
+            isM3U8: videoSource.endsWith(".m3u8"),
             filename: `videoclip_${modifiedId}.mp4`,
             audioFilename: `videoclip_${modifiedId}_audio`
         }
