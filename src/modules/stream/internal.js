@@ -1,7 +1,7 @@
 import { request } from 'undici';
 import { Readable } from 'node:stream';
 import { assert } from 'console';
-import { getHeaders } from './shared.js';
+import { getHeaders, pipe } from './shared.js';
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
@@ -66,8 +66,7 @@ async function handleYoutubeStream(streamInfo, res) {
             if (headerValue) res.setHeader(headerName, headerValue);
         }
 
-        stream.pipe(res);
-        stream.on('error', () => res.end());
+        pipe(stream, res, () => res.end());
     } catch {
         res.end();
     }
@@ -97,8 +96,7 @@ export async function internalStream(streamInfo, res) {
         if (req.statusCode < 200 || req.statusCode > 299)
             return res.end();
 
-        req.body.pipe(res);
-        req.body.on('error', () => res.end());
+        pipe(req.body, res, () => res.end());
     } catch {
         streamInfo.controller.abort();
     }
