@@ -666,6 +666,10 @@ window.onload = () => {
     }
     window.history.replaceState(null, '', window.location.pathname);
 
+    if (!isMobile) {
+        eid("url-input-area").focus();
+    }
+
     // fix for animations not working in Safari
     if (isIOS) {
         document.addEventListener('touchstart', () => {}, true);
