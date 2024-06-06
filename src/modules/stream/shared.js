@@ -29,3 +29,13 @@ export function getHeaders(service) {
     return Object.entries({ ...defaultHeaders, ...serviceHeaders[service] })
         .reduce((p, [key, val]) => ({ ...p, [key]: String(val) }), {})
 }
+
+export function pipe(from, to, done) {
+    from.on('error', done)
+        .on('close', done);
+
+    to.on('error', done)
+      .on('close', done);
+
+    from.pipe(to);
+}
