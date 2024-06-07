@@ -2,6 +2,7 @@ import { request } from 'undici';
 import { Readable } from 'node:stream';
 import { assert } from 'console';
 import { getHeaders, pipe } from './shared.js';
+import { handleHlsPlaylist, isHlsRequest } from './internal-hls.js';
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
@@ -96,7 +97,11 @@ export async function internalStream(streamInfo, res) {
         if (req.statusCode < 200 || req.statusCode > 299)
             return res.end();
 
-        pipe(req.body, res, () => res.end());
+        if (isHlsRequest(req)) {
+            await handleHlsPlaylist(streamInfo, req, res);
+        } else {
+            pipe(req.body, res, () => res.end());
+        }
     } catch {
         streamInfo.controller.abort();
     }
