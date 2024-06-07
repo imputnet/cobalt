@@ -353,6 +353,7 @@ const popup = (type, action, text) => {
     eid("popup-backdrop").classList.toggle("visible");
     eid(`popup-${type}`).classList.toggle("visible");
     eid(`popup-${type}`).focus();
+    
 }
 
 const changeSwitcher = (switcher, state) => {
@@ -671,7 +672,7 @@ window.onload = () => {
     if (isIOS) {
         document.addEventListener('touchstart', () => {}, true);
     }
-    eid("url-input-area").focus();
+    
 }
 
 eid("url-input-area").addEventListener("keydown", () => {
@@ -705,6 +706,7 @@ document.onkeydown = (e) => {
         if (e.key === "M") popup('settings', 1);
         
     } else {
-        if (e.key === "Escape" || e.key === "Enter") hideAllPopups();
+        if (e.key === "Escape") hideAllPopups();
+        if (e.key === "Enter") popup('error', 0); eid("url-input-area").focus(); //Close the popup, then focus on input area again.
     }
 }
