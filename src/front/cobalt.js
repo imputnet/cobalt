@@ -650,6 +650,7 @@ window.onload = () => {
 
     changeDownloadButton("hidden");
     eid("url-input-area").value = "";
+    
 
     if (isIOS) {
         sSet("downloadPopup", "true");
@@ -670,6 +671,7 @@ window.onload = () => {
     if (isIOS) {
         document.addEventListener('touchstart', () => {}, true);
     }
+    eid("url-input-area").focus();
 }
 
 eid("url-input-area").addEventListener("keydown", () => {
@@ -703,6 +705,6 @@ document.onkeydown = (e) => {
         if (e.key === "M") popup('settings', 1);
         
     } else {
-        if (e.key === "Escape") hideAllPopups();
+        if (e.key === "Escape" || e.key === "Enter") hideAllPopups();
     }
 }
