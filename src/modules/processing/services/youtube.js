@@ -2,6 +2,7 @@ import { Innertube, Session } from 'youtubei.js';
 import { env } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
 import { fetch } from 'undici'
+import { getCookie } from '../cookie/manager.js'
 
 const ytBase = Innertube.create().catch(e => e);
 
@@ -35,7 +36,7 @@ const cloneInnertube = async (customFetch) => {
         innertube.session.api_version,
         innertube.session.account_index,
         innertube.session.player,
-        undefined,
+        getCookie('youtube'),
         customFetch ?? innertube.session.http.fetch,
         innertube.session.cache
     );
