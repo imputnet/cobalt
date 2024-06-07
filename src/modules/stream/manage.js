@@ -3,7 +3,7 @@ import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
-import { env, hlsExceptions } from "../config.js";
+import { env } from "../config.js";
 import { strict as assert } from "assert";
 
 // optional dependency
@@ -106,12 +106,6 @@ export function destroyInternalStream(url) {
 }
 
 function wrapStream(streamInfo) {
-    /* m3u8 links are currently not supported
-     * for internal streams, skip them */
-    if (hlsExceptions.includes(streamInfo.service)) {
-        return streamInfo;
-    }
-
     const url = streamInfo.urls;
 
     if (typeof url === 'string') {

@@ -6,7 +6,7 @@ import { create as contentDisposition } from "content-disposition-header";
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { env, ffmpegArgs, hlsExceptions } from "../config.js";
-import { getHeaders, closeResponse } from "./shared.js";
+import { getHeaders, closeResponse, pipe } from "./shared.js";
 
 function toRawHeaders(headers) {
     return Object.entries(headers)
@@ -26,16 +26,6 @@ function killProcess(p) {
             // brutally murder the process if it didn't quit
             p?.kill('SIGKILL');
     }, 5000);
-}
-
-function pipe(from, to, done) {
-    from.on('error', done)
-        .on('close', done);
-
-    to.on('error', done)
-      .on('close', done);
-
-    from.pipe(to);
 }
 
 function getCommand(args) {

@@ -2,6 +2,7 @@ import { Innertube, Session } from 'youtubei.js';
 import { env } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
 import { fetch } from 'undici'
+import { getCookie } from '../cookie/manager.js'
 
 const ytBase = Innertube.create().catch(e => e);
 
@@ -35,7 +36,7 @@ const cloneInnertube = async (customFetch) => {
         innertube.session.api_version,
         innertube.session.account_index,
         innertube.session.player,
-        undefined,
+        getCookie('youtube')?.toString(),
         customFetch ?? innertube.session.http.fetch,
         innertube.session.cache
     );
@@ -61,7 +62,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'WEB');
+        info = await yt.getBasicInfo(o.id, 'IOS');
     } catch(e) {
         if (e?.message === 'This video is unavailable') {
             return { error: 'ErrorCouldntFetch' };
@@ -72,7 +73,18 @@ export default async function(o) {
 
     if (!info) return { error: 'ErrorCantConnectToServiceAPI' };
 
-    if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
+    const playability = info.playability_status;
+
+    if (playability.status === 'LOGIN_REQUIRED') {
+        if (playability.reason.endsWith('bot')) {
+            return { error: 'ErrorYTLogin' }
+        }
+        if (playability.reason.endsWith('age')) {
+            return { error: 'ErrorYTAgeRestrict' }
+        }
+    }
+
+    if (playability.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
     // return a critical error if returned video is "Video Not Available"
