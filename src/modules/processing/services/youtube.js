@@ -73,7 +73,18 @@ export default async function(o) {
 
     if (!info) return { error: 'ErrorCantConnectToServiceAPI' };
 
-    if (info.playability_status.status !== 'OK') return { error: 'ErrorYTUnavailable' };
+    const playability = info.playability_status;
+
+    if (playability.status === 'LOGIN_REQUIRED') {
+        if (playability.reason.endsWith('bot')) {
+            return { error: 'ErrorYTLogin' }
+        }
+        if (playability.reason.endsWith('age')) {
+            return { error: 'ErrorYTAgeRestrict' }
+        }
+    }
+
+    if (playability.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
 
     // return a critical error if returned video is "Video Not Available"

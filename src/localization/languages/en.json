@@ -100,7 +100,7 @@
         "FollowSupport": "keep in touch with cobalt for news, support, and more:",
         "SourceCode": "explore source code, report issues, star or fork the repo:",
         "PrivacyPolicy": "cobalt's privacy policy is simple: no data about you is ever collected or stored. zero, zilch, nada, nothing.\nwhat you download is solely your business, not mine or anyone else's.\n\nif your download requires rendering, then data about requested content is encrypted and temporarily stored in server's RAM. it's necessary for this feature to function.\n\nencrypted data is stored for <span class=\"text-backdrop\">90 seconds</span> and then permanently removed.\n\nstored data is only possible to decrypt with unique encryption keys from your download link. furthermore, the official cobalt codebase doesn't provide a way to read temporarily stored data outside of processing functions.\n\nyou can check cobalt's <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">source code</a> yourself and see that everything is as stated.",
-        "ErrorYTUnavailable": "this youtube video is unavailable. it could be age or region restricted. try another one!",
+        "ErrorYTUnavailable": "this youtube video is unavailable. it could be visibility or region restricted. try another one!",
         "ErrorYTTryOtherCodec": "i couldn't find anything to download with your settings. try another codec or quality in settings!",
         "SettingsCodecSubtitle": "youtube codec",
         "SettingsCodecDescription": "h264: best support across apps/platforms, average detail level. max quality is 1080p.\nav1: best quality, small file size, most detail. supports 8k & HDR.\nvp9: same quality as av1, but file is x2 bigger. supports 4k & HDR.\n\npick h264 if you want best compatibility.\npick av1 if you want best quality and efficiency.",
@@ -156,6 +156,8 @@
         "SettingsYoutubeDub": "use browser language",
         "SettingsYoutubeDubDescription": "uses your browser's default language for youtube dubbed audio tracks. works even if cobalt ui isn't translated to your language.",
         "ErrorInvalidContentType": "invalid content type header",
-        "UpdateOneMillion": "1 million users and blazing speed"
+        "UpdateOneMillion": "1 million users and blazing speed",
+        "ErrorYTAgeRestrict": "this youtube video is age-restricted, so i can't see it. try another one!",
+        "ErrorYTLogin": "couldn't get this youtube video because it requires sign in.\n\nthis limitation is an a/b test done by google to seemingly stop scraping, coincidentally affecting all 3rd party tools and even their own clients.\n\nyou can track the <a class=\"text-backdrop link\" href=\"{repo}/issues/551\" target=\"_blank\">issue on github</a>."
     }
 }
