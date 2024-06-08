@@ -11,9 +11,9 @@
     "scripts": {
         "start": "node src/cobalt",
         "setup": "node src/modules/setup",
-        "test": "node src/test/test",
+        "test": "node src/util/test",
         "build": "node src/modules/buildStatic",
-        "testFilenames": "node src/test/testFilenamePresets"
+        "token:youtube": "node src/util/generate-youtube-tokens"
     },
     "repository": {
         "type": "git",
