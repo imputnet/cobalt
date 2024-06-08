@@ -56,7 +56,7 @@ const cloneInnertube = async (customFetch) => {
         innertube.session.api_version,
         innertube.session.account_index,
         innertube.session.player,
-        getCookie('youtube')?.toString(),
+        undefined,
         customFetch ?? innertube.session.http.fetch,
         innertube.session.cache
     );
