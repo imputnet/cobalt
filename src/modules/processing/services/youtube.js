@@ -124,6 +124,9 @@ export default async function(o) {
             return { error: 'ErrorYTAgeRestrict' }
         }
     }
+    if (playability.status === "UNPLAYABLE" && playability.reason.endsWith('request limit.')) {
+        return { error: 'ErrorYTRateLimit' }
+    }
 
     if (playability.status !== 'OK') return { error: 'ErrorYTUnavailable' };
     if (info.basic_info.is_live) return { error: 'ErrorLiveVideo' };
