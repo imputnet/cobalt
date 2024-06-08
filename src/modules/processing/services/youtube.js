@@ -2,7 +2,7 @@ import { Innertube, Session } from 'youtubei.js';
 import { env } from '../../config.js';
 import { cleanString } from '../../sub/utils.js';
 import { fetch } from 'undici'
-import { getCookie } from '../cookie/manager.js'
+import { getCookie, updateCookieValues } from '../cookie/manager.js'
 
 const ytBase = Innertube.create().catch(e => e);
 
@@ -61,7 +61,8 @@ const cloneInnertube = async (customFetch) => {
         innertube.session.cache
     );
 
-    const oauthData = transformSessionData(getCookie('youtube_oauth'));
+    const cookie = getCookie('youtube_oauth');
+    const oauthData = transformSessionData(cookie);
 
     if (!session.logged_in && oauthData) {
         await session.oauth.init(oauthData);
@@ -70,6 +71,15 @@ const cloneInnertube = async (customFetch) => {
 
     if (session.logged_in) {
         await session.oauth.refreshIfRequired();
+        const oldExpiry = new Date(cookie.values().expires);
+        const newExpiry = session.oauth.credentials.expires;
+
+        if (oldExpiry.getTime() !== newExpiry.getTime()) {
+            updateCookieValues(cookie, {
+                ...session.oauth.credentials,
+                expires: session.oauth.credentials.expires.toISOString()
+            });
+        }
     }
 
     const yt = new Innertube(session);
