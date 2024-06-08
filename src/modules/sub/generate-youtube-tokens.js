@@ -1,6 +1,10 @@
 import { Innertube } from 'youtubei.js';
 
-const bail = (...msg) => (console.error(...msg), process.exit(1));
+const bail = (...msg) => {
+    console.error(...msg);
+    throw new Error(msg);
+};
+
 const tube = await Innertube.create();
 
 tube.session.once(
