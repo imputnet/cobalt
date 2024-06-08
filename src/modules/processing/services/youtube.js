@@ -24,6 +24,26 @@ const codecMatch = {
     }
 }
 
+const transformSessionData = (cookie) => {
+    if (!cookie)
+        return;
+
+    const values = cookie.values();
+    const REQUIRED_VALUES = [
+        'access_token', 'refresh_token',
+        'client_id', 'client_secret',
+        'expires'
+    ];
+
+    if (REQUIRED_VALUES.some(x => typeof values[x] !== 'string')) {
+        return;
+    }
+    return {
+        ...values,
+        expires: new Date(values.expires),
+    };
+}
+
 const cloneInnertube = async (customFetch) => {
     const innertube = await ytBase;
     if (innertube instanceof Error) {
@@ -40,6 +60,17 @@ const cloneInnertube = async (customFetch) => {
         customFetch ?? innertube.session.http.fetch,
         innertube.session.cache
     );
+
+    const oauthData = transformSessionData(getCookie('youtube_oauth'));
+
+    if (!session.logged_in && oauthData) {
+        await session.oauth.init(oauthData);
+        session.logged_in = true;
+    }
+
+    if (session.logged_in) {
+        await session.oauth.refreshIfRequired();
+    }
 
     const yt = new Innertube(session);
     return yt;
@@ -62,7 +93,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'IOS');
+        info = await yt.getBasicInfo(o.id, yt.session.logged_in ? 'ANDROID' : 'IOS');
     } catch(e) {
         if (e?.message === 'This video is unavailable') {
             return { error: 'ErrorCouldntFetch' };
