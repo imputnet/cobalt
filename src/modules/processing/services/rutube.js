@@ -52,6 +52,12 @@ export default async function(obj) {
         bestQuality = m3u8.find((i) => (Number(quality) === i.resolution.height));
     }
 
+    if(bestQuality == null) {
+        bestQuality = m3u8.reduce((prev, curr) => {
+            return Math.abs(Number(curr.resolution.height) - Number(quality)) < Math.abs(Number(prev.resolution.height) - Number(quality)) ? curr : prev;
+        });    
+    }
+
     const fileMetadata = {
         title: cleanString(play.title.trim()),
         artist: cleanString(play.author.name.trim()),
