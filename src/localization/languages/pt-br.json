@@ -158,6 +158,15 @@
         "PrivateAnalytics": "análises privadas",
         "SettingsDisableAnalytics": "optar por não participar das análises privadas",
         "SettingsAnalyticsExplanation": "ative esta opção se não quiser ser incluído nas estatísticas de tráfego anônimas. leia mais sobre isso em sobre > política de privacidade (resumidamente: nada sobre você é armazenado ou rastreado, nenhum cookie é usado).",
-        "AnalyticsDescription": "cobalt usa uma instância auto-hospedada do plausible para obter um número aproximado de quantas pessoas o utilizam.\n\nplausible é totalmente compatível com GDPR, CCPA e PECR, não usa cookies e nunca armazena nenhuma informação identificável, nem mesmo seu endereço ip.\n\ntodos os dados são agregados e nunca personalizados. nada sobre o que você baixa é salvo em lugar nenhum. é usado apenas para estatísticas de tráfego anônimas, nada mais.\n\nplausible é totalmente open source, assim como o Cobalt, e se você quiser saber mais sobre ele, pode conferir<a class=\"text-backdrop link\" href=\"https://plausible.io\" target=\"_blank\">aqui</a>. se desejar optar por não participar das estatísticas de tráfego, pode fazê-lo em configurações > outros."
+        "AnalyticsDescription": "cobalt usa uma instância auto-hospedada do plausible para obter um número aproximado de quantas pessoas o utilizam.\n\nplausible é totalmente compatível com GDPR, CCPA e PECR, não usa cookies e nunca armazena nenhuma informação identificável, nem mesmo seu endereço ip.\n\ntodos os dados são agregados e nunca personalizados. nada sobre o que você baixa é salvo em lugar nenhum. é usado apenas para estatísticas de tráfego anônimas, nada mais.\n\nplausible é totalmente open source, assim como o Cobalt, e se você quiser saber mais sobre ele, pode conferir<a class=\"text-backdrop link\" href=\"https://plausible.io\" target=\"_blank\">aqui</a>. se desejar optar por não participar das estatísticas de tráfego, pode fazê-lo em configurações > outros.",
+        "SettingsTikTokH265": "preferir h265",
+        "SettingsTikTokH265Description": "baixe vídeos em 1080p do tiktok no formato h265/hevc quando disponível.",
+        "SettingsYoutubeDub": "usar linguagem do navegador",
+        "SettingsYoutubeDubDescription": "usa o idioma padrão do seu navegador para faixas de áudio dubladas do youtube. funciona mesmo que a interface do cobalt não esteja traduzida para o seu idioma.",
+        "ErrorInvalidContentType": "cabeçalho de tipo de conteúdo inválido",
+        "UpdateOneMillion": "1 milhão de usuários e velocidade impressionante",
+        "ErrorYTAgeRestrict": "este vídeo do youtube é restrito por idade, então não consigo vê-lo. tente outro!",
+        "ErrorYTLogin": "não consegui acessar este vídeo do youtube porque ele exige uma conta para visualização.\n\nessa limitação é imposta pelo google aparentemente para impedir a raspagem de dados, afetando todas as ferramentas de terceiros e até mesmo seus próprios clientes.\n\ntente novamente, mas se o problema continuar {ContactLink}.",
+        "ErrorYTRateLimit": "fui limitado pela taxa do youtube. tente novamente em alguns segundos, mas se o problema persistir, {ContactLink}."
     }
 }
