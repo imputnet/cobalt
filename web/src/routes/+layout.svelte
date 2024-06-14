@@ -19,21 +19,25 @@
         --sidebar-font-size: 11px;
         --sidebar-padding: 12px;
     }
+
     :global(html),
     :global(body) {
         font-family: "IBM Plex Mono", "Noto Sans Mono", monospace;
         margin: 0;
     }
+
     :global(a) {
         text-decoration: none;
         text-decoration-line: none;
     }
+
     #cobalt {
         height: 100vh;
         display: grid;
         grid-template-columns: var(--sidebar-width) 1fr;
         overflow: hidden;
     }
+
     #content {
         display: flex;
         overflow: scroll;
