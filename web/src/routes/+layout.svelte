@@ -24,6 +24,9 @@
     :global(body) {
         font-family: "IBM Plex Mono", "Noto Sans Mono", monospace;
         margin: 0;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     :global(a) {
