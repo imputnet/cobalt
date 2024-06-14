@@ -29,11 +29,13 @@
         font-size: var(--sidebar-font-size);
         opacity: 0.8;
     }
+
     .sidebar-tab.active {
         color: var(--background);
         background: var(--accent);
         opacity: 1;
     }
+
     .sidebar-tab:hover {
         opacity: 1;
     }

@@ -58,12 +58,14 @@
         display: flex;
         flex-direction: column;
     }
+
     #sidebar {
         background: black;
         height: 100vh;
         position: sticky;
         width: var(--sidebar-width);
     }
+
     #sidebar-tabs {
         height: 100%;
         justify-content: space-between;
