@@ -60,7 +60,7 @@
     }
 
     #sidebar {
-        background: black;
+        background: var(--secondary);
         height: 100vh;
         position: sticky;
         width: var(--sidebar-width);
@@ -69,7 +69,7 @@
     #sidebar-tabs {
         height: 100%;
         justify-content: space-between;
-        padding-bottom: var(--sidebar-padding);
+        padding-bottom: var(--padding);
         overflow: scroll;
     }
 
@@ -94,7 +94,8 @@
             display: block;
             position: absolute;
             pointer-events: none;
-            background: linear-gradient(90deg,
+            background: linear-gradient(
+                90deg,
                 rgba(0, 0, 0, 0.9) 0%,
                 rgba(0, 0, 0, 0) 4%,
                 rgba(0, 0, 0, 0) 50%,
