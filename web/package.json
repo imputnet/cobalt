@@ -28,5 +28,9 @@
         "tslib": "^2.4.1",
         "typescript": "^5.0.0",
         "vite": "^5.0.3"
+    },
+    "dependencies": {
+        "@fontsource/ibm-plex-mono": "^5.0.13",
+        "@tabler/icons-svelte": "^3.6.0"
     }
 }
