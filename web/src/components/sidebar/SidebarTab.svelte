@@ -24,15 +24,15 @@
         align-items: center;
         text-align: center;
         gap: 5px;
-        padding: var(--sidebar-padding) 5px;
-        color: var(--accent);
+        padding: var(--padding) 5px;
+        color: var(--primary);
         font-size: var(--sidebar-font-size);
         opacity: 0.8;
     }
 
     .sidebar-tab.active {
-        color: var(--background);
-        background: var(--accent);
+        color: var(--secondary);
+        background: var(--primary);
         opacity: 1;
     }
 
@@ -42,7 +42,7 @@
 
     @media screen and (max-width: 535px) {
         .sidebar-tab {
-            padding: 5px var(--sidebar-padding);
+            padding: 5px var(--padding);
             min-width: calc(var(--sidebar-width) / 2);
         }
         .sidebar-tab.active {

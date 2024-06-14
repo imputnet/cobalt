@@ -13,25 +13,59 @@
 
 <style>
     :global(:root) {
-        --accent: #ffffff;
-        --background: #000000;
+        --primary: #ffffff;
+        --secondary: #000000;
+        --gray: #8d8d95;
+
+        --button: #eeeeee;
+        --button-hover: rgb(215, 215, 215);
+        --button-hover-transparent: rgba(215, 215, 215, 0.5);
+        --button-stroke: rgba(0, 0, 0, 0.8);
+
+        --padding: 12px;
+
         --sidebar-width: 80px;
         --sidebar-font-size: 11px;
-        --sidebar-padding: 12px;
     }
 
     :global(html),
     :global(body) {
-        font-family: "IBM Plex Mono", "Noto Sans Mono", monospace;
         margin: 0;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    :global(*) {
+        font-family: "IBM Plex Mono", "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
+        -webkit-tap-highlight-color: transparent;
         user-select: none;
         -webkit-user-select: none;
+        -webkit-user-drag: none;
     }
 
     :global(a) {
         text-decoration: none;
         text-decoration-line: none;
+    }
+
+    :global(svg),
+    :global(img) {
+        pointer-events: none;
+    }
+
+    :global(button) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 13px;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        background-color: var(--button);
+        color: var(--secondary);
+    }
+
+    :global(button:hover) {
+        background-color: var(--button-hover);
     }
 
     #cobalt {
