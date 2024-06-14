@@ -12,4 +12,9 @@
         align-items: center;
         padding: calc(var(--sidebar-padding) * 2 - 2px);
     }
+    @media screen and (max-width: 535px) {
+        #cobalt-logo {
+            display: none;
+        }
+    }
 </style>

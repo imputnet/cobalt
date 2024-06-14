@@ -72,4 +72,39 @@
         padding-bottom: var(--sidebar-padding);
         overflow: scroll;
     }
+
+    @media screen and (max-width: 535px) {
+        #sidebar,
+        #sidebar-tabs,
+        .sidebar-inner-container {
+            flex-direction: row;
+        }
+        #sidebar {
+            width: 100%;
+            height: auto;
+            overflow: scroll;
+            position: fixed;
+            bottom: 0;
+        }
+        #sidebar::before {
+            content: '';
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: absolute;
+            pointer-events: none;
+            background: linear-gradient(90deg,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(0, 0, 0, 0) 4%,
+                rgba(0, 0, 0, 0) 50%,
+                rgba(0, 0, 0, 0) 96%,
+                rgba(0, 0, 0, 0.9) 100%
+            );
+        }
+        #sidebar-tabs {
+            justify-content: space-around;
+            padding-bottom: 0;
+        }
+    }
 </style>

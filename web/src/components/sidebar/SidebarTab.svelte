@@ -39,4 +39,14 @@
     .sidebar-tab:hover {
         opacity: 1;
     }
+
+    @media screen and (max-width: 535px) {
+        .sidebar-tab {
+            padding: 5px var(--sidebar-padding);
+            min-width: calc(var(--sidebar-width) / 2);
+        }
+        .sidebar-tab.active {
+            z-index: 2;
+        }
+    }
 </style>

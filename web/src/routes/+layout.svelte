@@ -42,4 +42,14 @@
         display: flex;
         overflow: scroll;
     }
+    @media screen and (max-width: 535px) {
+        #cobalt {
+            display: grid;
+            grid-template-columns: unset;
+            grid-template-rows: 1fr var(--sidebar-width);
+        }
+        #content {
+            order: -1;
+        }
+    }
 </style>
