@@ -78,16 +78,25 @@ export function createInternalStream(url, obj = {}) {
     }
 
     const streamID = nanoid();
+    const controller = new AbortController();
     internalStreamCache[streamID] = {
         url,
         service: obj.service,
         headers: obj.headers,
-        controller: new AbortController(),
+        controller,
         dispatcher
     };
 
     let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);
     streamLink.searchParams.set('id', streamID);
+
+    const cleanup = () => {
+        destroyInternalStream(streamLink);
+        controller.signal.removeEventListener('abort', cleanup);
+    }
+
+    controller.signal.addEventListener('abort', cleanup);
+
     return streamLink.toString();
 }
 
