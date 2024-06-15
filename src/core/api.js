@@ -10,6 +10,7 @@ import loc from "../localization/manager.js";
 
 import { createResponse, normalizeRequest, getIP } from "../modules/processing/request.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
+import { randomizeCiphers } from '../modules/sub/randomize-ciphers.js';
 import { extract } from "../modules/processing/url.js";
 import match from "../modules/processing/match.js";
 import stream from "../modules/stream/stream.js";
@@ -214,6 +215,9 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     app.get('/*', (req, res) => {
         res.redirect('/api/serverInfo')
     })
+
+    randomizeCiphers();
+    setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
 
     app.listen(env.apiPort, env.listenAddress, () => {
         console.log(`\n` +
