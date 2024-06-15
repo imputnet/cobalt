@@ -3,6 +3,11 @@
 
     import DownloadButton from './buttons/DownloadButton.svelte';
     import ClearButton from './buttons/ClearButton.svelte';
+    import ActionButton from '../buttons/ActionButton.svelte';
+
+    import IconClipboard from '$lib/icons/Clipboard.svelte';
+    import IconMusic from '$lib/icons/Music.svelte';
+    import IconSparkles from '$lib/icons/Sparkles.svelte';
 
     let link: string = "";
     let isFocused = false;
@@ -13,6 +18,15 @@
         } catch {
             return false
         }
+    }
+
+    const pasteClipboard = () => {
+        navigator.clipboard.readText().then(text => {
+            let matchLink = text.match(/https:\/\/[^\s]+/g);
+            if (matchLink) {
+                link = matchLink[0];
+            }
+        });
     }
 </script>
 
@@ -43,6 +57,29 @@
         {#if validLink(link)}
             <DownloadButton />
         {/if}
+    </div>
+    <div id="action-container">
+        <div id="mode-switcher">
+            <ActionButton
+                id="auto-mode-button"
+                text="auto"
+            >
+                <IconSparkles/>
+            </ActionButton>
+            <ActionButton
+                id="audio-mode-button"
+                text="audio"
+            >
+                <IconMusic />
+            </ActionButton>
+        </div>
+        <ActionButton
+            id="paste-button"
+            click={pasteClipboard}
+            text="paste"
+        >
+            <IconClipboard />
+        </ActionButton>
     </div>
 </div>
 
@@ -107,5 +144,14 @@
 
     #link-area::placeholder {
         color: var(--gray)
+    }
+
+    #action-container,
+    #mode-switcher {
+        display: flex;
+        flex-direction: row;
+    }
+    #action-container {
+        justify-content: space-between;
     }
 </style>

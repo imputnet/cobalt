@@ -17,7 +17,10 @@
 
         border-radius: 0;
         padding: 0 12px;
+
         background: none;
+        box-shadow: none;
+        transform: none;
 
         border-left: 1px var(--gray) solid;
         border-top-right-radius: 11px;
