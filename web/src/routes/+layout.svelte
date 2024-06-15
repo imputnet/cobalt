@@ -18,9 +18,9 @@
         --gray: #8d8d95;
 
         --button: #eeeeee;
-        --button-hover: rgb(215, 215, 215);
-        --button-hover-transparent: rgba(215, 215, 215, 0.5);
-        --button-stroke: rgba(0, 0, 0, 0.8);
+        --button-hover: #e8e8e8;
+        --button-hover-transparent: rgba(0, 0, 0, 0.03);
+        --button-stroke: rgba(0, 0, 0, 0.08);
 
         --padding: 12px;
 
@@ -55,13 +55,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 7px 13px;
+        padding: 8px 15px;
+        gap: 8px;
         border: none;
-        border-radius: 10px;
-        font-size: 14px;
+        border-radius: 11px;
+        font-size: 16px;
         cursor: pointer;
         background-color: var(--button);
         color: var(--secondary);
+        box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+    }
+
+    :global(button:active) {
+        transform: scale(0.95);
     }
 
     :global(button:hover) {
