@@ -13,6 +13,7 @@
         flex-direction: row;
         flex-wrap: nowrap;
         scrollbar-width: none;
+        overflow-x: scroll;
     }
 
     .switcher :global(.button:first-child) {
