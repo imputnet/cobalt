@@ -29,6 +29,7 @@
         font-size: var(--sidebar-font-size);
         opacity: 0.8;
         height: fit-content;
+        border-radius: var(--border-radius);
         -webkit-touch-callout: none;
     }
 
@@ -60,7 +61,6 @@
 
         .sidebar-tab.active {
             z-index: 2;
-            border-radius: var(--border-radius);
         }
     }
 </style>

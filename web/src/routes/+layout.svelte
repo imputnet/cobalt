@@ -33,6 +33,7 @@
         --sidebar-width: 80px;
         --sidebar-height-mobile: calc(52px + env(safe-area-inset-bottom));
         --sidebar-font-size: 11px;
+        --sidebar-inner-padding: 4px;
 
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
@@ -76,7 +77,7 @@
     :global(html),
     :global(body) {
         margin: 0;
-        background-color: var(--primary);
+        background-color: var(--sidebar-bg);
         color: var(--secondary);
     }
 
@@ -144,7 +145,7 @@
     #cobalt {
         height: 100vh;
         display: grid;
-        grid-template-columns: var(--sidebar-width) 1fr;
+        grid-template-columns: calc(var(--sidebar-width) + 8px) 1fr;
         overflow: hidden;
     }
 
@@ -153,16 +154,23 @@
         overflow: scroll;
         padding: var(--padding);
         background-color: var(--primary);
+
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
     }
 
     @media screen and (max-width: 535px) {
         #cobalt {
             display: grid;
             grid-template-columns: unset;
-            grid-template-rows: 1fr var(--sidebar-height-mobile);
+            grid-template-rows: 1fr calc(var(--sidebar-height-mobile) + 8px);
         }
         #content {
+            padding-top: env(safe-area-inset-top);
             order: -1;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: calc(var(--border-radius) * 2);
+            border-bottom-right-radius: calc(var(--border-radius) * 2);
         }
     }
 </style>

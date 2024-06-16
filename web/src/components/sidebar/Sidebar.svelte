@@ -63,6 +63,7 @@
         height: 100vh;
         width: var(--sidebar-width);
         position: sticky;
+        padding: 0 var(--sidebar-inner-padding);
     }
 
     #sidebar-tabs {
@@ -84,7 +85,7 @@
             height: var(--sidebar-height-mobile);
             position: fixed;
             bottom: 0;
-            padding: 4px 0;
+            padding: var(--sidebar-inner-padding) 0;
         }
 
         #sidebar::before {
@@ -106,11 +107,11 @@
         }
 
         #sidebar :global(.sidebar-inner-container:first-child) {
-            padding-left: var(--padding);
+            padding-left: calc(var(--border-radius) * 2);
         }
 
         #sidebar :global(.sidebar-inner-container:last-child) {
-            padding-right: var(--padding);
+            padding-right: calc(var(--border-radius) * 2);
         }
     }
 </style>
