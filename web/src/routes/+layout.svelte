@@ -35,10 +35,15 @@
 
     :global(*) {
         font-family: "IBM Plex Mono", "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
-        -webkit-tap-highlight-color: transparent;
         user-select: none;
+        scrollbar-width: none;
         -webkit-user-select: none;
         -webkit-user-drag: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    :global(::-webkit-scrollbar) {
+        display: none;
     }
 
     :global(a) {
@@ -85,6 +90,7 @@
         display: flex;
         overflow: scroll;
     }
+
     @media screen and (max-width: 535px) {
         #cobalt {
             display: grid;
