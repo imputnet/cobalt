@@ -93,7 +93,7 @@ export default async function({ user, id, quality, dispatcher }) {
                 /* thumbnails have `Cross-Origin-Resource-Policy`
                 ** set to `same-origin`, so we need to proxy them */
                 thumb: createStream({
-                    service: "instagram",
+                    service: "threads",
                     type: "default",
                     u: media.image_versions2.candidates[0].url,
                     filename: "image.jpg"

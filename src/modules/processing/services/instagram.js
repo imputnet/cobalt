@@ -218,7 +218,7 @@ export default function(obj) {
                         /* thumbnails have `Cross-Origin-Resource-Policy`
                         ** set to `same-origin`, so we need to proxy them */
                         thumb: createStream({
-                            service: "threads",
+                            service: "instagram",
                             type: "default",
                             u: imageUrl,
                             filename: "image.jpg"
