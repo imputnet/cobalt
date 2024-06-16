@@ -101,8 +101,8 @@
         transform: none;
 
         border-left: 1px var(--gray) solid;
-        border-top-right-radius: 11px;
-        border-bottom-right-radius: 11px;
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
     }
 
     #download-state {

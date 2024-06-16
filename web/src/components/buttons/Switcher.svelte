@@ -14,6 +14,7 @@
         flex-wrap: nowrap;
         scrollbar-width: none;
         overflow-x: scroll;
+        border-radius: var(--border-radius);
     }
 
     .switcher :global(.button:first-child) {
