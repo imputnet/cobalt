@@ -25,6 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import loom from "./services/loom.js";
+import threads from "./services/threads.js";
 
 let freebind;
 
@@ -192,6 +193,13 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await loom({
                     id: patternMatch.id
                 });
+                break;
+            case "threads":
+                r = await threads({
+                    ...patternMatch,
+                    quality: obj.vQuality,
+                    dispatcher
+                })
                 break;
             default:
                 return createResponse("error", {

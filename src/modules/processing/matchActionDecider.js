@@ -67,6 +67,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             switch (host) {
                 case "instagram":
                 case "twitter":
+                case "threads":
                     params = { picker: r.picker };
                     break;
                 case "tiktok":
@@ -130,6 +131,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "pinterest":
                 case "streamable":
                 case "loom":
+                case "threads":
                     responseType = "redirect";
                     break;
             }

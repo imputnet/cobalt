@@ -117,6 +117,12 @@
             "alias": "loom videos",
             "patterns": ["share/:id"],
             "enabled": true
+        },
+        "threads": {
+            "alias": "threads posts",
+            "tld": "net",
+            "patterns": [":user/post/:id"],
+            "enabled": true
         }
     }
 }
