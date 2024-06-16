@@ -59,7 +59,7 @@
     }
 
     #sidebar {
-        background: var(--secondary);
+        background: var(--sidebar-bg);
         height: 100vh;
         width: var(--sidebar-width);
         position: sticky;
@@ -94,14 +94,7 @@
             display: block;
             position: absolute;
             pointer-events: none;
-            background: linear-gradient(
-                90deg,
-                rgba(0, 0, 0, 0.9) 0%,
-                rgba(0, 0, 0, 0) 4%,
-                rgba(0, 0, 0, 0) 50%,
-                rgba(0, 0, 0, 0) 96%,
-                rgba(0, 0, 0, 0.9) 100%
-            );
+            background: var(--sidebar-mobile-gradient);
         }
 
         #sidebar-tabs {

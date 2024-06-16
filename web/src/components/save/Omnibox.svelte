@@ -93,7 +93,7 @@
 
     #input-container {
         display: flex;
-        box-shadow: 0 0 0 1.5px var(--gray) inset;
+        box-shadow: 0 0 0 1.5px var(--input-border) inset;
         border-radius: var(--border-radius);
         padding: 0 12px;
         align-items: center;
