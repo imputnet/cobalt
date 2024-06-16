@@ -106,7 +106,7 @@
     }
 
     #download-button:focus-visible {
-        box-shadow: 0 0 0 1.5px var(--secondary) inset;
+        box-shadow: 0 0 0 2px var(--blue) inset;
     }
 
     #download-state {

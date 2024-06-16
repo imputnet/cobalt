@@ -16,6 +16,7 @@
         --primary: #ffffff;
         --secondary: #000000;
         --gray: #8d8d95;
+        --blue: #2f8af9;
 
         --button: #eeeeee;
         --button-hover: #e8e8e8;
@@ -120,7 +121,7 @@
     }
 
     :global(button:focus-visible) {
-        box-shadow: 0 0 0 1.5px var(--secondary) inset;
+        box-shadow: 0 0 0 2px var(--blue) inset;
         outline: none;
         z-index: 1;
     }
