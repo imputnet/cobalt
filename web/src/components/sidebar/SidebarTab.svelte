@@ -4,7 +4,19 @@
     export let tabName: string;
     export let tabLink: string;
 
+    let tab: HTMLElement;
+
     $: isTabActive = $page.url.pathname === tabLink;
+
+    const showTab = (e: HTMLElement | undefined) => {
+        if (e) {
+            e.scrollIntoView({});
+        }
+    }
+
+    $: if (isTabActive) {
+        showTab(tab)
+    }
 </script>
 
 <a
@@ -12,6 +24,8 @@
     class="sidebar-tab"
     class:active={isTabActive}
     href={tabLink}
+    bind:this={tab}
+    on:focus={() => showTab(tab)}
 >
     <slot></slot>
     {tabName}
