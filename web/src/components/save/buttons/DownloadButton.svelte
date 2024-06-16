@@ -105,6 +105,10 @@
         border-bottom-right-radius: var(--border-radius);
     }
 
+    #download-button:focus-visible {
+        box-shadow: 0 0 0 1.5px var(--secondary) inset;
+    }
+
     #download-state {
         font-size: 24px;
         font-family: "Noto Sans Mono Variable", "Noto Sans Mono", "IBM Plex Mono", monospace;
