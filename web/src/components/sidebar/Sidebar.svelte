@@ -82,7 +82,6 @@
         #sidebar {
             width: 100%;
             height: auto;
-            overflow-x: scroll;
             position: fixed;
             bottom: 0;
         }
@@ -108,6 +107,7 @@
         #sidebar-tabs {
             justify-content: space-around;
             overflow-y: visible;
+            overflow-x: scroll;
             padding-bottom: 0;
         }
     }
