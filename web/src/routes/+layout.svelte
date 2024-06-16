@@ -23,6 +23,7 @@
         --button-stroke: rgba(0, 0, 0, 0.08);
 
         --padding: 12px;
+        --border-radius: 11px;
 
         --sidebar-width: 80px;
         --sidebar-font-size: 11px;
@@ -63,7 +64,7 @@
         padding: 8px 15px;
         gap: 8px;
         border: none;
-        border-radius: 11px;
+        border-radius: var(--border-radius);
         font-size: 16px;
         cursor: pointer;
         background-color: var(--button);

@@ -94,7 +94,7 @@
     #input-container {
         display: flex;
         box-shadow: 0 0 0 1.5px var(--gray) inset;
-        border-radius: 11px;
+        border-radius: var(--border-radius);
         padding: 0 12px;
         align-items: center;
         gap: 10px;
