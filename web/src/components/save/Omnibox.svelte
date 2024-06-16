@@ -1,13 +1,17 @@
 <script lang="ts">
-    import { IconLink } from '@tabler/icons-svelte';
+    import { IconLink } from "@tabler/icons-svelte";
 
-    import DownloadButton from './buttons/DownloadButton.svelte';
-    import ClearButton from './buttons/ClearButton.svelte';
-    import ActionButton from '../buttons/ActionButton.svelte';
+    import DownloadButton from "./buttons/DownloadButton.svelte";
+    import ClearButton from "./buttons/ClearButton.svelte";
+    import ActionButton from "../buttons/ActionButton.svelte";
 
-    import IconClipboard from '$lib/icons/Clipboard.svelte';
-    import IconMusic from '$lib/icons/Music.svelte';
-    import IconSparkles from '$lib/icons/Sparkles.svelte';
+    import Switcher from "../buttons/Switcher.svelte";
+
+    import IconSparkles from "$lib/icons/Sparkles.svelte";
+    import IconMusic from "$lib/icons/Music.svelte";
+    import IconMute from "$lib/icons/Mute.svelte";
+
+    import IconClipboard from "$lib/icons/Clipboard.svelte";
 
     let link: string = "";
     let isFocused = false;
@@ -16,68 +20,63 @@
         try {
             return /^https:/i.test(new URL(link).protocol);
         } catch {
-            return false
+            return false;
         }
-    }
+    };
 
     const pasteClipboard = () => {
-        navigator.clipboard.readText().then(text => {
+        navigator.clipboard.readText().then((text) => {
             let matchLink = text.match(/https:\/\/[^\s]+/g);
             if (matchLink) {
                 link = matchLink[0];
             }
         });
-    }
+    };
 </script>
 
 <div id="omnibox">
-    <div id="input-container" class:focused={isFocused} class:downloadable={validLink(link)}>
+    <div
+        id="input-container"
+        class:focused={isFocused}
+        class:downloadable={validLink(link)}
+    >
         <IconLink id="input-link-icon" color="var(--gray)" size="18px" />
 
         <input
             id="link-area"
             bind:value={link}
-
-            on:input={() => isFocused = true}
-            on:focus={() => isFocused = true}
-            on:blur={() => isFocused = false}
-
+            on:input={() => (isFocused = true)}
+            on:focus={() => (isFocused = true)}
+            on:blur={() => (isFocused = false)}
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
             maxlength="256"
-
             placeholder="paste the link here"
             aria-label="link input area"
-        >
+        />
 
         {#if link.length > 0}
-            <ClearButton click={() => link = ""} />
+            <ClearButton click={() => (link = "")} />
         {/if}
         {#if validLink(link)}
             <DownloadButton />
         {/if}
     </div>
+
     <div id="action-container">
-        <div id="mode-switcher">
-            <ActionButton
-                id="auto-mode-button"
-                text="auto"
-            >
-                <IconSparkles/>
+        <Switcher settingId="save-downloadMode">
+            <ActionButton id="auto-mode-button" text="auto">
+                <IconSparkles />
             </ActionButton>
-            <ActionButton
-                id="audio-mode-button"
-                text="audio"
-            >
+            <ActionButton id="audio-mode-button" text="audio">
                 <IconMusic />
             </ActionButton>
-        </div>
-        <ActionButton
-            id="paste-button"
-            click={pasteClipboard}
-            text="paste"
-        >
+            <ActionButton id="mute-mode-button" text="mute">
+                <IconMute />
+            </ActionButton>
+        </Switcher>
+        <ActionButton id="paste-button" click={pasteClipboard} text="paste">
             <IconClipboard />
         </ActionButton>
     </div>
@@ -100,7 +99,7 @@
         align-items: center;
         gap: 10px;
         font-size: 14px;
-        flex: 1
+        flex: 1;
     }
 
     #input-container.downloadable {
@@ -143,14 +142,14 @@
     }
 
     #link-area::placeholder {
-        color: var(--gray)
+        color: var(--gray);
     }
 
-    #action-container,
-    #mode-switcher {
+    #action-container {
         display: flex;
         flex-direction: row;
     }
+
     #action-container {
         justify-content: space-between;
     }
