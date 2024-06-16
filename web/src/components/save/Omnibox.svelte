@@ -54,6 +54,7 @@
             maxlength="256"
             placeholder="paste the link here"
             aria-label="link input area"
+            data-form-type="other"
         />
 
         {#if link.length > 0}
