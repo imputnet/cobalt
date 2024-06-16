@@ -25,19 +25,29 @@
         text-align: center;
         gap: 5px;
         padding: var(--padding) 5px;
-        color: var(--primary);
+        color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
         opacity: 0.8;
     }
 
     .sidebar-tab.active {
-        color: var(--secondary);
-        background: var(--primary);
+        color: var(--sidebar-bg);
+        background: var(--sidebar-highlight);
         opacity: 1;
     }
 
     .sidebar-tab:hover {
         opacity: 1;
+    }
+
+    .sidebar-tab:focus-visible {
+        box-shadow: 0 0 0 1.5px var(--sidebar-highlight) inset;
+        outline: none;
+        z-index: 1;
+    }
+
+    .sidebar-tab.active:focus-visible {
+        box-shadow: 0 0 0 1.5px var(--sidebar-bg) inset;
     }
 
     @media screen and (max-width: 535px) {

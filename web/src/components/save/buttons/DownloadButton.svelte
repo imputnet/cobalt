@@ -100,7 +100,7 @@
         box-shadow: none;
         transform: none;
 
-        border-left: 1px var(--gray) solid;
+        border-left: 1.5px var(--input-border) solid;
         border-top-right-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
     }

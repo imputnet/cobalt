@@ -22,17 +22,62 @@
         --button-hover-transparent: rgba(0, 0, 0, 0.03);
         --button-stroke: rgba(0, 0, 0, 0.08);
 
+        --sidebar-bg: #000000;
+        --sidebar-highlight: #ffffff;
+
+        --input-border: #8d8d95;
+
         --padding: 12px;
         --border-radius: 11px;
 
         --sidebar-width: 80px;
         --sidebar-height-mobile: 50px;
         --sidebar-font-size: 11px;
+
+        --sidebar-mobile-gradient: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 4%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 0) 96%,
+            rgba(0, 0, 0, 0.9) 100%
+        );
+    }
+
+    /* temporary switcher until theming is implemented, */
+    /* just so my eyes don't burn at night */
+    @media (prefers-color-scheme: dark) {
+        :global(:root) {
+            --primary: #000000;
+            --secondary: #e1e1e1;
+            --gray: #6e6e6e;
+
+            --button: #191919;
+            --button-hover: #2a2a2a;
+            --button-hover-transparent: rgba(225, 225, 225, 0.04);
+            --button-stroke: rgba(255, 255, 255, 0.08);
+
+            --sidebar-bg: #101010;
+            --sidebar-highlight: #f2f2f2;
+
+            --input-border: #383838;
+
+            --sidebar-mobile-gradient: linear-gradient(
+                90deg,
+                rgba(16, 16, 16, 0.9) 0%,
+                rgba(16, 16, 16, 0) 4%,
+                rgba(16, 16, 16, 0) 50%,
+                rgba(16, 16, 16, 0) 96%,
+                rgba(16, 16, 16, 0.9) 100%
+            );
+        }
     }
 
     :global(html),
     :global(body) {
         margin: 0;
+        background-color: var(--primary);
+        color: var(--secondary);
     }
 
     :global(*) {
@@ -73,12 +118,19 @@
         box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
     }
 
+    :global(button:focus-visible) {
+        box-shadow: 0 0 0 1.5px var(--secondary) inset;
+        outline: none;
+        z-index: 1;
+    }
+
     :global(button:active) {
         transform: scale(0.95);
     }
 
     :global(button:hover) {
         background-color: var(--button-hover);
+        z-index: 1;
     }
 
     :global(.center-column-container) {
@@ -100,6 +152,7 @@
         display: flex;
         overflow: scroll;
         padding: var(--padding);
+        background-color: var(--primary);
     }
 
     @media screen and (max-width: 535px) {
