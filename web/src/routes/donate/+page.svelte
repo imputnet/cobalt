@@ -1,2 +1,5 @@
-<!-- donate page -->
-<div>donate</div>
+<script>
+    import Placeholder from "../../components/misc/Placeholder.svelte";
+</script>
+
+<Placeholder pageName="donate" />

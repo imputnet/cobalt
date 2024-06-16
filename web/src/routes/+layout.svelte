@@ -80,6 +80,14 @@
         background-color: var(--button-hover);
     }
 
+    :global(.center-column-container) {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
     #cobalt {
         height: 100vh;
         display: grid;
