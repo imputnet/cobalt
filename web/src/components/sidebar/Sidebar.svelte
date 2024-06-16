@@ -63,7 +63,6 @@
         height: 100vh;
         width: var(--sidebar-width);
         position: sticky;
-        scrollbar-width: none;
     }
 
     #sidebar-tabs {
@@ -71,7 +70,6 @@
         justify-content: space-between;
         padding-bottom: var(--padding);
         overflow: scroll;
-        scrollbar-width: none;
     }
 
     @media screen and (max-width: 535px) {
