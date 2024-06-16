@@ -60,7 +60,7 @@
             <ClearButton click={() => (link = "")} />
         {/if}
         {#if validLink(link)}
-            <DownloadButton />
+            <DownloadButton url={link} />
         {/if}
     </div>
 

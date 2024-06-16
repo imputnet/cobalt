@@ -1,9 +1,78 @@
-<script>
+<script lang="ts">
     import '@fontsource-variable/noto-sans-mono';
+
+    import API from "$lib/api";
+
+    export let url: string;
+
+    $: buttonText = '>>';
+    $: isDisabled = false;
+
+    export const changeDownloadButton = (state: string) => {
+        isDisabled = true;
+        switch(state) {
+            case "think":
+                buttonText = '...';
+                break;
+            case "check":
+                buttonText = '..?';
+                break;
+            case "done":
+                buttonText = '>>>';
+                break;
+            case "error":
+                buttonText = '!!';
+                break;
+        }
+    }
+
+    export const restoreDownloadButton = () => {
+        setTimeout(() => {
+            buttonText = '>>';
+            isDisabled = false;
+        }, 2500)
+    }
+
+    const download = async (link: string) => {
+        changeDownloadButton("think");
+
+        const response = await API.request(link);
+        if (!response) {
+            changeDownloadButton("error");
+            restoreDownloadButton();
+
+            console.log("couldn't access the api")
+        }
+
+        if (["error", "rate-limit"].includes(response?.status) && response?.text) {
+            changeDownloadButton("error");
+            restoreDownloadButton();
+
+            console.log(`error from api: ${response?.text}`)
+        }
+
+        if (response?.url) {
+            if (response?.status === "redirect") {
+                changeDownloadButton("done");
+                window.open(response?.url, '_blank');
+                restoreDownloadButton();
+            }
+            if (response?.status === "stream") {
+                changeDownloadButton("check");
+
+                const probeResult = await API.probeCobaltStream(response?.url);
+                if (probeResult === 200) {
+                    changeDownloadButton("done");
+                    window.open(response?.url, '_blank');
+                    restoreDownloadButton();
+                }
+            }
+        }
+    };
 </script>
 
-<button id="download-button">
-    <span id="download-state">&gt;&gt;</span>
+<button id="download-button" disabled={isDisabled} on:click={() => download(url)}>
+    <span id="download-state">{buttonText}</span>
 </button>
 
 <style>
