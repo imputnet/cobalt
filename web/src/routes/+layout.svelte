@@ -90,6 +90,7 @@
     #content {
         display: flex;
         overflow: scroll;
+        padding: var(--padding);
     }
 
     @media screen and (max-width: 535px) {
