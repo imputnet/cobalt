@@ -22,7 +22,6 @@
         display: flex;
         width: 100%;
         flex-direction: column;
-        padding: var(--padding);
     }
 
     #cobalt-save {
