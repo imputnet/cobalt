@@ -4,13 +4,23 @@
     export let tabName: string;
     export let tabLink: string;
 
+    const firstTabs = [
+        "save",
+        "trim",
+        "crop",
+        "convert"
+    ];
+
     let tab: HTMLElement;
 
     $: isTabActive = $page.url.pathname === tabLink;
 
     const showTab = (e: HTMLElement | undefined) => {
         if (e) {
-            e.scrollIntoView({});
+            e.scrollIntoView({
+                inline: firstTabs.includes(tabName) ? 'end' : 'start',
+                behavior: 'smooth'
+            });
         }
     }
 
