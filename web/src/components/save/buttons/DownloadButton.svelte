@@ -121,19 +121,20 @@
         margin-bottom: 0.1rem;
     }
 
-    #download-button:hover {
-        background: var(--button-hover-transparent);
-    }
-
     #download-button:disabled {
         cursor: unset;
     }
 
-    #download-button:disabled:hover {
-        background: none;
-    }
-
     :global(#input-container.focused) #download-button {
         border-left: 2px var(--secondary) solid;
+    }
+
+    @media (hover: hover) {
+        #download-button:hover {
+            background: var(--button-hover-transparent);
+        }
+        #download-button:disabled:hover {
+            background: none;
+        }
     }
 </style>

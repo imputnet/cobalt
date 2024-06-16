@@ -130,9 +130,11 @@
         transform: scale(0.95);
     }
 
-    :global(button:hover) {
-        background-color: var(--button-hover);
-        z-index: 1;
+    @media (hover: hover) {
+        :global(button:hover) {
+            background-color: var(--button-hover);
+            z-index: 1;
+        }
     }
 
     :global(.center-column-container) {
