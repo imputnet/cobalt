@@ -1,3 +1,5 @@
+import type { CobaltAPIResponse } from "$lib/types/api";
+
 const apiURL = "https://api.cobalt.tools";
 
 const request = async (url: string) => {
@@ -5,7 +7,7 @@ const request = async (url: string) => {
         url
     }
 
-    const response = await fetch(`${apiURL}/api/json`, {
+    const response: CobaltAPIResponse | undefined = await fetch(`${apiURL}/api/json`, {
         method: "POST",
         body: JSON.stringify(request),
         headers: {
