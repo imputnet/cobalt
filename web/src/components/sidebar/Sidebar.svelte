@@ -84,6 +84,7 @@
             height: var(--sidebar-height-mobile);
             position: fixed;
             bottom: 0;
+            padding: 4px 0;
         }
 
         #sidebar::before {
@@ -102,6 +103,14 @@
             overflow-y: visible;
             overflow-x: scroll;
             padding-bottom: 0;
+        }
+
+        #sidebar :global(.sidebar-inner-container:first-child) {
+            padding-left: var(--padding);
+        }
+
+        #sidebar :global(.sidebar-inner-container:last-child) {
+            padding-right: var(--padding);
         }
     }
 </style>
