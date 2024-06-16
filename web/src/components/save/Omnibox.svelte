@@ -115,6 +115,7 @@
     #input-container.focused :global(#input-link-icon) {
         stroke: var(--secondary);
     }
+
     #input-container.downloadable :global(#input-link-icon) {
         stroke: var(--secondary);
     }
