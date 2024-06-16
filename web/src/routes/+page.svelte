@@ -1,15 +1,11 @@
 <script>
     import Omnibox from "../components/save/Omnibox.svelte";
+    import MeowbaltLoaf from "../components/meowbalt/MeowbaltLoaf.svelte";
 </script>
 
-<div id="cobalt-save-container">
+<div id="cobalt-save-container" class="center-column-container">
     <main id="cobalt-save">
-        <img
-            id="meowbalt-smile"
-            src="/meowbalt/smile.png"
-            height="152"
-            alt="black and white cat smiling and loafing"
-        />
+        <MeowbaltLoaf />
         <Omnibox />
     </main>
     <div id="terms-note">
@@ -18,12 +14,6 @@
 </div>
 
 <style>
-    #cobalt-save-container {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-    }
-
     #cobalt-save {
         display: flex;
         flex-direction: column;
@@ -32,11 +22,6 @@
         width: 100%;
         height: 100%;
         gap: 24px;
-    }
-
-    #meowbalt-smile {
-        display: block;
-        margin: 0;
     }
 
     #terms-note {

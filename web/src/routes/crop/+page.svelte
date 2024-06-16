@@ -1,2 +1,5 @@
-<!-- crop page -->
-<div>crop</div>
+<script>
+    import Placeholder from "../../components/misc/Placeholder.svelte";
+</script>
+
+<Placeholder pageName="crop" />
