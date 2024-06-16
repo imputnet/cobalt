@@ -26,6 +26,7 @@
         --border-radius: 11px;
 
         --sidebar-width: 80px;
+        --sidebar-height-mobile: 50px;
         --sidebar-font-size: 11px;
     }
 
@@ -105,7 +106,7 @@
         #cobalt {
             display: grid;
             grid-template-columns: unset;
-            grid-template-rows: 1fr var(--sidebar-width);
+            grid-template-rows: 1fr var(--sidebar-height-mobile);
         }
         #content {
             order: -1;
