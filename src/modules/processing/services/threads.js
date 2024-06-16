@@ -20,7 +20,7 @@ const commonHeaders = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
 };
 
-const DATA_REGEX = /<script type="application\/json"  data-content-len="\d+" data-sjs>({"require":\[\["ScheduledServerJS","handle",null,\[{"__bbox":{"require":\[\["RelayPrefetchedStreamCache(?:(?:@|\\u0040)[0-9a-f]{32})?","next",\[],\["adp_BarcelonaPostPageQueryRelayPreloader_[0-9a-f]{23}",[^\n]+})<\/script>\n/;
+const DATA_REGEX = /<script type="application\/json" {2}data-content-len="\d+" data-sjs>({"require":\[\["ScheduledServerJS","handle",null,\[{"__bbox":{"require":\[\["RelayPrefetchedStreamCache(?:(?:@|\\u0040)[0-9a-f]{32})?","next",\[],\["adp_BarcelonaPostPageQueryRelayPreloader_[0-9a-f]{23}",[^\n]+})<\/script>\n/;
 
 export default async function({ user, id, quality, dispatcher }) {
     const cookie = getCookie('threads');
@@ -31,7 +31,7 @@ export default async function({ user, id, quality, dispatcher }) {
         },
         dispatcher
     });
-    if (cookie) updateCookie(cookie, data.headers);
+    if (cookie) updateCookie(cookie, response.headers);
 
     if (response.status !== 200) {
         return { error: 'ErrorCouldntFetch' };
