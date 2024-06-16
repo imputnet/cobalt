@@ -69,7 +69,7 @@
         height: 100%;
         justify-content: space-between;
         padding-bottom: var(--padding);
-        overflow: scroll;
+        overflow-y: scroll;
     }
 
     @media screen and (max-width: 535px) {
@@ -78,13 +78,15 @@
         .sidebar-inner-container {
             flex-direction: row;
         }
+
         #sidebar {
             width: 100%;
             height: auto;
-            overflow: scroll;
+            overflow-x: scroll;
             position: fixed;
             bottom: 0;
         }
+
         #sidebar::before {
             content: '';
             z-index: 1;
@@ -102,8 +104,10 @@
                 rgba(0, 0, 0, 0.9) 100%
             );
         }
+
         #sidebar-tabs {
             justify-content: space-around;
+            overflow-y: visible;
             padding-bottom: 0;
         }
     }
