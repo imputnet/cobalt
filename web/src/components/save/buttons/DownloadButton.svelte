@@ -33,39 +33,48 @@
         }, 2500)
     }
 
+    // alerts are temporary, we don't have an error popup yet >_<
     const download = async (link: string) => {
         changeDownloadButton("think");
 
         const response = await API.request(link);
+
         if (!response) {
             changeDownloadButton("error");
             restoreDownloadButton();
 
-            console.log("couldn't access the api")
+            return alert("couldn't access the api")
         }
 
-        if (["error", "rate-limit"].includes(response?.status) && response?.text) {
+        if (response.status === "error" || response.status === "rate-limit") {
             changeDownloadButton("error");
             restoreDownloadButton();
 
-            console.log(`error from api: ${response?.text}`)
+            return alert(`error from api: ${response.text}`);
         }
 
-        if (response?.url) {
-            if (response?.status === "redirect") {
-                changeDownloadButton("done");
-                window.open(response?.url, '_blank');
-                restoreDownloadButton();
-            }
-            if (response?.status === "stream") {
-                changeDownloadButton("check");
+        if (response.status === "redirect") {
+            changeDownloadButton("done");
+            restoreDownloadButton();
 
-                const probeResult = await API.probeCobaltStream(response?.url);
-                if (probeResult === 200) {
-                    changeDownloadButton("done");
-                    window.open(response?.url, '_blank');
-                    restoreDownloadButton();
-                }
+            return window.open(response.url, '_blank');
+        }
+
+        if (response.status === "stream") {
+            changeDownloadButton("check");
+
+            const probeResult = await API.probeCobaltStream(response.url);
+
+            if (probeResult === 200) {
+                changeDownloadButton("done");
+                restoreDownloadButton();
+
+                return window.open(response.url, '_blank');
+            } else {
+                changeDownloadButton("error");
+                restoreDownloadButton();
+
+                return alert("couldn't probe the stream");
             }
         }
     };
