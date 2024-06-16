@@ -81,7 +81,7 @@
 
         #sidebar {
             width: 100%;
-            height: auto;
+            height: var(--sidebar-height-mobile);
             position: fixed;
             bottom: 0;
         }
