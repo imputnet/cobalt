@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconLink } from "@tabler/icons-svelte";
+    import IconLink from "@tabler/icons-svelte/IconLink.svelte";
 
     import DownloadButton from "./buttons/DownloadButton.svelte";
     import ClearButton from "./buttons/ClearButton.svelte";
