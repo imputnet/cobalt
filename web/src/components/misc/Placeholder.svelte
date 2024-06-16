@@ -10,7 +10,7 @@
 
 <style>
     #placeholder-container {
-        gap: var(--padding);
+        gap: calc(var(--padding) * 2);
         text-align: center;
     }
 </style>
