@@ -31,7 +31,7 @@
         --border-radius: 11px;
 
         --sidebar-width: 80px;
-        --sidebar-height-mobile: 50px;
+        --sidebar-height-mobile: calc(52px + env(safe-area-inset-bottom));
         --sidebar-font-size: 11px;
 
         --sidebar-mobile-gradient: linear-gradient(

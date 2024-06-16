@@ -28,6 +28,8 @@
         color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
         opacity: 0.8;
+        height: fit-content;
+        -webkit-touch-callout: none;
     }
 
     .sidebar-tab.active {
@@ -55,8 +57,10 @@
             padding: 5px var(--padding);
             min-width: calc(var(--sidebar-width) / 2);
         }
+
         .sidebar-tab.active {
             z-index: 2;
+            border-radius: var(--border-radius);
         }
     }
 </style>
