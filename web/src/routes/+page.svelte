@@ -21,7 +21,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        gap: 24px;
+        gap: 15px;
     }
 
     #terms-note {
