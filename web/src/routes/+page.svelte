@@ -31,4 +31,10 @@
         text-align: center;
         padding-bottom: var(--padding);
     }
+
+    @media screen and (max-width: 535px) {
+        #terms-note {
+            font-size: 11px;
+        }
+    }
 </style>
