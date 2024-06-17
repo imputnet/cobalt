@@ -89,14 +89,14 @@
         flex-direction: column;
         max-width: 640px;
         width: 100%;
-        gap: var(--padding);
+        gap: 10px;
     }
 
     #input-container {
         display: flex;
         box-shadow: 0 0 0 1.5px var(--input-border) inset;
         border-radius: var(--border-radius);
-        padding: 0 12px;
+        padding: 0 10px;
         align-items: center;
         gap: 10px;
         font-size: 14px;
@@ -124,7 +124,7 @@
         display: flex;
         width: 100%;
         margin: 0;
-        padding: 12px 0;
+        padding: 10px 0;
         height: 18px;
 
         align-items: center;
