@@ -55,7 +55,7 @@ export default async function({ user, id, quality, dispatcher }) {
         }
 
         // types: 640p = 101, 480p = 102, 480p-low = 103
-        const selectedQualityType = quality === 'max' ? 101 : parseInt(quality) > 480 ? 102 : 101;
+        const selectedQualityType = quality === 'max' ? 101 : quality && parseInt(quality) <= 480 ? 102 : 101;
         const video = post.video_versions.find((v) => v.type === selectedQualityType) || post.video_versions.sort((a, b) => a.type - b.type)[0];
         if (!video) {
             return { error: 'ErrorEmptyDownload' };
