@@ -67,18 +67,20 @@
 
     <div id="action-container">
         <Switcher settingId="save-downloadMode">
-            <ActionButton id="auto-mode-button" text="auto">
-                <IconSparkles />
+            <ActionButton id="auto-mode-button">
+                <IconSparkles /> auto
             </ActionButton>
-            <ActionButton id="audio-mode-button" text="audio">
-                <IconMusic />
+            <ActionButton id="audio-mode-button">
+                <IconMusic /> audio
             </ActionButton>
-            <ActionButton id="mute-mode-button" text="mute">
-                <IconMute />
+            <ActionButton id="mute-mode-button">
+                <IconMute /> mute
             </ActionButton>
         </Switcher>
-        <ActionButton id="paste-button" click={pasteClipboard} text="paste">
+        <ActionButton id="paste-button" click={pasteClipboard}>
             <IconClipboard />
+            <span id="paste-desktop-text">paste</span>
+            <span id="paste-mobile-text">paste and download</span>
         </ActionButton>
     </div>
 </div>
@@ -154,5 +156,28 @@
 
     #action-container {
         justify-content: space-between;
+    }
+
+    #paste-mobile-text {
+        display: none;
+    }
+
+    @media screen and (max-width: 440px) {
+        #action-container {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #action-container :global(.button) {
+            width: 100%
+        }
+
+        #paste-mobile-text {
+            display: block;
+        }
+
+        #paste-desktop-text {
+            display: none;
+        }
     }
 </style>
