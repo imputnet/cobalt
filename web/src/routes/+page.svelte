@@ -35,6 +35,7 @@
     @media screen and (max-width: 535px) {
         #terms-note {
             font-size: 11px;
+            padding-bottom: 0;
         }
     }
 </style>
