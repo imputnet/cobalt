@@ -22,6 +22,7 @@
         --button-hover: #e8e8e8;
         --button-hover-transparent: rgba(0, 0, 0, 0.03);
         --button-stroke: rgba(0, 0, 0, 0.08);
+        --button-text: #282828;
 
         --sidebar-bg: #000000;
         --sidebar-highlight: #ffffff;
@@ -58,6 +59,7 @@
             --button-hover: #2a2a2a;
             --button-hover-transparent: rgba(225, 225, 225, 0.04);
             --button-stroke: rgba(255, 255, 255, 0.08);
+            --button-text: #e1e1e1;
 
             --sidebar-bg: #101010;
             --sidebar-highlight: #f2f2f2;
@@ -114,9 +116,10 @@
         border: none;
         border-radius: var(--border-radius);
         font-size: 14.5px;
+        font-weight: 500;
         cursor: pointer;
         background-color: var(--button);
-        color: var(--secondary);
+        color: var(--button-text);
         box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
     }
 
