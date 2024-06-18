@@ -26,7 +26,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | rutube                         | ✅            | ✅         | ✅         | ✅         | ✅              |
 | soundcloud                     | ➖            | ✅         | ➖         | ✅         | ✅              |
 | streamable                     | ✅            | ✅         | ✅         | ➖         | ➖              |
-| threads posts                  | ✅            | ✅         | ✅         | ✅         | ✅              |
+| threads posts                  | ✅            | ✅         | ✅         | ➖         | ➖              |
 | tiktok                         | ✅            | ✅         | ✅         | ❌         | ❌              |
 | tumblr                         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | twitch clips                   | ✅            | ✅         | ✅         | ✅         | ✅              |
