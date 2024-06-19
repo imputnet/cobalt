@@ -1,10 +1,29 @@
+import { get } from 'svelte/store';
+import settings from "$lib/settings";
 import type { CobaltAPIResponse } from "$lib/types/api";
 
 const apiURL = "https://api.cobalt.tools";
 
 const request = async (url: string) => {
+    const saveSettings = get(settings).save;
+
     const request = {
-        url
+        url,
+
+        isAudioOnly: saveSettings.downloadMode === "audio",
+        isAudioMuted: saveSettings.downloadMode === "mute",
+        aFormat: saveSettings.audioFormat,
+        isTTFullAudio: saveSettings.tiktokFullAudio,
+        dubLang: saveSettings.youtubeDubBrowserLang,
+
+        vCodec: saveSettings.youtubeVideoCodec,
+        vQuality: saveSettings.videoQuality,
+
+        filenamePattern: saveSettings.filenameStyle,
+        disableMetadata: saveSettings.disableMetadata,
+
+        twitterGif: saveSettings.twitterGif,
+        tiktokH265: saveSettings.tiktokH265,
     }
 
     const response: CobaltAPIResponse | undefined = await fetch(`${apiURL}/api/json`, {
