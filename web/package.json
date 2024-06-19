@@ -12,7 +12,7 @@
     },
     "license": "CC-BY-NC-SA-4.0",
     "engines": {
-        "node": ">=20",
+        "node": ">=20.9",
         "npm": ">=9"
     },
     "repository": {
