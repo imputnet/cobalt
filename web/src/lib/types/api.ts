@@ -3,19 +3,21 @@ enum CobaltResponseType {
     RateLimit = 'rate-limit',
     Picker = 'picker',
     Redirect = 'redirect',
-    Stream = 'stream'
+    Stream = 'stream',
 }
 
 type CobaltErrorResponse = {
     status: CobaltResponseType.Error | CobaltResponseType.RateLimit,
-    text: string
+    text: string,
 };
 
-type CobaltPartialURLResponse = { url: string }
+type CobaltPartialURLResponse = {
+    url: string,
+}
 
 type CobaltPartialImagesPickerResponse = {
     pickerType: 'images',
-    picker: CobaltPartialURLResponse[]
+    picker: CobaltPartialURLResponse[],
 }
 
 type CobaltPartialVariousPickerResponse = {
@@ -23,7 +25,7 @@ type CobaltPartialVariousPickerResponse = {
     picker: {
         type: 'photo' | 'video',
         url: string,
-        thumb: string
+        thumb: string,
     }[];
 }
 
@@ -33,11 +35,11 @@ type CobaltPickerResponse = {
 } & (CobaltPartialImagesPickerResponse | CobaltPartialVariousPickerResponse);
 
 type CobaltRedirectResponse = {
-    status: CobaltResponseType.Redirect
+    status: CobaltResponseType.Redirect,
 } & CobaltPartialURLResponse;
 
 type CobaltStreamResponse = {
-    status: CobaltResponseType.Stream
+    status: CobaltResponseType.Stream,
 } & CobaltPartialURLResponse;
 
 export type CobaltAPIResponse = CobaltErrorResponse
