@@ -1,8 +1,4 @@
-<script lang="ts">
-    export let settingId: string;
-</script>
-
-<div id="switcher-{settingId}" class="switcher">
+<div id="switcher-container" class="switcher">
     <slot></slot>
 </div>
 
@@ -31,7 +27,8 @@
         border-radius: 0;
     }
 
+    /* clumsy hack to get rid of double border in a list of switches */
     .switcher > :global(:not(.button:first-child)) {
-        margin-left: -1.5px; /* hack to get rid of double border in a list of switches */
+        margin-left: -1.5px;
     }
 </style>

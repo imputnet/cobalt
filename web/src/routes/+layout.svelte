@@ -133,10 +133,14 @@
         transform: scale(0.95);
     }
 
+    :global(.button.selected) {
+        background: var(--secondary);
+        color: var(--primary);
+    }
+
     @media (hover: hover) {
         :global(button:hover) {
             background-color: var(--button-hover);
-            z-index: 1;
         }
     }
 

@@ -18,7 +18,7 @@ const writeToStorage = (settings: CobaltSettings) => {
 const loadFromStorage = () => {
     const settings = localStorage.getItem('settings');
     if (!settings) {
-        return writeToStorage(defaultSettings);
+        return defaultSettings;
     }
 
     return JSON.parse(settings) as CobaltSettings;
