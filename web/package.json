@@ -10,6 +10,10 @@
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
     },
+    "engines": {
+        "node": ">=20.10.0",
+        "npm": ">=10.0.0"
+    },
     "license": "AGPL-3.0",
     "repository": {
         "type": "git",
