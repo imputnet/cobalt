@@ -11,7 +11,7 @@
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
     },
     "engines": {
-        "node": ">=20",
+        "node": ">=20.9",
         "npm": ">=9"
     },
     "license": "AGPL-3.0",
