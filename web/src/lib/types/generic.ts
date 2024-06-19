@@ -1,0 +1,8 @@
+// more readable version of recursive partial taken from stackoverflow:
+// https://stackoverflow.com/a/51365037
+export type RecursivePartial<Type> = {
+    [Key in keyof Type]?:
+    Type[Key] extends (infer ElementType)[] ? RecursivePartial<ElementType>[] :
+    Type[Key] extends object | undefined ? RecursivePartial<Type[Key]> :
+    Type[Key];
+};

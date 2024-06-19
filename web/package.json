@@ -36,6 +36,7 @@
     "dependencies": {
         "@fontsource-variable/noto-sans-mono": "^5.0.20",
         "@fontsource/ibm-plex-mono": "^5.0.13",
-        "@tabler/icons-svelte": "^3.6.0"
+        "@tabler/icons-svelte": "^3.6.0",
+        "ts-deepmerge": "^7.0.0"
     }
 }
