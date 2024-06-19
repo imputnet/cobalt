@@ -22,7 +22,7 @@ type CobaltSettingsSave = {
     tiktokH265: boolean,
     tiktokFullAudio: boolean,
     twitterGif: boolean,
-    videoQuality: "max" | "2160" | "1440" | "1080" | "720" | "360" | "240" | "144",
+    videoQuality: "max" | "2160" | "1440" | "1080" | "720" | "480" | "360" | "240" | "144",
     youtubeVideoCodec: "h264" | "av1" | "vp9",
     youtubeDubBrowserLang: boolean,
 };
