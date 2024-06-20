@@ -12,7 +12,7 @@
     import IconMute from "$lib/icons/Mute.svelte";
 
     import IconClipboard from "$lib/icons/Clipboard.svelte";
-    import SettingsContextButton from "../buttons/SettingsContextButton.svelte";
+    import SettingsButton from "../buttons/SettingsButton.svelte";
 
     let link: string = "";
     let isFocused = false;
@@ -68,15 +68,15 @@
 
     <div id="action-container">
         <Switcher>
-            <SettingsContextButton settingContext="save" settingId="downloadMode" settingKey="auto">
+            <SettingsButton settingContext="save" settingId="downloadMode" settingKey="auto">
                 <IconSparkles /> auto
-            </SettingsContextButton>
-            <SettingsContextButton settingContext="save" settingId="downloadMode" settingKey="audio">
+            </SettingsButton>
+            <SettingsButton settingContext="save" settingId="downloadMode" settingKey="audio">
                 <IconMusic /> audio
-            </SettingsContextButton>
-            <SettingsContextButton settingContext="save" settingId="downloadMode" settingKey="mute">
+            </SettingsButton>
+            <SettingsButton settingContext="save" settingId="downloadMode" settingKey="mute">
                 <IconMute /> mute
-            </SettingsContextButton>
+            </SettingsButton>
         </Switcher>
         <ActionButton id="paste" click={pasteClipboard}>
             <IconClipboard />
