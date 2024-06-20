@@ -31,5 +31,16 @@ const defaultSettings: CobaltSettings = {
         trafficAnalytics: true
     }
 }
-
 export default defaultSettings;
+
+export const settingArrays = {
+    appearance: {
+        theme: ["auto", "light", "dark"]
+    },
+    save: {
+        audioFormat: ["best", "mp3", "ogg", "wav", "opus"],
+        filenameStyle: ["classic", "basic", "pretty", "nerdy"],
+        videoQuality: ["max", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
+        youtubeVideoCodec: ["h264", "av1", "vp9"],
+    },
+}
