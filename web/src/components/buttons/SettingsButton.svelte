@@ -3,7 +3,7 @@
     generics="
         Context extends Exclude<keyof CobaltSettings, 'schemaVersion'>,
         Id extends keyof CobaltSettings[Context],
-        Key extends CobaltSettings[Context][Id]
+        Value extends CobaltSettings[Context][Id]
     "
 >
     import settings, { updateSetting } from "$lib/settings";
@@ -11,20 +11,20 @@
 
     export let settingContext: Context;
     export let settingId: Id;
-    export let settingKey: Key;
+    export let settingValue: Value;
 
     $: setting = $settings[settingContext][settingId];
-    $: isSelected = setting === settingKey;
+    $: isSelected = setting === settingValue;
 </script>
 
 <button
-    id="setting-button-{settingContext}-{String(settingId)}-{settingKey}"
+    id="setting-button-{settingContext}-{String(settingId)}-{settingValue}"
     class="button"
     class:selected={isSelected}
     on:click={() =>
         updateSetting({
             [settingContext]: {
-                [settingId]: settingKey,
+                [settingId]: settingValue,
             },
         })}
 >
