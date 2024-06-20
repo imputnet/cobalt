@@ -68,13 +68,13 @@
 
     <div id="action-container">
         <Switcher>
-            <SettingsButton settingContext="save" settingId="downloadMode" settingKey="auto">
+            <SettingsButton settingContext="save" settingId="downloadMode" settingValue="auto">
                 <IconSparkles /> auto
             </SettingsButton>
-            <SettingsButton settingContext="save" settingId="downloadMode" settingKey="audio">
+            <SettingsButton settingContext="save" settingId="downloadMode" settingValue="audio">
                 <IconMusic /> audio
             </SettingsButton>
-            <SettingsButton settingContext="save" settingId="downloadMode" settingKey="mute">
+            <SettingsButton settingContext="save" settingId="downloadMode" settingValue="mute">
                 <IconMute /> mute
             </SettingsButton>
         </Switcher>

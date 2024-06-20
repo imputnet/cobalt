@@ -22,7 +22,7 @@
                 <div>{settingId}</div>
                 <Switcher>
                     {#each settingValue as value}
-                        <SettingsButton settingContext="{context}" settingId="{settingId}" settingKey="{value}">
+                        <SettingsButton settingContext="{context}" settingId="{settingId}" settingValue="{value}">
                             {value}
                         </SettingsButton>
                     {/each}
