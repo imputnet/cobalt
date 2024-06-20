@@ -86,6 +86,7 @@
             position: fixed;
             bottom: 0;
             padding: var(--sidebar-inner-padding) 0;
+            justify-content: center;
         }
 
         #sidebar::before {
