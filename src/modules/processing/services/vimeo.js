@@ -29,6 +29,7 @@ export default async function(obj) {
     const api = await fetch(url)
                     .then(r => r.json())
                     .catch(() => {});
+
     if (!api) return { error: 'ErrorCouldntFetch' };
 
     const fileMetadata = {
@@ -36,10 +37,12 @@ export default async function(obj) {
         artist: cleanString(api.video.owner.name.trim()),
     }
 
-    if (api.video.duration > env.durationLimit)
+    if (api.video?.duration > env.durationLimit)
         return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
-    const urlMasterHLS = api.request.files.hls.cdns.akfire_interconnect_quic.url;
+    const urlMasterHLS = api.request?.files?.hls?.cdns?.akfire_interconnect_quic?.url;
+
+    if (!urlMasterHLS) return { error: 'ErrorCouldntFetch' }
 
     const masterHLS = await fetch(urlMasterHLS)
                             .then(r => r.text())
@@ -47,17 +50,19 @@ export default async function(obj) {
 
     if (!masterHLS) return { error: 'ErrorCouldntFetch' };
 
-    const variants = HLS.parse(masterHLS).variants.sort(
+    const variants = HLS.parse(masterHLS)?.variants?.sort(
         (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
     );
-    if (!variants) return { error: 'ErrorEmptyDownload' };
+    if (!variants || variants.length === 0) return { error: 'ErrorEmptyDownload' };
 
     let bestQuality;
-    if (quality < resolutionMatch[variants[0].resolution.width]) {
+
+    if (quality < resolutionMatch[variants[0]?.resolution?.width]) {
         bestQuality = variants.find(v =>
             (quality === resolutionMatch[v.resolution.width])
         );
     }
+
     if (!bestQuality) bestQuality = variants[0];
 
     const expandLink = (path) => {
