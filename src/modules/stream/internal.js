@@ -80,7 +80,7 @@ async function handleYoutubeStream(streamInfo, res) {
 
 async function handleGenericStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
-    const cleanup = () => (res.end(), closeRequest(streamInfo.controller));
+    const cleanup = () => res.end();
 
     try {
         const req = await request(streamInfo.url, {
@@ -94,6 +94,7 @@ async function handleGenericStream(streamInfo, res) {
         });
 
         res.status(req.statusCode);
+        req.body.on('error', () => {});
 
         for (const [ name, value ] of Object.entries(req.headers))
             res.setHeader(name, value)
