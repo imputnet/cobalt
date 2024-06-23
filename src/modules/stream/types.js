@@ -6,16 +6,12 @@ import { create as contentDisposition } from "content-disposition-header";
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { env, ffmpegArgs, hlsExceptions } from "../config.js";
-import { getHeaders, closeResponse, pipe } from "./shared.js";
+import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
 
 function toRawHeaders(headers) {
     return Object.entries(headers)
                  .map(([key, value]) => `${key}: ${value}\r\n`)
                  .join('');
-}
-
-function closeRequest(controller) {
-    try { controller.abort() } catch {}
 }
 
 function killProcess(p) {
