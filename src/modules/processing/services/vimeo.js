@@ -60,8 +60,8 @@ export default async function(obj) {
     }
     if (!bestQuality) bestQuality = variants[0];
 
-    const expandLink = (url) => {
-        return new URL(url, urlMasterHLS).toString();
+    const expandLink = (path) => {
+        return new URL(path, urlMasterHLS).toString();
     };
 
     let urls = expandLink(bestQuality.uri);
