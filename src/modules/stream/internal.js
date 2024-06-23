@@ -1,6 +1,6 @@
 import { request } from 'undici';
 import { Readable } from 'node:stream';
-import { getHeaders, pipe } from './shared.js';
+import { closeRequest, getHeaders, pipe } from './shared.js';
 import { handleHlsPlaylist, isHlsRequest } from './internal-hls.js';
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
@@ -26,7 +26,7 @@ async function* readChunks(streamInfo, size) {
         const received = BigInt(chunk.headers['content-length']);
 
         if (received < expected / 2n) {
-            streamInfo.controller.abort();
+            closeRequest(streamInfo.controller);
         }
         
         for await (const data of chunk.body) {
@@ -39,7 +39,7 @@ async function* readChunks(streamInfo, size) {
 
 async function handleYoutubeStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
-    const cleanup = () => (res.end(), streamInfo.controller.abort());
+    const cleanup = () => (res.end(), closeRequest(streamInfo.controller));
 
     try {
         const req = await fetch(streamInfo.url, {
@@ -80,7 +80,7 @@ async function handleYoutubeStream(streamInfo, res) {
 
 async function handleGenericStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
-    const cleanup = () => (res.end(), streamInfo.controller.abort());
+    const cleanup = () => res.end();
 
     try {
         const req = await request(streamInfo.url, {
@@ -94,12 +94,13 @@ async function handleGenericStream(streamInfo, res) {
         });
 
         res.status(req.statusCode);
+        req.body.on('error', () => {});
 
         for (const [ name, value ] of Object.entries(req.headers))
             res.setHeader(name, value)
 
         if (req.statusCode < 200 || req.statusCode > 299)
-            return res.end();
+            return cleanup();
 
         if (isHlsRequest(req)) {
             await handleHlsPlaylist(streamInfo, req, res);
@@ -107,6 +108,7 @@ async function handleGenericStream(streamInfo, res) {
             pipe(req.body, res, cleanup);
         }
     } catch {
+        closeRequest(streamInfo.controller);
         cleanup();
     }
 }
