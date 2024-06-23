@@ -39,6 +39,7 @@ async function* readChunks(streamInfo, size) {
 
 async function handleYoutubeStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
+    const cleanup = () => (res.end(), streamInfo.controller.abort());
 
     try {
         const req = await fetch(streamInfo.url, {
@@ -52,7 +53,7 @@ async function handleYoutubeStream(streamInfo, res) {
         const size = BigInt(req.headers.get('content-length'));
 
         if (req.status !== 200 || !size) {
-            return res.end();
+            return cleanup();
         }
 
         const generator = readChunks(streamInfo, size);
@@ -71,17 +72,15 @@ async function handleYoutubeStream(streamInfo, res) {
             if (headerValue) res.setHeader(headerName, headerValue);
         }
 
-        pipe(stream, res, () => res.end());
+        pipe(stream, res, cleanup);
     } catch {
-        signal.abort();
-        res.end();
+        cleanup();
     }
 }
 
-export async function internalStream(streamInfo, res) {
-    if (streamInfo.service === 'youtube') {
-        return handleYoutubeStream(streamInfo, res);
-    }
+async function handleGenericStream(streamInfo, res) {
+    const { signal } = streamInfo.controller;
+    const cleanup = () => (res.end(), streamInfo.controller.abort());
 
     try {
         const req = await request(streamInfo.url, {
@@ -90,7 +89,7 @@ export async function internalStream(streamInfo, res) {
                 host: undefined
             },
             dispatcher: streamInfo.dispatcher,
-            signal: streamInfo.controller.signal,
+            signal,
             maxRedirections: 16
         });
 
@@ -105,9 +104,17 @@ export async function internalStream(streamInfo, res) {
         if (isHlsRequest(req)) {
             await handleHlsPlaylist(streamInfo, req, res);
         } else {
-            pipe(req.body, res, () => res.end());
+            pipe(req.body, res, cleanup);
         }
     } catch {
-        streamInfo.controller.abort();
+        cleanup();
     }
+}
+
+export function internalStream(streamInfo, res) {
+    if (streamInfo.service === 'youtube') {
+        return handleYoutubeStream(streamInfo, res);
+    }
+
+    return handleGenericStream(streamInfo, res);
 }
