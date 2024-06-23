@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { env } from "../config.js";
 import { strict as assert } from "assert";
+import { closeRequest } from "./shared.js";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
@@ -109,7 +110,7 @@ export function destroyInternalStream(url) {
     const id = url.searchParams.get('id');
 
     if (internalStreamCache[id]) {
-        internalStreamCache[id].controller.abort();
+        closeRequest(internalStreamCache[id].controller);
         delete internalStreamCache[id];
     }
 }
