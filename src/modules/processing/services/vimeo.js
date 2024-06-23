@@ -16,16 +16,6 @@ const resolutionMatch = {
     "426": "240"
 }
 
-const qualityMatch = {
-    "2160": "4K",
-    "1440": "2K",
-    "480": "540",
-
-    "4K": "2160",
-    "2K": "1440",
-    "540": "480"
-}
-
 export default async function(obj) {
     let quality = obj.quality === "max" ? "9000" : obj.quality;
     if (!quality || obj.isAudioOnly) quality = "9000";
@@ -40,38 +30,9 @@ export default async function(obj) {
                     .catch(() => {});
     if (!api) return { error: 'ErrorCouldntFetch' };
 
-    let downloadType = "dash";
-
-    if (!obj.isAudioOnly && JSON.stringify(api).includes('"progressive":[{'))
-        downloadType = "progressive";
-
     const fileMetadata = {
         title: cleanString(api.video.title.trim()),
         artist: cleanString(api.video.owner.name.trim()),
-    }
-
-    if (downloadType !== "dash") {
-        if (qualityMatch[quality]) quality = qualityMatch[quality];
-
-        const all = api.request.files.progressive.sort((a, b) => Number(b.width) - Number(a.width));
-        let best = all[0];
-
-        let bestQuality = all[0].quality.split('p')[0];
-        if (qualityMatch[bestQuality]) {
-            bestQuality = qualityMatch[bestQuality]
-        }
-
-        if (Number(quality) < Number(bestQuality)) {
-            best = all.find(v => v.quality.split('p')[0] === quality);
-        }
-
-        if (!best) return { error: 'ErrorEmptyDownload' };
-
-        return {
-            urls: best.url,
-            audioFilename: `vimeo_${obj.id}_audio`,
-            filename: `vimeo_${obj.id}_${best.width}x${best.height}.mp4`
-        }
     }
 
     if (api.video.duration > env.durationLimit)
