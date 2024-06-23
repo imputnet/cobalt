@@ -23,6 +23,10 @@ function transformObject(streamInfo, hlsObject) {
 
     hlsObject.uri = createInternalStream(fullUrl.toString(), streamInfo);
 
+    if (hlsObject.map) {
+        hlsObject.map = transformObject(streamInfo, hlsObject.map);
+    }
+
     return hlsObject;
 }
 

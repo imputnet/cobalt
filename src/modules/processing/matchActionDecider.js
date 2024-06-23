@@ -24,7 +24,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
     else if (r.isGif && toGif) action = "gif";
     else if (isAudioMuted) action = "muteVideo";
     else if (isAudioOnly) action = "audio";
-    else if (r.isM3U8) action = "singleM3U8";
+    else if (r.isM3U8) action = "m3u8";
     else action = "video";
 
     if (action === "picker" || action === "audio") {
@@ -48,13 +48,19 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             params = { type: "gif" }
             break;
 
-        case "singleM3U8":
-            params = { type: "remux" }
+        case "m3u8":
+            params = {
+                type: Array.isArray(r.urls) ? "render" : "remux"
+            }
             break;
 
         case "muteVideo":
+            let muteType = "mute";
+            if (Array.isArray(r.urls) && !r.isM3U8) {
+                muteType = "bridge";
+            }
             params = {
-                type: Array.isArray(r.urls) ? "bridge" : "mute",
+                type: muteType,
                 u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
                 mute: true
             }

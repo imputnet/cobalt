@@ -92,6 +92,10 @@ export function streamLiveRender(streamInfo, res) {
 
         args = args.concat(ffmpegArgs[format]);
 
+        if (hlsExceptions.includes(streamInfo.service)) {
+            args.push('-bsf:a', 'aac_adtstoasc')
+        }
+
         if (streamInfo.metadata) {
             args = args.concat(metadataManager(streamInfo.metadata))
         }
