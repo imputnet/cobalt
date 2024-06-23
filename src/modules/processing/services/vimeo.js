@@ -1,6 +1,8 @@
 import { env } from "../../config.js";
 import { cleanString } from '../../sub/utils.js';
 
+import HLS from "hls-parser";
+
 const resolutionMatch = {
     "3840": "2160",
     "2732": "1440",
@@ -33,7 +35,7 @@ export default async function(obj) {
         url.searchParams.set('h', obj.password);
     }
 
-    let api = await fetch(url)
+    const api = await fetch(url)
                     .then(r => r.json())
                     .catch(() => {});
     if (!api) return { error: 'ErrorCouldntFetch' };
@@ -43,14 +45,15 @@ export default async function(obj) {
     if (!obj.isAudioOnly && JSON.stringify(api).includes('"progressive":[{'))
         downloadType = "progressive";
 
-    let fileMetadata = {
+    const fileMetadata = {
         title: cleanString(api.video.title.trim()),
         artist: cleanString(api.video.owner.name.trim()),
     }
 
     if (downloadType !== "dash") {
         if (qualityMatch[quality]) quality = qualityMatch[quality];
-        let all = api.request.files.progressive.sort((a, b) => Number(b.width) - Number(a.width));
+
+        const all = api.request.files.progressive.sort((a, b) => Number(b.width) - Number(a.width));
         let best = all[0];
 
         let bestQuality = all[0].quality.split('p')[0];
@@ -59,7 +62,7 @@ export default async function(obj) {
         }
 
         if (Number(quality) < Number(bestQuality)) {
-            best = all.find(i => i.quality.split('p')[0] === quality);
+            best = all.find(v => v.quality.split('p')[0] === quality);
         }
 
         if (!best) return { error: 'ErrorEmptyDownload' };
@@ -74,26 +77,43 @@ export default async function(obj) {
     if (api.video.duration > env.durationLimit)
         return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
 
-    let masterJSONURL = api.request.files.dash.cdns.akfire_interconnect_quic.url;
-    let masterJSON = await fetch(masterJSONURL).then(r => r.json()).catch(() => {});
+    const urlMasterHLS = api.request.files.hls.cdns.akfire_interconnect_quic.url;
 
-    if (!masterJSON) return { error: 'ErrorCouldntFetch' };
-    if (!masterJSON.video) return { error: 'ErrorEmptyDownload' };
+    const masterHLS = await fetch(urlMasterHLS)
+                            .then(r => r.text())
+                            .catch(() => {});
 
-    let masterJSON_Video = masterJSON.video
-                            .sort((a, b) => Number(b.width) - Number(a.width))
-                            .filter(a => ["dash", "mp42"].includes(a.format));
+    if (!masterHLS) return { error: 'ErrorCouldntFetch' };
 
-    let bestVideo = masterJSON_Video[0];
-    if (Number(quality) < Number(resolutionMatch[bestVideo.width])) {
-        bestVideo = masterJSON_Video.find(i => resolutionMatch[i.width] === quality)
+    const variants = HLS.parse(masterHLS).variants.sort(
+        (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
+    );
+    if (!variants) return { error: 'ErrorEmptyDownload' };
+
+    let bestQuality;
+    if (Number(quality) < Number(resolutionMatch[variants[0].resolution.width])) {
+        bestQuality = variants.find(v =>
+            (Number(quality) === Number(resolutionMatch[v.resolution.width]))
+        );
+    }
+    if (!bestQuality) bestQuality = variants[0];
+
+    const expandLink = (url) => {
+        return new URL(url, urlMasterHLS).toString();
+    };
+
+    let urls = expandLink(bestQuality.uri);
+
+    const audioPath = bestQuality?.audio[0]?.uri;
+    if (audioPath) {
+        urls = [
+            urls,
+            expandLink(audioPath)
+        ]
     }
 
-    let masterM3U8 = `${masterJSONURL.split("/sep/")[0]}/sep/video/${bestVideo.id}/master.m3u8`;
-    const fallbackResolution = bestVideo.height > bestVideo.width ? bestVideo.width : bestVideo.height;
-
     return {
-        urls: masterM3U8,
+        urls,
         isM3U8: true,
         fileMetadata: fileMetadata,
         filenameAttributes: {
@@ -101,8 +121,8 @@ export default async function(obj) {
             id: obj.id,
             title: fileMetadata.title,
             author: fileMetadata.artist,
-            resolution: `${bestVideo.width}x${bestVideo.height}`,
-            qualityLabel: `${resolutionMatch[bestVideo.width] || fallbackResolution}p`,
+            resolution: `${bestQuality.resolution.width}x${bestQuality.resolution.height}`,
+            qualityLabel: `${resolutionMatch[bestQuality.resolution.width]}p`,
             extension: "mp4"
         }
     }
