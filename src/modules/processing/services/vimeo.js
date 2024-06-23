@@ -4,21 +4,22 @@ import { cleanString } from '../../sub/utils.js';
 import HLS from "hls-parser";
 
 const resolutionMatch = {
-    "3840": "2160",
-    "2732": "1440",
-    "2560": "1440",
-    "2048": "1080",
-    "1920": "1080",
-    "1366": "720",
-    "1280": "720",
-    "960": "480",
-    "640": "360",
-    "426": "240"
+    "3840": 2160,
+    "2732": 1440,
+    "2560": 1440,
+    "2048": 1080,
+    "1920": 1080,
+    "1366": 720,
+    "1280": 720,
+    "960": 480,
+    "640": 360,
+    "426": 240
 }
 
 export default async function(obj) {
-    let quality = obj.quality === "max" ? "9000" : obj.quality;
-    if (!quality || obj.isAudioOnly) quality = "9000";
+    let quality = obj.quality === "max" ? 9000 : Number(obj.quality);
+    if (quality < 240) quality = 240;
+    if (!quality || obj.isAudioOnly) quality = 9000;
 
     const url = new URL(`https://player.vimeo.com/video/${obj.id}/config`);
     if (obj.password) {
@@ -52,9 +53,9 @@ export default async function(obj) {
     if (!variants) return { error: 'ErrorEmptyDownload' };
 
     let bestQuality;
-    if (Number(quality) < Number(resolutionMatch[variants[0].resolution.width])) {
+    if (quality < resolutionMatch[variants[0].resolution.width]) {
         bestQuality = variants.find(v =>
-            (Number(quality) === Number(resolutionMatch[v.resolution.width]))
+            (quality === resolutionMatch[v.resolution.width])
         );
     }
     if (!bestQuality) bestQuality = variants[0];
@@ -71,6 +72,8 @@ export default async function(obj) {
             urls,
             expandLink(audioPath)
         ]
+    } else if (obj.isAudioOnly) {
+        return { error: 'ErrorEmptyDownload' };
     }
 
     return {
