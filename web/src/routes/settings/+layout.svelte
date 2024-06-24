@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+    import { page } from "$app/stores";
+
     import SettingsTab from "$components/settings/SettingsTab.svelte";
     import SettingsSection from "$components/settings/SettingsSection.svelte";
 
@@ -7,10 +9,17 @@
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
+
+    let screenWidth: number;
+
+    $: isMobile = screenWidth <= 750;
+    $: isHome = $page.url.pathname === `/settings`;
 </script>
 
+<svelte:window bind:innerWidth={screenWidth} />
+
 <div id="settings-page">
-    <div id="settings-sidebar">
+    <div id="settings-sidebar" class:visible-mobile={isMobile && isHome}>
         <h2 id="settings-page-title">settings</h2>
         <nav id="settings-navigation">
             <SettingsSection sectionTitle="general">
@@ -48,7 +57,7 @@
         </nav>
     </div>
 
-    <main id="settings-page-content">
+    <main id="settings-page-content" class:hidden-mobile={isMobile && isHome}>
         <slot></slot>
     </main>
 </div>
@@ -91,4 +100,24 @@
     #settings-navigation {
         gap: 12px;
     }
+
+    .hidden-mobile {
+        display: none !important;
+    }
+
+    @media screen and (max-width: 750px) {
+        #settings-page {
+            --settings-nav-width: 100%;
+            grid-template-columns: 1fr;
+        }
+
+        #settings-sidebar {
+            display: none;
+        }
+
+        #settings-sidebar.visible-mobile {
+            display: flex;
+        }
+    }
+
 </style>
