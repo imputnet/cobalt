@@ -7,10 +7,6 @@
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
-
-    const iconSize = 18;
-    const iconStroke = 1.5;
-    const iconColor = "var(--white)";
 </script>
 
 <div id="settings-page">
@@ -19,34 +15,34 @@
         <nav id="settings-navigation">
             <SettingsSection sectionTitle="general">
                 <SettingsTab
-                    categoryName="appearance"
-                    categoryLink="general/appearance"
+                    tabName="appearance"
+                    tabLink="general/appearance"
                     iconColor="blue"
                 >
-                    <IconSunHigh size={iconSize} stroke={iconStroke} color={iconColor} />
+                    <IconSunHigh />
                 </SettingsTab>
             </SettingsSection>
             <SettingsSection sectionTitle="save">
                 <SettingsTab
-                    categoryName="video"
-                    categoryLink="save/video"
+                    tabName="video"
+                    tabLink="save/video"
                     iconColor="green"
                 >
-                    <IconMovie size={iconSize} stroke={iconStroke} color={iconColor} />
+                    <IconMovie />
                 </SettingsTab>
                 <SettingsTab
-                    categoryName="audio"
-                    categoryLink="save/audio"
+                    tabName="audio"
+                    tabLink="save/audio"
                     iconColor="green"
                 >
-                    <IconMusic size={iconSize} stroke={iconStroke} color={iconColor}/>
+                    <IconMusic />
                 </SettingsTab>
                 <SettingsTab
-                    categoryName="metadata"
-                    categoryLink="save/metadata"
+                    tabName="metadata"
+                    tabLink="save/metadata"
                     iconColor="green"
                 >
-                    <IconFileSettings size={iconSize} stroke={iconStroke} color={iconColor}/>
+                    <IconFileSettings />
                 </SettingsTab>
             </SettingsSection>
         </nav>

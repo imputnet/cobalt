@@ -41,7 +41,7 @@
         class:focused={isFocused}
         class:downloadable={validLink(link)}
     >
-        <IconLink id="input-link-icon" color="var(--gray)" size="18px" />
+        <IconLink id="input-link-icon" />
 
         <input
             id="link-area"
@@ -113,6 +113,13 @@
     #input-container.focused {
         box-shadow: 0 0 0 1.5px var(--secondary) inset;
         outline: var(--secondary) 0.5px solid;
+    }
+
+    :global(#input-link-icon) {
+        stroke: var(--gray);
+        width: 18px;
+        height: 18px;
+        stroke-width: 2px;
     }
 
     #input-container.focused :global(#input-link-icon) {
