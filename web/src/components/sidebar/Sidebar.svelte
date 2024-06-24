@@ -111,7 +111,6 @@
         }
 
         #sidebar-tabs {
-            justify-content: space-around;
             overflow-y: visible;
             overflow-x: scroll;
             padding-bottom: 0;
