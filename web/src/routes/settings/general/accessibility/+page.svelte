@@ -1,1 +1,0 @@
-<div>accessibility settings</div>

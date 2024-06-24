@@ -1,55 +1,21 @@
 <script lang="ts">
-    import { page } from "$app/stores";
-
-    export let categoryName: string;
-    export let categoryLink: string;
-    export let iconColor: "gray" | "blue" | "green" = "gray";
-
-    $: isActive = $page.url.pathname === `/settings/${categoryLink}`;
+    export let title: string;
+    export let description: string = "";
 </script>
 
-<a
-    id="settings-category"
-    href="/settings/{categoryLink}"
-    class:active={isActive}
->
-    <div id="category-icon" style="background: var(--{iconColor})">
-        <slot></slot>
-    </div>
-    <span>{categoryName}</span>
-</a>
+<div class="settings-content">
+    <h3 class="settings-content-title">{title}</h3>
+    <slot></slot>
+
+    {#if description.length > 0}
+        <div class="settings-content-description subtext">{description}</div>
+    {/if}
+</div>
 
 <style>
-    #settings-category {
+    .settings-content {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        padding: 8px;
-        font-weight: 500;
-        background: var(--primary);
-        color: var(--button-text);
-        border-radius: var(--border-radius);
-    }
-
-    #settings-category:hover {
-        background: var(--button-hover-transparent);
-    }
-
-    #settings-category span {
-        font-size: 14.5px;
-    }
-
-    #category-icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 5px;
-        border-radius: 5px;
-    }
-
-    #settings-category.active {
-        background: var(--secondary);
-        color: var(--primary);
+        flex-direction: column;
+        gap: 16px;
     }
 </style>
