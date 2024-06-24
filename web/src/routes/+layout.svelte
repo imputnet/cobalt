@@ -15,12 +15,14 @@
     :global(:root) {
         --primary: #ffffff;
         --secondary: #000000;
+
         --gray: #8d8d95;
         --blue: #2f8af9;
+        --green: #51cf5e;
 
-        --button: #eeeeee;
+        --button: #f4f4f4;
         --button-hover: #e8e8e8;
-        --button-hover-transparent: rgba(0, 0, 0, 0.03);
+        --button-hover-transparent: rgba(0, 0, 0, 0.06);
         --button-stroke: rgba(0, 0, 0, 0.08);
         --button-text: #282828;
 
@@ -100,6 +102,7 @@
     :global(a) {
         text-decoration: none;
         text-decoration-line: none;
+        -webkit-touch-callout: none;
     }
 
     :global(svg),
@@ -133,7 +136,7 @@
         transform: scale(0.95);
     }
 
-    :global(.button.selected) {
+    :global(.button.active) {
         background: var(--secondary);
         color: var(--primary);
     }
