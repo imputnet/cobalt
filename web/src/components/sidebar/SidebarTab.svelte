@@ -57,7 +57,6 @@
         opacity: 0.8;
         height: fit-content;
         border-radius: var(--border-radius);
-        -webkit-touch-callout: none;
     }
 
     .sidebar-tab.active {

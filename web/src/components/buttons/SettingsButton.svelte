@@ -14,13 +14,13 @@
     export let settingValue: Value;
 
     $: setting = $settings[settingContext][settingId];
-    $: isSelected = setting === settingValue;
+    $: isActive = setting === settingValue;
 </script>
 
 <button
     id="setting-button-{settingContext}-{String(settingId)}-{settingValue}"
     class="button"
-    class:selected={isSelected}
+    class:active={isActive}
     on:click={() =>
         updateSetting({
             [settingContext]: {

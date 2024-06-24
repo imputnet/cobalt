@@ -10,32 +10,4 @@
 </script>
 
 <div>
-    <div>settings (placeholder)</div>
-    <br>
-    {#each Object.entries(switchers) as [context, settingIdParent]}
-        <div>
-            <div>{context} context:</div>
-            <br>
-        </div>
-        {#each Object.entries(settingIdParent) as [settingId, settingValue]}
-            {#if settingValue instanceof Array}
-                <div>{settingId}</div>
-                <Switcher>
-                    {#each settingValue as value}
-                        <SettingsButton settingContext="{context}" settingId="{settingId}" settingValue="{value}">
-                            {value}
-                        </SettingsButton>
-                    {/each}
-                </Switcher>
-                <br>
-            {/if}
-
-            {#if typeof settingValue === "boolean"}
-                <SettingsCheckbox settingContext={context} settingId="{settingId}">
-                    {settingId}
-                </SettingsCheckbox>
-                <br>
-            {/if}
-        {/each}
-    {/each}
 </div>
