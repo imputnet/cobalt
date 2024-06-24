@@ -15,7 +15,7 @@
 
 <div id="settings-page">
     <div id="settings-sidebar">
-        <div class="page-title">settings</div>
+        <h1 id="settings-page-title">settings</h1>
         <nav id="settings-navigation">
             <SettingsSection sectionTitle="general">
                 <SettingsCategory
@@ -81,12 +81,6 @@
         overflow: hidden;
         padding-left: calc(60px - var(--padding));
         padding-top: calc(60px - var(--padding));
-    }
-
-    .page-title {
-        font-size: 24px;
-        font-weight: 500;
-        letter-spacing: -1px;
     }
 
     #settings-sidebar {

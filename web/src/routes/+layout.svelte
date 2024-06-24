@@ -119,7 +119,6 @@
         border: none;
         border-radius: var(--border-radius);
         font-size: 14.5px;
-        font-weight: 500;
         cursor: pointer;
         background-color: var(--button);
         color: var(--button-text);
@@ -153,6 +152,39 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+
+    :global(button, .subtext) {
+        font-weight: 500;
+    }
+
+    :global(h1, h2, h3, h4, h5, h6) {
+        font-weight: 500;
+        margin-block: 0;
+    }
+
+    :global(h1) {
+        font-size: 24px;
+        letter-spacing: -1px;
+    }
+
+    :global(h2) {
+        font-size: 20px;
+        letter-spacing: -1px;
+    }
+
+    :global(h3) {
+        font-size: 16px;
+    }
+
+    :global(h4, h5, h6) {
+        font-size: 12px;
+    }
+
+    :global(.subtext) {
+        font-size: 13px;
+        color: var(--gray);
+        line-height: 1.4;
     }
 
     #cobalt {
