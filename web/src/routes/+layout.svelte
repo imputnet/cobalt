@@ -16,6 +16,7 @@
         --primary: #ffffff;
         --secondary: #000000;
 
+        --white: #ffffff;
         --gray: #8d8d95;
         --blue: #2f8af9;
         --green: #51cf5e;
@@ -55,11 +56,14 @@
         :global(:root) {
             --primary: #000000;
             --secondary: #e1e1e1;
+
             --gray: #6e6e6e;
+            --blue: #2a7ce1;
+            --green: #37aa42;
 
             --button: #191919;
             --button-hover: #2a2a2a;
-            --button-hover-transparent: rgba(225, 225, 225, 0.04);
+            --button-hover-transparent: rgba(225, 225, 225, 0.1);
             --button-stroke: rgba(255, 255, 255, 0.08);
             --button-text: #e1e1e1;
 
@@ -154,7 +158,7 @@
         justify-content: center;
     }
 
-    :global(button, .subtext) {
+    :global(button) {
         font-weight: 500;
     }
 
@@ -177,8 +181,16 @@
         font-size: 16px;
     }
 
-    :global(h4, h5, h6) {
+    :global(h4) {
+        font-size: 14.5px;
+    }
+
+    :global(h5) {
         font-size: 12px;
+    }
+
+    :global(h6) {
+        font-size: 11px;
     }
 
     :global(.subtext) {

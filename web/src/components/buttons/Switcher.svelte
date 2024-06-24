@@ -1,4 +1,8 @@
-<div id="switcher-container" class="switcher">
+<script lang="ts">
+    export let big: boolean = false;
+</script>
+
+<div id="switcher-container" class="switcher" class:big={big}>
     <slot></slot>
 </div>
 
@@ -21,6 +25,11 @@
     .switcher :global(.button:last-child) {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+    }
+
+    .switcher.big :global(.button) {
+        width: 100%;
+        height: 40px;
     }
 
     .switcher > :global(:not(.button:first-child):not(.button:last-child)) {
