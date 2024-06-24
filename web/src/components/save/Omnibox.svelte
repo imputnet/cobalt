@@ -153,6 +153,10 @@
         font-size: inherit;
     }
 
+    #link-area:focus-visible {
+        box-shadow: unset;
+    }
+
     #link-area::placeholder {
         color: var(--gray);
     }
