@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
     import SidebarTab from "$components/sidebar/SidebarTab.svelte";
 
@@ -12,8 +12,19 @@
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
 
-    const settingsLink = "/settings/general/appearance";
+    let screenWidth: number,
+        settingsLink: string;
+
+    $: isMobile = screenWidth <= 750;
+
+    $: if (isMobile) {
+        settingsLink = "/settings";
+    } else {
+        settingsLink = "/settings/general/appearance";
+    }
 </script>
+
+<svelte:window bind:innerWidth={screenWidth} />
 
 <nav id="sidebar">
     <CobaltLogo />
@@ -89,7 +100,7 @@
         }
 
         #sidebar::before {
-            content: '';
+            content: "";
             z-index: 1;
             width: 100%;
             height: 100%;
