@@ -12,8 +12,7 @@
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
 
-    const iconSize = 21;
-    const iconStroke = 1.2;
+    const settingsLink = "/settings/general/appearance";
 </script>
 
 <nav id="sidebar">
@@ -21,30 +20,30 @@
     <div id="sidebar-tabs">
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab tabName="save" tabLink="/">
-                <IconDownload size={iconSize} stroke={iconStroke} />
+                <IconDownload />
             </SidebarTab>
             <SidebarTab tabName="trim" tabLink="/trim">
-                <IconCut size={iconSize} stroke={iconStroke} />
+                <IconCut />
             </SidebarTab>
             <SidebarTab tabName="crop" tabLink="/crop">
-                <IconCrop size={iconSize} stroke={iconStroke} />
+                <IconCrop />
             </SidebarTab>
             <SidebarTab tabName="convert" tabLink="/convert">
-                <IconTransform size={iconSize} stroke={iconStroke} />
+                <IconTransform />
             </SidebarTab>
-            <SidebarTab tabName="settings" tabLink="/settings">
-                <IconSettings size={iconSize} stroke={iconStroke} />
+            <SidebarTab tabName="settings" tabLink={settingsLink}>
+                <IconSettings />
             </SidebarTab>
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab tabName="updates" tabLink="/updates">
-                <IconComet size={iconSize} stroke={iconStroke} />
+                <IconComet />
             </SidebarTab>
             <SidebarTab tabName="donate" tabLink="/donate">
-                <IconHeart size={iconSize} stroke={iconStroke} />
+                <IconHeart />
             </SidebarTab>
             <SidebarTab tabName="about" tabLink="/about">
-                <IconInfoCircle size={iconSize} stroke={iconStroke} />
+                <IconInfoCircle />
             </SidebarTab>
         </div>
     </div>

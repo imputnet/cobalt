@@ -59,6 +59,12 @@
         border-radius: var(--border-radius);
     }
 
+    .sidebar-tab :global(svg) {
+        stroke-width: 1.2px;
+        height: 21px;
+        width: 21px;
+    }
+
     .sidebar-tab.active {
         color: var(--sidebar-bg);
         background: var(--sidebar-highlight);
