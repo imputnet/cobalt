@@ -1,5 +1,5 @@
 <script>
-    import MeowbaltLoaf from "../meowbalt/MeowbaltLoaf.svelte";
+    import MeowbaltLoaf from "$components/meowbalt/MeowbaltLoaf.svelte";
     export let pageName;
 </script>
 

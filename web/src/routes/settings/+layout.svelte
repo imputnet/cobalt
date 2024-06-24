@@ -1,6 +1,6 @@
 <script>
-    import SettingsCategory from "../../components/settings/SettingsCategory.svelte";
-    import SettingsSection from "../../components/settings/SettingsSection.svelte";
+    import SettingsCategory from "$components/settings/SettingsCategory.svelte";
+    import SettingsSection from "$components/settings/SettingsSection.svelte";
 
     import IconSunHigh from "@tabler/icons-svelte/IconSunHigh.svelte";
     import IconAccessible from "@tabler/icons-svelte/IconAccessible.svelte";

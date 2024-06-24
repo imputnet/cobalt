@@ -1,5 +1,5 @@
 <script>
-    import Placeholder from "../../components/misc/Placeholder.svelte";
+    import Placeholder from "$components/misc/Placeholder.svelte";
 </script>
 
 <Placeholder pageName="convert" />

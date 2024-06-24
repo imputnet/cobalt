@@ -1,16 +1,16 @@
 <script>
-    import CobaltLogo from "./CobaltLogo.svelte";
-    import SidebarTab from "./SidebarTab.svelte";
+    import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
+    import SidebarTab from "$components/sidebar/SidebarTab.svelte";
 
-    import IconDownload from '@tabler/icons-svelte/IconDownload.svelte';
-    import IconCut from '@tabler/icons-svelte/IconCut.svelte';
-    import IconCrop from '@tabler/icons-svelte/IconCrop.svelte';
-    import IconTransform from '@tabler/icons-svelte/IconTransform.svelte';
-    import IconSettings from '@tabler/icons-svelte/IconSettings.svelte';
+    import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
+    import IconCut from "@tabler/icons-svelte/IconCut.svelte";
+    import IconCrop from "@tabler/icons-svelte/IconCrop.svelte";
+    import IconTransform from "@tabler/icons-svelte/IconTransform.svelte";
+    import IconSettings from "@tabler/icons-svelte/IconSettings.svelte";
 
-    import IconComet from '@tabler/icons-svelte/IconComet.svelte';
-    import IconHeart from '@tabler/icons-svelte/IconHeart.svelte';
-    import IconInfoCircle from '@tabler/icons-svelte/IconInfoCircle.svelte';
+    import IconComet from "@tabler/icons-svelte/IconComet.svelte";
+    import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
+    import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
 
     const iconSize = 21;
     const iconStroke = 1.2;
