@@ -13,7 +13,10 @@
 
     let tab: HTMLElement;
 
-    $: isTabActive = $page.url.pathname === tabLink;
+    $: currentTab = $page.url.pathname.split('/')[1];
+    $: baseTabPath = tabLink.split('/')[1]
+
+    $: isTabActive = currentTab === baseTabPath;
 
     const showTab = (e: HTMLElement | undefined) => {
         if (e) {
