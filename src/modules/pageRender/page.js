@@ -61,19 +61,19 @@ export default function(obj) {
         <meta charset="utf-8">
         <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
 
-        <title>${t("AppTitleCobalt")}</title>
+        <title>${t("AppTitleInsta")}</title>
 
         <meta property="og:url" content="${env.webURL}">
-        <meta property="og:title" content="${t("AppTitleCobalt")}">
+        <meta property="og:title" content="${t("AppTitleInsta")}">
         <meta property="og:description" content="${t('EmbedBriefDescription')}">
         <meta property="og:image" content="${env.webURL}icons/generic.png">
-        <meta name="title" content="${t("AppTitleCobalt")}">
+        <meta name="title" content="${t("AppTitleInsta")}">
         <meta name="description" content="${t('AboutSummary')}">
         <meta name="twitter:card" content="summary">
         
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-title" content="${t("AppTitleCobalt")}">
+        <meta name="apple-mobile-web-app-title" content="${t("AppTitleInsta")}">
 
         <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
         <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
@@ -103,208 +103,6 @@ export default function(obj) {
         <noscript>
             <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
         </noscript>
-        ${multiPagePopup({
-            name: "about",
-            closeAria: t('AccessibilityGoBack'),
-            tabs: [{
-                name: "about",
-                title: `${emoji("🐲")} ${t('AboutTab')}`,
-                content: popup({
-                    name: "about",
-                    header: {
-                        aboveTitle: {
-                            text: t('MadeWithLove'),
-                            url: repo
-                        },
-                        closeAria: t('AccessibilityGoBack'),
-                        title: `${emoji("🔮", 30)} ${t('TitlePopupAbout')}`
-                    },
-                    body: [{
-                        text: t('AboutSummary')
-                    }, {
-                        text: collapsibleList([{
-                            name: "services",
-                            title: `${emoji("🔗")} ${t("CollapseServices")}`,
-                            body: `${enabledServices}`
-                            + `<div class="explanation embedded">${t("SupportNotAffiliated")}`
-                            + `${obj.lang === "ru" ? `<br>${t("SupportMetaNoticeRU")}` : ''}`
-                            + `</div>`
-                            + `${t("ServicesNote")}`
-                        }, {
-                            name: "keyboard",
-                            title: `${emoji("⌨")} ${t("CollapseKeyboard")}`,
-                            body: 
-                            `${t("KeyboardShortcutsIntro")}
-                            ${keyboardShortcuts([{
-                                items: [{
-                                    combo: "Shift+D",
-                                    name: t("PasteFromClipboard")
-                                }, {
-                                     combo: "Shift+K",
-                                     name: t("ModeToggleAuto")
-                                }, {
-                                     combo: "Shift+L",
-                                     name: t("ModeToggleAudio")
-                                }]
-                            }, {
-                                items: [{
-                                    combo: "⌘/Ctrl+V",
-                                    name: t("KeyboardShortcutQuickPaste")
-                                }, {
-                                    combo: "Esc",
-                                    name: t("KeyboardShortcutClear")
-                                }, {
-                                    combo: "Esc",
-                                    name: t("KeyboardShortcutClosePopup")
-                                }]
-                            }, {
-                                items: [{
-                                     combo: "Shift+B",
-                                     name: t("AboutTab")
-                                }, {
-                                     combo: "Shift+N",
-                                     name: t("ChangelogTab")
-                                }, {
-                                    combo: "Shift+M",
-                                    name: t("TitlePopupSettings")
-                                }]
-                            }])}`
-                        }, {
-                            name: "support",
-                            title: `${emoji("❤️‍🩹")} ${t("CollapseSupport")}`,
-                            body: `${t("SupportSelfTroubleshooting")}`
-                            + `${socialLink(emoji("📢"), t("StatusPage"), links.statusPage)}`
-                            + `${socialLink(emoji("🔧"), t("TroubleshootingGuide"), links.troubleshootingGuide)}`
-                            + `<br>`
-                            + `${t("FollowSupport")}`
-                            + `${socialLinks(obj.lang)}`
-                            + `<br>`
-                            + `${t("SourceCode")}`
-                            + `${socialLink(emoji("🐙"), repo.replace("https://github.com/", ''), repo)}`
-                        }, {
-                            name: "privacy",
-                            title: `${emoji("🔒")} ${t("CollapsePrivacy")}`,
-                            body: t("PrivacyPolicy") + `${
-                                env.plausibleHostname ? `<br><br>${t("AnalyticsDescription")}` : ''
-                            }`
-                        }, {
-                            name: "legal",
-                            title: `${emoji("📑")} ${t("CollapseLegal")}`,
-                            body: t("FairUse")
-                        }])
-                    },
-                    ...(env.showSponsors ?
-                    [{
-                        text: t("SponsoredBy"),
-                        classes: ["sponsored-by-text"],
-                        nopadding: true
-                    }, {
-                        text: sponsoredList(),
-                        raw: true
-                    }] : []
-                    )]
-                })
-            }, {
-                name: "changelog",
-                title: `${emoji("🎉")} ${t('ChangelogTab')}`,
-                content: popup({
-                    name: "changelog",
-                    header: {
-                        closeAria: t('AccessibilityGoBack'),
-                        title: `${emoji("🪄", 30)} ${t('TitlePopupChangelog')}`
-                    },
-                    body: [{
-                        text: `<div class="category-title">${t('ChangelogLastMajor')}</div>`,
-                        raw: true
-                    }, {
-                        text: (() => {
-                            const banner = changelogManager('banner');
-                            if (!banner) return '';
-                            return `<div class="changelog-banner">
-                                        <img class="changelog-img" ` +
-                                            `src="${banner.url}" ` +
-                                            `alt="${banner.alt.replaceAll('"', '&quot;')}" ` +
-                                            `width="${banner.width}" ` +
-                                            `height="${banner.height}" ` +
-                                            `onerror="this.style.opacity=0" loading="lazy">
-                                    </div>`;
-                        })(),
-                        raw: true
-                    }, {
-                        text: changelogManager("version"),
-                        classes: ["changelog-tags"],
-                        nopadding: true
-                    }, {
-                        text: changelogManager("title"),
-                        classes: ["changelog-subtitle"],
-                        nopadding: true
-                    }, {
-                        text: changelogManager("content")
-                    }, {
-                        text: sep(),
-                        raw: true
-                    },{
-                        text: `<a class="text-backdrop changelog-tag-version" href="${repo}/commit/${obj.hash}">#${obj.hash}</a>`,
-                        classes: ["changelog-tags"],
-                        nopadding: true
-                    }, {
-                        text: com[0],
-                        classes: ["changelog-subtitle"],
-                        nopadding: true
-                    }, {
-                        text: com[1]
-                    }, {
-                        text: `<div class="category-title">${t('ChangelogOlder')}</div>`,
-                        raw: true
-                    }, {
-                        text: `
-                        <div id="changelog-history">
-                            <button class="switch bottom-margin" onclick="loadOnDemand('changelog-history', '0')">${t("ChangelogPressToExpand")}</button>
-                        </div>`,
-                        raw: true
-                    }]
-                })
-            }, {
-                name: "donate",
-                title: `${emoji("💖")} ${t('DonationsTab')}`,
-                content: popup({
-                    name: "donate",
-                    header: {
-                        closeAria: t('AccessibilityGoBack'),
-                        title: emoji("💸", 30) + t('TitlePopupDonate')
-                    },
-                    body: [{
-                        text: `<div class="category-title">${t('DonateSub')}</div>`,
-                        raw: true
-                    }, {
-                        text: `
-                        <div class="changelog-banner">
-                            <img class="changelog-img" ` +
-                                `src="updateBanners/catsleep.webp" ` +
-                                `alt="${t("DonateImageDescription")}" ` +
-                                `width="480" ` +
-                                `height="270" ` +
-                                `onerror="this.style.opacity=0" loading="lazy">
-                        </div>`,
-                        raw: true
-                    }, {
-                        text: t('DonateExplanation')
-                    }, {
-                        text: donateLinks.replace(/REPLACEME/g, t('DonateVia')),
-                        raw: true
-                    }, {
-                        text: t('DonateLinksDescription'),
-                        classes: ["explanation"]
-                    }, {
-                        text: sep(),
-                        raw: true
-                    }, {
-                        text: donate.replace(/REPLACEME/g, t('ClickToCopy')),
-                        classes: ["desc-padding"]
-                    }]
-                })
-            }],
-        })}
         ${multiPagePopup({
             name: "settings",
             closeAria: t('AccessibilityGoBack'),
@@ -584,13 +382,13 @@ export default function(obj) {
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
-                emoji: "🎉",
-                text: t("UpdateOneMillion"),
+                text: t("WelcomeMessage"),
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
             <div id="cobalt-main-box" class="center">
-                <div id="logo">${t("AppTitleCobalt")}${betaTag()}</div>
+                <div id="logo">${t("AppTitleInsta")}${betaTag()}</div>
+                <br></br><br></br><br></br>
                 <div id="download-area">
                     <div id="top">
                         <div id="link-icon">${linkSVG}</div>
@@ -598,41 +396,28 @@ export default function(obj) {
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                         <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled aria-label="${t('AccessibilityDownloadButton')}">
                     </div>
+                    <br></br><br></br><br></br>
                     <div id="bottom">
-                        <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
-                        ${switcher({
-                            name: "audioMode",
-                            noParent: true,
-                            items: [{
-                                action: "false",
-                                text: `${emoji("✨")} ${t("ModeToggleAuto")}`
-                            }, {
-                                action: "true",
-                                text: `${emoji("🎶")} ${t("ModeToggleAudio")}`
-                            }]
-                        })}
-                    </div>
+                    <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
+                    ${switcher({
+                        name: "audioMode",
+                        noParent: true,
+                        items: [{
+                            action: "false",
+                            text: `${t("ModeToggleAuto")}`
+                        }, {
+                            action: "true",
+                            text: `${t("ModeToggleAudio")}`
+                        }]
+                    })}
+                    ${footerButtons([{
+                        name: "settings",
+                        type: "popup",
+                        text: `${emoji("⚙️", 22)} ${t('TitlePopupSettings')}`,
+                        aria: t('AccessibilityOpenSettings')
+                    }])}
                 </div>
             </div>
-            <footer id="footer">
-                ${footerButtons([{
-                    name: "about",
-                    type: "popup",
-                    text: `${emoji("🐲" , 22)} ${t('AboutTab')}`,
-                    aria: t('AccessibilityOpenAbout')
-                }, {
-                    name: "about",
-                    type: "popup",
-                    context: "donate",
-                    text: `${emoji("💖", 22)} ${t('Donate')}`,
-                    aria: t('AccessibilityOpenDonate')
-                }, {
-                    name: "settings",
-                    type: "popup",
-                    text: `${emoji("⚙️", 22)} ${t('TitlePopupSettings')}`,
-                    aria: t('AccessibilityOpenSettings')
-                }])}
-            </footer>
         </div>
         <script>
             let defaultApiUrl = '${env.apiURL}';

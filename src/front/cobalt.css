@@ -18,16 +18,16 @@
 [data-theme="dark"] {
     --accent: rgb(225, 225, 225);
     --accent-highlight: rgb(225, 225, 225, 4%);
-    --accent-subtext: rgb(110, 110, 110);
+    --accent-subtext: rgb(255, 255, 255);
     --accent-hover: rgb(30, 30, 30);
-    --accent-hover-elevated: rgb(48, 48, 48);
+    --accent-hover-elevated: rgb(255, 255, 255);
     --accent-hover-transparent: rgba(48, 48, 48, 0.5);
-    --accent-button: rgb(25, 25, 25);
+    --accent-button: rgb(180, 180, 180);
     --accent-button-elevated: rgb(42, 42, 42);
     --glass: rgba(25, 25, 25, 0.85);
     --glass-lite: rgba(25, 25, 25, 0.98);
     --subbackground: rgb(10, 10, 10);
-    --background: rgb(0, 0, 0);
+    --background: rgb(90, 90, 90);
     --background-backdrop: rgba(0, 0, 0, 0.5);
 }
 [data-theme="light"] {
@@ -331,6 +331,7 @@ button:active,
     display: flex;
     flex-direction: row;
     align-items: center;
+    border-radius: 22px;
 }
 .footer-button {
     width: auto!important;
