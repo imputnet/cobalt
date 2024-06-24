@@ -9,18 +9,18 @@
 </script>
 
 <a
-    id="settings-category"
+    class="settings-category"
     href="/settings/{categoryLink}"
     class:active={isActive}
 >
-    <div id="category-icon" style="background: var(--{iconColor})">
+    <div class="category-icon" style="background: var(--{iconColor})">
         <slot></slot>
     </div>
     <span>{categoryName}</span>
 </a>
 
 <style>
-    #settings-category {
+    .settings-category {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -32,24 +32,24 @@
         border-radius: var(--border-radius);
     }
 
-    #settings-category:hover {
+    .settings-category:hover {
         background: var(--button-hover-transparent);
     }
 
-    #settings-category span {
+    .settings-category.active {
+        background: var(--secondary);
+        color: var(--primary);
+    }
+
+    .settings-category span {
         font-size: 14.5px;
     }
 
-    #category-icon {
+    .category-icon {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 5px;
         border-radius: 5px;
-    }
-
-    #settings-category.active {
-        background: var(--secondary);
-        color: var(--primary);
     }
 </style>
