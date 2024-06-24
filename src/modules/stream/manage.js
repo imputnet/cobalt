@@ -1,6 +1,7 @@
 import NodeCache from "node-cache";
 import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
+import { setMaxListeners } from "node:events";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { env } from "../config.js";
@@ -79,7 +80,13 @@ export function createInternalStream(url, obj = {}) {
     }
 
     const streamID = nanoid();
-    const controller = new AbortController();
+    let controller = obj.controller;
+
+    if (!controller) {
+        controller = new AbortController(); 
+        setMaxListeners(Infinity, controller.signal);
+    }
+
     internalStreamCache[streamID] = {
         url,
         service: obj.service,
