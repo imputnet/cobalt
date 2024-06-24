@@ -65,17 +65,6 @@
         opacity: 1;
     }
 
-    .sidebar-tab:focus-visible {
-        box-shadow: 0 0 0 3px var(--blue) inset;
-        outline: none;
-        z-index: 1;
-    }
-
-    .sidebar-tab.active:focus-visible {
-        background: var(--blue);
-        color: var(--sidebar-highlight);
-    }
-
     @media (hover: hover) {
         .sidebar-tab:hover {
             opacity: 1;

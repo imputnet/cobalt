@@ -129,7 +129,7 @@
         box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
     }
 
-    :global(button:focus-visible) {
+    :global(:focus-visible) {
         box-shadow: 0 0 0 2px var(--blue) inset;
         outline: none;
         z-index: 1;
@@ -142,6 +142,13 @@
     :global(.button.active) {
         background: var(--secondary);
         color: var(--primary);
+    }
+
+    /* important is used because active class is toggled by state */
+    /* and added to the end of the list, taking priority */
+    :global(.active:focus-visible) {
+        background: var(--blue) !important;
+        color: var(--sidebar-highlight) !important;
     }
 
     @media (hover: hover) {
