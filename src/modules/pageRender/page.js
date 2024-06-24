@@ -171,8 +171,8 @@ export default function(obj) {
                     })
                 })
                 + settingsCategory({
-                    name: "twitter",
-                    title: "twitter",
+                    name: "gif",
+                    title: "gif",
                     body: checkbox([{
                         action: "twitterGif",
                         name: t("SettingsTwitterGif"),
@@ -181,8 +181,8 @@ export default function(obj) {
                     + explanation(t('SettingsTwitterGifDescription'))
                 })
                 + settingsCategory({
-                    name: "tiktok",
-                    title: "tiktok",
+                    name: "h265",
+                    title: "h265",
                     body: checkbox([{
                         action: "tiktokH265",
                         name: t("SettingsTikTokH265"),
@@ -220,8 +220,8 @@ export default function(obj) {
                     + explanation(t('SettingsYoutubeDubDescription'))
                 })
                 + settingsCategory({
-                    name: "tiktok-audio",
-                    title: "tiktok",
+                    name: "full audio",
+                    title: "full audio",
                     body: checkbox([{
                         action: "fullTikTokAudio",
                         name: t("SettingsAudioFullTikTok"),
@@ -386,6 +386,7 @@ export default function(obj) {
                 visible: true,
                 action: "popup('about', 1, 'changelog')"
             })}
+
             <div id="cobalt-main-box" class="center">
                 <div id="logo">${t("AppTitleInsta")}${betaTag()}</div>
                 <br></br><br></br><br></br>
