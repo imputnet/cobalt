@@ -1,6 +1,6 @@
 <script>
-    import Omnibox from "../components/save/Omnibox.svelte";
-    import MeowbaltLoaf from "../components/meowbalt/MeowbaltLoaf.svelte";
+    import Omnibox from "$components/save/Omnibox.svelte";
+    import MeowbaltLoaf from "$components/meowbalt/MeowbaltLoaf.svelte";
 </script>
 
 <div id="cobalt-save-container" class="center-column-container">

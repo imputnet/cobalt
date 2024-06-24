@@ -1,18 +1,18 @@
 <script lang="ts">
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
 
-    import DownloadButton from "./buttons/DownloadButton.svelte";
-    import ClearButton from "./buttons/ClearButton.svelte";
-    import ActionButton from "../buttons/ActionButton.svelte";
+    import ClearButton from "$components/save/buttons/ClearButton.svelte";
+    import DownloadButton from "$components/save/buttons/DownloadButton.svelte";
 
-    import Switcher from "../buttons/Switcher.svelte";
+    import Switcher from "$components/buttons/Switcher.svelte";
+    import ActionButton from "$components/buttons/ActionButton.svelte";
+    import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
     import IconSparkles from "$lib/icons/Sparkles.svelte";
     import IconMusic from "$lib/icons/Music.svelte";
     import IconMute from "$lib/icons/Mute.svelte";
 
     import IconClipboard from "$lib/icons/Clipboard.svelte";
-    import SettingsButton from "../buttons/SettingsButton.svelte";
 
     let link: string = "";
     let isFocused = false;

@@ -1,7 +1,7 @@
 <script>
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
-    import Sidebar from "../components/sidebar/Sidebar.svelte";
+    import Sidebar from "$components/sidebar/Sidebar.svelte";
 </script>
 
 <div id="cobalt">
