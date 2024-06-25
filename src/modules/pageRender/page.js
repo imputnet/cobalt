@@ -111,7 +111,7 @@ export default function(obj) {
                     text: `v.${version}-${obj.hash} (${obj.branch})`,
                     url: `${repo}/commit/${obj.hash}`
                 },
-                title: `${emoji("⚙️", 30)} ${t('TitlePopupSettings')}`
+                title: `${t('TitlePopupSettings')}`
             },
             tabs: [{
                 name: "video",
@@ -335,7 +335,7 @@ export default function(obj) {
             name: "picker",
             closeAria: t('AccessibilityGoBack'),
             header: {
-                title: `${emoji("🧮", 30)} <div id="picker-title"></div>`,
+                title: `<div id="picker-title"></div>`,
                 explanation: `<div id="picker-subtitle"></div>`,
             },
             buttons: [`<a id="picker-download" class="switch" target="_blank" href="/">${t('ImagePickerDownloadAudio')}</a>`],
@@ -349,9 +349,6 @@ export default function(obj) {
                 classes: ["small"],
                 header: {
                     closeAria: t('AccessibilityGoBack'),
-                    emoji: `<img class="popout-meowbalt" `
-                              + `draggable="false" loading="lazy" `
-                              + `alt="😿" src="assets/meowbalt/question.png">`,
                     title: t('TitlePopupDownload')
                 },
                 body: switcher({
@@ -371,15 +368,13 @@ export default function(obj) {
                 buttonOnly: true,
                 classes: ["small"],
                 header: {
-                    emoji: `<img class="popout-meowbalt" `
-                              + `draggable="false" loading="lazy" `
-                              + `alt="😿" src="assets/meowbalt/error.png">`,
                 },
                 body: `<div id="desc-error" class="desc-padding subtext desc-error"></div>`,
                 buttonText: t('ErrorPopupCloseButton')
             })}
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
+        <br></br><br></br><br></br>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
                 text: t("WelcomeMessage"),
@@ -397,9 +392,9 @@ export default function(obj) {
                         <button id="url-clear" onclick="clearInput()" style="display:none;">x</button>
                         <input id="download-button" class="mono dontRead" onclick="download(document.getElementById('url-input-area').value)" type="submit" value="" disabled aria-label="${t('AccessibilityDownloadButton')}">
                     </div>
-                    <br></br><br></br><br></br>
+                    
                     <div id="bottom">
-                    <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${emoji("📋", 22)} ${t('PasteFromClipboard')}</button>
+                    <button id="paste" class="switch" onclick="pasteClipboard()" aria-label="${t('PasteFromClipboard')}">${t('PasteFromClipboard')}</button>
                     ${switcher({
                         name: "audioMode",
                         noParent: true,
@@ -414,7 +409,7 @@ export default function(obj) {
                     ${footerButtons([{
                         name: "settings",
                         type: "popup",
-                        text: `${emoji("⚙️", 22)} ${t('TitlePopupSettings')}`,
+                        text: `${t('TitlePopupSettings')}`,
                         aria: t('AccessibilityOpenSettings')
                     }])}
                 </div>

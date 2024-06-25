@@ -338,6 +338,7 @@ button:active,
     color: var(--accent-subtext);
     padding: var(--gap) 1rem!important;
     align-content: center;
+    border-radius: 10px;
 }
 .notification-dot {
     width: 8px;

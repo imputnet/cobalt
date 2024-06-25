@@ -2,7 +2,6 @@ const names = {
     "🎶": "musical_notes",
     "🎬": "clapper_board",
     "🎉": "party_popper",
-    "❓": "question_mark",
     "✨": "sparkles",
     "🪅": "pinata",
     "🪄": "magic_wand",
