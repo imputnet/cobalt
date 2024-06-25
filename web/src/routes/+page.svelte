@@ -16,6 +16,7 @@
 <style>
     #cobalt-save-container {
         padding: var(--padding);
+        overflow: hidden;
     }
 
     #cobalt-save {
