@@ -3,9 +3,6 @@
     import SidebarTab from "$components/sidebar/SidebarTab.svelte";
 
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
-    import IconCut from "@tabler/icons-svelte/IconCut.svelte";
-    import IconCrop from "@tabler/icons-svelte/IconCrop.svelte";
-    import IconTransform from "@tabler/icons-svelte/IconTransform.svelte";
     import IconSettings from "@tabler/icons-svelte/IconSettings.svelte";
 
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
@@ -32,15 +29,6 @@
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
-            </SidebarTab>
-            <SidebarTab tabName="trim" tabLink="/trim">
-                <IconCut />
-            </SidebarTab>
-            <SidebarTab tabName="crop" tabLink="/crop">
-                <IconCrop />
-            </SidebarTab>
-            <SidebarTab tabName="convert" tabLink="/convert">
-                <IconTransform />
             </SidebarTab>
             <SidebarTab tabName="settings" tabLink={settingsLink}>
                 <IconSettings />
