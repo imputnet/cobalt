@@ -4,11 +4,10 @@
     export let tabName: string;
     export let tabLink: string;
 
-    const firstTabs = [
+    const firstTabPage = [
         "save",
-        "trim",
-        "crop",
-        "convert"
+        "settings",
+        "updates"
     ];
 
     let tab: HTMLElement;
@@ -21,7 +20,7 @@
     const showTab = (e: HTMLElement | undefined) => {
         if (e) {
             e.scrollIntoView({
-                inline: firstTabs.includes(tabName) ? 'end' : 'start',
+                inline: firstTabPage.includes(tabName) ? 'end' : 'start',
                 behavior: 'smooth'
             });
         }
