@@ -52,10 +52,10 @@
         flex-direction: row;
         align-items: center;
         gap: 12px;
-
         justify-content: start;
         text-align: left;
         transform: none;
+        padding: 6px 12px;
     }
 
     .checkbox-text {

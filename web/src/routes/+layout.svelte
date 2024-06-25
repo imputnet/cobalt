@@ -26,9 +26,11 @@
         --button-hover-transparent: rgba(0, 0, 0, 0.06);
         --button-stroke: rgba(0, 0, 0, 0.05);
         --button-text: #282828;
+        --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
         --sidebar-bg: #000000;
         --sidebar-highlight: #ffffff;
+        --sidebar-hover: rgba(255, 255, 255, 0.1);
 
         --input-border: #8d8d95;
 
@@ -129,7 +131,7 @@
         cursor: pointer;
         background-color: var(--button);
         color: var(--button-text);
-        box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+        box-shadow: var(--button-box-shadow);
     }
 
     :global(:focus-visible) {
@@ -139,7 +141,7 @@
     }
 
     :global(button:active) {
-        transform: scale(0.95);
+        background-color: var(--button-hover);
     }
 
     :global(.button.active) {
