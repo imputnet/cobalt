@@ -14,6 +14,8 @@
 
     let screenWidth: number;
 
+    $: currentPageTitle = $page.url.pathname.split("/").at(-1);
+
     $: isMobile = screenWidth <= 750;
     $: isHome = $page.url.pathname === `/settings`;
 </script>
@@ -23,11 +25,19 @@
 <div id="settings-page">
     <div id="settings-sidebar">
         <div id="settings-header" class:back-visible={!isHome && isMobile}>
-            {#if !isHome && isMobile}
-                <a class="back-button" href="/settings">
-                    <IconChevronLeft />
-                    <h2 id="settings-page-title">settings</h2>
-                </a>
+            {#if isMobile}
+                {#if !isHome}
+                    <a class="back-button" href="/settings">
+                        <IconChevronLeft />
+                    </a>
+                {/if}
+                <h3 id="settings-page-title">
+                    settings
+                    {#if !isHome}
+                        <span class="title-slash"> / </span>
+                        {currentPageTitle}
+                    {/if}
+                </h3>
             {:else}
                 <h2 id="settings-page-title">settings</h2>
             {/if}
@@ -77,7 +87,9 @@
     #settings-page {
         --settings-nav-width: 250px;
         --settings-padding: 30px;
-        --settings-padding-small: calc(var(--settings-padding) - var(--padding));
+        --settings-padding-small: calc(
+            var(--settings-padding) - var(--padding)
+        );
         display: grid;
         width: 100%;
         grid-template-columns: var(--settings-nav-width) 1fr;
@@ -110,11 +122,11 @@
     }
 
     #settings-navigation {
-        gap: 12px;
+        gap: var(--padding);
     }
 
     #settings-header {
-        --back-padding: 6px;
+        --back-padding: calc(var(--padding) / 2);
     }
 
     .back-button {
@@ -123,7 +135,9 @@
         color: var(--secondary);
         gap: var(--back-padding);
         padding: var(--back-padding);
-        padding-right: calc(var(--back-padding) * 2);
+
+        position: absolute;
+        left: var(--back-padding);
     }
 
     .back-button:active {
@@ -166,10 +180,7 @@
             position: sticky;
             padding: var(--padding);
             gap: 4px;
-        }
-
-        #settings-header.back-visible {
-            padding: calc(var(--padding) - var(--back-padding));
+            justify-content: center;
         }
 
         #settings-sidebar {
@@ -178,7 +189,11 @@
 
         #settings-page-title {
             text-align: center;
-            font-size: 16px;
+            letter-spacing: -0.3px;
+        }
+
+        .title-slash {
+            color: var(--gray);
         }
 
         #settings-navigation {

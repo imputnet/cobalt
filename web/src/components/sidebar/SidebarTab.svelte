@@ -70,9 +70,15 @@
         opacity: 1;
     }
 
+    .sidebar-tab:active:not(.active) {
+        opacity: 1;
+        background-color: var(--sidebar-hover);
+    }
+
     @media (hover: hover) {
-        .sidebar-tab:hover {
+        .sidebar-tab:hover:not(.active) {
             opacity: 1;
+            background-color: var(--sidebar-hover);
         }
     }
 

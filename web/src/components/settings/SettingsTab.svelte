@@ -95,6 +95,7 @@
     @media screen and (max-width: 750px) {
         .settings-tab {
             background: none;
+            padding: 9px;
             --small-padding: 5px;
         }
 
