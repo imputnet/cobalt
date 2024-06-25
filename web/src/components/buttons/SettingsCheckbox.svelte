@@ -23,14 +23,13 @@
 <button
     id="setting-button-{settingContext}-{String(settingId)}"
     class="checkbox-container"
-    on:click={() => {
+    on:click={() =>
         updateSetting({
             [settingContext]: {
                 [settingId]: !isChecked,
             },
-        });
-        console.log("yass", !isChecked);
-    }}
+        })
+    }
 >
     <div class="checkbox" class:checked={isChecked}>
         <div class="checkbox-icon">
