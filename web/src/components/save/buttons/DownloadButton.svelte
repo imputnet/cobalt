@@ -8,6 +8,9 @@
     $: buttonText = '>>';
     $: isDisabled = false;
 
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
+
     export const changeDownloadButton = (state: string) => {
         isDisabled = true;
         switch(state) {
@@ -31,6 +34,14 @@
             buttonText = '>>';
             isDisabled = false;
         }, 2500)
+    }
+
+    const downloadFile = (url: string) => {
+        if (isIOS) {
+            return navigator?.share({ url }).catch(() => {});
+        } else {
+            return window.open(url, '_blank');
+        }
     }
 
     // alerts are temporary, we don't have an error popup yet >_<
@@ -57,7 +68,7 @@
             changeDownloadButton("done");
             restoreDownloadButton();
 
-            return window.open(response.url, '_blank');
+            return downloadFile(response.url);
         }
 
         if (response.status === "stream") {
@@ -69,7 +80,7 @@
                 changeDownloadButton("done");
                 restoreDownloadButton();
 
-                return window.open(response.url, '_blank');
+                return downloadFile(response.url);
             } else {
                 changeDownloadButton("error");
                 restoreDownloadButton();
