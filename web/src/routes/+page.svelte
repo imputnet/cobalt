@@ -3,6 +3,10 @@
     import MeowbaltLoaf from "$components/meowbalt/MeowbaltLoaf.svelte";
 </script>
 
+<svelte:head>
+    <title>cobalt</title>
+</svelte:head>
+
 <div id="cobalt-save-container" class="center-column-container">
     <main id="cobalt-save">
         <MeowbaltLoaf />

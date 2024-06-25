@@ -15,10 +15,18 @@
     let screenWidth: number;
 
     $: currentPageTitle = $page.url.pathname.split("/").at(-1);
+    $: stringPageTitle =
+        currentPageTitle !== "settings" ? `/ ${currentPageTitle}` : "";
 
     $: isMobile = screenWidth <= 750;
     $: isHome = $page.url.pathname === `/settings`;
 </script>
+
+<svelte:head>
+    <title>
+        cobalt: settings {stringPageTitle}
+    </title>
+</svelte:head>
 
 <svelte:window bind:innerWidth={screenWidth} />
 
