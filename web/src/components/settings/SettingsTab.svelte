@@ -21,8 +21,9 @@
         </div>
         <span>{tabName}</span>
     </div>
-
-    <IconChevronRight class="settings-tab-chevron" />
+    <div class="settings-tab-chevron">
+        <IconChevronRight />
+    </div>
 </a>
 
 <style>
@@ -38,6 +39,7 @@
         background: var(--primary);
         color: var(--button-text);
         border-radius: var(--border-radius);
+        overflow: hidden;
     }
 
     .settings-tab-left {
@@ -58,7 +60,7 @@
         stroke: var(--white);
     }
 
-    :global(.settings-tab-chevron) {
+    .settings-tab-chevron :global(svg) {
         display: none;
         stroke: var(--secondary);
     }
@@ -101,7 +103,7 @@
             width: 19px;
         }
 
-        :global(.settings-tab-chevron) {
+        .settings-tab-chevron :global(svg) {
             display: block;
         }
     }
