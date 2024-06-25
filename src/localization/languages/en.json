@@ -4,7 +4,7 @@
         "ContactLink": "check the <a class=\"text-backdrop link\" href=\"{statusPage}\" target=\"_blank\">status page</a> or <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>"
     },
     "strings": {
-        "AppTitleInsta": "insta media convertor",
+        "AppTitleInsta": "insta media converter",
         "LinkInput": "paste your insta link here",
         "AboutSummary": "cobalt is your go-to place for downloads from social and media platforms. zero ads, trackers, or other creepy bullshit. simply paste a share link and you're ready to rock!",
         "EmbedBriefDescription": "save what you love. no ads, trackers, or other creepy bullshit.",
@@ -156,7 +156,7 @@
         "SettingsYoutubeDub": "use browser language",
         "SettingsYoutubeDubDescription": "uses your browser's default language for dubbed audio tracks. works even if cobalt ui isn't translated to your language.",
         "ErrorInvalidContentType": "invalid content type header",
-        "WelcomeMessage": "welcome to my insta media convertor",
+        "WelcomeMessage": "welcome to my insta media converter",
         "ErrorYTAgeRestrict": "this youtube video is age-restricted, so i can't see it. try another one!",
         "ErrorYTLogin": "couldn't get this youtube video because it requires an account to view.\n\nthis limitation is done by google to seemingly stop scraping, affecting all 3rd party tools and even their own clients.\n\ntry again, but if issue persists, {ContactLink}.",
         "ErrorYTRateLimit": "i got rate limited by youtube. try again in a few seconds, but if issue persists, {ContactLink}."
