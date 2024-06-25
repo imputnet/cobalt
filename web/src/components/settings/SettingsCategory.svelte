@@ -16,6 +16,6 @@
     .settings-content {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 10px;
     }
 </style>

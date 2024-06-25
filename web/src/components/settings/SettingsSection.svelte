@@ -25,4 +25,11 @@
         color: var(--gray);
         padding-left: 8px;
     }
+
+    @media screen and (max-width: 750px) {
+        #settings-section-categories {
+            background: var(--button);
+            border-radius: var(--border-radius);
+        }
+    }
 </style>

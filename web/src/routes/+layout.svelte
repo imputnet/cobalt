@@ -24,7 +24,7 @@
         --button: #f4f4f4;
         --button-hover: #e8e8e8;
         --button-hover-transparent: rgba(0, 0, 0, 0.06);
-        --button-stroke: rgba(0, 0, 0, 0.08);
+        --button-stroke: rgba(0, 0, 0, 0.05);
         --button-text: #282828;
 
         --sidebar-bg: #000000;
@@ -64,7 +64,7 @@
             --button: #191919;
             --button-hover: #2a2a2a;
             --button-hover-transparent: rgba(225, 225, 225, 0.1);
-            --button-stroke: rgba(255, 255, 255, 0.08);
+            --button-stroke: rgba(255, 255, 255, 0.05);
             --button-text: #e1e1e1;
 
             --sidebar-bg: #101010;
@@ -216,7 +216,6 @@
     #content {
         display: flex;
         overflow: scroll;
-        padding: var(--padding);
         background-color: var(--primary);
 
         border-top-left-radius: var(--border-radius);
