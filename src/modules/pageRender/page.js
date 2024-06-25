@@ -22,7 +22,8 @@ import {
     webLoc,
     sponsoredList,
     betaTag,
-    linkSVG
+    linkSVG,
+    instaSVG
 } from "./elements.js";
 
 let com = getCommitInfo();
@@ -374,7 +375,7 @@ export default function(obj) {
             })}
         </div>
         <div id="popup-backdrop" onclick="hideAllPopups()"></div>
-        <br></br><br></br><br></br>
+        <br></br><br></br>
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
                 text: t("WelcomeMessage"),
@@ -383,6 +384,8 @@ export default function(obj) {
             })}
 
             <div id="cobalt-main-box" class="center">
+                <div id="insta-icon">${instaSVG}</div>
+                <br></br><br></br><br></br>
                 <div id="logo">${t("AppTitleInsta")}${betaTag()}</div>
                 <br></br><br></br><br></br>
                 <div id="download-area">
