@@ -88,6 +88,9 @@
         margin: 0;
         background-color: var(--sidebar-bg);
         color: var(--secondary);
+        height: 100vh;
+        overflow: hidden;
+        overscroll-behavior-y: none;
     }
 
     :global(*) {
@@ -207,7 +210,9 @@
     }
 
     #cobalt {
-        height: 100vh;
+        position: fixed;
+        height: 100%;
+        width: 100%;
         display: grid;
         grid-template-columns: calc(var(--sidebar-width) + 8px) 1fr;
         overflow: hidden;
