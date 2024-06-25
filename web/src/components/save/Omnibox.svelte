@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { SvelteComponent, tick } from "svelte";
+
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
 
     import ClearButton from "$components/save/buttons/ClearButton.svelte";
@@ -17,6 +19,8 @@
     let link: string = "";
     let isFocused = false;
 
+    let downloadButton: SvelteComponent;
+
     const validLink = (link: string) => {
         try {
             return /^https:/i.test(new URL(link).protocol);
@@ -26,10 +30,13 @@
     };
 
     const pasteClipboard = () => {
-        navigator.clipboard.readText().then((text) => {
+        navigator.clipboard.readText().then(async (text) => {
             let matchLink = text.match(/https:\/\/[^\s]+/g);
             if (matchLink) {
                 link = matchLink[0];
+
+                await tick(); // wait for button to render
+                downloadButton.download(link);
             }
         });
     };
@@ -62,7 +69,7 @@
             <ClearButton click={() => (link = "")} />
         {/if}
         {#if validLink(link)}
-            <DownloadButton url={link} />
+            <DownloadButton url={link} bind:this={downloadButton} />
         {/if}
     </div>
 

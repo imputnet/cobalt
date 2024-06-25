@@ -11,7 +11,7 @@
     const ua = navigator.userAgent.toLowerCase();
     const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
 
-    export const changeDownloadButton = (state: string) => {
+    const changeDownloadButton = (state: string) => {
         isDisabled = true;
         switch(state) {
             case "think":
@@ -29,7 +29,7 @@
         }
     }
 
-    export const restoreDownloadButton = () => {
+    const restoreDownloadButton = () => {
         setTimeout(() => {
             buttonText = '>>';
             isDisabled = false;
@@ -45,7 +45,7 @@
     }
 
     // alerts are temporary, we don't have an error popup yet >_<
-    const download = async (link: string) => {
+    export const download = async (link: string) => {
         changeDownloadButton("think");
 
         const response = await API.request(link);
