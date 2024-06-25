@@ -21,11 +21,12 @@
 
 <style>
     .settings-tab {
+        --small-padding: 4px;
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 10px;
-        padding: 8px;
+        gap: calc(var(--small-padding) * 2);
+        padding: 7px;
         font-weight: 500;
         background: var(--primary);
         color: var(--button-text);
@@ -56,7 +57,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 5px;
-        border-radius: 5px;
+        padding: var(--small-padding);
+        border-radius: var(--small-padding);
     }
 </style>
