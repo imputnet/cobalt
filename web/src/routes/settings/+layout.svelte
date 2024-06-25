@@ -10,6 +10,8 @@
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
 
+    import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
+
     let screenWidth: number;
 
     $: isMobile = screenWidth <= 750;
@@ -19,9 +21,18 @@
 <svelte:window bind:innerWidth={screenWidth} />
 
 <div id="settings-page">
-    <div id="settings-sidebar" class:visible-mobile={isMobile && isHome}>
-        <h2 id="settings-page-title">settings</h2>
-        <nav id="settings-navigation">
+    <div id="settings-sidebar">
+        <div id="settings-header" class:back-visible={!isHome && isMobile}>
+            {#if !isHome && isMobile}
+                <a class="back-button" href="/settings">
+                    <IconChevronLeft />
+                    <h2 id="settings-page-title">settings</h2>
+                </a>
+            {:else}
+                <h2 id="settings-page-title">settings</h2>
+            {/if}
+        </div>
+        <nav id="settings-navigation" class:visible-mobile={isMobile && isHome}>
             <SettingsSection sectionTitle="general">
                 <SettingsTab
                     tabName="appearance"
@@ -66,12 +77,13 @@
     #settings-page {
         --settings-nav-width: 250px;
         --settings-padding: 30px;
+        --settings-padding-small: calc(var(--settings-padding) - var(--padding));
         display: grid;
         width: 100%;
         grid-template-columns: var(--settings-nav-width) 1fr;
         overflow: hidden;
-        padding-left: calc(var(--settings-padding) - var(--padding));
-        padding-top: calc(var(--settings-padding) - var(--padding));
+        padding-left: var(--settings-padding);
+        padding-top: var(--settings-padding);
     }
 
     #settings-page-content {
@@ -101,6 +113,30 @@
         gap: 12px;
     }
 
+    #settings-header {
+        --back-padding: 6px;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        color: var(--secondary);
+        gap: var(--back-padding);
+        padding: var(--back-padding);
+        padding-right: calc(var(--back-padding) * 2);
+    }
+
+    .back-button:active {
+        background: var(--button-hover-transparent);
+        border-radius: var(--border-radius);
+    }
+
+    .back-button :global(svg) {
+        stroke-width: 2px;
+        height: 21px;
+        width: 21px;
+    }
+
     .hidden-mobile {
         display: none !important;
     }
@@ -108,16 +144,49 @@
     @media screen and (max-width: 750px) {
         #settings-page {
             --settings-nav-width: 100%;
+            display: flex;
+            flex-direction: column;
             grid-template-columns: 1fr;
+            padding: 0;
+        }
+
+        #settings-page-content,
+        #settings-navigation {
+            padding: var(--padding);
+        }
+
+        #settings-page-content {
+            max-width: unset;
+            gap: calc(var(--padding) * 2);
+        }
+
+        #settings-header {
+            display: flex;
+            align-items: center;
+            position: sticky;
+            padding: var(--padding);
+            gap: 4px;
+        }
+
+        #settings-header.back-visible {
+            padding: calc(var(--padding) - var(--back-padding));
         }
 
         #settings-sidebar {
+            gap: 0px;
+        }
+
+        #settings-page-title {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        #settings-navigation {
             display: none;
         }
 
-        #settings-sidebar.visible-mobile {
+        #settings-navigation.visible-mobile {
             display: flex;
         }
     }
-
 </style>

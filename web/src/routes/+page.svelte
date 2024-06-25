@@ -14,6 +14,10 @@
 </div>
 
 <style>
+    #cobalt-save-container {
+        padding: var(--padding);
+    }
+
     #cobalt-save {
         display: flex;
         flex-direction: column;
