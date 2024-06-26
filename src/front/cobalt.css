@@ -27,7 +27,7 @@
     --glass: rgba(25, 25, 25, 0.85);
     --glass-lite: rgba(25, 25, 25, 0.98);
     --subbackground: rgb(10, 10, 10);
-    --background: rgb(90, 90, 90);
+    --background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1d1d);
     --background-backdrop: rgba(0, 0, 0, 0.5);
 }
 [data-theme="light"] {
@@ -42,7 +42,7 @@
     --glass: rgba(232, 232, 232, 0.85);
     --glass-lite: rgba(232, 232, 232, 0.98);
     --subbackground: rgb(240, 240, 240);
-    --background: rgb(255, 255, 255);
+    --background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1d1d);
     --background-backdrop: rgba(255, 255, 255, 0.5);
 }
 html,
