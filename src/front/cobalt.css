@@ -17,7 +17,7 @@
 }
 [data-theme="dark"] {
     --accent: rgb(225, 225, 225);
-    --accent-highlight: rgba(80, 8, 8, 0.04);
+    --accent-highlight: rgba(255, 255, 255, 0.04);
     --accent-subtext: rgb(255, 255, 255);
     --accent-hover: rgb(30, 30, 30);
     --accent-hover-elevated: rgb(255, 255, 255);
@@ -653,7 +653,7 @@ button:active,
 }
 .switch[data-enabled="true"],
 .popup-tabs .switch[data-enabled="true"] {
-    color: black;
+    color: rgb(255, 255, 255);
     background: rgb(70, 70, 70);
     cursor: default;
 }
