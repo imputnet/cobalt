@@ -25,6 +25,7 @@ Content-Type: application/json
 | `vCodec`          | `string`  | `h264 / av1 / vp9`                 | `h264`    | applies only to youtube downloads. `h264` is recommended for phones.            |
 | `vQuality`        | `string`  | `144 / ... / 2160 / max`           | `720`     | `720` quality is recommended for phones.                                        |
 | `aFormat`         | `string`  | `best / mp3 / ogg / wav / opus`    | `mp3`     |                                                                                 |
+| `aQuality`         | `string`  | `320 / 192 / 128 / 64`    | `320`     | adjusts the bitrate of the converted output file when downloading audio|
 | `filenamePattern` | `string`  | `classic / pretty / basic / nerdy` | `classic` | changes the way files are named. previews can be seen in the web app.           |
 | `isAudioOnly`     | `boolean` | `true / false`                     | `false`   |                                                                                 |
 | `isTTFullAudio`   | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                      |

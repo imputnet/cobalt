@@ -37,6 +37,7 @@ export function createStream(obj) {
             service: obj.service,
             filename: obj.filename,
             audioFormat: obj.audioFormat,
+            audioQuality: obj.audioQuality,
             isAudioOnly: !!obj.isAudioOnly,
             headers: obj.headers,
             copy: !!obj.copy,

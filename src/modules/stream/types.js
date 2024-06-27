@@ -156,6 +156,11 @@ export function streamAudioOnly(streamInfo, res) {
             args = args.concat(ffmpegArgs[streamInfo.audioFormat])
         }
 
+        args.push(
+            '-b:a',
+            `${streamInfo.audioQuality}k`
+        );
+
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
 
         process = spawn(...getCommand(args), {

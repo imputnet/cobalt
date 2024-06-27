@@ -216,7 +216,7 @@ export default async function(host, patternMatch, lang, obj) {
         }
 
         return matchActionDecider(
-            r, host, obj.aFormat, isAudioOnly,
+            r, host, obj.aQuality, obj.aFormat, isAudioOnly,
             lang, isAudioMuted, disableMetadata,
             obj.filenamePattern, obj.twitterGif,
             requestIP

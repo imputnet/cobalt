@@ -4,7 +4,7 @@ import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
 import { createStream } from "../stream/manage.js";
 
-export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
+export default function(r, host, audioBitrate, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
     let action,
         responseType = "stream",
         defaultParams = {
@@ -31,6 +31,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
         if (!r.filenameAttributes) defaultParams.filename = r.audioFilename;
         defaultParams.isAudioOnly = true;
         defaultParams.audioFormat = audioFormat;
+        defaultParams.audioQuality = audioBitrate;
     }
     if (isAudioMuted && !r.filenameAttributes) {
         defaultParams.filename = r.filename.replace('.', '_mute.')

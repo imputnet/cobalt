@@ -8,6 +8,7 @@ const apiVar = {
     allowed: {
         vCodec: ["h264", "av1", "vp9"],
         vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
+        aQuality: ["320", "192", "128", "64"],
         aFormat: ["best", "mp3", "ogg", "wav", "opus"],
         filenamePattern: ["classic", "pretty", "basic", "nerdy"]
     },
@@ -107,6 +108,7 @@ export function normalizeRequest(request) {
             url: normalizeURL(decodeURIComponent(request.url)),
             vCodec: "h264",
             vQuality: "720",
+            aQuality: "320",
             aFormat: "mp3",
             filenamePattern: "classic",
             isAudioOnly: false,
