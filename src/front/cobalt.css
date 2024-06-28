@@ -658,7 +658,7 @@ button:active,
     cursor: default;
 }
 .switch[data-enabled="true"]:hover {
-    background: var(--accent);
+    background: rgb(30, 30, 30);
 }
 .switch[data-enabled="true"]:focus {
     box-shadow: var(--inset-focus-inv) inset;
