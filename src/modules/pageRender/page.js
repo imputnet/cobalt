@@ -379,8 +379,7 @@ export default function(obj) {
         <div id="home" style="visibility:hidden">
             ${urgentNotice({
                 text: t("WelcomeMessage"),
-                visible: true,
-                action: "popup('about', 1, 'changelog')"
+                visible: true
             })}
 
             <div id="cobalt-main-box" class="center">

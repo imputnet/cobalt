@@ -50,7 +50,7 @@ body {
     height: calc(100% + env(safe-area-inset-top) / 2);
     margin: 0;
     background: var(--background);
-    color: var(--accent);
+    color: white;
     -webkit-tap-highlight-color: var(--transparent);
     font-family: var(--font-mono);
     user-select: none;
@@ -439,7 +439,7 @@ button:active,
     margin-bottom: 0.6rem;
 }
 .popup.small .close-error.switch {
-    background: var(--accent)!important;
+    background: rgb(70, 70, 70);
     color: var(--background);
     height: 2.5rem;
 }
