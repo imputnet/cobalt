@@ -16,7 +16,7 @@
     --gap-no-icon: 0.6rem;
 }
 [data-theme="dark"] {
-    --accent: rgb(225, 225, 225);
+    --accent: rgb(255, 255, 255);
     --accent-highlight: rgba(255, 255, 255, 0.04);
     --accent-subtext: rgb(255, 255, 255);
     --accent-hover: rgb(30, 30, 30);
