@@ -2,14 +2,12 @@
     import '@fontsource-variable/noto-sans-mono';
 
     import API from "$lib/api";
+    import device from '$lib/device';
 
     export let url: string;
 
     $: buttonText = '>>';
     $: isDisabled = false;
-
-    const ua = navigator.userAgent.toLowerCase();
-    const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
 
     const changeDownloadButton = (state: string) => {
         isDisabled = true;
@@ -37,7 +35,7 @@
     }
 
     const downloadFile = (url: string) => {
-        if (isIOS) {
+        if (device.isIOS) {
             return navigator?.share({ url }).catch(() => {});
         } else {
             return window.open(url, '_blank');
