@@ -9,6 +9,9 @@ export const testers = {
         patternMatch.postId?.length <= 12
         || (patternMatch.username?.length <= 30 && patternMatch.storyId?.length <= 24),
 
+    "linkedin": (patternMatch) =>
+        patternMatch.id?.length === 19,
+
     "loom": (patternMatch) =>
         patternMatch.id?.length <= 32,
 

@@ -33,7 +33,6 @@
         "vk": {
             "alias": "vk video & clips",
             "patterns": ["video:userId_:videoId", "clip:userId_:videoId", "clips:duplicate?z=clip:userId_:videoId"],
-            "subdomains": ["m"],
             "enabled": true
         },
         "ok": {
@@ -117,6 +116,11 @@
         "loom": {
             "alias": "loom videos",
             "patterns": ["share/:id"],
+            "enabled": true
+        },
+        "linkedin": {
+            "alias": "linkedin videos",
+            "patterns": ["feed/update/urn\\:li\\:activity\\:(:id)"],
             "enabled": true
         }
     }

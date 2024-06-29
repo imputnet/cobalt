@@ -25,6 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import loom from "./services/loom.js";
+import linkedin from "./services/linkedin.js";
 
 let freebind;
 
@@ -191,6 +192,12 @@ export default async function(host, patternMatch, lang, obj) {
             case "loom":
                 r = await loom({
                     id: patternMatch.id
+                });
+                break;
+            case "linkedin":
+                r = await linkedin({
+                    postId: patternMatch.id,
+                    quality: obj.vQuality
                 });
                 break;
             default:
