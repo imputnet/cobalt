@@ -105,11 +105,44 @@
     :global(html),
     :global(body) {
         margin: 0;
-        background-color: var(--sidebar-bg);
-        color: var(--secondary);
         height: 100vh;
         overflow: hidden;
         overscroll-behavior-y: none;
+    }
+
+    #cobalt {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: calc(var(--sidebar-width) + 8px) 1fr;
+        overflow: hidden;
+        background-color: var(--sidebar-bg);
+        color: var(--secondary);
+    }
+
+    #content {
+        display: flex;
+        overflow: scroll;
+        background-color: var(--primary);
+
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+    }
+
+    @media screen and (max-width: 535px) {
+        #cobalt {
+            display: grid;
+            grid-template-columns: unset;
+            grid-template-rows: 1fr calc(var(--sidebar-height-mobile) + 8px);
+        }
+        #content {
+            padding-top: env(safe-area-inset-top);
+            order: -1;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: calc(var(--border-radius) * 2);
+            border-bottom-right-radius: calc(var(--border-radius) * 2);
+        }
     }
 
     :global(*) {
@@ -194,7 +227,6 @@
     :global(h1, h2, h3, h4, h5, h6) {
         font-weight: 500;
         margin-block: 0;
-        color: var(--secondary);
     }
 
     :global(h1) {
@@ -228,38 +260,5 @@
         color: var(--gray);
         line-height: 1.4;
         padding: 0 var(--padding);
-    }
-
-    #cobalt {
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        display: grid;
-        grid-template-columns: calc(var(--sidebar-width) + 8px) 1fr;
-        overflow: hidden;
-    }
-
-    #content {
-        display: flex;
-        overflow: scroll;
-        background-color: var(--primary);
-
-        border-top-left-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
-    }
-
-    @media screen and (max-width: 535px) {
-        #cobalt {
-            display: grid;
-            grid-template-columns: unset;
-            grid-template-rows: 1fr calc(var(--sidebar-height-mobile) + 8px);
-        }
-        #content {
-            padding-top: env(safe-area-inset-top);
-            order: -1;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: calc(var(--border-radius) * 2);
-            border-bottom-right-radius: calc(var(--border-radius) * 2);
-        }
     }
 </style>
