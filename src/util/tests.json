@@ -1160,5 +1160,42 @@
             "code": 200,
             "status": "stream"
         }
+    }],
+    "linkedin": [{
+        "name": "regular video (share link)",
+        "url": "https://www.linkedin.com/posts/jasonyoong_in-the-early-days-of-a-startup-sam-altman-activity-7211912701411827712-oR9m?utm_source=share",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "regular video (feed link)",
+        "url": "https://www.linkedin.com/feed/update/urn:li:activity:7211912701411827712/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "regular video (isAudioMuted)",
+        "url": "https://www.linkedin.com/feed/update/urn:li:activity:7211912701411827712/",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "regular video (isAudioOnly)",
+        "url": "https://www.linkedin.com/feed/update/urn:li:activity:7211912701411827712/",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
     }]
 }
