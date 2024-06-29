@@ -30,13 +30,14 @@
     .switcher.big {
         background: var(--button);
         box-shadow: var(--button-box-shadow);
-        padding: var(--sidebar-inner-padding);
+        padding: var(--switcher-padding);
     }
 
     .switcher.big :global(.button) {
         width: 100%;
-        height: calc(40px - var(--sidebar-inner-padding) * 1.5);
-        border-radius: calc(var(--border-radius) - var(--sidebar-inner-padding));;
+        /* [base button height] - ([switcher padding] * [padding factor to accommodate for]) */
+        height: calc(40px - var(--switcher-padding) * 1.5);
+        border-radius: calc(var(--border-radius) - var(--switcher-padding));;
     }
 
     .switcher.big :global(.button:not(:focus-visible)) {

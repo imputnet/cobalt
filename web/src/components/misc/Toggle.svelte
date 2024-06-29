@@ -8,7 +8,7 @@
 
 <style>
     .toggle {
-        --base-size: 20px;
+        --base-size: 22px;
         --ratio-factor: 0.9;
 
         display: flex;

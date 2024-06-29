@@ -57,6 +57,8 @@
         --sidebar-font-size: 11px;
         --sidebar-inner-padding: 4px;
 
+        --switcher-padding: var(--sidebar-inner-padding);
+
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
             rgba(0, 0, 0, 0.9) 0%,

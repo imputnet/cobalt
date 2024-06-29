@@ -59,7 +59,7 @@
         justify-content: space-between;
         text-align: left;
         transform: none;
-        padding: 9px 16px;
+        padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);
     }
 </style>
