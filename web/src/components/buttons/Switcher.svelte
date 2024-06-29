@@ -28,16 +28,15 @@
     }
 
     .switcher.big {
-        --switcher-inner-padding: 4px;
-        border-radius: calc(var(--border-radius) + var(--switcher-inner-padding));
         background: var(--button);
         box-shadow: var(--button-box-shadow);
-        padding: var(--switcher-inner-padding);
+        padding: var(--sidebar-inner-padding);
     }
 
     .switcher.big :global(.button) {
         width: 100%;
-        height: calc(40px - var(--switcher-inner-padding));
+        height: calc(40px - var(--sidebar-inner-padding));
+        border-radius: calc(var(--border-radius) - var(--sidebar-inner-padding));;
     }
 
     .switcher.big :global(.button:not(:focus-visible)) {

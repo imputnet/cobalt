@@ -2,11 +2,10 @@
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import device from "$lib/device";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
-
-    import device from "$lib/device";
 </script>
 
 <svelte:head>
@@ -45,7 +44,10 @@
         --sidebar-highlight: #ffffff;
         --sidebar-hover: rgba(255, 255, 255, 0.1);
 
-        --input-border: #8d8d95;
+        --input-border: var(--gray);
+
+        --toggle-bg: var(--input-border);
+        --toggle-bg-enabled: var(--secondary);
 
         --padding: 12px;
         --border-radius: 11px;
@@ -84,6 +86,9 @@
         --sidebar-highlight: #f2f2f2;
 
         --input-border: #383838;
+
+        --toggle-bg: var(--input-border);
+        --toggle-bg-enabled: #777777;
 
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
@@ -217,9 +222,10 @@
     }
 
     :global(.subtext) {
-        font-size: 13px;
+        font-size: 12px;
         color: var(--gray);
         line-height: 1.4;
+        padding: 0 var(--padding);
     }
 
     #cobalt {

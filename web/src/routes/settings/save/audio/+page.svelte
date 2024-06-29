@@ -2,7 +2,7 @@
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
-    import SettingsCheckbox from "$components/buttons/SettingsCheckbox.svelte";
+    import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     import { audioFormatOptions } from "$lib/types/settings";
 
@@ -24,7 +24,7 @@
 </SettingsCategory>
 
 <SettingsCategory title="youtube">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="save"
         settingId="youtubeDubBrowserLang"
         title="use browser language for dubbed videos"
@@ -33,7 +33,7 @@
 </SettingsCategory>
 
 <SettingsCategory title="tiktok">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="save"
         settingId="tiktokFullAudio"
         title="use original sound"
