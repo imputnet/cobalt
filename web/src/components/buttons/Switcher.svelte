@@ -35,7 +35,7 @@
 
     .switcher.big :global(.button) {
         width: 100%;
-        height: calc(40px - var(--sidebar-inner-padding));
+        height: calc(40px - var(--sidebar-inner-padding) * 1.5);
         border-radius: calc(var(--border-radius) - var(--sidebar-inner-padding));;
     }
 
