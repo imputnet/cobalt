@@ -1,13 +1,18 @@
 <script>
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
+
+    import currentTheme from "$lib/state/theme";
+
     import Sidebar from "$components/sidebar/Sidebar.svelte";
 </script>
 
-<div id="cobalt">
-    <Sidebar />
-    <div id="content">
-        <slot></slot>
+<div style="display: contents" data-theme={$currentTheme}>
+    <div id="cobalt">
+        <Sidebar />
+        <div id="content">
+            <slot></slot>
+        </div>
     </div>
 </div>
 
@@ -52,37 +57,34 @@
         );
     }
 
-    /* temporary switcher until theming is implemented, */
-    /* just so my eyes don't burn at night */
-    @media (prefers-color-scheme: dark) {
-        :global(:root) {
-            --primary: #000000;
-            --secondary: #e1e1e1;
+    :global([data-theme=dark]) {
+        --primary: #000000;
+        --secondary: #e1e1e1;
 
-            --gray: #6e6e6e;
-            --blue: #2a7ce1;
-            --green: #37aa42;
+        --gray: #6e6e6e;
+        --blue: #2a7ce1;
+        --green: #37aa42;
 
-            --button: #191919;
-            --button-hover: #2a2a2a;
-            --button-hover-transparent: rgba(225, 225, 225, 0.1);
-            --button-stroke: rgba(255, 255, 255, 0.05);
-            --button-text: #e1e1e1;
+        --button: #191919;
+        --button-hover: #2a2a2a;
+        --button-hover-transparent: rgba(225, 225, 225, 0.1);
+        --button-stroke: rgba(255, 255, 255, 0.05);
+        --button-text: #e1e1e1;
+        --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
-            --sidebar-bg: #101010;
-            --sidebar-highlight: #f2f2f2;
+        --sidebar-bg: #101010;
+        --sidebar-highlight: #f2f2f2;
 
-            --input-border: #383838;
+        --input-border: #383838;
 
-            --sidebar-mobile-gradient: linear-gradient(
-                90deg,
-                rgba(16, 16, 16, 0.9) 0%,
-                rgba(16, 16, 16, 0) 4%,
-                rgba(16, 16, 16, 0) 50%,
-                rgba(16, 16, 16, 0) 96%,
-                rgba(16, 16, 16, 0.9) 100%
-            );
-        }
+        --sidebar-mobile-gradient: linear-gradient(
+            90deg,
+            rgba(16, 16, 16, 0.9) 0%,
+            rgba(16, 16, 16, 0) 4%,
+            rgba(16, 16, 16, 0) 50%,
+            rgba(16, 16, 16, 0) 96%,
+            rgba(16, 16, 16, 0.9) 100%
+        );
     }
 
     :global(html),
@@ -177,6 +179,7 @@
     :global(h1, h2, h3, h4, h5, h6) {
         font-weight: 500;
         margin-block: 0;
+        color: var(--secondary);
     }
 
     :global(h1) {
