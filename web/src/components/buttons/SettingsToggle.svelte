@@ -31,9 +31,7 @@
             })
         }
     >
-        <div class="toggle-text">
-            <h4 class="toggle-title">{title}</h4>
-        </div>
+        <h4 class="toggle-title">{title}</h4>
         <Toggle enabled={isEnabled} />
     </button>
     <!--
@@ -63,10 +61,5 @@
         transform: none;
         padding: 8px 16px;
         border-radius: var(--border-radius);
-    }
-
-    .toggle-text {
-        display: flex;
-        flex-direction: column;
     }
 </style>
