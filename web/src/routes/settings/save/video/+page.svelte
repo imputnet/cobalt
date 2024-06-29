@@ -2,7 +2,7 @@
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
-    import SettingsCheckbox from "$components/buttons/SettingsCheckbox.svelte";
+    import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     import { videoQualityOptions } from "$lib/types/settings";
     import { youtubeVideoCodecOptions } from "$lib/types/settings";
@@ -40,7 +40,7 @@
 </SettingsCategory>
 
 <SettingsCategory title="twitter">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="save"
         settingId="twitterGif"
         title="convert looping videos to GIF"
@@ -49,7 +49,7 @@
 </SettingsCategory>
 
 <SettingsCategory title="tiktok">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="save"
         settingId="tiktokH265"
         title="prefer HEVC/H265 format"

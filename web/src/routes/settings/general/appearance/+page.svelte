@@ -2,7 +2,7 @@
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
-    import SettingsCheckbox from "$components/buttons/SettingsCheckbox.svelte";
+    import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     import { themeOptions } from "$lib/types/settings";
 </script>
@@ -18,13 +18,13 @@
 </SettingsCategory>
 
 <SettingsCategory title="accessibility">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="accessibility"
         settingId="reduceTransparency"
         title="reduce visual transparency"
         description="disables blur effects and reduces transparency of surfaces."
     />
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="accessibility"
         settingId="reduceAnimations"
         title="reduce animations"

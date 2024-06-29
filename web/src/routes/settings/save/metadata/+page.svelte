@@ -2,7 +2,7 @@
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
-    import SettingsCheckbox from "$components/buttons/SettingsCheckbox.svelte";
+    import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     import { filenameStyleOptions } from "$lib/types/settings";
 </script>
@@ -22,7 +22,7 @@
 </SettingsCategory>
 
 <SettingsCategory title="file metadata">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="save"
         settingId="disableMetadata"
         title="disable file metadata"
@@ -31,7 +31,7 @@
 </SettingsCategory>
 
 <SettingsCategory title="saving method">
-    <SettingsCheckbox
+    <SettingsToggle
         settingContext="save"
         settingId="downloadPopup"
         title="ask how to save"
