@@ -17,27 +17,43 @@
         border-radius: var(--border-radius);
     }
 
-    .switcher :global(.button:first-child) {
+    .switcher:not(.big) :global(.button:first-child) {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
 
-    .switcher :global(.button:last-child) {
+    .switcher:not(.big) :global(.button:last-child) {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
 
-    .switcher.big :global(.button) {
-        width: 100%;
-        height: 40px;
+    .switcher.big {
+        --switcher-inner-padding: 4px;
+        border-radius: calc(var(--border-radius) + var(--switcher-inner-padding));
+        background: var(--button);
+        box-shadow: var(--button-box-shadow);
+        padding: var(--switcher-inner-padding);
     }
 
-    .switcher > :global(:not(.button:first-child):not(.button:last-child)) {
+    .switcher.big :global(.button) {
+        width: 100%;
+        height: calc(40px - var(--switcher-inner-padding));
+    }
+
+    .switcher.big :global(.button:not(:focus-visible)) {
+        box-shadow: none;
+    }
+
+    .switcher.big :global(.button:not(.active, :hover, :active)) {
+        background-color: transparent;
+    }
+
+    .switcher:not(.big) :global(.button:not(:first-child, :last-child)) {
         border-radius: 0;
     }
 
-    /* clumsy hack to get rid of double border in a list of switches */
-    .switcher > :global(:not(.button:first-child)) {
+    /* hack to get rid of double border in a list of switches */
+    .switcher:not(.big) :global(:not(.button:first-child)) {
         margin-left: -1.5px;
     }
 </style>
