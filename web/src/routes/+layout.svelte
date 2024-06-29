@@ -2,10 +2,18 @@
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
-    import currentTheme from "$lib/state/theme";
+    import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
+
+    import device from "$lib/device";
 </script>
+
+<svelte:head>
+    {#if device.isMobile}
+        <meta name="theme-color" content={statusBarColors[$currentTheme]}>
+    {/if}
+</svelte:head>
 
 <div style="display: contents" data-theme={$currentTheme}>
     <div id="cobalt">

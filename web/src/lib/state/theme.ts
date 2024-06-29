@@ -1,9 +1,11 @@
-import { readable, derived } from 'svelte/store';
+import { readable, derived, type Readable } from 'svelte/store';
 
 import settings from '$lib/settings';
 import { themeOptions } from '$lib/types/settings';
 
-let set: (_: typeof themeOptions[number]) => void;
+type Theme = typeof themeOptions[number];
+
+let set: (_: Theme) => void;
 
 const browserPreference = () =>
     window.matchMedia('(prefers-color-scheme: light)')
@@ -30,5 +32,9 @@ export default derived(
         return $browserPref;
     },
     browserPreference()
-);
+) as Readable<Exclude<Theme, "auto">>
 
+export const statusBarColors = {
+    "dark": "#000000",
+    "light": "#ffffff"
+}
