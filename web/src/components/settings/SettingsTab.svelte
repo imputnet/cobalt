@@ -29,12 +29,13 @@
 <style>
     .settings-tab {
         --small-padding: 4px;
+        --big-padding: 7px;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         gap: calc(var(--small-padding) * 2);
-        padding: 7px;
+        padding: var(--big-padding);
         font-weight: 500;
         background: var(--primary);
         color: var(--button-text);
@@ -46,14 +47,14 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: calc(var(--small-padding) * 2);
+        gap: calc(var(--big-padding) * 1.5);
         font-weight: 500;
     }
 
     .settings-tab :global(svg) {
         stroke-width: 1.5px;
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
     }
 
     .settings-tab .tab-icon :global(svg) {
@@ -95,13 +96,22 @@
     @media screen and (max-width: 750px) {
         .settings-tab {
             background: none;
-            padding: 9px;
-            --small-padding: 5px;
+            padding: var(--big-padding) calc(var(--big-padding) * 1.5);
         }
 
-        .settings-tab :global(svg) {
-            height: 19px;
-            width: 19px;
+        .settings-tab-left {
+            gap: calc(var(--big-padding) * 1.5);
+        }
+
+        .settings-tab:not(:last-child) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow: 0 3px 0px -1.7px var(--button-stroke);
+        }
+
+        .settings-tab:not(:first-child) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
         }
 
         .settings-tab-chevron :global(svg) {

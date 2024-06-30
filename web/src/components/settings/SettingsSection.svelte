@@ -33,15 +33,8 @@
             box-shadow: var(--button-box-shadow);
         }
 
-        #settings-section-categories > :global(:not(.settings-tab:last-child)) {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            box-shadow: 0 3px 0px -1.2px var(--button-stroke);
-        }
-
-        #settings-section-categories > :global(:not(.settings-tab:first-child)) {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
+        #settings-section-title {
+            padding-left: calc(7px * 1.5);
         }
     }
 </style>
