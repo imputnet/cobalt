@@ -14,7 +14,7 @@ Object.values(servicesConfigJson.config).forEach(service => {
 })
 
 const
-    apiURL = process.env.API_URL || '',
+    apiURL = 'https://api.cobalt.tools/',
 
     // WEB mode related environment variables
     webEnvs = {

@@ -104,6 +104,7 @@ export default function(obj) {
         <noscript>
             <div style="margin: 2rem;">${t('NoScriptMessage')}</div>
         </noscript>
+        
         ${multiPagePopup({
             name: "settings",
             closeAria: t('AccessibilityGoBack'),
