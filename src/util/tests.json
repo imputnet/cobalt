@@ -1,7 +1,7 @@
 {
     "twitter": [{
         "name": "regular video",
-        "url": "https://twitter.com/TwitterSpaces/status/1526955853743546372?s=20",
+        "url": "https://twitter.com/XSpaces/status/1526955853743546372?s=20",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -34,7 +34,7 @@
         }
     }, {
         "name": "mixed media (image + gif)",
-        "url": "https://twitter.com/Twitter/status/1580661436132757506?s=20",
+        "url": "https://twitter.com/sky_mj26/status/1807756010712428565",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
