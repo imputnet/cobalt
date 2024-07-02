@@ -44,7 +44,7 @@
         --sidebar-highlight: #ffffff;
         --sidebar-hover: rgba(255, 255, 255, 0.1);
 
-        --input-border: var(--gray);
+        --input-border: #adadb7;
 
         --toggle-bg: var(--input-border);
         --toggle-bg-enabled: var(--secondary);
