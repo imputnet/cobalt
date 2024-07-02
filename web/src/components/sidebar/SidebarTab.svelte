@@ -1,33 +1,31 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
+    import { t } from "$lib/i18n/translations";
+
     export let tabName: string;
     export let tabLink: string;
 
-    const firstTabPage = [
-        "save",
-        "settings",
-        "updates"
-    ];
+    const firstTabPage = ["save", "settings", "updates"];
 
     let tab: HTMLElement;
 
-    $: currentTab = $page.url.pathname.split('/')[1];
-    $: baseTabPath = tabLink.split('/')[1]
+    $: currentTab = $page.url.pathname.split("/")[1];
+    $: baseTabPath = tabLink.split("/")[1];
 
     $: isTabActive = currentTab === baseTabPath;
 
     const showTab = (e: HTMLElement | undefined) => {
         if (e) {
             e.scrollIntoView({
-                inline: firstTabPage.includes(tabName) ? 'end' : 'start',
-                behavior: 'smooth'
+                inline: firstTabPage.includes(tabName) ? "end" : "start",
+                behavior: "smooth",
             });
         }
-    }
+    };
 
     $: if (isTabActive) {
-        showTab(tab)
+        showTab(tab);
     }
 </script>
 
@@ -38,9 +36,10 @@
     href={tabLink}
     bind:this={tab}
     on:focus={() => showTab(tab)}
+    role="tab"
 >
     <slot></slot>
-    {tabName}
+    {$t(`tabs.${tabName}`)}
 </a>
 
 <style>

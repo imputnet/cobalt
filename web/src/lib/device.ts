@@ -4,10 +4,14 @@ const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.ma
 const isAndroid = ua.includes("android") || ua.includes("diordna");
 const isMobile = isIOS || isAndroid;
 
-const deviceInfo = {
+const preferredLocale = navigator.language.toLowerCase().slice(0, 2);
+
+const device = {
     isIOS,
     isAndroid,
     isMobile,
+
+    preferredLocale,
 }
 
-export default deviceInfo;
+export default device;

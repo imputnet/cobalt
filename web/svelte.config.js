@@ -18,7 +18,8 @@ const config = {
             strict: true
         }),
         alias: {
-            $components: 'src/components'
+            $components: 'src/components',
+            $i18n: 'i18n',
         }
     }
 };

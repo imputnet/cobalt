@@ -5,6 +5,7 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     import { themeOptions } from "$lib/types/settings";
+    import LanguageDropdown from "$components/settings/LanguageDropdown.svelte";
 </script>
 
 <SettingsCategory title="theme">
@@ -29,5 +30,15 @@
         settingId="reduceAnimations"
         title="reduce animations"
         description="replaces rapid animations with smooth transitions."
+    />
+</SettingsCategory>
+
+<SettingsCategory title="language">
+    <LanguageDropdown />
+    <SettingsToggle
+        settingContext="appearance"
+        settingId="autoLanguage"
+        title="use default browser language"
+        description="automatically picks the best language for you. if preferred browser language isn't available, english is used instead."
     />
 </SettingsCategory>
