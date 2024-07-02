@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
+
     import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
     import SidebarTab from "$components/sidebar/SidebarTab.svelte";
 
@@ -23,7 +25,7 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<nav id="sidebar">
+<nav id="sidebar" aria-label={$t("a11y.tabs.tabPanel")}>
     <CobaltLogo />
     <div id="sidebar-tabs">
         <div id="sidebar-actions" class="sidebar-inner-container">

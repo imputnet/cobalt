@@ -1,3 +1,5 @@
+import languages from '$i18n/languages.json';
+
 export type CobaltSettingsAccessibility = {
     reduceAnimations: boolean,
     reduceTransparency: boolean,
@@ -12,6 +14,8 @@ export const youtubeVideoCodecOptions = ["h264", "av1", "vp9"] as const;
 
 type CobaltSettingsAppearance = {
     theme: typeof themeOptions[number],
+    language: keyof typeof languages,
+    autoLanguage: boolean,
 };
 
 type CobaltSettingsGeneral = {
