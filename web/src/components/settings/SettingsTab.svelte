@@ -14,6 +14,7 @@
     class="settings-tab"
     href="/settings/{tabLink}"
     class:active={isActive}
+    role="button"
 >   
     <div class="settings-tab-left">
         <div class="tab-icon" style="background: var(--{iconColor})">
