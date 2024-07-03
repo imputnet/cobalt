@@ -1,10 +1,12 @@
 <script>
+    import { t } from "$lib/i18n/translations";
+
     import Placeholder from "$components/misc/Placeholder.svelte";
 </script>
 
 <svelte:head>
     <title>
-        cobalt: about
+        {$t("general.cobalt")}: {$t("tabs.about")}
     </title>
 </svelte:head>
 

@@ -4,5 +4,6 @@
     "auto": "auto",
     "audio": "audio",
     "mute": "mute",
-    "inputPlaceholder": "paste the link here"
+    "inputPlaceholder": "paste the link here",
+    "termsNote": "by continuing you agree to terms and ethics of use"
 }

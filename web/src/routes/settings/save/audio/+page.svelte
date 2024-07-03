@@ -1,42 +1,42 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
+
+    import { audioFormatOptions } from "$lib/types/settings";
+
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
-
-    import { audioFormatOptions } from "$lib/types/settings";
-
-    const audioDescription = `cobalt converts every format but "best", therefore all formats but "best" will be lossy.`;
 </script>
 
 <SettingsCategory
-    title="preferred audio format"
-    description="{audioDescription}"
+    title={$t("settings.audio.format")}
+    description={$t("settings.audio.format.description")}
 >
     <Switcher big={true}>
         {#each audioFormatOptions as value}
             <SettingsButton settingContext="save" settingId="audioFormat" settingValue={value}>
-                {value}
+                {$t(`settings.audio.format.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>
 
 </SettingsCategory>
 
-<SettingsCategory title="youtube">
+<SettingsCategory title={$t("settings.audio.youtube.dub")}>
     <SettingsToggle
         settingContext="save"
         settingId="youtubeDubBrowserLang"
-        title="use browser language for dubbed videos"
-        description="works even if cobalt ui isn't translated to your language."
+        title={$t("settings.audio.youtube.dub.title")}
+        description={$t("settings.audio.youtube.dub.description")}
     />
 </SettingsCategory>
 
-<SettingsCategory title="tiktok">
+<SettingsCategory title={$t("settings.audio.tiktok.original")}>
     <SettingsToggle
         settingContext="save"
         settingId="tiktokFullAudio"
-        title="use original sound"
-        description="downloads original sound used in the post without any additional changes by the post's author."
+        title={$t("settings.audio.tiktok.original.title")}
+        description={$t("settings.audio.tiktok.original.description")}
     />
 </SettingsCategory>

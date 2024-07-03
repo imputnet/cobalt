@@ -1,44 +1,54 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
+
+    import { themeOptions } from "$lib/types/settings";
+
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
-    import { themeOptions } from "$lib/types/settings";
     import LanguageDropdown from "$components/settings/LanguageDropdown.svelte";
 </script>
 
-<SettingsCategory title="theme">
+<SettingsCategory
+    title={$t("settings.theme")}
+    description={$t("settings.theme.description")}
+>
     <Switcher big={true}>
         {#each themeOptions as value}
-            <SettingsButton settingContext="appearance" settingId="theme" settingValue={value}>
-                {value}
+            <SettingsButton
+                settingContext="appearance"
+                settingId="theme"
+                settingValue={value}
+            >
+                {$t(`settings.theme.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>
 </SettingsCategory>
 
-<SettingsCategory title="accessibility">
+<SettingsCategory title={$t("settings.accessibility")}>
     <SettingsToggle
         settingContext="accessibility"
         settingId="reduceTransparency"
-        title="reduce visual transparency"
-        description="disables blur effects and reduces transparency of surfaces."
+        title={$t("settings.accessibility.transparency.title")}
+        description={$t("settings.accessibility.transparency.description")}
     />
     <SettingsToggle
         settingContext="accessibility"
         settingId="reduceAnimations"
-        title="reduce animations"
-        description="replaces rapid animations with smooth transitions."
+        title={$t("settings.accessibility.animations.title")}
+        description={$t("settings.accessibility.animations.description")}
     />
 </SettingsCategory>
 
-<SettingsCategory title="language">
+<SettingsCategory title={$t("settings.language")}>
     <LanguageDropdown />
     <SettingsToggle
         settingContext="appearance"
         settingId="autoLanguage"
-        title="use default browser language"
-        description="automatically picks the best language for you. if preferred browser language isn't available, english is used instead."
+        title={$t("settings.language.auto.title")}
+        description={$t("settings.language.auto.description")}
     />
 </SettingsCategory>
