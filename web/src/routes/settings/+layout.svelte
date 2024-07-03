@@ -1,6 +1,8 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
+    import { t } from "$lib/i18n/translations";
+
     import SettingsTab from "$components/settings/SettingsTab.svelte";
     import SettingsSection from "$components/settings/SettingsSection.svelte";
 
@@ -16,7 +18,7 @@
 
     $: currentPageTitle = $page.url.pathname.split("/").at(-1);
     $: stringPageTitle =
-        currentPageTitle !== "settings" ? `/ ${currentPageTitle}` : "";
+        currentPageTitle !== "settings" ? ` / ${$t(`settings.page.${currentPageTitle}`)}` : "";
 
     $: isMobile = screenWidth <= 750;
     $: isHome = $page.url.pathname === `/settings`;
@@ -24,7 +26,7 @@
 
 <svelte:head>
     <title>
-        cobalt: settings {stringPageTitle}
+        {$t("general.cobalt")}: {$t("tabs.settings")}{stringPageTitle}
     </title>
 </svelte:head>
 
@@ -35,19 +37,26 @@
         <div id="settings-header" class:back-visible={!isHome && isMobile}>
             {#if isMobile}
                 {#if !isHome}
-                    <a class="back-button" href="/settings">
+                    <a
+                        class="back-button"
+                        href="/settings"
+                        role="button"
+                        aria-label={$t("a11y.general.back")}
+                    >
                         <IconChevronLeft />
                     </a>
                 {/if}
                 <h3 id="settings-page-title" aria-level="1">
-                    settings
+                    {$t("tabs.settings")}
                     {#if !isHome}
                         <span class="title-slash"> / </span>
-                        {currentPageTitle}
+                        {$t(`settings.page.${currentPageTitle}`)}
                     {/if}
                 </h3>
             {:else}
-                <h2 id="settings-page-title" aria-level="1">settings</h2>
+                <h2 id="settings-page-title" aria-level="1">
+                    {$t("tabs.settings")}
+                </h2>
             {/if}
         </div>
         <nav id="settings-navigation" class:visible-mobile={isMobile && isHome}>

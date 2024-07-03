@@ -1,46 +1,53 @@
 <script lang="ts">
-    import '@fontsource-variable/noto-sans-mono';
+    import "@fontsource-variable/noto-sans-mono";
 
     import API from "$lib/api";
-    import { device } from '$lib/device';
+    import { device } from "$lib/device";
+    import { t } from "$lib/i18n/translations";
 
     export let url: string;
 
-    $: buttonText = '>>';
+    $: buttonText = ">>";
+    $: buttonAltText = $t('a11y.save.download');
     $: isDisabled = false;
 
     const changeDownloadButton = (state: string) => {
         isDisabled = true;
-        switch(state) {
+        switch (state) {
             case "think":
-                buttonText = '...';
+                buttonText = "...";
+                buttonAltText = $t('a11y.save.downloadThink');
                 break;
             case "check":
-                buttonText = '..?';
+                buttonText = "..?";
+                buttonAltText = $t('a11y.save.downloadCheck');
                 break;
             case "done":
-                buttonText = '>>>';
+                buttonText = ">>>";
+                buttonAltText = $t('a11y.save.downloadDone');
                 break;
             case "error":
-                buttonText = '!!';
+                buttonText = "!!";
+                buttonAltText = $t('a11y.save.downloadError');
                 break;
         }
-    }
+    };
 
     const restoreDownloadButton = () => {
         setTimeout(() => {
-            buttonText = '>>';
+            buttonText = ">>";
             isDisabled = false;
-        }, 2500)
-    }
+            buttonAltText = $t('a11y.save.download');
+        }, 2500);
+    };
 
     const downloadFile = (url: string) => {
         if (device.is.iOS) {
             return navigator?.share({ url }).catch(() => {});
         } else {
-            return window.open(url, '_blank');
+            return window.open(url, "_blank");
         }
-    }
+    };
 
     // alerts are temporary, we don't have an error popup yet >_<
     export const download = async (link: string) => {
@@ -52,7 +59,7 @@
             changeDownloadButton("error");
             restoreDownloadButton();
 
-            return alert("couldn't access the api")
+            return alert("couldn't access the api");
         }
 
         if (response.status === "error" || response.status === "rate-limit") {
@@ -89,7 +96,12 @@
     };
 </script>
 
-<button id="download-button" disabled={isDisabled} on:click={() => download(url)}>
+<button
+    id="download-button"
+    disabled={isDisabled}
+    on:click={() => download(url)}
+    aria-label={buttonAltText}
+>
     <span id="download-state">{buttonText}</span>
 </button>
 
@@ -120,7 +132,8 @@
 
     #download-state {
         font-size: 24px;
-        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", "IBM Plex Mono", monospace;
+        font-family: "Noto Sans Mono Variable", "Noto Sans Mono",
+            "IBM Plex Mono", monospace;
         font-weight: 400;
 
         text-align: center;

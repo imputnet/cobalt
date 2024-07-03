@@ -1,6 +1,8 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
+    import { t } from "$lib/i18n/translations";
+
     import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
 
     export let tabName: string;
@@ -20,7 +22,7 @@
         <div class="tab-icon" style="background: var(--{iconColor})">
             <slot></slot>
         </div>
-        <span>{tabName}</span>
+        <span>{$t(`settings.page.${tabName}`)}</span>
     </div>
     <div class="settings-tab-chevron">
         <IconChevronRight />

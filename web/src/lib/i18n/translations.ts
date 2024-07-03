@@ -46,6 +46,27 @@ export const config: Config = {
                 await import(`$i18n/en/a11y/meowbalt.json`)
             ).default,
         },
+        {
+            locale: 'en',
+            key: 'settings',
+            loader: async () => (
+                await import(`$i18n/en/settings.json`)
+            ).default,
+        },
+        {
+            locale: 'en',
+            key: 'general',
+            loader: async () => (
+                await import(`$i18n/en/general.json`)
+            ).default,
+        },
+        {
+            locale: 'en',
+            key: 'a11y.general',
+            loader: async () => (
+                await import(`$i18n/en/a11y/general.json`)
+            ).default,
+        },
 
         {
             locale: 'ru',
@@ -80,6 +101,20 @@ export const config: Config = {
             key: 'a11y.meowbalt',
             loader: async () => (
                 await import(`$i18n/ru/a11y/meowbalt.json`)
+            ).default,
+        },
+        {
+            locale: 'ru',
+            key: 'general',
+            loader: async () => (
+                await import(`$i18n/ru/general.json`)
+            ).default,
+        },
+        {
+            locale: 'ru',
+            key: 'a11y.general',
+            loader: async () => (
+                await import(`$i18n/ru/a11y/general.json`)
             ).default,
         },
     ],

@@ -1,10 +1,12 @@
 <script>
+    import { t } from "$lib/i18n/translations";
+
     import Omnibox from "$components/save/Omnibox.svelte";
     import MeowbaltLoaf from "$components/meowbalt/MeowbaltLoaf.svelte";
 </script>
 
 <svelte:head>
-    <title>cobalt</title>
+    <title>{$t("general.cobalt")}</title>
 </svelte:head>
 
 <div id="cobalt-save-container" class="center-column-container">
@@ -13,7 +15,7 @@
         <Omnibox />
     </main>
     <div id="terms-note">
-        by continuing you agree to terms and ethics of use
+        {$t("save.termsNote")}
     </div>
 </div>
 

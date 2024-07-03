@@ -297,5 +297,6 @@
         color: var(--gray);
         line-height: 1.4;
         padding: 0 var(--padding);
+        white-space: pre-line;
     }
 </style>
