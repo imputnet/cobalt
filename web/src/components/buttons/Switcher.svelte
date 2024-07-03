@@ -17,6 +17,10 @@
         border-radius: var(--border-radius);
     }
 
+    .switcher :global(.button) {
+        white-space: pre;
+    }
+
     .switcher:not(.big) :global(.button:first-child) {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;

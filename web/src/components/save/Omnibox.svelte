@@ -1,6 +1,8 @@
 <script lang="ts">
     import { SvelteComponent, tick } from "svelte";
 
+    import { t } from "$lib/i18n/translations";
+
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
 
     import ClearButton from "$components/save/buttons/ClearButton.svelte";
@@ -60,8 +62,8 @@
             autocomplete="off"
             autocapitalize="off"
             maxlength="256"
-            placeholder="paste the link here"
-            aria-label="link input area"
+            placeholder={$t("save.inputPlaceholder")}
+            aria-label={$t("a11y.save.linkArea")}
             data-form-type="other"
         />
 
@@ -76,19 +78,19 @@
     <div id="action-container">
         <Switcher>
             <SettingsButton settingContext="save" settingId="downloadMode" settingValue="auto">
-                <IconSparkles /> auto
+                <IconSparkles /> {$t("save.auto")}
             </SettingsButton>
             <SettingsButton settingContext="save" settingId="downloadMode" settingValue="audio">
-                <IconMusic /> audio
+                <IconMusic /> {$t("save.audio")}
             </SettingsButton>
             <SettingsButton settingContext="save" settingId="downloadMode" settingValue="mute">
-                <IconMute /> mute
+                <IconMute /> {$t("save.mute")}
             </SettingsButton>
         </Switcher>
         <ActionButton id="paste" click={pasteClipboard}>
             <IconClipboard />
-            <span id="paste-desktop-text">paste</span>
-            <span id="paste-mobile-text">paste and download</span>
+            <span id="paste-desktop-text">{$t("save.paste")}</span>
+            <span id="paste-mobile-text">{$t("save.pasteAndDownload")}</span>
         </ActionButton>
     </div>
 </div>
