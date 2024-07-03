@@ -39,7 +39,7 @@
                         <IconChevronLeft />
                     </a>
                 {/if}
-                <h3 id="settings-page-title">
+                <h3 id="settings-page-title" aria-level="1">
                     settings
                     {#if !isHome}
                         <span class="title-slash"> / </span>
@@ -47,7 +47,7 @@
                     {/if}
                 </h3>
             {:else}
-                <h2 id="settings-page-title">settings</h2>
+                <h2 id="settings-page-title" aria-level="1">settings</h2>
             {/if}
         </div>
         <nav id="settings-navigation" class:visible-mobile={isMobile && isHome}>

@@ -2,12 +2,12 @@
     export let sectionTitle: string;
 </script>
 
-<div id="settings-section">
+<section id="settings-section">
     <div id="settings-section-title">{sectionTitle}</div>
     <div id="settings-section-categories">
         <slot></slot>
     </div>
-</div>
+</section>
 
 <style>
     #settings-section,
