@@ -1,6 +1,8 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
+    import { device } from "$lib/device";
+
     import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
     import SidebarTab from "$components/sidebar/SidebarTab.svelte";
 
@@ -25,7 +27,7 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<nav id="sidebar" aria-label={$t("a11y.tabs.tabPanel")}>
+<nav id="sidebar" aria-label={$t("a11y.tabs.tabPanel")} class:on-iPhone={device.is.iPhone}>
     <CobaltLogo />
     <div id="sidebar-tabs">
         <div id="sidebar-actions" class="sidebar-inner-container">
@@ -112,6 +114,13 @@
 
         #sidebar :global(.sidebar-inner-container:last-child) {
             padding-right: calc(var(--border-radius) * 2);
+        }
+    }
+
+    /* add padding for notch / dynamic island in landscape */
+    @media screen and (orientation: landscape) {
+        #sidebar.on-iPhone {
+            padding-left: env(safe-area-inset-left);
         }
     }
 </style>

@@ -1,17 +1,32 @@
 const ua = navigator.userAgent.toLowerCase();
 
-const isIOS = ua.includes("iphone os") || (ua.includes("mac os") && navigator.maxTouchPoints > 0);
-const isAndroid = ua.includes("android") || ua.includes("diordna");
-const isMobile = isIOS || isAndroid;
+const iPad = ua.includes("mac os") && navigator.maxTouchPoints > 0;
+const iPhone = ua.includes("iphone os");
+
+const iOS = iPhone || iPad;
+const android = ua.includes("android") || ua.includes("diordna");
+
+const mobile = iOS || android;
 
 const preferredLocale = navigator.language.toLowerCase().slice(0, 2);
 
-const device = {
-    isIOS,
-    isAndroid,
-    isMobile,
+const installed = window.matchMedia('(display-mode: standalone)').matches;
 
+const device = {
+    is: {
+        iPad,
+        iPhone,
+        iOS,
+        android,
+        mobile,
+    },
     preferredLocale,
 }
 
-export default device;
+const app = {
+    is: {
+        installed
+    }
+}
+
+export { device, app };
