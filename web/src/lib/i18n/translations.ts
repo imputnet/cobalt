@@ -26,6 +26,28 @@ export const config: Config = {
             ).default,
         },
         {
+            locale: 'en',
+            key: 'save',
+            loader: async () => (
+                await import(`$i18n/en/save.json`)
+            ).default,
+        },
+        {
+            locale: 'en',
+            key: 'a11y.save',
+            loader: async () => (
+                await import(`$i18n/en/a11y/save.json`)
+            ).default,
+        },
+        {
+            locale: 'en',
+            key: 'a11y.meowbalt',
+            loader: async () => (
+                await import(`$i18n/en/a11y/meowbalt.json`)
+            ).default,
+        },
+
+        {
             locale: 'ru',
             key: 'tabs',
             loader: async () => (
@@ -37,6 +59,27 @@ export const config: Config = {
             key: 'a11y.tabs',
             loader: async () => (
                 await import(`$i18n/ru/a11y/tabs.json`)
+            ).default,
+        },
+        {
+            locale: 'ru',
+            key: 'save',
+            loader: async () => (
+                await import(`$i18n/ru/save.json`)
+            ).default,
+        },
+        {
+            locale: 'ru',
+            key: 'a11y.save',
+            loader: async () => (
+                await import(`$i18n/ru/a11y/save.json`)
+            ).default,
+        },
+        {
+            locale: 'ru',
+            key: 'a11y.meowbalt',
+            loader: async () => (
+                await import(`$i18n/ru/a11y/meowbalt.json`)
             ).default,
         },
     ],
