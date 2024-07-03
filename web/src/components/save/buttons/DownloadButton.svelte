@@ -2,7 +2,7 @@
     import '@fontsource-variable/noto-sans-mono';
 
     import API from "$lib/api";
-    import device from '$lib/device';
+    import { device } from '$lib/device';
 
     export let url: string;
 
@@ -35,7 +35,7 @@
     }
 
     const downloadFile = (url: string) => {
-        if (device.isIOS) {
+        if (device.is.iOS) {
             return navigator?.share({ url }).catch(() => {});
         } else {
             return window.open(url, '_blank');

@@ -9,14 +9,13 @@ import type { Load } from '@sveltejs/kit';
 import languages from '$i18n/languages.json';
 import { loadTranslations, defaultLocale } from '$lib/i18n/translations';
 
-import device from '$lib/device.js';
-
 export const load: Load = async ({ url }) => {
     const { pathname } = url;
 
     let preferredLocale = defaultLocale;
 
     if (browser) {
+        const device = (await import('$lib/device')).device;
         const settings = get((await import('$lib/settings')).default);
         const deviceLanguage = device.preferredLocale;
         const settingsLanguage = settings.appearance.language;

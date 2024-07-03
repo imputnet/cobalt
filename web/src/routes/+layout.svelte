@@ -2,20 +2,24 @@
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
-    import device from "$lib/device";
+    import { device, app } from "$lib/device";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
+    import NotchSticker from "$components/misc/NotchSticker.svelte";
 </script>
 
 <svelte:head>
-    {#if device.isMobile}
+    {#if device.is.mobile}
         <meta name="theme-color" content={statusBarColors[$currentTheme]}>
     {/if}
 </svelte:head>
 
 <div style="display: contents" data-theme={$currentTheme}>
-    <div id="cobalt">
+    <div id="cobalt" class:on-iPhone={device.is.iPhone}>
+        {#if device.is.iPhone && app.is.installed}
+            <NotchSticker />
+        {/if}
         <Sidebar />
         <div id="content">
             <slot></slot>
@@ -56,6 +60,8 @@
         --sidebar-height-mobile: calc(52px + env(safe-area-inset-bottom));
         --sidebar-font-size: 11px;
         --sidebar-inner-padding: 4px;
+
+        --safe-area-inset-top: env(safe-area-inset-top);
 
         --switcher-padding: var(--sidebar-inner-padding);
 
@@ -119,6 +125,18 @@
         overflow: hidden;
         background-color: var(--sidebar-bg);
         color: var(--secondary);
+    }
+
+    /* add padding for notch / dynamic island in landscape */
+    @media screen and (orientation: landscape) {
+        #cobalt.on-iPhone {
+            grid-template-columns:
+                calc(var(--sidebar-width) + env(safe-area-inset-left) + 8px) 1fr;
+        }
+
+        #cobalt.on-iPhone #content {
+            padding-right: env(safe-area-inset-right);
+        }
     }
 
     #content {
