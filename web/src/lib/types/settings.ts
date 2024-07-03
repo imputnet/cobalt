@@ -50,3 +50,5 @@ export type CobaltSettings = {
     save: CobaltSettingsSave,
     privacy: CobaltSettingsPrivacy,
 };
+
+export type DownloadModeOption = CobaltSettings['save']['downloadMode'];

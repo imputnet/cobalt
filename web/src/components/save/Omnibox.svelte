@@ -12,13 +12,16 @@
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
+    import { updateSetting } from "$lib/settings";
+    import type { DownloadModeOption } from "$lib/types/settings";
+
     import IconSparkles from "$lib/icons/Sparkles.svelte";
     import IconMusic from "$lib/icons/Music.svelte";
     import IconMute from "$lib/icons/Mute.svelte";
-
     import IconClipboard from "$lib/icons/Clipboard.svelte";
 
     let link: string = "";
+    let linkInput: HTMLInputElement | undefined;
     let isFocused = false;
 
     let downloadButton: SvelteComponent;
@@ -26,10 +29,8 @@
     const validLink = (link: string) => {
         try {
             return /^https:/i.test(new URL(link).protocol);
-        } catch {
-            return false;
-        }
-    };
+        } catch {}
+    }
 
     const pasteClipboard = () => {
         navigator.clipboard.readText().then(async (text) => {
@@ -42,7 +43,46 @@
             }
         });
     };
+
+    const changeDownloadMode = (mode: DownloadModeOption) => {
+        updateSetting({ save: { downloadMode: mode }});
+    }
+
+    const handleKeydown = (e: KeyboardEvent) => {
+        if (!linkInput) {
+            return;
+        }
+
+        if (e.metaKey || e.ctrlKey || e.key === '/') {
+            linkInput.focus();
+        }
+
+        if (['Escape', 'Clear'].includes(e.key)) {
+            link = "";
+        }
+
+        if (e.target === linkInput) {
+            return;
+        }
+
+        switch (e.key) {
+            case 'D':
+                pasteClipboard();
+                break;
+            case 'K':
+                changeDownloadMode('auto');
+                break;
+            case 'L':
+                changeDownloadMode('audio');
+                break;
+            // TODO: keyboard shortcut for "muted" mode
+            default:
+                break;
+        }
+    }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <div id="omnibox">
     <div
@@ -55,9 +95,10 @@
         <input
             id="link-area"
             bind:value={link}
-            on:input={() => (isFocused = true)}
-            on:focus={() => (isFocused = true)}
-            on:blur={() => (isFocused = false)}
+            bind:this={linkInput}
+            on:input={() => isFocused = true}
+            on:focus={() => isFocused = true}
+            on:blur={() => isFocused = false}
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
@@ -67,8 +108,8 @@
             data-form-type="other"
         />
 
-        {#if link.length > 0}
-            <ClearButton click={() => (link = "")} />
+        {#if link}
+            <ClearButton click={() => link = ""} />
         {/if}
         {#if validLink(link)}
             <DownloadButton url={link} bind:this={downloadButton} />
