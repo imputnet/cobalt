@@ -6,3 +6,5 @@ export type RecursivePartial<Type> = {
     Type[Key] extends object | undefined ? RecursivePartial<Type[Key]> :
     Type[Key];
 };
+
+export type DefaultImport<T> = () => Promise<{ default: T }>;
