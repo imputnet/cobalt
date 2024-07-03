@@ -63,7 +63,9 @@
         }
     ],
     "share_target": {
+        "method": "GET",
         "action": "/",
+        "enctype": "application/x-www-form-urlencoded",
         "params": {
             "text": "u",
             "url": "u"
