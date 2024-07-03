@@ -69,13 +69,15 @@
             case 'D':
                 pasteClipboard();
                 break;
-            case 'K':
+            case 'J':
                 changeDownloadMode('auto');
                 break;
-            case 'L':
+            case 'K':
                 changeDownloadMode('audio');
                 break;
-            // TODO: keyboard shortcut for "muted" mode
+            case 'L':
+                changeDownloadMode('mute');
+                break;
             default:
                 break;
         }
