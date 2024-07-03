@@ -21,6 +21,7 @@
     id="setting-button-{settingContext}-{String(settingId)}-{settingValue}"
     class="button"
     class:active={isActive}
+    aria-pressed={isActive}
     on:click={() =>
         updateSetting({
             [settingContext]: {

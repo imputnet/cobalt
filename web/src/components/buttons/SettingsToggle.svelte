@@ -23,6 +23,7 @@
 <div id="setting-toggle-{settingContext}-{String(settingId)}" class="toggle-parent">
     <button
         class="toggle-container"
+        aria-pressed={isEnabled}
         on:click={() =>
             updateSetting({
                 [settingContext]: {
