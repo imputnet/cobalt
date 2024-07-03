@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
@@ -7,26 +7,7 @@
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
-    import { goto } from "$app/navigation";
-
-    const handleShortcut = (e: KeyboardEvent) => {
-        switch (e.key) {
-            case 'B':
-                goto('/about');
-                break;
-            case 'N':
-                goto('/updates');
-                break;
-            case 'M':
-                goto('/settings');
-                break;
-            default:
-                break;
-        }
-    }
 </script>
-
-<svelte:window on:keydown={handleShortcut} />
 
 <svelte:head>
     {#if device.is.mobile}
