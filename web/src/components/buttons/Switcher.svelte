@@ -2,7 +2,7 @@
     export let big: boolean = false;
 </script>
 
-<div id="switcher-container" class="switcher" class:big={big}>
+<div id="switcher-container" class="switcher" class:big={big} role="listbox">
     <slot></slot>
 </div>
 
@@ -18,7 +18,7 @@
     }
 
     .switcher :global(.button) {
-        white-space: pre;
+        white-space: nowrap;
     }
 
     .switcher:not(.big) :global(.button:first-child) {
