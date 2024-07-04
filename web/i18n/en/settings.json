@@ -68,7 +68,7 @@
 
     "saving.method": "saving method",
     "saving.ask.title": "ask how to save",
-    "saving.ask.description": "offer you several ways to save the file instead of opening it in a new tab.",
+    "saving.ask.description": "offer several ways to save the file instead of opening it in a new tab.",
 
     "accessibility": "accessibility",
     "accessibility.transparency.title": "reduce visual transparency",
