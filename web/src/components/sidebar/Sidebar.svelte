@@ -12,17 +12,12 @@
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
+    import { defaultSettingsPage } from "$lib/settings/defaults";
 
-    let screenWidth: number,
-        settingsLink: string;
+    let screenWidth: number;
+    let settingsLink = defaultSettingsPage();
 
-    $: isMobile = screenWidth <= 750;
-
-    $: if (isMobile) {
-        settingsLink = "/settings";
-    } else {
-        settingsLink = "/settings/general/appearance";
-    }
+    $: screenWidth, settingsLink = defaultSettingsPage();
 </script>
 
 <svelte:window bind:innerWidth={screenWidth} />
