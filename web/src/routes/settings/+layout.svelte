@@ -13,6 +13,8 @@
     import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
 
     import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
+    import { goto } from "$app/navigation";
+    import { defaultSettingsPage } from "$lib/settings/defaults";
 
     let screenWidth: number;
 
@@ -21,7 +23,13 @@
         currentPageTitle !== "settings" ? ` / ${$t(`settings.page.${currentPageTitle}`)}` : "";
 
     $: isMobile = screenWidth <= 750;
-    $: isHome = $page.url.pathname === `/settings`;
+    $: isHome = $page.url.pathname === '/settings';
+    $: {
+        if (!isMobile && isHome) {
+            goto(defaultSettingsPage(), { replaceState: true });
+        }
+    }
+
 </script>
 
 <svelte:head>
