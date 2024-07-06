@@ -159,18 +159,17 @@ export default async function({ id, index, toGif, dispatcher }) {
         case 0:
             return { error: 'ErrorNoVideosInTweet' };
         case 1:
-            const mediaMetadata = {
-                duration: Math.round(media[0].video_info.duration_millis / 1000),
-                likes: baseTweet.favorite_count,
-                views: Number(tweetResult.views.count)
-            };
             return {
                 type: needsFixing(media[0]) ? "remux" : "normal",
                 urls: bestQuality(media[0].video_info.variants),
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`,
                 isGif: media[0].type === "animated_gif",
-                mediaMetadata
+                mediaMetadata: {
+                    duration: Math.round(media[0].video_info.duration_millis / 1000),
+                    likes: baseTweet.favorite_count,
+                    views: Number(tweetResult.views.count)
+                }
             };
         default:
             const picker = media.map((content, i) => {
@@ -186,17 +185,15 @@ export default async function({ id, index, toGif, dispatcher }) {
                     })
                 }
 
-                const mediaMetadata = {
-                    duration: Math.round(content.video_info.duration_millis / 1000),
-                    likes: baseTweet.favorite_count,
-                    views: Number(tweetResult.views.count)
-                };
-
                 return {
                     type: 'video',
                     url,
                     thumb: content.media_url_https,
-                    mediaMetadata
+                    mediaMetadata: {
+                        duration: Math.round(content.video_info.duration_millis / 1000),
+                        likes: baseTweet.favorite_count,
+                        views: Number(tweetResult.views.count)
+                    }
                 }
             });
             return { picker };
