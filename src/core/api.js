@@ -196,10 +196,10 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             return res.sendStatus(404);
         }
 
-        streamInfo.headers = {
-            ...streamInfo.headers,
-            ...req.headers
-        };
+        streamInfo.headers = new Map([
+            streamInfo.headers || {},
+            req.headers
+        ]);
 
         return stream(res, { type: 'internal', ...streamInfo });
     })

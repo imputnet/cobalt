@@ -87,10 +87,15 @@ export function createInternalStream(url, obj = {}) {
         setMaxListeners(Infinity, controller.signal);
     }
 
+    let headers;
+    if (obj.headers) {
+        headers = new Map(Object.entries(obj.headers));
+    }
+
     internalStreamCache[streamID] = {
         url,
         service: obj.service,
-        headers: obj.headers,
+        headers,
         controller,
         dispatcher
     };
