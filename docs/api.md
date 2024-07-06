@@ -37,12 +37,13 @@ Content-Type: application/json
 ### response body variables
 | key          | type     | variables                                                   |
 |:-------------|:---------|:------------------------------------------------------------|
-| `status`     | `string` | `error / redirect / stream / success / rate-limit / picker` |
-| `text`       | `string` | various text, mostly used for errors                        |
-| `url`        | `string` | direct link to a file or a link to cobalt's live render     |
-| `pickerType` | `string` | `various / images`                                          |
-| `picker`     | `array`  | array of picker items                                       |
-| `audio`      | `string` | direct link to a file or a link to cobalt's live render     |
+| `status`        | `string` | `error / redirect / stream / success / rate-limit / picker` |
+| `text`          | `string` | various text, mostly used for errors                        |
+| `url`           | `string` | direct link to a file or a link to cobalt's live render     |
+| `pickerType`    | `string` | `various / images`                                          |
+| `picker`        | `array`  | array of picker items                                       |
+| `audio`         | `string` | direct link to a file or a link to cobalt's live render     |
+| `mediaMetadata` | `object` | Supported only on YouTube and Twitter videos. Object, that contains values `duration` (duration of the video in seconds), `likes` and `views`    |
 
 ### picker item variables
 item type: `object` 

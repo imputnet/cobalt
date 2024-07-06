@@ -59,13 +59,15 @@ export function createResponse(responseType, responseData) {
 
             case "redirect":
                 response = {
-                    url: responseData.u
+                    url: responseData.u,
+                    mediaMetadata: responseData.mediaMetadata,
                 }
                 break;
 
             case "stream":
                 response = {
-                    url: createStream(responseData)
+                    url: createStream(responseData),
+                    mediaMetadata: responseData.mediaMetadata,
                 }
                 break;
 
