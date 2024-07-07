@@ -21,6 +21,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | instagram posts & reels        | ✅            | ✅         | ✅         | ➖         | ➖              |
 | loom                           | ✅            | ❌         | ✅         | ✅         | ➖              |
 | ok video                       | ✅            | ❌         | ✅         | ✅         | ✅              |
+| odysee                         | ✅            | ❌         | ✅         | ➖         | ➖              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
 | rutube                         | ✅            | ✅         | ✅         | ✅         | ✅              |
