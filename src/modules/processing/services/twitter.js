@@ -165,8 +165,6 @@ export default async function({ id, index, toGif, dispatcher }) {
         media = [media[index]]
     }
 
-    console.log(tweetResult)
-
     switch (media?.length) {
         case undefined:
         case 0:
