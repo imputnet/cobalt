@@ -9,7 +9,7 @@ import { normalizeRequest } from "../modules/processing/request.js";
 import { env } from "../modules/config.js";
 
 env.apiURL = 'http://localhost:9000'
-let tests = loadJSON('./src/test/tests.json');
+let tests = loadJSON('./src/util/tests.json');
 
 let noTest = [];
 let failed = [];

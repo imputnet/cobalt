@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.14.3",
+    "version": "7.14.5",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -11,9 +11,9 @@
     "scripts": {
         "start": "node src/cobalt",
         "setup": "node src/modules/setup",
-        "test": "node src/test/test",
+        "test": "node src/util/test",
         "build": "node src/modules/buildStatic",
-        "testFilenames": "node src/test/testFilenamePresets"
+        "token:youtube": "node src/util/generate-youtube-tokens"
     },
     "repository": {
         "type": "git",

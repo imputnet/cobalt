@@ -6,16 +6,12 @@ import { create as contentDisposition } from "content-disposition-header";
 import { metadataManager } from "../sub/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { env, ffmpegArgs, hlsExceptions } from "../config.js";
-import { getHeaders, closeResponse, pipe } from "./shared.js";
+import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
 
 function toRawHeaders(headers) {
     return Object.entries(headers)
                  .map(([key, value]) => `${key}: ${value}\r\n`)
                  .join('');
-}
-
-function closeRequest(controller) {
-    try { controller.abort() } catch {}
 }
 
 function killProcess(p) {
@@ -95,6 +91,10 @@ export function streamLiveRender(streamInfo, res) {
         ]
 
         args = args.concat(ffmpegArgs[format]);
+
+        if (hlsExceptions.includes(streamInfo.service)) {
+            args.push('-bsf:a', 'aac_adtstoasc')
+        }
 
         if (streamInfo.metadata) {
             args = args.concat(metadataManager(streamInfo.metadata))

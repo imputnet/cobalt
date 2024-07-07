@@ -158,6 +158,7 @@
         "ErrorInvalidContentType": "invalid content type header",
         "UpdateOneMillion": "1 million users and blazing speed",
         "ErrorYTAgeRestrict": "this youtube video is age-restricted, so i can't see it. try another one!",
-        "ErrorYTLogin": "couldn't get this youtube video because it requires sign in.\n\nthis limitation is an a/b test done by google to seemingly stop scraping, coincidentally affecting all 3rd party tools and even their own clients.\n\nyou can track the <a class=\"text-backdrop link\" href=\"{repo}/issues/551\" target=\"_blank\">issue on github</a>."
+        "ErrorYTLogin": "couldn't get this youtube video because it requires an account to view.\n\nthis limitation is done by google to seemingly stop scraping, affecting all 3rd party tools and even their own clients.\n\ntry again, but if issue persists, {ContactLink}.",
+        "ErrorYTRateLimit": "i got rate limited by youtube. try again in a few seconds, but if issue persists, {ContactLink}."
     }
 }

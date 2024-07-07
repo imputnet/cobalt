@@ -1,16 +1,31 @@
 import { createInternalStream } from './manage.js';
 import HLS from 'hls-parser';
-import path from "node:path";
+
+function getURL(url) {
+    try {
+        return new URL(url);
+    } catch {
+        return null;
+    }
+}
 
 function transformObject(streamInfo, hlsObject) {
     if (hlsObject === undefined) {
         return (object) => transformObject(streamInfo, object);
     }
 
-    const fullUrl = hlsObject.uri.startsWith("/")
-        ? new URL(hlsObject.uri, streamInfo.url).toString()
-        : new URL(path.join(streamInfo.url, "/../", hlsObject.uri)).toString();
-    hlsObject.uri = createInternalStream(fullUrl, streamInfo);
+    let fullUrl;
+    if (getURL(hlsObject.uri)) {
+        fullUrl = hlsObject.uri;
+    } else {
+        fullUrl = new URL(hlsObject.uri, streamInfo.url);
+    }
+
+    hlsObject.uri = createInternalStream(fullUrl.toString(), streamInfo);
+
+    if (hlsObject.map) {
+        hlsObject.map = transformObject(streamInfo, hlsObject.map);
+    }
 
     return hlsObject;
 }

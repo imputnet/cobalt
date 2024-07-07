@@ -16,6 +16,10 @@ const serviceHeaders = {
     }
 }
 
+export function closeRequest(controller) {
+    try { controller.abort() } catch {}
+}
+
 export function closeResponse(res) {
     if (!res.headersSent) {
         res.sendStatus(500);

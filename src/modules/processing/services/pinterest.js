@@ -1,6 +1,6 @@
 import { genericUserAgent } from "../../config.js";
 
-const videoRegex = /"url":"(https:\/\/v1.pinimg.com\/videos\/.*?)"/g;
+const videoRegex = /"url":"(https:\/\/v1\.pinimg\.com\/videos\/.*?)"/g;
 const imageRegex = /src="(https:\/\/i\.pinimg\.com\/.*\.(jpg|gif))"/g;
 
 export default async function(o) {

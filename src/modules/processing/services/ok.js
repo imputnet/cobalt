@@ -20,13 +20,14 @@ export default async function(o) {
     }).then(r => r.text()).catch(() => {});
 
     if (!html) return { error: 'ErrorCouldntFetch' };
-    if (!html.includes(`<div data-module="OKVideo" data-options="{`)) {
+
+    let videoData = html.match(/<div data-module="OKVideo" .*? data-options="({.*?})"( .*?)>/)
+                        ?.[1]
+                        ?.replaceAll("&quot;", '"');
+
+    if (!videoData) {
         return { error: 'ErrorEmptyDownload' };
     }
-
-    let videoData = html.split(`<div data-module="OKVideo" data-options="`)[1]
-                        .split('" data-')[0]
-                        .replaceAll("&quot;", '"');
 
     videoData = JSON.parse(JSON.parse(videoData).flashvars.metadata);
 
