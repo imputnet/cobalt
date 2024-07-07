@@ -7,7 +7,7 @@ export default async function({ id }) {
             "user-agent": genericUserAgent
         }
     })
-    .then(req => {return req.text()})
+    .then(req => req.text())
     .catch(() => {});
 
     if (!requestText.includes('"contentUrl": ')) return { error: 'ErrorEmptyDownload' };
