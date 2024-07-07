@@ -12,6 +12,7 @@
 </script>
 
 <SettingsCategory
+    sectionId="theme"
     title={$t("settings.theme")}
     description={$t("settings.theme.description")}
 >
@@ -28,7 +29,10 @@
     </Switcher>
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.accessibility")}>
+<SettingsCategory
+    sectionId="accessibility"
+    title={$t("settings.accessibility")}
+>
     <SettingsToggle
         settingContext="accessibility"
         settingId="reduceTransparency"
@@ -43,7 +47,7 @@
     />
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.language")}>
+<SettingsCategory sectionId="language" title={$t("settings.language")}>
     <LanguageDropdown />
     <SettingsToggle
         settingContext="appearance"

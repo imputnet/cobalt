@@ -1,16 +1,17 @@
 <script lang="ts">
+    export let sectionId: string;
     export let title: string;
     export let description: string = "";
 </script>
 
-<div class="settings-content">
+<section id={sectionId} class="settings-content">
     <h3 class="settings-content-title">{title}</h3>
     <slot></slot>
 
     {#if description.length > 0}
         <div class="settings-content-description subtext">{description}</div>
     {/if}
-</div>
+</section>
 
 <style>
     .settings-content {
