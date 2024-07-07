@@ -43,7 +43,7 @@ Content-Type: application/json
 | `pickerType`    | `string` | `various / images`                                          |
 | `picker`        | `array`  | array of picker items                                       |
 | `audio`         | `string` | direct link to a file or a link to cobalt's live render     |
-| `mediaMetadata` | `object` | Supported only on YouTube and Twitter videos. Object, that contains values `duration` (duration of the video in seconds), `likes` and `views`    |
+| `mediaMetadata` | `object` | Supported only on YouTube and Twitter videos. Object, that contains values `duration` (duration of the video in seconds), `likes`, `views`, `title`    |
 
 ### picker item variables
 item type: `object` 
