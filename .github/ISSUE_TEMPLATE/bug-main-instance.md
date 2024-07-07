@@ -1,8 +1,8 @@
 ---
-name: bug report
-about: report a global issue with the cobalt codebase
+name: main instance bug report
+about: report an issue with cobalt.tools or api.cobalt.tools
 title: '[short description of the bug]'
-labels: bug
+labels: main instance issue
 assignees: ''
 
 ---

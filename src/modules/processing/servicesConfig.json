@@ -33,6 +33,7 @@
         "vk": {
             "alias": "vk video & clips",
             "patterns": ["video:userId_:videoId", "clip:userId_:videoId", "clips:duplicate?z=clip:userId_:videoId"],
+            "subdomains": ["m"],
             "enabled": true
         },
         "ok": {
