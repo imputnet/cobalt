@@ -11,6 +11,7 @@
 </script>
 
 <SettingsCategory
+    sectionId="video-quality"
     title={$t("settings.video.quality")}
     description={$t("settings.video.quality.description")}
 >
@@ -25,6 +26,7 @@
 </SettingsCategory>
 
 <SettingsCategory
+    sectionId="youtube-codec"
     title={$t("settings.video.youtube.codec")}
     description={$t("settings.video.youtube.codec.description")}
 >
@@ -38,7 +40,9 @@
 
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.video.twitter.gif")}>
+<SettingsCategory
+    sectionId="twitter"
+    title={$t("settings.video.twitter.gif")}>
     <SettingsToggle
         settingContext="save"
         settingId="twitterGif"
@@ -47,7 +51,9 @@
     />
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.video.tiktok.h265")}>
+<SettingsCategory
+    sectionId="tiktok"
+    title={$t("settings.video.tiktok.h265")}>
     <SettingsToggle
         settingContext="save"
         settingId="tiktokH265"

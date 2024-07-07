@@ -10,20 +10,24 @@
 </script>
 
 <SettingsCategory
+    sectionId="audio-format"
     title={$t("settings.audio.format")}
     description={$t("settings.audio.format.description")}
 >
     <Switcher big={true}>
         {#each audioFormatOptions as value}
-            <SettingsButton settingContext="save" settingId="audioFormat" settingValue={value}>
+            <SettingsButton
+                settingContext="save"
+                settingId="audioFormat"
+                settingValue={value}
+            >
                 {$t(`settings.audio.format.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>
-
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.audio.youtube.dub")}>
+<SettingsCategory sectionId="youtube" title={$t("settings.audio.youtube.dub")}>
     <SettingsToggle
         settingContext="save"
         settingId="youtubeDubBrowserLang"
@@ -32,7 +36,10 @@
     />
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.audio.tiktok.original")}>
+<SettingsCategory
+    sectionId="tiktok"
+    title={$t("settings.audio.tiktok.original")}
+>
     <SettingsToggle
         settingContext="save"
         settingId="tiktokFullAudio"

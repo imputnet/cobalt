@@ -4,12 +4,12 @@
     export let sectionTitle: string;
 </script>
 
-<section id="settings-section">
+<div id="settings-section">
     <div id="settings-section-title">{$t(`settings.section.${sectionTitle}`)}</div>
     <div id="settings-section-categories">
         <slot></slot>
     </div>
-</section>
+</div>
 
 <style>
     #settings-section,

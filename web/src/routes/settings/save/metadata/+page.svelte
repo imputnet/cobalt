@@ -10,20 +10,27 @@
 </script>
 
 <SettingsCategory
+    sectionId="filename"
     title={$t("settings.metadata.filename")}
     description={$t("settings.metadata.filename.description")}
 >
     <Switcher big={true}>
         {#each filenameStyleOptions as value}
-            <SettingsButton settingContext="save" settingId="filenameStyle" settingValue={value}>
+            <SettingsButton
+                settingContext="save"
+                settingId="filenameStyle"
+                settingValue={value}
+            >
                 {$t(`settings.metadata.filename.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>
-
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.metadata.file")}>
+<SettingsCategory
+    sectionId="disable-metadata"
+    title={$t("settings.metadata.file")}
+>
     <SettingsToggle
         settingContext="save"
         settingId="disableMetadata"
@@ -32,7 +39,7 @@
     />
 </SettingsCategory>
 
-<SettingsCategory title={$t("settings.saving.method")}>
+<SettingsCategory sectionId="saving" title={$t("settings.saving.method")}>
     <SettingsToggle
         settingContext="save"
         settingId="downloadPopup"
