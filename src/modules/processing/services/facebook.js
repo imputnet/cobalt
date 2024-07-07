@@ -47,26 +47,21 @@ export default async function (sourceUrl, { shortLink, username, id }) {
     if (!html) return { error: 'ErrorCouldntFetch' };
 
     const urls = []
-    const hd = html.match('"browser_native_hd_url":"(.*?)"')
-    const sd = html.match('"browser_native_sd_url":"(.*?)"')
+    const hd = html.match('"browser_native_hd_url":(".*?")')
+    const sd = html.match('"browser_native_sd_url":(".*?")')
 
-    if (hd?.length) {
-        urls.push(JSON.parse(`["${hd[1]}"]`)[0])
+    if (hd?.[1]) {
+        urls.push(JSON.parse(hd[1]))
     }
-    if (sd?.length) {
-        urls.push(JSON.parse(`["${sd[1]}"]`)[0])
+    if (sd?.[1]) {
+        urls.push(JSON.parse(sd[1]))
     }
 
     if (!urls.length) {
         return { error: 'ErrorEmptyDownload' };
     }
 
-    let filename = `facebook_${id}.mp4`
-    if (isShortLink) {
-        filename = `facebook_${shortLink}.mp4`
-    } else if (username?.length && username !== 'user') {
-        filename = `facebook_${username}_${id}.mp4`
-    }
+    let filename = `facebook_${id || shortLink}.mp4`
 
     return {
         urls: urls[0],
