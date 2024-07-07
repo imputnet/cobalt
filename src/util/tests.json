@@ -1167,7 +1167,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "direct video with id as query param",
@@ -1175,7 +1175,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "direct video with caption",
@@ -1183,7 +1183,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "shortlink video",
@@ -1191,7 +1191,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "reel video",
@@ -1199,7 +1199,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "shared video link",
@@ -1207,7 +1207,15 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
+        }
+    }, {
+        "name": "shared video link v2",
+        "url": "https://web.facebook.com/share/r/JFZfPVgLkiJQmWrr/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
         }
     }]
 }

@@ -33,7 +33,7 @@ export default async function({ sourceUrl, shortLink, username, id }) {
         : `https://web.facebook.com/${username}/videos/${id}`
 
     if (isShortLink) url = await resolveUrl(url)
-    if (isSharedLink) url = (sourceUrl)
+    if (isSharedLink) url = sourceUrl
 
     const html = await fetch(url, { headers })
         .then(r => r.text())
