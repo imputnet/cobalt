@@ -4,6 +4,8 @@
 
     import languages from "$i18n/languages.json";
 
+    import IconSelector from "@tabler/icons-svelte/IconSelector.svelte";
+
     $: currentSetting = $settings.appearance.language;
 
     const updateLocale = (lang: string) => {
@@ -11,18 +13,111 @@
             appearance: {
                 language: lang as keyof typeof languages,
             },
-        })
-    }
+        });
+    };
 </script>
 
-<select
-    id="setting-dropdown-appearance-language"
-    bind:value={$locale}
-    on:change={() => updateLocale($locale)}
->
-    {#each $locales as value}
-        <option value={value} selected={currentSetting === value}>
-            {$t(`languages.${value}`)}
-        </option>
-    {/each}
-</select>
+<div class="language-selector-parent">
+    <div id="language-selector" class="selector button">
+        <div class="selector-info">
+            <h4 class="selector-title">
+                {$t("settings.language.preferred.title")}
+            </h4>
+            <div class="right-side">
+                <span class="selector-current" aria-hidden="true">
+                    {$t(`languages.${currentSetting}`)}
+                </span>
+                <IconSelector />
+            </div>
+        </div>
+        <select
+            id="setting-dropdown-appearance-language"
+            bind:value={$locale}
+            on:change={() => updateLocale($locale)}
+        >
+            {#each $locales as value}
+                <option {value} selected={currentSetting === value}>
+                    {$t(`languages.${value}`)}
+                </option>
+            {/each}
+        </select>
+    </div>
+    <div class="subtext toggle-description">
+        {$t("settings.language.preferred.description")}
+    </div>
+</div>
+
+<style>
+    .language-selector-parent {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+    }
+
+    #language-selector {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+
+        padding: calc(var(--switcher-padding) * 2) 16px;
+
+        pointer-events: all;
+        overflow: scroll;
+    }
+
+    .selector-info {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: var(--padding);
+        min-height: 26px;
+
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .right-side {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        float: right;
+        gap: calc(var(--padding) / 2);
+    }
+
+    .selector-current {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .right-side :global(svg) {
+        stroke-width: 1.5px;
+        height: 20px;
+        width: 20px;
+        stroke: var(--secondary);
+    }
+
+    .selector select {
+        position: absolute;
+        appearance: initial;
+        width: 100%;
+        height: 100%;
+        font-size: 0;
+        background: none;
+        border: none;
+        left: 0;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+    }
+
+    @media (hover: hover) {
+        .selector:hover {
+            background-color: var(--button-hover);
+        }
+    }
+</style>

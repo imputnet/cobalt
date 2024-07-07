@@ -78,5 +78,7 @@
 
     "language": "language",
     "language.auto.title": "use default browser language",
-    "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead."
+    "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead.",
+    "language.preferred.title": "preferred language",
+    "language.preferred.description": "language used for interface and content."
 }
