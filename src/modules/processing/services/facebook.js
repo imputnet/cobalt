@@ -24,7 +24,7 @@ function resolveUrl(url) {
         .catch(() => false)
 }
 
-export default async function (sourceUrl, { shortLink, username, id }) {
+export default async function({ sourceUrl, shortLink, username, id }) {
     const isShortLink = !!shortLink?.length
     const isSharedLink = !!sourceUrl.match(/\/share\/v\//)?.length
 

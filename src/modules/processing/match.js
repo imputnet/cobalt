@@ -194,7 +194,10 @@ export default async function(host, patternMatch, lang, obj) {
                     id: patternMatch.id
                 });
             case "facebook":
-                r = await facebook(url.href, patternMatch);
+                r = await facebook({
+                    ...patternMatch,
+                    sourceUrl: url.href
+                });
                 break;
             default:
                 return createResponse("error", {
