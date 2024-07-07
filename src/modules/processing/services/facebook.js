@@ -26,19 +26,14 @@ function resolveUrl(url) {
 
 export default async function({ sourceUrl, shortLink, username, id }) {
     const isShortLink = !!shortLink?.length
-    const isSharedLink = !!sourceUrl.match(/\/share\/v\//)?.length
+    const isSharedLink = !!sourceUrl.match(/\/share\/\w\//)?.length
 
     let url = isShortLink
         ? `https://fb.watch/${shortLink}`
         : `https://web.facebook.com/${username}/videos/${id}`
 
-    if (isShortLink) {
-        url = await resolveUrl(url)
-    }
-
-    if (isSharedLink) {
-        url = sourceUrl
-    }
+    if (isShortLink) url = await resolveUrl(url)
+    if (isSharedLink) url = (sourceUrl)
 
     const html = await fetch(url, { headers })
         .then(r => r.text())
@@ -50,12 +45,8 @@ export default async function({ sourceUrl, shortLink, username, id }) {
     const hd = html.match('"browser_native_hd_url":(".*?")')
     const sd = html.match('"browser_native_sd_url":(".*?")')
 
-    if (hd?.[1]) {
-        urls.push(JSON.parse(hd[1]))
-    }
-    if (sd?.[1]) {
-        urls.push(JSON.parse(sd[1]))
-    }
+    if (hd?.[1]) urls.push(JSON.parse(hd[1]))
+    if (sd?.[1]) urls.push(JSON.parse(sd[1]))
 
     if (!urls.length) {
         return { error: 'ErrorEmptyDownload' };
