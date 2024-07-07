@@ -28,6 +28,7 @@ const request = async (url: string) => {
 
     const response: CobaltAPIResponse | undefined = await fetch(`${apiURL}/api/json`, {
         method: "POST",
+        redirect: "manual",
         body: JSON.stringify(request),
         headers: {
             'Accept': 'application/json',
