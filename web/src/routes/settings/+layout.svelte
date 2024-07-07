@@ -3,8 +3,8 @@
 
     import { t } from "$lib/i18n/translations";
 
-    import SettingsTab from "$components/settings/SettingsTab.svelte";
-    import SettingsSection from "$components/settings/SettingsSection.svelte";
+    import SettingsNavTab from "$components/settings/SettingsNavTab.svelte";
+    import SettingsNavSection from "$components/settings/SettingsNavSection.svelte";
 
     import IconSunHigh from "@tabler/icons-svelte/IconSunHigh.svelte";
 
@@ -68,38 +68,38 @@
             {/if}
         </div>
         <nav id="settings-navigation" class:visible-mobile={isMobile && isHome}>
-            <SettingsSection sectionTitle="general">
-                <SettingsTab
+            <SettingsNavSection sectionTitle="general">
+                <SettingsNavTab
                     tabName="appearance"
                     tabLink="general/appearance"
                     iconColor="blue"
                 >
                     <IconSunHigh />
-                </SettingsTab>
-            </SettingsSection>
-            <SettingsSection sectionTitle="save">
-                <SettingsTab
+                </SettingsNavTab>
+            </SettingsNavSection>
+            <SettingsNavSection sectionTitle="save">
+                <SettingsNavTab
                     tabName="video"
                     tabLink="save/video"
                     iconColor="green"
                 >
                     <IconMovie />
-                </SettingsTab>
-                <SettingsTab
+                </SettingsNavTab>
+                <SettingsNavTab
                     tabName="audio"
                     tabLink="save/audio"
                     iconColor="green"
                 >
                     <IconMusic />
-                </SettingsTab>
-                <SettingsTab
+                </SettingsNavTab>
+                <SettingsNavTab
                     tabName="metadata"
                     tabLink="save/metadata"
                     iconColor="green"
                 >
                     <IconFileSettings />
-                </SettingsTab>
-            </SettingsSection>
+                </SettingsNavTab>
+            </SettingsNavSection>
         </nav>
     </div>
 
@@ -120,15 +120,13 @@
         grid-template-columns: var(--settings-nav-width) 1fr;
         overflow: hidden;
         padding-left: var(--settings-padding);
-        padding-top: var(--settings-padding);
     }
 
     #settings-page-content {
         display: flex;
         flex-direction: column;
-        gap: var(--settings-padding);
         max-width: 600px;
-        padding: 0 var(--settings-padding);
+        padding: calc(var(--settings-padding) / 2);
         overflow-y: scroll;
     }
 
@@ -140,6 +138,7 @@
 
     #settings-sidebar {
         width: var(--settings-nav-width);
+        padding-top: var(--settings-padding);
     }
 
     #settings-sidebar {
@@ -189,14 +188,18 @@
             padding: 0;
         }
 
-        #settings-page-content,
         #settings-navigation {
             padding: var(--padding);
+            padding-bottom: calc(var(--padding) * 2);
+        }
+
+        #settings-page-content {
+            padding: var(--padding) 0;
+            padding-top: 0;
         }
 
         #settings-page-content {
             max-width: unset;
-            gap: calc(var(--padding) * 2);
         }
 
         #settings-header {
@@ -210,6 +213,7 @@
 
         #settings-sidebar {
             gap: 0px;
+            padding: 0;
         }
 
         #settings-page-title {
