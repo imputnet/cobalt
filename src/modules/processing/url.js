@@ -23,7 +23,7 @@ function aliasURL(url) {
                 ** but we only care about the 1st segment of the path */
                 url = new URL(`https://youtube.com/watch?v=${
                     encodeURIComponent(parts[1])
-                    }`)
+                }`)
             }
             break;
 
@@ -31,7 +31,7 @@ function aliasURL(url) {
             if (url.hostname === 'pin.it' && parts.length === 2) {
                 url = new URL(`https://pinterest.com/url_shortener/${
                     encodeURIComponent(parts[1])
-                    }`)
+                }`)
             }
             break;
 
