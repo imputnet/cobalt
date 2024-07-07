@@ -35,8 +35,8 @@ Content-Type: application/json
 | `tiktokH265`      | `boolean` | `true / false`                     | `false`   | changes whether 1080p h265 videos are preferred or not.                         |
 
 ### response body variables
-| key          | type     | variables                                                   |
-|:-------------|:---------|:------------------------------------------------------------|
+| key             | type     | variables                                                   |
+|:----------------|:---------|:------------------------------------------------------------|
 | `status`        | `string` | `error / redirect / stream / success / rate-limit / picker` |
 | `text`          | `string` | various text, mostly used for errors                        |
 | `url`           | `string` | direct link to a file or a link to cobalt's live render     |
