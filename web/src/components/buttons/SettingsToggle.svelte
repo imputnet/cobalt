@@ -50,6 +50,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        overflow: hidden;
     }
 
     .toggle-container {
@@ -63,5 +64,6 @@
         transform: none;
         padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);
+        overflow: scroll;
     }
 </style>

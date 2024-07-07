@@ -187,7 +187,7 @@
         pointer-events: none;
     }
 
-    :global(button) {
+    :global(button, .button) {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -208,7 +208,7 @@
         z-index: 1;
     }
 
-    :global(button:active) {
+    :global(button:active, .button:active) {
         background-color: var(--button-hover);
     }
 
