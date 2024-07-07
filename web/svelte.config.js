@@ -17,6 +17,9 @@ const config = {
             precompress: false,
             strict: true
         }),
+        paths: {
+            relative: false
+        },
         alias: {
             $components: 'src/components',
             $i18n: 'i18n',
