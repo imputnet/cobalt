@@ -49,6 +49,12 @@ export default async function(o) {
             resolution: `${quality}p`,
             qualityLabel: `${quality}p`,
             extension: "mp4"
+        },
+        mediaMetadata: {
+            duration: js.player.params[0].duration,
+            likes: js.mvData.likes,
+            views: js.videoModalInfoData.views,
+            title: js.mvData.title
         }
     }
     return { error: 'ErrorEmptyDownload' }
