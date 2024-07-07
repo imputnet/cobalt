@@ -674,7 +674,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }],
     "reddit": [{
