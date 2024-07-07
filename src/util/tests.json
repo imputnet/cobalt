@@ -1223,7 +1223,7 @@
         },
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "stream"
         }
     },
     {
@@ -1233,8 +1233,8 @@
             "isAudioOnly": true
         },
         "expected": {
-            "code": 200,
-            "status": "redirect"
+            "code": 400,
+            "status": "error"
         }
     }]
 }
