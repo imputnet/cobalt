@@ -36,6 +36,17 @@ function bestQuality(arr) {
         .url
 }
 
+function buildMediaMetadata(tweetResult, media){
+    return {
+        duration: Math.round(media.video_info.duration_millis / 1000) || 0,
+        likes: tweetResult.legacy.favorite_count || 0,
+        views: Number(tweetResult.views.count) || 0,
+        title: (tweetResult.legacy && tweetResult.legacy.full_text && Array.isArray(tweetResult.legacy.display_text_range) && tweetResult.legacy.display_text_range[0] !== undefined && tweetResult.legacy.display_text_range[1] !== undefined)
+            ? tweetResult.legacy.full_text.substr(tweetResult.legacy.display_text_range[0], tweetResult.legacy.display_text_range[1] - tweetResult.legacy.display_text_range[0])
+            : undefined
+    }
+}
+
 let _cachedToken;
 const getGuestToken = async (dispatcher, forceReload = false) => {
     if (_cachedToken && !forceReload) {
@@ -154,6 +165,8 @@ export default async function({ id, index, toGif, dispatcher }) {
         media = [media[index]]
     }
 
+    console.log(tweetResult)
+
     switch (media?.length) {
         case undefined:
         case 0:
@@ -165,11 +178,7 @@ export default async function({ id, index, toGif, dispatcher }) {
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`,
                 isGif: media[0].type === "animated_gif",
-                mediaMetadata: {
-                    duration: Math.round(media[0].video_info.duration_millis / 1000),
-                    likes: baseTweet.favorite_count,
-                    views: Number(tweetResult.views.count)
-                }
+                mediaMetadata: buildMediaMetadata(tweetResult, media[0])
             };
         default:
             const picker = media.map((content, i) => {
@@ -189,11 +198,7 @@ export default async function({ id, index, toGif, dispatcher }) {
                     type: 'video',
                     url,
                     thumb: content.media_url_https,
-                    mediaMetadata: {
-                        duration: Math.round(content.video_info.duration_millis / 1000),
-                        likes: baseTweet.favorite_count,
-                        views: Number(tweetResult.views.count)
-                    }
+                    mediaMetadata: buildMediaMetadata(tweetResult, content)
                 }
             });
             return { picker };

@@ -221,7 +221,8 @@ export default async function(o) {
     const mediaMetadata = {
         duration: info.basic_info.duration,
         likes: info.basic_info.like_count,
-        views: info.basic_info.view_count
+        views: info.basic_info.view_count,
+        title: info.basic_info.title,
     };
 
     if (match) {
