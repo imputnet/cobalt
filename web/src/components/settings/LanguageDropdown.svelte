@@ -25,7 +25,7 @@
             </h4>
             <div class="right-side">
                 <span class="selector-current" aria-hidden="true">
-                    {$t(`languages.${currentSetting}`)}
+                    {$t(`languages.${$locale}`)}
                 </span>
                 <IconSelector />
             </div>
