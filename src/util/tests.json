@@ -1,7 +1,7 @@
 {
     "twitter": [{
         "name": "regular video",
-        "url": "https://twitter.com/XSpaces/status/1526955853743546372?s=20",
+        "url": "https://twitter.com/X/status/1697304622749086011",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -14,7 +14,7 @@
     },
     {
         "name": "video with mobile web mediaviewer",
-        "url": "https://twitter.com/XSpaces/status/1526955853743546372/mediaViewer?currentTweet=1526955853743546372&currentTweetUser=XSpaces&currentTweet=1526955853743546372&currentTweetUser=XSpaces",
+        "url": "https://twitter.com/X/status/1697304622749086011/mediaViewer?currentTweet=1697304622749086011&currentTweetUser=X&currentTweet=1697304622749086011&currentTweetUser=X",
         "params": {},
         "expected": {
             "code": 200,
