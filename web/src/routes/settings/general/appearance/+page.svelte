@@ -29,6 +29,16 @@
     </Switcher>
 </SettingsCategory>
 
+<SettingsCategory sectionId="language" title={$t("settings.language")}>
+    <SettingsToggle
+        settingContext="appearance"
+        settingId="autoLanguage"
+        title={$t("settings.language.auto.title")}
+        description={$t("settings.language.auto.description")}
+    />
+    <LanguageDropdown />
+</SettingsCategory>
+
 <SettingsCategory
     sectionId="accessibility"
     title={$t("settings.accessibility")}
@@ -45,14 +55,4 @@
         title={$t("settings.accessibility.animations.title")}
         description={$t("settings.accessibility.animations.description")}
     />
-</SettingsCategory>
-
-<SettingsCategory sectionId="language" title={$t("settings.language")}>
-    <SettingsToggle
-        settingContext="appearance"
-        settingId="autoLanguage"
-        title={$t("settings.language.auto.title")}
-        description={$t("settings.language.auto.description")}
-    />
-    <LanguageDropdown />
 </SettingsCategory>
