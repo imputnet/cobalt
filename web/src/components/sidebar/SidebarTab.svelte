@@ -37,6 +37,7 @@
     bind:this={tab}
     on:focus={() => showTab(tab)}
     role="tab"
+    aria-selected={isTabActive}
 >
     <slot></slot>
     {$t(`tabs.${tabName}`)}
