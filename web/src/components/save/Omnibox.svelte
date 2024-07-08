@@ -57,6 +57,10 @@
             linkInput.focus();
         }
 
+        if (e.key === "Enter" && validLink(link)) {
+            downloadButton.download(link);
+        }
+
         if (['Escape', 'Clear'].includes(e.key)) {
             link = "";
         }
