@@ -90,9 +90,10 @@
         gap: calc(var(--padding) / 2);
     }
 
-    .selector-current {
-        font-size: 14px;
-        font-weight: 500;
+    .selector-current,
+    .selector select {
+        font-size: 13px;
+        font-weight: 400;
     }
 
     .right-side :global(svg) {
@@ -107,12 +108,16 @@
         appearance: initial;
         width: 100%;
         height: 100%;
-        font-size: 0;
         background: none;
         border: none;
         left: 0;
         border-radius: var(--border-radius);
         cursor: pointer;
+        color: transparent;
+        text-align: right;
+
+        /* safari fix */
+        text-align-last: right;
     }
 
     @media (hover: hover) {
