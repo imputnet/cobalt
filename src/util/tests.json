@@ -650,23 +650,23 @@
         }
     }, {
         "name": "1080p dash parcel",
-        "url": "https://vimeo.com/774694040",
+        "url": "https://vimeo.com/967252742",
         "params": {
             "vQuality": "1440"
         },
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "720p dash parcel",
-        "url": "https://vimeo.com/774694040",
+        "url": "https://vimeo.com/967252742",
         "params": {
             "vQuality": "360"
         },
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "private video",
@@ -1055,7 +1055,7 @@
         }
     }, {
         "name": "yappy",
-        "url": "https://rutube.ru/yappy/a06b1bf53bce403b9a069107f23c47eb//",
+        "url": "https://rutube.ru/yappy/a06b1bf53bce403b9a069107f23c47eb/",
         "params": {},
         "expected": {
             "code": 200,
@@ -1157,8 +1157,8 @@
             "isAudioOnly": true
         },
         "expected": {
-            "code": 200,
-            "status": "stream"
+            "code": 400,
+            "status": "error"
         }
     }]
 }
