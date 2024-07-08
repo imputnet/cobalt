@@ -1,5 +1,5 @@
 import { env } from "../../config.js";
-import { cleanString } from '../../sub/utils.js';
+import { cleanString, merge } from '../../sub/utils.js';
 
 import HLS from "hls-parser";
 
@@ -16,32 +16,70 @@ const resolutionMatch = {
     "426": 240
 }
 
-export default async function(obj) {
-    let quality = obj.quality === "max" ? 9000 : Number(obj.quality);
-    if (quality < 240) quality = 240;
-    if (!quality || obj.isAudioOnly) quality = 9000;
-
-    const url = new URL(`https://player.vimeo.com/video/${obj.id}/config`);
-    if (obj.password) {
-        url.searchParams.set('h', obj.password);
+const requestApiInfo = (videoId, password) => {
+    if (password) {
+        videoId += `:${password}`
     }
 
-    const api = await fetch(url)
+    return fetch(
+        `https://api.vimeo.com/videos/${videoId}`,
+        {
+            headers: {
+                Accept: 'application/vnd.vimeo.*+json; version=3.4.2',
+                'User-Agent': 'Vimeo/10.19.0 (com.vimeo; build:101900.57.0; iOS 17.5.1) Alamofire/5.9.0 VimeoNetworking/5.0.0',
+                Authorization: 'Basic MTMxNzViY2Y0NDE0YTQ5YzhjZTc0YmU0NjVjNDQxYzNkYWVjOWRlOTpHKzRvMmgzVUh4UkxjdU5FRW80cDNDbDhDWGR5dVJLNUJZZ055dHBHTTB4V1VzaG41bEx1a2hiN0NWYWNUcldSSW53dzRUdFRYZlJEZmFoTTArOTBUZkJHS3R4V2llYU04Qnl1bERSWWxUdXRidjNqR2J4SHFpVmtFSUcyRktuQw==',
+                'Accept-Language': 'en'
+            }
+        }
+    )
+    .then(a => a.json())
+    .catch(() => {});
+}
+
+const compareQuality = (rendition, requestedQuality) => {
+    const quality = parseInt(rendition);
+    return Math.abs(quality - requestedQuality);
+}
+
+const getDirectLink = (data, quality) => {
+    if (!data.files) return;
+
+    const match = data.files
+        .filter(f => f.rendition?.endsWith('p'))
+        .reduce((prev, next) => {
+            const delta = {
+                prev: compareQuality(prev.rendition, quality),
+                next: compareQuality(next.rendition, quality)
+            };
+
+            return delta.prev < delta.next ? prev : next;
+        });
+
+    if (!match) return;
+
+    return {
+        urls: match.link,
+        filenameAttributes: {
+            resolution: `${match.width}x${match.height}`,
+            qualityLabel: match.rendition,
+            extension: "mp4"
+        }
+    }
+}
+
+const getHLS = async (configURL, obj) => {
+    if (!configURL) return;
+
+    const api = await fetch(configURL)
                     .then(r => r.json())
                     .catch(() => {});
-
     if (!api) return { error: 'ErrorCouldntFetch' };
 
-    const fileMetadata = {
-        title: cleanString(api.video.title.trim()),
-        artist: cleanString(api.video.owner.name.trim()),
+    if (api.video?.duration > env.durationLimit) {
+        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
     }
 
-    if (api.video?.duration > env.durationLimit)
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
-
     const urlMasterHLS = api.request?.files?.hls?.cdns?.akfire_interconnect_quic?.url;
-
     if (!urlMasterHLS) return { error: 'ErrorCouldntFetch' }
 
     const masterHLS = await fetch(urlMasterHLS)
@@ -57,9 +95,9 @@ export default async function(obj) {
 
     let bestQuality;
 
-    if (quality < resolutionMatch[variants[0]?.resolution?.width]) {
+    if (obj.quality < resolutionMatch[variants[0]?.resolution?.width]) {
         bestQuality = variants.find(v =>
-            (quality === resolutionMatch[v.resolution.width])
+            (obj.quality === resolutionMatch[v.resolution.width])
         );
     }
 
@@ -84,15 +122,48 @@ export default async function(obj) {
     return {
         urls,
         isM3U8: true,
-        fileMetadata: fileMetadata,
         filenameAttributes: {
-            service: "vimeo",
-            id: obj.id,
-            title: fileMetadata.title,
-            author: fileMetadata.artist,
             resolution: `${bestQuality.resolution.width}x${bestQuality.resolution.height}`,
             qualityLabel: `${resolutionMatch[bestQuality.resolution.width]}p`,
             extension: "mp4"
         }
     }
+}
+
+export default async function(obj) {
+    let quality = obj.quality === "max" ? 9000 : Number(obj.quality);
+    if (quality < 240) quality = 240;
+    if (!quality || obj.isAudioOnly) quality = 9000;
+
+    const info = await requestApiInfo(obj.id, obj.password);
+    let response;
+
+    if (obj.isAudioOnly) {
+        response = await getHLS(info.config_url, { ...obj, quality });
+    }
+
+    if (!response) response = getDirectLink(info, quality);
+    if (!response) response = { error: 'ErrorEmptyDownload' };
+
+    if (response.error) {
+        return response;
+    }
+
+    const fileMetadata = {
+        title: cleanString(info.name),
+        artist: cleanString(info.user.name),
+    };
+
+    return merge(
+        {
+            fileMetadata,
+            filenameAttributes: {
+                service: "vimeo",
+                id: obj.id,
+                title: fileMetadata.title,
+                author: fileMetadata.artist,
+            }
+        },
+        response
+    );
 }

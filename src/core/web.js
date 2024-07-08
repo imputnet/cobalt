@@ -26,44 +26,45 @@ export async function runWeb(express, app, gitCommit, gitBranch, __dirname) {
 
     app.get('/onDemand', (req, res) => {
         try {
-            if (req.query.blockId) {
-                let blockId = req.query.blockId.slice(0, 3);
-                let blockData;
-                switch(blockId) {
-                    // changelog history
-                    case "0":
-                        let history = changelogHistory();
-                        if (history) {
-                            blockData = createResponse("success", { t: history })
-                        } else {
-                            blockData = createResponse("error", {
-                                t: "couldn't render this block, please try again!"
-                            })
-                        }
-                        break;
-                    // celebrations emoji
-                    case "1":
-                        let celebration = celebrationsEmoji();
-                        if (celebration) {
-                            blockData = createResponse("success", { t: celebration })
-                        }
-                        break;
-                    default:
-                        blockData = createResponse("error", {
-                            t: "couldn't find a block with this id"
-                        })
-                        break;
-                }
-                if (blockData?.body) {
-                    return res.status(blockData.status).json(blockData.body);
-                } else {
-                    return res.status(204).end();
-                }
-            } else {
+            if (typeof req.query.blockId !== 'string') {
                 return res.status(400).json({
                     status: "error",
                     text: "couldn't render this block, please try again!"
                 });
+            }
+
+            let blockId = req.query.blockId.slice(0, 3);
+            let blockData;
+            switch(blockId) {
+                // changelog history
+                case "0":
+                    let history = changelogHistory();
+                    if (history) {
+                        blockData = createResponse("success", { t: history })
+                    } else {
+                        blockData = createResponse("error", {
+                            t: "couldn't render this block, please try again!"
+                        })
+                    }
+                    break;
+                // celebrations emoji
+                case "1":
+                    let celebration = celebrationsEmoji();
+                    if (celebration) {
+                        blockData = createResponse("success", { t: celebration })
+                    }
+                    break;
+                default:
+                    blockData = createResponse("error", {
+                        t: "couldn't find a block with this id"
+                    })
+                    break;
+            }
+
+            if (blockData?.body) {
+                return res.status(blockData.status).json(blockData.body);
+            } else {
+                return res.status(204).end();
             }
         } catch {
             return res.status(400).json({

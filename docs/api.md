@@ -73,5 +73,5 @@ response body type: `application/json`
 | `branch`    | `string` | git branch        |
 | `name`      | `string` | server name       |
 | `url`       | `string` | server url        |
-| `cors`      | `int`    | cors status       |
+| `cors`      | `number` | cors status       |
 | `startTime` | `string` | server start time |
