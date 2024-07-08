@@ -8,6 +8,8 @@
 
     $: currentSetting = $settings.appearance.language;
 
+    $: disabled = $settings.appearance.autoLanguage;
+
     const updateLocale = (lang: string) => {
         updateSetting({
             appearance: {
@@ -17,7 +19,7 @@
     };
 </script>
 
-<div class="language-selector-parent">
+<div class="language-selector-parent" class:disabled aria-hidden={disabled}>
     <div id="language-selector" class="selector button">
         <div class="selector-info">
             <h4 class="selector-title">
@@ -34,6 +36,7 @@
             id="setting-dropdown-appearance-language"
             bind:value={$locale}
             on:change={() => updateLocale($locale)}
+            disabled={disabled}
         >
             {#each $locales as value}
                 <option {value} selected={currentSetting === value}>
@@ -53,6 +56,11 @@
         flex-direction: column;
         gap: 10px;
         overflow: hidden;
+        transition: opacity 0.2s;
+    }
+
+    .language-selector-parent.disabled {
+        opacity: 0.5;
     }
 
     #language-selector {
@@ -66,6 +74,10 @@
 
         pointer-events: all;
         overflow: scroll;
+    }
+
+    .disabled #language-selector {
+        pointer-events: none;
     }
 
     .selector-info {
