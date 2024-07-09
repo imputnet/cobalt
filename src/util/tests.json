@@ -650,23 +650,23 @@
         }
     }, {
         "name": "1080p dash parcel",
-        "url": "https://vimeo.com/774694040",
+        "url": "https://vimeo.com/967252742",
         "params": {
             "vQuality": "1440"
         },
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "720p dash parcel",
-        "url": "https://vimeo.com/774694040",
+        "url": "https://vimeo.com/967252742",
         "params": {
             "vQuality": "360"
         },
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "private video",
@@ -947,7 +947,7 @@
     }],
     "streamable": [{
         "name": "regular video",
-        "url": "https://streamable.com/03r3c2",
+        "url": "https://streamable.com/p9cln4",
         "params": {},
         "expected": {
             "code": 200,
@@ -963,7 +963,7 @@
         }
     }, {
         "name": "regular video (isAudioOnly)",
-        "url": "https://streamable.com/03r3c2",
+        "url": "https://streamable.com/p9cln4",
         "params": {
             "isAudioOnly": true
         },
@@ -973,7 +973,7 @@
         }
     }, {
         "name": "regular video (isAudioMuted)",
-        "url": "https://streamable.com/03r3c2",
+        "url": "https://streamable.com/p9cln4",
         "params": {
             "isAudioMuted": true
         },
@@ -1042,8 +1042,8 @@
         "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
         "params": {},
         "expected": {
-            "code": 200,
-            "status": "stream"
+            "code": 400,
+            "status": "error"
         }
     }, {
         "name": "vertical video",
@@ -1055,7 +1055,7 @@
         }
     }, {
         "name": "yappy",
-        "url": "https://rutube.ru/yappy/f1771e86294748eea8ecb2ac88e55740/",
+        "url": "https://rutube.ru/yappy/a06b1bf53bce403b9a069107f23c47eb/",
         "params": {},
         "expected": {
             "code": 200,
@@ -1157,8 +1157,8 @@
             "isAudioOnly": true
         },
         "expected": {
-            "code": 200,
-            "status": "stream"
+            "code": 400,
+            "status": "error"
         }
     }]
 }
