@@ -23,6 +23,7 @@ for (const [ path, loader ] of Object.entries(locFiles)) {
 
 const defaultLocale = 'en';
 const config: Config = {
+    fallbackLocale: defaultLocale,
     translations: Object.keys(parsedLocfiles).reduce((obj, lang) => {
         return {
             ...obj,
