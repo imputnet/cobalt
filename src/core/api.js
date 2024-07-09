@@ -221,6 +221,10 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
 
     if (env.externalProxy) {
+        if (env.freebindCIDR) {
+            throw new Error('Freebind is not available when external proxy is enabled')
+        }
+
         setGlobalDispatcher(new ProxyAgent(env.externalProxy))
     }
 
