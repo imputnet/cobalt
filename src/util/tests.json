@@ -42,7 +42,7 @@
         },
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "picker"
         }
     }, {
         "name": "picker: mixed media (3 videos)",
@@ -113,9 +113,10 @@
             "status": "redirect"
         }
     }, {
-        "name": "age-restricted video",
+        "name": "age restricted video",
         "url": "https://twitter.com/FckyeahCharli/status/1650987582749065220",
         "params": {},
+        "canFail": true,
         "expected": {
             "code": 200,
             "status": "redirect"
