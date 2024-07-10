@@ -13,7 +13,7 @@
     "theme.dark": "dark",
     "theme.description": "auto theme automatically switches between light and dark themes depending on your device's current theme.",
 
-    "video.quality": "preferred video quality",
+    "video.quality": "video quality",
     "video.quality.max": "8k+",
     "video.quality.2160": "4k",
     "video.quality.1440": "1440p",
@@ -25,7 +25,7 @@
     "video.quality.144": "144p",
     "video.quality.description": "if preferred video quality isn't available, closest best is picked instead.",
 
-    "video.youtube.codec": "preferred youtube video codec",
+    "video.youtube.codec": "youtube video codec",
     "video.youtube.codec.h264": "h264 (mp4)",
     "video.youtube.codec.av1": "av1 (mp4)",
     "video.youtube.codec.vp9": "vp9 (webm)",
@@ -39,7 +39,7 @@
     "video.tiktok.h265.title": "prefer HEVC/H265 format",
     "video.tiktok.h265.description": "allows 1080p video downloading at cost of compatibility.",
 
-    "audio.format": "preferred audio format",
+    "audio.format": "audio format",
     "audio.format.best": "best",
     "audio.format.mp3": "mp3",
     "audio.format.ogg": "ogg",
