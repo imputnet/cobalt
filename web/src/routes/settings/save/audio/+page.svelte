@@ -9,12 +9,8 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 </script>
 
-<SettingsCategory
-    sectionId="audio-format"
-    title={$t("settings.audio.format")}
-    description={$t("settings.audio.format.description")}
->
-    <Switcher big={true}>
+<SettingsCategory sectionId="audio-format" title={$t("settings.audio.format")}>
+    <Switcher big={true} description={$t("settings.audio.format.description")}>
         {#each audioFormatOptions as value}
             <SettingsButton
                 settingContext="save"
