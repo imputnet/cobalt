@@ -1,11 +1,15 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    export let sectionTitle: string;
+    export let sectionTitle: string = "";
 </script>
 
 <div id="settings-section">
-    <div id="settings-section-title">{$t(`settings.section.${sectionTitle}`)}</div>
+    {#if sectionTitle}
+        <div id="settings-section-title">
+            {$t(`settings.section.${sectionTitle}`)}
+        </div>
+    {/if}
     <div id="settings-section-categories">
         <slot></slot>
     </div>
