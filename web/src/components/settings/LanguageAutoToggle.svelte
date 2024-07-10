@@ -10,9 +10,7 @@
 
     const updateLocale = () => {
         if ($settings.appearance.autoLanguage) {
-            if ($locales.includes(device.preferredLocale)) {
-                $locale = device.preferredLocale;
-            }
+            $locale = device.preferredLocale;
         } else {
             $locale = $settings.appearance.language;
         }
