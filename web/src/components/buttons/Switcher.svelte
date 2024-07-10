@@ -1,12 +1,24 @@
 <script lang="ts">
     export let big: boolean = false;
+    export let description: string = "";
 </script>
 
-<div id="switcher-container" class="switcher" class:big={big} role="listbox">
-    <slot></slot>
+<div class="switcher-parent">
+    <div class="switcher" class:big={big} role="listbox">
+        <slot></slot>
+    </div>
+    {#if description}
+        <div class="settings-content-description subtext">{description}</div>
+    {/if}
 </div>
 
 <style>
+    .switcher-parent {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
     .switcher {
         display: flex;
         width: auto;

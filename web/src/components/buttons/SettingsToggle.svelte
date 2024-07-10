@@ -49,7 +49,7 @@
     .toggle-parent {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         overflow: hidden;
     }
 

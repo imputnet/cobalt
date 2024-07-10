@@ -9,12 +9,11 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 </script>
 
-<SettingsCategory
-    sectionId="filename"
-    title={$t("settings.metadata.filename")}
-    description={$t("settings.metadata.filename.description")}
->
-    <Switcher big={true}>
+<SettingsCategory sectionId="filename" title={$t("settings.metadata.filename")}>
+    <Switcher
+        big={true}
+        description={$t("settings.metadata.filename.description")}
+    >
         {#each filenameStyleOptions as value}
             <SettingsButton
                 settingContext="save"

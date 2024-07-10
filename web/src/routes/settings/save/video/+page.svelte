@@ -13,36 +13,41 @@
 <SettingsCategory
     sectionId="video-quality"
     title={$t("settings.video.quality")}
-    description={$t("settings.video.quality.description")}
 >
-    <Switcher big={true}>
+    <Switcher big={true} description={$t("settings.video.quality.description")}>
         {#each videoQualityOptions as value}
-            <SettingsButton settingContext="save" settingId="videoQuality" settingValue={value}>
+            <SettingsButton
+                settingContext="save"
+                settingId="videoQuality"
+                settingValue={value}
+            >
                 {$t(`settings.video.quality.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>
-
 </SettingsCategory>
 
 <SettingsCategory
     sectionId="youtube-codec"
     title={$t("settings.video.youtube.codec")}
-    description={$t("settings.video.youtube.codec.description")}
 >
-    <Switcher big={true}>
+    <Switcher
+        big={true}
+        description={$t("settings.video.youtube.codec.description")}
+    >
         {#each youtubeVideoCodecOptions as value}
-            <SettingsButton settingContext="save" settingId="youtubeVideoCodec" settingValue={value}>
+            <SettingsButton
+                settingContext="save"
+                settingId="youtubeVideoCodec"
+                settingValue={value}
+            >
                 {$t(`settings.video.youtube.codec.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>
-
 </SettingsCategory>
 
-<SettingsCategory
-    sectionId="twitter"
-    title={$t("settings.video.twitter.gif")}>
+<SettingsCategory sectionId="twitter" title={$t("settings.video.twitter.gif")}>
     <SettingsToggle
         settingContext="save"
         settingId="twitterGif"
@@ -51,9 +56,7 @@
     />
 </SettingsCategory>
 
-<SettingsCategory
-    sectionId="tiktok"
-    title={$t("settings.video.tiktok.h265")}>
+<SettingsCategory sectionId="tiktok" title={$t("settings.video.tiktok.h265")}>
     <SettingsToggle
         settingContext="save"
         settingId="tiktokH265"
