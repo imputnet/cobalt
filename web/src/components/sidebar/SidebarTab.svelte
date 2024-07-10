@@ -15,7 +15,7 @@
 
     $: isTabActive = currentTab === baseTabPath;
 
-    const showTab = (e: HTMLElement | undefined) => {
+    const showTab = (e: HTMLElement) => {
         if (e) {
             e.scrollIntoView({
                 inline: firstTabPage.includes(tabName) ? "end" : "start",
@@ -24,7 +24,7 @@
         }
     };
 
-    $: if (isTabActive) {
+    $: if (isTabActive && tab) {
         showTab(tab);
     }
 </script>
@@ -56,6 +56,8 @@
         opacity: 0.8;
         height: fit-content;
         border-radius: var(--border-radius);
+        will-change: transform;
+        transition: transform 0.2s;
     }
 
     .sidebar-tab :global(svg) {
@@ -68,14 +70,31 @@
         color: var(--sidebar-bg);
         background: var(--sidebar-highlight);
         opacity: 1;
+        animation: pressButton 0.2s;
+        transition: none;
     }
 
     .sidebar-tab:active:not(.active) {
-        opacity: 1;
-        background-color: var(--sidebar-hover);
+        transform: scale(0.95);
+    }
+
+    @keyframes pressButton {
+        0% {
+            transform: scale(0.95)
+        }
+        50% {
+            transform: scale(1.01)
+        }
+        100% {
+            transform: scale(1)
+        }
     }
 
     @media (hover: hover) {
+        .sidebar-tab:active:not(.active) {
+            opacity: 1;
+            background-color: var(--sidebar-hover);
+        }
         .sidebar-tab:hover:not(.active) {
             opacity: 1;
             background-color: var(--sidebar-hover);
@@ -90,6 +109,22 @@
 
         .sidebar-tab.active {
             z-index: 2;
+        }
+
+        .sidebar-tab:active:not(.active) {
+            transform: scale(0.9);
+        }
+
+        @keyframes pressButton {
+            0% {
+                transform: scale(0.9)
+            }
+            60% {
+                transform: scale(1.01)
+            }
+            100% {
+                transform: scale(1)
+            }
         }
     }
 </style>
