@@ -23,6 +23,7 @@
             is.android: {device.is.android}
             is.mobile: {device.is.mobile}
             preferredLocale: {device.preferredLocale}
+            userAgent: {device.userAgent}
         </div>
 
         app:
