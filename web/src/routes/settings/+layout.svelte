@@ -55,10 +55,10 @@
                     </a>
                 {/if}
                 <h3 id="settings-page-title" aria-level="1">
-                    {$t("tabs.settings")}
                     {#if !isHome}
-                        <span class="title-slash"> / </span>
                         {$t(`settings.page.${currentPageTitle}`)}
+                    {:else}
+                        {$t("tabs.settings")}
                     {/if}
                 </h3>
             {:else}
@@ -171,8 +171,8 @@
 
     .back-button :global(svg) {
         stroke-width: 2px;
-        height: 21px;
-        width: 21px;
+        height: 22px;
+        width: 22px;
     }
 
     .hidden-mobile {
@@ -219,10 +219,7 @@
         #settings-page-title {
             text-align: center;
             letter-spacing: -0.3px;
-        }
-
-        .title-slash {
-            color: var(--gray);
+            font-size: 16.5px;
         }
 
         #settings-navigation {
