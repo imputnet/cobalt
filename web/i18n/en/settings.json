@@ -3,6 +3,8 @@
     "page.video": "video",
     "page.audio": "audio",
     "page.metadata": "metadata",
+    "page.advanced": "advanced",
+    "page.debug": "debug information",
 
     "section.general": "general",
     "section.save": "save",
@@ -80,5 +82,9 @@
     "language.auto.title": "use default browser language",
     "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead. disable this toggle to pick a language manually.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "language used for interface and content."
+    "language.preferred.description": "language used for interface and content.",
+
+    "advanced.debug": "debug",
+    "advanced.debug.title": "enable debug features",
+    "advanced.debug.description": "gives you access to a page with app & device info useful for debugging."
 }

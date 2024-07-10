@@ -18,6 +18,10 @@ type CobaltSettingsAppearance = {
     autoLanguage: boolean,
 };
 
+type CobaltSettingsAdvanced = {
+    debug: boolean,
+};
+
 type CobaltSettingsGeneral = {
     customProcessingEndpoint: string,
     seenOnboarding: boolean,
@@ -45,6 +49,7 @@ type CobaltSettingsPrivacy = {
 export type CobaltSettings = {
     schemaVersion: number,
     accessibility: CobaltSettingsAccessibility,
+    advanced: CobaltSettingsAdvanced,
     appearance: CobaltSettingsAppearance,
     general: CobaltSettingsGeneral,
     save: CobaltSettingsSave,

@@ -8,6 +8,9 @@ const defaultSettings: CobaltSettings = {
         reduceAnimations: false,
         reduceTransparency: false,
     },
+    advanced: {
+        debug: false,
+    },
     appearance: {
         theme: "auto",
         language: defaultLocale,

@@ -1,6 +1,8 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
+    import settings from "$lib/settings";
+
     import { t } from "$lib/i18n/translations";
 
     import SettingsNavTab from "$components/settings/SettingsNavTab.svelte";
@@ -11,8 +13,11 @@
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
+    import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
+    import IconBug from "@tabler/icons-svelte/IconBug.svelte";
 
     import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
+
     import { goto } from "$app/navigation";
     import { defaultSettingsPage } from "$lib/settings/defaults";
 
@@ -99,6 +104,24 @@
                 >
                     <IconFileSettings />
                 </SettingsNavTab>
+            </SettingsNavSection>
+            <SettingsNavSection>
+                <SettingsNavTab
+                    tabName="advanced"
+                    tabLink="advanced"
+                    iconColor="gray"
+                >
+                    <IconSettingsBolt />
+                </SettingsNavTab>
+                {#if $settings.advanced.debug}
+                    <SettingsNavTab
+                        tabName="debug"
+                        tabLink="advanced/debug"
+                        iconColor="gray"
+                    >
+                        <IconBug />
+                    </SettingsNavTab>
+                {/if}
             </SettingsNavSection>
         </nav>
     </div>
