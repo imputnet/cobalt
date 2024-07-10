@@ -117,7 +117,6 @@
 
     .selector select {
         position: absolute;
-        appearance: initial;
         width: 100%;
         height: 100%;
         background: none;
@@ -129,6 +128,7 @@
         text-align: right;
 
         /* safari fix */
+        appearance: initial;
         text-align-last: right;
     }
 
@@ -137,6 +137,9 @@
         color: initial;
         text-align: initial;
         text-align-last: initial;
+        border-radius: initial;
+        background: initial;
+        border: initial;
     }
 
     @media (hover: hover) {
