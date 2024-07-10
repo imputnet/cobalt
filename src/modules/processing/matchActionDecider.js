@@ -109,6 +109,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                     responseType = r.typeId;
                     params = { type: r.type };
                     break;
+                case "coub":
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
                         params = { type: "render" }

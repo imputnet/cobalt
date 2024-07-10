@@ -118,6 +118,11 @@
             "alias": "loom videos",
             "patterns": ["share/:id"],
             "enabled": true
+        },
+        "coub": {
+            "alias": "coub videos",
+            "patterns": ["view/:id", "embed/:id"],
+            "enabled": true
         }
     }
 }

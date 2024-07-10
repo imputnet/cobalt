@@ -1,4 +1,7 @@
 export const testers = {
+    "coub": (patternMatch) => 
+        patternMatch.id?.length <= 6,
+
     "bilibili": (patternMatch) => 
         patternMatch.comId?.length <= 12 || patternMatch.comShortLink?.length <= 16
         || patternMatch.tvId?.length <= 24,
