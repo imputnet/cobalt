@@ -1160,5 +1160,34 @@
             "code": 400,
             "status": "error"
         }
+    }],
+    "coub": [{
+        "name": "1080p video",
+        "url": "https://coub.com/view/3eu2kk",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "1080p video (muted)",
+        "url": "https://coub.com/view/3eu2kk",
+        "params": {
+            "isAudioMuted": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "stream"
+        }
+    }, {
+        "name": "1080p video (audio only)",
+        "url": "https://coub.com/view/3eu2kk",
+        "params": {
+            "isAudioOnly": true
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
     }]
 }
