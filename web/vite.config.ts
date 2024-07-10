@@ -6,6 +6,7 @@ export default defineConfig({
         sveltekit()
     ],
     build: {
+        target: "esnext",
         rollupOptions: {
             output: {
                 manualChunks: (id) => {
