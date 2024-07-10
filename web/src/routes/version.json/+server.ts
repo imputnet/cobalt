@@ -38,11 +38,18 @@ export async function GET() {
                     ?.replace(/^ref: refs\/heads\//, '')
                     ?.trim();
 
-    const remote = (await readGit('.git/config'))
+    let remote = (await readGit('.git/config'))
                     ?.split('\n')
                     ?.find(line => line.includes('url = ') && line.endsWith('.git'))
-                    ?.split(':')[1]
-                    ?.replace(/\.git$/, '');
+                    ?.split('url = ')[1];
+
+    if (remote?.startsWith('git@')) {
+        remote = remote.split(':')[1];
+    } else if (remote?.startsWith('http')) {
+        remote = new URL(remote).pathname.substring(1);
+    }
+
+    remote = remote?.replace(/\.git$/, '');
 
     const { version } = JSON.parse(
         await readFile(join(pack, 'package.json'), 'utf8')
