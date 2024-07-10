@@ -21,7 +21,10 @@ const loadFromStorage = () => {
         return defaultSettings;
     }
 
-    return JSON.parse(settings) as CobaltSettings;
+    return {
+        ...defaultSettings,
+        ...JSON.parse(settings) as CobaltSettings
+    }
 }
 
 let update: (_: Updater<CobaltSettings>) => void;
