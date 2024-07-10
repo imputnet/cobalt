@@ -40,7 +40,7 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^9.3.0"
+        "youtubei.js": "^10.1.0"
     },
     "optionalDependencies": {
         "freebind": "^0.2.2"
