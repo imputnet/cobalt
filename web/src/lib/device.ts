@@ -21,6 +21,7 @@ const device = {
         mobile,
     },
     preferredLocale,
+    userAgent: navigator.userAgent,
 }
 
 const app = {
