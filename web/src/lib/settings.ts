@@ -4,9 +4,11 @@ import { merge } from 'ts-deepmerge';
 import type { RecursivePartial } from './types/generic';
 import type { CobaltSettings } from './types/settings';
 
-import defaultSettings from "$lib/settings/defaults";
+import defaultSettings from './settings/defaults';
 
-const writeToStorage = (settings: CobaltSettings) => {
+type PartialSettings = RecursivePartial<CobaltSettings>;
+
+const writeToStorage = (settings: PartialSettings) => {
     localStorage.setItem(
         "settings",
         JSON.stringify(settings)
@@ -18,28 +20,31 @@ const writeToStorage = (settings: CobaltSettings) => {
 const loadFromStorage = () => {
     const settings = localStorage.getItem('settings');
     if (!settings) {
-        return defaultSettings;
+        return {};
     }
 
-    return {
-        ...defaultSettings,
-        ...JSON.parse(settings) as CobaltSettings
-    }
+    return JSON.parse(settings) as PartialSettings;
 }
 
 let update: (_: Updater<CobaltSettings>) => void;
 
+// deep merge partial type into full CobaltSettings type
+const mergeWithDefaults = (partial: PartialSettings) => {
+    return merge(defaultSettings, partial) as CobaltSettings;
+}
+
 export default readable<CobaltSettings>(
-    loadFromStorage(),
+    mergeWithDefaults(loadFromStorage()),
     (_, _update) => { update = _update }
 );
 
 // update settings from outside
-export function updateSetting(settings: RecursivePartial<CobaltSettings>) {
-    update((current) => {
-        // deep merge partial type into full CobaltSettings type
-        current = merge(current, settings) as CobaltSettings;
+export function updateSetting(partial: PartialSettings) {
+    update(() => {
+        const updated = writeToStorage(
+            merge(loadFromStorage(), partial)
+        );
 
-        return writeToStorage(current);
+        return mergeWithDefaults(updated);
     });
 }
