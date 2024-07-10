@@ -274,7 +274,8 @@
     }
 
     :global(.subtext) {
-        font-size: 12px;
+        font-size: 12.5px;
+        font-weight: 500;
         color: var(--gray);
         line-height: 1.4;
         padding: 0 var(--padding);

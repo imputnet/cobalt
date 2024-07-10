@@ -23,7 +23,8 @@
     }
 
     #settings-section-title {
-        font-size: 12px;
+        font-size: 12.5px;
+        font-weight: 500;
         color: var(--gray);
         padding-left: 8px;
     }
