@@ -1,4 +1,4 @@
-import { error, json } from '@sveltejs/kit';
+import { json }        from '@sveltejs/kit';
 import { readFile }    from 'node:fs/promises';
 import { join, parse } from 'node:path';
 import { existsSync }  from 'node:fs';
@@ -18,29 +18,36 @@ const findFile = (file: string) => {
 
 const root = findFile('.git');
 const pack = findFile('package.json');
+if (!root) {
+    throw 'no git repository root found';
+} else if (!pack) {
+    throw 'no package root found';
+}
 
-export async function GET() {
-    if (!root) {
-        return error(500, 'no git repository root found');
-    } else if (!pack) {
-        return error(500, 'no package root found');
+const readGit = (filename: string) => readFile(join(root, filename), 'utf8');
+
+const getCommit = async () => {
+    return (await readGit('.git/logs/HEAD'))
+            ?.split('\n')
+            ?.filter(String)
+            ?.pop()
+            ?.split(' ')[1];
+}
+
+const getBranch = async () => {
+    if (process.env.CF_PAGES_BRANCH) {
+        return process.env.CF_PAGES_BRANCH;
     }
 
-    const readGit = (filename: string) => readFile(join(root, filename), 'utf8');
+    return (await readGit('.git/HEAD'))
+            ?.replace(/^ref: refs\/heads\//, '')
+            ?.trim();
+}
 
-    const commit = (await readGit('.git/logs/HEAD'))
-                    ?.split('\n')
-                    ?.filter(String)
-                    ?.pop()
-                    ?.split(' ')[1];
-
-    const branch = (await readGit('.git/HEAD'))
-                    ?.replace(/^ref: refs\/heads\//, '')
-                    ?.trim();
-
+const getRemote = async () => {
     let remote = (await readGit('.git/config'))
                     ?.split('\n')
-                    ?.find(line => line.includes('url = ') && line.endsWith('.git'))
+                    ?.find(line => line.includes('url = '))
                     ?.split('url = ')[1];
 
     if (remote?.startsWith('git@')) {
@@ -51,15 +58,28 @@ export async function GET() {
 
     remote = remote?.replace(/\.git$/, '');
 
+    if (!remote) {
+        throw 'could not parse remote';
+    }
+
+    return remote;
+}
+
+const getVersion = async () => {
     const { version } = JSON.parse(
         await readFile(join(pack, 'package.json'), 'utf8')
     );
 
-    if (!commit || !branch || !remote || !version) {
-        return error(500, 'failed to extract project metadata');
-    }
+    return version;
+}
 
-    return json({ commit, branch, remote, version });
+export async function GET() {
+    return json({
+        commit: await getCommit(),
+        branch: await getBranch(),
+        remote: await getRemote(),
+        version: await getVersion()
+    });
 }
 
 export const prerender = true;
