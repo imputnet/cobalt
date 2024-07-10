@@ -82,7 +82,7 @@
     "language.auto.title": "use default browser language",
     "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead. disable this toggle to pick a language manually.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "language used for interface and content.",
+    "language.preferred.description": "language used for interface and content. if any text isn’t translated to this language, it will be displayed in english.",
 
     "advanced.debug": "debug",
     "advanced.debug.title": "enable debug features",
