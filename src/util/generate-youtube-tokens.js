@@ -20,9 +20,9 @@ tube.session.once(
 );
 
 tube.session.once('auth-error', (err) => bail('An error occurred:', err));
-tube.session.once('auth', ({ status, credentials, ...rest }) => {
-    if (status !== 'SUCCESS') {
-        bail('something went wrong', rest);
+tube.session.once('auth', ({ credentials }) => {
+    if (!credentials.access_token) {
+        bail('something went wrong');
     }
 
     console.log(
