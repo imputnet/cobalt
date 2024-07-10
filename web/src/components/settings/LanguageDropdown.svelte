@@ -132,6 +132,13 @@
         text-align-last: right;
     }
 
+    /* fix for chrome on windows */
+    option {
+        color: initial;
+        text-align: initial;
+        text-align-last: initial;
+    }
+
     @media (hover: hover) {
         .selector:hover {
             background-color: var(--button-hover);
