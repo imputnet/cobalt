@@ -1,7 +1,7 @@
 const ua = navigator.userAgent.toLowerCase();
 
-const iPad = ua.includes("mac os") && navigator.maxTouchPoints > 0;
 const iPhone = ua.includes("iphone os");
+const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
 
 const iOS = iPhone || iPad;
 const android = ua.includes("android") || ua.includes("diordna");
@@ -14,8 +14,8 @@ const installed = window.matchMedia('(display-mode: standalone)').matches;
 
 const device = {
     is: {
-        iPad,
         iPhone,
+        iPad,
         iOS,
         android,
         mobile,
