@@ -29,10 +29,7 @@ const transformSessionData = (cookie) => {
         return;
 
     const values = { ...cookie.values() };
-    const REQUIRED_VALUES = [
-        'access_token', 'refresh_token',
-        'client_id', 'client_secret'
-    ];
+    const REQUIRED_VALUES = [ 'access_token', 'refresh_token' ];
 
     if (REQUIRED_VALUES.some(x => typeof values[x] !== 'string')) {
         return;
