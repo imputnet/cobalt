@@ -72,6 +72,7 @@
         opacity: 1;
         animation: pressButton 0.2s;
         transition: none;
+        transform: none;
     }
 
     .sidebar-tab:active:not(.active) {
@@ -86,7 +87,7 @@
             transform: scale(1.01)
         }
         100% {
-            transform: scale(1)
+            transform: none
         }
     }
 
