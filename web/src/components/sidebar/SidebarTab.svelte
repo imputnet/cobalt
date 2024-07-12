@@ -61,7 +61,6 @@
         opacity: 0.8;
         height: fit-content;
         border-radius: var(--border-radius);
-        will-change: transform;
         transition: transform 0.2s;
     }
 
@@ -69,6 +68,10 @@
         stroke-width: 1.2px;
         height: 21px;
         width: 21px;
+    }
+
+    :global(.on-iPhone .sidebar-tab svg) {
+        will-change: transform;
     }
 
     .sidebar-tab.active {
