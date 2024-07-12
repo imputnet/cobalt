@@ -2,25 +2,32 @@ import { genericUserAgent } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 
 export default async function(obj) {
-    let req;
+    console.log(obj.type)
     // handle video downloads
     if (obj.type == 'portal') {
-        req = await fetch(`https://www.newgrounds.com/${obj.type}/video/${obj.id}`, {
+        let req = await fetch(`https://www.newgrounds.com/${obj.type}/video/${obj.id}`, {
             headers: {
                 'User-Agent': genericUserAgent,
                 'X-Requested-With': 'XMLHttpRequest',
-                Accept: 'application/json, text/javascript, */*; q=0.01'
             }
         })
         .then(request => request.text())
         .catch(() => {});
 
         if (!req) return { error: 'ErrorEmptyDownload' };
+
+        const json = JSON.parse(req);
+        const highestQuality = Object.keys(json.sources)[0];
+        const video = json.sources[highestQuality][0].src
+
+        return {
+            urls: video
+        }
     }
 
     // handle audio downloads
     if (obj.type == 'audio') {
-        req = await fetch(`https://www.newgrounds.com/audio/listen/${obj.id}`, {
+        let req = await fetch(`https://www.newgrounds.com/audio/listen/${obj.id}`, {
             headers: {
                 'User-Agent': genericUserAgent,
             }
@@ -32,12 +39,11 @@ export default async function(obj) {
 
         const title = req.match(/"name"\s*:\s*"([^"]+)"/)?.[1];
         const artist = req.match(/"artist"\s*:\s*"([^"]+)"/)?.[1];
+        const url = req.match(/"filename"\s*:\s*"([^"]+)"/)?.[1]?.replace(/\\\//g, '/');
         let fileMetadata = {
             title: cleanString(decodeURIComponent(title.trim())),
             artist: cleanString(decodeURIComponent(artist.trim())),
         }
-
-        const url = req.match(/"filename"\s*:\s*"([^"]+)"/)?.[1]?.replace(/\\\//g, '/');
     
         return {
                 urls: url,
