@@ -62,10 +62,11 @@
 
     #sidebar-tabs {
         height: 100%;
-        justify-content: space-between;
-        overflow-y: scroll;
-        padding: var(--sidebar-inner-padding);
         width: var(--sidebar-width);
+        justify-content: space-between;
+        padding: var(--sidebar-inner-padding);
+        padding-bottom: var(--border-radius);
+        overflow-y: scroll;
     }
 
     @media screen and (max-width: 535px) {
