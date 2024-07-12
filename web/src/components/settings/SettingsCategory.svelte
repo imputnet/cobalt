@@ -35,7 +35,7 @@
         animation: highlight 2s;
     }
 
-    :global(.reduce-motion) .settings-content.animate {
+    :global([data-reduce-motion="true"]) .settings-content.animate {
         animation: highlight-lite 2s !important;
     }
 

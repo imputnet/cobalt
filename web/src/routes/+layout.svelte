@@ -26,9 +26,9 @@
 <div style="display: contents" data-theme={$currentTheme}>
     <div
         id="cobalt"
-        class:on-iPhone={device.is.iPhone}
-        class:reduce-motion={reduceMotion}
-        class:reduce-transparency={reduceTransparency}
+        data-iphone={device.is.iPhone}
+        data-reduce-motion={reduceMotion}
+        data-reduce-transparency={reduceTransparency}
     >
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
@@ -142,13 +142,13 @@
 
     /* add padding for notch / dynamic island in landscape */
     @media screen and (orientation: landscape) {
-        #cobalt.on-iPhone {
+        #cobalt[data-iphone="true"] {
             grid-template-columns:
                 calc(var(--sidebar-width) + env(safe-area-inset-left) + 8px)
                 1fr;
         }
 
-        #cobalt.on-iPhone #content {
+        #cobalt[data-iphone="true"] #content {
             padding-right: env(safe-area-inset-right);
         }
     }
@@ -297,7 +297,7 @@
         white-space: pre-line;
     }
 
-    .reduce-motion :global(*) {
+    [data-reduce-motion="true"] :global(*) {
         animation: none !important;
         transition: none !important;
     }

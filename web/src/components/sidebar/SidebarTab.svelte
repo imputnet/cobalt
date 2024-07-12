@@ -70,7 +70,7 @@
         width: 21px;
     }
 
-    :global(.on-iPhone .sidebar-tab svg) {
+    :global([data-iphone="true"] .sidebar-tab svg) {
         will-change: transform;
     }
 
