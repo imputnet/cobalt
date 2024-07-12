@@ -15,23 +15,25 @@
 
 {#if $settings.advanced.debug}
     <div id="advanced-page">
-        device:
+        <h3>device:</h3>
         <div class="message-container subtext">
             is.iPad: {device.is.iPad}
             is.iPhone: {device.is.iPhone}
             is.iOS: {device.is.iOS}
             is.android: {device.is.android}
             is.mobile: {device.is.mobile}
-            preferredLocale: {device.preferredLocale}
+            prefers.language: {device.prefers.language}
+            prefers.reducedMotion: {device.prefers.reducedMotion}
+            prefers.reducedTransparency: {device.prefers.reducedTransparency}
             userAgent: {device.userAgent}
         </div>
 
-        app:
+        <h3>app:</h3>
         <div class="message-container subtext">
             is.installed: {app.is.installed}
         </div>
 
-        version:
+        <h3>version:</h3>
         <div class="message-container subtext">
             version: {version.version}
             commit: {version.commit.slice(0, 7)}

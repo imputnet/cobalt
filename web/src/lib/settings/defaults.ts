@@ -4,10 +4,6 @@ import type { CobaltSettings } from "$lib/types/settings";
 
 const defaultSettings: CobaltSettings = {
     schemaVersion: 1,
-    accessibility: {
-        reduceAnimations: false,
-        reduceTransparency: false,
-    },
     advanced: {
         debug: false,
     },
@@ -15,11 +11,8 @@ const defaultSettings: CobaltSettings = {
         theme: "auto",
         language: defaultLocale,
         autoLanguage: true,
-    },
-    general: {
-        customProcessingEndpoint: "",
-        seenOnboarding: false,
-        seenSafetyWarning: false,
+        reduceMotion: false,
+        reduceTransparency: false,
     },
     save: {
         audioFormat: "mp3",
@@ -33,9 +26,6 @@ const defaultSettings: CobaltSettings = {
         videoQuality: "720",
         youtubeVideoCodec: "h264",
         youtubeDubBrowserLang: false,
-    },
-    privacy: {
-        trafficAnalytics: true,
     },
 }
 

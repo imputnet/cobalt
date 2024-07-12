@@ -1,10 +1,5 @@
 import languages from '$i18n/languages.json';
 
-export type CobaltSettingsAccessibility = {
-    reduceAnimations: boolean,
-    reduceTransparency: boolean,
-};
-
 export const themeOptions = ["auto", "light", "dark"] as const;
 export const audioFormatOptions = ["best", "mp3", "ogg", "wav", "opus"] as const;
 export const downloadModeOptions = ["auto", "audio", "mute"] as const;
@@ -16,16 +11,12 @@ type CobaltSettingsAppearance = {
     theme: typeof themeOptions[number],
     language: keyof typeof languages,
     autoLanguage: boolean,
+    reduceMotion: boolean,
+    reduceTransparency: boolean,
 };
 
 type CobaltSettingsAdvanced = {
     debug: boolean,
-};
-
-type CobaltSettingsGeneral = {
-    customProcessingEndpoint: string,
-    seenOnboarding: boolean,
-    seenSafetyWarning: boolean,
 };
 
 type CobaltSettingsSave = {
@@ -42,18 +33,11 @@ type CobaltSettingsSave = {
     youtubeDubBrowserLang: boolean,
 };
 
-type CobaltSettingsPrivacy = {
-    trafficAnalytics: boolean,
-};
-
 export type CobaltSettings = {
     schemaVersion: number,
-    accessibility: CobaltSettingsAccessibility,
     advanced: CobaltSettingsAdvanced,
     appearance: CobaltSettingsAppearance,
-    general: CobaltSettingsGeneral,
     save: CobaltSettingsSave,
-    privacy: CobaltSettingsPrivacy,
 };
 
 export type DownloadModeOption = CobaltSettings['save']['downloadMode'];
