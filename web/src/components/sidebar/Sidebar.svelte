@@ -63,7 +63,6 @@
     #sidebar-tabs {
         height: 100%;
         justify-content: space-between;
-        padding-bottom: var(--padding);
         overflow-y: scroll;
         padding: var(--sidebar-inner-padding);
         width: var(--sidebar-width);
