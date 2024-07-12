@@ -27,10 +27,10 @@
     $: if (isTabActive && tab) {
         showTab(tab);
 
-        tab.classList.add("animate")
+        tab.classList.add("animate");
         setTimeout(() => {
-            tab.classList.remove("animate")
-        }, 220)
+            tab.classList.remove("animate");
+        }, 220);
     }
 </script>
 
@@ -90,15 +90,19 @@
         transform: scale(0.95);
     }
 
+    :global([data-reduce-motion="true"]) .sidebar-tab:active:not(.active) {
+        transform: none;
+    }
+
     @keyframes pressButton {
         0% {
-            transform: scale(0.95)
+            transform: scale(0.95);
         }
         50% {
-            transform: scale(1.01)
+            transform: scale(1.01);
         }
         100% {
-            transform: none
+            transform: none;
         }
     }
 
@@ -129,13 +133,13 @@
 
         @keyframes pressButton {
             0% {
-                transform: scale(0.9)
+                transform: scale(0.9);
             }
             60% {
-                transform: scale(1.01)
+                transform: scale(1.015);
             }
             100% {
-                transform: scale(1)
+                transform: scale(1);
             }
         }
     }

@@ -56,9 +56,8 @@
     #sidebar {
         background: var(--sidebar-bg);
         height: 100vh;
-        width: var(--sidebar-width);
+        width: calc(var(--sidebar-width) + var(--sidebar-inner-padding) * 2);
         position: sticky;
-        padding: 0 var(--sidebar-inner-padding);
     }
 
     #sidebar-tabs {
@@ -66,6 +65,8 @@
         justify-content: space-between;
         padding-bottom: var(--padding);
         overflow-y: scroll;
+        padding: var(--sidebar-inner-padding);
+        width: var(--sidebar-width);
     }
 
     @media screen and (max-width: 535px) {
@@ -80,8 +81,8 @@
             height: var(--sidebar-height-mobile);
             position: fixed;
             bottom: 0;
-            padding: var(--sidebar-inner-padding) 0;
             justify-content: center;
+            align-items: flex-start;
         }
 
         #sidebar::before {
@@ -99,6 +100,9 @@
             overflow-y: visible;
             overflow-x: scroll;
             padding-bottom: 0;
+            padding: var(--sidebar-inner-padding) 0;
+            width: unset;
+            height: fit-content;
         }
 
         #sidebar :global(.sidebar-inner-container:first-child) {

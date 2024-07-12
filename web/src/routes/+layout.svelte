@@ -70,9 +70,13 @@
         --border-radius: 11px;
 
         --sidebar-width: 80px;
-        --sidebar-height-mobile: calc(52px + env(safe-area-inset-bottom));
         --sidebar-font-size: 11px;
         --sidebar-inner-padding: 4px;
+        --sidebar-height-mobile: calc(
+            50px
+            + calc(var(--sidebar-inner-padding) * 2)
+            + env(safe-area-inset-bottom)
+        );
 
         --safe-area-inset-top: env(safe-area-inset-top);
 
@@ -134,7 +138,9 @@
         height: 100%;
         width: 100%;
         display: grid;
-        grid-template-columns: calc(var(--sidebar-width) + 8px) 1fr;
+        grid-template-columns: calc(
+                var(--sidebar-width) + var(--sidebar-inner-padding) * 2
+            ) 1fr;
         overflow: hidden;
         background-color: var(--sidebar-bg);
         color: var(--secondary);
@@ -144,7 +150,11 @@
     @media screen and (orientation: landscape) {
         #cobalt[data-iphone="true"] {
             grid-template-columns:
-                calc(var(--sidebar-width) + env(safe-area-inset-left) + 8px)
+                calc(
+                    var(--sidebar-width)
+                    + var(--sidebar-inner-padding) * 2
+                    + env(safe-area-inset-left)
+                )
                 1fr;
         }
 
@@ -166,7 +176,7 @@
         #cobalt {
             display: grid;
             grid-template-columns: unset;
-            grid-template-rows: 1fr calc(var(--sidebar-height-mobile) + 8px);
+            grid-template-rows: 1fr var(--sidebar-height-mobile);
         }
         #content {
             padding-top: env(safe-area-inset-top);
