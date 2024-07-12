@@ -157,6 +157,7 @@
     #settings-navigation {
         display: flex;
         flex-direction: column;
+        overflow-y: scroll;
     }
 
     #settings-sidebar {
@@ -170,6 +171,7 @@
 
     #settings-navigation {
         gap: var(--padding);
+        padding-bottom: var(--padding);
     }
 
     #settings-header {
