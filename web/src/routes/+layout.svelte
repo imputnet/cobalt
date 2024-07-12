@@ -1,12 +1,20 @@
-<script>
+<script lang="ts">
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import settings from "$lib/settings";
     import { device, app } from "$lib/device";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
+
+    $: reduceMotion =
+        $settings.appearance.reduceMotion
+        || device.prefers.reducedMotion;
+    $: reduceTransparency =
+        $settings.appearance.reduceTransparency
+        || device.prefers.reducedTransparency;
 </script>
 
 <svelte:head>
@@ -16,7 +24,12 @@
 </svelte:head>
 
 <div style="display: contents" data-theme={$currentTheme}>
-    <div id="cobalt" class:on-iPhone={device.is.iPhone}>
+    <div
+        id="cobalt"
+        class:on-iPhone={device.is.iPhone}
+        class:reduce-motion={reduceMotion}
+        class:reduce-transparency={reduceTransparency}
+    >
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}
@@ -75,7 +88,7 @@
         );
     }
 
-    :global([data-theme=dark]) {
+    :global([data-theme="dark"]) {
         --primary: #000000;
         --secondary: #e1e1e1;
 
@@ -131,7 +144,8 @@
     @media screen and (orientation: landscape) {
         #cobalt.on-iPhone {
             grid-template-columns:
-                calc(var(--sidebar-width) + env(safe-area-inset-left) + 8px) 1fr;
+                calc(var(--sidebar-width) + env(safe-area-inset-left) + 8px)
+                1fr;
         }
 
         #cobalt.on-iPhone #content {
@@ -164,7 +178,8 @@
     }
 
     :global(*) {
-        font-family: "IBM Plex Mono", "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
+        font-family: "IBM Plex Mono", "Noto Sans Mono Variable",
+            "Noto Sans Mono", monospace;
         user-select: none;
         scrollbar-width: none;
         -webkit-user-select: none;
@@ -280,5 +295,10 @@
         line-height: 1.4;
         padding: 0 var(--padding);
         white-space: pre-line;
+    }
+
+    .reduce-motion :global(*) {
+        animation: none !important;
+        transition: none !important;
     }
 </style>

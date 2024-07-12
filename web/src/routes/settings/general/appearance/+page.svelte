@@ -39,15 +39,15 @@
     title={$t("settings.accessibility")}
 >
     <SettingsToggle
-        settingContext="accessibility"
+        settingContext="appearance"
         settingId="reduceTransparency"
         title={$t("settings.accessibility.transparency.title")}
         description={$t("settings.accessibility.transparency.description")}
     />
     <SettingsToggle
-        settingContext="accessibility"
-        settingId="reduceAnimations"
-        title={$t("settings.accessibility.animations.title")}
-        description={$t("settings.accessibility.animations.description")}
+        settingContext="appearance"
+        settingId="reduceMotion"
+        title={$t("settings.accessibility.motion.title")}
+        description={$t("settings.accessibility.motion.description")}
     />
 </SettingsCategory>

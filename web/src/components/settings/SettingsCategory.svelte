@@ -35,6 +35,10 @@
         animation: highlight 2s;
     }
 
+    :global(.reduce-motion) .settings-content.animate {
+        animation: highlight-lite 2s !important;
+    }
+
     @keyframes highlight {
         0% {
             box-shadow: none;
@@ -43,6 +47,18 @@
             box-shadow: 0 0 0 3.5px var(--blue) inset;
         }
         20%, 50% {
+            box-shadow: 0 0 0 3px var(--blue) inset;
+        }
+        100% {
+            box-shadow: none;
+        }
+    }
+
+    @keyframes highlight-lite {
+        0% {
+            box-shadow: none;
+        }
+        10%, 50% {
             box-shadow: 0 0 0 3px var(--blue) inset;
         }
         100% {

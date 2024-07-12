@@ -75,8 +75,8 @@
     "accessibility": "accessibility",
     "accessibility.transparency.title": "reduce visual transparency",
     "accessibility.transparency.description": "reduces transparency of surfaces and disables blur effects.",
-    "accessibility.animations.title": "reduce motion",
-    "accessibility.animations.description": "replaces animations with instant transitions when possible.",
+    "accessibility.motion.title": "reduce motion",
+    "accessibility.motion.description": "replaces animations with instant transitions when possible.",
 
     "language": "language",
     "language.auto.title": "use default browser language",
