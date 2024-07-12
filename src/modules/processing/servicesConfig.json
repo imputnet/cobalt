@@ -118,6 +118,11 @@
             "alias": "loom videos",
             "patterns": ["share/:id"],
             "enabled": true
+        },
+        "newgrounds": {
+            "alias": "newgrounds.com",
+            "patterns": [":type/:method/:id"],
+            "enabled": true
         }
     }
 }

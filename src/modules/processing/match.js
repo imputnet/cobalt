@@ -25,7 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import loom from "./services/loom.js";
-
+import newgrounds from "./services/newgrounds.js";
 let freebind;
 
 export default async function(host, patternMatch, lang, obj) {
@@ -193,11 +193,20 @@ export default async function(host, patternMatch, lang, obj) {
                     id: patternMatch.id
                 });
                 break;
+            case "newgrounds":
+                r = await newgrounds({
+                    type: patternMatch.type,
+                    method: patternMatch.method,
+                    id: patternMatch.id,
+                });
+                break;
             default:
                 return createResponse("error", {
                     t: loc(lang, 'ErrorUnsupported')
                 });
         }
+
+        console.log(r)
 
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
