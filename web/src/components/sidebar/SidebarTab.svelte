@@ -26,6 +26,11 @@
 
     $: if (isTabActive && tab) {
         showTab(tab);
+
+        tab.classList.add("animate")
+        setTimeout(() => {
+            tab.classList.remove("animate")
+        }, 220)
     }
 </script>
 
@@ -70,9 +75,12 @@
         color: var(--sidebar-bg);
         background: var(--sidebar-highlight);
         opacity: 1;
-        animation: pressButton 0.2s;
         transition: none;
         transform: none;
+    }
+
+    :global(.sidebar-tab.animate) {
+        animation: pressButton 0.2s;
     }
 
     .sidebar-tab:active:not(.active) {
