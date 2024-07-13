@@ -4,6 +4,7 @@ import { merge } from 'ts-deepmerge';
 import type { RecursivePartial } from '../types/generic';
 import type { CobaltSettings } from '../types/settings';
 
+import { migrateOldSettings } from '../settings/migrate';
 import defaultSettings from '../settings/defaults';
 
 type PartialSettings = RecursivePartial<CobaltSettings>;
@@ -43,6 +44,11 @@ const migrate = (settings: PartialSettingsWithSchema) => {
 const loadFromStorage = () => {
     const settings = localStorage.getItem('settings');
     if (!settings) {
+        const migrated = migrateOldSettings();
+        if (migrated) {
+            return writeToStorage(migrated);
+        }
+
         return {};
     }
 
