@@ -44,6 +44,9 @@
         color: var(--button-text);
         border-radius: var(--border-radius);
         overflow: hidden;
+
+        text-decoration: none;
+        text-decoration-line: none;
     }
 
     .settings-tab-left {

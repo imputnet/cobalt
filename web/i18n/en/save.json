@@ -1,9 +1,10 @@
 {
     "paste": "paste",
-    "pasteAndDownload": "paste and download",
+    "paste.long": "paste and download",
     "auto": "auto",
     "audio": "audio",
     "mute": "mute",
-    "inputPlaceholder": "paste the link here",
-    "termsNote": "by continuing you agree to terms and ethics of use"
+    "input.placeholder": "paste the link here",
+    "terms.note.agreement": "by continuing you agree to",
+    "terms.note.link": "terms and ethics of use"
 }
