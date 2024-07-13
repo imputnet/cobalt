@@ -12,10 +12,7 @@ type PartialSettingsWithSchema = RecursivePartial<CobaltSettings> & { schemaVers
 const writeToStorage = (settings: PartialSettings) => {
     localStorage.setItem(
         "settings",
-        JSON.stringify({
-            schemaVersion: defaultSettings.schemaVersion,
-            ...settings
-        })
+        JSON.stringify(settings)
     );
 
     return settings;
@@ -65,7 +62,11 @@ export const storedSettings = readable<PartialSettings>(
 export function updateSetting(partial: PartialSettings) {
     update((current) => {
         const updated = writeToStorage(
-            merge(current, partial)
+            merge(
+                current,
+                partial,
+                { schemaVersion: defaultSettings.schemaVersion }
+            )
         );
 
         return updated;
