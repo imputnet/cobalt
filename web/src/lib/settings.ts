@@ -7,14 +7,32 @@ import type { CobaltSettings } from './types/settings';
 import defaultSettings from './settings/defaults';
 
 type PartialSettings = RecursivePartial<CobaltSettings>;
+type PartialSettingsWithSchema = RecursivePartial<CobaltSettings> & { schemaVersion: number };
 
 const writeToStorage = (settings: PartialSettings) => {
     localStorage.setItem(
         "settings",
-        JSON.stringify(settings)
+        JSON.stringify({
+            schemaVersion: defaultSettings.schemaVersion,
+            ...settings
+        })
     );
 
     return settings;
+}
+
+type Migrator = (s: PartialSettings) => PartialSettings;
+const migrations: Record<number, Migrator> = {
+
+}
+
+const migrate = (settings: PartialSettingsWithSchema) => {
+    return Object.keys(migrations)
+        .map(Number)
+        .filter(version => version > settings.schemaVersion)
+        .reduce((settings, migrationVersion) => {
+            return migrations[migrationVersion](settings);
+        }, settings as PartialSettings);
 }
 
 const loadFromStorage = () => {
@@ -23,7 +41,12 @@ const loadFromStorage = () => {
         return {};
     }
 
-    return JSON.parse(settings) as PartialSettings;
+    const parsed = JSON.parse(settings) as PartialSettingsWithSchema;
+    if (parsed.schemaVersion < defaultSettings.schemaVersion) {
+        return migrate(parsed);
+    }
+
+    return parsed;
 }
 
 let update: (_: Updater<CobaltSettings>) => void;
