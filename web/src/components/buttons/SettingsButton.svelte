@@ -6,7 +6,7 @@
         Value extends CobaltSettings[Context][Id]
     "
 >
-    import settings, { updateSetting } from "$lib/settings";
+    import settings, { updateSetting } from "$lib/state/settings";
     import type { CobaltSettings } from "$lib/types/settings";
 
     export let settingContext: Context;

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { device, app } from "$lib/device";
     import { version } from "$lib/version";
-    import settings, { storedSettings } from "$lib/settings";
+    import settings, { storedSettings } from "$lib/state/settings";
 
     import { goto } from "$app/navigation";
     import { defaultSettingsPage } from "$lib/settings/defaults";

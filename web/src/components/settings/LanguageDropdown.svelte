@@ -1,5 +1,5 @@
 <script lang="ts">
-    import settings, { updateSetting } from "$lib/settings";
+    import settings, { updateSetting } from "$lib/state/settings";
     import { t, locale, locales } from "$lib/i18n/translations";
 
     import languages from "$i18n/languages.json";

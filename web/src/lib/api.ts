@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import settings from "$lib/settings";
+import settings from "$lib/state/settings";
 import type { CobaltAPIResponse } from "$lib/types/api";
 
 const apiURL = "https://api.cobalt.tools";

@@ -1,10 +1,10 @@
 import { derived, readable, type Updater } from 'svelte/store';
 import { merge } from 'ts-deepmerge';
 
-import type { RecursivePartial } from './types/generic';
-import type { CobaltSettings } from './types/settings';
+import type { RecursivePartial } from '../types/generic';
+import type { CobaltSettings } from '../types/settings';
 
-import defaultSettings from './settings/defaults';
+import defaultSettings from '../settings/defaults';
 
 type PartialSettings = RecursivePartial<CobaltSettings>;
 type PartialSettingsWithSchema = RecursivePartial<CobaltSettings> & { schemaVersion: number };

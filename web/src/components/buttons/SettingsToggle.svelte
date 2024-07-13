@@ -5,7 +5,7 @@
         Id extends keyof CobaltSettings[Context]
     "
 >
-    import settings, { updateSetting } from "$lib/settings";
+    import settings, { updateSetting } from "$lib/state/settings";
     import type { CobaltSettings } from "$lib/types/settings";
 
     import Toggle from "$components/misc/Toggle.svelte";
