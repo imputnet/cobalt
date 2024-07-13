@@ -202,9 +202,13 @@
     }
 
     :global(a) {
-        text-decoration: none;
-        text-decoration-line: none;
+        color: inherit;
+        text-underline-offset: 3px;
         -webkit-touch-callout: none;
+    }
+
+    :global(a:visited) {
+        color: inherit;
     }
 
     :global(svg),

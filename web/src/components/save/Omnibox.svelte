@@ -109,7 +109,7 @@
             autocomplete="off"
             autocapitalize="off"
             maxlength="256"
-            placeholder={$t("save.inputPlaceholder")}
+            placeholder={$t("save.input.placeholder")}
             aria-label={$t("a11y.save.linkArea")}
             data-form-type="other"
         />
@@ -137,7 +137,7 @@
         <ActionButton id="paste" click={pasteClipboard}>
             <IconClipboard />
             <span id="paste-desktop-text">{$t("save.paste")}</span>
-            <span id="paste-mobile-text">{$t("save.pasteAndDownload")}</span>
+            <span id="paste-mobile-text">{$t("save.paste.long")}</span>
         </ActionButton>
     </div>
 </div>

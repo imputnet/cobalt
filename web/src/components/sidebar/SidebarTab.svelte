@@ -62,6 +62,9 @@
         height: fit-content;
         border-radius: var(--border-radius);
         transition: transform 0.2s;
+
+        text-decoration: none;
+        text-decoration-line: none;
     }
 
     .sidebar-tab :global(svg) {
