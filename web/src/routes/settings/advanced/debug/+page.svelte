@@ -1,7 +1,7 @@
 <script lang="ts">
     import { device, app } from "$lib/device";
     import { version } from "$lib/version";
-    import settings from "$lib/settings";
+    import settings, { storedSettings } from "$lib/settings";
 
     import { goto } from "$app/navigation";
     import { defaultSettingsPage } from "$lib/settings/defaults";
@@ -33,6 +33,11 @@
             is.installed: {app.is.installed}
         </div>
 
+        <h3>settings:</h3>
+        <div class="message-container subtext pre">
+            {JSON.stringify($storedSettings, null, 2)}
+        </div>
+
         <h3>version:</h3>
         <div class="message-container subtext">
             version: {version.version}
@@ -58,5 +63,9 @@
         border-radius: var(--border-radius);
         background: var(--button);
         padding: var(--padding);
+    }
+
+    .pre {
+        white-space: pre;
     }
 </style>
