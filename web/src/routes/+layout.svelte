@@ -8,6 +8,7 @@
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
+    import DialogHolder from "$components/dialog/DialogHolder.svelte";
 
     $: reduceMotion =
         $settings.appearance.reduceMotion
@@ -33,6 +34,7 @@
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}
+        <DialogHolder />
         <Sidebar />
         <div id="content">
             <slot></slot>
@@ -300,6 +302,15 @@
 
     :global(h6) {
         font-size: 11px;
+    }
+
+    :global(dialog) {
+        max-height: 100%;
+        max-width: 100%;
+        padding: var(--padding);
+        border-radius: var(--border-radius);
+        border: none;
+        pointer-events: all;
     }
 
     :global(.subtext) {

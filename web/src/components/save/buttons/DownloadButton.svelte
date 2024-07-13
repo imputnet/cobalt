@@ -3,13 +3,29 @@
 
     import API from "$lib/api";
     import { device } from "$lib/device";
+
     import { t } from "$lib/i18n/translations";
+
+    import { createDialog } from "$lib/dialogs";
+    import type { DialogInfo } from "$lib/types/dialog";
 
     export let url: string;
 
     $: buttonText = ">>";
     $: buttonAltText = $t('a11y.save.download');
     $: isDisabled = false;
+
+    let defaultErrorPopup = {
+        id: "save-error",
+        type: "small",
+        title: "",
+        bodySubText: "",
+        buttons: [{
+            text: $t("general.gotit"),
+            color: "gray",
+            action: () => {},
+        }]
+    }
 
     const changeDownloadButton = (state: string) => {
         isDisabled = true;
@@ -59,14 +75,20 @@
             changeDownloadButton("error");
             restoreDownloadButton();
 
-            return alert("couldn't access the api");
+            return createDialog({
+                ...defaultErrorPopup as DialogInfo,
+                bodyText: "couldn't access the api"
+            })
         }
 
         if (response.status === "error" || response.status === "rate-limit") {
             changeDownloadButton("error");
             restoreDownloadButton();
 
-            return alert(`error from api: ${response.text}`);
+            return createDialog({
+                ...defaultErrorPopup as DialogInfo,
+                bodyText: response.text
+            })
         }
 
         if (response.status === "redirect") {
@@ -90,7 +112,10 @@
                 changeDownloadButton("error");
                 restoreDownloadButton();
 
-                return alert("couldn't probe the stream");
+                return createDialog({
+                    ...defaultErrorPopup as DialogInfo,
+                    bodyText: "couldn't probe the stream"
+                })
             }
         }
     };
