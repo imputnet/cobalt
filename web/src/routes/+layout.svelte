@@ -46,7 +46,7 @@
         --secondary: #000000;
 
         --white: #ffffff;
-        --gray: #8d8d95;
+        --gray: #75757e;
         --blue: #2f8af9;
         --green: #51cf5e;
 
@@ -96,7 +96,7 @@
         --primary: #000000;
         --secondary: #e1e1e1;
 
-        --gray: #6e6e6e;
+        --gray: #818181;
         --blue: #2a7ce1;
         --green: #37aa42;
 
