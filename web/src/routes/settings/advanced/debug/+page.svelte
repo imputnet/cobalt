@@ -17,33 +17,22 @@
     <div id="advanced-page">
         <h3>device:</h3>
         <div class="message-container subtext">
-            is.iPad: {device.is.iPad}
-            is.iPhone: {device.is.iPhone}
-            is.iOS: {device.is.iOS}
-            is.android: {device.is.android}
-            is.mobile: {device.is.mobile}
-            prefers.language: {device.prefers.language}
-            prefers.reducedMotion: {device.prefers.reducedMotion}
-            prefers.reducedTransparency: {device.prefers.reducedTransparency}
-            userAgent: {device.userAgent}
+            {JSON.stringify(device, null, 2)}
         </div>
 
         <h3>app:</h3>
         <div class="message-container subtext">
-            is.installed: {app.is.installed}
+            {JSON.stringify(app, null, 2)}
         </div>
 
         <h3>settings:</h3>
-        <div class="message-container subtext pre">
+        <div class="message-container subtext">
             {JSON.stringify($storedSettings, null, 2)}
         </div>
 
         <h3>version:</h3>
         <div class="message-container subtext">
-            version: {version.version}
-            commit: {version.commit.slice(0, 7)}
-            branch: {version.branch}
-            remote: {version.remote}
+            {JSON.stringify(version, null, 2)}
         </div>
     </div>
 {/if}
@@ -63,9 +52,6 @@
         border-radius: var(--border-radius);
         background: var(--button);
         padding: var(--padding);
-    }
-
-    .pre {
-        white-space: pre;
+        white-space: pre-wrap;
     }
 </style>
