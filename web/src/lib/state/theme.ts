@@ -1,6 +1,6 @@
 import { readable, derived, type Readable } from 'svelte/store';
 
-import settings from '$lib/settings';
+import settings from '$lib/state/settings';
 import { themeOptions } from '$lib/types/settings';
 
 type Theme = typeof themeOptions[number];

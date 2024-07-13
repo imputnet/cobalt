@@ -12,7 +12,7 @@
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
-    import { updateSetting } from "$lib/settings";
+    import { updateSetting } from "$lib/state/settings";
     import type { DownloadModeOption } from "$lib/types/settings";
 
     import IconSparkles from "$lib/icons/Sparkles.svelte";

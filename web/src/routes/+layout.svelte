@@ -2,7 +2,7 @@
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
-    import settings from "$lib/settings";
+    import settings from "$lib/state/settings";
     import { device, app } from "$lib/device";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 

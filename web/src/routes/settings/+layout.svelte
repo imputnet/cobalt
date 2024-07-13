@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
-    import settings from "$lib/settings";
+    import settings from "$lib/state/settings";
 
     import { t } from "$lib/i18n/translations";
 
