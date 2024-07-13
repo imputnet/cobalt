@@ -1,4 +1,4 @@
-import { readable, type Updater } from 'svelte/store';
+import { derived, readable, type Updater } from 'svelte/store';
 import { merge } from 'ts-deepmerge';
 
 import type { RecursivePartial } from './types/generic';
@@ -49,25 +49,30 @@ const loadFromStorage = () => {
     return parsed;
 }
 
-let update: (_: Updater<CobaltSettings>) => void;
+let update: (_: Updater<PartialSettings>) => void;
 
 // deep merge partial type into full CobaltSettings type
 const mergeWithDefaults = (partial: PartialSettings) => {
     return merge(defaultSettings, partial) as CobaltSettings;
 }
 
-export default readable<CobaltSettings>(
-    mergeWithDefaults(loadFromStorage()),
+export const storedSettings = readable<PartialSettings>(
+    loadFromStorage(),
     (_, _update) => { update = _update }
 );
 
 // update settings from outside
 export function updateSetting(partial: PartialSettings) {
-    update(() => {
+    update((current) => {
         const updated = writeToStorage(
-            merge(loadFromStorage(), partial)
+            merge(current, partial)
         );
 
-        return mergeWithDefaults(updated);
+        return updated;
     });
 }
+
+export default derived(
+    storedSettings,
+    $settings => mergeWithDefaults($settings)
+);
