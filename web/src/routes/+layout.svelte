@@ -4,6 +4,7 @@
 
     import settings from "$lib/state/settings";
     import { device, app } from "$lib/device";
+    import { locale } from "$lib/i18n/translations";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
@@ -24,7 +25,7 @@
     {/if}
 </svelte:head>
 
-<div style="display: contents" data-theme={$currentTheme}>
+<div style="display: contents" data-theme={$currentTheme} lang="{$locale}">
     <div
         id="cobalt"
         data-iphone={device.is.iPhone}
