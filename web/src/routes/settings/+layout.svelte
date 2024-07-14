@@ -46,8 +46,8 @@
 <svelte:window bind:innerWidth={screenWidth} />
 
 <div id="settings-page">
-    <div id="settings-sidebar">
-        <div id="settings-header" class:back-visible={!isHome && isMobile}>
+    <div id="settings-sidebar" class:back-visible={!isHome && isMobile}>
+        <div id="settings-header">
             {#if isMobile}
                 {#if !isHome}
                     <a
@@ -163,6 +163,10 @@
     #settings-sidebar {
         width: var(--settings-nav-width);
         padding-top: var(--settings-padding);
+    }
+
+    #settings-sidebar.back-visible {
+        overflow: visible;
     }
 
     #settings-sidebar {
