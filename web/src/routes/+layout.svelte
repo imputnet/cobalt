@@ -2,6 +2,7 @@
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import env from "$lib/env";
     import settings from "$lib/state/settings";
     import { device, app } from "$lib/device";
     import { locale } from "$lib/i18n/translations";
@@ -22,6 +23,15 @@
 <svelte:head>
     {#if device.is.mobile}
         <meta name="theme-color" content={statusBarColors[$currentTheme]}>
+    {/if}
+
+    {#if env.PLAUSIBLE_ENABLED}
+        <script
+            defer
+            data-domain="{env.HOST}"
+            src="https://{env.PLAUSIBLE_HOST}/js/script.js"
+        >
+        </script>
     {/if}
 </svelte:head>
 
