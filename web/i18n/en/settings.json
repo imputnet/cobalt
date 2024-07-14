@@ -1,5 +1,6 @@
 {
     "page.appearance": "appearance",
+    "page.privacy": "privacy",
     "page.video": "video",
     "page.audio": "audio",
     "page.metadata": "metadata",
@@ -83,6 +84,10 @@
     "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead. disable this toggle to pick a language manually.",
     "language.preferred.title": "preferred language",
     "language.preferred.description": "language used for interface and content. if any text isn’t translated to this language, it will be displayed in english.",
+
+    "privacy": "anonymous traffic analytics",
+    "privacy.disableAnalytics.title": "opt out of private analytics",
+    "privacy.disableAnalytics.description": "enable if you don't want to be included in anonymous traffic stats. read more about this in about > privacy policy (tl;dr: nothing about you is ever stored or tracked, no cookies are used).",
 
     "advanced.debug": "debug",
     "advanced.debug.title": "enable debug features",

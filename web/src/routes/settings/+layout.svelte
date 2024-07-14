@@ -15,6 +15,7 @@
     import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
     import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
     import IconBug from "@tabler/icons-svelte/IconBug.svelte";
+    import IconLock from "@tabler/icons-svelte/IconLock.svelte";
 
     import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
 
@@ -80,6 +81,13 @@
                     iconColor="blue"
                 >
                     <IconSunHigh />
+                </SettingsNavTab>
+                <SettingsNavTab
+                    tabName="privacy"
+                    tabLink="general/privacy"
+                    iconColor="blue"
+                >
+                    <IconLock />
                 </SettingsNavTab>
             </SettingsNavSection>
             <SettingsNavSection sectionTitle="save">
