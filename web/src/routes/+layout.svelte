@@ -249,7 +249,7 @@
     }
 
     :global(:focus-visible) {
-        box-shadow: 0 0 0 2px var(--blue) inset;
+        box-shadow: 0 0 0 2px var(--blue) inset !important;
         outline: none;
         z-index: 1;
     }
