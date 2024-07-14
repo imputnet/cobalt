@@ -19,6 +19,10 @@ type CobaltSettingsAdvanced = {
     debug: boolean,
 };
 
+type CobaltSettingsPrivacy = {
+    disableAnalytics: boolean
+};
+
 type CobaltSettingsSave = {
     audioFormat: typeof audioFormatOptions[number],
     disableMetadata: boolean,
@@ -38,6 +42,7 @@ export type CobaltSettings = {
     advanced: CobaltSettingsAdvanced,
     appearance: CobaltSettingsAppearance,
     save: CobaltSettingsSave,
+    privacy: CobaltSettingsPrivacy
 };
 
 export type DownloadModeOption = CobaltSettings['save']['downloadMode'];
