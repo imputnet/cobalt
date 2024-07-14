@@ -85,9 +85,10 @@
     "language.preferred.title": "preferred language",
     "language.preferred.description": "language used for interface and content. if any text isn’t translated to this language, it will be displayed in english.",
 
-    "privacy": "anonymous traffic analytics",
-    "privacy.disableAnalytics.title": "opt out of private analytics",
-    "privacy.disableAnalytics.description": "enable if you don't want to be included in anonymous traffic stats. read more about this in about > privacy policy (tl;dr: nothing about you is ever stored or tracked, no cookies are used).",
+    "privacy.analytics": "anonymous traffic analytics",
+    "privacy.analytics.title": "don't contribute to analytics",
+    "privacy.analytics.description": "we use a self-hosted plausible instance for getting an approximate number of active cobalt users. no identifiable informaton about you is ever stored. all processed data is anonymized and aggregated.\n\nplausible does not use any cookies and is fully compliant with GDPR, CCPA, and PECR.",
+    "privacy.analytics.learnmore": "learn more about plausible's dedication to privacy.",
 
     "advanced.debug": "debug",
     "advanced.debug.title": "enable debug features",
