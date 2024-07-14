@@ -87,7 +87,7 @@
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",
-    "privacy.analytics.description": "we use a self-hosted plausible instance for getting an approximate number of active cobalt users. no identifiable informaton about you is ever stored. all processed data is anonymized and aggregated.\n\nplausible does not use any cookies and is fully compliant with GDPR, CCPA, and PECR.",
+    "privacy.analytics.description": "we use a self-hosted plausible instance for getting an approximate number of active cobalt users. no identifiable information about you is ever stored. all processed data is anonymized and aggregated.\n\nplausible does not use any cookies and is fully compliant with GDPR, CCPA, and PECR.",
     "privacy.analytics.learnmore": "learn more about plausible's dedication to privacy.",
 
     "advanced.debug": "debug",
