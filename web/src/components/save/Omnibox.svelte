@@ -1,7 +1,12 @@
 <script lang="ts">
+    import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
     import { SvelteComponent, tick } from "svelte";
 
     import { t } from "$lib/i18n/translations";
+
+    import { updateSetting } from "$lib/state/settings";
+    import type { DownloadModeOption } from "$lib/types/settings";
 
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
 
@@ -12,12 +17,9 @@
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
-    import { updateSetting } from "$lib/state/settings";
-    import type { DownloadModeOption } from "$lib/types/settings";
-
-    import IconSparkles from "$lib/icons/Sparkles.svelte";
-    import IconMusic from "$lib/icons/Music.svelte";
     import IconMute from "$lib/icons/Mute.svelte";
+    import IconMusic from "$lib/icons/Music.svelte";
+    import IconSparkles from "$lib/icons/Sparkles.svelte";
     import IconClipboard from "$lib/icons/Clipboard.svelte";
 
     let link: string = "";
@@ -30,6 +32,20 @@
         try {
             return /^https:/i.test(new URL(link).protocol);
         } catch {}
+    };
+
+    $: linkFromHash = $page.url.hash.replace("#", "") || "";
+    $: linkFromQuery = $page.url.searchParams.get("u") || "";
+
+    $: if (linkFromHash || linkFromQuery) {
+        if (validLink(linkFromHash)) {
+            link = linkFromHash;
+        } else if (validLink(linkFromQuery)) {
+            link = linkFromQuery;
+        }
+
+        // clear hash and query to prevent bookmarking unwanted links
+        goto("/", { replaceState: true });
     }
 
     const pasteClipboard = () => {
@@ -45,15 +61,15 @@
     };
 
     const changeDownloadMode = (mode: DownloadModeOption) => {
-        updateSetting({ save: { downloadMode: mode }});
-    }
+        updateSetting({ save: { downloadMode: mode } });
+    };
 
     const handleKeydown = (e: KeyboardEvent) => {
         if (!linkInput) {
             return;
         }
 
-        if (e.metaKey || e.ctrlKey || e.key === '/') {
+        if (e.metaKey || e.ctrlKey || e.key === "/") {
             linkInput.focus();
         }
 
@@ -61,7 +77,7 @@
             downloadButton.download(link);
         }
 
-        if (['Escape', 'Clear'].includes(e.key)) {
+        if (["Escape", "Clear"].includes(e.key)) {
             link = "";
         }
 
@@ -70,22 +86,22 @@
         }
 
         switch (e.key) {
-            case 'D':
+            case "D":
                 pasteClipboard();
                 break;
-            case 'J':
-                changeDownloadMode('auto');
+            case "J":
+                changeDownloadMode("auto");
                 break;
-            case 'K':
-                changeDownloadMode('audio');
+            case "K":
+                changeDownloadMode("audio");
                 break;
-            case 'L':
-                changeDownloadMode('mute');
+            case "L":
+                changeDownloadMode("mute");
                 break;
             default:
                 break;
         }
-    }
+    };
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -102,9 +118,9 @@
             id="link-area"
             bind:value={link}
             bind:this={linkInput}
-            on:input={() => isFocused = true}
-            on:focus={() => isFocused = true}
-            on:blur={() => isFocused = false}
+            on:input={() => (isFocused = true)}
+            on:focus={() => (isFocused = true)}
+            on:blur={() => (isFocused = false)}
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
@@ -115,7 +131,7 @@
         />
 
         {#if link}
-            <ClearButton click={() => link = ""} />
+            <ClearButton click={() => (link = "")} />
         {/if}
         {#if validLink(link)}
             <DownloadButton url={link} bind:this={downloadButton} />
@@ -124,16 +140,32 @@
 
     <div id="action-container">
         <Switcher>
-            <SettingsButton settingContext="save" settingId="downloadMode" settingValue="auto">
-                <IconSparkles /> {$t("save.auto")}
+            <SettingsButton
+                settingContext="save"
+                settingId="downloadMode"
+                settingValue="auto"
+            >
+                <IconSparkles />
+                {$t("save.auto")}
             </SettingsButton>
-            <SettingsButton settingContext="save" settingId="downloadMode" settingValue="audio">
-                <IconMusic /> {$t("save.audio")}
+            <SettingsButton
+                settingContext="save"
+                settingId="downloadMode"
+                settingValue="audio"
+            >
+                <IconMusic />
+                {$t("save.audio")}
             </SettingsButton>
-            <SettingsButton settingContext="save" settingId="downloadMode" settingValue="mute">
-                <IconMute /> {$t("save.mute")}
+            <SettingsButton
+                settingContext="save"
+                settingId="downloadMode"
+                settingValue="mute"
+            >
+                <IconMute />
+                {$t("save.mute")}
             </SettingsButton>
         </Switcher>
+
         <ActionButton id="paste" click={pasteClipboard}>
             <IconClipboard />
             <span id="paste-desktop-text">{$t("save.paste")}</span>
@@ -237,7 +269,7 @@
         }
 
         #action-container :global(.button) {
-            width: 100%
+            width: 100%;
         }
 
         #paste-mobile-text {
