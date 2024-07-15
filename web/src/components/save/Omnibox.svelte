@@ -242,7 +242,7 @@
     }
 
     #link-area:focus-visible {
-        box-shadow: unset;
+        box-shadow: unset !important;
     }
 
     #link-area::placeholder {
