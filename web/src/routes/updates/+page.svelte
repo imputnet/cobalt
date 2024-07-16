@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { SvelteComponent, onMount } from 'svelte';
-    import type { ChangelogImport, ChangelogMetadata } from '$lib/types/changelogs';
+    import { onMount } from 'svelte';
+    import type { ChangelogImport } from '$lib/types/changelogs';
     import { t } from '$lib/i18n/translations';
+    import { page } from '$app/stores';
     import { getAllChangelogs } from '$lib/changelogs';
 
     const changelogs = getAllChangelogs();
@@ -9,6 +10,13 @@
 
     let changelog: ChangelogImport & { version: string } | undefined;
     let currentIndex = -1;
+    {
+        const hash = $page.url.hash.replace("#", "");
+        const versionIndex = versions.indexOf(hash);
+        if (versionIndex !== -1 && currentIndex !== versionIndex) {
+            currentIndex = versionIndex;
+        }
+    }
 
     const loadChangelog = async () => {
         const version = versions[currentIndex];
@@ -21,6 +29,8 @@
             ...log,
             version
         };
+
+        window.location.hash = version;
     }
 
     const nextChangelog = async () => {
