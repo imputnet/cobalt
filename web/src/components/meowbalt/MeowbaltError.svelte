@@ -3,16 +3,17 @@
 </script>
 
 <img
-    id="meowbalt-loaf"
-    src="/meowbalt/smile.png"
-    height="152"
-    alt={$t("a11y.meowbalt.smile")}
+    id="meowbalt-error"
+    src="/meowbalt/error.png"
+    height="160"
+    alt={$t("a11y.meowbalt.error")}
 />
 
 <style>
-    #meowbalt-loaf {
+    #meowbalt-error {
         display: block;
         margin: 0;
         object-fit: cover;
+        margin-left: 25px;
     }
 </style>
