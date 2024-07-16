@@ -10,6 +10,7 @@
     import type { DialogInfo } from "$lib/types/dialog";
 
     export let url: string;
+    export let isDisabled = false;
 
     $: buttonText = ">>";
     $: buttonAltText = $t('a11y.save.download');

@@ -28,6 +28,8 @@
     let linkInput: HTMLInputElement | undefined;
     let isFocused = false;
 
+    let isDisabled: boolean = false;
+
     let downloadButton: SvelteComponent;
 
     const validLink = (link: string) => {
@@ -67,7 +69,7 @@
     };
 
     const handleKeydown = (e: KeyboardEvent) => {
-        if (!linkInput || $dialogs.length > 0) {
+        if (!linkInput || $dialogs.length > 0 || isDisabled) {
             return;
         }
 
@@ -136,7 +138,7 @@
             <ClearButton click={() => (link = "")} />
         {/if}
         {#if validLink(link)}
-            <DownloadButton url={link} bind:this={downloadButton} />
+            <DownloadButton url={link} bind:this={downloadButton} bind:isDisabled={isDisabled} />
         {/if}
     </div>
 
