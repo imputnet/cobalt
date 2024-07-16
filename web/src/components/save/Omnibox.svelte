@@ -53,6 +53,10 @@
     }
 
     const pasteClipboard = () => {
+        if (isDisabled || $dialogs.length > 0) {
+            return;
+        }
+
         navigator.clipboard.readText().then(async (text) => {
             let matchLink = text.match(/https:\/\/[^\s]+/g);
             if (matchLink) {
