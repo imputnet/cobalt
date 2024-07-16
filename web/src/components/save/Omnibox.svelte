@@ -5,6 +5,8 @@
 
     import { t } from "$lib/i18n/translations";
 
+    import dialogs from "$lib/dialogs";
+
     import { updateSetting } from "$lib/state/settings";
     import type { DownloadModeOption } from "$lib/types/settings";
 
@@ -65,7 +67,7 @@
     };
 
     const handleKeydown = (e: KeyboardEvent) => {
-        if (!linkInput) {
+        if (!linkInput || $dialogs.length > 0) {
             return;
         }
 
