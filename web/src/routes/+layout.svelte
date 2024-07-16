@@ -66,9 +66,13 @@
         --button: #f4f4f4;
         --button-hover: #e8e8e8;
         --button-hover-transparent: rgba(0, 0, 0, 0.06);
-        --button-stroke: rgba(0, 0, 0, 0.05);
+        --button-stroke: rgba(0, 0, 0, 0.06);
         --button-text: #282828;
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+
+        --popup-bg: #f1f1f1;
+        --popup-backdrop: var(--primary);
+        --popup-stroke: rgba(0, 0, 0, 0.08);
 
         --sidebar-bg: #000000;
         --sidebar-highlight: #ffffff;
@@ -119,6 +123,10 @@
         --button-stroke: rgba(255, 255, 255, 0.05);
         --button-text: #e1e1e1;
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+
+        --popup-bg: #191919;
+        --popup-backdrop: var(--primary);
+        --popup-stroke: rgba(255, 255, 255, 0.08);
 
         --sidebar-bg: #101010;
         --sidebar-highlight: #f2f2f2;
@@ -317,15 +325,6 @@
 
     :global(h6) {
         font-size: 11px;
-    }
-
-    :global(dialog) {
-        max-height: 100%;
-        max-width: 100%;
-        padding: var(--padding);
-        border-radius: var(--border-radius);
-        border: none;
-        pointer-events: all;
     }
 
     :global(.subtext) {
