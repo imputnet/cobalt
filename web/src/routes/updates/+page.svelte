@@ -52,6 +52,11 @@
         changelogs[next]().catch(() => {});
     }
 
+    const handleKeydown = (e: KeyboardEvent) => {
+        if (e.key === 'ArrowLeft') loadPrev();
+        else if (e.key === 'ArrowRight') loadNext();
+    }
+
     $: prev = versions[currentIndex - 1];
     $: next = versions[currentIndex + 1];
     $: currentIndex, loadChangelog();
@@ -111,6 +116,8 @@
         {$t("general.cobalt")}: {$t("tabs.updates")}
     </title>
 </svelte:head>
+
+<svelte:window on:keydown|preventDefault={handleKeydown} />
 
 <div class="news">
     {#if changelog}
