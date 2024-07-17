@@ -66,6 +66,8 @@
         padding: 0;
         line-height: 1.2;
         font-size: 23px;
+        user-select: text;
+        -webkit-user-select: text
     }
 
     .changelog-banner {
@@ -94,7 +96,9 @@
         line-height: 1.7;
         font-size: 14.5px;
         font-weight: 410;
-        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace
+        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
+        user-select: text;
+        -webkit-user-select: text;
     }
 
     :global(ul) {
