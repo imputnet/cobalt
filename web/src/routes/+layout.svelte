@@ -334,6 +334,8 @@
         line-height: 1.4;
         padding: 0 var(--padding);
         white-space: pre-line;
+        user-select: text;
+        -webkit-user-select: text;
     }
 
     [data-reduce-motion="true"] :global(*) {
