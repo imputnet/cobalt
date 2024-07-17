@@ -37,7 +37,7 @@
         flex-direction: column;
         align-items: start;
         gap: calc(var(--padding) / 2);
-        padding: 1em 0; /* match default <p> padding */
+        padding-bottom: 1em; /* match default <p> padding */
     }
 
     .changelog-info {

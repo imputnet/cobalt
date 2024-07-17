@@ -136,6 +136,7 @@
         max-width: 850px;
         overflow-x: hidden;
         padding: var(--padding);
+        padding-top: calc(var(--padding) + 1em);
     }
 
     button[disabled] {
@@ -158,6 +159,12 @@
 
         .button-wrapper-desktop {
             display: none;
+        }
+    }
+
+    @media screen and (max-width: 535px) {
+        .changelog-wrapper {
+            padding-top: var(--padding)
         }
     }
 </style>
