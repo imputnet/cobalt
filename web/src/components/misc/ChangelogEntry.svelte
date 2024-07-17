@@ -52,7 +52,7 @@
         border-radius: 6px;
         background-color: var(--secondary);
         color: var(--primary);
-        font-size: 21px;
+        font-size: 18px;
         font-weight: 500;
     }
 
@@ -65,6 +65,7 @@
     .changelog-title {
         padding: 0;
         line-height: 1.2;
+        font-size: 23px;
     }
 
     .changelog-banner {
