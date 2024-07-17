@@ -1,15 +1,31 @@
 <script lang="ts">
     export let version: string;
     export let title: string;
-    export let date: string;
+    export let date: string | undefined;
     export let banner: { file: string; alt: string } | undefined;
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+
+        const months = ['January', 'February', 'March', 'April', 'May',
+                        'June', 'July', 'August', 'September', 'October',
+                        'November', 'December'];
+
+        return [
+            months[date.getUTCMonth()],
+            (date.getUTCDate() + 1) + ',',
+            date.getUTCFullYear()
+        ].join(' ');
+    }
 </script>
 
 <main>
     <div id="changelog-header">
         <div class="changelog-info">
             <div class="changelog-version">{version}</div>
-            <div class="changelog-date">{date}</div>
+            {#if date}
+                <div class="changelog-date">{formatDate(date)}</div>
+            {/if}
         </div>
         <h1 class="changelog-title">{title}</h1>
     </div>
