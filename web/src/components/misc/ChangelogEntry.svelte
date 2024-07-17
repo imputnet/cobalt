@@ -86,7 +86,21 @@
 
     .contents {
         max-width: 100%;
-        line-height: 1.5;
-        font-size: 15px;
+    }
+
+    .contents,
+    .contents :global(*) {
+        line-height: 1.7;
+        font-size: 14.5px;
+        font-weight: 410;
+        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace
+    }
+
+    :global(ul) {
+        padding-inline-start: 30px;
+    }
+
+    :global(li) {
+        padding-left: 3px;
     }
 </style>
