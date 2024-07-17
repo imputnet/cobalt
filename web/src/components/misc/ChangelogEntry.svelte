@@ -104,4 +104,11 @@
     :global(li) {
         padding-left: 3px;
     }
+
+    @media screen and (max-width: 535px) {
+        .contents,
+        .contents :global(*) {
+            font-size: 14px;
+        }
+    }
 </style>
