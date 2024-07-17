@@ -1,17 +1,17 @@
 <script lang="ts">
-    import { t } from '$lib/i18n/translations';
-    import { page } from '$app/stores';
+    import { t } from "$lib/i18n/translations";
+    import { page } from "$app/stores";
 
-    import { getAllChangelogs } from '$lib/changelogs';
-    import type { ChangelogImport } from '$lib/types/changelogs';
+    import { getAllChangelogs } from "$lib/changelogs";
+    import type { ChangelogImport } from "$lib/types/changelogs";
 
-    import IconChevronLeft from '@tabler/icons-svelte/IconChevronLeft.svelte';
-    import IconChevronRight from '@tabler/icons-svelte/IconChevronRight.svelte';
+    import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
+    import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
 
     const changelogs = getAllChangelogs();
     const versions = Object.keys(changelogs);
 
-    let changelog: ChangelogImport & { version: string } | undefined;
+    let changelog: (ChangelogImport & { version: string }) | undefined;
     let currentIndex = 0;
 
     {
@@ -24,38 +24,36 @@
 
     const loadChangelog = async () => {
         const version = versions[currentIndex];
-        const log = await changelogs[version]() as ChangelogImport;
+        const log = (await changelogs[version]()) as ChangelogImport;
         if (!log) {
             return; // FIXME: now wot
         }
 
         changelog = {
             ...log,
-            version
+            version,
         };
 
         window.location.hash = version;
-    }
+    };
 
     const loadNext = () => {
-        if (currentIndex < versions.length - 1)
-            ++currentIndex;
-    }
+        if (currentIndex < versions.length - 1) ++currentIndex;
+    };
 
     const loadPrev = () => {
-        if (currentIndex > 0)
-            --currentIndex;
-    }
+        if (currentIndex > 0) --currentIndex;
+    };
 
     const preloadNext = () => {
         if (!next) return;
         changelogs[next]().catch(() => {});
-    }
+    };
 
     const handleKeydown = (e: KeyboardEvent) => {
-        if (e.key === 'ArrowLeft') loadPrev();
-        else if (e.key === 'ArrowRight') loadNext();
-    }
+        if (e.key === "ArrowLeft") loadPrev();
+        else if (e.key === "ArrowRight") loadNext();
+    };
 
     $: prev = versions[currentIndex - 1];
     $: next = versions[currentIndex + 1];
@@ -75,26 +73,29 @@
         <div class="button-wrapper-desktop">
             <button on:click={loadPrev} disabled={!prev}>
                 <IconChevronLeft />
-                { prev || '' }
+                {prev || ""}
             </button>
         </div>
         <div class="changelog-wrapper">
-                <svelte:component this={changelog.default} version={changelog.version} />
-                <div class="button-wrapper-mobile">
-                    <button on:click={loadPrev} disabled={!prev}>
-                        <IconChevronLeft />
-                        { prev || '' }
-                    </button>
-                    <button
-                        on:click={loadNext}
-                        on:focus={preloadNext}
-                        on:mousemove={preloadNext}
-                        disabled={!next}
-                    >
-                        { next || '' }
+            <svelte:component
+                this={changelog.default}
+                version={changelog.version}
+            />
+            <div class="button-wrapper-mobile">
+                <button on:click={loadPrev} disabled={!prev}>
+                    <IconChevronLeft />
+                    {prev || ""}
+                </button>
+                <button
+                    on:click={loadNext}
+                    on:focus={preloadNext}
+                    on:mousemove={preloadNext}
+                    disabled={!next}
+                >
+                    {next || ""}
                     <IconChevronRight />
                 </button>
-                </div>
+            </div>
         </div>
         <div class="button-wrapper-desktop">
             <button
@@ -103,7 +104,7 @@
                 on:mousemove={preloadNext}
                 disabled={!next}
             >
-                { next || '' }
+                {next || ""}
                 <IconChevronRight />
             </button>
         </div>
@@ -132,7 +133,9 @@
     }
 
     .changelog-wrapper {
-        max-width: 768pt;
+        max-width: 850px;
+        overflow-x: hidden;
+        padding: var(--padding);
     }
 
     button[disabled] {
@@ -144,7 +147,7 @@
         display: none;
     }
 
-    @media only screen and (max-width: 992pt) {
+    @media only screen and (max-width: 1150px) {
         .button-wrapper-mobile {
             display: flex;
             padding-bottom: 1rem;
