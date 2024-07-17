@@ -6,6 +6,7 @@
     export let date = '';
     export let banner = undefined;
 </script>
+
 <ChangelogEntry {version} {title} {date} {banner}>
     <slot></slot>
 </ChangelogEntry>

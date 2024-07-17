@@ -4,6 +4,27 @@
     export let date: string;
     export let banner: { file: string, alt: string } | undefined;
 </script>
+
+<main>
+    <h1>
+        <div class="changelog-version">{ version }</div>
+        <div class="changelog-title">{ title }</div>
+    </h1>
+    <small>{ date }</small>
+    <div class="changelog-content">
+        {#if banner}
+            <img
+                src={`/update-banners/${banner.file}`}
+                alt={banner.alt}
+                class="changelog-banner"
+            />
+        {/if}
+        <div class="contents">
+            <slot></slot>
+        </div>
+    </div>
+</main>
+
 <style>
     main {
         padding: 1em;
@@ -64,24 +85,4 @@
     .contents {
         max-width: 100%;
     }
-
 </style>
-<main>
-    <h1>
-        <div class="changelog-version">{ version }</div>
-        <div class="changelog-title">{ title }</div>
-    </h1>
-    <small>{ date }</small>
-    <div class="changelog-content">
-        {#if banner}
-            <img
-                src={`/update-banners/${banner.file}`}
-                alt={banner.alt}
-                class="changelog-banner"
-            />
-        {/if}
-        <div class="contents">
-            <slot></slot>
-        </div>
-    </div>
-</main>
