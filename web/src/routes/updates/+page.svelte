@@ -117,7 +117,7 @@
     </title>
 </svelte:head>
 
-<svelte:window on:keydown|preventDefault={handleKeydown} />
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="news">
     {#if changelog}
