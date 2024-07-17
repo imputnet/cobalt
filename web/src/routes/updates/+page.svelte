@@ -62,6 +62,54 @@
     $: currentIndex, loadChangelog();
 </script>
 
+<svelte:head>
+    <title>
+        {$t("general.cobalt")}: {$t("tabs.updates")}
+    </title>
+</svelte:head>
+
+<svelte:window on:keydown={handleKeydown} />
+
+<div class="news">
+    {#if changelog}
+        <div class="button-wrapper-desktop">
+            <button on:click={loadPrev} disabled={!prev}>
+                <IconChevronLeft />
+                { prev || '' }
+            </button>
+        </div>
+        <div class="changelog-wrapper">
+                <svelte:component this={changelog.default} version={changelog.version} />
+                <div class="button-wrapper-mobile">
+                    <button on:click={loadPrev} disabled={!prev}>
+                        <IconChevronLeft />
+                        { prev || '' }
+                    </button>
+                    <button
+                        on:click={loadNext}
+                        on:focus={preloadNext}
+                        on:mousemove={preloadNext}
+                        disabled={!next}
+                    >
+                        { next || '' }
+                    <IconChevronRight />
+                </button>
+                </div>
+        </div>
+        <div class="button-wrapper-desktop">
+            <button
+                on:click={loadNext}
+                on:focus={preloadNext}
+                on:mousemove={preloadNext}
+                disabled={!next}
+            >
+                { next || '' }
+                <IconChevronRight />
+            </button>
+        </div>
+    {/if}
+</div>
+
 <style>
     .news {
         display: flex;
@@ -110,51 +158,3 @@
         }
     }
 </style>
-
-<svelte:head>
-    <title>
-        {$t("general.cobalt")}: {$t("tabs.updates")}
-    </title>
-</svelte:head>
-
-<svelte:window on:keydown={handleKeydown} />
-
-<div class="news">
-    {#if changelog}
-        <div class="button-wrapper-desktop">
-            <button on:click={loadPrev} disabled={!prev}>
-                <IconChevronLeft />
-                { prev || '' }
-            </button>
-        </div>
-        <div class="changelog-wrapper">
-                <svelte:component this={changelog.default} version={changelog.version} />
-                <div class="button-wrapper-mobile">
-                    <button on:click={loadPrev} disabled={!prev}>
-                        <IconChevronLeft />
-                        { prev || '' }
-                    </button>
-                    <button
-                        on:click={loadNext}
-                        on:focus={preloadNext}
-                        on:mousemove={preloadNext}
-                        disabled={!next}
-                    >
-                        { next || '' }
-                    <IconChevronRight />
-                </button>
-                </div>
-        </div>
-        <div class="button-wrapper-desktop">
-            <button
-                on:click={loadNext}
-                on:focus={preloadNext}
-                on:mousemove={preloadNext}
-                disabled={!next}
-            >
-                { next || '' }
-                <IconChevronRight />
-            </button>
-        </div>
-    {/if}
-</div>
