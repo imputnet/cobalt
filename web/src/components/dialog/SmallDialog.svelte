@@ -143,6 +143,8 @@
         font-weight: 500;
         line-height: 1.7;
         color: var(--gray);
+        user-select: text;
+        -webkit-user-select: text;
     }
 
     .body-text:focus-visible {
