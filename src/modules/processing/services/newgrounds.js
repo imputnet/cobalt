@@ -16,7 +16,10 @@ export default async function(obj) {
 
         if (!req) return { error: 'ErrorEmptyDownload' };
 
-        const json = JSON.parse(req);
+        let json;
+        try {
+            json = JSON.parse(req);
+        } catch { return { error: 'ErrorEmptyDownload' }; }
         const highestQuality = Object.keys(json.sources)[0];
         const video = json.sources[highestQuality][0].src
 
@@ -37,9 +40,17 @@ export default async function(obj) {
 
         if (!req) return { error: 'ErrorEmptyDownload' };
 
-        const title = req.match(/"name"\s*:\s*"([^"]+)"/)?.[1];
-        const artist = req.match(/"artist"\s*:\s*"([^"]+)"/)?.[1];
-        const url = req.match(/"filename"\s*:\s*"([^"]+)"/)?.[1]?.replace(/\\\//g, '/');
+        const titleMatch = req.match(/"name"\s*:\s*"([^"]+)"/);
+        const artistMatch = req.match(/"artist"\s*:\s*"([^"]+)"/);
+        const urlMatch = req.match(/"filename"\s*:\s*"([^"]+)"/);
+
+        if (!titleMatch || !artistMatch || !urlMatch) {
+            return { error: 'ErrorEmptyDownload' };
+        }
+
+        const title = titleMatch[1];
+        const artist = artistMatch[1];
+        const url = urlMatch[1].replace(/\\\//g, '/');
         let fileMetadata = {
             title: cleanString(decodeURIComponent(title.trim())),
             artist: cleanString(decodeURIComponent(artist.trim())),
@@ -51,7 +62,8 @@ export default async function(obj) {
                     service: "newgrounds",
                     id: obj.id,
                     title: fileMetadata.title,
-                    author: fileMetadata.artist
+                    author: fileMetadata.artist,
+                fileMetadata   
                 },
             }
         }
