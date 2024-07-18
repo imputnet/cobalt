@@ -2,7 +2,6 @@ import { genericUserAgent } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 
 export default async function(obj) {
-    console.log(obj.type)
     // handle video downloads
     if (obj.type == 'portal') {
         let req = await fetch(`https://www.newgrounds.com/${obj.type}/video/${obj.id}`, {
