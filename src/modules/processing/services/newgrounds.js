@@ -13,7 +13,7 @@ export default async function(obj) {
         .then(request => request.text())
         .catch(() => {});
 
-        if (!req) return { error: 'ErrorEmptyDownload' };
+        if (!req) return { error: 'ErrorCouldntFetch' };
 
         let json;
         try {
@@ -22,7 +22,7 @@ export default async function(obj) {
         const highestQuality = Object.keys(json.sources)[0];
         const video = json.sources[highestQuality][0].src;
         if (!json.sources[highestQuality][0].type.includes('mp4')) {
-            return { error: 'ErrorEmptyDownload' };
+            return { error: 'ErrorCouldntFetch' };
         }
 
         let fileMetadata = {
@@ -53,14 +53,14 @@ export default async function(obj) {
         .then(request => request.text())
         .catch(() => {});
 
-        if (!req) return { error: 'ErrorEmptyDownload' };
+        if (!req) return { error: 'ErrorCouldntFetch' };
 
         const titleMatch = req.match(/"name"\s*:\s*"([^"]+)"/);
         const artistMatch = req.match(/"artist"\s*:\s*"([^"]+)"/);
         const urlMatch = req.match(/"filename"\s*:\s*"([^"]+)"/);
 
         if (!titleMatch || !artistMatch || !urlMatch) {
-            return { error: 'ErrorEmptyDownload' };
+            return { error: 'ErrorCouldntFetch' };
         }
 
         const title = titleMatch[1];
