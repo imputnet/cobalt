@@ -62,8 +62,9 @@ export default async function(obj) {
                     id: obj.id,
                     title: fileMetadata.title,
                     author: fileMetadata.artist,
-                fileMetadata   
                 },
+                fileMetadata,
+                isAudioOnly: true
             }
         }
     }
