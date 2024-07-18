@@ -99,8 +99,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
         case "video":
             switch (host) {
-                case "bilibili":
-                case "newgrounds":    
+                case "bilibili": 
                     params = { type: "render" };
                     break;
                 case "youtube":
@@ -137,6 +136,7 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "pinterest":
                 case "streamable":
                 case "loom":
+                    responseType = "redirect";
                     break;
             }
             break;

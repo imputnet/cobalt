@@ -206,8 +206,6 @@ export default async function(host, patternMatch, lang, obj) {
                 });
         }
 
-        console.log(r)
-
         if (r.isAudioOnly) isAudioOnly = true;
         let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
 
