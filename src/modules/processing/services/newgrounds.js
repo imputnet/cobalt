@@ -20,10 +20,26 @@ export default async function(obj) {
             json = JSON.parse(req);
         } catch { return { error: 'ErrorEmptyDownload' }; }
         const highestQuality = Object.keys(json.sources)[0];
-        const video = json.sources[highestQuality][0].src
+        const video = json.sources[highestQuality][0].src;
+        if (!json.sources[highestQuality][0].type.includes('mp4')) {
+            return { error: 'ErrorEmptyDownload' };
+        }
+
+        let fileMetadata = {
+            title: cleanString(decodeURIComponent(json.title)),
+            artist: cleanString(decodeURIComponent(json.author)),
+        }
 
         return {
-            urls: video
+            urls: video,
+            filenameAttributes: {
+                service: "newgrounds",
+                id: obj.id,
+                title: fileMetadata.title,
+                author: fileMetadata.artist,
+                extension: 'mp4'
+            },
+            fileMetadata,
         }
     }
 
