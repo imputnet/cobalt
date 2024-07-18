@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { tick } from "svelte";
+
     import { killDialog } from "$lib/dialogs";
     import type { DialogButton } from "$lib/types/dialog";
 
@@ -14,10 +16,12 @@
     let dialogParent: HTMLDialogElement;
 
     let closing = false;
+    let open = false;
 
     const close = () => {
         if (dialogParent) {
             closing = true;
+            open = false;
             setTimeout(() => {
                 dialogParent.close();
                 killDialog();
@@ -27,10 +31,13 @@
 
     $: if (dialogParent) {
         dialogParent.showModal();
+        tick().then(() => {
+            open = true;
+        })
     }
 </script>
 
-<dialog id="dialog-{id}" bind:this={dialogParent} class:closing>
+<dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open>
     <div class="dialog-body small-dialog" class:meowbalt-visible={meowbalt}>
         {#if meowbalt === "error"}
             <div class="meowbalt-container">
@@ -76,7 +83,7 @@
 <style>
     dialog {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background: none;
@@ -119,9 +126,17 @@
         padding: 18px;
         margin: var(--padding);
         border-radius: 29px;
-        animation: modal-in 0.3s;
         position: relative;
         will-change: transform;
+    }
+
+    .open .small-dialog {
+        animation: modal-in 0.35s;
+    }
+
+    .closing .small-dialog {
+        animation: modal-out 0.15s;
+        opacity: 0;
     }
 
     .small-dialog.meowbalt-visible {
@@ -131,11 +146,6 @@
     .meowbalt-container {
         position: absolute;
         top: -110px;
-    }
-
-    .closing .small-dialog {
-        animation: modal-out 0.15s;
-        opacity: 0;
     }
 
     .body-text {
@@ -166,17 +176,21 @@
     #dialog-backdrop {
         --backdrop-opacity: 0.4;
         background-color: var(--popup-backdrop);
-        position: absolute;
+        position: inherit;
         height: 100%;
         width: 100%;
         z-index: -1;
-        opacity: var(--backdrop-opacity);
+        opacity: 0;
         animation: backdrop-in 0.15s;
-        backdrop-filter: blur(7px);
     }
 
     :global([data-reduce-transparency="true"]) #dialog-backdrop {
         --backdrop-opacity: 0.5;
+    }
+
+    .open #dialog-backdrop {
+        opacity: var(--backdrop-opacity);
+        animation: backdrop-in 0.15s;
     }
 
     .closing #dialog-backdrop {
@@ -189,13 +203,14 @@
             transform: scale(0.8);
             opacity: 0;
         }
+        30% {
+            opacity: 1;
+        }
         50% {
             transform: scale(1.005);
-            opacity: 1;
         }
         100% {
             transform: scale(1);
-            opacity: 1;
         }
     }
 
@@ -230,12 +245,32 @@
 
     @media screen and (max-width: 535px) {
         dialog {
-            align-items: end;
+            justify-content: end;
         }
 
         .small-dialog {
             margin-bottom: calc(var(--padding) + env(safe-area-inset-bottom));
             box-shadow: 0 0 0 2px var(--popup-stroke) inset;
+        }
+
+        .open .small-dialog {
+            animation: modal-in-mobile 0.4s;
+        }
+
+        @keyframes modal-in-mobile {
+            from {
+                transform: translateY(200px);
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
         }
     }
 </style>
