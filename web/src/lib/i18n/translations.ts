@@ -1,6 +1,6 @@
 import i18n from 'sveltekit-i18n';
 
-import type { Config } from 'sveltekit-i18n'
+import type { Config } from 'sveltekit-i18n';
 import type {
     GenericImport,
     StructuredLocfileInfo,
@@ -45,6 +45,6 @@ const config: Config = {
 
 export { defaultLocale };
 export const {
-    t, loading, locales, locale, translations,
+    t, loading, locales, locale: INTERNAL_locale, translations,
     loadTranslations, addTranslations, setLocale, setRoute
 } = new i18n(config);

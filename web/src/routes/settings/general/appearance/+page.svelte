@@ -9,7 +9,6 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     import LanguageDropdown from "$components/settings/LanguageDropdown.svelte";
-    import LanguageAutoToggle from "$components/settings/LanguageAutoToggle.svelte";
 </script>
 
 <SettingsCategory sectionId="theme" title={$t("settings.theme")}>
@@ -27,7 +26,9 @@
 </SettingsCategory>
 
 <SettingsCategory sectionId="language" title={$t("settings.language")}>
-    <LanguageAutoToggle
+    <SettingsToggle
+        settingContext="appearance"
+        settingId="autoLanguage"
         title={$t("settings.language.auto.title")}
         description={$t("settings.language.auto.description")}
     />
