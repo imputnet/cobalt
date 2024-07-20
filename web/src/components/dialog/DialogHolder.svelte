@@ -12,6 +12,7 @@
                 id={dialog.id}
                 title={dialog.title}
                 meowbalt={dialog.meowbalt}
+                icon={dialog.icon}
                 bodyText={dialog.bodyText}
                 bodySubText={dialog.bodySubText}
                 buttons={dialog.buttons}

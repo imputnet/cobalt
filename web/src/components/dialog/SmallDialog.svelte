@@ -2,13 +2,16 @@
     import { tick } from "svelte";
 
     import { killDialog } from "$lib/dialogs";
-    import type { DialogButton } from "$lib/types/dialog";
+    import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import type { MeowbaltEmotions } from "$lib/types/meowbalt";
 
+    import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
+
     export let id: string;
-    export let meowbalt: MeowbaltEmotions;
+    export let meowbalt: MeowbaltEmotions | undefined;
+    export let icon: SmallDialogIcons | undefined;
     export let title: string = "";
     export let bodyText: string = "";
     export let bodySubText: string = "";
@@ -45,12 +48,19 @@
                 <Meowbalt emotion={meowbalt} />
             </div>
         {/if}
-        {#if title}
-            <div class="popup-header">
-                <h2>{title}</h2>
-            </div>
-        {/if}
         <div class="popup-body">
+            {#if title || icon}
+                <div class="popup-header">
+                    {#if icon === "warn-red"}
+                        <div class="popup-icon {icon}">
+                            <IconAlertTriangle />
+                        </div>
+                    {/if}
+                    {#if title}
+                        <h2>{title}</h2>
+                    {/if}
+                </div>
+            {/if}
             {#if bodyText}
                 <div class="body-text" tabindex="-1">{bodyText}</div>
             {/if}
@@ -61,7 +71,7 @@
         <div class="popup-buttons">
             {#each buttons as button}
                 <button
-                    class="button elevated popup-button"
+                    class="button popup-button {button.color}"
                     class:active={button.main}
                     on:click={async () => {
                         await button.action();
@@ -116,8 +126,15 @@
         gap: var(--padding);
     }
 
+    .popup-body {
+        gap: 8px;
+    }
+
     .small-dialog {
         --small-dialog-padding: 18px;
+
+        align-items: center;
+        text-align: center;
         max-width: 340px;
         width: calc(
             100% - var(--padding) * 2 - var(--small-dialog-padding) * 2
@@ -144,8 +161,6 @@
 
     .small-dialog.meowbalt-visible {
         padding-top: calc(var(--padding) * 4);
-        align-items: center;
-        text-align: center;
     }
 
     .meowbalt-container {
@@ -153,8 +168,16 @@
         top: -120px;
     }
 
-    .popup-header {
+    .popup-header h2 {
         color: var(--secondary);
+        font-size: 19px;
+    }
+
+    .popup-header .popup-icon.warn-red :global(svg) {
+        stroke-width: 1.5px;
+        height: 50px;
+        width: 50px;
+        stroke: var(--red);
     }
 
     .body-text {
@@ -175,6 +198,8 @@
         flex-direction: row;
         width: 100%;
         gap: calc(var(--padding) / 2);
+        overflow: scroll;
+        border-radius: var(--border-radius);
     }
 
     .popup-button {
@@ -182,8 +207,16 @@
         height: 40px;
     }
 
+    .popup-button.red {
+        background-color: var(--red);
+    }
+
     .popup-button:not(.active) {
         background-color: var(--button-elevated);
+    }
+
+    .popup-button:not(.active):active {
+        background-color: var(--button-elevated-hover);
     }
 
     .popup-button:not(:focus-visible) {

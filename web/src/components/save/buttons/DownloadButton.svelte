@@ -16,16 +16,16 @@
     $: buttonAltText = $t('a11y.save.download');
     $: isDisabled = false;
 
-    let defaultErrorPopup = {
+    let defaultErrorPopup: DialogInfo = {
         id: "save-error",
         type: "small",
         meowbalt: "error",
         buttons: [{
-            text: $t("general.gotit"),
+            text: $t("dialog.button.gotit"),
             main: true,
             action: () => {},
         }]
-    } as DialogInfo
+    }
 
     const changeDownloadButton = (state: string) => {
         isDisabled = true;
