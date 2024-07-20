@@ -71,6 +71,9 @@
         --button-text: #282828;
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
+        --button-elevated: #e3e3e3;
+        --button-elevated-hover: #dadada;
+
         --popup-bg: #f1f1f1;
         --popup-backdrop: var(--primary);
         --popup-stroke: rgba(0, 0, 0, 0.08);
@@ -125,6 +128,9 @@
         --button-stroke: rgba(255, 255, 255, 0.05);
         --button-text: #e1e1e1;
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+
+        --button-elevated: #282828;
+        --button-elevated-hover: #2f2f2f;
 
         --popup-bg: #191919;
         --popup-backdrop: var(--primary);

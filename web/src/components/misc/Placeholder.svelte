@@ -1,10 +1,11 @@
 <script>
-    import MeowbaltLoaf from "$components/meowbalt/MeowbaltLoaf.svelte";
+    import Meowbalt from "$components/misc/Meowbalt.svelte";
+
     export let pageName;
 </script>
 
 <div id="placeholder-container" class="center-column-container">
-    <MeowbaltLoaf />
+    <Meowbalt emotion="smile" />
     <div>{pageName} page is not ready yet!</div>
 </div>
 
