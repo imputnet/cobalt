@@ -4,10 +4,11 @@
     import { killDialog } from "$lib/dialogs";
     import type { DialogButton } from "$lib/types/dialog";
 
-    import MeowbaltError from "$components/meowbalt/MeowbaltError.svelte";
+    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
 
     export let id: string;
-    export let meowbalt: string = "";
+    export let meowbalt: MeowbaltEmotions;
     export let title: string = "";
     export let bodyText: string = "";
     export let bodySubText: string = "";
@@ -39,16 +40,16 @@
 
 <dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open>
     <div class="dialog-body small-dialog" class:meowbalt-visible={meowbalt}>
-        {#if meowbalt === "error"}
+        {#if meowbalt}
             <div class="meowbalt-container">
-                <MeowbaltError />
+                <Meowbalt emotion={meowbalt} />
             </div>
         {/if}
-        <div class="popup-header">
-            {#if title}
+        {#if title}
+            <div class="popup-header">
                 <h2>{title}</h2>
-            {/if}
-        </div>
+            </div>
+        {/if}
         <div class="popup-body">
             {#if bodyText}
                 <div class="body-text" tabindex="-1">{bodyText}</div>
@@ -60,7 +61,7 @@
         <div class="popup-buttons">
             {#each buttons as button}
                 <button
-                    class="button popup-button"
+                    class="button elevated popup-button"
                     class:active={button.main}
                     on:click={async () => {
                         await button.action();
@@ -108,13 +109,15 @@
         display: none;
     }
 
-    .small-dialog {
-        --small-dialog-padding: 18px;
+    .small-dialog,
+    .popup-body {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        text-align: center;
         gap: var(--padding);
+    }
+
+    .small-dialog {
+        --small-dialog-padding: 18px;
         max-width: 340px;
         width: calc(
             100% - var(--padding) * 2 - var(--small-dialog-padding) * 2
@@ -140,12 +143,18 @@
     }
 
     .small-dialog.meowbalt-visible {
-        padding-top: 45px;
+        padding-top: calc(var(--padding) * 4);
+        align-items: center;
+        text-align: center;
     }
 
     .meowbalt-container {
         position: absolute;
-        top: -110px;
+        top: -120px;
+    }
+
+    .popup-header {
+        color: var(--secondary);
     }
 
     .body-text {
@@ -171,6 +180,20 @@
     .popup-button {
         width: 100%;
         height: 40px;
+    }
+
+    .popup-button:not(.active) {
+        background-color: var(--button-elevated);
+    }
+
+    .popup-button:not(:focus-visible) {
+        box-shadow: none;
+    }
+
+    @media (hover: hover) {
+        .popup-button:not(.active):hover {
+            background-color: var(--button-elevated-hover);
+        }
     }
 
     #dialog-backdrop {

@@ -2,7 +2,7 @@
     import { t } from "$lib/i18n/translations";
 
     import Omnibox from "$components/save/Omnibox.svelte";
-    import MeowbaltLoaf from "$components/meowbalt/MeowbaltLoaf.svelte";
+    import Meowbalt from "$components/misc/Meowbalt.svelte";
 </script>
 
 <svelte:head>
@@ -11,7 +11,7 @@
 
 <div id="cobalt-save-container" class="center-column-container">
     <main id="cobalt-save">
-        <MeowbaltLoaf />
+        <Meowbalt emotion="smile" />
         <Omnibox />
     </main>
     <div id="terms-note">

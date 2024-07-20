@@ -20,15 +20,12 @@
         id: "save-error",
         type: "small",
         meowbalt: "error",
-        title: "",
-        bodySubText: "",
         buttons: [{
             text: $t("general.gotit"),
-            color: "gray",
             main: true,
             action: () => {},
         }]
-    }
+    } as DialogInfo
 
     const changeDownloadButton = (state: string) => {
         isDisabled = true;
