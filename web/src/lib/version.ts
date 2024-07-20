@@ -1,3 +1,5 @@
+import { readable } from "svelte/store";
+
 type VersionResponse = {
     commit: string;
     branch: string;
@@ -5,19 +7,19 @@ type VersionResponse = {
     version: string;
 }
 
-const fetchVersion = async function () {
-    const response: VersionResponse | undefined = await fetch('/version.json')
-        .then(r => r.json())
-        .catch(() => {});
+const unknownVersion = {
+    commit: "unknown",
+    branch: "unknown",
+    remote: "unknown",
+    version: "unknown"
+};
 
-    if (!response) return {
-        commit: "unknown",
-        branch: "unknown",
-        remote: "unknown",
-        version: "unknown"
+export const version = readable<VersionResponse>(
+    unknownVersion,
+    (set) => {
+        fetch('/version.json')
+            .then(r => r.json())
+            .then(set)
+            .catch(() => {})
     }
-
-    return response;
-}
-
-export const version = await fetchVersion();
+)
