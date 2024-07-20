@@ -25,7 +25,7 @@
             setTimeout(() => {
                 dialogParent.close();
                 killDialog();
-            }, 150)
+            }, 150);
         }
     };
 
@@ -33,7 +33,7 @@
         dialogParent.showModal();
         tick().then(() => {
             open = true;
-        })
+        });
     }
 </script>
 
@@ -73,11 +73,7 @@
         </div>
     </div>
 
-    <div
-        id="dialog-backdrop"
-        aria-hidden="true"
-        on:click={() => close()}
-    ></div>
+    <div id="dialog-backdrop" aria-hidden="true" on:click={() => close()}></div>
 </dialog>
 
 <style>
@@ -113,17 +109,21 @@
     }
 
     .small-dialog {
+        --small-dialog-padding: 18px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         gap: var(--padding);
         max-width: 340px;
-        width: 340px;
+        width: calc(
+            100% - var(--padding) * 2 - var(--small-dialog-padding) * 2
+        );
         background: var(--popup-bg);
-        box-shadow: 0 0 0 2px var(--popup-stroke) inset,
-                    0 0 60px 10px var(--popup-bg);
-        padding: 18px;
+        box-shadow:
+            0 0 0 2px var(--popup-stroke) inset,
+            0 0 60px 10px var(--popup-bg);
+        padding: var(--small-dialog-padding);
         margin: var(--padding);
         border-radius: 29px;
         position: relative;
@@ -165,7 +165,7 @@
         display: flex;
         flex-direction: row;
         width: 100%;
-        gap: calc(var(--padding) / 2)
+        gap: calc(var(--padding) / 2);
     }
 
     .popup-button {
