@@ -32,7 +32,7 @@
 
         <h3>version:</h3>
         <div class="message-container subtext">
-            {JSON.stringify(version, null, 2)}
+            {JSON.stringify($version, null, 2)}
         </div>
     </div>
 {/if}
