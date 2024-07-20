@@ -209,6 +209,7 @@
 
     .popup-button.red {
         background-color: var(--red);
+        color: var(--white);
     }
 
     .popup-button:not(.active) {
