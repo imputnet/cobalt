@@ -88,6 +88,13 @@ export function updateSetting(partial: PartialSettings) {
     });
 }
 
+export function resetSettings() {
+    update(() => {
+        localStorage.removeItem('settings');
+        return {};
+    });
+}
+
 export default derived(
     storedSettings,
     $settings => mergeWithDefaults($settings)
