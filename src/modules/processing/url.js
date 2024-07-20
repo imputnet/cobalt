@@ -70,6 +70,12 @@ function aliasURL(url) {
                 url.hostname = 'instagram.com';
             }
             break;
+        case "linkedin":
+            if (parts[1] === "posts") {
+                const postId = parts.pop().split("-").at(-2)
+                url = new URL(`https://linkedin.com/feed/update/urn:li:activity:${postId}`)
+            }
+            break;
     }
 
     return url
