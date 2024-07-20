@@ -93,5 +93,7 @@
     "advanced.debug": "debug",
     "advanced.debug.title": "enable debug features",
     "advanced.debug.description": "gives you access to a page with app & device info useful for debugging.",
+
+    "advanced.data": "settings data",
     "advanced.reset": "erase all settings"
 }

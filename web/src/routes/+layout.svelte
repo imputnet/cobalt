@@ -60,8 +60,9 @@
 
         --white: #ffffff;
         --gray: #75757e;
-        --red: #f92f2f;
-        --dark-red: #df0707;
+
+        --red: #ed2236;
+        --dark-red: #d61c2e;
         --green: #51cf5e;
         --blue: #2f8af9;
 
@@ -127,6 +128,7 @@
         --secondary: #e1e1e1;
 
         --gray: #818181;
+
         --blue: #2a7ce1;
         --green: #37aa42;
 
@@ -286,6 +288,10 @@
     :global(.button.active) {
         color: var(--primary);
         background-color: var(--secondary);
+    }
+
+    :global(.button.active:active) {
+        background-color: var(--button-active-hover);
     }
 
     /* important is used because active class is toggled by state */

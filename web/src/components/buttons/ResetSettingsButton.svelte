@@ -1,22 +1,55 @@
 <script lang="ts">
-    import { t } from '$lib/i18n/translations';
-    import IconTrash from '@tabler/icons-svelte/IconTrash.svelte';
-    import { resetSettings } from '$lib/state/settings';
+    import { t } from "$lib/i18n/translations";
+    import { resetSettings } from "$lib/state/settings";
+
+    import IconTrash from "@tabler/icons-svelte/IconTrash.svelte";
+
+    import { createDialog } from "$lib/dialogs";
+
+    const resetDialog = () => {
+        createDialog({
+            id: "wipe-confirm",
+            type: "small",
+            icon: "warn-red",
+            title: $t("dialog.erase.title"),
+            bodyText: $t("dialog.erase.body"),
+            buttons: [
+                {
+                    text: $t("dialog.button.cancel"),
+                    main: false,
+                    action: () => {},
+                },
+                {
+                    text: $t("dialog.button.erase"),
+                    color: "red",
+                    main: true,
+                    action: () => resetSettings(),
+                },
+            ],
+        });
+    };
 </script>
 
-<button id="setting-button-reset" class="button" on:click={resetSettings}>
-    <IconTrash /> { $t('settings.advanced.reset') }
+<button id="setting-button-reset" class="button" on:click={resetDialog}>
+    <IconTrash />
+    {$t("settings.advanced.reset")}
 </button>
 
 <style>
-    button {
+    #setting-button-reset {
         background-color: var(--red);
         color: var(--white);
         width: max-content;
         text-align: left;
     }
 
-    button:hover {
+    #setting-button-reset:hover {
         background-color: var(--dark-red);
+    }
+
+    #setting-button-reset :global(svg) {
+        stroke-width: 2px;
+        height: 24px;
+        width: 24px;
     }
 </style>

@@ -15,6 +15,6 @@
     />
 </SettingsCategory>
 
-<SettingsCategory sectionId="settings" title={$t("tabs.settings")}>
+<SettingsCategory sectionId="data" title={$t("settings.advanced.data")}>
     <ResetSettingsButton />
 </SettingsCategory>
