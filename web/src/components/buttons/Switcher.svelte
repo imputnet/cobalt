@@ -49,6 +49,10 @@
         padding: var(--switcher-padding);
     }
 
+    .switcher :global(.button.active) {
+        pointer-events: none;
+    }
+
     .switcher.big :global(.button) {
         width: 100%;
         /* [base button height] - ([switcher padding] * [padding factor to accommodate for]) */

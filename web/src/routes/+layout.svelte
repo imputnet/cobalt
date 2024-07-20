@@ -65,6 +65,7 @@
 
         --button: #f4f4f4;
         --button-hover: #e8e8e8;
+        --button-active-hover: #2a2a2a;
         --button-hover-transparent: rgba(0, 0, 0, 0.06);
         --button-stroke: rgba(0, 0, 0, 0.06);
         --button-text: #282828;
@@ -119,6 +120,7 @@
 
         --button: #191919;
         --button-hover: #2a2a2a;
+        --button-active-hover: #f9f9f9;
         --button-hover-transparent: rgba(225, 225, 225, 0.1);
         --button-stroke: rgba(255, 255, 255, 0.05);
         --button-text: #e1e1e1;
@@ -267,20 +269,24 @@
     }
 
     :global(.button.active) {
-        background: var(--secondary);
         color: var(--primary);
+        background-color: var(--secondary);
     }
 
     /* important is used because active class is toggled by state */
     /* and added to the end of the list, taking priority */
     :global(.active:focus-visible) {
-        background: var(--blue) !important;
         color: var(--sidebar-highlight) !important;
+        background-color: var(--blue) !important;
     }
 
     @media (hover: hover) {
         :global(button:hover) {
             background-color: var(--button-hover);
+        }
+
+        :global(.button.active:hover) {
+            background-color: var(--button-active-hover);
         }
     }
 
