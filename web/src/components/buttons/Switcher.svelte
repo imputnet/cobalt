@@ -53,6 +53,10 @@
         pointer-events: none;
     }
 
+    .switcher :global(.button.active:hover) {
+        background: var(--secondary);
+    }
+
     .switcher.big :global(.button) {
         width: 100%;
         /* [base button height] - ([switcher padding] * [padding factor to accommodate for]) */
