@@ -60,8 +60,10 @@
 
         --white: #ffffff;
         --gray: #75757e;
-        --blue: #2f8af9;
+        --red: #f92f2f;
+        --dark-red: #df0707;
         --green: #51cf5e;
+        --blue: #2f8af9;
 
         --button: #f4f4f4;
         --button-hover: #e8e8e8;
@@ -110,6 +112,13 @@
             rgba(0, 0, 0, 0) 50%,
             rgba(0, 0, 0, 0) 96%,
             rgba(0, 0, 0, 0.9) 100%
+        );
+
+        --skeleton-gradient: linear-gradient(
+            90deg,
+            var(--button),
+            var(--button-hover),
+            var(--button)
         );
     }
 
