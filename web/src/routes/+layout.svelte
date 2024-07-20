@@ -5,7 +5,7 @@
     import env from "$lib/env";
     import settings from "$lib/state/settings";
     import { device, app } from "$lib/device";
-    import { locale } from "$lib/i18n/translations";
+    import locale from "$lib/i18n/locale";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
