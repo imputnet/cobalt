@@ -20,7 +20,7 @@
 </script>
 
 <main>
-    <div id="changelog-header">
+    <div id="changelog-header" class:no-padding={!banner}>
         <div class="changelog-info">
             <div class="changelog-version">{version}</div>
             {#if date}
@@ -54,6 +54,10 @@
         align-items: start;
         gap: calc(var(--padding) / 2);
         padding-bottom: 1em; /* match default <p> padding */
+    }
+
+    #changelog-header.no-padding {
+        padding-bottom: 0;
     }
 
     .changelog-info {
