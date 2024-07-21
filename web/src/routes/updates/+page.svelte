@@ -68,11 +68,13 @@
 
 <div class="news">
     {#if changelog}
-        <div class="button-wrapper-desktop">
-            <button on:click={loadPrev} disabled={!prev}>
-                <IconChevronLeft />
-                {prev || ""}
-            </button>
+        <div id="left-button" class="button-wrapper-desktop">
+            {#if prev}
+                <button on:click={loadPrev}>
+                    <IconChevronLeft />
+                    {prev || ""}
+                </button>
+            {/if}
         </div>
         <div class="changelog-wrapper">
             {#await changelog.page}
@@ -102,16 +104,17 @@
                 </button>
             </div>
         </div>
-        <div class="button-wrapper-desktop">
-            <button
-                on:click={loadNext}
-                on:focus={preloadNext}
-                on:mousemove={preloadNext}
-                disabled={!next}
-            >
-                {next || ""}
-                <IconChevronRight />
-            </button>
+        <div id="right-button" class="button-wrapper-desktop">
+            {#if next}
+                <button
+                    on:click={loadNext}
+                    on:focus={preloadNext}
+                    on:mousemove={preloadNext}
+                >
+                    {next || ""}
+                    <IconChevronRight />
+                </button>
+            {/if}
         </div>
     {/if}
 </div>
@@ -127,14 +130,19 @@
     .button-wrapper-desktop {
         display: flex;
         justify-content: center;
+        align-items: center;
+        height: 100%;
     }
 
     .button-wrapper-desktop button {
         position: absolute;
-        top: 50%;
         background-color: transparent;
         display: flex;
         border: none;
+    }
+
+    .button-wrapper-desktop button:not(:focus-visible) {
+        box-shadow: none;
     }
 
     .changelog-wrapper {
@@ -146,8 +154,9 @@
     }
 
     button[disabled] {
-        opacity: 0.5;
+        opacity: 0;
         cursor: default;
+        pointer-events: none;
     }
 
     .button-wrapper-mobile {
