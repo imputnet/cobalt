@@ -7,6 +7,7 @@
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
+    import FilenamePreview from "$components/settings/FilenamePreview.svelte";
 </script>
 
 <SettingsCategory sectionId="filename" title={$t("settings.metadata.filename")}>
@@ -24,6 +25,7 @@
             </SettingsButton>
         {/each}
     </Switcher>
+    <FilenamePreview />
 </SettingsCategory>
 
 <SettingsCategory

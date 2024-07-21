@@ -65,6 +65,9 @@
     "metadata.filename.nerdy": "nerdy",
     "metadata.filename.description": "filename style using which cobalt files will be downloaded. this description is temporary as there's no dynamic preview component yet.",
 
+    "metadata.filename.preview.video": "Video Title",
+    "metadata.filename.preview.audio": "Audio Title - Audio Author",
+
     "metadata.file": "file metadata",
     "metadata.disable.title": "disable file metadata",
     "metadata.disable.description": "title, artist, and other info will not be added to the file.",
