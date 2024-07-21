@@ -27,9 +27,7 @@
     <div id="changelog-header" class:no-padding={!banner}>
         <div class="changelog-info">
             <div class="changelog-version">{version}</div>
-            {#if date}
-                <div class="changelog-date">{formatDate(date)}</div>
-            {/if}
+            <div class="changelog-date">{formatDate(date)}</div>
         </div>
         <h1 class="changelog-title">{title}</h1>
     </div>
