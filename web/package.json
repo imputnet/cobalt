@@ -35,6 +35,7 @@
         "mdsvex": "^0.11.2",
         "svelte": "^4.2.7",
         "svelte-check": "^3.6.0",
+        "svelte-preprocess": "^6.0.2",
         "tslib": "^2.4.1",
         "typescript": "^5.4.5",
         "typescript-eslint": "^7.13.1",
