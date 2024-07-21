@@ -107,6 +107,7 @@
 
         --switcher-padding: var(--sidebar-inner-padding);
 
+        /* used for fading the tab bar on scroll */
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
             rgba(0, 0, 0, 0.9) 0%,
@@ -164,6 +165,13 @@
             rgba(16, 16, 16, 0) 50%,
             rgba(16, 16, 16, 0) 96%,
             rgba(16, 16, 16, 0.9) 100%
+        );
+
+        --skeleton-gradient: linear-gradient(
+            90deg,
+            var(--button),
+            var(--button-hover),
+            var(--button)
         );
     }
 
