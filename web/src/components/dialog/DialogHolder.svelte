@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SmallDialog from "./SmallDialog.svelte";
+    import SmallDialog from "$components/dialog/SmallDialog.svelte";
     import dialogs from "$lib/dialogs";
 
     $: backdropVisible = $dialogs.length > 0;
@@ -60,5 +60,4 @@
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-
 </style>
