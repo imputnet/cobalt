@@ -2,7 +2,7 @@ import type { SvelteComponent } from "svelte"
 
 export interface ChangelogMetadata {
     title: string,
-    date?: string
+    date: string
     banner?: {
         file: string,
         alt: string

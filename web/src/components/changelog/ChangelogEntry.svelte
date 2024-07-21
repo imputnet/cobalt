@@ -3,7 +3,7 @@
 
     export let version: string;
     export let title: string;
-    export let date: string | undefined;
+    export let date: string;
     export let banner: { file: string; alt: string } | undefined;
 
     let bannerLoaded = false;
