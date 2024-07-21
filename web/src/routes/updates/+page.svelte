@@ -166,9 +166,8 @@
     @media only screen and (max-width: 1150px) {
         .button-wrapper-mobile {
             display: flex;
-            padding-bottom: 1rem;
-            margin-left: 1rem;
-            margin-right: 1rem;
+            padding: var(--border-radius);
+            padding-top: 0;
             justify-content: space-between;
         }
 
