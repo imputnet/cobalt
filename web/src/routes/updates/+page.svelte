@@ -4,6 +4,7 @@
 
     import { getAllChangelogs } from "$lib/changelogs";
     import type { ChangelogImport } from "$lib/types/changelogs";
+    import type { Optional } from "$lib/types/generic";
 
     import ChangelogSkeleton from "$components/changelog/ChangelogSkeleton.svelte";
 
@@ -13,7 +14,7 @@
     const changelogs = getAllChangelogs();
     const versions = Object.keys(changelogs);
 
-    let changelog: { version: string; page: Promise<ChangelogImport> } | undefined;
+    let changelog: Optional<{ version: string; page: Promise<ChangelogImport> }>;
     let currentIndex = 0;
 
     {

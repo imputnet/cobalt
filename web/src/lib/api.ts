@@ -1,6 +1,7 @@
-import { get } from 'svelte/store';
+import { get } from "svelte/store";
 import settings from "$lib/state/settings";
 import type { CobaltAPIResponse } from "$lib/types/api";
+import type { Optional } from "$lib/types/generic";
 
 const apiURL = "https://api.cobalt.tools";
 
@@ -26,7 +27,7 @@ const request = async (url: string) => {
         tiktokH265: saveSettings.tiktokH265,
     }
 
-    const response: CobaltAPIResponse | undefined = await fetch(`${apiURL}/api/json`, {
+    const response: Optional<CobaltAPIResponse> = await fetch(`${apiURL}/api/json`, {
         method: "POST",
         redirect: "manual",
         body: JSON.stringify(request),

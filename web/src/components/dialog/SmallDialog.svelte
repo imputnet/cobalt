@@ -3,15 +3,16 @@
 
     import { killDialog } from "$lib/dialogs";
     import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
+    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
+    import type { Optional } from "$lib/types/generic";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
-    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
 
     import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
 
     export let id: string;
-    export let meowbalt: MeowbaltEmotions | undefined;
-    export let icon: SmallDialogIcons | undefined;
+    export let meowbalt: Optional<MeowbaltEmotions>;
+    export let icon: Optional<SmallDialogIcons>;
     export let title: string = "";
     export let bodyText: string = "";
     export let bodySubText: string = "";

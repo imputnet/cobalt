@@ -9,6 +9,7 @@
 
     import { updateSetting } from "$lib/state/settings";
     import type { DownloadModeOption } from "$lib/types/settings";
+    import type { Optional } from "$lib/types/generic";
 
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
 
@@ -25,7 +26,7 @@
     import IconClipboard from "$lib/icons/Clipboard.svelte";
 
     let link: string = "";
-    let linkInput: HTMLInputElement | undefined;
+    let linkInput: Optional<HTMLInputElement>;
     let isFocused = false;
 
     let isDisabled: boolean = false;

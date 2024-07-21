@@ -1,7 +1,9 @@
 <script lang="ts">
-    export let width: string | undefined = undefined;
-    export let height: string | undefined = undefined;
-    export let hidden: boolean | undefined = undefined;
+    import type { Optional } from "$lib/types/generic";
+
+    export let width: Optional<string> = undefined;
+    export let height: Optional<string> = undefined;
+    export let hidden: Optional<boolean> = undefined;
 
     let _class = '';
     export { _class as class };

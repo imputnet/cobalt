@@ -1,10 +1,11 @@
 <script lang="ts">
     import Skeleton from "$components/misc/Skeleton.svelte";
+    import type { Optional } from "$lib/types/generic";
 
     export let version: string;
     export let title: string;
     export let date: string;
-    export let banner: { file: string; alt: string } | undefined;
+    export let banner: Optional<{ file: string; alt: string }>;
 
     let bannerLoaded = false;
 
