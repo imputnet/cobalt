@@ -10,7 +10,8 @@
     class="meowbalt {emotion}"
     src="/meowbalt/{emotion}.png"
     height="152"
-    alt={$t(`a11y.meowbalt.${emotion}`)}
+    alt={$t('general.meowbalt')}
+    aria-hidden="true"
 />
 
 <style>
