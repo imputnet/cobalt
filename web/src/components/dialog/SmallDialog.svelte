@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div id="dialog-backdrop" aria-hidden="true" on:click={() => close()}></div>
+    <div id="dialog-backdrop-close" aria-hidden="true" on:click={() => close()}></div>
 </dialog>
 
 <style>
@@ -230,29 +230,11 @@
         }
     }
 
-    #dialog-backdrop {
-        --backdrop-opacity: 0.4;
-        background-color: var(--popup-backdrop);
+    #dialog-backdrop-close {
         position: inherit;
         height: 100%;
         width: 100%;
         z-index: -1;
-        opacity: 0;
-        animation: backdrop-in 0.15s;
-    }
-
-    :global([data-reduce-transparency="true"]) #dialog-backdrop {
-        --backdrop-opacity: 0.5;
-    }
-
-    .open #dialog-backdrop {
-        opacity: var(--backdrop-opacity);
-        animation: backdrop-in 0.15s;
-    }
-
-    .closing #dialog-backdrop {
-        opacity: 0;
-        animation: backdrop-out 0.15s;
     }
 
     @keyframes modal-in {
@@ -279,24 +261,6 @@
             opacity: 0;
             transform: scale(0.9);
             visibility: hidden;
-        }
-    }
-
-    @keyframes backdrop-in {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: var(--backdrop-opacity);
-        }
-    }
-
-    @keyframes backdrop-out {
-        from {
-            opacity: var(--backdrop-opacity);
-        }
-        to {
-            opacity: 0;
         }
     }
 

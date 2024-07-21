@@ -78,8 +78,9 @@
         --button-elevated-hover: #dadada;
 
         --popup-bg: #f1f1f1;
-        --popup-backdrop: var(--primary);
         --popup-stroke: rgba(0, 0, 0, 0.08);
+
+        --dialog-backdrop: rgba(255, 255, 255, 0.3);
 
         --sidebar-bg: #000000;
         --sidebar-highlight: #ffffff;
@@ -144,8 +145,9 @@
         --button-elevated-hover: #2f2f2f;
 
         --popup-bg: #191919;
-        --popup-backdrop: var(--primary);
         --popup-stroke: rgba(255, 255, 255, 0.08);
+
+        --dialog-backdrop: rgba(0, 0, 0, 0.3);
 
         --sidebar-bg: #101010;
         --sidebar-highlight: #f2f2f2;
@@ -163,6 +165,14 @@
             rgba(16, 16, 16, 0) 96%,
             rgba(16, 16, 16, 0.9) 100%
         );
+    }
+
+    :global([data-theme="light"] [data-reduce-transparency="true"]) {
+        --dialog-backdrop: rgba(255, 255, 255, 0.6);
+    }
+
+    :global([data-theme="dark"] [data-reduce-transparency="true"]) {
+        --dialog-backdrop: rgba(0, 0, 0, 0.5);
     }
 
     :global(html),
