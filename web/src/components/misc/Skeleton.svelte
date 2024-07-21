@@ -21,7 +21,7 @@
 
 <style>
     .skeleton {
-        border-radius: var(--border-radius);
+        border-radius: calc(var(--border-radius) / 2);
         background-color: var(--button);
         background-image: var(--skeleton-gradient);
         background-size: 200px 100%;
@@ -40,6 +40,7 @@
     }
 
     .skeleton.big {
+        border-radius: var(--border-radius);
         background-size: 700px 100%;
         animation: skeleton-big 1.2s ease-in-out infinite;
     }

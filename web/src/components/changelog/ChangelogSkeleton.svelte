@@ -14,12 +14,10 @@
                 />
             </div>
         </div>
-        <h1 class="changelog-title">
-            <Skeleton
-                width="28em"
-                height="27.59px"
-            />
-        </h1>
+        <Skeleton
+            width="100%"
+            height="27.59px"
+        />
     </div>
     <div class="changelog-content">
         <Skeleton
