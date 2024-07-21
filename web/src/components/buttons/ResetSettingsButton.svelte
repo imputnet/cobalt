@@ -11,8 +11,8 @@
             id: "wipe-confirm",
             type: "small",
             icon: "warn-red",
-            title: $t("dialog.erase.title"),
-            bodyText: $t("dialog.erase.body"),
+            title: $t("dialog.reset.title"),
+            bodyText: $t("dialog.reset.body"),
             buttons: [
                 {
                     text: $t("dialog.button.cancel"),
@@ -20,7 +20,7 @@
                     action: () => {},
                 },
                 {
-                    text: $t("dialog.button.erase"),
+                    text: $t("dialog.button.reset"),
                     color: "red",
                     main: true,
                     action: () => resetSettings(),

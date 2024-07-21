@@ -1,8 +1,8 @@
 {
     "button.gotit": "got it",
     "button.cancel": "cancel",
-    "button.erase": "erase",
+    "button.reset": "reset",
 
-    "erase.title": "erase all settings?",
-    "erase.body": "are you sure you want to reset all settings? this action is immediate and irreversible."
+    "reset.title": "reset all settings?",
+    "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible."
 }
