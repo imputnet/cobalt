@@ -57,7 +57,7 @@
                         </div>
                     {/if}
                     {#if title}
-                        <h2>{title}</h2>
+                        <h2 id="popup-title" tabindex="-1">{title}</h2>
                     {/if}
                 </div>
             {/if}
@@ -189,7 +189,8 @@
         -webkit-user-select: text;
     }
 
-    .body-text:focus-visible {
+    .body-text:focus-visible,
+    h2:focus-visible {
         box-shadow: none !important;
     }
 
