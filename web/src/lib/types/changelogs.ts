@@ -16,4 +16,4 @@ export interface MarkdownMetadata {
 export type ChangelogImport = {
     default: SvelteComponent,
     metadata: ChangelogMetadata
-} | undefined;
+};

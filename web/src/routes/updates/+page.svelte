@@ -5,13 +5,15 @@
     import { getAllChangelogs } from "$lib/changelogs";
     import type { ChangelogImport } from "$lib/types/changelogs";
 
+    import ChangelogSkeleton from "$components/changelog/ChangelogSkeleton.svelte";
+
     import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
     import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
 
     const changelogs = getAllChangelogs();
     const versions = Object.keys(changelogs);
 
-    let changelog: (ChangelogImport & { version: string }) | undefined;
+    let changelog: { version: string; page: Promise<ChangelogImport> } | undefined;
     let currentIndex = 0;
 
     {
@@ -24,17 +26,13 @@
 
     const loadChangelog = async () => {
         const version = versions[currentIndex];
-        const log = (await changelogs[version]()) as ChangelogImport;
-        if (!log) {
-            return; // FIXME: now wot
+        changelog = {
+            version,
+            page: changelogs[version]() as Promise<ChangelogImport>
         }
 
-        changelog = {
-            ...log,
-            version,
-        };
-
         window.location.hash = version;
+        await changelog.page;
     };
 
     const loadNext = () => {
@@ -77,10 +75,17 @@
             </button>
         </div>
         <div class="changelog-wrapper">
-            <svelte:component
-                this={changelog.default}
-                version={changelog.version}
-            />
+            {#await changelog.page}
+                {#key changelog.version}
+                    <ChangelogSkeleton version={changelog.version} />
+                {/key}
+            {:then page}
+                <svelte:component
+                    this={page.default}
+                    {...page.metadata}
+                    version={changelog.version}
+                />
+            {/await}
             <div class="button-wrapper-mobile">
                 <button on:click={loadPrev} disabled={!prev}>
                     <IconChevronLeft />
@@ -133,6 +138,7 @@
     }
 
     .changelog-wrapper {
+        flex: 1;
         max-width: 850px;
         overflow-x: hidden;
         padding: var(--padding);

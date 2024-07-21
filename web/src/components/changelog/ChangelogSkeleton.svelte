@@ -1,55 +1,40 @@
 <script lang="ts">
     import Skeleton from "$components/misc/Skeleton.svelte";
-
     export let version: string;
-    export let title: string;
-    export let date: string | undefined;
-    export let banner: { file: string; alt: string } | undefined;
-
-    let bannerLoaded = false;
-
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-
-        const months = ['January', 'February', 'March', 'April', 'May',
-                        'June', 'July', 'August', 'September', 'October',
-                        'November', 'December'];
-
-        return [
-            months[date.getUTCMonth()],
-            (date.getUTCDate() + 1) + ',',
-            date.getUTCFullYear()
-        ].join(' ');
-    }
 </script>
 
 <main>
-    <div id="changelog-header" class:no-padding={!banner}>
+    <div id="changelog-header">
         <div class="changelog-info">
-            <div class="changelog-version">{version}</div>
-            {#if date}
-                <div class="changelog-date">{formatDate(date)}</div>
-            {/if}
+            <div class="changelog-version">{ version }</div>
+            <div class="changelog-date">
+                <Skeleton
+                    width="8em"
+                    height="16px"
+                />
+            </div>
         </div>
-        <h1 class="changelog-title">{title}</h1>
+        <h1 class="changelog-title">
+            <Skeleton
+                width="28em"
+                height="27.59px"
+            />
+        </h1>
     </div>
     <div class="changelog-content">
-        {#if banner}
-            <img
-                src={`/update-banners/${banner.file}`}
-                alt={banner.alt}
-                class:loading={!bannerLoaded}
-                on:load={() => bannerLoaded = true}
-                class="changelog-banner"
-            />
-
-            <Skeleton
-                class="big changelog-banner"
-                hidden={bannerLoaded}
-            />
-        {/if}
+        <Skeleton
+            class="big changelog-banner"
+            width="100%"
+        />
         <div class="contents">
-            <slot></slot>
+            {#each {length: 3 + Math.random() * 5} as _}
+                <p>
+                    <Skeleton
+                        width="100%"
+                        height={(Math.random() * 84 + 16) + 'px'}
+                    />
+                </p>
+            {/each}
         </div>
     </div>
 </main>
@@ -65,10 +50,6 @@
         align-items: start;
         gap: calc(var(--padding) / 2);
         padding-bottom: 1em; /* match default <p> padding */
-    }
-
-    #changelog-header.no-padding {
-        padding-bottom: 0;
     }
 
     .changelog-info {
@@ -101,19 +82,13 @@
         -webkit-user-select: text
     }
 
-    :global(.changelog-banner) {
+    :global(#banner-skeleton) {
         display: block;
-        object-fit: cover;
         max-height: 320pt;
         min-height: 210pt;
         width: 100%;
-        max-width: 100;
         aspect-ratio: 16/9;
         border-radius: var(--padding);
-    }
-
-    :global(.changelog-banner.loading) {
-        display: none;
     }
 
     .changelog-content {
@@ -123,7 +98,7 @@
     }
 
     .contents {
-        max-width: 100%;
+        width: 100%;
     }
 
     .contents,
