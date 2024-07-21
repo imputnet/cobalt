@@ -36,7 +36,7 @@ main {
     color: var(--gray);
 }
 
-.changelog-title {
+:global(.changelog-title) {
     padding: 0;
     line-height: 1.2;
     font-size: 23px;
