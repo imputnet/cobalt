@@ -15,7 +15,7 @@ const config = {
             extensions: ['.md'],
             layout: join(
                 dirname(fileURLToPath(import.meta.url)),
-                '/src/components/misc/ChangelogEntryWrapper.svelte'
+                '/src/components/changelog/ChangelogEntryWrapper.svelte'
             )
         })
     ],
