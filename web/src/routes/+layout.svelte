@@ -118,9 +118,9 @@
 
         --skeleton-gradient: linear-gradient(
             90deg,
-            var(--button),
             var(--button-hover),
-            var(--button)
+            var(--button),
+            var(--button-hover)
         );
     }
 
