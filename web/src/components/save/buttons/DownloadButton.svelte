@@ -118,6 +118,14 @@
                 })
             }
         }
+
+        changeDownloadButton("error");
+        restoreDownloadButton();
+
+        return createDialog({
+            ...defaultErrorPopup as DialogInfo,
+            bodyText: "unknown/unsupported status"
+        })
     };
 </script>
 
