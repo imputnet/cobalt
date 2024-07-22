@@ -26,21 +26,20 @@
         downloadFile(item.url);
     }}
 >
-    {#if item.type}
-        <div class="picker-type">
-            {#if item.type === "video"}
-                <IconMovie />
-            {:else if item.type === "photo"}
-                <IconPhoto />
-            {/if}
-        </div>
-    {/if}
+    <div class="picker-type">
+        {#if itemType === "video"}
+            <IconMovie />
+        {:else}
+            <IconPhoto />
+        {/if}
+    </div>
 
     <img
         class="picker-image"
         src={item.thumb ? item.thumb : item.url}
 
         class:loading={!imageLoaded}
+        class:video-thumbnail={item.thumb}
         on:load={() => (imageLoaded = true)}
 
         alt="{$t(`a11y.dialog.picker.item.${itemType}`)} {number}"
@@ -77,6 +76,10 @@
         opacity: 0.8;
     }
 
+    .picker-image.video-thumbnail {
+        pointer-events: none;
+    }
+
     @media (hover: hover) {
         .picker-item:hover .picker-image {
             opacity: 0.8;
@@ -99,13 +102,13 @@
         top: 6px;
         left: 6px;
 
-        border-radius: 4px;
+        border-radius: 6px;
 
         pointer-events: none;
     }
 
     .picker-type :global(svg) {
-        width: 21px;
-        height: 21px;
+        width: 22px;
+        height: 22px;
     }
 </style>
