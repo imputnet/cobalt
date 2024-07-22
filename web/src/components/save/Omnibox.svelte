@@ -7,7 +7,9 @@
 
     import dialogs from "$lib/dialogs";
 
+    import { storedLink } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
+
     import type { DownloadModeOption } from "$lib/types/settings";
     import type { Optional } from "$lib/types/generic";
 
@@ -28,6 +30,18 @@
     let link: string = "";
     let linkInput: Optional<HTMLInputElement>;
     let isFocused = false;
+
+    let stored;
+
+    $: storedLink.set(link);
+
+    storedLink.subscribe((value) => {
+        stored = value;
+    });
+
+    if (!link && stored) {
+        link = stored
+    }
 
     let isDisabled: boolean = false;
 
