@@ -7,7 +7,7 @@
 
     import dialogs from "$lib/dialogs";
 
-    import { storedLink } from "$lib/state/omnibox";
+    import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
 
     import type { DownloadModeOption } from "$lib/types/settings";
@@ -27,29 +27,16 @@
     import IconSparkles from "$lib/icons/Sparkles.svelte";
     import IconClipboard from "$lib/icons/Clipboard.svelte";
 
-    let link: string = "";
     let linkInput: Optional<HTMLInputElement>;
     let isFocused = false;
-
-    let stored;
-
-    $: storedLink.set(link);
-
-    storedLink.subscribe((value) => {
-        stored = value;
-    });
-
-    if (!link && stored) {
-        link = stored
-    }
 
     let isDisabled: boolean = false;
 
     let downloadButton: SvelteComponent;
 
-    const validLink = (link: string) => {
+    const validLink = (url: string) => {
         try {
-            return /^https:/i.test(new URL(link).protocol);
+            return /^https:/i.test(new URL(url).protocol);
         } catch {}
     };
 
@@ -58,9 +45,9 @@
 
     $: if (linkFromHash || linkFromQuery) {
         if (validLink(linkFromHash)) {
-            link = linkFromHash;
+            $link = linkFromHash;
         } else if (validLink(linkFromQuery)) {
-            link = linkFromQuery;
+            $link = linkFromQuery;
         }
 
         // clear hash and query to prevent bookmarking unwanted links
@@ -75,10 +62,10 @@
         navigator.clipboard.readText().then(async (text) => {
             let matchLink = text.match(/https:\/\/[^\s]+/g);
             if (matchLink) {
-                link = matchLink[0];
+                $link = matchLink[0];
 
                 await tick(); // wait for button to render
-                downloadButton.download(link);
+                downloadButton.download($link);
             }
         });
     };
@@ -96,12 +83,12 @@
             linkInput.focus();
         }
 
-        if (e.key === "Enter" && validLink(link)) {
-            downloadButton.download(link);
+        if (e.key === "Enter" && validLink($link)) {
+            downloadButton.download($link);
         }
 
         if (["Escape", "Clear"].includes(e.key)) {
-            link = "";
+            $link = "";
         }
 
         if (e.target === linkInput) {
@@ -133,13 +120,13 @@
     <div
         id="input-container"
         class:focused={isFocused}
-        class:downloadable={validLink(link)}
+        class:downloadable={validLink($link)}
     >
         <IconLink id="input-link-icon" />
 
         <input
             id="link-area"
-            bind:value={link}
+            bind:value={$link}
             bind:this={linkInput}
             on:input={() => (isFocused = true)}
             on:focus={() => (isFocused = true)}
@@ -153,11 +140,11 @@
             data-form-type="other"
         />
 
-        {#if link}
-            <ClearButton click={() => (link = "")} />
+        {#if $link}
+            <ClearButton click={() => ($link = "")} />
         {/if}
-        {#if validLink(link)}
-            <DownloadButton url={link} bind:this={downloadButton} bind:isDisabled={isDisabled} />
+        {#if validLink($link)}
+            <DownloadButton url={$link} bind:this={downloadButton} bind:isDisabled={isDisabled} />
         {/if}
     </div>
 
