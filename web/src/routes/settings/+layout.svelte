@@ -134,9 +134,11 @@
         </nav>
     </div>
 
-    <main id="settings-page-content" class:hidden-mobile={isMobile && isHome}>
-        <slot></slot>
-    </main>
+    {#if !isMobile || !isHome}
+        <main id="settings-page-content">
+            <slot></slot>
+        </main>
+    {/if}
 </div>
 
 <style>
@@ -210,10 +212,6 @@
         stroke-width: 2px;
         height: 22px;
         width: 22px;
-    }
-
-    .hidden-mobile {
-        display: none !important;
     }
 
     @media screen and (max-width: 750px) {

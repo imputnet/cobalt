@@ -39,9 +39,11 @@
     }
 </script>
 
-<div id="cobalt-notch-sticker" aria-hidden="true" class={state}>
-    <CobaltSticker />
-</div>
+{#if state !== "hidden"}
+    <div id="cobalt-notch-sticker" aria-hidden="true" class={state}>
+        <CobaltSticker />
+    </div>
+{/if}
 
 <style>
     #cobalt-notch-sticker {
@@ -52,10 +54,6 @@
         top: 0;
         width: 100%;
         z-index: 999;
-    }
-
-    #cobalt-notch-sticker.hidden {
-        display: none;
     }
 
     #cobalt-notch-sticker.island {
