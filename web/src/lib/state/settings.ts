@@ -1,14 +1,14 @@
 import { derived, readable, type Updater } from 'svelte/store';
 import { merge } from 'ts-deepmerge';
 
-import type { RecursivePartial } from '../types/generic';
-import type { CobaltSettings } from '../types/settings';
+import type {
+    CobaltSettings,
+    PartialSettings,
+    AllPartialSettingsWithSchema
+} from '../types/settings';
 
 import { migrateOldSettings } from '../settings/migrate';
 import defaultSettings from '../settings/defaults';
-
-type PartialSettings = RecursivePartial<CobaltSettings>;
-type PartialSettingsWithSchema = RecursivePartial<CobaltSettings> & { schemaVersion: number };
 
 const updatePlausiblePreference = (settings: PartialSettings) => {
     if (settings.privacy?.disableAnalytics) {
@@ -27,18 +27,18 @@ const writeToStorage = (settings: PartialSettings) => {
     return settings;
 }
 
-type Migrator = (s: PartialSettings) => PartialSettings;
+type Migrator = (s: AllPartialSettingsWithSchema) => AllPartialSettingsWithSchema;
 const migrations: Record<number, Migrator> = {
 
 }
 
-const migrate = (settings: PartialSettingsWithSchema) => {
+const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
     return Object.keys(migrations)
         .map(Number)
         .filter(version => version > settings.schemaVersion)
         .reduce((settings, migrationVersion) => {
             return migrations[migrationVersion](settings);
-        }, settings as PartialSettings);
+        }, settings as AllPartialSettingsWithSchema);
 }
 
 const loadFromStorage = () => {
@@ -52,7 +52,7 @@ const loadFromStorage = () => {
         return {};
     }
 
-    const parsed = JSON.parse(settings) as PartialSettingsWithSchema;
+    const parsed = JSON.parse(settings) as AllPartialSettingsWithSchema;
     if (parsed.schemaVersion < defaultSettings.schemaVersion) {
         return migrate(parsed);
     }

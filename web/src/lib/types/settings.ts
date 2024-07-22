@@ -1,4 +1,5 @@
 import languages from '$i18n/languages.json';
+import type { RecursivePartial } from './generic';
 
 export const themeOptions = ["auto", "light", "dark"] as const;
 export const audioFormatOptions = ["best", "mp3", "ogg", "wav", "opus"] as const;
@@ -37,12 +38,20 @@ type CobaltSettingsSave = {
     youtubeDubBrowserLang: boolean,
 };
 
-export type CobaltSettings = {
-    schemaVersion: number,
+export type CurrentCobaltSettings = {
+    schemaVersion: 2,
     advanced: CobaltSettingsAdvanced,
     appearance: CobaltSettingsAppearance,
     save: CobaltSettingsSave,
     privacy: CobaltSettingsPrivacy
 };
+
+export type CobaltSettings = CurrentCobaltSettings;
+
+export type PartialSettings = RecursivePartial<CobaltSettings>;
+export type PartialSettingsWithSchema = RecursivePartial<CobaltSettings> & { schemaVersion: number };
+
+export type AllSchemaVersions = CurrentCobaltSettings;
+export type AllPartialSettingsWithSchema = RecursivePartial<CobaltSettings> & { schemaVersion: number };
 
 export type DownloadModeOption = CobaltSettings['save']['downloadMode'];
