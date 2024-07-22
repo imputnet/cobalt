@@ -15,14 +15,23 @@ export type DialogPickerItem = {
     thumb?: string,
 }
 
-export type DialogInfo = {
+type Dialog = {
     id: string,
-    type: "small" | "picker",
+    buttons?: DialogButton[],
+};
+
+export type SmallDialog = Dialog & {
+    type: "small",
     meowbalt?: MeowbaltEmotions,
     icon?: SmallDialogIcons,
     title?: string,
     bodyText?: string,
     bodySubText?: string,
-    buttons?: DialogButton[],
+};
+
+export type PickerDialog = Dialog & {
+    type: "picker",
     items?: DialogPickerItem[],
-}
+};
+
+export type DialogInfo = SmallDialog | PickerDialog;

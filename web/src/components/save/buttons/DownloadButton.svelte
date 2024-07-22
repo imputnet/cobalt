@@ -69,7 +69,7 @@
             restoreDownloadButton();
 
             return createDialog({
-                ...(defaultErrorPopup as DialogInfo),
+                ...defaultErrorPopup,
                 bodyText: "couldn't access the api",
             });
         }
@@ -79,7 +79,7 @@
             restoreDownloadButton();
 
             return createDialog({
-                ...(defaultErrorPopup as DialogInfo),
+                ...defaultErrorPopup,
                 bodyText: response.text,
             });
         }
@@ -106,7 +106,7 @@
                 restoreDownloadButton();
 
                 return createDialog({
-                    ...(defaultErrorPopup as DialogInfo),
+                    ...defaultErrorPopup,
                     bodyText: "couldn't probe the stream",
                 });
             }
@@ -146,7 +146,7 @@
         restoreDownloadButton();
 
         return createDialog({
-            ...(defaultErrorPopup as DialogInfo),
+            ...defaultErrorPopup,
             bodyText: "unknown/unsupported status",
         });
     };

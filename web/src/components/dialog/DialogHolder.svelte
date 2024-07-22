@@ -19,9 +19,7 @@
                 bodySubText={dialog.bodySubText}
                 buttons={dialog.buttons}
             />
-        {/if}
-
-        {#if dialog.type === "picker"}
+        {:else if dialog.type === "picker"}
             <PickerDialog
                 id={dialog.id}
                 items={dialog.items}
