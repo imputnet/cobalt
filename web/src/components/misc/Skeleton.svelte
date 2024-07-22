@@ -10,16 +10,17 @@
 
     $: style = [
         width && `width: ${width}`,
-        height && `height: ${height}`,
-        hidden && `display: none`
+        height && `height: ${height}`
     ].filter(a => a).join(';');
 </script>
 
+{#if hidden !== true}
 <div
     class="skeleton {_class}"
     {style}
     {...$$restProps}
 ></div>
+{/if}
 
 <style>
     .skeleton {
