@@ -1,3 +1,4 @@
 {
-    "picker.item.generic": "media thumbnail"
+    "picker.item.photo": "photo thumbnail",
+    "picker.item.video": "video thumbnail"
 }

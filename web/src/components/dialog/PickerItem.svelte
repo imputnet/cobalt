@@ -6,9 +6,18 @@
 
     import Skeleton from "$components/misc/Skeleton.svelte";
 
+    import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
+    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
+
     export let item: DialogPickerItem;
+    export let number: number;
 
     let imageLoaded = false;
+
+    let itemType = item.type;
+    if (!itemType) {
+        itemType = "photo"
+    }
 </script>
 
 <button
@@ -17,20 +26,31 @@
         downloadFile(item.url);
     }}
 >
+    {#if item.type}
+        <div class="picker-type">
+            {#if item.type === "video"}
+                <IconMovie />
+            {:else if item.type === "photo"}
+                <IconPhoto />
+            {/if}
+        </div>
+    {/if}
+
     <img
         class="picker-image"
         src={item.thumb ? item.thumb : item.url}
+
         class:loading={!imageLoaded}
         on:load={() => (imageLoaded = true)}
-        alt={$t("a11y.dialog.picker.item.generic")}
-        height="100"
-        width="100"
+
+        alt="{$t(`a11y.dialog.picker.item.${itemType}`)} {number}"
     />
     <Skeleton class="picker-image" hidden={imageLoaded} />
 </button>
 
 <style>
     .picker-item {
+        position: relative;
         background: none;
         padding: 2px;
         box-shadow: none;
@@ -61,5 +81,31 @@
         .picker-item:hover .picker-image {
             opacity: 0.8;
         }
+    }
+
+    .picker-type {
+        position: absolute;
+        color: var(--white);
+        background: rgba(0, 0, 0, 0.5);
+        width: 24px;
+        height: 24px;
+        z-index: 9;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        top: 6px;
+        left: 6px;
+
+        border-radius: 4px;
+
+        pointer-events: none;
+    }
+
+    .picker-type :global(svg) {
+        width: 21px;
+        height: 21px;
     }
 </style>

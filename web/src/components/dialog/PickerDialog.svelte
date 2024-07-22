@@ -50,6 +50,14 @@
             open = true;
         });
     }
+
+    // item id for alt text
+    let counter = 0;
+
+    const itemNumber = () => {
+        counter++
+        return counter
+    }
 </script>
 
 <dialog
@@ -74,7 +82,7 @@
         <div class="picker-body">
             {#if items}
                 {#each items as item}
-                    <PickerItem {item} />
+                    <PickerItem {item} number={itemNumber()} />
                 {/each}
             {/if}
         </div>
