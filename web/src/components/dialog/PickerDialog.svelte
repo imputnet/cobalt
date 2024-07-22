@@ -23,7 +23,7 @@
     if (device.is.iOS) {
         dialogDescription += "ios";
     } else if (device.is.mobile) {
-        dialogDescription += "mobile";
+        dialogDescription += "phone";
     } else {
         dialogDescription += "desktop";
     }
