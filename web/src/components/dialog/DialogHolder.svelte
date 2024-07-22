@@ -9,22 +9,11 @@
 
 <div id="dialog-holder">
     {#each $dialogs as dialog}
-        {#if dialog.type === "small"}
-            <SmallDialog
-                id={dialog.id}
-                title={dialog.title}
-                meowbalt={dialog.meowbalt}
-                icon={dialog.icon}
-                bodyText={dialog.bodyText}
-                bodySubText={dialog.bodySubText}
-                buttons={dialog.buttons}
-            />
+        {@const { type, ...data } = dialog}
+        {#if type === "small"}
+            <SmallDialog {...data} />
         {:else if dialog.type === "picker"}
-            <PickerDialog
-                id={dialog.id}
-                items={dialog.items}
-                buttons={dialog.buttons}
-            />
+            <PickerDialog {...data} />
         {/if}
     {/each}
     <div id="dialog-backdrop" class:visible={backdropVisible}></div>

@@ -13,12 +13,12 @@
     import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
 
     export let id: string;
-    export let meowbalt: Optional<MeowbaltEmotions>;
-    export let icon: Optional<SmallDialogIcons>;
-    export let title: string = "";
-    export let bodyText: string = "";
-    export let bodySubText: string = "";
-    export let buttons: Optional<DialogButton[]>;
+    export let meowbalt: Optional<MeowbaltEmotions> = undefined;
+    export let icon: Optional<SmallDialogIcons> = undefined;
+    export let title = "";
+    export let bodyText = "";
+    export let bodySubText = "";
+    export let buttons: Optional<DialogButton[]> = undefined;
 
     let dialogParent: HTMLDialogElement;
 

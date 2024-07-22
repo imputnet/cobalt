@@ -15,8 +15,8 @@
     import IconBoxMultiple from "@tabler/icons-svelte/IconBoxMultiple.svelte";
 
     export let id: string;
-    export let items: Optional<DialogPickerItem[]>;
-    export let buttons: Optional<DialogButton[]>;
+    export let items: Optional<DialogPickerItem[]> = undefined;
+    export let buttons: Optional<DialogButton[]> = undefined;
 
     let dialogDescription = "dialog.picker.description.";
 
@@ -50,14 +50,6 @@
             open = true;
         });
     }
-
-    // item id for alt text
-    let counter = 0;
-
-    const itemNumber = () => {
-        counter++
-        return counter
-    }
 </script>
 
 <dialog
@@ -81,8 +73,8 @@
         </div>
         <div class="picker-body">
             {#if items}
-                {#each items as item}
-                    <PickerItem {item} number={itemNumber()} />
+                {#each items as item, i}
+                    <PickerItem {item} number={i + 1} />
                 {/each}
             {/if}
         </div>
