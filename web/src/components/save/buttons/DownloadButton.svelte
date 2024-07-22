@@ -2,49 +2,50 @@
     import "@fontsource-variable/noto-sans-mono";
 
     import API from "$lib/api";
-    import { device } from "$lib/device";
-
     import { t } from "$lib/i18n/translations";
-
     import { createDialog } from "$lib/dialogs";
+    import { downloadFile } from "$lib/download";
+
     import type { DialogInfo } from "$lib/types/dialog";
 
     export let url: string;
     export let isDisabled = false;
 
     $: buttonText = ">>";
-    $: buttonAltText = $t('a11y.save.download');
+    $: buttonAltText = $t("a11y.save.download");
     $: isDisabled = false;
 
     let defaultErrorPopup: DialogInfo = {
         id: "save-error",
         type: "small",
         meowbalt: "error",
-        buttons: [{
-            text: $t("dialog.button.gotit"),
-            main: true,
-            action: () => {},
-        }]
-    }
+        buttons: [
+            {
+                text: $t("dialog.button.gotit"),
+                main: true,
+                action: () => {},
+            },
+        ],
+    };
 
     const changeDownloadButton = (state: string) => {
         isDisabled = true;
         switch (state) {
             case "think":
                 buttonText = "...";
-                buttonAltText = $t('a11y.save.downloadThink');
+                buttonAltText = $t("a11y.save.downloadThink");
                 break;
             case "check":
                 buttonText = "..?";
-                buttonAltText = $t('a11y.save.downloadCheck');
+                buttonAltText = $t("a11y.save.downloadCheck");
                 break;
             case "done":
                 buttonText = ">>>";
-                buttonAltText = $t('a11y.save.downloadDone');
+                buttonAltText = $t("a11y.save.downloadDone");
                 break;
             case "error":
                 buttonText = "!!";
-                buttonAltText = $t('a11y.save.downloadError');
+                buttonAltText = $t("a11y.save.downloadError");
                 break;
         }
     };
@@ -53,16 +54,8 @@
         setTimeout(() => {
             buttonText = ">>";
             isDisabled = false;
-            buttonAltText = $t('a11y.save.download');
+            buttonAltText = $t("a11y.save.download");
         }, 2500);
-    };
-
-    const downloadFile = (url: string) => {
-        if (device.is.iOS) {
-            return navigator?.share({ url }).catch(() => {});
-        } else {
-            return window.open(url, "_blank");
-        }
     };
 
     // alerts are temporary, we don't have an error popup yet >_<
@@ -76,9 +69,9 @@
             restoreDownloadButton();
 
             return createDialog({
-                ...defaultErrorPopup as DialogInfo,
-                bodyText: "couldn't access the api"
-            })
+                ...(defaultErrorPopup as DialogInfo),
+                bodyText: "couldn't access the api",
+            });
         }
 
         if (response.status === "error" || response.status === "rate-limit") {
@@ -86,9 +79,9 @@
             restoreDownloadButton();
 
             return createDialog({
-                ...defaultErrorPopup as DialogInfo,
-                bodyText: response.text
-            })
+                ...(defaultErrorPopup as DialogInfo),
+                bodyText: response.text,
+            });
         }
 
         if (response.status === "redirect") {
@@ -113,19 +106,49 @@
                 restoreDownloadButton();
 
                 return createDialog({
-                    ...defaultErrorPopup as DialogInfo,
-                    bodyText: "couldn't probe the stream"
-                })
+                    ...(defaultErrorPopup as DialogInfo),
+                    bodyText: "couldn't probe the stream",
+                });
             }
+        }
+
+        if (response.status === "picker") {
+            restoreDownloadButton();
+
+            let pickerButtons = [
+                {
+                    text: $t("dialog.button.done"),
+                    main: true,
+                    action: () => {},
+                },
+            ];
+
+            if (response.audio) {
+                const pickerAudio = response.audio;
+                pickerButtons.unshift({
+                    text: $t("dialog.button.downloadAudio"),
+                    main: false,
+                    action: () => {
+                        downloadFile(pickerAudio);
+                    },
+                });
+            }
+
+            return createDialog({
+                id: "download-picker",
+                type: "picker",
+                items: response.picker,
+                buttons: pickerButtons,
+            });
         }
 
         changeDownloadButton("error");
         restoreDownloadButton();
 
         return createDialog({
-            ...defaultErrorPopup as DialogInfo,
-            bodyText: "unknown/unsupported status"
-        })
+            ...(defaultErrorPopup as DialogInfo),
+            bodyText: "unknown/unsupported status",
+        });
     };
 </script>
 

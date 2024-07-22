@@ -1,12 +1,14 @@
 <script lang="ts">
     import { tick } from "svelte";
-
     import { killDialog } from "$lib/dialogs";
-    import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
-    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
+
     import type { Optional } from "$lib/types/generic";
+    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
+    import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import DialogButtons from "$components/dialog/DialogButtons.svelte";
+    import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
 
     import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
 
@@ -16,7 +18,7 @@
     export let title: string = "";
     export let bodyText: string = "";
     export let bodySubText: string = "";
-    export let buttons: DialogButton[];
+    export let buttons: Optional<DialogButton[]>;
 
     let dialogParent: HTMLDialogElement;
 
@@ -58,7 +60,7 @@
                         </div>
                     {/if}
                     {#if title}
-                        <h2 id="popup-title" tabindex="-1">{title}</h2>
+                        <h2 class="popup-title" tabindex="-1">{title}</h2>
                     {/if}
                 </div>
             {/if}
@@ -69,57 +71,15 @@
                 <div class="subtext">{bodySubText}</div>
             {/if}
         </div>
-        <div class="popup-buttons">
-            {#each buttons as button}
-                <button
-                    class="button popup-button {button.color}"
-                    class:active={button.main}
-                    on:click={async () => {
-                        await button.action();
-                        close();
-                    }}
-                >
-                    {button.text}
-                </button>
-            {/each}
-        </div>
+        {#if buttons}
+            <DialogButtons {buttons} closeFunc={close} />
+        {/if}
     </div>
 
-    <div id="dialog-backdrop-close" aria-hidden="true" on:click={() => close()}></div>
+    <DialogBackdropClose closeFunc={close} />
 </dialog>
 
 <style>
-    dialog {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: none;
-
-        max-height: 100%;
-        max-width: 100%;
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        border: none;
-        pointer-events: all;
-
-        inset-inline-start: unset;
-        inset-inline-end: unset;
-
-        overflow: hidden;
-    }
-
-    dialog:modal {
-        inset-block-start: 0;
-        inset-block-end: 0;
-    }
-
-    dialog:modal::backdrop {
-        display: none;
-    }
-
     .small-dialog,
     .popup-body {
         display: flex;
@@ -132,32 +92,23 @@
     }
 
     .small-dialog {
-        --small-dialog-padding: 18px;
+        --dialog-padding: 18px;
 
         align-items: center;
         text-align: center;
         max-width: 340px;
         width: calc(
-            100% - var(--padding) * 2 - var(--small-dialog-padding) * 2
+            100% - var(--padding) * 2 - var(--dialog-padding) * 2
         );
         background: var(--popup-bg);
         box-shadow:
             0 0 0 2px var(--popup-stroke) inset,
             0 0 60px 10px var(--popup-bg);
-        padding: var(--small-dialog-padding);
+        padding: var(--dialog-padding);
         margin: var(--padding);
         border-radius: 29px;
         position: relative;
         will-change: transform;
-    }
-
-    .open .small-dialog {
-        animation: modal-in 0.35s;
-    }
-
-    .closing .small-dialog {
-        animation: modal-out 0.15s;
-        opacity: 0;
     }
 
     .small-dialog.meowbalt-visible {
@@ -169,7 +120,7 @@
         top: -120px;
     }
 
-    .popup-header h2 {
+    .popup-title {
         color: var(--secondary);
         font-size: 19px;
     }
@@ -191,109 +142,14 @@
     }
 
     .body-text:focus-visible,
-    h2:focus-visible {
+    .popup-title:focus-visible {
         box-shadow: none !important;
     }
 
-    .popup-buttons {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        gap: calc(var(--padding) / 2);
-        overflow: scroll;
-        border-radius: var(--border-radius);
-    }
-
-    .popup-button {
-        width: 100%;
-        height: 40px;
-    }
-
-    .popup-button.red {
-        background-color: var(--red);
-        color: var(--white);
-    }
-
-    .popup-button:not(.active) {
-        background-color: var(--button-elevated);
-    }
-
-    .popup-button:not(.active):active {
-        background-color: var(--button-elevated-hover);
-    }
-
-    .popup-button:not(:focus-visible) {
-        box-shadow: none;
-    }
-
-    @media (hover: hover) {
-        .popup-button:not(.active):hover {
-            background-color: var(--button-elevated-hover);
-        }
-    }
-
-    #dialog-backdrop-close {
-        position: inherit;
-        height: 100%;
-        width: 100%;
-        z-index: -1;
-    }
-
-    @keyframes modal-in {
-        from {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        30% {
-            opacity: 1;
-        }
-        50% {
-            transform: scale(1.005);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    @keyframes modal-out {
-        from {
-            opacity: 1;
-        }
-        to {
-            opacity: 0;
-            transform: scale(0.9);
-            visibility: hidden;
-        }
-    }
-
     @media screen and (max-width: 535px) {
-        dialog {
-            justify-content: end;
-        }
-
         .small-dialog {
             margin-bottom: calc(var(--padding) + env(safe-area-inset-bottom));
             box-shadow: 0 0 0 2px var(--popup-stroke) inset;
-        }
-
-        .open .small-dialog {
-            animation: modal-in-mobile 0.4s;
-        }
-
-        @keyframes modal-in-mobile {
-            from {
-                transform: translateY(200px);
-                opacity: 0;
-            }
-            30% {
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
         }
     }
 </style>

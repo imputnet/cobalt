@@ -9,13 +9,20 @@ export type DialogButton = {
 
 export type SmallDialogIcons = "warn-red";
 
+export type DialogPickerItem = {
+    type?: 'photo' | 'video',
+    url: string,
+    thumb?: string,
+}
+
 export type DialogInfo = {
     id: string,
-    type: "small",
+    type: "small" | "picker",
     meowbalt?: MeowbaltEmotions,
     icon?: SmallDialogIcons,
     title?: string,
     bodyText?: string,
     bodySubText?: string,
-    buttons: DialogButton[],
+    buttons?: DialogButton[],
+    items?: DialogPickerItem[],
 }
