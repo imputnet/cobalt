@@ -113,6 +113,7 @@
         }
 
         if (response.status === "picker") {
+            changeDownloadButton("done");
             restoreDownloadButton();
 
             let pickerButtons = [
