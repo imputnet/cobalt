@@ -202,6 +202,7 @@
 
     #download-button:disabled {
         cursor: unset;
+        opacity: 0.7;
     }
 
     :global(#input-container.focused) #download-button {
