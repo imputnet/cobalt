@@ -34,7 +34,12 @@
 <main>
     <div id="changelog-header" class:no-padding={!banner}>
         <div class="changelog-info">
-            <div class="changelog-version" data-first-focus tabindex="-1">{version}</div>
+            <div
+                class="changelog-version"
+                data-first-focus
+                data-focus-ring-hidden
+                tabindex="-1"
+            >{version}</div>
             <div class="changelog-date">{formatDate(date)}</div>
         </div>
         <h1 class="changelog-title">{title}</h1>
