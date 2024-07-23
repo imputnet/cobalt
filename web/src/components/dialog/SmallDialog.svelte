@@ -88,6 +88,7 @@
     }
 
     .popup-body {
+        overflow-y: scroll;
         gap: 8px;
     }
 
@@ -100,6 +101,7 @@
         width: calc(
             100% - var(--padding) - var(--dialog-padding) * 2
         );
+        max-height: 50%;
         background: var(--popup-bg);
         box-shadow:
             0 0 0 2px var(--popup-stroke) inset,
