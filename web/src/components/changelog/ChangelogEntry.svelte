@@ -1,6 +1,7 @@
 <script lang="ts">
     import Skeleton from "$components/misc/Skeleton.svelte";
     import type { Optional } from "$lib/types/generic";
+    import { onMount } from "svelte";
 
     export let version: string;
     export let title: string;
@@ -22,12 +23,18 @@
             date.getUTCFullYear()
         ].join(' ');
     }
+
+    onMount(() => {
+        const to_focus: HTMLElement | null =
+            document.querySelector("[data-first-focus]");
+        to_focus?.focus();
+    });
 </script>
 
 <main>
     <div id="changelog-header" class:no-padding={!banner}>
         <div class="changelog-info">
-            <div class="changelog-version">{version}</div>
+            <div class="changelog-version" data-first-focus tabindex="-1">{version}</div>
             <div class="changelog-date">{formatDate(date)}</div>
         </div>
         <h1 class="changelog-title">{title}</h1>

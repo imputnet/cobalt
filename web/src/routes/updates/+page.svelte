@@ -87,7 +87,6 @@
 <div
     class="news"
     tabindex="-1"
-    data-first-focus
     data-focus-ring-hidden
     on:wheel={handleScroll}
 >
