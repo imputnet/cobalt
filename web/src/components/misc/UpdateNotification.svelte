@@ -28,7 +28,7 @@
     }
 
     .update-button {
-        padding: 8px 16px 8px 8px;
+        padding: 8px 12px 8px 8px;
         pointer-events: all;
         gap: 8px;
         margin: var(--padding);
