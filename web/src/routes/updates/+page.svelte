@@ -19,6 +19,7 @@
         page: Promise<ChangelogImport>;
     }>;
     let currentIndex = 0;
+    let wrapper: HTMLDivElement;
 
     {
         const hash = $page.url.hash.replace("#", "");
@@ -57,6 +58,17 @@
         else if (e.key === "ArrowRight") loadNext();
     };
 
+    const handleScroll = (e: WheelEvent) => {
+        if (!(e.target instanceof HTMLElement)) {
+            return;
+        }
+
+        if (!wrapper.contains(e.target)) {
+            wrapper.scrollTop += e.deltaY;
+            e.preventDefault();
+        }
+    }
+
     $: prev = versions[currentIndex - 1];
     $: next = versions[currentIndex + 1];
     $: currentIndex, loadChangelog();
@@ -68,9 +80,17 @@
     </title>
 </svelte:head>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window
+    on:keydown={handleKeydown}
+/>
 
-<div class="news" tabindex="-1" data-first-focus data-focus-ring-hidden>
+<div
+    class="news"
+    tabindex="-1"
+    data-first-focus
+    data-focus-ring-hidden
+    on:wheel={handleScroll}
+>
     {#if changelog}
         <div id="left-button" class="button-wrapper-desktop">
             {#if prev}
@@ -80,7 +100,7 @@
                 </button>
             {/if}
         </div>
-        <div class="changelog-wrapper">
+        <div class="changelog-wrapper" bind:this={wrapper}>
             {#await changelog.page}
                 {#key changelog.version}
                     <ChangelogSkeleton version={changelog.version} />
