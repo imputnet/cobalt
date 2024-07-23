@@ -83,6 +83,7 @@
             bottom: 0;
             justify-content: center;
             align-items: flex-start;
+            z-index: 3;
         }
 
         #sidebar::before {

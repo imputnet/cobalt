@@ -1,5 +1,6 @@
 <script lang="ts">
     import { afterNavigate } from "$app/navigation";
+    import { updated } from "$app/stores";
 
     import env from "$lib/env";
     import settings from "$lib/state/settings";
@@ -13,6 +14,7 @@
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
     import DialogHolder from "$components/dialog/DialogHolder.svelte";
+    import UpdateNotification from "$components/misc/UpdateNotification.svelte";
 
     $: reduceMotion =
         $settings.appearance.reduceMotion || device.prefers.reducedMotion;
@@ -49,6 +51,9 @@
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
     >
+        {#if $updated}
+            <UpdateNotification />
+        {/if}
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}

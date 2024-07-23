@@ -29,6 +29,9 @@ const config = {
             precompress: false,
             strict: true
         }),
+        version: {
+            pollInterval: 60000
+        },
         paths: {
             relative: false
         },
