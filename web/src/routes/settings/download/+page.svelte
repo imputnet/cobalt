@@ -11,10 +11,7 @@
 </script>
 
 <SettingsCategory sectionId="filename" title={$t("settings.metadata.filename")}>
-    <Switcher
-        big={true}
-        description={$t("settings.metadata.filename.description")}
-    >
+    <Switcher big={true}>
         {#each filenameStyleOptions as value}
             <SettingsButton
                 settingContext="save"
@@ -25,7 +22,12 @@
             </SettingsButton>
         {/each}
     </Switcher>
+
     <FilenamePreview />
+
+    <div class="subtext">
+        {$t("settings.metadata.filename.description")}
+    </div>
 </SettingsCategory>
 
 <SettingsCategory

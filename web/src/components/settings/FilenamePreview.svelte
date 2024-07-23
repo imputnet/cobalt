@@ -2,6 +2,9 @@
     import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
 
+    import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
+    import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
+
     let videoFilePreview: string;
     let audioFilePreview: string;
 
@@ -66,18 +69,86 @@
 </script>
 
 <div id="filename-preview">
-    <div id="filename-preview-video">
-        {videoFilePreview}.{youtubeVideoExt}
+    <div id="filename-preview-video" class="filename-preview-item">
+        <div class="item-icon">
+            <IconMovie />
+        </div>
+        <div class="item-text">
+            <div class="preview">{`${videoFilePreview}.${youtubeVideoExt}`}</div>
+            <div class="subtext description">video file preview</div>
+        </div>
     </div>
-    <div id="filename-preview-audio">
-        {audioFilePreview}.{audioFormat}
+    <div id="filename-preview-audio" class="filename-preview-item">
+        <div class="item-icon">
+            <IconMusic />
+        </div>
+        <div class="item-text">
+            <div class="preview">{`${audioFilePreview}.${audioFormat}`}</div>
+            <div class="subtext description">audio file preview</div>
+        </div>
     </div>
 </div>
 
 <style>
     #filename-preview {
-        font-size: 14px;
         font-weight: 500;
-        padding: 0 var(--padding);
+
+        display: flex;
+        flex-direction: column;
+
+        background: var(--button);
+        box-shadow: var(--button-box-shadow);
+        border-radius: var(--border-radius);
+    }
+
+    .filename-preview-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        padding: 8px var(--padding);
+    }
+
+    .filename-preview-item:first-child {
+        border-bottom: 1.5px var(--button-stroke) solid;
+    }
+
+    .item-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        border-radius: 6px;
+        background-color: var(--gray);
+    }
+
+    .item-icon :global(svg) {
+        stroke: var(--white);
+        stroke-width: 1.5px;
+        height: 22px;
+        width: 22px;
+        will-change: transform;
+    }
+
+    .item-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    .item-text .preview {
+        line-height: 1.3;
+    }
+
+    .item-text .description {
+        padding: 0;
+    }
+
+    @media screen and (max-width: 750px) {
+        .item-text {
+            font-size: 13px;
+        }
     }
 </style>

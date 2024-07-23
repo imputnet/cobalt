@@ -63,7 +63,7 @@
     "metadata.filename.basic": "basic",
     "metadata.filename.pretty": "pretty",
     "metadata.filename.nerdy": "nerdy",
-    "metadata.filename.description": "filename style using which cobalt files will be downloaded. this description is temporary as there's no dynamic preview component yet.",
+    "metadata.filename.description": "filename style will only be used for files processed or proxied by cobalt. some services don't support filename styles.",
 
     "metadata.filename.preview.video": "Video Title",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
