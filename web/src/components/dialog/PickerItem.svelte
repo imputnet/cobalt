@@ -17,10 +17,7 @@
     $: itemType = item.type ?? "photo";
 </script>
 
-<button
-    class="picker-item"
-    on:click={() => downloadFile(item.url)}
->
+<button class="picker-item" on:click={() => downloadFile(item.url)}>
     <div class="picker-type">
         {#if itemType === "video"}
             <IconMovie />
@@ -34,7 +31,7 @@
         src={item.thumb ?? item.url}
 
         class:loading={!imageLoaded}
-        class:video-thumbnail={item.thumb}
+        class:video-thumbnail={itemType === "video"}
         on:load={() => imageLoaded = true}
 
         alt="{$t(`a11y.dialog.picker.item.${itemType}`)} {number}"
