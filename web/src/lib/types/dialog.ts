@@ -20,7 +20,7 @@ type Dialog = {
     buttons?: DialogButton[],
 };
 
-export type SmallDialog = Dialog & {
+type SmallDialog = Dialog & {
     type: "small",
     meowbalt?: MeowbaltEmotions,
     icon?: SmallDialogIcons,
@@ -29,7 +29,7 @@ export type SmallDialog = Dialog & {
     bodySubText?: string,
 };
 
-export type PickerDialog = Dialog & {
+type PickerDialog = Dialog & {
     type: "picker",
     items?: DialogPickerItem[],
 };

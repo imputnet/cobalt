@@ -9,11 +9,10 @@
     import type { DialogInfo } from "$lib/types/dialog";
 
     export let url: string;
-    export let isDisabled = false;
+    export let disabled = false;
 
     $: buttonText = ">>";
     $: buttonAltText = $t("a11y.save.download");
-    $: isDisabled = false;
 
     let defaultErrorPopup: DialogInfo = {
         id: "save-error",
@@ -28,37 +27,37 @@
         ],
     };
 
-    const changeDownloadButton = (state: string) => {
-        isDisabled = true;
-        switch (state) {
-            case "think":
-                buttonText = "...";
-                buttonAltText = $t("a11y.save.downloadThink");
-                break;
-            case "check":
-                buttonText = "..?";
-                buttonAltText = $t("a11y.save.downloadCheck");
-                break;
-            case "done":
-                buttonText = ">>>";
-                buttonAltText = $t("a11y.save.downloadDone");
-                break;
-            case "error":
-                buttonText = "!!";
-                buttonAltText = $t("a11y.save.downloadError");
-                break;
+    type DownloadButtonState = "idle" | "think" | "check" | "done" | "error";
+
+    const changeDownloadButton = (state: DownloadButtonState) => {
+        disabled = state !== 'idle';
+
+        buttonText = ({
+             idle: ">>",
+            think: "...",
+            check: "..?",
+             done: ">>>",
+            error: "!!"
+        })[state];
+
+        buttonAltText = $t(
+            ({
+                 idle: "a11y.save.download",
+                think: "a11y.save.downloadThink",
+                check: "a11y.save.downloadCheck",
+                 done: "a11y.save.downloadDone",
+                error: "a11y.save.downloadError",
+            })[state]
+        );
+
+        // states that don't wait for anything, and thus can
+        // transition back to idle after some period of time.
+        const final: DownloadButtonState[] = ['done', 'error'];
+        if (final.includes(state)) {
+            setTimeout(() => changeDownloadButton("idle"), 2500);
         }
     };
 
-    const restoreDownloadButton = () => {
-        setTimeout(() => {
-            buttonText = ">>";
-            isDisabled = false;
-            buttonAltText = $t("a11y.save.download");
-        }, 2500);
-    };
-
-    // alerts are temporary, we don't have an error popup yet >_<
     export const download = async (link: string) => {
         changeDownloadButton("think");
 
@@ -66,7 +65,6 @@
 
         if (!response) {
             changeDownloadButton("error");
-            restoreDownloadButton();
 
             return createDialog({
                 ...defaultErrorPopup,
@@ -76,7 +74,6 @@
 
         if (response.status === "error" || response.status === "rate-limit") {
             changeDownloadButton("error");
-            restoreDownloadButton();
 
             return createDialog({
                 ...defaultErrorPopup,
@@ -86,7 +83,6 @@
 
         if (response.status === "redirect") {
             changeDownloadButton("done");
-            restoreDownloadButton();
 
             return downloadFile(response.url);
         }
@@ -98,12 +94,10 @@
 
             if (probeResult === 200) {
                 changeDownloadButton("done");
-                restoreDownloadButton();
 
                 return downloadFile(response.url);
             } else {
                 changeDownloadButton("error");
-                restoreDownloadButton();
 
                 return createDialog({
                     ...defaultErrorPopup,
@@ -114,9 +108,7 @@
 
         if (response.status === "picker") {
             changeDownloadButton("done");
-            restoreDownloadButton();
-
-            let pickerButtons = [
+            const buttons = [
                 {
                     text: $t("dialog.button.done"),
                     main: true,
@@ -126,7 +118,7 @@
 
             if (response.audio) {
                 const pickerAudio = response.audio;
-                pickerButtons.unshift({
+                buttons.unshift({
                     text: $t("dialog.button.downloadAudio"),
                     main: false,
                     action: () => {
@@ -139,12 +131,11 @@
                 id: "download-picker",
                 type: "picker",
                 items: response.picker,
-                buttons: pickerButtons,
+                buttons,
             });
         }
 
         changeDownloadButton("error");
-        restoreDownloadButton();
 
         return createDialog({
             ...defaultErrorPopup,
@@ -155,7 +146,7 @@
 
 <button
     id="download-button"
-    disabled={isDisabled}
+    {disabled}
     on:click={() => download(url)}
     aria-label={buttonAltText}
 >
