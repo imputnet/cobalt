@@ -1,4 +1,5 @@
 import { readable } from "svelte/store";
+import type { Optional } from "./types/generic";
 
 type VersionResponse = {
     commit: string;
@@ -7,15 +8,8 @@ type VersionResponse = {
     version: string;
 }
 
-const unknownVersion = {
-    commit: "unknown",
-    branch: "unknown",
-    remote: "unknown",
-    version: "unknown"
-};
-
-export const version = readable<VersionResponse>(
-    unknownVersion,
+export const version = readable<Optional<VersionResponse>>(
+    undefined,
     (set) => {
         fetch('/version.json')
             .then(r => r.json())

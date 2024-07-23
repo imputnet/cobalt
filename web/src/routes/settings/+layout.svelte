@@ -25,7 +25,7 @@
 
     let screenWidth: number;
 
-    $: versionText = `v.${$version.version}-${$version.commit.slice(0, 7)}`;
+    $: versionText = $version ? `v${$version.version}-${$version.commit.slice(0, 8)}` : '\xa0';
 
     $: currentPageTitle = $page.url.pathname.split("/").at(-1);
     $: stringPageTitle =
