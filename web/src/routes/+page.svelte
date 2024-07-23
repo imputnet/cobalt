@@ -10,7 +10,12 @@
 </svelte:head>
 
 <div id="cobalt-save-container" class="center-column-container">
-    <main id="cobalt-save" data-first-focus tabindex="-1">
+    <main
+        id="cobalt-save"
+        tabindex="-1"
+        data-first-focus
+        data-focus-ring-hidden
+    >
         <Meowbalt emotion="smile" />
         <Omnibox />
     </main>

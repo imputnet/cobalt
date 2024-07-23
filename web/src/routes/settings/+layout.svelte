@@ -67,8 +67,9 @@
                 <h3
                     id="settings-page-title"
                     aria-level="1"
-                    data-first-focus
                     tabindex="-1"
+                    data-first-focus
+                    data-focus-ring-hidden
                 >
                     {#if !isHome}
                         {$t(`settings.page.${currentPageTitle}`)}
@@ -155,7 +156,12 @@
     </div>
 
     {#if !isMobile || !isHome}
-        <main id="settings-page-content" data-first-focus tabindex="-1">
+        <main
+            id="settings-page-content"
+            tabindex="-1"
+            data-first-focus
+            data-focus-ring-hidden
+        >
             <slot></slot>
         </main>
     {/if}

@@ -319,6 +319,10 @@
         z-index: 1;
     }
 
+    :global([data-focus-ring-hidden]:focus-visible) {
+        box-shadow: none !important;
+    }
+
     :global(button:active, .button:active) {
         background-color: var(--button-hover);
     }
@@ -364,18 +368,6 @@
     :global(h1, h2, h3, h4, h5, h6) {
         font-weight: 500;
         margin-block: 0;
-    }
-
-    :global(
-            h1:focus-visible,
-            h2:focus-visible,
-            h3:focus-visible,
-            h4:focus-visible,
-            h5:focus-visible,
-            h6:focus-visible,
-            main:focus-visible
-        ) {
-        box-shadow: none !important;
     }
 
     :global(h1) {
