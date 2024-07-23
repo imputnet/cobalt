@@ -18,7 +18,7 @@
     import IconBug from "@tabler/icons-svelte/IconBug.svelte";
     import IconLock from "@tabler/icons-svelte/IconLock.svelte";
 
-    import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
+    import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
 
     import { goto } from "$app/navigation";
     import { defaultSettingsPage } from "$lib/settings/defaults";
@@ -60,7 +60,7 @@
                         role="button"
                         aria-label={$t("a11y.general.back")}
                     >
-                        <IconChevronLeft />
+                        <IconArrowLeft />
                     </a>
                 {/if}
                 <h3 id="settings-page-title" aria-level="1">
@@ -234,6 +234,7 @@
         stroke-width: 2px;
         height: 22px;
         width: 22px;
+        will-change: transform;
     }
 
     @media screen and (max-width: 750px) {
