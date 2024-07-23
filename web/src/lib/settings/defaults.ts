@@ -39,7 +39,7 @@ const defaultSettingsPage = () => {
         }
     }
 
-    return "/settings/general/appearance";
+    return "/settings/appearance";
 }
 
 export default defaultSettings;

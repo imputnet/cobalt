@@ -2,6 +2,7 @@
     import { page } from "$app/stores";
 
     import settings from "$lib/state/settings";
+    import { version } from "$lib/version";
 
     import { t } from "$lib/i18n/translations";
 
@@ -12,7 +13,7 @@
 
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
-    import IconFileSettings from "@tabler/icons-svelte/IconFileSettings.svelte";
+    import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
     import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
     import IconBug from "@tabler/icons-svelte/IconBug.svelte";
     import IconLock from "@tabler/icons-svelte/IconLock.svelte";
@@ -23,6 +24,8 @@
     import { defaultSettingsPage } from "$lib/settings/defaults";
 
     let screenWidth: number;
+
+    $: versionText = `v.${$version.version}-${$version.commit.slice(0, 7)}`;
 
     $: currentPageTitle = $page.url.pathname.split("/").at(-1);
     $: stringPageTitle =
@@ -68,51 +71,56 @@
                     {/if}
                 </h3>
             {:else}
+                <div class="subtext settings-version">
+                    {versionText}
+                </div>
                 <h2 id="settings-page-title" aria-level="1">
                     {$t("tabs.settings")}
                 </h2>
             {/if}
         </div>
         <nav id="settings-navigation" class:visible-mobile={isMobile && isHome}>
-            <SettingsNavSection sectionTitle="general">
+            <SettingsNavSection>
                 <SettingsNavTab
                     tabName="appearance"
-                    tabLink="general/appearance"
+                    tabLink="appearance"
                     iconColor="blue"
                 >
                     <IconSunHigh />
                 </SettingsNavTab>
                 <SettingsNavTab
                     tabName="privacy"
-                    tabLink="general/privacy"
+                    tabLink="privacy"
                     iconColor="blue"
                 >
                     <IconLock />
                 </SettingsNavTab>
             </SettingsNavSection>
-            <SettingsNavSection sectionTitle="save">
+
+            <SettingsNavSection>
                 <SettingsNavTab
                     tabName="video"
-                    tabLink="save/video"
+                    tabLink="video"
                     iconColor="green"
                 >
                     <IconMovie />
                 </SettingsNavTab>
                 <SettingsNavTab
                     tabName="audio"
-                    tabLink="save/audio"
+                    tabLink="audio"
                     iconColor="green"
                 >
                     <IconMusic />
                 </SettingsNavTab>
                 <SettingsNavTab
-                    tabName="metadata"
-                    tabLink="save/metadata"
+                    tabName="download"
+                    tabLink="download"
                     iconColor="green"
                 >
-                    <IconFileSettings />
+                    <IconFileDownload />
                 </SettingsNavTab>
             </SettingsNavSection>
+
             <SettingsNavSection>
                 <SettingsNavTab
                     tabName="advanced"
@@ -124,13 +132,19 @@
                 {#if $settings.advanced.debug}
                     <SettingsNavTab
                         tabName="debug"
-                        tabLink="advanced/debug"
+                        tabLink="debug"
                         iconColor="gray"
                     >
                         <IconBug />
                     </SettingsNavTab>
                 {/if}
             </SettingsNavSection>
+
+        {#if isMobile && isHome}
+            <div class="subtext settings-version center">
+                {versionText}
+            </div>
+        {/if}
         </nav>
     </div>
 
@@ -180,7 +194,7 @@
     }
 
     #settings-sidebar {
-        gap: 24px;
+        gap: var(--padding);
     }
 
     #settings-navigation {
@@ -190,6 +204,14 @@
 
     #settings-header {
         --back-padding: calc(var(--padding) / 2);
+    }
+
+    .settings-version {
+        padding: 0;
+    }
+
+    .settings-version.center {
+        text-align: center;
     }
 
     .back-button {
