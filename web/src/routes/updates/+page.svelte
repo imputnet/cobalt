@@ -70,7 +70,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<main class="news" data-first-focus tabindex="-1">
+<div class="news" data-first-focus tabindex="-1">
     {#if changelog}
         <div id="left-button" class="button-wrapper-desktop">
             {#if prev}
@@ -125,7 +125,7 @@
             {/if}
         </div>
     {/if}
-</main>
+</div>
 
 <style>
     .news {
@@ -133,6 +133,10 @@
         width: 100%;
         flex-direction: row;
         justify-content: space-evenly;
+    }
+
+    .news:focus-visible {
+        box-shadow: none !important;
     }
 
     .button-wrapper-desktop {
