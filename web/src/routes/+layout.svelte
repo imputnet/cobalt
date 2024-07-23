@@ -1,6 +1,5 @@
 <script lang="ts">
-    import "@fontsource/ibm-plex-mono/400.css";
-    import "@fontsource/ibm-plex-mono/500.css";
+    import { afterNavigate } from "$app/navigation";
 
     import env from "$lib/env";
     import settings from "$lib/state/settings";
@@ -8,34 +7,42 @@
     import locale from "$lib/i18n/locale";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
 
+    import "@fontsource/ibm-plex-mono/400.css";
+    import "@fontsource/ibm-plex-mono/500.css";
+
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
     import DialogHolder from "$components/dialog/DialogHolder.svelte";
 
     $: reduceMotion =
-        $settings.appearance.reduceMotion
-        || device.prefers.reducedMotion;
+        $settings.appearance.reduceMotion || device.prefers.reducedMotion;
     $: reduceTransparency =
-        $settings.appearance.reduceTransparency
-        || device.prefers.reducedTransparency;
+        $settings.appearance.reduceTransparency ||
+        device.prefers.reducedTransparency;
+
+    afterNavigate(() => {
+        const to_focus: HTMLElement | null =
+            document.querySelector("[data-first-focus]");
+        to_focus?.focus();
+    });
 </script>
 
 <svelte:head>
     {#if device.is.mobile}
-        <meta name="theme-color" content={statusBarColors[$currentTheme]}>
+        <meta name="theme-color" content={statusBarColors[$currentTheme]} />
     {/if}
 
     {#if env.PLAUSIBLE_ENABLED}
         <script
             defer
-            data-domain="{env.HOST}"
+            data-domain={env.HOST}
             src="https://{env.PLAUSIBLE_HOST}/js/script.js"
         >
         </script>
     {/if}
 </svelte:head>
 
-<div style="display: contents" data-theme={$currentTheme} lang="{$locale}">
+<div style="display: contents" data-theme={$currentTheme} lang={$locale}>
     <div
         id="cobalt"
         data-iphone={device.is.iPhone}
@@ -99,9 +106,8 @@
         --sidebar-font-size: 11px;
         --sidebar-inner-padding: 4px;
         --sidebar-height-mobile: calc(
-            50px
-            + calc(var(--sidebar-inner-padding) * 2)
-            + env(safe-area-inset-bottom)
+            50px + calc(var(--sidebar-inner-padding) * 2) +
+                env(safe-area-inset-bottom)
         );
 
         --safe-area-inset-top: env(safe-area-inset-top);
@@ -215,9 +221,9 @@
         height: 100%;
         width: 100%;
         display: grid;
-        grid-template-columns: calc(
-                var(--sidebar-width) + var(--sidebar-inner-padding) * 2
-            ) 1fr;
+        grid-template-columns:
+            calc(var(--sidebar-width) + var(--sidebar-inner-padding) * 2)
+            1fr;
         overflow: hidden;
         background-color: var(--sidebar-bg);
         color: var(--secondary);
@@ -228,9 +234,8 @@
         #cobalt[data-iphone="true"] {
             grid-template-columns:
                 calc(
-                    var(--sidebar-width)
-                    + var(--sidebar-inner-padding) * 2
-                    + env(safe-area-inset-left)
+                    var(--sidebar-width) + var(--sidebar-inner-padding) * 2 +
+                        env(safe-area-inset-left)
                 )
                 1fr;
         }
