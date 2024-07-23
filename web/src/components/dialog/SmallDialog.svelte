@@ -127,7 +127,15 @@
         font-size: 19px;
     }
 
-    .popup-header .popup-icon.warn-red :global(svg) {
+    .popup-header,
+    .popup-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-icon.warn-red :global(svg) {
         stroke-width: 1.5px;
         height: 50px;
         width: 50px;
