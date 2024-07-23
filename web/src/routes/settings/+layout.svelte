@@ -231,7 +231,7 @@
     }
 
     .back-button :global(svg) {
-        stroke-width: 2px;
+        stroke-width: 1.8px;
         height: 22px;
         width: 22px;
         will-change: transform;
