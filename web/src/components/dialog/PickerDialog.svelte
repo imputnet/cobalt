@@ -169,7 +169,7 @@
     @media screen and (max-width: 535px) {
         .picker-dialog {
             margin-bottom: calc(
-                var(--dialog-padding) + env(safe-area-inset-bottom)
+                var(--padding) / 2 + env(safe-area-inset-bottom)
             );
             box-shadow: 0 0 0 2px var(--popup-stroke) inset;
         }

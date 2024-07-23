@@ -98,14 +98,14 @@
         text-align: center;
         max-width: 340px;
         width: calc(
-            100% - var(--padding) * 2 - var(--dialog-padding) * 2
+            100% - var(--padding) - var(--dialog-padding) * 2
         );
         background: var(--popup-bg);
         box-shadow:
             0 0 0 2px var(--popup-stroke) inset,
             0 0 60px 10px var(--popup-bg);
         padding: var(--dialog-padding);
-        margin: var(--padding);
+        margin: calc(var(--padding) / 2);
         border-radius: 29px;
         position: relative;
         will-change: transform;
@@ -148,7 +148,7 @@
 
     @media screen and (max-width: 535px) {
         .small-dialog {
-            margin-bottom: calc(var(--padding) + env(safe-area-inset-bottom));
+            margin-bottom: calc(var(--padding) / 2 + env(safe-area-inset-bottom));
             box-shadow: 0 0 0 2px var(--popup-stroke) inset;
         }
     }
