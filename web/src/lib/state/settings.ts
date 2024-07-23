@@ -41,6 +41,7 @@ const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
         }, settings as AllPartialSettingsWithSchema);
 }
 
+
 const loadFromStorage = () => {
     const settings = localStorage.getItem('settings');
     if (!settings) {
@@ -52,6 +53,10 @@ const loadFromStorage = () => {
         return {};
     }
 
+    return loadFromString(settings);
+}
+
+export const loadFromString = (settings: string) => {
     const parsed = JSON.parse(settings) as AllPartialSettingsWithSchema;
     if (parsed.schemaVersion < defaultSettings.schemaVersion) {
         return migrate(parsed);

@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
     import { t } from "$lib/i18n/translations";
 
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
     import ResetSettingsButton from "$components/buttons/ResetSettingsButton.svelte";
+    import TransferSettings from "$components/settings/TransferSettings.svelte";
 </script>
 
 <SettingsCategory sectionId="debug" title={$t("settings.advanced.debug")}>
@@ -16,5 +17,6 @@
 </SettingsCategory>
 
 <SettingsCategory sectionId="data" title={$t("settings.advanced.data")}>
+    <TransferSettings />
     <ResetSettingsButton />
 </SettingsCategory>
