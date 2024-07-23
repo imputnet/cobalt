@@ -14,7 +14,10 @@
     const changelogs = getAllChangelogs();
     const versions = Object.keys(changelogs);
 
-    let changelog: Optional<{ version: string; page: Promise<ChangelogImport> }>;
+    let changelog: Optional<{
+        version: string;
+        page: Promise<ChangelogImport>;
+    }>;
     let currentIndex = 0;
 
     {
@@ -29,8 +32,8 @@
         const version = versions[currentIndex];
         changelog = {
             version,
-            page: changelogs[version]() as Promise<ChangelogImport>
-        }
+            page: changelogs[version]() as Promise<ChangelogImport>,
+        };
 
         window.location.hash = version;
         await changelog.page;
@@ -67,7 +70,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div class="news">
+<main class="news" data-first-focus tabindex="-1">
     {#if changelog}
         <div id="left-button" class="button-wrapper-desktop">
             {#if prev}
@@ -89,20 +92,24 @@
                     version={changelog.version}
                 />
             {/await}
-            <div class="button-wrapper-mobile">
-                <button on:click={loadPrev} disabled={!prev}>
-                    <IconArrowLeft />
-                    {prev || ""}
-                </button>
-                <button
-                    on:click={loadNext}
-                    on:focus={preloadNext}
-                    on:mousemove={preloadNext}
-                    disabled={!next}
-                >
-                    {next || ""}
-                    <IconArrowRight />
-                </button>
+
+            <div class="button-wrapper-mobile" class:only-right={!prev}>
+                {#if prev}
+                    <button on:click={loadPrev}>
+                        <IconArrowLeft />
+                        {prev || ""}
+                    </button>
+                {/if}
+                {#if next}
+                    <button
+                        on:click={loadNext}
+                        on:focus={preloadNext}
+                        on:mousemove={preloadNext}
+                    >
+                        {next || ""}
+                        <IconArrowRight />
+                    </button>
+                {/if}
             </div>
         </div>
         <div id="right-button" class="button-wrapper-desktop">
@@ -118,7 +125,7 @@
             {/if}
         </div>
     {/if}
-</div>
+</main>
 
 <style>
     .news {
@@ -158,12 +165,6 @@
         padding-top: calc(var(--padding) + 1em);
     }
 
-    button[disabled] {
-        opacity: 0;
-        cursor: default;
-        pointer-events: none;
-    }
-
     .button-wrapper-mobile {
         display: none;
     }
@@ -176,6 +177,10 @@
             justify-content: space-between;
         }
 
+        .button-wrapper-mobile.only-right {
+            justify-content: end;
+        }
+
         .button-wrapper-desktop {
             display: none;
         }
@@ -183,7 +188,7 @@
 
     @media screen and (max-width: 535px) {
         .changelog-wrapper {
-            padding-top: var(--padding)
+            padding-top: var(--padding);
         }
     }
 </style>
