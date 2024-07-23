@@ -323,7 +323,7 @@
         background-color: var(--secondary);
     }
 
-    :global(.button.active:active) {
+    :global(.button.active:not(.color):active) {
         background-color: var(--button-active-hover);
     }
 
@@ -339,7 +339,7 @@
             background-color: var(--button-hover);
         }
 
-        :global(.button.active:hover) {
+        :global(.button.active:not(.color):hover) {
             background-color: var(--button-active-hover);
         }
     }

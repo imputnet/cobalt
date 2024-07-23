@@ -9,6 +9,7 @@
     {#each buttons as button}
         <button
             class="button popup-button {button.color}"
+            class:color={button.color}
             class:active={button.main}
             on:click={async () => {
                 await button.action();
