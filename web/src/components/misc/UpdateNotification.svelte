@@ -45,14 +45,14 @@
         justify-content: center;
         align-items: center;
         background-color: var(--button-elevated-hover);
-        padding: 2px;
+        padding: 3px;
         border-radius: 6px;
     }
 
     .update-icon :global(svg) {
         stroke-width: 1.5px;
-        width: 24px;
-        height: 24px;
+        width: 25px;
+        height: 25px;
         will-change: transform;
     }
 
