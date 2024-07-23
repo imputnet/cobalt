@@ -44,7 +44,7 @@
 
         alt="{$t(`a11y.dialog.picker.item.${itemType}`)} {number}"
     />
-    <Skeleton class="picker-image" hidden={imageLoaded} />
+    <Skeleton class="picker-image elevated" hidden={imageLoaded} />
 </button>
 
 <style>
@@ -72,17 +72,17 @@
         display: none;
     }
 
-    .picker-item:active .picker-image {
-        opacity: 0.8;
-    }
-
     .picker-image.video-thumbnail {
         pointer-events: none;
     }
 
+    :global(.picker-item:active .picker-image) {
+        opacity: 0.7;
+    }
+
     @media (hover: hover) {
-        .picker-item:hover .picker-image {
-            opacity: 0.8;
+        :global(.picker-item:hover .picker-image) {
+            opacity: 0.7;
         }
     }
 

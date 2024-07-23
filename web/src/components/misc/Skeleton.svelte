@@ -36,15 +36,25 @@
         line-height: 1;
         font-size: 1em;
         text-align: center;
+        pointer-events: none;
     }
 
     :global([data-theme=light]) .skeleton {
         background-color: var(--button-hover);
     }
 
+    .skeleton.elevated {
+        background-image: var(--skeleton-gradient-elevated);
+        background-color: var(--button-elevated);
+    }
+
+    :global([data-reduce-motion="true"]) .skeleton {
+        background-image: none;
+    }
+
     .skeleton.big {
         border-radius: var(--border-radius);
-        background-size: 700px 100%;
+        background-size: 400px 100%;
         animation: skeleton-big 1.2s ease-in-out infinite;
     }
 
@@ -59,10 +69,10 @@
 
     @keyframes skeleton-big {
         0% {
-            background-position: -700px 0;
+            background-position: -400px 0;
         }
         100% {
-            background-position: calc(700px + 100%) 0;
+            background-position: calc(400px + 100%) 0;
         }
     }
 </style>

@@ -76,6 +76,7 @@
 
         --button-elevated: #e3e3e3;
         --button-elevated-hover: #dadada;
+        --button-elevated-shimmer: #ededed;
 
         --popup-bg: #f1f1f1;
         --popup-stroke: rgba(0, 0, 0, 0.08);
@@ -123,6 +124,13 @@
             var(--button),
             var(--button-hover)
         );
+
+        --skeleton-gradient-elevated: linear-gradient(
+            90deg,
+            var(--button-elevated),
+            var(--button-elevated-shimmer),
+            var(--button-elevated)
+        );
     }
 
     :global([data-theme="dark"]) {
@@ -143,7 +151,7 @@
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
         --button-elevated: #282828;
-        --button-elevated-hover: #2f2f2f;
+        --button-elevated-hover: #323232;
 
         --popup-bg: #191919;
         --popup-stroke: rgba(255, 255, 255, 0.08);
@@ -172,6 +180,13 @@
             var(--button),
             var(--button-hover),
             var(--button)
+        );
+
+        --skeleton-gradient-elevated: linear-gradient(
+            90deg,
+            var(--button-elevated),
+            var(--button-elevated-hover),
+            var(--button-elevated)
         );
     }
 
