@@ -366,6 +366,18 @@
         margin-block: 0;
     }
 
+    :global(
+            h1:focus-visible,
+            h2:focus-visible,
+            h3:focus-visible,
+            h4:focus-visible,
+            h5:focus-visible,
+            h6:focus-visible,
+            main:focus-visible
+        ) {
+        box-shadow: none !important;
+    }
+
     :global(h1) {
         font-size: 24px;
         letter-spacing: -1px;

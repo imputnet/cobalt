@@ -29,16 +29,17 @@
 
     $: currentPageTitle = $page.url.pathname.split("/").at(-1);
     $: stringPageTitle =
-        currentPageTitle !== "settings" ? ` / ${$t(`settings.page.${currentPageTitle}`)}` : "";
+        currentPageTitle !== "settings"
+            ? ` / ${$t(`settings.page.${currentPageTitle}`)}`
+            : "";
 
     $: isMobile = screenWidth <= 750;
-    $: isHome = $page.url.pathname === '/settings';
+    $: isHome = $page.url.pathname === "/settings";
     $: {
         if (!isMobile && isHome) {
             goto(defaultSettingsPage(), { replaceState: true });
         }
     }
-
 </script>
 
 <svelte:head>
@@ -63,7 +64,12 @@
                         <IconArrowLeft />
                     </a>
                 {/if}
-                <h3 id="settings-page-title" aria-level="1">
+                <h3
+                    id="settings-page-title"
+                    aria-level="1"
+                    data-first-focus
+                    tabindex="-1"
+                >
                     {#if !isHome}
                         {$t(`settings.page.${currentPageTitle}`)}
                     {:else}
@@ -140,16 +146,16 @@
                 {/if}
             </SettingsNavSection>
 
-        {#if isMobile && isHome}
-            <div class="subtext settings-version center">
-                {versionText}
-            </div>
-        {/if}
+            {#if isMobile && isHome}
+                <div class="subtext settings-version center">
+                    {versionText}
+                </div>
+            {/if}
         </nav>
     </div>
 
     {#if !isMobile || !isHome}
-        <main id="settings-page-content">
+        <main id="settings-page-content" data-first-focus tabindex="-1">
             <slot></slot>
         </main>
     {/if}
