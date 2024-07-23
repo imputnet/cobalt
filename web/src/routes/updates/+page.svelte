@@ -8,8 +8,8 @@
 
     import ChangelogSkeleton from "$components/changelog/ChangelogSkeleton.svelte";
 
-    import IconChevronLeft from "@tabler/icons-svelte/IconChevronLeft.svelte";
-    import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
+    import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
+    import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
 
     const changelogs = getAllChangelogs();
     const versions = Object.keys(changelogs);
@@ -72,7 +72,7 @@
         <div id="left-button" class="button-wrapper-desktop">
             {#if prev}
                 <button on:click={loadPrev}>
-                    <IconChevronLeft />
+                    <IconArrowLeft />
                     {prev || ""}
                 </button>
             {/if}
@@ -91,7 +91,7 @@
             {/await}
             <div class="button-wrapper-mobile">
                 <button on:click={loadPrev} disabled={!prev}>
-                    <IconChevronLeft />
+                    <IconArrowLeft />
                     {prev || ""}
                 </button>
                 <button
@@ -101,7 +101,7 @@
                     disabled={!next}
                 >
                     {next || ""}
-                    <IconChevronRight />
+                    <IconArrowRight />
                 </button>
             </div>
         </div>
@@ -113,7 +113,7 @@
                     on:mousemove={preloadNext}
                 >
                     {next || ""}
-                    <IconChevronRight />
+                    <IconArrowRight />
                 </button>
             {/if}
         </div>
@@ -140,6 +140,10 @@
         background-color: transparent;
         display: flex;
         border: none;
+    }
+
+    button :global(svg) {
+        stroke-width: 1.6px;
     }
 
     .button-wrapper-desktop button:not(:focus-visible) {
