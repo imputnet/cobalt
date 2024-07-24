@@ -26,7 +26,7 @@ const corsConfig = env.corsWildcard ? {} : {
 export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
-    
+
     const serverInfo = {
         version: version,
         commit: gitCommit,
@@ -81,38 +81,23 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     app.use((req, res, next) => {
         try {
             decodeURIComponent(req.path)
-        } catch { 
+        } catch {
             return res.redirect('/')
         }
         next();
     })
 
-    app.use('/api/json', express.json({
-        verify: (req, res, buf) => {
-            if (String(req.header('Accept')) === "application/json") {
-                if (buf.length > 720) throw new Error();
-                JSON.parse(buf);
-            } else {
-                throw new Error();
-            }
-        }
-    }))
-
-    // handle express.json errors properly (https://github.com/expressjs/express/issues/4065)
-    app.use('/api/json', (err, req, res, next) => {
-        let errorText = "invalid json body";
-        const acceptHeader = String(req.header('Accept')) !== "application/json";
-
-        if (err || acceptHeader) {
-            if (acceptHeader) errorText = "invalid accept header";
+    app.use('/api/json', express.json({ limit: 1024 }));
+    app.use('/api/json', (err, _, res, next) => {
+        if (err) {
             return res.status(400).json({
                 status: "error",
-                text: errorText
+                text: "invalid json body"
             });
-        } else {
-            next();
         }
-    })
+
+        next();
+    });
 
     app.post('/api/json', async (req, res) => {
         const request = req.body;
@@ -121,6 +106,10 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         const fail = (t) => {
             const { status, body } = createResponse("error", { t: loc(lang, t) });
             res.status(status).json(body);
+        }
+
+        if (!acceptRegex.test(req.header('Accept'))) {
+            return fail('ErrorInvalidAcceptHeader');
         }
 
         if (!acceptRegex.test(req.header('Content-Type'))) {
