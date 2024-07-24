@@ -24,6 +24,7 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
+import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 
@@ -189,6 +190,14 @@ export default async function(host, patternMatch, lang, obj) {
             case "dailymotion":
                 r = await dailymotion(patternMatch);
                 break;
+            case "snapchat":
+                r = await snapchat({
+                    url,
+                    username: patternMatch.username,
+                    storyId: patternMatch.storyId,
+                    spotlightId: patternMatch.spotlightId,
+                    shortLink: patternMatch.shortLink || false
+                });
             case "loom":
                 r = await loom({
                     id: patternMatch.id

@@ -1132,6 +1132,31 @@
             "status": "stream"
         }
     }],
+    "snapchat": [{
+        "name": "spotlight",
+        "url": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYdWxucG9pZmNqAY46j0a5AY46j0YbAAAAAQ",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "shortlinked spotlight",
+        "url": "https://t.snapchat.com/4ZsiBLDi",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "story",
+        "url": "https://www.snapchat.com/add/bazerkmakane",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }],
     "loom": [{
         "name": "1080p video",
         "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
