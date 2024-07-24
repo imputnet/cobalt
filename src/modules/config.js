@@ -48,7 +48,9 @@ const
 
         processingPriority: process.platform !== 'win32'
                                 && process.env.PROCESSING_PRIORITY
-                                && parseInt(process.env.PROCESSING_PRIORITY)
+                                && parseInt(process.env.PROCESSING_PRIORITY),
+
+        externalProxy: process.env.API_EXTERNAL_PROXY,
     }
 
 export const

@@ -1,5 +1,6 @@
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import { setGlobalDispatcher, ProxyAgent } from "undici";
 
 import { env, version } from "../modules/config.js";
 
@@ -207,6 +208,14 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     randomizeCiphers();
     setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
+
+    if (env.externalProxy) {
+        if (env.freebindCIDR) {
+            throw new Error('Freebind is not available when external proxy is enabled')
+        }
+
+        setGlobalDispatcher(new ProxyAgent(env.externalProxy))
+    }
 
     app.listen(env.apiPort, env.listenAddress, () => {
         console.log(`\n` +
