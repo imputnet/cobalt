@@ -193,15 +193,14 @@ export default async function(host, patternMatch, lang, obj) {
             case "snapchat":
                 r = await snapchat({
                     url,
-                    username: patternMatch.username,
-                    storyId: patternMatch.storyId,
-                    spotlightId: patternMatch.spotlightId,
-                    shortLink: patternMatch.shortLink || false
+                    ...patternMatch
                 });
+                break;
             case "loom":
                 r = await loom({
                     id: patternMatch.id
                 });
+                break;
             case "facebook":
                 r = await facebook({
                     ...patternMatch,
