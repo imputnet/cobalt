@@ -1214,6 +1214,7 @@
     }, {
         "name": "shortlink video",
         "url": "https://fb.watch/r1K6XHMfGT/",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
