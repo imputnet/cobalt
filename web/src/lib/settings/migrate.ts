@@ -1,6 +1,4 @@
-import type { RecursivePartial } from "$lib/types/generic";
-import type { CobaltSettings } from "$lib/types/settings";
-import defaultSettings from "./defaults";
+import type { AllPartialSettingsWithSchema } from "$lib/types/settings";
 
 const oldSwitcherValues = {
     theme: ['auto', 'light', 'dark'],
@@ -85,8 +83,8 @@ export const migrateOldSettings = () => {
         return;
     }
 
-    const migrated: RecursivePartial<CobaltSettings> = {
-        schemaVersion: defaultSettings.schemaVersion,
+    const migrated: AllPartialSettingsWithSchema = {
+        schemaVersion: 2,
         appearance: {
             theme: getLiteral('theme'),
             reduceTransparency: getBool('reduceTransparency'),
