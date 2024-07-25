@@ -23,6 +23,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | loom                           | ✅            | ❌         | ✅         | ✅         | ➖              |
 | ok video                       | ✅            | ❌         | ✅         | ✅         | ✅              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
+| newgrounds                     | ✅            | ✅         | ✅         | ✅         | ✅              |
 | reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
 | rutube                         | ✅            | ✅         | ✅         | ✅         | ✅              |
 | snapchat stories & spotlights  | ✅            | ✅         | ✅         | ➖         | ➖              |
