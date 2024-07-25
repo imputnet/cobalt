@@ -193,7 +193,7 @@ export default async function(host, patternMatch, lang, obj) {
                 break;
             case "snapchat":
                 r = await snapchat({
-                    url,
+                    hostname: url.hostname,
                     ...patternMatch
                 });
                 break;
@@ -204,8 +204,7 @@ export default async function(host, patternMatch, lang, obj) {
                 break;
             case "facebook":
                 r = await facebook({
-                    ...patternMatch,
-                    sourceUrl: url.href
+                    ...patternMatch
                 });
                 break;
             case "newgrounds":

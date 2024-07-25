@@ -9,8 +9,8 @@ async function getSpotlight(id) {
     const html = await fetch(`https://www.snapchat.com/spotlight/${id}`, {
         headers: { 'User-Agent': genericUserAgent }
     }).then((r) => r.text()).catch(() => null);
-    if (!html) {  
-        return { error: 'ErrorCouldntFetch' };  
+    if (!html) {
+        return { error: 'ErrorCouldntFetch' };
     }
 
     const videoURL = html.match(SPOTLIGHT_VIDEO_REGEX)?.[1];
@@ -27,9 +27,9 @@ async function getStory(username, storyId) {
     const html = await fetch(`https://www.snapchat.com/add/${username}${storyId ? `/${storyId}` : ''}`, {
         headers: { 'User-Agent': genericUserAgent }
     }).then((r) => r.text()).catch(() => null);
-    if (!html) {  
-        return { error: 'ErrorCouldntFetch' };  
-    }  
+    if (!html) {
+        return { error: 'ErrorCouldntFetch' };
+    }
 
     const nextDataString = html.match(NEXT_DATA_REGEX)?.[1];
     if (nextDataString) {
@@ -67,18 +67,18 @@ async function getStory(username, storyId) {
     }
 }
 
-export default async function(obj) {
+export default async function (obj) {
     let params = obj;
-    if (obj.url.hostname === 't.snapchat.com' && obj.shortLink) {
+    if (obj.hostname === 't.snapchat.com' && obj.shortLink) {
         const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
-    
-        if (!link?.startsWith('https://www.snapchat.com/')) {  
-            return { error: 'ErrorCouldntFetch' };  
-        }  
+
+        if (!link?.startsWith('https://www.snapchat.com/')) {
+            return { error: 'ErrorCouldntFetch' };
+        }
 
         const extractResult = extract(normalizeURL(link));
-        if (extractResult?.host !== 'snapchat') {  
-            return { error: 'ErrorCouldntFetch' };  
+        if (extractResult?.host !== 'snapchat') {
+            return { error: 'ErrorCouldntFetch' };
         }
 
         params = extractResult.patternMatch;

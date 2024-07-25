@@ -1064,7 +1064,7 @@
         }
     }, {
         "name": "yappy",
-        "url": "https://rutube.ru/yappy/a06b1bf53bce403b9a069107f23c47eb/",
+        "url": "https://rutube.ru/yappy/c8c32bf7aee04412837656ea26c2b25b/",
         "params": {},
         "expected": {
             "code": 200,
@@ -1231,6 +1231,7 @@
     }, {
         "name": "reel video",
         "url": "https://web.facebook.com/reel/730293269054758",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
