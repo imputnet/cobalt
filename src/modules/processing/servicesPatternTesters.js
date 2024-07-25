@@ -60,5 +60,5 @@ export const testers = {
         patternMatch.id?.length <= 11,
 
     "newgrounds": (patternMatch) =>
-        patternMatch.id?.length <= 6,
+        patternMatch.id?.length <= 1,
 }

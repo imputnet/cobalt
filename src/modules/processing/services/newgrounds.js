@@ -4,7 +4,7 @@ import { cleanString } from "../../sub/utils.js";
 export default async function(obj) {
     // handle video downloads
     if (obj.type == 'portal') {
-        let req = await fetch(`https://www.newgrounds.com/${obj.type}/video/${obj.id}`, {
+        let req = await fetch(`https://www.newgrounds.com/portal/video/${obj.id}`, {
             headers: {
                 'User-Agent': genericUserAgent,
                 'X-Requested-With': 'XMLHttpRequest',
@@ -72,15 +72,15 @@ export default async function(obj) {
         }
     
         return {
-                urls: url,
-                filenameAttributes: {
-                    service: "newgrounds",
-                    id: obj.id,
-                    title: fileMetadata.title,
-                    author: fileMetadata.artist,
-                },
-                fileMetadata,
-                isAudioOnly: true
-            }
+            urls: url,
+            filenameAttributes: {
+                service: "newgrounds",
+                id: obj.id,
+                title: fileMetadata.title,
+                author: fileMetadata.artist,
+            },
+            fileMetadata,
+            isAudioOnly: true
         }
     }
+}
