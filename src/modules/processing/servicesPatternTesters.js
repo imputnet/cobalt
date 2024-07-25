@@ -68,5 +68,6 @@ export const testers = {
         patternMatch.shortLink?.length <= 11
         || patternMatch.username?.length <= 30
         || patternMatch.caption?.length <= 255
-        || patternMatch.id?.length <= 20,
+        || patternMatch.id?.length <= 20 && !patternMatch.shareType
+        || patternMatch.id?.length <= 20 && patternMatch.shareType?.length === 1,
 }

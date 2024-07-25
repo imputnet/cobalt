@@ -203,8 +203,7 @@ export default async function(host, patternMatch, lang, obj) {
                 break;
             case "facebook":
                 r = await facebook({
-                    ...patternMatch,
-                    sourceUrl: url.href
+                    ...patternMatch
                 });
                 break;
             default:
