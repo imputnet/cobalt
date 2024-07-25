@@ -224,16 +224,26 @@ export default async function(o) {
         urls = [video.decipher(yt.session.player), audio.decipher(yt.session.player)];
     }
 
+    const mediaMetadata = {
+        duration: info.basic_info.duration,
+        likes: info.basic_info.like_count,
+        views: info.basic_info.view_count,
+        title: info.basic_info.title,
+    };
+
     if (match) {
         filenameAttributes.qualityLabel = match.quality_label;
         filenameAttributes.resolution = `${match.width}x${match.height}`;
         filenameAttributes.extension = codecMatch[format].container;
         filenameAttributes.youtubeFormat = format;
+
+
         return {
             type,
             urls,
             filenameAttributes, 
-            fileMetadata
+            fileMetadata,
+            mediaMetadata,
         }
     }
 
