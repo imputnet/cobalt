@@ -24,8 +24,11 @@ import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
+import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
+import facebook from "./services/facebook.js";
 import newgrounds from "./services/newgrounds.js";
+
 let freebind;
 
 export default async function(host, patternMatch, lang, obj) {
@@ -188,9 +191,21 @@ export default async function(host, patternMatch, lang, obj) {
             case "dailymotion":
                 r = await dailymotion(patternMatch);
                 break;
+            case "snapchat":
+                r = await snapchat({
+                    url,
+                    ...patternMatch
+                });
+                break;
             case "loom":
                 r = await loom({
                     id: patternMatch.id
+                });
+                break;
+            case "facebook":
+                r = await facebook({
+                    ...patternMatch,
+                    sourceUrl: url.href
                 });
                 break;
             case "newgrounds":
@@ -199,7 +214,6 @@ export default async function(host, patternMatch, lang, obj) {
                     method: patternMatch.method,
                     id: patternMatch.id,
                 });
-                break;
             default:
                 return createResponse("error", {
                     t: loc(lang, 'ErrorUnsupported')
