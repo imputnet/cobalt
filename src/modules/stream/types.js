@@ -25,7 +25,7 @@ function killProcess(p) {
 }
 
 function getCommand(args) {
-    if (!isNaN(env.processingPriority)) {
+    if (typeof env.processingPriority === 'number' && !isNaN(env.processingPriority)) {
         return ['nice', ['-n', env.processingPriority.toString(), ffmpeg, ...args]]
     }
     return [ffmpeg, args]
