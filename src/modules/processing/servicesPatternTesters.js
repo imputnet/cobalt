@@ -74,5 +74,5 @@ export const testers = {
     "newgrounds": (patternMatch) =>
         (patternMatch.type == 'portal' && patternMatch.method == 'view')
         || (patternMatch.type == 'audio' && patternMatch.method == 'listen')
-        && patternMatch.id?.length >= 1,    
+        && patternMatch.id?.length >= 1,
 }
