@@ -28,20 +28,21 @@ const transformSessionData = (cookie) => {
     if (!cookie)
         return;
 
-    const values = cookie.values();
-    const REQUIRED_VALUES = [
-        'access_token', 'refresh_token',
-        'client_id', 'client_secret',
-        'expires'
-    ];
+    const values = { ...cookie.values() };
+    const REQUIRED_VALUES = [ 'access_token', 'refresh_token' ];
 
     if (REQUIRED_VALUES.some(x => typeof values[x] !== 'string')) {
         return;
     }
-    return {
-        ...values,
-        expires: new Date(values.expires),
-    };
+
+    if (values.expires) {
+        values.expiry_date = values.expires;
+        delete values.expires;
+    } else if (!values.expiry_date) {
+        return;
+    }
+
+    return values;
 }
 
 const cloneInnertube = async (customFetch) => {
@@ -70,14 +71,19 @@ const cloneInnertube = async (customFetch) => {
     }
 
     if (session.logged_in) {
-        await session.oauth.refreshIfRequired();
-        const oldExpiry = new Date(cookie.values().expires);
-        const newExpiry = session.oauth.credentials.expires;
+        if (session.oauth.shouldRefreshToken()) {
+            await session.oauth.refreshAccessToken();
+        }
+
+        const cookieValues = cookie.values();
+        const oldExpiry = new Date(cookieValues.expiry_date);
+        const newExpiry = new Date(session.oauth.oauth2_tokens.expiry_date);
 
         if (oldExpiry.getTime() !== newExpiry.getTime()) {
             updateCookieValues(cookie, {
-                ...session.oauth.credentials,
-                expires: session.oauth.credentials.expires.toISOString()
+                ...session.oauth.client_id,
+                ...session.oauth.oauth2_tokens,
+                expiry_date: newExpiry.toISOString()
             });
         }
     }

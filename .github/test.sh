@@ -18,7 +18,7 @@ test_api() {
          -X POST \
          -H "Accept: application/json" \
          -H "Content-Type: application/json" \
-         -d '{"url":"https://www.youtube.com/watch?v=jNQXAC9IVRw"}')
+         -d '{"url":"https://vine.co/v/huwVJIEJW50", "isAudioOnly": true}')
 
     echo "$API_RESPONSE"
     STATUS=$(echo "$API_RESPONSE" | jq -r .status)
