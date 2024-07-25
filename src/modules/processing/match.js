@@ -214,6 +214,7 @@ export default async function(host, patternMatch, lang, obj) {
                     method: patternMatch.method,
                     id: patternMatch.id,
                 });
+                break;
             default:
                 return createResponse("error", {
                     t: loc(lang, 'ErrorUnsupported')
