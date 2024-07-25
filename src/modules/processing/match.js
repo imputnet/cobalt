@@ -192,7 +192,7 @@ export default async function(host, patternMatch, lang, obj) {
                 break;
             case "snapchat":
                 r = await snapchat({
-                    url,
+                    hostname: url.hostname,
                     ...patternMatch
                 });
                 break;
