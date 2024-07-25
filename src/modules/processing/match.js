@@ -27,7 +27,7 @@ import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import coub from "./services/coub.js";
-import facebook from "./services/facebook.js
+import facebook from "./services/facebook.js";
 
 let freebind;
 
