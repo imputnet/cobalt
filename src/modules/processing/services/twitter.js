@@ -147,7 +147,6 @@ export default async function({ id, index, toGif, dispatcher }) {
     }
 
     let media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
-    media = media?.filter(m => m.video_info?.variants?.length);
 
     // check if there's a video at given index (/video/<index>)
     if (index >= 0 && index < media?.length) {
@@ -159,17 +158,37 @@ export default async function({ id, index, toGif, dispatcher }) {
         case 0:
             return { error: 'ErrorNoVideosInTweet' };
         case 1:
+            if (media[0].type === "photo") {
+                return {
+                    type: "normal",
+                    isPhoto: true,
+                    urls: `${media[0].media_url_https}?name=4096x4096`
+                }
+            }
+
             return {
                 type: needsFixing(media[0]) ? "remux" : "normal",
                 urls: bestQuality(media[0].video_info.variants),
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`,
                 isGif: media[0].type === "animated_gif"
-            };
+            }
         default:
             const picker = media.map((content, i) => {
+                if (content.type === "photo") {
+                    let url = `${content.media_url_https}?name=4096x4096`;
+                    return {
+                        type: "photo",
+                        url,
+                        thumb: url,
+                    }
+                }
+
                 let url = bestQuality(content.video_info.variants);
                 const shouldRenderGif = content.type === 'animated_gif' && toGif;
+
+                let type = "video";
+                if (shouldRenderGif) type = "gif";
 
                 if (needsFixing(content) || shouldRenderGif) {
                     url = createStream({
@@ -181,9 +200,9 @@ export default async function({ id, index, toGif, dispatcher }) {
                 }
 
                 return {
-                    type: 'video',
+                    type,
                     url,
-                    thumb: content.media_url_https,
+                    thumb: content.media_url_https
                 }
             });
             return { picker };

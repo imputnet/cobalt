@@ -10,6 +10,8 @@ async function requestJSON(url) {
     } catch {}
 }
 
+const delta = (a, b) => Math.abs(a - b);
+
 export default async function(obj) {
     if (obj.yappyId) {
         const yappy = await requestJSON(
@@ -25,7 +27,7 @@ export default async function(obj) {
         }
     }
 
-    const quality = obj.quality === "max" ? "9000" : obj.quality;
+    const quality = Number(obj.quality) || 9000;
 
     const requestURL = new URL(`https://rutube.ru/api/play/options/${obj.id}/?no_404=true&referer&pver=v2`);
     if (obj.key) requestURL.searchParams.set('p', obj.key);
@@ -45,12 +47,16 @@ export default async function(obj) {
 
     if (!m3u8) return { error: 'ErrorCouldntFetch' };
 
-    m3u8 = HLS.parse(m3u8).variants.sort((a, b) => Number(b.bandwidth) - Number(a.bandwidth));
+    m3u8 = HLS.parse(m3u8).variants;
 
-    let bestQuality = m3u8[0];
-    if (Number(quality) < bestQuality.resolution.height) {
-        bestQuality = m3u8.find((i) => (Number(quality) === i.resolution.height));
-    }
+    const matchingQuality = m3u8.reduce((prev, next) => {
+        const diff = {
+            prev: delta(quality, prev.resolution.height),
+            next: delta(quality, next.resolution.height)
+        };
+
+        return diff.prev < diff.next ? prev : next;
+    });
 
     const fileMetadata = {
         title: cleanString(play.title.trim()),
@@ -58,15 +64,15 @@ export default async function(obj) {
     }
 
     return {
-        urls: bestQuality.uri,
+        urls: matchingQuality.uri,
         isM3U8: true,
         filenameAttributes: {
             service: "rutube",
             id: obj.id,
             title: fileMetadata.title,
             author: fileMetadata.artist,
-            resolution: `${bestQuality.resolution.width}x${bestQuality.resolution.height}`,
-            qualityLabel: `${bestQuality.resolution.height}p`,
+            resolution: `${matchingQuality.resolution.width}x${matchingQuality.resolution.height}`,
+            qualityLabel: `${matchingQuality.resolution.height}p`,
             extension: "mp4"
         },
         fileMetadata: fileMetadata

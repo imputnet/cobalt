@@ -26,7 +26,7 @@ the scope is not strictly defined, you can write whatever you find most fitting 
 
 if you think a change deserves further explanation, we encourage you to write a short explanation in the commit message ([example](https://github.com/imputnet/cobalt/commit/d2e5b6542f71f3809ba94d56c26f382b5cb62762)), which will save both you and us time having to enquire about the change, and you explaining the reason behind it.
 
-if your contribution has uninformative commit messages, you may be asked to interactively rebase your branch and amend each commit to include a meaningful message.
+if your contribution has uninformative commit titles, you may be asked to interactively rebase your branch and amend each commit to include a meaningful title.
 
 ### clean commit history
 if your branch is out of date and/or has some merge conflicts with the `current` branch, you should **rebase** it instead of merging. this prevents meaningless merge commits from being included in your branch, which would then end up in the cobalt git history.
