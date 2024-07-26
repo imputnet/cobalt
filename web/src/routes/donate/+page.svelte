@@ -216,7 +216,7 @@
         vertical-align: middle;
     }
 
-    section h3 {
+    section > h3 {
         padding: var(--padding) 0;
     }
 
