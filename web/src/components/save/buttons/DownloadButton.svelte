@@ -54,7 +54,7 @@
         // transition back to idle after some period of time.
         const final: DownloadButtonState[] = ['done', 'error'];
         if (final.includes(state)) {
-            setTimeout(() => changeDownloadButton("idle"), 2500);
+            setTimeout(() => changeDownloadButton("idle"), 1500);
         }
     };
 

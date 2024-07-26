@@ -138,13 +138,18 @@
             placeholder={$t("save.input.placeholder")}
             aria-label={$t("a11y.save.linkArea")}
             data-form-type="other"
+            disabled={isDisabled}
         />
 
         {#if $link}
             <ClearButton click={() => ($link = "")} />
         {/if}
         {#if validLink($link)}
-            <DownloadButton url={$link} bind:this={downloadButton} bind:isDisabled={isDisabled} />
+            <DownloadButton
+                url={$link}
+                bind:this={downloadButton}
+                bind:disabled={isDisabled}
+            />
         {/if}
     </div>
 
