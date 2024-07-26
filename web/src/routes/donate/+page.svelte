@@ -228,13 +228,6 @@
         justify-content: space-evenly;
     }
 
-    @media screen and (max-width: 750px) {
-        .donation-options {
-            flex-direction: column;
-            gap: 1em;
-            align-items: center;
-        }
-    }
     .donation-option {
         display: flex;
         flex-direction: column;
@@ -292,10 +285,22 @@
         gap: .25em;
     }
 
-
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+
+    @media screen and (max-width: 750px) {
+        .donation-options {
+            flex-direction: column;
+            gap: 1em;
+            align-items: center;
+        }
+
+        .crypto-wallets {
+            padding-left: 0;
+        }
+    }
+
 </style>
