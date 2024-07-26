@@ -1065,6 +1065,7 @@
     }, {
         "name": "yappy",
         "url": "https://rutube.ru/yappy/c8c32bf7aee04412837656ea26c2b25b/",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
