@@ -193,7 +193,9 @@
                     <button
                         class="wallet-address"
                         on:click={() => toClipboard(address)}
-                    >{ address }</button>
+                    >
+                        { address }
+                    </button>
                 </div>
             {/each}
         </div>
@@ -204,6 +206,7 @@
     #donate-page {
         max-width: 850px;
         margin: 0 auto;
+        overflow-x: hidden;
         padding: var(--padding);
     }
 
@@ -271,7 +274,9 @@
         width: 100%;
         display: block;
         text-align: left;
-        font-size: 12px;
+        font-size: .75em;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .crypto-wallets {
