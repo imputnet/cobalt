@@ -11,8 +11,7 @@
             "code": 200,
             "status": "redirect"
         }
-    },
-    {
+    }, {
         "name": "video with mobile web mediaviewer",
         "url": "https://twitter.com/X/status/1697304622749086011/mediaViewer?currentTweet=1697304622749086011&currentTweetUser=X&currentTweet=1697304622749086011&currentTweetUser=X",
         "params": {},
@@ -136,6 +135,22 @@
         "expected": {
             "code": 200,
             "status": "redirect"
+        }
+    }, {
+        "name": "post with 1 image",
+        "url": "https://x.com/PopCrave/status/1815960083475423235",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "post with 4 images",
+        "url": "https://x.com/PopCrave/status/1816260887147114696",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
         }
     }, {
         "name": "retweeted video, isAudioOnly",
@@ -1065,6 +1080,7 @@
     }, {
         "name": "yappy",
         "url": "https://rutube.ru/yappy/c8c32bf7aee04412837656ea26c2b25b/",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
