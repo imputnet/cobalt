@@ -8,6 +8,7 @@
 
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
+    import IconGif from "@tabler/icons-svelte/IconGif.svelte";
 
     export let item: DialogPickerItem;
     export let number: number;
@@ -21,6 +22,8 @@
     <div class="picker-type">
         {#if itemType === "video"}
             <IconMovie />
+        {:else if itemType === "gif"}
+            <IconGif />
         {:else}
             <IconPhoto />
         {/if}
@@ -31,7 +34,7 @@
         src={item.thumb ?? item.url}
 
         class:loading={!imageLoaded}
-        class:video-thumbnail={itemType === "video"}
+        class:video-thumbnail={["video", "gif"].includes(itemType)}
         on:load={() => imageLoaded = true}
 
         alt="{$t(`a11y.dialog.picker.item.${itemType}`)} {number}"
