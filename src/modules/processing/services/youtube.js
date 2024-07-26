@@ -176,7 +176,7 @@ export default async function(o) {
 
     if (bestQuality) bestQuality = qual(bestQuality);
 
-    if (!bestQuality && !o.isAudioOnly || !hasAudio)
+    if ((!bestQuality && !o.isAudioOnly) || !hasAudio)
         return { error: 'ErrorYTTryOtherCodec' };
 
     if (basicInfo.duration > env.durationLimit)
@@ -227,7 +227,7 @@ export default async function(o) {
         youtubeDubName: isDubbed ? o.dubLang : false
     }
 
-    if (hasAudio && o.isAudioOnly) return {
+    if (audio && o.isAudioOnly) return {
         type: "render",
         isAudioOnly: true,
         urls: audio.decipher(yt.session.player),
@@ -252,7 +252,7 @@ export default async function(o) {
 
     const video = adaptive_formats.find(checkRender);
 
-    if (!match && video) {
+    if (!match && video && audio) {
         match = video;
         type = "render";
         urls = [
