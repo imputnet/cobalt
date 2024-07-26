@@ -205,6 +205,8 @@ export default async function(host, patternMatch, lang, obj) {
             case "coub":
                 r = await coub({
                     id: patternMatch.id
+                };
+                break;
             case "facebook":
                 r = await facebook({
                     ...patternMatch
