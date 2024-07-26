@@ -18,7 +18,7 @@ async function video(obj) {
         json = JSON.parse(req);
     } catch { return { error: 'ErrorEmptyDownload' }; }
     const highestQuality = Object.keys(json.sources)[0];
-    const video = json.sources[highestQuality][0].src;
+    const videoSrc = json.sources[highestQuality][0].src;
     if (!json.sources[highestQuality][0].type.includes('mp4')) {
         return { error: 'ErrorCouldntFetch' };
     }
@@ -29,7 +29,7 @@ async function video(obj) {
     }
 
     return {
-        urls: video,
+        urls: videoSrc,
         filenameAttributes: {
             service: "newgrounds",
             id: obj.id,
@@ -81,7 +81,7 @@ async function music(obj) {
     }
 }
 
-export default async function(obj) {
+export default function(obj) {
     // handle video downloads
     if (obj.type == 'portal') {
         return video(obj);
