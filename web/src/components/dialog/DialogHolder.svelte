@@ -120,21 +120,24 @@
         will-change: transform;
     }
 
-    :global(.open .dialog-body) {
+    :global(dialog.open .dialog-body) {
         animation: modal-in 0.35s;
     }
 
-    :global(.closing .dialog-body) {
+    :global(dialog.closing .dialog-body) {
         animation: modal-out 0.15s;
         opacity: 0;
     }
 
     @media screen and (max-width: 535px) {
-        :global(.open .dialog-body) {
+        :global(dialog.open .dialog-body) {
             animation: modal-in-mobile 0.4s;
+        }
+
+        :global(dialog .dialog-body) {
             margin-bottom: calc(
                 var(--padding) / 2 + env(safe-area-inset-bottom)
-            );
+            ) !important;
             box-shadow: 0 0 0 2px var(--popup-stroke) inset;
         }
     }
