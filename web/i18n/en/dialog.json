@@ -4,6 +4,9 @@
     "button.reset": "reset",
     "button.done": "done",
     "button.downloadAudio": "download audio",
+    "button.download": "download",
+    "button.share": "share",
+    "button.copy": "copy",
 
     "reset.title": "reset all settings?",
     "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible.",
@@ -11,5 +14,7 @@
     "picker.title": "select what to save",
     "picker.description.desktop": "click an item to save it. images can also be saved via the right click menu.",
     "picker.description.phone": "press an item to save it. images can also be saved with a long press.",
-    "picker.description.ios": "press an item to save it with a shortcut. images can also be saved with a long press."
+    "picker.description.ios": "press an item to save it with a shortcut. images can also be saved with a long press.",
+
+    "saving.title": "choose how to save"
 }

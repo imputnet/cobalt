@@ -3,6 +3,7 @@
 
     import SmallDialog from "$components/dialog/SmallDialog.svelte";
     import PickerDialog from "$components/dialog/PickerDialog.svelte";
+    import SavingDialog from "$components/dialog/SavingDialog.svelte";
 
     $: backdropVisible = $dialogs.length > 0;
 </script>
@@ -10,10 +11,13 @@
 <div id="dialog-holder">
     {#each $dialogs as dialog}
         {@const { type, ...data } = dialog}
+
         {#if type === "small"}
             <SmallDialog {...data} />
-        {:else if dialog.type === "picker"}
+        {:else if type === "picker"}
             <PickerDialog {...data} />
+        {:else if type === "saving"}
+            <SavingDialog {...data} />
         {/if}
     {/each}
     <div id="dialog-backdrop" class:visible={backdropVisible}></div>

@@ -21,9 +21,12 @@
         object-fit: cover;
     }
 
-    .think,
     .error {
         height: 160px;
+    }
+
+    .question {
+        height: 140px;
     }
 
     .error {

@@ -17,7 +17,6 @@ export type DialogPickerItem = {
 
 type Dialog = {
     id: string,
-    buttons?: DialogButton[],
 };
 
 type SmallDialog = Dialog & {
@@ -27,11 +26,18 @@ type SmallDialog = Dialog & {
     title?: string,
     bodyText?: string,
     bodySubText?: string,
+    buttons?: DialogButton[],
 };
 
 type PickerDialog = Dialog & {
     type: "picker",
     items?: DialogPickerItem[],
+    buttons?: DialogButton[],
 };
 
-export type DialogInfo = SmallDialog | PickerDialog;
+type SavingDialog = Dialog & {
+    type: "saving",
+    url: string,
+};
+
+export type DialogInfo = SmallDialog | PickerDialog | SavingDialog;
