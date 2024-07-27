@@ -7,7 +7,6 @@
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
-    import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
 
     import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
 
@@ -53,8 +52,6 @@
             <DialogButtons {buttons} closeFunc={close} />
         {/if}
     </div>
-
-    <DialogBackdropClose closeFunc={close} />
 </DialogContainer>
 
 <style>

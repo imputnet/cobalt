@@ -2,6 +2,8 @@
     import { tick } from "svelte";
     import { killDialog } from "$lib/dialogs";
 
+    import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
+
     export let id: string;
 
     let dialogParent: HTMLDialogElement;
@@ -30,4 +32,5 @@
 
 <dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open>
     <slot></slot>
+    <DialogBackdropClose closeFunc={close} />
 </dialog>

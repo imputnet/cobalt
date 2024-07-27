@@ -10,7 +10,6 @@
 
     import PickerItem from "$components/dialog/PickerItem.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
-    import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
 
     import IconBoxMultiple from "@tabler/icons-svelte/IconBoxMultiple.svelte";
 
@@ -58,8 +57,6 @@
             <DialogButtons {buttons} closeFunc={close} />
         {/if}
     </div>
-
-    <DialogBackdropClose closeFunc={close} />
 </DialogContainer>
 
 <style>

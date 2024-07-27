@@ -7,7 +7,6 @@
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
-    import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
     import VerticalActionButton from "$components/buttons/VerticalActionButton.svelte";
 
     import IconCopy from "@tabler/icons-svelte/IconCopy.svelte";
@@ -74,8 +73,6 @@
             closeFunc={close}
         />
     </div>
-
-    <DialogBackdropClose closeFunc={close} />
 </DialogContainer>
 
 <style>
