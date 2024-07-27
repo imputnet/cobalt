@@ -264,6 +264,11 @@
         color: var(--gray);
     }
 
+    /* fix for safari */
+    input:disabled {
+        opacity: 1;
+    }
+
     #action-container {
         display: flex;
         flex-direction: row;
