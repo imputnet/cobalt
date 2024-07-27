@@ -51,7 +51,7 @@
                 <Meowbalt emotion={meowbalt} />
             </div>
         {/if}
-        <div class="popup-body">
+        <div class="dialog-inner-container">
             {#if title || icon}
                 <div class="popup-header">
                     {#if icon === "warn-red"}
@@ -81,36 +81,25 @@
 
 <style>
     .small-dialog,
-    .popup-body {
+    .dialog-inner-container {
         display: flex;
         flex-direction: column;
         gap: var(--padding);
     }
 
-    .popup-body {
+    .dialog-inner-container {
         overflow-y: scroll;
         gap: 8px;
     }
 
     .small-dialog {
-        --dialog-padding: 18px;
-
-        align-items: center;
         text-align: center;
         max-width: 340px;
         width: calc(
             100% - var(--padding) - var(--dialog-padding) * 2
         );
         max-height: 50%;
-        background: var(--popup-bg);
-        box-shadow:
-            0 0 0 2px var(--popup-stroke) inset,
-            0 0 60px 10px var(--popup-bg);
-        padding: var(--dialog-padding);
         margin: calc(var(--padding) / 2);
-        border-radius: 29px;
-        position: relative;
-        will-change: transform;
     }
 
     .small-dialog.meowbalt-visible {
@@ -154,12 +143,5 @@
     .body-text:focus-visible,
     .popup-title:focus-visible {
         box-shadow: none !important;
-    }
-
-    @media screen and (max-width: 535px) {
-        .small-dialog {
-            margin-bottom: calc(var(--padding) / 2 + env(safe-area-inset-bottom));
-            box-shadow: 0 0 0 2px var(--popup-stroke) inset;
-        }
     }
 </style>

@@ -88,27 +88,12 @@
 
 <style>
     .picker-dialog {
-        --dialog-padding: 18px;
         --picker-item-size: 120px;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         gap: var(--padding);
         max-height: calc(
             90% - env(safe-area-inset-bottom) - env(safe-area-inset-top)
         );
-
         width: auto;
-        background: var(--popup-bg);
-        box-shadow:
-            0 0 0 2px var(--popup-stroke) inset,
-            0 0 60px 10px var(--popup-bg);
-        padding: var(--dialog-padding);
-        position: relative;
-        will-change: transform;
-
-        border-radius: 29px;
     }
 
     .popup-header {
@@ -167,13 +152,6 @@
     }
 
     @media screen and (max-width: 535px) {
-        .picker-dialog {
-            margin-bottom: calc(
-                var(--padding) / 2 + env(safe-area-inset-bottom)
-            );
-            box-shadow: 0 0 0 2px var(--popup-stroke) inset;
-        }
-
         .picker-body {
             grid-template-columns: 1fr 1fr 1fr;
         }

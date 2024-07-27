@@ -95,6 +95,25 @@
         -webkit-backdrop-filter: none !important;
     }
 
+    :global(.dialog-body) {
+        --dialog-padding: 18px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        background: var(--popup-bg);
+        box-shadow:
+            0 0 0 2px var(--popup-stroke) inset,
+            0 0 60px 10px var(--popup-bg);
+        border-radius: 29px;
+
+        padding: var(--dialog-padding);
+
+        position: relative;
+        will-change: transform;
+    }
+
     :global(.open .dialog-body) {
         animation: modal-in 0.35s;
     }
@@ -107,6 +126,10 @@
     @media screen and (max-width: 535px) {
         :global(.open .dialog-body) {
             animation: modal-in-mobile 0.4s;
+            margin-bottom: calc(
+                var(--padding) / 2 + env(safe-area-inset-bottom)
+            );
+            box-shadow: 0 0 0 2px var(--popup-stroke) inset;
         }
     }
 
