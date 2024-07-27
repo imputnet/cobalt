@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { tick } from "svelte";
-    import { killDialog } from "$lib/dialogs";
-
     import type { Optional } from "$lib/types/generic";
     import type { MeowbaltEmotions } from "$lib/types/meowbalt";
     import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
+
+    import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
@@ -20,31 +19,10 @@
     export let bodySubText = "";
     export let buttons: Optional<DialogButton[]> = undefined;
 
-    let dialogParent: HTMLDialogElement;
-
-    let closing = false;
-    let open = false;
-
-    const close = () => {
-        if (dialogParent) {
-            closing = true;
-            open = false;
-            setTimeout(() => {
-                dialogParent.close();
-                killDialog();
-            }, 150);
-        }
-    };
-
-    $: if (dialogParent) {
-        dialogParent.showModal();
-        tick().then(() => {
-            open = true;
-        });
-    }
+    let close: () => void;
 </script>
 
-<dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open>
+<DialogContainer {id} bind:close>
     <div class="dialog-body small-dialog" class:meowbalt-visible={meowbalt}>
         {#if meowbalt}
             <div class="meowbalt-container">
@@ -77,7 +55,7 @@
     </div>
 
     <DialogBackdropClose closeFunc={close} />
-</dialog>
+</DialogContainer>
 
 <style>
     .small-dialog,
@@ -95,9 +73,7 @@
     .small-dialog {
         text-align: center;
         max-width: 340px;
-        width: calc(
-            100% - var(--padding) - var(--dialog-padding) * 2
-        );
+        width: calc(100% - var(--padding) - var(--dialog-padding) * 2);
         max-height: 50%;
         margin: calc(var(--padding) / 2);
     }

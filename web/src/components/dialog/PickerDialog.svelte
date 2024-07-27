@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { tick } from "svelte";
     import { device } from "$lib/device";
-    import { killDialog } from "$lib/dialogs";
     import { t } from "$lib/i18n/translations";
 
     import type { Optional } from "$lib/types/generic";
     import type { DialogButton } from "$lib/types/dialog";
     import type { DialogPickerItem } from "$lib/types/dialog";
+
+    import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
     import PickerItem from "$components/dialog/PickerItem.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
@@ -28,38 +28,14 @@
         dialogDescription += "desktop";
     }
 
-    let dialogParent: HTMLDialogElement;
-
-    let closing = false;
-    let open = false;
-
-    const close = () => {
-        if (dialogParent) {
-            closing = true;
-            open = false;
-            setTimeout(() => {
-                dialogParent.close();
-                killDialog();
-            }, 150);
-        }
-    };
-
-    $: if (dialogParent) {
-        dialogParent.showModal();
-        tick().then(() => {
-            open = true;
-        });
-    }
+    let close: () => void;
 </script>
 
-<dialog
-    id="dialog-{id}"
-    bind:this={dialogParent}
-    class:closing
-    class:open
-    class:three-columns={items && items.length <= 3}
->
-    <div class="dialog-body picker-dialog">
+<DialogContainer {id} bind:close>
+    <div
+        class="dialog-body picker-dialog"
+        class:three-columns={items && items.length <= 3}
+    >
         <div class="popup-header">
             <div class="popup-title-container">
                 <IconBoxMultiple />
@@ -84,7 +60,7 @@
     </div>
 
     <DialogBackdropClose closeFunc={close} />
-</dialog>
+</DialogContainer>
 
 <style>
     .picker-dialog {
