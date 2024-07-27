@@ -8,16 +8,18 @@
     $: backdropVisible = $dialogs.length > 0;
 </script>
 
+<!--
+    this is the cleanest way of passing props without typescript throwing a fit.
+    more info here: https://github.com/microsoft/TypeScript/issues/46680
+-->
 <div id="dialog-holder">
     {#each $dialogs as dialog}
-        {@const { type, ...data } = dialog}
-
-        {#if type === "small"}
-            <SmallDialog {...data} />
-        {:else if type === "picker"}
-            <PickerDialog {...data} />
-        {:else if type === "saving"}
-            <SavingDialog {...data} />
+        {#if dialog.type === "small"}
+            <SmallDialog {...dialog} />
+        {:else if dialog.type === "picker"}
+            <PickerDialog {...dialog} />
+        {:else if dialog.type === "saving"}
+            <SavingDialog {...dialog} />
         {/if}
     {/each}
     <div id="dialog-backdrop" class:visible={backdropVisible}></div>
