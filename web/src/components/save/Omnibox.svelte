@@ -262,6 +262,8 @@
 
     #link-area::placeholder {
         color: var(--gray);
+        /* fix for firefox */
+        opacity: 1;
     }
 
     /* fix for safari */
