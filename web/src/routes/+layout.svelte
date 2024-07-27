@@ -333,6 +333,18 @@
         background-color: var(--button-hover);
     }
 
+    :global(.button.elevated) {
+        background-color: var(--button-elevated);
+    }
+
+    :global(.button.elevated:active) {
+        background-color: var(--button-elevated-hover);
+    }
+
+    :global(.button.elevated:not(:focus-visible)) {
+        box-shadow: none;
+    }
+
     :global(.button.active) {
         color: var(--primary);
         background-color: var(--secondary);
@@ -352,6 +364,10 @@
     @media (hover: hover) {
         :global(button:hover) {
             background-color: var(--button-hover);
+        }
+    
+        :global(.button.elevated:hover) {
+            background-color: var(--button-elevated-hover);
         }
 
         :global(.button.active:not(.color):hover) {
