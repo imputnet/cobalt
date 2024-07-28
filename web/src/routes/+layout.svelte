@@ -337,7 +337,7 @@
         background-color: var(--button-elevated);
     }
 
-    :global(.button.elevated:active) {
+    :global(.button.elevated:not(.color):active) {
         background-color: var(--button-elevated-hover);
     }
 
@@ -365,8 +365,8 @@
         :global(button:hover) {
             background-color: var(--button-hover);
         }
-    
-        :global(.button.elevated:hover) {
+
+        :global(.button.elevated:not(.color):hover) {
             background-color: var(--button-elevated-hover);
         }
 
