@@ -7,6 +7,7 @@
     "button.download": "download",
     "button.share": "share",
     "button.copy": "copy",
+    "button.import": "import",
 
     "reset.title": "reset all settings?",
     "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible.",
@@ -16,5 +17,9 @@
     "picker.description.phone": "press an item to save it. images can also be saved with a long press.",
     "picker.description.ios": "press an item to save it with a shortcut. images can also be saved with a long press.",
 
-    "saving.title": "choose how to save"
+    "saving.title": "choose how to save",
+
+    "safety.title": "important safety notice",
+
+    "import.body": "importing unknown or corrupted files may unexpectedly alter or break cobalt functionality. only import files that you've personally exported and haven't modified.\n\nwe are not responsible for any harm caused by importing unknown setting files."
 }
