@@ -23,6 +23,7 @@
                     text: $t("dialog.button.reset"),
                     color: "red",
                     main: true,
+                    timeout: 5000,
                     action: () => resetSettings(),
                 },
             ],
