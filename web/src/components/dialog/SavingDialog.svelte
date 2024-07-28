@@ -34,7 +34,7 @@
                 </h2>
             </div>
             <div class="action-buttons">
-                {#if !(app.is.installed && device.is.iOS)}
+                {#if device.supports.directDownload}
                     <VerticalActionButton
                         id="save-download"
                         fill
@@ -46,7 +46,7 @@
                     </VerticalActionButton>
                 {/if}
 
-                {#if navigator.share !== undefined}
+                {#if device.supports.share}
                     <VerticalActionButton
                         id="save-share"
                         fill

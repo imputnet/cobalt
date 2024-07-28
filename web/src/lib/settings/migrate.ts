@@ -10,7 +10,6 @@ const oldSwitcherValues = {
 
 const oldCheckboxes = [
     'audioMode',
-    'downloadPopup',
     'fullTikTokAudio',
     'muteAudio',
     'reduceTransparency',
@@ -101,7 +100,6 @@ export const migrateOldSettings = () => {
             filenameStyle: getLiteral('filenamePattern'),
             tiktokFullAudio: getBool('fullTikTokAudio'),
             tiktokH265: getBool('tiktokH265'),
-            downloadPopup: getBool('downloadPopup'),
             disableMetadata: getBool('disableMetadata'),
             twitterGif: getBool('twitterGif'),
             youtubeDubBrowserLang: getBool('ytDub'),

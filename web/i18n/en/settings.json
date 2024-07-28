@@ -72,9 +72,12 @@
     "metadata.disable.title": "disable file metadata",
     "metadata.disable.description": "title, artist, and other info will not be added to the file.",
 
-    "saving.method": "saving method",
-    "saving.ask.title": "ask how to save",
-    "saving.ask.description": "offer several ways to save the file instead of opening it in a new tab.",
+    "saving.title": "saving method",
+    "saving.ask": "ask",
+    "saving.download": "download",
+    "saving.share": "share",
+    "saving.copy": "copy",
+    "saving.description": "preferred way of saving the file or link from cobalt. if preferred method is unavailable or something goes wrong, cobalt will ask you what to do next.",
 
     "accessibility": "accessibility",
     "accessibility.transparency.title": "reduce visual transparency",

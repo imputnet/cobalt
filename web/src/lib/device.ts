@@ -15,6 +15,12 @@ const installed = window.matchMedia('(display-mode: standalone)').matches;
 const reducedMotion = window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;
 const reducedTransparency = window.matchMedia(`(prefers-reduced-transparency: reduce)`).matches;
 
+const app = {
+    is: {
+        installed
+    }
+}
+
 const device = {
     is: {
         iPhone,
@@ -28,13 +34,12 @@ const device = {
         reducedMotion,
         reducedTransparency,
     },
+    supports: {
+        share: navigator.share !== undefined,
+        directDownload: !(installed && iOS),
+    },
     userAgent: navigator.userAgent,
 }
 
-const app = {
-    is: {
-        installed
-    }
-}
 
 export { device, app };

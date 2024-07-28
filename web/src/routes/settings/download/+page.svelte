@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    import { filenameStyleOptions } from "$lib/types/settings";
+    import { filenameStyleOptions, savingMethodOptions } from "$lib/types/settings";
 
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
@@ -30,6 +30,20 @@
     </div>
 </SettingsCategory>
 
+<SettingsCategory sectionId="saving" title={$t("settings.saving.title")}>
+    <Switcher big={true} description={$t("settings.saving.description")}>
+        {#each savingMethodOptions as value}
+            <SettingsButton
+                settingContext="save"
+                settingId="savingMethod"
+                settingValue={value}
+            >
+                {$t(`settings.saving.${value}`)}
+            </SettingsButton>
+        {/each}
+    </Switcher>
+</SettingsCategory>
+
 <SettingsCategory
     sectionId="disable-metadata"
     title={$t("settings.metadata.file")}
@@ -39,14 +53,5 @@
         settingId="disableMetadata"
         title={$t("settings.metadata.disable.title")}
         description={$t("settings.metadata.disable.description")}
-    />
-</SettingsCategory>
-
-<SettingsCategory sectionId="saving" title={$t("settings.saving.method")}>
-    <SettingsToggle
-        settingContext="save"
-        settingId="downloadPopup"
-        title={$t("settings.saving.ask.title")}
-        description={$t("settings.saving.ask.description")}
     />
 </SettingsCategory>

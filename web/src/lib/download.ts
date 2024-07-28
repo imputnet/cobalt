@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
 
-import { app, device } from "$lib/device";
+import { device } from "$lib/device";
 import settings from "$lib/state/settings";
 
 import { createDialog } from "$lib/dialogs";
@@ -17,28 +17,20 @@ export const openURL = (url: string) => {
 
     /* if new tab got blocked by user agent, show a saving dialog */
     if (!open) {
-        openSavingDialog(url);
+        return openSavingDialog(url);
     }
 }
 
 export const shareURL = async (url: string) => {
-    try {
-        return await navigator?.share({ url });
-    } catch {
-        return false;
-    }
+    return await navigator?.share({ url });
 }
 
 export const copyURL = async (url: string) => {
-    try {
-        return await navigator?.clipboard.writeText(url);
-    } catch {
-        return false;
-    }
+    return await navigator?.clipboard?.writeText(url);
 }
 
 export const downloadFile = (url: string) => {
-    const savingPreference = get(settings).save.downloadPopup;
+    const pref = get(settings).save.savingMethod;
 
     /*
         user actions (such as invoke share, open new tab) have expiration.
@@ -49,11 +41,20 @@ export const downloadFile = (url: string) => {
         invoke an action without the user agent interrupting it.
         if not, we show a saving dialog for user to re-invoke that action.
     */
-    if (savingPreference || !navigator.userActivation.isActive) {
-        openSavingDialog(url);
-    } else if (device.is.iOS && app.is.installed) {
-        return shareURL(url);
-    } else {
-        return openURL(url);
+
+    if (pref === "ask" || !navigator.userActivation.isActive) {
+        return openSavingDialog(url);
     }
+
+    try {
+        if (pref === "share" && device.supports.share) {
+            return shareURL(url);
+        } else if (pref === "download" && device.supports.directDownload) {
+            return openURL(url);
+        } else if (pref === "copy") {
+            return copyURL(url);
+        }
+    } catch {}
+
+    return openSavingDialog(url);
 }
