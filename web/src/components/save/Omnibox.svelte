@@ -83,11 +83,11 @@
             linkInput.focus();
         }
 
-        if (e.key === "Enter" && validLink($link)) {
+        if (e.key === "Enter" && validLink($link) && isFocused) {
             downloadButton.download($link);
         }
 
-        if (["Escape", "Clear"].includes(e.key)) {
+        if (["Escape", "Clear"].includes(e.key) && isFocused) {
             $link = "";
         }
 
