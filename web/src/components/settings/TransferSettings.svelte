@@ -1,7 +1,11 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/dialogs";
-    import settings, { updateSetting, loadFromString, } from "$lib/state/settings";
+    import {
+        storedSettings,
+        updateSetting,
+        loadFromString
+    } from "$lib/state/settings";
 
     import ActionButton from "$components/buttons/ActionButton.svelte";
 
@@ -65,7 +69,7 @@
 
     const exportSettings = () => {
         const blob = new Blob(
-            [ JSON.stringify($settings, null, 2) ],
+            [ JSON.stringify($storedSettings, null, 2) ],
             { type: "application/json" }
         );
 
