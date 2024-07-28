@@ -1,23 +1,14 @@
 <script lang="ts">
-    import type { DialogButton } from "$lib/types/dialog";
+    import type { DialogButton as DialogButtonType } from "$lib/types/dialog";
+    import DialogButton from "$components/dialog/DialogButton.svelte";
 
-    export let buttons: DialogButton[];
+    export let buttons: DialogButtonType[];
     export let closeFunc: () => void;
 </script>
 
 <div class="popup-buttons">
     {#each buttons as button}
-        <button
-            class="button elevated popup-button {button.color}"
-            class:color={button.color}
-            class:active={button.main}
-            on:click={async () => {
-                await button.action();
-                closeFunc();
-            }}
-        >
-            {button.text}
-        </button>
+        <DialogButton {button} {closeFunc} />
     {/each}
 </div>
 
@@ -30,15 +21,5 @@
         overflow: scroll;
         border-radius: var(--border-radius);
         min-height: 40px;
-    }
-
-    .popup-button {
-        width: 100%;
-        height: 40px;
-    }
-
-    .popup-button.red {
-        background-color: var(--red);
-        color: var(--white);
     }
 </style>

@@ -4,6 +4,7 @@ export type DialogButton = {
     text: string,
     color?: "red",
     main: boolean,
+    timeout?: number, // milliseconds
     action: () => unknown | Promise<unknown>
 }
 
