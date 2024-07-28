@@ -13,7 +13,12 @@ export const openSavingDialog = (url: string) =>
     })
 
 export const openURL = (url: string) => {
-    return window.open(url, "_blank");
+    const open = window.open(url, "_blank");
+
+    /* if new tab got blocked by user agent, show a saving dialog */
+    if (!open) {
+        openSavingDialog(url);
+    }
 }
 
 export const shareURL = async (url: string) => {
