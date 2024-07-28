@@ -70,9 +70,11 @@
                 </VerticalActionButton>
             </div>
         </div>
-        <div class="body-text">
-            {bodyText}
-        </div>
+        {#if bodyText}
+            <div class="body-text">
+                {bodyText}
+            </div>
+        {/if}
         <DialogButtons
             buttons={[
                 {
