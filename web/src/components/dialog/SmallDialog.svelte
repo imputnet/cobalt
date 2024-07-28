@@ -109,6 +109,7 @@
         font-weight: 500;
         line-height: 1.7;
         color: var(--gray);
+        white-space: pre-wrap;
         user-select: text;
         -webkit-user-select: text;
     }
