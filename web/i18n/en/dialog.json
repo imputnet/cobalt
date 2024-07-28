@@ -18,6 +18,7 @@
     "picker.description.ios": "press an item to save it with a shortcut. images can also be saved with a long press.",
 
     "saving.title": "choose how to save",
+    "saving.blocked": "cobalt tried opening the file in a new tab, but your browser blocked it. you can allow pop-ups for cobalt to prevent this from happening next time.",
 
     "safety.title": "important safety notice",
 

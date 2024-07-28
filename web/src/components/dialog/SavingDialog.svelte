@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    import { app, device } from "$lib/device";
+    import { device } from "$lib/device";
     import { copyURL, openURL, shareURL } from "$lib/download";
 
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
@@ -17,6 +17,7 @@
 
     export let id: string;
     export let url: string;
+    export let bodyText: string = "";
 
     let close: () => void;
 </script>
@@ -69,6 +70,9 @@
                 </VerticalActionButton>
             </div>
         </div>
+        <div class="body-text">
+            {bodyText}
+        </div>
         <DialogButtons
             buttons={[
                 {
@@ -97,7 +101,6 @@
     }
 
     .popup-body {
-        text-align: center;
         max-width: 340px;
         width: calc(100% - var(--padding) - var(--dialog-padding) * 2);
         max-height: 50%;
@@ -139,5 +142,15 @@
         flex-direction: row;
         gap: calc(var(--padding) / 2);
         overflow-x: scroll;
+    }
+
+    .body-text {
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: var(--gray);
+        white-space: pre-wrap;
+        user-select: text;
+        -webkit-user-select: text;
     }
 </style>

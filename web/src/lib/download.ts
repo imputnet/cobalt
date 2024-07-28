@@ -1,23 +1,30 @@
 import { get } from "svelte/store";
 
-import { device } from "$lib/device";
 import settings from "$lib/state/settings";
 
-import { createDialog } from "$lib/dialogs";
+import { device } from "$lib/device";
+import { t } from "$lib/i18n/translations";
 
-export const openSavingDialog = (url: string) =>
-    createDialog({
+import { createDialog } from "$lib/dialogs";
+import type { DialogInfo } from "$lib/types/dialog";
+
+export const openSavingDialog = (url: string, body: string | void) => {
+    let dialogData: DialogInfo = {
         type: "saving",
         id: "saving",
         url
-    })
+    }
+    if (body) dialogData.bodyText = body;
+
+    createDialog(dialogData)
+}
 
 export const openURL = (url: string) => {
     const open = window.open(url, "_blank");
 
     /* if new tab got blocked by user agent, show a saving dialog */
     if (!open) {
-        return openSavingDialog(url);
+        return openSavingDialog(url, get(t)("dialog.saving.blocked"));
     }
 }
 
