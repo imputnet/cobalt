@@ -18,7 +18,7 @@ const defaultSettings: CobaltSettings = {
         audioFormat: "mp3",
         disableMetadata: false,
         downloadMode: "auto",
-        downloadPopup: true,
+        downloadPopup: false,
         filenameStyle: "classic",
         tiktokH265: false,
         tiktokFullAudio: false,
