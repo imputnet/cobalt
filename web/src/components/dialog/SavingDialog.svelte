@@ -1,6 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
+    import { app, device } from "$lib/device";
     import { copyURL, openURL, shareURL } from "$lib/download";
 
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
@@ -33,24 +34,30 @@
                 </h2>
             </div>
             <div class="action-buttons">
-                <VerticalActionButton
-                    id="save-download"
-                    fill
-                    elevated
-                    click={() => openURL(url)}
-                >
-                    <IconDownload />
-                    {$t("dialog.button.download")}
-                </VerticalActionButton>
-                <VerticalActionButton
-                    id="save-share"
-                    fill
-                    elevated
-                    click={async () => await shareURL(url)}
-                >
-                    <IconShare2 />
-                    {$t("dialog.button.share")}
-                </VerticalActionButton>
+                {#if !(app.is.installed && device.is.iOS)}
+                    <VerticalActionButton
+                        id="save-download"
+                        fill
+                        elevated
+                        click={() => openURL(url)}
+                    >
+                        <IconDownload />
+                        {$t("dialog.button.download")}
+                    </VerticalActionButton>
+                {/if}
+
+                {#if navigator.share !== undefined}
+                    <VerticalActionButton
+                        id="save-share"
+                        fill
+                        elevated
+                        click={async () => await shareURL(url)}
+                    >
+                        <IconShare2 />
+                        {$t("dialog.button.share")}
+                    </VerticalActionButton>
+                {/if}
+
                 <VerticalActionButton
                     id="save-copy"
                     fill
