@@ -49,9 +49,9 @@ item type: `object`
 
 | key     | type     | variables                                               | description                            |
 |:--------|:---------|:--------------------------------------------------------|:---------------------------------------|
-| `type`  | `string` | `video`                                                 | used only if `pickerType`is `various`. |
+| `type`  | `string` | `video / photo / gif`                                   | used only if `pickerType` is `various` |
 | `url`   | `string` | direct link to a file or a link to cobalt's live render |                                        |
-| `thumb` | `string` | item thumbnail that's displayed in the picker           | used only for `video` type.            |
+| `thumb` | `string` | item thumbnail that's displayed in the picker           | used for `video` and `gif` types       |
 
 ## GET: `/api/stream`
 cobalt's live render (or stream) endpoint. usually, you will receive a url to this endpoint
@@ -73,5 +73,5 @@ response body type: `application/json`
 | `branch`    | `string` | git branch        |
 | `name`      | `string` | server name       |
 | `url`       | `string` | server url        |
-| `cors`      | `int`    | cors status       |
+| `cors`      | `number` | cors status       |
 | `startTime` | `string` | server start time |

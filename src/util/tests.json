@@ -1,7 +1,7 @@
 {
     "twitter": [{
         "name": "regular video",
-        "url": "https://twitter.com/TwitterSpaces/status/1526955853743546372?s=20",
+        "url": "https://twitter.com/X/status/1697304622749086011",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -11,10 +11,9 @@
             "code": 200,
             "status": "redirect"
         }
-    },
-    {
+    }, {
         "name": "video with mobile web mediaviewer",
-        "url": "https://twitter.com/XSpaces/status/1526955853743546372/mediaViewer?currentTweet=1526955853743546372&currentTweetUser=XSpaces&currentTweet=1526955853743546372&currentTweetUser=XSpaces",
+        "url": "https://twitter.com/X/status/1697304622749086011/mediaViewer?currentTweet=1697304622749086011&currentTweetUser=X&currentTweet=1697304622749086011&currentTweetUser=X",
         "params": {},
         "expected": {
             "code": 200,
@@ -34,7 +33,7 @@
         }
     }, {
         "name": "mixed media (image + gif)",
-        "url": "https://twitter.com/Twitter/status/1580661436132757506?s=20",
+        "url": "https://twitter.com/sky_mj26/status/1807756010712428565",
         "params": {
             "aFormat": "mp3",
             "isAudioOnly": false,
@@ -42,7 +41,7 @@
         },
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "picker"
         }
     }, {
         "name": "picker: mixed media (3 videos)",
@@ -113,9 +112,10 @@
             "status": "redirect"
         }
     }, {
-        "name": "age-restricted video",
+        "name": "age restricted video",
         "url": "https://twitter.com/FckyeahCharli/status/1650987582749065220",
         "params": {},
+        "canFail": true,
         "expected": {
             "code": 200,
             "status": "redirect"
@@ -135,6 +135,22 @@
         "expected": {
             "code": 200,
             "status": "redirect"
+        }
+    }, {
+        "name": "post with 1 image",
+        "url": "https://x.com/PopCrave/status/1815960083475423235",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "post with 4 images",
+        "url": "https://x.com/PopCrave/status/1816260887147114696",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
         }
     }, {
         "name": "retweeted video, isAudioOnly",
@@ -650,23 +666,23 @@
         }
     }, {
         "name": "1080p dash parcel",
-        "url": "https://vimeo.com/774694040",
+        "url": "https://vimeo.com/967252742",
         "params": {
             "vQuality": "1440"
         },
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "720p dash parcel",
-        "url": "https://vimeo.com/774694040",
+        "url": "https://vimeo.com/967252742",
         "params": {
             "vQuality": "360"
         },
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
         }
     }, {
         "name": "private video",
@@ -674,7 +690,15 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
+        }
+    }, {
+        "name": "mature video",
+        "url": "https://vimeo.com/973212054",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
         }
     }],
     "reddit": [{
@@ -947,7 +971,7 @@
     }],
     "streamable": [{
         "name": "regular video",
-        "url": "https://streamable.com/03r3c2",
+        "url": "https://streamable.com/p9cln4",
         "params": {},
         "expected": {
             "code": 200,
@@ -963,7 +987,7 @@
         }
     }, {
         "name": "regular video (isAudioOnly)",
-        "url": "https://streamable.com/03r3c2",
+        "url": "https://streamable.com/p9cln4",
         "params": {
             "isAudioOnly": true
         },
@@ -973,7 +997,7 @@
         }
     }, {
         "name": "regular video (isAudioMuted)",
-        "url": "https://streamable.com/03r3c2",
+        "url": "https://streamable.com/p9cln4",
         "params": {
             "isAudioMuted": true
         },
@@ -1042,8 +1066,8 @@
         "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
         "params": {},
         "expected": {
-            "code": 200,
-            "status": "stream"
+            "code": 400,
+            "status": "error"
         }
     }, {
         "name": "vertical video",
@@ -1055,7 +1079,8 @@
         }
     }, {
         "name": "yappy",
-        "url": "https://rutube.ru/yappy/f1771e86294748eea8ecb2ac88e55740/",
+        "url": "https://rutube.ru/yappy/c8c32bf7aee04412837656ea26c2b25b/",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
@@ -1132,6 +1157,31 @@
             "status": "stream"
         }
     }],
+    "snapchat": [{
+        "name": "spotlight",
+        "url": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYdWxucG9pZmNqAY46j0a5AY46j0YbAAAAAQ",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "shortlinked spotlight",
+        "url": "https://t.snapchat.com/4ZsiBLDi",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "story",
+        "url": "https://www.snapchat.com/add/bazerkmakane",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }],
     "loom": [{
         "name": "1080p video",
         "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
@@ -1157,8 +1207,67 @@
             "isAudioOnly": true
         },
         "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }],
+    "facebook": [{
+        "name": "direct video with username and id",
+        "url": "https://web.facebook.com/100048111287134/videos/1157798148685638/",
+        "params": {},
+        "expected": {
             "code": 200,
-            "status": "stream"
+            "status": "redirect"
+        }
+    }, {
+        "name": "direct video with id as query param",
+        "url": "https://web.facebook.com/watch/?v=883839773514682&ref=sharing",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "direct video with caption",
+        "url": "https://web.facebook.com/wood57/videos/𝐒𝐞𝐛𝐚𝐬𝐤𝐨𝐦-𝐟𝐮𝐥𝐥/883839773514682",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "shortlink video",
+        "url": "https://fb.watch/r1K6XHMfGT/",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "reel video",
+        "url": "https://web.facebook.com/reel/730293269054758",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "shared video link",
+        "url": "https://www.facebook.com/share/v/NEf87jbPTvFE8LsL/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }, {
+        "name": "shared video link v2",
+        "url": "https://web.facebook.com/share/r/JFZfPVgLkiJQmWrr/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
         }
     }],
     "threads": [{

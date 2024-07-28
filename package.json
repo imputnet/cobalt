@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "description": "save what you love",
-    "version": "7.14.4",
+    "version": "7.15",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -40,7 +40,7 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^9.3.0"
+        "youtubei.js": "^10.2.0"
     },
     "optionalDependencies": {
         "freebind": "^0.2.2"

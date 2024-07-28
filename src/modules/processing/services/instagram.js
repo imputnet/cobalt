@@ -256,11 +256,11 @@ export default function(obj) {
             if (!media_id && cookie) media_id = await getMediaId(id, { cookie });
 
             // mobile api (bearer)
-            if (media_id && token) data = await requestMobileApi(id, { token });
+            if (media_id && token) data = await requestMobileApi(media_id, { token });
 
             // mobile api (no cookie, cookie)
-            if (!data && media_id) data = await requestMobileApi(id);
-            if (!data && media_id && cookie) data = await requestMobileApi(id, { cookie });
+            if (media_id && !data) data = await requestMobileApi(media_id);
+            if (media_id && cookie && !data) data = await requestMobileApi(media_id, { cookie });
 
             // html embed (no cookie, cookie)
             if (!data) data = await requestHTML(id);

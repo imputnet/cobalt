@@ -36,3 +36,27 @@ jobs:
         uses: actions/checkout@v4
       - name: Run test script
         run: .github/test.sh api
+
+  check-services:
+    name: test service functionality
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.checkServices.outputs.service_list }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - id: checkServices
+        run: npm ci && echo "service_list=$(node src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
+
+  test-services:
+    needs: check-services
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJson(needs.check-services.outputs.services) }}
+    name: "test service: ${{ matrix.service }}"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - run: npm ci && node src/util/test-ci run-tests-for ${{ matrix.service }}

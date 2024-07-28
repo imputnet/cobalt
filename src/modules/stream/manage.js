@@ -1,10 +1,12 @@
 import NodeCache from "node-cache";
 import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
+import { setMaxListeners } from "node:events";
 
 import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
 import { env } from "../config.js";
 import { strict as assert } from "assert";
+import { closeRequest } from "./shared.js";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
@@ -78,16 +80,36 @@ export function createInternalStream(url, obj = {}) {
     }
 
     const streamID = nanoid();
+    let controller = obj.controller;
+
+    if (!controller) {
+        controller = new AbortController(); 
+        setMaxListeners(Infinity, controller.signal);
+    }
+
+    let headers;
+    if (obj.headers) {
+        headers = new Map(Object.entries(obj.headers));
+    }
+
     internalStreamCache[streamID] = {
         url,
         service: obj.service,
-        headers: obj.headers,
-        controller: new AbortController(),
+        headers,
+        controller,
         dispatcher
     };
 
     let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);
     streamLink.searchParams.set('id', streamID);
+
+    const cleanup = () => {
+        destroyInternalStream(streamLink);
+        controller.signal.removeEventListener('abort', cleanup);
+    }
+
+    controller.signal.addEventListener('abort', cleanup);
+
     return streamLink.toString();
 }
 
@@ -100,7 +122,7 @@ export function destroyInternalStream(url) {
     const id = url.searchParams.get('id');
 
     if (internalStreamCache[id]) {
-        internalStreamCache[id].controller.abort();
+        closeRequest(internalStreamCache[id].controller);
         delete internalStreamCache[id];
     }
 }
