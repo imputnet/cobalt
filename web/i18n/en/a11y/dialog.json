@@ -1,5 +1,7 @@
 {
     "picker.item.photo": "photo thumbnail",
     "picker.item.video": "video thumbnail",
-    "picker.item.gif": "gif thumbnail"
+    "picker.item.gif": "gif thumbnail",
+
+    "saving.copied": "link copied"
 }

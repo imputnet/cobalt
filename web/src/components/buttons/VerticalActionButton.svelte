@@ -5,9 +5,17 @@
     };
     export let fill = false;
     export let elevated = false;
+    export let ariaLabel = "";
 </script>
 
-<button id="button-{id}" class="button vertical" class:fill class:elevated on:click={click}>
+<button
+    id="button-{id}"
+    class="button vertical"
+    class:fill
+    class:elevated
+    on:click={click}
+    aria-label={ariaLabel}
+>
     <slot></slot>
 </button>
 
@@ -17,6 +25,11 @@
         line-height: 1;
         padding: var(--padding);
         gap: calc(var(--padding) / 2);
+    }
+
+    .button.vertical :global(svg) {
+        width: 24px;
+        height: 24px;
     }
 
     .button.vertical.fill {

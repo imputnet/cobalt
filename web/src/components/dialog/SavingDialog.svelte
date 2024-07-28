@@ -10,16 +10,25 @@
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
     import VerticalActionButton from "$components/buttons/VerticalActionButton.svelte";
 
-    import IconCopy from "@tabler/icons-svelte/IconCopy.svelte";
     import IconShare2 from "@tabler/icons-svelte/IconShare2.svelte";
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
     import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
+
+    import CopyIcon from "$components/misc/CopyIcon.svelte";
 
     export let id: string;
     export let url: string;
     export let bodyText: string = "";
 
     let close: () => void;
+
+    let copied = false;
+
+    $: if (copied) {
+        setTimeout(() => {
+            copied = false;
+        }, 1500);
+    }
 </script>
 
 <DialogContainer {id} bind:close>
@@ -63,18 +72,24 @@
                     id="save-copy"
                     fill
                     elevated
-                    click={async () => copyURL(url)}
+                    click={async () => {
+                        copyURL(url);
+                        copied = true;
+                    }}
+                    ariaLabel={copied ? $t("a11y.dialog.saving.copied") : ""}
                 >
-                    <IconCopy />
+                    <CopyIcon check={copied} />
                     {$t("dialog.button.copy")}
                 </VerticalActionButton>
             </div>
         </div>
+
         {#if bodyText}
             <div class="body-text">
                 {bodyText}
             </div>
         {/if}
+
         <DialogButtons
             buttons={[
                 {
