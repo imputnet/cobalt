@@ -54,6 +54,7 @@
                             text: $t("dialog.button.import"),
                             color: "red",
                             main: true,
+                            timeout: 5000,
                             action: () => updateSettings(reader),
                         },
                     ],
