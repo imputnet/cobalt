@@ -10,7 +10,7 @@
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
     },
-    "license": "AGPL-3.0",
+    "license": "CC-BY-NC-SA-4.0",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/imputnet/cobalt.git"
