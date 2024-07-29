@@ -3,7 +3,7 @@
     export let version: string;
 </script>
 
-<main>
+<main id="changelog-parent">
     <div id="changelog-header">
         <div class="changelog-info">
             <div class="changelog-version">{ version }</div>
@@ -24,7 +24,7 @@
             class="big changelog-banner"
             width="100%"
         />
-        <div class="contents">
+        <div class="changelog-body">
             {#each {length: 3 + Math.random() * 5} as _}
                 <p>
                     <Skeleton
@@ -36,5 +36,3 @@
         </div>
     </div>
 </main>
-
-<style src="./ChangelogEntry.css"></style>

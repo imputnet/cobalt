@@ -1,7 +1,9 @@
 <script lang="ts">
-    import Skeleton from "$components/misc/Skeleton.svelte";
-    import type { Optional } from "$lib/types/generic";
     import { onMount } from "svelte";
+
+    import type { Optional } from "$lib/types/generic";
+
+    import Skeleton from "$components/misc/Skeleton.svelte";
 
     export let version: string;
     export let title: string;
@@ -31,7 +33,7 @@
     });
 </script>
 
-<main>
+<main id="changelog-parent">
     <div id="changelog-header" class:no-padding={!banner}>
         <div class="changelog-info">
             <div
@@ -59,10 +61,108 @@
                 hidden={bannerLoaded}
             />
         {/if}
-        <div class="contents">
+        <div class="changelog-body">
             <slot></slot>
         </div>
     </div>
 </main>
 
-<style src="./ChangelogEntry.css"></style>
+<style>
+    /* all styles are global because of skeleton */
+
+    :global(#changelog-parent) {
+        overflow-x: hidden;
+    }
+
+    :global(#changelog-header) {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: calc(var(--padding) / 2);
+        padding-bottom: 1em; /* match default <p> padding */
+    }
+
+    :global(#changelog-header.no-padding) {
+        padding-bottom: 0;
+    }
+
+    :global(.changelog-info) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+    }
+
+    :global(.changelog-version) {
+        padding: 3px 8px;
+        border-radius: 6px;
+        background-color: var(--secondary);
+        color: var(--primary);
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    :global(.changelog-date) {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--gray);
+    }
+
+    :global(.changelog-title) {
+        padding: 0;
+        line-height: 1.2;
+        font-size: 23px;
+        user-select: text;
+        -webkit-user-select: text
+    }
+
+    :global(.changelog-banner) {
+        display: block;
+        object-fit: cover;
+        max-height: 320pt;
+        min-height: 210pt;
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: var(--padding);
+    }
+
+    :global(.changelog-banner.loading) {
+        display: none;
+    }
+
+    :global(.changelog-content) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    :global(.changelog-body) {
+        width: 100%;
+    }
+
+    :global(.changelog-body),
+    :global(.changelog-body) :global(*) {
+        line-height: 1.7;
+        font-size: 14.5px;
+        font-weight: 410;
+        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
+        user-select: text;
+        -webkit-user-select: text;
+    }
+
+    :global(.changelog-body ul) {
+        padding-inline-start: 30px;
+    }
+
+    :global(.changelog-body li) {
+        padding-left: 3px;
+    }
+
+    @media screen and (max-width: 535px) {
+        :global(.changelog-body),
+        :global(.changelog-body) :global(*) {
+            font-size: 14px;
+        }
+    }
+
+</style>
