@@ -12,8 +12,8 @@ import languages from '$i18n/languages.json';
 const locFiles = import.meta.glob('$i18n/*/**/*.json');
 const parsedLocfiles: StructuredLocfileInfo = {};
 
-for (const [ path, loader ] of Object.entries(locFiles)) {
-    const [,, lang, ...keyComponents ] = path.split('/');
+for (const [path, loader] of Object.entries(locFiles)) {
+    const [, , lang, ...keyComponents] = path.split('/');
     const key = keyComponents.map(k => k.replace('.json', '')).join('.');
     parsedLocfiles[lang] = {
         ...parsedLocfiles[lang],
@@ -22,7 +22,9 @@ for (const [ path, loader ] of Object.entries(locFiles)) {
 }
 
 const defaultLocale = 'en';
-const config: Config = {
+const config: Config<{
+    value?: string;
+}> = {
     fallbackLocale: defaultLocale,
     translations: Object.keys(parsedLocfiles).reduce((obj, lang) => {
         return {
@@ -30,8 +32,8 @@ const config: Config = {
             [lang]: { languages }
         }
     }, {}),
-    loaders: Object.entries(parsedLocfiles).map(([ lang, keys ]) => {
-        return Object.entries(keys).map(([ key, importer ]) => {
+    loaders: Object.entries(parsedLocfiles).map(([lang, keys]) => {
+        return Object.entries(keys).map(([key, importer]) => {
             return {
                 locale: lang,
                 key,

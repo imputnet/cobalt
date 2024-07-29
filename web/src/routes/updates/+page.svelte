@@ -67,7 +67,7 @@
             wrapper.scrollTop += e.deltaY;
             e.preventDefault();
         }
-    }
+    };
 
     $: prev = versions[currentIndex - 1];
     $: next = versions[currentIndex + 1];
@@ -80,20 +80,16 @@
     </title>
 </svelte:head>
 
-<svelte:window
-    on:keydown={handleKeydown}
-/>
+<svelte:window on:keydown={handleKeydown} />
 
-<div
-    class="news"
-    tabindex="-1"
-    data-focus-ring-hidden
-    on:wheel={handleScroll}
->
+<div class="news" tabindex="-1" data-focus-ring-hidden on:wheel={handleScroll}>
     {#if changelog}
         <div id="left-button" class="button-wrapper-desktop">
             {#if prev}
-                <button on:click={loadPrev}>
+                <button
+                    on:click={loadPrev}
+                    aria-label={$t("updates.button.previous", { value: prev })}
+                >
                     <IconArrowLeft />
                     {prev || ""}
                 </button>
@@ -114,7 +110,10 @@
 
             <div class="button-wrapper-mobile" class:only-right={!prev}>
                 {#if prev}
-                    <button on:click={loadPrev}>
+                    <button
+                        on:click={loadPrev}
+                        aria-label={$t("updates.button.previous", { value: prev })}
+                    >
                         <IconArrowLeft />
                         {prev || ""}
                     </button>
@@ -124,6 +123,7 @@
                         on:click={loadNext}
                         on:focus={preloadNext}
                         on:mousemove={preloadNext}
+                        aria-label={$t("updates.button.next", { value: next })}
                     >
                         {next || ""}
                         <IconArrowRight />
@@ -137,6 +137,7 @@
                     on:click={loadNext}
                     on:focus={preloadNext}
                     on:mousemove={preloadNext}
+                    aria-label={$t("updates.button.next", { value: next })}
                 >
                     {next || ""}
                     <IconArrowRight />
