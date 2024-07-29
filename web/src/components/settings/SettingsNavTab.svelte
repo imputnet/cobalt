@@ -32,7 +32,7 @@
 <style>
     .settings-tab {
         --small-padding: 4px;
-        --big-padding: 7px;
+        --big-padding: 6px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -96,11 +96,12 @@
         justify-content: center;
         align-items: center;
         padding: var(--small-padding);
-        border-radius: var(--small-padding);
+        border-radius: 5px;
     }
 
     @media screen and (max-width: 750px) {
         .settings-tab {
+            --big-padding: 7px;
             background: none;
             padding: var(--big-padding) calc(var(--big-padding) * 1.5);
         }
