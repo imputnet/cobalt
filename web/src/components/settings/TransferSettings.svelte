@@ -6,6 +6,7 @@
         updateSetting,
         loadFromString
     } from "$lib/state/settings";
+    import { validateSettings } from "$lib/settings/validate";
 
     import ActionButton from "$components/buttons/ActionButton.svelte";
 
@@ -15,17 +16,57 @@
     const updateSettings = (reader: FileReader) => {
         try {
             const data = reader.result?.toString();
-            if (!data) {
-                throw "data is missing";
-            }
+            if (!data)
+                throw $t('settings.advanced.import.no_data');
 
-            // TODO: input is not validated at all here, which means
-            //       someone can potentially import a broken config.
-            //       i don't know if we should do something about it
-            //       or just thug it out.
-            updateSetting(loadFromString(data));
+            const loadedSettings = loadFromString(data);
+            if (!validateSettings(loadedSettings))
+                throw $t('settings.advanced.import.invalid');
+
+            createDialog({
+                id: "import-confirm",
+                type: "small",
+                icon: "warn-red",
+                title: $t("dialog.safety.title"),
+                bodyText: $t("dialog.import.body"),
+                buttons: [
+                    {
+                        text: $t("dialog.button.cancel"),
+                        main: false,
+                        action: () => {},
+                    },
+                    {
+                        text: $t("dialog.button.import"),
+                        color: "red",
+                        main: true,
+                        timeout: 5000,
+                        action: () => updateSetting(loadFromString(data))
+                    },
+                ],
+            });
         } catch (e) {
-            alert(e);
+            let message;
+
+            if (e instanceof Error)
+                message = e.message;
+            else if (typeof e === 'string')
+                message = e;
+            else
+                message = $t('settings.advanced.import.no_data');
+
+            createDialog({
+                id: "settings-import-error",
+                type: "small",
+                meowbalt: "error",
+                bodyText: message,
+                buttons: [
+                    {
+                        text: $t("dialog.button.gotit"),
+                        main: true,
+                        action: () => {},
+                    },
+                ],
+            });
         }
     };
 
@@ -37,33 +78,11 @@
             const target = e.target as HTMLInputElement;
             const reader = new FileReader();
 
-            reader.onload = function () {
-                createDialog({
-                    id: "import-confirm",
-                    type: "small",
-                    icon: "warn-red",
-                    title: $t("dialog.safety.title"),
-                    bodyText: $t("dialog.import.body"),
-                    buttons: [
-                        {
-                            text: $t("dialog.button.cancel"),
-                            main: false,
-                            action: () => {},
-                        },
-                        {
-                            text: $t("dialog.button.import"),
-                            color: "red",
-                            main: true,
-                            timeout: 5000,
-                            action: () => updateSettings(reader),
-                        },
-                    ],
-                });
-            };
+            reader.onload = () => updateSettings(reader);
 
             if (target.files?.length === 1) {
                 reader.readAsText(target.files[0]);
-            } else alert("file missing");
+            }
         };
         pseudoinput.click();
     };
@@ -83,11 +102,11 @@
 
 <div class="button-row" id="settings-data-transfer">
     <ActionButton id="import-settings" click={importSettings}>
-        <IconFileImport /> import
+        <IconFileImport /> {$t("settings.advanced.import")}
     </ActionButton>
     {#if $storedSettings.schemaVersion}
     <ActionButton id="export-settings" click={exportSettings}>
-        <IconFileExport /> export
+        <IconFileExport /> {$t("settings.advanced.export")}
     </ActionButton>
     {/if}
 </div>
