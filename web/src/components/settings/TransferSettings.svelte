@@ -85,9 +85,11 @@
     <ActionButton id="import-settings" click={importSettings}>
         <IconFileImport /> import
     </ActionButton>
+    {#if $storedSettings.schemaVersion}
     <ActionButton id="export-settings" click={exportSettings}>
         <IconFileExport /> export
     </ActionButton>
+    {/if}
 </div>
 
 <style>
