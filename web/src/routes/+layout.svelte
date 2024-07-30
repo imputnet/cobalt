@@ -354,6 +354,10 @@
         background-color: var(--button-active-hover);
     }
 
+    :global(button[disabled]) {
+        cursor: default;
+    }
+
     /* important is used because active class is toggled by state */
     /* and added to the end of the list, taking priority */
     :global(.active:focus-visible) {
