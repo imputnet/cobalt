@@ -4,7 +4,7 @@
     import {
         storedSettings,
         updateSetting,
-        loadFromString
+        loadFromString,
     } from "$lib/state/settings";
     import { validateSettings } from "$lib/settings/validate";
 
@@ -16,12 +16,11 @@
     const updateSettings = (reader: FileReader) => {
         try {
             const data = reader.result?.toString();
-            if (!data)
-                throw $t('settings.advanced.import.no_data');
+            if (!data) throw $t("error.import.no_data");
 
             const loadedSettings = loadFromString(data);
             if (!validateSettings(loadedSettings))
-                throw $t('settings.advanced.import.invalid');
+                throw $t("error.import.invalid");
 
             createDialog({
                 id: "import-confirm",
@@ -40,19 +39,19 @@
                         color: "red",
                         main: true,
                         timeout: 5000,
-                        action: () => updateSetting(loadFromString(data))
+                        action: () => updateSetting(loadFromString(data)),
                     },
                 ],
             });
         } catch (e) {
-            let message;
+            let message = $t("error.import.no_data");
 
-            if (e instanceof Error)
-                message = e.message;
-            else if (typeof e === 'string')
+            if (e instanceof Error) {
+                console.error("settings import error:", e);
+                message = $t("error.import.unknown", { value: e.message });
+            } else if (typeof e === "string") {
                 message = e;
-            else
-                message = $t('settings.advanced.import.no_data');
+            }
 
             createDialog({
                 id: "settings-import-error",
@@ -88,10 +87,9 @@
     };
 
     const exportSettings = () => {
-        const blob = new Blob(
-            [ JSON.stringify($storedSettings, null, 2) ],
-            { type: "application/json" }
-        );
+        const blob = new Blob([JSON.stringify($storedSettings, null, 2)], {
+            type: "application/json",
+        });
 
         const pseudolink = document.createElement("a");
         pseudolink.href = URL.createObjectURL(blob);
@@ -102,11 +100,13 @@
 
 <div class="button-row" id="settings-data-transfer">
     <ActionButton id="import-settings" click={importSettings}>
-        <IconFileImport /> {$t("settings.advanced.import")}
+        <IconFileImport />
+        {$t("settings.advanced.import")}
     </ActionButton>
     {#if $storedSettings.schemaVersion}
         <ActionButton id="export-settings" click={exportSettings}>
-            <IconFileExport /> {$t("settings.advanced.export")}
+            <IconFileExport />
+            {$t("settings.advanced.export")}
         </ActionButton>
     {/if}
 </div>

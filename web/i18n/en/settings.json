@@ -103,7 +103,5 @@
     "advanced.data": "settings data",
     "advanced.reset": "reset all settings",
     "advanced.import": "import",
-    "advanced.import.no_data": "failed loading setting data from file",
-    "advanced.import.invalid": "file does not contain valid cobalt settings",
     "advanced.export": "export"
 }
