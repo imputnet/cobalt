@@ -6,25 +6,26 @@
     import Skeleton from "$components/misc/Skeleton.svelte";
 
     export let version: string;
-    export let title: string;
-    export let date: string;
-    export let banner: Optional<{ file: string; alt: string }>;
+    export let title: string = "";
+    export let date: string = "";
+    export let banner: Optional<{ file: string; alt: string }> = undefined;
+    export let skeleton = false;
 
     let bannerLoaded = false;
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
 
-        const months = ['January', 'February', 'March', 'April', 'May',
-                        'June', 'July', 'August', 'September', 'October',
-                        'November', 'December'];
+        const months = ["January", "February", "March", "April", "May",
+                        "June", "July", "August", "September", "October",
+                        "November", "December"];
 
         return [
             months[date.getUTCMonth()],
-            (date.getUTCDate() + 1) + ',',
-            date.getUTCFullYear()
-        ].join(' ');
-    }
+            date.getUTCDate() + 1 + ",",
+            date.getUTCFullYear(),
+        ].join(" ");
+    };
 
     onMount(() => {
         const to_focus: HTMLElement | null =
@@ -34,17 +35,29 @@
 </script>
 
 <main id="changelog-parent">
-    <div id="changelog-header" class:no-padding={!banner}>
+    <div id="changelog-header" class:no-padding={!banner && !skeleton}>
         <div class="changelog-info">
             <div
                 class="changelog-version"
                 data-first-focus
                 data-focus-ring-hidden
                 tabindex="-1"
-            >{version}</div>
-            <div class="changelog-date">{formatDate(date)}</div>
+            >
+                {version}
+            </div>
+            <div class="changelog-date">
+                {#if skeleton}
+                    <Skeleton width="8em" height="16px" />
+                {:else}
+                    {formatDate(date)}
+                {/if}
+            </div>
         </div>
-        <h1 class="changelog-title">{title}</h1>
+        {#if skeleton}
+            <Skeleton width="100%" height="27.59px" />
+        {:else}
+            <h1 class="changelog-title">{title}</h1>
+        {/if}
     </div>
     <div class="changelog-content">
         {#if banner}
@@ -56,25 +69,35 @@
                 class="changelog-banner"
             />
 
-            <Skeleton
-                class="big changelog-banner"
-                hidden={bannerLoaded}
-            />
+            <Skeleton class="big changelog-banner" hidden={bannerLoaded} />
+        {/if}
+
+        {#if skeleton}
+            <Skeleton class="big changelog-banner" width="100%" />
         {/if}
         <div class="changelog-body">
-            <slot></slot>
+            {#if skeleton}
+                {#each { length: 3 + Math.random() * 5 } as _}
+                    <p>
+                        <Skeleton
+                            width="100%"
+                            height={Math.random() * 84 + 16 + "px"}
+                        />
+                    </p>
+                {/each}
+            {:else}
+                <slot></slot>
+            {/if}
         </div>
     </div>
 </main>
 
 <style>
-    /* all styles are global because of skeleton */
-
-    :global(#changelog-parent) {
+    #changelog-parent {
         overflow-x: hidden;
     }
 
-    :global(#changelog-header) {
+    #changelog-header {
         display: flex;
         flex-direction: column;
         align-items: start;
@@ -82,18 +105,18 @@
         padding-bottom: 1em; /* match default <p> padding */
     }
 
-    :global(#changelog-header.no-padding) {
+    #changelog-header.no-padding {
         padding-bottom: 0;
     }
 
-    :global(.changelog-info) {
+    .changelog-info {
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 14px;
     }
 
-    :global(.changelog-version) {
+    .changelog-version {
         padding: 3px 8px;
         border-radius: 6px;
         background-color: var(--secondary);
@@ -102,18 +125,18 @@
         font-weight: 500;
     }
 
-    :global(.changelog-date) {
+    .changelog-date {
         font-size: 13px;
         font-weight: 500;
         color: var(--gray);
     }
 
-    :global(.changelog-title) {
+    .changelog-title {
         padding: 0;
         line-height: 1.2;
         font-size: 23px;
         user-select: text;
-        -webkit-user-select: text
+        -webkit-user-select: text;
     }
 
     :global(.changelog-banner) {
@@ -126,22 +149,22 @@
         border-radius: var(--padding);
     }
 
-    :global(.changelog-banner.loading) {
+    .changelog-banner.loading {
         display: none;
     }
 
-    :global(.changelog-content) {
+    .changelog-content {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    :global(.changelog-body) {
+    .changelog-body {
         width: 100%;
     }
 
-    :global(.changelog-body),
-    :global(.changelog-body) :global(*) {
+    .changelog-body,
+    .changelog-body :global(*) {
         line-height: 1.7;
         font-size: 14.5px;
         font-weight: 410;
@@ -150,19 +173,18 @@
         -webkit-user-select: text;
     }
 
-    :global(.changelog-body ul) {
+    .changelog-body :global(ul) {
         padding-inline-start: 30px;
     }
 
-    :global(.changelog-body li) {
+    .changelog-body :global(li) {
         padding-left: 3px;
     }
 
     @media screen and (max-width: 535px) {
-        :global(.changelog-body),
-        :global(.changelog-body) :global(*) {
+        .changelog-body,
+        .changelog-body :global(*) {
             font-size: 14px;
         }
     }
-
 </style>

@@ -6,7 +6,7 @@
     import type { ChangelogImport } from "$lib/types/changelogs";
     import type { Optional } from "$lib/types/generic";
 
-    import ChangelogSkeleton from "$components/changelog/ChangelogSkeleton.svelte";
+    import ChangelogEntry from "$components/changelog/ChangelogEntry.svelte";
 
     import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
     import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
@@ -98,7 +98,10 @@
         <div class="changelog-wrapper" bind:this={wrapper}>
             {#await changelog.page}
                 {#key changelog.version}
-                    <ChangelogSkeleton version={changelog.version} />
+                    <ChangelogEntry
+                        version={changelog.version}
+                        skeleton
+                    />
                 {/key}
             {:then page}
                 <svelte:component
