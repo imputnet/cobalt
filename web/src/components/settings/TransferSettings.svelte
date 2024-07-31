@@ -105,9 +105,9 @@
         <IconFileImport /> {$t("settings.advanced.import")}
     </ActionButton>
     {#if $storedSettings.schemaVersion}
-    <ActionButton id="export-settings" click={exportSettings}>
-        <IconFileExport /> {$t("settings.advanced.export")}
-    </ActionButton>
+        <ActionButton id="export-settings" click={exportSettings}>
+            <IconFileExport /> {$t("settings.advanced.export")}
+        </ActionButton>
     {/if}
 </div>
 

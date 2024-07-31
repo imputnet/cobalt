@@ -5,6 +5,7 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
     import ResetSettingsButton from "$components/buttons/ResetSettingsButton.svelte";
     import TransferSettings from "$components/settings/TransferSettings.svelte";
+    import { storedSettings } from "$lib/state/settings";
 </script>
 
 <SettingsCategory sectionId="debug" title={$t("settings.advanced.debug")}>
@@ -18,5 +19,7 @@
 
 <SettingsCategory sectionId="data" title={$t("settings.advanced.data")}>
     <TransferSettings />
-    <ResetSettingsButton />
+    {#if $storedSettings.schemaVersion}
+        <ResetSettingsButton />
+    {/if}
 </SettingsCategory>
