@@ -87,9 +87,10 @@
     };
 
     const exportSettings = () => {
-        const blob = new Blob([JSON.stringify($storedSettings, null, 2)], {
-            type: "application/json",
-        });
+        const blob = new Blob(
+            [JSON.stringify($storedSettings, null, 2)],
+            { type: "application/json" }
+        );
 
         const pseudolink = document.createElement("a");
         pseudolink.href = URL.createObjectURL(blob);
