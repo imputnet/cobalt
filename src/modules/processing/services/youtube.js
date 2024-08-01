@@ -50,7 +50,9 @@ const transformSessionData = (cookie) => {
 const cloneInnertube = async (customFetch) => {
     const innertube = await ytBase;
     if (innertube instanceof Error) {
-        throw innertube;
+        if (innertube?.message?.endsWith("decipher algorithm")) {
+            return { error: "ErrorYoutubeDecipher" }
+        } else throw innertube;
     }
 
     const session = new Session(
@@ -101,6 +103,7 @@ export default async function(o) {
             dispatcher: o.dispatcher
         })
     );
+    if (yt.error) return yt;
 
     const quality = o.quality === "max" ? "9000" : o.quality;
 
