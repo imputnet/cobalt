@@ -198,11 +198,11 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
     })
 
     app.get('/favicon.ico', (req, res) => {
-        res.sendFile(`${__dirname}/src/front/icons/favicon.ico`)
+        res.status(404).end();
     })
 
     app.get('/*', (req, res) => {
-        res.redirect('/api/serverInfo')
+        res.redirect('/api/serverInfo');
     })
 
     randomizeCiphers();
