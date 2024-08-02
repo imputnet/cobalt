@@ -6,7 +6,9 @@ import { env } from "../../config.js";
 import { cleanString } from "../../sub/utils.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
-const ytBase = Innertube.create().catch(e => e);
+const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
+
+let innertube, lastRefreshedAt;
 
 const codecMatch = {
     h264: {
@@ -48,11 +50,12 @@ const transformSessionData = (cookie) => {
 }
 
 const cloneInnertube = async (customFetch) => {
-    const innertube = await ytBase;
-    if (innertube instanceof Error) {
-        if (innertube?.message?.endsWith("decipher algorithm")) {
-            return { error: "ErrorYoutubeDecipher" }
-        } else throw innertube;
+    const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
+    if (!innertube || shouldRefreshPlayer) {
+        innertube = await Innertube.create({
+            fetch: customFetch
+        });
+        lastRefreshedAt = +new Date();
     }
 
     const session = new Session(
@@ -97,13 +100,19 @@ const cloneInnertube = async (customFetch) => {
 }
 
 export default async function(o) {
-    const yt = await cloneInnertube(
-        (input, init) => fetch(input, {
-            ...init,
-            dispatcher: o.dispatcher
-        })
-    );
-    if (yt.error) return yt;
+    let yt;
+    try {
+        yt = await cloneInnertube(
+            (input, init) => fetch(input, {
+                ...init,
+                dispatcher: o.dispatcher
+            })
+        );
+    } catch(e) {
+        if (e.message?.endsWith("decipher algorithm")) {
+                return { error: "ErrorYoutubeDecipher" }
+        } else throw e;
+    }
 
     const quality = o.quality === "max" ? "9000" : o.quality;
 
