@@ -119,7 +119,7 @@ export default async function(o) {
     }
 
     try {
-        info = await yt.getBasicInfo(o.id, 'IOS');
+        info = await yt.getBasicInfo(o.id, yt.session.logged_in ? 'ANDROID' : 'IOS');
     } catch(e) {
         if (e?.message === 'This video is unavailable') {
             return { error: 'ErrorCouldntFetch' };
