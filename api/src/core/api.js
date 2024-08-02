@@ -32,7 +32,6 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         version: version,
         commit: gitCommit,
         branch: gitBranch,
-        name: env.apiName,
         url: env.apiURL,
         cors: Number(env.corsWildcard),
         startTime: `${startTimestamp}`

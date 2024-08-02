@@ -26,7 +26,6 @@ export const
     env = {
         apiURL: process.env.API_URL || '',
         apiPort: process.env.API_PORT || 9000,
-        apiName: process.env.API_NAME || 'unknown',
 
         listenAddress: process.env.API_LISTEN_ADDRESS,
         freebindCIDR: process.platform === 'linux' && process.env.FREEBIND_CIDR,
