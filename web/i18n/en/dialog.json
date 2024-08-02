@@ -1,0 +1,26 @@
+{
+    "button.gotit": "got it",
+    "button.cancel": "cancel",
+    "button.reset": "reset",
+    "button.done": "done",
+    "button.downloadAudio": "download audio",
+    "button.download": "download",
+    "button.share": "share",
+    "button.copy": "copy",
+    "button.import": "import",
+
+    "reset.title": "reset all settings?",
+    "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible.",
+
+    "picker.title": "select what to save",
+    "picker.description.desktop": "click an item to save it. images can also be saved via the right click menu.",
+    "picker.description.phone": "press an item to save it. images can also be saved with a long press.",
+    "picker.description.ios": "press an item to save it with a shortcut. images can also be saved with a long press.",
+
+    "saving.title": "choose how to save",
+    "saving.blocked": "cobalt tried opening the file in a new tab, but your browser blocked it. you can allow pop-ups for cobalt to prevent this from happening next time.",
+
+    "safety.title": "important safety notice",
+
+    "import.body": "importing unknown or corrupted files may unexpectedly alter or break cobalt functionality. only import files that you've personally exported and haven't modified. if you were asked to import this file by someone - don't do it.\n\nwe are not responsible for any harm caused by importing unknown setting files."
+}

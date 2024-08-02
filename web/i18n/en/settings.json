@@ -1,0 +1,107 @@
+{
+    "page.appearance": "appearance",
+    "page.privacy": "privacy",
+    "page.video": "video",
+    "page.audio": "audio",
+    "page.download": "downloading",
+    "page.advanced": "advanced",
+    "page.debug": "debug information",
+
+    "section.general": "general",
+    "section.save": "save",
+
+    "theme": "theme",
+    "theme.auto": "auto",
+    "theme.light": "light",
+    "theme.dark": "dark",
+    "theme.description": "auto theme automatically switches between light and dark themes depending on your device's current theme.",
+
+    "video.quality": "video quality",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "if preferred video quality isn't available, closest best is picked instead.",
+
+    "video.youtube.codec": "youtube video codec",
+    "video.youtube.codec.h264": "h264 (mp4)",
+    "video.youtube.codec.av1": "av1 (mp4)",
+    "video.youtube.codec.vp9": "vp9 (webm)",
+    "video.youtube.codec.description": "if preferred codec isn’t available, next best is picked instead. \n\nh264: best support, average detail level. max quality is 1080p. \nav1: best quality, small file size, most detail. supports 8k & HDR. \nvp9: same quality as av1, but file is approximately two times bigger. supports 4k & HDR.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "convert looping videos to GIF",
+    "video.twitter.gif.description": "GIF conversion is very inefficient, converted file may be obnoxiously big and low quality.",
+
+    "video.tiktok.h265": "tiktok",
+    "video.tiktok.h265.title": "prefer HEVC/H265 format",
+    "video.tiktok.h265.description": "allows 1080p video downloading at cost of compatibility.",
+
+    "audio.format": "audio format",
+    "audio.format.best": "best",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "every format but \"best\" is converted, meaning that they're lossy. if preferred format matches best available audio, it won't be converted.",
+
+    "audio.youtube.dub": "youtube",
+    "audio.youtube.dub.title": "use browser language for dubbed videos",
+    "audio.youtube.dub.description": "works even if cobalt isn't translated to your language.",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "use original sound",
+    "audio.tiktok.original.description": "downloads original sound used in the post without any additional changes by the post's author.",
+
+    "metadata.filename": "filename style",
+    "metadata.filename.classic": "classic",
+    "metadata.filename.basic": "basic",
+    "metadata.filename.pretty": "pretty",
+    "metadata.filename.nerdy": "nerdy",
+    "metadata.filename.description": "filename style will only be used for files processed or proxied by cobalt. some services don't support filename styles.",
+
+    "metadata.filename.preview.video": "Video Title",
+    "metadata.filename.preview.audio": "Audio Title - Audio Author",
+
+    "metadata.file": "file metadata",
+    "metadata.disable.title": "disable file metadata",
+    "metadata.disable.description": "title, artist, and other info will not be added to the file.",
+
+    "saving.title": "saving method",
+    "saving.ask": "ask",
+    "saving.download": "download",
+    "saving.share": "share",
+    "saving.copy": "copy",
+    "saving.description": "preferred way of saving the file or link from cobalt. if preferred method is unavailable or something goes wrong, cobalt will ask you what to do next.",
+
+    "accessibility": "accessibility",
+    "accessibility.transparency.title": "reduce visual transparency",
+    "accessibility.transparency.description": "reduces transparency of surfaces and disables blur effects.",
+    "accessibility.motion.title": "reduce motion",
+    "accessibility.motion.description": "replaces animations with instant transitions when possible.",
+
+    "language": "language",
+    "language.auto.title": "use default browser language",
+    "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead. disable this toggle to pick a language manually.",
+    "language.preferred.title": "preferred language",
+    "language.preferred.description": "language used for interface and content. if any text isn’t translated to this language, it will be displayed in english.",
+
+    "privacy.analytics": "anonymous traffic analytics",
+    "privacy.analytics.title": "don't contribute to analytics",
+    "privacy.analytics.description": "we use a self-hosted plausible instance for getting an approximate number of active cobalt users. no identifiable information about you is ever stored. all processed data is anonymized and aggregated.\n\nplausible does not use any cookies and is fully compliant with GDPR, CCPA, and PECR.",
+    "privacy.analytics.learnmore": "learn more about plausible's dedication to privacy.",
+
+    "advanced.debug": "debug",
+    "advanced.debug.title": "enable debug features",
+    "advanced.debug.description": "gives you access to a page with app & device info useful for debugging.",
+
+    "advanced.data": "settings data",
+    "advanced.reset": "reset all settings",
+    "advanced.import": "import",
+    "advanced.export": "export"
+}

@@ -79,9 +79,9 @@ cobalt is a tool for easing content downloads from internet and takes ***zero li
 cobalt is ***NOT*** a piracy tool and cannot be used as such. it can only download free, publicly accessible content. such content can be easily downloaded through any browser's dev tools. pressing one button is easier, so i made a convenient, ad-less tool for such repeated actions.
 
 ## cobalt license
-cobalt code is licensed under [AGPL-3.0](/LICENSE).
+cobalt api code is licensed under [AGPL-3.0](/LICENSE). cobalt web code is licensed under [CC-BY-NC-SA-4.0](/web/LICENSE).
 
-cobalt branding, mascots, and other related assets included in the repo are ***copyrighted*** and not covered by the AGPL-3.0 license. you ***cannot*** use them under same terms.  
+cobalt branding, mascots, and other related assets included in the repo are ***copyrighted*** and not covered by the license. you ***cannot*** use them under same terms.  
 
 you are allowed to host an ***unmodified*** instance of cobalt with branding, but this ***does not*** give you permission to use it anywhere else, or make derivatives of it in any way.
 
