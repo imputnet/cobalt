@@ -13,8 +13,8 @@ waitport() {
 
 test_api() {
     waitport 3000
-    curl -m 3 http://localhost:3000/api/serverInfo
-    API_RESPONSE=$(curl -m 3 http://localhost:3000/api/json \
+    curl -m 3 http://localhost:3000/
+    API_RESPONSE=$(curl -m 3 http://localhost:3000/ \
          -X POST \
          -H "Accept: application/json" \
          -H "Content-Type: application/json" \
