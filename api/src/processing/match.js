@@ -4,7 +4,7 @@ import { env } from "../config.js";
 import { createResponse } from "../processing/request.js";
 
 import { testers } from "./service-patterns.js";
-import matchActionDecider from "./match-action.js";
+import matchAction from "./match-action.js";
 
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
@@ -230,12 +230,17 @@ export default async function(host, patternMatch, lang, obj) {
             })
         }
 
-        return matchActionDecider(
-            r, host, obj.aFormat, isAudioOnly,
-            lang, isAudioMuted, disableMetadata,
-            obj.filenamePattern, obj.twitterGif,
+        return matchAction({
+            r,
+            host,
+            audioFormat: obj.audioFormat,
+            isAudioOnly,
+            isAudioMuted,
+            disableMetadata,
+            filenameStyle: obj.filenamePattern,
+            toGif: obj.twitterGif,
             requestIP
-        )
+        })
     } catch {
         return createResponse("error", {
             code: "ErrorBadFetch",

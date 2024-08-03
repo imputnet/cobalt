@@ -3,7 +3,7 @@ import { createResponse } from "./request.js";
 import createFilename from "./create-filename.js";
 import { createStream } from "../stream/manage.js";
 
-export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {
+export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, toGif, requestIP }) {
     let action,
         responseType = "stream",
         defaultParams = {
@@ -11,12 +11,11 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             headers: r.headers,
             service: host,
             filename: r.filenameAttributes ?
-                    createFilename(r.filenameAttributes, filenamePattern, isAudioOnly, isAudioMuted) : r.filename,
+                    createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
             requestIP
         },
-        params = {},
-        audioFormat = String(userFormat);
+        params = {};
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
