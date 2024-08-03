@@ -4,21 +4,21 @@ import { normalizeURL } from "./url.js";
 import { createStream } from "../stream/manage.js";
 import { verifyLanguageCode } from "../misc/utils.js";
 
-const apiVar = {
-    allowed: {
-        vCodec: ["h264", "av1", "vp9"],
-        vQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
-        aFormat: ["best", "mp3", "ogg", "wav", "opus"],
-        filenamePattern: ["classic", "pretty", "basic", "nerdy"]
+const apiRequest = {
+    option: {
+        audioFormat: ["best", "mp3", "ogg", "wav", "opus"],
+        downloadMode: ["auto", "audio", "mute"],
+        filenameStyle: ["classic", "pretty", "basic", "nerdy"],
+        videoQuality: ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"],
+        youtubeVideoCodec: ["h264", "av1", "vp9"],
     },
-    booleanOnly: [
-        "isAudioOnly",
-        "isTTFullAudio",
-        "isAudioMuted",
-        "dubLang",
+    boolean: [
         "disableMetadata",
+        "tiktokFullAudio",
+        "tiktokH265",
         "twitterGif",
-        "tiktokH265"
+        "youtubeDubBrowserLang",
+        "youtubeDubLang"
     ]
 }
 
@@ -116,16 +116,16 @@ export function createResponse(responseType, responseData) {
 export function normalizeRequest(request) {
     try {
         let template = {
+            audioFormat: "mp3",
             url: normalizeURL(decodeURIComponent(request.url)),
-            vCodec: "h264",
-            vQuality: "720",
-            aFormat: "mp3",
-            filenamePattern: "classic",
-            isAudioOnly: false,
-            isTTFullAudio: false,
-            isAudioMuted: false,
+            youtubeVideoCodec: "h264",
+            videoQuality: "720",
+            filenameStyle: "classic",
+            downloadMode: "auto",
+            tiktokFullAudio: false,
             disableMetadata: false,
-            dubLang: false,
+            youtubeDubBrowserLang: false,
+            youtubeDubLang: false,
             twitterGif: false,
             tiktokH265: false
         }
@@ -142,16 +142,16 @@ export function normalizeRequest(request) {
             const item = request[key];
 
             if (String(key) !== "url" && templateKeys.includes(key)) {
-                if (apiVar.booleanOnly.includes(key)) {
+                if (apiRequest.boolean.includes(key)) {
                     template[key] = !!item;
-                } else if (apiVar.allowed[key] && apiVar.allowed[key].includes(item)) {
+                } else if (apiRequest.option[key] && apiRequest.option[key].includes(item)) {
                     template[key] = String(item)
                 }
             }
         }
 
-        if (template.dubLang)
-            template.dubLang = verifyLanguageCode(request.dubLang);
+        if (template.youtubeDubBrowserLang)
+            template.youtubeDubLang = verifyLanguageCode(request.youtubeDubLang);
 
         return template
     } catch {

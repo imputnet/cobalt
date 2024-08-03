@@ -5,7 +5,7 @@ import { createResponse } from "./request.js";
 import createFilename from "./create-filename.js";
 import { createStream } from "../stream/manage.js";
 
-export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, toGif, requestIP }) {
+export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP }) {
     let action,
         responseType = "stream",
         defaultParams = {
@@ -21,9 +21,9 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
-    else if (r.isGif && toGif) action = "gif";
-    else if (isAudioMuted) action = "muteVideo";
+    else if (r.isGif && twitterGif) action = "gif";
     else if (isAudioOnly) action = "audio";
+    else if (isAudioMuted) action = "muteVideo";
     else if (r.isM3U8) action = "m3u8";
     else action = "video";
 

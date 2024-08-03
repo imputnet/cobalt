@@ -29,7 +29,7 @@ import facebook from "./services/facebook.js";
 
 let freebind;
 
-export default async function(host, patternMatch, lang, obj) {
+export default async function(host, patternMatch, obj) {
     const { url } = obj;
     assert(url instanceof URL);
     let dispatcher, requestIP;
@@ -45,7 +45,8 @@ export default async function(host, patternMatch, lang, obj) {
 
     try {
         let r,
-            isAudioOnly = !!obj.isAudioOnly,
+            isAudioOnly = obj.downloadMode === "audio",
+            isAudioMuted = obj.downloadMode === "mute",
             disableMetadata = !!obj.disableMetadata;
 
         if (!testers[host]) {
@@ -71,41 +72,47 @@ export default async function(host, patternMatch, lang, obj) {
                     dispatcher
                 });
                 break;
+
             case "vk":
                 r = await vk({
                     userId: patternMatch.userId,
                     videoId: patternMatch.videoId,
-                    quality: obj.vQuality
+                    quality: obj.videoQuality
                 });
                 break;
+
             case "ok":
                 r = await ok({
                     id: patternMatch.id,
-                    quality: obj.vQuality
+                    quality: obj.videoQuality
                 });
                 break;
+
             case "bilibili":
                 r = await bilibili(patternMatch);
                 break;
+
             case "youtube":
                 let fetchInfo = {
                     id: patternMatch.id.slice(0, 11),
-                    quality: obj.vQuality,
-                    format: obj.vCodec,
-                    isAudioOnly: isAudioOnly,
-                    isAudioMuted: obj.isAudioMuted,
-                    dubLang: obj.dubLang,
+                    quality: obj.videoQuality,
+                    format: obj.youtubeVideoCodec,
+                    isAudioOnly,
+                    isAudioMuted,
+                    dubLang: obj.youtubeDubLang,
                     dispatcher
                 }
 
-                if (url.hostname === 'music.youtube.com' || isAudioOnly === true) {
+                if (url.hostname === "music.youtube.com" || isAudioOnly) {
                     fetchInfo.quality = "max";
                     fetchInfo.format = "vp9";
-                    fetchInfo.isAudioOnly = true
+                    fetchInfo.isAudioOnly = true;
+                    fetchInfo.isAudioMuted = false;
                 }
 
                 r = await youtube(fetchInfo);
                 break;
+
             case "reddit":
                 r = await reddit({
                     sub: patternMatch.sub,
@@ -113,15 +120,17 @@ export default async function(host, patternMatch, lang, obj) {
                     user: patternMatch.user
                 });
                 break;
+
             case "tiktok":
                 r = await tiktok({
                     postId: patternMatch.postId,
                     id: patternMatch.id,
-                    fullAudio: obj.isTTFullAudio,
-                    isAudioOnly: isAudioOnly,
+                    fullAudio: obj.tiktokFullAudio,
+                    isAudioOnly,
                     h265: obj.tiktokH265
                 });
                 break;
+
             case "tumblr":
                 r = await tumblr({
                     id: patternMatch.id,
@@ -129,90 +138,106 @@ export default async function(host, patternMatch, lang, obj) {
                     url
                 });
                 break;
+
             case "vimeo":
                 r = await vimeo({
                     id: patternMatch.id.slice(0, 11),
                     password: patternMatch.password,
-                    quality: obj.vQuality,
-                    isAudioOnly: isAudioOnly
+                    quality: obj.videoQuality,
+                    isAudioOnly,
                 });
                 break;
+
             case "soundcloud":
                 isAudioOnly = true;
+                isAudioMuted = false;
                 r = await soundcloud({
                     url,
                     author: patternMatch.author,
                     song: patternMatch.song,
-                    format: obj.aFormat,
+                    format: obj.audioFormat,
                     shortLink: patternMatch.shortLink || false,
                     accessKey: patternMatch.accessKey || false
                 });
                 break;
+
             case "instagram":
                 r = await instagram({
                     ...patternMatch,
-                    quality: obj.vQuality,
+                    quality: obj.videoQuality,
                     dispatcher
                 })
                 break;
+
             case "vine":
                 r = await vine({
                     id: patternMatch.id
                 });
                 break;
+
             case "pinterest":
                 r = await pinterest({
                     id: patternMatch.id,
                     shortLink: patternMatch.shortLink || false
                 });
                 break;
+
             case "streamable":
                 r = await streamable({
                     id: patternMatch.id,
-                    quality: obj.vQuality,
-                    isAudioOnly: isAudioOnly,
+                    quality: obj.videoQuality,
+                    isAudioOnly,
                 });
                 break;
+
             case "twitch":
                 r = await twitch({
                     clipId: patternMatch.clip || false,
-                    quality: obj.vQuality,
-                    isAudioOnly: obj.isAudioOnly
+                    quality: obj.videoQuality,
+                    isAudioOnly,
                 });
                 break;
+
             case "rutube":
                 r = await rutube({
                     id: patternMatch.id,
                     yappyId: patternMatch.yappyId,
                     key: patternMatch.key,
-                    quality: obj.vQuality,
-                    isAudioOnly: isAudioOnly
+                    quality: obj.videoQuality,
+                    isAudioOnly,
                 });
                 break;
+
             case "dailymotion":
                 r = await dailymotion(patternMatch);
                 break;
+
             case "snapchat":
                 r = await snapchat(patternMatch);
                 break;
+
             case "loom":
                 r = await loom({
                     id: patternMatch.id
                 });
                 break;
+
             case "facebook":
                 r = await facebook({
                     ...patternMatch
                 });
                 break;
+
             default:
                 return createResponse("error", {
                     code: "ErrorUnsupported"
                 });
         }
 
-        if (r.isAudioOnly) isAudioOnly = true;
-        let isAudioMuted = isAudioOnly ? false : obj.isAudioMuted;
+        if (r.isAudioOnly) {
+            isAudioOnly = true;
+            isAudioMuted = false;
+        }
 
         if (r.error && r.critical) {
             return createResponse("critical", {
@@ -230,12 +255,12 @@ export default async function(host, patternMatch, lang, obj) {
         return matchAction({
             r,
             host,
-            audioFormat: obj.aFormat,
+            audioFormat: obj.audioFormat,
             isAudioOnly,
             isAudioMuted,
             disableMetadata,
-            filenameStyle: obj.filenamePattern,
-            toGif: obj.twitterGif,
+            filenameStyle: obj.filenameStyle,
+            twitterGif: obj.twitterGif,
             requestIP
         })
     } catch {

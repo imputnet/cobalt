@@ -137,7 +137,10 @@ export function runAPI(express, app, __dirname) {
             return fail('ErrorNoLink');
         }
 
-        request.dubLang = request.dubLang ? lang : false;
+        if (request.youtubeDubBrowserLang) {
+            request.youtubeDubLang = lang;
+        }
+
         const normalizedRequest = normalizeRequest(request);
         if (!normalizedRequest) {
             return fail('ErrorCantProcess');
@@ -150,7 +153,7 @@ export function runAPI(express, app, __dirname) {
 
         try {
             const result = await match(
-                parsed.host, parsed.patternMatch, lang, normalizedRequest
+                parsed.host, parsed.patternMatch, normalizedRequest
             );
 
             res.status(result.status).json(result.body);
@@ -171,19 +174,16 @@ export function runAPI(express, app, __dirname) {
         const checkSafeLength = sig.length === 43 && sec.length === 43 && iv.length === 22;
 
         if (!checkQueries || !checkBaseLength || !checkSafeLength) {
-            return res.sendStatus(400);
+            return res.status(400).end();
         }
 
-        // rate limit probe, will not return json after 8.0
         if (req.query.p) {
-            return res.status(200).json({
-                status: "continue"
-            })
+            return res.status(200).end();
         }
 
         const streamInfo = verifyStream(id, sig, exp, sec, iv);
         if (!streamInfo?.service) {
-            return res.sendStatus(streamInfo.status);
+            return res.status(streamInfo.status).end();
         }
         return stream(res, streamInfo);
     })
