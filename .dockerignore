@@ -1,0 +1,21 @@
+# OS directory info files
+.DS_Store
+desktop.ini
+
+# node
+node_modules
+
+# static build
+build
+
+# secrets
+.env
+.env.*
+!.env.example
+cookies.json
+
+# docker
+docker-compose.yml
+
+# ide
+.vscode
