@@ -50,7 +50,7 @@ export function createStream(obj) {
         encryptStream(streamData, iv, secret)
     )
 
-    let streamLink = new URL('/api/stream', env.apiURL);
+    let streamLink = new URL('/stream', env.apiURL);
 
     const params = {
         'id': streamID,
@@ -100,7 +100,7 @@ export function createInternalStream(url, obj = {}) {
         dispatcher
     };
 
-    let streamLink = new URL('/api/istream', `http://127.0.0.1:${env.apiPort}`);
+    let streamLink = new URL('/istream', `http://127.0.0.1:${env.apiPort}`);
     streamLink.searchParams.set('id', streamID);
 
     const cleanup = () => {

@@ -78,7 +78,7 @@ export function runAPI(express, app, __dirname) {
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
-    app.use('/api', cors({
+    app.use('/', cors({
         methods: ['GET', 'POST'],
         exposedHeaders: [
             'Ratelimit-Limit',
@@ -89,8 +89,8 @@ export function runAPI(express, app, __dirname) {
         ...corsConfig,
     }))
 
-    app.use('/api/json', apiLimiter);
-    app.use('/api/stream', apiLimiterStream);
+    app.use('/', apiLimiter);
+    app.use('/stream', apiLimiterStream);
 
     app.use((req, res, next) => {
         try {
@@ -101,8 +101,8 @@ export function runAPI(express, app, __dirname) {
         next();
     })
 
-    app.use('/api/json', express.json({ limit: 1024 }));
-    app.use('/api/json', (err, _, res, next) => {
+    app.use('/', express.json({ limit: 1024 }));
+    app.use('/', (err, _, res, next) => {
         if (err) {
             return res.status(400).json({
                 status: "error",
@@ -116,7 +116,7 @@ export function runAPI(express, app, __dirname) {
         next();
     });
 
-    app.post('/api/json', async (req, res) => {
+    app.post('/', async (req, res) => {
         const request = req.body;
         const lang = languageCode(req);
 
@@ -159,7 +159,7 @@ export function runAPI(express, app, __dirname) {
         }
     })
 
-    app.get('/api/stream', (req, res) => {
+    app.get('/stream', (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
         const sig = String(req.query.sig);
@@ -188,7 +188,7 @@ export function runAPI(express, app, __dirname) {
         return stream(res, streamInfo);
     })
 
-    app.get('/api/istream', (req, res) => {
+    app.get('/istream', (req, res) => {
         if (!req.ip.endsWith('127.0.0.1')) {
             return res.sendStatus(403);
         }
@@ -210,7 +210,7 @@ export function runAPI(express, app, __dirname) {
         return stream(res, { type: 'internal', ...streamInfo });
     })
 
-    app.get('/api/serverInfo', (_, res) => {
+    app.get('/', (_, res) => {
         return res.status(200).json(serverInfo);
     })
 
@@ -219,7 +219,7 @@ export function runAPI(express, app, __dirname) {
     })
 
     app.get('/*', (req, res) => {
-        res.redirect('/api/serverInfo');
+        res.redirect('/');
     })
 
     randomizeCiphers();
