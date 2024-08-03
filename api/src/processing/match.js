@@ -233,7 +233,7 @@ export default async function(host, patternMatch, lang, obj) {
         return matchAction({
             r,
             host,
-            audioFormat: obj.audioFormat,
+            audioFormat: obj.aFormat,
             isAudioOnly,
             isAudioMuted,
             disableMetadata,
