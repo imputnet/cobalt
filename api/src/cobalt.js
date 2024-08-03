@@ -1,5 +1,4 @@
 import "dotenv/config";
-import "./misc/alias-envs.js";
 
 import express from "express";
 

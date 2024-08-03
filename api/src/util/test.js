@@ -1,5 +1,4 @@
 import "dotenv/config";
-import "../misc/alias-envs.js";
 
 import { services } from "../processing/service-config.js";
 import { extract } from "../processing/url.js";
