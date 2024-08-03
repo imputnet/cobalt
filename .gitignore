@@ -5,6 +5,9 @@ desktop.ini
 # node
 node_modules
 
+# static build
+build
+
 # secrets
 .env
 .env.*
