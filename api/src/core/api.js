@@ -2,7 +2,9 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, ProxyAgent } from "undici";
 
-import { env, version } from "../config.js";
+import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
+
+import { env } from "../config.js";
 
 import { generateHmac, generateSalt } from "../misc/crypto.js";
 import { Bright, Cyan } from "../misc/console-text.js";
@@ -15,6 +17,14 @@ import { extract } from "../processing/url.js";
 import match from "../processing/match.js";
 import stream from "../stream/stream.js";
 
+const git = {
+    branch: await getBranch(),
+    commit: await getCommit(),
+    remote: await getRemote(),
+}
+
+const version = await getVersion();
+
 const acceptRegex = /^application\/json(; charset=utf-8)?$/;
 
 const ipSalt = generateSalt();
@@ -23,17 +33,16 @@ const corsConfig = env.corsWildcard ? {} : {
     optionsSuccessStatus: 200
 }
 
-export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
+export function runAPI(express, app, __dirname) {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
     const serverInfo = {
         version: version,
-        commit: gitCommit,
-        branch: gitBranch,
-        url: env.apiURL,
+        git,
         cors: Number(env.corsWildcard),
-        startTime: `${startTimestamp}`
+        url: env.apiURL,
+        startTime: `${startTimestamp}`,
     }
 
     const apiLimiter = rateLimit({
@@ -226,10 +235,18 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.listen(env.apiPort, env.listenAddress, () => {
         console.log(`\n` +
-            `${Cyan("cobalt")} API ${Bright(`v.${version}-${gitCommit} (${gitBranch})`)}\n` +
-            `Start time: ${Bright(`${startTime.toUTCString()} (${startTimestamp})`)}\n\n` +
-            `URL: ${Cyan(`${env.apiURL}`)}\n` +
-            `Port: ${env.apiPort}\n`
+            Bright(Cyan("cobalt ")) + Bright("API ^_^") + "\n" +
+
+            "~~~~~~\n" +
+            Bright("version: ") + version + "\n" +
+            Bright("commit: ") + git.commit + "\n" +
+            Bright("branch: ") + git.branch + "\n" +
+            Bright("remote: ") + git.remote + "\n" +
+            Bright("start time: ") + startTime.toUTCString() + "\n" +
+            "~~~~~~\n" +
+
+            Bright("url: ") + Bright(Cyan(env.apiURL)) + "\n" +
+            Bright("port: ") + env.apiPort + "\n"
         )
     })
 }

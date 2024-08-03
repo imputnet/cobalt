@@ -7,14 +7,14 @@ const root = join(
     '../../'
 );
 
+export function loadFile(path) {
+    return fs.readFileSync(join(root, path), 'utf-8')
+}
+
 export function loadJSON(path) {
     try {
         return JSON.parse(loadFile(path))
     } catch {
         return false
     }
-}
-
-export function loadFile(path) {
-    return fs.readFileSync(join(root, path), 'utf-8')
 }

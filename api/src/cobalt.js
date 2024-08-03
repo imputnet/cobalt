@@ -3,17 +3,13 @@ import "./misc/alias-envs.js";
 
 import express from "express";
 
-import { Bright, Green, Red } from "./misc/console-text.js";
-import { getCurrentBranch, shortCommit } from "./misc/current-commit.js";
-import { env } from "./config.js"
-
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const app = express();
+import { env } from "./config.js"
+import { Bright, Green, Red } from "./misc/console-text.js";
 
-const gitCommit = shortCommit();
-const gitBranch = getCurrentBranch();
+const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename).slice(0, -4);
@@ -22,7 +18,7 @@ app.disable('x-powered-by');
 
 if (env.apiURL) {
     const { runAPI } = await import('./core/api.js');
-    runAPI(express, app, gitCommit, gitBranch, __dirname)
+    runAPI(express, app, __dirname)
 } else {
     console.log(
         Red(`cobalt wasn't configured yet or configuration is invalid.\n`)

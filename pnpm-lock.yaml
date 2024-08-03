@@ -6,8 +6,13 @@ settings:
 
 importers:
 
+  .: {}
+
   api:
     dependencies:
+      '@imput/version-info':
+        specifier: workspace:^
+        version: link:../packages/version-info
       content-disposition-header:
         specifier: 0.6.0
         version: 0.6.0
@@ -60,6 +65,8 @@ importers:
       freebind:
         specifier: ^0.2.2
         version: 0.2.2
+
+  packages/version-info: {}
 
   web:
     dependencies:
