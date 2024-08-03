@@ -14,7 +14,7 @@ const finnicky = new Set(['bilibili', 'instagram', 'youtube'])
 const action = process.argv[2];
 switch (action) {
     case "get-services":
-        const fromConfig = Object.keys(services.config);
+        const fromConfig = Object.keys(services);
 
         const missingTests = fromConfig.filter(
             service => !tests[service] || tests[service].length === 0
