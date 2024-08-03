@@ -9,8 +9,7 @@ jobs:
     name: check lockfile correctness
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - name: Check that lockfile does not need an update
         run: pnpm install --frozen-lockfile
@@ -19,21 +18,20 @@ jobs:
     name: web sanity check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts
       - uses: pnpm/action-setup@v4
-      - name: Run test script
-        run: .github/test.sh web
+      - run: .github/test.sh web
 
   test-api:
     name: api sanity check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - name: Run test script
-        run: .github/test.sh api
+      - run: .github/test.sh api
 
   check-services:
     name: test service functionality
@@ -41,8 +39,7 @@ jobs:
     outputs:
       services: ${{ steps.checkServices.outputs.service_list }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - id: checkServices
         run: pnpm i --frozen-lockfile && echo "service_list=$(node api/src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
@@ -56,7 +53,6 @@ jobs:
         service: ${{ fromJson(needs.check-services.outputs.services) }}
     name: "test service: ${{ matrix.service }}"
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - run: pnpm i --frozen-lockfile && node api/src/util/test-ci run-tests-for ${{ matrix.service }}
