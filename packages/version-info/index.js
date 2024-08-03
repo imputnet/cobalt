@@ -17,13 +17,14 @@ const findFile = (file) => {
 
 const root = findFile('.git');
 const pack = findFile('package.json');
-if (!root) {
-    throw 'no git repository root found';
-} else if (!pack) {
-    throw 'no package root found';
-}
 
-const readGit = (filename) => readFile(join(root, filename), 'utf8');
+const readGit = (filename) => {
+    if (!root) {
+        throw 'no git repository root found';
+    }
+
+    return readFile(join(root, filename), 'utf8');
+}
 
 export const getCommit = async () => {
     return (await readGit('.git/logs/HEAD'))
@@ -65,6 +66,10 @@ export const getRemote = async () => {
 }
 
 export const getVersion = async () => {
+    if (!pack) {
+        throw 'no package root found';
+    }
+
     const { version } = JSON.parse(
         await readFile(join(pack, 'package.json'), 'utf8')
     );
