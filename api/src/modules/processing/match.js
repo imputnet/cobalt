@@ -2,7 +2,6 @@ import { strict as assert } from "node:assert";
 
 import { env } from '../config.js';
 import { createResponse } from "../processing/request.js";
-import loc from "../../localization/manager.js";
 
 import { testers } from "./servicesPatternTesters.js";
 import matchActionDecider from "./matchActionDecider.js";
@@ -51,12 +50,15 @@ export default async function(host, patternMatch, lang, obj) {
 
         if (!testers[host]) {
             return createResponse("error", {
-                t: loc(lang, 'ErrorUnsupported')
+                code: "ErrorUnsupported"
             });
         }
         if (!(testers[host](patternMatch))) {
             return createResponse("error", {
-                t: loc(lang, 'ErrorBrokenLink', host)
+                code: "ErrorBrokenLink",
+                context: {
+                    service: host
+                }
             });
         }
 
@@ -208,7 +210,7 @@ export default async function(host, patternMatch, lang, obj) {
                 break;
             default:
                 return createResponse("error", {
-                    t: loc(lang, 'ErrorUnsupported')
+                    code: "ErrorUnsupported"
                 });
         }
 
@@ -217,14 +219,14 @@ export default async function(host, patternMatch, lang, obj) {
 
         if (r.error && r.critical) {
             return createResponse("critical", {
-                t: loc(lang, r.error)
+                code: r.error
             })
         }
+
         if (r.error) {
             return createResponse("error", {
-                t: Array.isArray(r.error)
-                    ? loc(lang, r.error[0], r.error[1])
-                    : loc(lang, r.error)
+                code: r.error,
+                context: response?.context
             })
         }
 
@@ -236,7 +238,10 @@ export default async function(host, patternMatch, lang, obj) {
         )
     } catch {
         return createResponse("error", {
-            t: loc(lang, 'ErrorBadFetch', host)
+            code: "ErrorBadFetch",
+            context: {
+                service: host
+            }
         })
     }
 }

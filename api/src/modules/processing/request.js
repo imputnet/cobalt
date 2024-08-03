@@ -23,12 +23,16 @@ const apiVar = {
 }
 
 export function createResponse(responseType, responseData) {
-    const internalError = (text) => {
+    const internalError = (code) => {
+        let error = code || "Internal Server Error";
         return {
             status: 500,
             body: {
                 status: "error",
-                text: text || "Internal Server Error",
+                error: {
+                    code: code || "Internal Server Error",
+                },
+                text: error, // temporary backwards compatibility
                 critical: true
             }
         }
@@ -37,7 +41,7 @@ export function createResponse(responseType, responseData) {
     try {
         let status = 200,
             response = {};
-        
+
         switch(responseType) {
             case "error":
                 status = 400;
@@ -50,22 +54,30 @@ export function createResponse(responseType, responseData) {
 
         switch (responseType) {
             case "error":
+                response = {
+                    error: {
+                        code: responseData.code,
+                        context: responseData?.context,
+                    },
+                    text: responseData.code, // temporary backwards compatibility
+                }
+                break;
             case "success":
             case "rate-limit":
                 response = {
-                    text: responseData.t
+                    text: responseData.t,
                 }
                 break;
 
             case "redirect":
                 response = {
-                    url: responseData.u
+                    url: responseData.u,
                 }
                 break;
 
             case "stream":
                 response = {
-                    url: createStream(responseData)
+                    url: createStream(responseData),
                 }
                 break;
 
@@ -74,19 +86,19 @@ export function createResponse(responseType, responseData) {
                     audio = false;
 
                 if (responseData.service === "tiktok") {
-                    audio = responseData.u
-                    pickerType = "images"
+                    audio = responseData.u;
+                    pickerType = "images";
                 }
 
                 response = {
                     pickerType: pickerType,
                     picker: responseData.picker,
-                    audio: audio
+                    audio: audio,
                 }
                 break;
-            case "critical": 
-                return internalError(responseData.t)
-            default: 
+            case "critical":
+                return internalError(responseData.code);
+            default:
                 throw "unreachable"
         }
         return {
@@ -117,7 +129,7 @@ export function normalizeRequest(request) {
             twitterGif: false,
             tiktokH265: false
         }
-    
+
         const requestKeys = Object.keys(request);
         const templateKeys = Object.keys(template);
 

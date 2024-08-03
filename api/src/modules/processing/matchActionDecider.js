@@ -1,6 +1,5 @@
 import { audioIgnore, services, supportedAudio } from "../config.js";
 import { createResponse } from "../processing/request.js";
-import loc from "../../localization/manager.js";
 import createFilename from "./createFilename.js";
 import { createStream } from "../stream/manage.js";
 
@@ -38,7 +37,9 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
 
     switch (action) {
         default:
-            return createResponse("error", { t: loc(lang, 'ErrorEmptyDownload') });
+            return createResponse("error", {
+                code: "ErrorEmptyDownload"
+            });
 
         case "photo":
             responseType = "redirect";
@@ -145,9 +146,10 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
             break;
 
         case "audio":
-            if (audioIgnore.includes(host)
-                || (host === "reddit" && r.typeId === "redirect")) {
-                return createResponse("error", { t: loc(lang, 'ErrorEmptyDownload') })
+            if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
+                return createResponse("error", {
+                    code: "ErrorEmptyDownload"
+                })
             }
 
             let processType = "render",

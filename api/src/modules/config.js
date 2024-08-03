@@ -19,10 +19,8 @@ export const
     audioIgnore = servicesConfigJson.audioIgnore,
     version = packageJson.version,
     genericUserAgent = config.genericUserAgent,
-    repo = packageJson.bugs.url.replace('/issues', ''),
     ffmpegArgs = config.ffmpegArgs,
     supportedAudio = config.supportedAudio,
-    links = config.links,
     env = {
         apiURL: process.env.API_URL || '',
         apiPort: process.env.API_PORT || 9000,

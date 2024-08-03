@@ -5,7 +5,6 @@ import express from "express";
 
 import { Bright, Green, Red } from "./modules/sub/consoleText.js";
 import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
-import { loadLoc } from "./localization/manager.js";
 import { env } from "./modules/config.js"
 
 import path from 'path';
@@ -20,8 +19,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename).slice(0, -4);
 
 app.disable('x-powered-by');
-
-await loadLoc();
 
 if (env.apiURL) {
     const { runAPI } = await import('./core/api.js');

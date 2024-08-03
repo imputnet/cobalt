@@ -7,7 +7,6 @@ import { env, version } from "../modules/config.js";
 import { generateHmac, generateSalt } from "../modules/sub/crypto.js";
 import { Bright, Cyan } from "../modules/sub/consoleText.js";
 import { languageCode } from "../modules/sub/utils.js";
-import loc from "../localization/manager.js";
 
 import { createResponse, normalizeRequest, getIP } from "../modules/processing/request.js";
 import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
@@ -45,8 +44,14 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
         handler: (req, res) => {
             return res.status(429).json({
-                "status": "rate-limit",
-                "text": loc(languageCode(req), 'ErrorRateLimit', env.rateLimitWindow)
+                status: "error",
+                error: {
+                    code: "ErrorRateLimit",
+                    context: {
+                        limit: env.rateLimitWindow
+                    },
+                    text: "ErrorRateLimit" // temporary backwards compatibility
+                }
             });
         }
     })
@@ -92,7 +97,10 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         if (err) {
             return res.status(400).json({
                 status: "error",
-                text: "invalid json body"
+                error: {
+                    code: "error.body.invalid",
+                },
+                text: "invalid json body", // temporary backwards compatibility
             });
         }
 
@@ -103,8 +111,8 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         const request = req.body;
         const lang = languageCode(req);
 
-        const fail = (t) => {
-            const { status, body } = createResponse("error", { t: loc(lang, t) });
+        const fail = (code) => {
+            const { status, body } = createResponse("error", { code });
             res.status(status).json(body);
         }
 
