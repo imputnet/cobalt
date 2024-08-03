@@ -3,9 +3,10 @@ import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
 
+import { env, ffmpegArgs } from "../config.js";
 import { metadataManager } from "../misc/utils.js";
 import { destroyInternalStream } from "./manage.js";
-import { env, ffmpegArgs, hlsExceptions } from "../config.js";
+import { hlsExceptions } from "../processing/service-config.js";
 import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
 
 function toRawHeaders(headers) {

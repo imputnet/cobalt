@@ -1,4 +1,6 @@
-import { audioIgnore, services, supportedAudio } from "../config.js";
+import { supportedAudio } from "../config.js";
+import { audioIgnore, services } from "./service-config.js";
+
 import { createResponse } from "./request.js";
 import createFilename from "./create-filename.js";
 import { createStream } from "../stream/manage.js";

@@ -3,8 +3,9 @@ import { runTest } from "../misc/run-test.js";
 import { loadJSON } from "../misc/load-from-fs.js";
 import { Red, Bright } from "../misc/console-text.js";
 
+import { services } from "../processing/service-config.js";
+
 const tests = loadJSON('./src/util/tests.json');
-const services = loadJSON('./src/processing/service-config.json');
 
 // services that are known to frequently fail due to external
 // factors (e.g. rate limiting)

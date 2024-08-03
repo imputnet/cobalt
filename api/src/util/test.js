@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "../misc/alias-envs.js";
 
-import { services } from "../config.js";
+import { services } from "../processing/service-config.js";
 import { extract } from "../processing/url.js";
 import match from "../processing/match.js";
 import { loadJSON } from "../misc/load-from-fs.js";

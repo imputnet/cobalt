@@ -1,16 +1,6 @@
-import UrlPattern from "url-pattern";
 import { loadJSON } from "./misc/load-from-fs.js";
 
 const packageJson = loadJSON("./package.json");
-const servicesConfigJson = loadJSON("./src/processing/service-config.json");
-
-Object.values(servicesConfigJson.config).forEach(service => {
-    service.patterns = service.patterns.map(
-        pattern => new UrlPattern(pattern, {
-            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.'
-        })
-    )
-})
 
 export const
     version = packageJson.version,
@@ -25,10 +15,6 @@ export const
         m4a: ["-movflags", "frag_keyframe+empty_moov"],
         gif: ["-vf", "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse", "-loop", "0"]
     },
-
-    services = servicesConfigJson.config,
-    hlsExceptions = servicesConfigJson.hlsExceptions,
-    audioIgnore = servicesConfigJson.audioIgnore,
 
     env = {
         apiURL: process.env.API_URL || '',
