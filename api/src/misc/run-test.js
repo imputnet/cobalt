@@ -14,7 +14,7 @@ export async function runTest(url, params, expect) {
     }
 
     const result = await match(
-        parsed.host, parsed.patternMatch, "en", normalized
+        parsed.host, parsed.patternMatch, normalized
     );
 
     let error = [];
