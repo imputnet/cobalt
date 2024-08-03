@@ -108,5 +108,5 @@
 
     "processing.override": "default instance override",
     "processing.override.title": "use instance-provided processing server",
-    "processing.override.description": "cobalt will use the processing server from DEFAULT_API when this is enabled."
+    "processing.override.description": "cobalt will use the processing server from DEFAULT_API when this is enabled. this is a temporary description."
 }
