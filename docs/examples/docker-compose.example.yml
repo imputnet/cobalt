@@ -31,30 +31,6 @@ services:
         #volumes:
             #- ./cookies.json:/cookies.json
 
-    cobalt-web:
-        image: ghcr.io/imputnet/cobalt:7
-        restart: unless-stopped
-        container_name: cobalt-web
-
-        init: true
-
-        # if container doesn't run detached on your machine, uncomment the next line
-        #tty: true
-
-        ports:
-            - 9001:9001/tcp
-            # if you're using a reverse proxy, uncomment the next line and remove the one above (9001:9001/tcp):
-            #- 127.0.0.1:9001:9001
-
-        environment:
-            # replace https://cobalt.tools/ with your instance's target url in same format
-            WEB_URL: "https://cobalt.tools/"
-            # replace https://api.cobalt.tools/ with preferred api instance url
-            API_URL: "https://api.cobalt.tools/"
-
-        labels:
-            - com.centurylinklabs.watchtower.scope=cobalt
-
     # update the cobalt image automatically with watchtower
     watchtower:
         image: ghcr.io/containrrr/watchtower
