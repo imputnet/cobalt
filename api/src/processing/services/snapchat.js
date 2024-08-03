@@ -69,7 +69,7 @@ async function getStory(username, storyId) {
 
 export default async function (obj) {
     let params = obj;
-    if (obj.hostname === 't.snapchat.com' && obj.shortLink) {
+    if (obj.shortLink) {
         const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
 
         if (!link?.startsWith('https://www.snapchat.com/')) {

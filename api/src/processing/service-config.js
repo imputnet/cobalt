@@ -91,7 +91,8 @@ export const services = {
             "add/:username/:storyId",
             "u/:username/:storyId",
             "add/:username",
-            "u/:username"
+            "u/:username",
+            "t/:shortLink",
         ],
         subdomains: ["t", "story"],
     },

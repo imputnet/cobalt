@@ -193,10 +193,7 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await dailymotion(patternMatch);
                 break;
             case "snapchat":
-                r = await snapchat({
-                    hostname: url.hostname,
-                    ...patternMatch
-                });
+                r = await snapchat(patternMatch);
                 break;
             case "loom":
                 r = await loom({
