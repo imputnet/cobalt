@@ -18,6 +18,7 @@ export type DialogPickerItem = {
 
 type Dialog = {
     id: string,
+    dismissable?: boolean,
 };
 
 type SmallDialog = Dialog & {

@@ -17,11 +17,12 @@
     export let bodyText = "";
     export let bodySubText = "";
     export let buttons: Optional<DialogButton[]> = undefined;
+    export let dismissable = true;
 
     let close: () => void;
 </script>
 
-<DialogContainer {id} bind:close>
+<DialogContainer {id} {dismissable} bind:close>
     <div class="dialog-body small-dialog" class:meowbalt-visible={meowbalt}>
         {#if meowbalt}
             <div class="meowbalt-container">

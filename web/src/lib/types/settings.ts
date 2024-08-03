@@ -22,8 +22,13 @@ type CobaltSettingsAdvanced = {
 };
 
 type CobaltSettingsPrivacy = {
-    disableAnalytics: boolean
+    disableAnalytics: boolean,
 };
+
+type CobaltSettingsProcessing = {
+    allowDefaultOverride: boolean,
+    seenOverrideWarning: boolean,
+}
 
 type CobaltSettingsSave = {
     audioFormat: typeof audioFormatOptions[number],
@@ -44,7 +49,8 @@ export type CurrentCobaltSettings = {
     advanced: CobaltSettingsAdvanced,
     appearance: CobaltSettingsAppearance,
     save: CobaltSettingsSave,
-    privacy: CobaltSettingsPrivacy
+    privacy: CobaltSettingsPrivacy,
+    processing: CobaltSettingsProcessing,
 };
 
 export type CobaltSettings = CurrentCobaltSettings;

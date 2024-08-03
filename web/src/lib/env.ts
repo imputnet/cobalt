@@ -4,6 +4,7 @@ const variables = {
     HOST: env.PUBLIC_HOST,
     PLAUSIBLE_HOST: env.PUBLIC_PLAUSIBLE_HOST,
     PLAUSIBLE_ENABLED: env.PUBLIC_HOST && env.PUBLIC_PLAUSIBLE_HOST,
+    DEFAULT_API: env.PUBLIC_DEFAULT_API,
 }
 
 const donate = {
@@ -20,5 +21,7 @@ const donate = {
     }
 };
 
-export { donate };
+const apiURL = "https://api.cobalt.tools";
+
+export { donate, apiURL };
 export default variables;

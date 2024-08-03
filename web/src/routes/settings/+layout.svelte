@@ -17,6 +17,7 @@
     import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
     import IconBug from "@tabler/icons-svelte/IconBug.svelte";
     import IconLock from "@tabler/icons-svelte/IconLock.svelte";
+    import IconCloudNetwork from "@tabler/icons-svelte/IconCloudNetwork.svelte";
 
     import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
 
@@ -129,6 +130,13 @@
             </SettingsNavSection>
 
             <SettingsNavSection>
+                <SettingsNavTab
+                    tabName="processing"
+                    tabLink="processing"
+                    iconColor="gray"
+                >
+                    <IconCloudNetwork />
+                </SettingsNavTab>
                 <SettingsNavTab
                     tabName="advanced"
                     tabLink="advanced"

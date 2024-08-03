@@ -16,6 +16,7 @@
     export let id: string;
     export let items: Optional<DialogPickerItem[]> = undefined;
     export let buttons: Optional<DialogButton[]> = undefined;
+    export let dismissable = true;
 
     let dialogDescription = "dialog.picker.description.";
 
@@ -30,7 +31,7 @@
     let close: () => void;
 </script>
 
-<DialogContainer {id} bind:close>
+<DialogContainer {id} {dismissable} bind:close>
     <div
         class="dialog-body picker-dialog"
         class:three-columns={items && items.length <= 3}

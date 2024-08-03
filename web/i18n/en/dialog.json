@@ -8,6 +8,7 @@
     "button.share": "share",
     "button.copy": "copy",
     "button.import": "import",
+    "button.continue": "continue",
 
     "reset.title": "reset all settings?",
     "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible.",
@@ -22,5 +23,8 @@
 
     "safety.title": "important safety notice",
 
-    "import.body": "importing unknown or corrupted files may unexpectedly alter or break cobalt functionality. only import files that you've personally exported and haven't modified. if you were asked to import this file by someone - don't do it.\n\nwe are not responsible for any harm caused by importing unknown setting files."
+    "import.body": "importing unknown or corrupted files may unexpectedly alter or break cobalt functionality. only import files that you've personally exported and haven't modified. if you were asked to import this file by someone - don't do it.\n\nwe are not responsible for any harm caused by importing unknown setting files.",
+
+    "api.override.title": "processing instance override",
+    "api.override.body": "{{ value }} is now the processing instance. if you don't trust it, press \"cancel\" and it'll be ignored.\n\nyou can change your choice later in processing settings."
 }

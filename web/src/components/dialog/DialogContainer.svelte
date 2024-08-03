@@ -5,6 +5,7 @@
     import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
 
     export let id: string;
+    export let dismissable = true;
 
     let dialogParent: HTMLDialogElement;
 
@@ -32,5 +33,5 @@
 
 <dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open>
     <slot></slot>
-    <DialogBackdropClose closeFunc={close} />
+    <DialogBackdropClose closeFunc={dismissable ? close : () => {}} />
 </dialog>

@@ -19,6 +19,7 @@
     export let id: string;
     export let url: string;
     export let bodyText: string = "";
+    export let dismissable = true;
 
     let close: () => void;
 
@@ -31,7 +32,7 @@
     }
 </script>
 
-<DialogContainer {id} bind:close>
+<DialogContainer {id} {dismissable} bind:close>
     <div class="dialog-body popup-body">
         <div class="meowbalt-container">
             <Meowbalt emotion="question" />

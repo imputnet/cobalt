@@ -9,7 +9,7 @@ import { createDialog } from "$lib/dialogs";
 import type { DialogInfo } from "$lib/types/dialog";
 
 export const openSavingDialog = (url: string, body: string | void) => {
-    let dialogData: DialogInfo = {
+    const dialogData: DialogInfo = {
         type: "saving",
         id: "saving",
         url

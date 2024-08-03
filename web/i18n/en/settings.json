@@ -6,6 +6,7 @@
     "page.download": "downloading",
     "page.advanced": "advanced",
     "page.debug": "debug information",
+    "page.processing": "processing",
 
     "section.general": "general",
     "section.save": "save",
@@ -103,5 +104,9 @@
     "advanced.data": "settings data",
     "advanced.reset": "reset all settings",
     "advanced.import": "import",
-    "advanced.export": "export"
+    "advanced.export": "export",
+
+    "processing.override": "default instance override",
+    "processing.override.title": "use instance-provided processing server",
+    "processing.override.description": "cobalt will use the processing server from DEFAULT_API when this is enabled."
 }
