@@ -9,16 +9,12 @@ const root = join(
 
 export function loadJSON(path) {
     try {
-        return JSON.parse(fs.readFileSync(join(root, path), 'utf-8'))
+        return JSON.parse(loadFile(path))
     } catch {
         return false
     }
 }
 
 export function loadFile(path) {
-    try {
-        return fs.readFileSync(path, 'utf-8')
-    } catch {
-        return false
-    }
+    return fs.readFileSync(join(root, path), 'utf-8')
 }
