@@ -110,7 +110,7 @@ export default async function(o) {
         );
     } catch(e) {
         if (e.message?.endsWith("decipher algorithm")) {
-                return { error: "ErrorYoutubeDecipher" }
+            return { error: "ErrorYoutubeDecipher" }
         } else throw e;
     }
 
