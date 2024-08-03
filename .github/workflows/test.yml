@@ -3,7 +3,6 @@ name: Run tests
 on:
   pull_request:
   push:
-    branches: [ current ]
 
 jobs:
   check-lockfile:
