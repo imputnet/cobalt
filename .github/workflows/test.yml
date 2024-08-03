@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Check that lockfile does not need an update
         run: pnpm install --frozen-lockfile
 
@@ -20,6 +21,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Run test script
         run: .github/test.sh web
 
@@ -29,6 +31,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Run test script
         run: .github/test.sh api
 
@@ -40,8 +43,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - id: checkServices
-        run: npm ci && echo "service_list=$(node api/src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
+        run: pnpm i --frozen-lockfile && echo "service_list=$(node api/src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
 
   test-services:
     needs: check-services
@@ -54,4 +58,5 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - run: npm ci && node api/src/util/test-ci run-tests-for ${{ matrix.service }}
+      - uses: pnpm/action-setup@v4
+      - run: pnpm i --frozen-lockfile && node api/src/util/test-ci run-tests-for ${{ matrix.service }}
