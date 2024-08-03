@@ -40,7 +40,7 @@ export function runAPI(express, app, __dirname) {
     const serverInfo = {
         version: version,
         git,
-        cors: Number(env.corsWildcard),
+        cors: env.corsWildcard,
         url: env.apiURL,
         startTime: `${startTimestamp}`,
     }
