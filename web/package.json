@@ -12,8 +12,8 @@
     },
     "license": "CC-BY-NC-SA-4.0",
     "engines": {
-        "node": ">=20.9",
-        "npm": ">=9"
+        "node": ">=20",
+        "pnpm": ">=9"
     },
     "repository": {
         "type": "git",
