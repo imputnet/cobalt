@@ -12,11 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Check that lockfile does not need an update
-        run: |
-          cp package-lock.json before.json
-          npm ci
-          npm i --package-lock-only
-          diff before.json package-lock.json
+        run: pnpm install --frozen-lockfile
 
   test-web:
     name: web sanity check
@@ -45,7 +41,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - id: checkServices
-        run: npm ci && echo "service_list=$(node src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
+        run: npm ci && echo "service_list=$(node api/src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
 
   test-services:
     needs: check-services
@@ -58,4 +54,4 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - run: npm ci && node src/util/test-ci run-tests-for ${{ matrix.service }}
+      - run: npm ci && node api/src/util/test-ci run-tests-for ${{ matrix.service }}
