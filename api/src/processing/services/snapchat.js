@@ -1,5 +1,5 @@
 import { genericUserAgent } from "../../config.js";
-import { getRedirectingURL } from "../../sub/utils.js";
+import { getRedirectingURL } from "../../misc/utils.js";
 import { extract, normalizeURL } from "../url.js";
 
 const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(https:\/\/cf-st\.sc-cdn\.net\/d\/[\w.?=]+&amp;uc=\d+)" as="video"\/>/;

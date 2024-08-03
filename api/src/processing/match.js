@@ -1,10 +1,10 @@
 import { strict as assert } from "node:assert";
 
-import { env } from '../config.js';
+import { env } from "../config.js";
 import { createResponse } from "../processing/request.js";
 
-import { testers } from "./servicesPatternTesters.js";
-import matchActionDecider from "./matchActionDecider.js";
+import { testers } from "./service-patterns.js";
+import matchActionDecider from "./match-action.js";
 
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";

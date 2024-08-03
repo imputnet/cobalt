@@ -1,6 +1,6 @@
 import { audioIgnore, services, supportedAudio } from "../config.js";
-import { createResponse } from "../processing/request.js";
-import createFilename from "./createFilename.js";
+import { createResponse } from "./request.js";
+import createFilename from "./create-filename.js";
 import { createStream } from "../stream/manage.js";
 
 export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, disableMetadata, filenamePattern, toGif, requestIP) {

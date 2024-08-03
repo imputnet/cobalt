@@ -1,5 +1,5 @@
 import { Innertube } from 'youtubei.js';
-import { Red } from '../modules/sub/consoleText.js'
+import { Red } from '../misc/console-text.js'
 
 const bail = (...msg) => {
     console.error(...msg);

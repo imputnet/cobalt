@@ -1,8 +1,8 @@
 import ipaddr from "ipaddr.js";
 
-import { normalizeURL } from "../processing/url.js";
+import { normalizeURL } from "./url.js";
 import { createStream } from "../stream/manage.js";
-import { verifyLanguageCode } from "../sub/utils.js";
+import { verifyLanguageCode } from "../misc/utils.js";
 
 const apiVar = {
     allowed: {

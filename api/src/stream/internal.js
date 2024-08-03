@@ -28,7 +28,7 @@ async function* readChunks(streamInfo, size) {
         if (received < expected / 2n) {
             closeRequest(streamInfo.controller);
         }
-        
+
         for await (const data of chunk.body) {
             yield data;
         }
@@ -64,7 +64,7 @@ async function handleYoutubeStream(streamInfo, res) {
         }
 
         signal.addEventListener('abort', abortGenerator);
-    
+
         const stream = Readable.from(generator);
 
         for (const headerName of ['content-type', 'content-length']) {

@@ -1,5 +1,5 @@
 import { genericUserAgent, env } from "../../config.js";
-import { cleanString } from "../../sub/utils.js";
+import { cleanString } from "../../misc/utils.js";
 
 const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240"];
 

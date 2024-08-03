@@ -3,7 +3,7 @@ import { fetch } from "undici";
 import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
-import { cleanString } from "../../sub/utils.js";
+import { cleanString } from "../../misc/utils.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms

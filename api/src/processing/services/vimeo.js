@@ -1,5 +1,5 @@
 import { env } from "../../config.js";
-import { cleanString, merge } from '../../sub/utils.js';
+import { cleanString, merge } from '../../misc/utils.js';
 
 import HLS from "hls-parser";
 

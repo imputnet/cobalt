@@ -1,12 +1,12 @@
 import "dotenv/config";
-import "../modules/sub/alias-envs.js";
+import "../misc/alias-envs.js";
 
-import { services } from "../modules/config.js";
-import { extract } from "../modules/processing/url.js";
-import match from "../modules/processing/match.js";
-import { loadJSON } from "../modules/sub/loadFromFs.js";
-import { normalizeRequest } from "../modules/processing/request.js";
-import { env } from "../modules/config.js";
+import { services } from "../config.js";
+import { extract } from "../processing/url.js";
+import match from "../processing/match.js";
+import { loadJSON } from "../misc/load-from-fs.js";
+import { normalizeRequest } from "../processing/request.js";
+import { env } from "../config.js";
 
 env.apiURL = 'http://localhost:9000'
 let tests = loadJSON('./src/util/tests.json');
@@ -29,7 +29,7 @@ for (let i in services) {
         console.log(`\nRunning tests for ${i}...\n`)
         for (let k = 0; k < tests[i].length; k++) {
             let test = tests[i][k];
-            
+
             console.log(`Running test ${k+1}: ${test.name}`);
             console.log('params:');
             let params = {...{url: test.url}, ...test.params};

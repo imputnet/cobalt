@@ -1,6 +1,6 @@
-import { normalizeRequest } from "../modules/processing/request.js";
-import match from "./processing/match.js";
-import { extract } from "./processing/url.js";
+import { normalizeRequest } from "../processing/request.js";
+import match from "../processing/match.js";
+import { extract } from "../processing/url.js";
 
 export async function runTest(url, params, expect) {
     const normalized = normalizeRequest({ url, ...params });

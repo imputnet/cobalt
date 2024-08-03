@@ -1,7 +1,7 @@
 import { existsSync, unlinkSync, appendFileSync } from "fs";
 import { createInterface } from "readline";
-import { Cyan, Bright } from "./sub/consoleText.js";
-import { loadJSON } from "./sub/loadFromFs.js";
+import { Cyan, Bright } from "./misc/console-text.js";
+import { loadJSON } from "./misc/load-from-fs.js";
 import { execSync } from "child_process";
 
 const { version } = loadJSON("./package.json");

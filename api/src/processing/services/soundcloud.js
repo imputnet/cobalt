@@ -1,5 +1,5 @@
 import { env } from "../../config.js";
-import { cleanString } from "../../sub/utils.js";
+import { cleanString } from "../../misc/utils.js";
 
 const cachedID = {
     version: '',

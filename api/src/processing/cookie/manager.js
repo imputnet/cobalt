@@ -1,7 +1,7 @@
 import Cookie from './cookie.js';
 import { readFile, writeFile } from 'fs/promises';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
-import { env } from '../../../modules/config.js'
+import { env } from '../../config.js';
 
 const WRITE_INTERVAL = 60000,
       cookiePath = env.cookiePath,

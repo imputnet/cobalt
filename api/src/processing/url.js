@@ -54,6 +54,7 @@ function aliasURL(url) {
                 url = new URL(`https://bilibili.com/_tv${url.pathname}`);
             }
             break;
+
         case "b23":
             if (url.hostname === 'b23.tv' && parts.length === 2) {
                 url = new URL(`https://bilibili.com/_shortLink/${parts[1]}`)

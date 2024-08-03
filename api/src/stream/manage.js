@@ -3,7 +3,7 @@ import { randomBytes } from "crypto";
 import { nanoid } from "nanoid";
 import { setMaxListeners } from "node:events";
 
-import { decryptStream, encryptStream, generateHmac } from "../sub/crypto.js";
+import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
 import { env } from "../config.js";
 import { strict as assert } from "assert";
 import { closeRequest } from "./shared.js";
@@ -83,7 +83,7 @@ export function createInternalStream(url, obj = {}) {
     let controller = obj.controller;
 
     if (!controller) {
-        controller = new AbortController(); 
+        controller = new AbortController();
         setMaxListeners(Infinity, controller.signal);
     }
 

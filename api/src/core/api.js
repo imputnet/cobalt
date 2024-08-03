@@ -2,18 +2,18 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, ProxyAgent } from "undici";
 
-import { env, version } from "../modules/config.js";
+import { env, version } from "../config.js";
 
-import { generateHmac, generateSalt } from "../modules/sub/crypto.js";
-import { Bright, Cyan } from "../modules/sub/consoleText.js";
-import { languageCode } from "../modules/sub/utils.js";
+import { generateHmac, generateSalt } from "../misc/crypto.js";
+import { Bright, Cyan } from "../misc/console-text.js";
+import { languageCode } from "../misc/utils.js";
 
-import { createResponse, normalizeRequest, getIP } from "../modules/processing/request.js";
-import { verifyStream, getInternalStream } from "../modules/stream/manage.js";
-import { randomizeCiphers } from '../modules/sub/randomize-ciphers.js';
-import { extract } from "../modules/processing/url.js";
-import match from "../modules/processing/match.js";
-import stream from "../modules/stream/stream.js";
+import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
+import { verifyStream, getInternalStream } from "../stream/manage.js";
+import { randomizeCiphers } from '../misc/randomize-ciphers.js';
+import { extract } from "../processing/url.js";
+import match from "../processing/match.js";
+import stream from "../stream/stream.js";
 
 const acceptRegex = /^application\/json(; charset=utf-8)?$/;
 

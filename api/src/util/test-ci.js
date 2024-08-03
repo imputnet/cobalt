@@ -1,11 +1,10 @@
-import { env } from "../modules/config.js";
-import { runTest } from "../modules/test.js";
-import { loadLoc } from "../localization/manager.js";
-import { loadJSON } from "../modules/sub/loadFromFs.js";
-import { Red, Bright } from "../modules/sub/consoleText.js";
+import { env } from "../config.js";
+import { runTest } from "../misc/run-test.js";
+import { loadJSON } from "../misc/load-from-fs.js";
+import { Red, Bright } from "../misc/console-text.js";
 
 const tests = loadJSON('./src/util/tests.json');
-const services = loadJSON('./src/modules/processing/servicesConfig.json');
+const services = loadJSON('./src/processing/service-config.json');
 
 // services that are known to frequently fail due to external
 // factors (e.g. rate limiting)
@@ -38,7 +37,6 @@ switch (action) {
             console.error('no such service:', service);
         }
 
-        await loadLoc();
         env.streamLifespan = 10000;
         env.apiURL = 'http://x';
 

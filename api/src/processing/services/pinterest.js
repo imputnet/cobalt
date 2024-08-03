@@ -33,7 +33,7 @@ export default async function(o) {
     let imageLink = [...html.matchAll(imageRegex)]
                     .map(([, link]) => link)
                     .find(a => a.endsWith('.jpg') || a.endsWith('.gif'));
-                    
+
     if (imageLink) return {
         urls: imageLink,
         isPhoto: true

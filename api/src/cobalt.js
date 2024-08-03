@@ -1,11 +1,11 @@
 import "dotenv/config";
-import "./modules/sub/alias-envs.js";
+import "./misc/alias-envs.js";
 
 import express from "express";
 
-import { Bright, Green, Red } from "./modules/sub/consoleText.js";
-import { getCurrentBranch, shortCommit } from "./modules/sub/currentCommit.js";
-import { env } from "./modules/config.js"
+import { Bright, Green, Red } from "./misc/console-text.js";
+import { getCurrentBranch, shortCommit } from "./misc/current-commit.js";
+import { env } from "./config.js"
 
 import path from 'path';
 import { fileURLToPath } from 'url';

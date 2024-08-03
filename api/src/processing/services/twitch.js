@@ -1,5 +1,5 @@
 import { env } from "../../config.js";
-import { cleanString } from '../../sub/utils.js';
+import { cleanString } from '../../misc/utils.js';
 
 const gqlURL = "https://gql.twitch.tv/gql";
 const clientIdHead = { "client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko" };

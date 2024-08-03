@@ -3,7 +3,7 @@ import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
 
-import { metadataManager } from "../sub/utils.js";
+import { metadataManager } from "../misc/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { env, ffmpegArgs, hlsExceptions } from "../config.js";
 import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";

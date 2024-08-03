@@ -1,4 +1,4 @@
-import { Red } from "./consoleText.js";
+import { Red } from "./console-text.js";
 
 const mapping = {
     apiPort: 'API_PORT',
