@@ -92,6 +92,9 @@ importers:
       '@eslint/js':
         specifier: ^9.5.0
         version: 9.8.0
+      '@fontsource/redaction-10':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@sveltejs/adapter-static':
         specifier: ^3.0.2
         version: 3.0.2(@sveltejs/kit@2.5.19(@sveltejs/vite-plugin-svelte@3.1.1(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14)))(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14)))
@@ -323,6 +326,9 @@ packages:
 
   '@fontsource/ibm-plex-mono@5.0.13':
     resolution: {integrity: sha512-gtlMmvk//2AgDEZDFsoL5z9mgW3ZZg/9SC7pIfDwNKp5DtZpApgqd1Fua3HhPwYRIHrT76IQ1tMTzQKLEGtJGQ==}
+
+  '@fontsource/redaction-10@5.0.2':
+    resolution: {integrity: sha512-PODxYvb06YrNxdUBGcygiMibpgcZihzmvkmlX/TQAA2F7BUU/anfSKQi/VnLdJ/8LIK81/bUY+i7L/GP27FkVw==}
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -1944,6 +1950,8 @@ snapshots:
   '@fontsource-variable/noto-sans-mono@5.0.20': {}
 
   '@fontsource/ibm-plex-mono@5.0.13': {}
+
+  '@fontsource/redaction-10@5.0.2': {}
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
