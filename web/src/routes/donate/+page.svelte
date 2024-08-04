@@ -3,9 +3,10 @@
 
     import { t } from "$lib/i18n/translations";
     import { donate } from "$lib/env";
-
-    import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import DonateBanner from "$components/misc/DonateBanner.svelte";
+    import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
+    import IconCup from "@tabler/icons-svelte/IconCup.svelte";
+    import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
 
     let customAmountOnceInput: HTMLInputElement;
     let customAmountRecurringInput: HTMLInputElement;
@@ -34,27 +35,35 @@
 </svelte:head>
 
 <main id="donate-page">
-    <header id="banner">
-        <div id="banner-contents">
-            <div id="banner-left">
-                <img id="imput-logo" src="/icons/imput.svg" alt="imput logo" />
-                <div id="banner-title">{$t('donate.title')}</div>
-                <div id="banner-subtitle">{$t('donate.subtitle')}</div>
+    <DonateBanner />
+    <section id="donation-options">
+        {#each {length: 2} as _}
+        <!-- TODO: move this whole thing into a component -->
+        <div class="donation-box">
+            <div class="donation-info">
+                <div class="donation-icon"><IconCalendarRepeat /></div>
+                <div class="donation-title">monthly donation</div>
+                <div class="donation-subtitle">processed by liberapay</div>
             </div>
-            <div id="banner-right">
-                <Meowbalt emotion="fast" />
+            <div class="donation-scrollbox">
+                {#each {length: 4} as _}
+                <!-- TODO: maybe move this also into a component -->
+                <button class="donation-option">
+                    <div class="donation-amount"><IconCup /> $5</div>
+                    <div class="donation-subtitle">cup of coffee</div>
+                </button>
+                {/each}
+            </div>
+            <div class="donation-custom">
+                <input type="number" placeholder="custom amount (from $2)">
+                <button><IconArrowRight /></button>
+            </div>
+            <div class="donation-footer donation-subtitle">
+                you will be redirected to liberapay
             </div>
         </div>
-        <div id="banner-background">
-            <div id="banner-background-animation">
-                <div id="banner-background-inner">
-                    {#each {length: 144} as _}
-                        <IconHeart class="heart-icon" />
-                    {/each}
-                </div>
-            </div>
-        </div>
-    </header>
+        {/each}
+    </section>
 </main>
 
 <style>
@@ -65,96 +74,82 @@
         padding: var(--padding);
     }
 
-    #banner {
-        position: relative;
-        border-radius: calc(3 * var(--border-radius));
-        background: linear-gradient(
-            190deg,
-            #1a1a1a 30%,
-            #3c3c3c 100%
-        );
-    }
-
-    #banner-contents {
-        position: relative;
+    #donation-options {
         display: flex;
-        width: 100%;
-        z-index: 2;
+        justify-content: space-evenly;
+        padding-top: 16px;
     }
 
-    #banner-background {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        opacity: 10%;
-        mask-image: linear-gradient(
-            145deg,
-            rgba(0,0,0,1) 0%,
-            rgba(255,255,255,0) 60%
-        );
-    }
-
-    #banner-background-inner {
-        color: white;
-        transform: rotate(-8deg) scale(1.5) translateY(-4em);
-    }
-
-    #banner-background-inner :global(.heart-icon) {
-        height: 3em;
-        width: 3em;
-        stroke-width: 1.5px;
-        margin: -.15em;
-    }
-
-    #banner-right :global(.meowbalt) {
-        height: 40vmin;
-        margin-top: -2em;
-        margin-left: -4em;
-    }
-
-    #banner-right {
-        transform: translate(12px, 48px);
-        display: flex;
-        align-items: center;
-    }
-
-    #imput-logo {
-        width: 3em;
-    }
-
-    #banner-left {
+    .donation-box {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        padding: 2.5em 3.5em;
+        border-radius: calc(3 * var(--border-radius));
+        padding: 32px;
+
+        background: linear-gradient(
+            rgba(65,65,65,1) 5%,
+            rgba(26,26,26,1)
+        );
         color: white;
-        gap: 1em;
-        white-space: pre-wrap;
+        gap: 8px;
     }
 
-    #banner-title {
-        font-family: 'Redaction 10', serif;
-        font-size: 3em;
-        font-weight: 400;
-        line-height: 0.95;
+    .donation-icon :global(*) {
+        width: 28px;
+        height: 28px;
     }
 
-    #banner-subtitle {
-        color: var(--gray);
-    }
-    #banner-background-animation {
-        animation: heart-move 5s infinite linear;
+    .donation-title {
+        font-size: 14.5px;
     }
 
-    @keyframes heart-move {
-        from {
-            transform: translateX(0) translateY(0);
-        }
+    .donation-subtitle {
+        font-size: 12px;
+        color: #9a9a9a;
+    }
 
-        to {
-            transform: translate(74px) translateY(61px);
-        }
+    .donation-scrollbox {
+        display: flex;
+        overflow-x: scroll;
+        width: 384px;
+        gap: 5px;
+    }
+
+    .donation-option {
+        display: flex;
+        flex-direction: column;
+        background: #3b3b3b;
+        color: white;
+        align-items: start;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        width: 128px;
+    }
+
+    .donation-amount {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .donation-custom {
+        display: flex;
+        gap: 4px;
+    }
+
+    .donation-custom * {
+        border-radius: var(--border-radius);
+        border: none;
+        background-color: #3b3b3b;
+        color: white;
+    }
+
+    .donation-custom input {
+        flex: 1;
+        padding-left: 12px;
+    }
+
+    .donation-footer {
+        text-align: center;
     }
 </style>
