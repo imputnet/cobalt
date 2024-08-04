@@ -76,6 +76,9 @@ importers:
       '@fontsource/ibm-plex-mono':
         specifier: ^5.0.13
         version: 5.0.13
+      '@imput/version-info':
+        specifier: workspace:^
+        version: link:../packages/version-info
       '@tabler/icons-svelte':
         specifier: 3.6.0
         version: 3.6.0(svelte@4.2.18)

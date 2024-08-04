@@ -44,6 +44,7 @@
     "dependencies": {
         "@fontsource-variable/noto-sans-mono": "^5.0.20",
         "@fontsource/ibm-plex-mono": "^5.0.13",
+        "@imput/version-info": "workspace:^",
         "@tabler/icons-svelte": "3.6.0",
         "sveltekit-i18n": "^2.4.2",
         "ts-deepmerge": "^7.0.0"
