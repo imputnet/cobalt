@@ -77,6 +77,9 @@
         <input
             id="donation-custom-input"
             type="number"
+            min="2"
+            max="10000"
+            required
             placeholder="custom amount (from $2)"
             bind:value={customInputValue}
         />
