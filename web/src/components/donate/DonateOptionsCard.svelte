@@ -94,7 +94,7 @@
         --donation-box-padding: 12px;
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: calc(100% - var(--donate-border-radius) * 2);
         max-width: 480px;
 
         padding: var(--donate-border-radius);
