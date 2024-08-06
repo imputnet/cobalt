@@ -52,16 +52,13 @@ export function runAPI(express, app, __dirname) {
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
         handler: (req, res) => {
-            return res.status(429).json({
-                status: "error",
-                error: {
-                    code: "ErrorRateLimit",
-                    context: {
-                        limit: env.rateLimitWindow
-                    },
-                    text: "ErrorRateLimit" // temporary backwards compatibility
+            const { status, body } = createResponse("error", {
+                code: "error.rate_exceeded",
+                context: {
+                    limit: env.rateLimitWindow
                 }
             });
+            return res.status(status).json(body);
         }
     })
 
@@ -104,13 +101,13 @@ export function runAPI(express, app, __dirname) {
     app.use('/', express.json({ limit: 1024 }));
     app.use('/', (err, _, res, next) => {
         if (err) {
-            return res.status(400).json({
-                status: "error",
-                error: {
-                    code: "error.body.invalid",
-                },
-                text: "invalid json body", // temporary backwards compatibility
+            const { status, body } = createResponse("error", {
+                code: "error.body_invalid",
+                context: {
+                    limit: env.rateLimitWindow
+                }
             });
+            return res.status(status).json(body);
         }
 
         next();

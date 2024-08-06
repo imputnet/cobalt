@@ -24,7 +24,6 @@ const apiRequest = {
 
 export function createResponse(responseType, responseData) {
     const internalError = (code) => {
-        let error = code || "Internal Server Error";
         return {
             status: 500,
             body: {
@@ -32,7 +31,6 @@ export function createResponse(responseType, responseData) {
                 error: {
                     code: code || "Internal Server Error",
                 },
-                text: error, // temporary backwards compatibility
                 critical: true
             }
         }
@@ -42,14 +40,8 @@ export function createResponse(responseType, responseData) {
         let status = 200,
             response = {};
 
-        switch(responseType) {
-            case "error":
-                status = 400;
-                break;
-
-            case "rate-limit":
-                status = 429;
-                break;
+        if (responseType === "error") {
+            status = 400;
         }
 
         switch (responseType) {
@@ -58,17 +50,9 @@ export function createResponse(responseType, responseData) {
                     error: {
                         code: responseData.code,
                         context: responseData?.context,
-                    },
-                    text: responseData.code, // temporary backwards compatibility
+                    }
                 }
                 break;
-            case "success":
-            case "rate-limit":
-                response = {
-                    text: responseData.t,
-                }
-                break;
-
             case "redirect":
                 response = {
                     url: responseData.u,
