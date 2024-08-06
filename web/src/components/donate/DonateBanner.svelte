@@ -131,7 +131,8 @@
     }
 
     #banner-subtitle {
-        color: var(--gray);
+        color: var(--white);
+        opacity: 0.4;
         line-height: 1.5;
         font-size: 16px;
     }
