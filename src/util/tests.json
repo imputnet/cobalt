@@ -971,7 +971,7 @@
     }],
     "streamable": [{
         "name": "regular video",
-        "url": "https://streamable.com/p9cln4",
+        "url": "https://streamable.com/rsmo56",
         "params": {},
         "expected": {
             "code": 200,
@@ -987,7 +987,7 @@
         }
     }, {
         "name": "regular video (isAudioOnly)",
-        "url": "https://streamable.com/p9cln4",
+        "url": "https://streamable.com/rsmo56",
         "params": {
             "isAudioOnly": true
         },
@@ -997,7 +997,7 @@
         }
     }, {
         "name": "regular video (isAudioMuted)",
-        "url": "https://streamable.com/p9cln4",
+        "url": "https://streamable.com/rsmo56",
         "params": {
             "isAudioMuted": true
         },
