@@ -2,6 +2,8 @@
     import "@fontsource/redaction-10/400.css";
 
     import { t } from "$lib/i18n/translations";
+
+    import Imput from "$lib/icons/Imput.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
 
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
@@ -10,7 +12,9 @@
 <header id="banner">
     <div id="banner-contents">
         <div id="banner-left">
-            <img id="imput-logo" src="/icons/imput.svg" alt="imput logo" />
+            <div id="imput-logo">
+                <Imput />
+            </div>
             <div id="banner-title" class="redaction">
                 {$t("donate.banner.title")}
             </div>
@@ -91,6 +95,10 @@
     }
 
     #imput-logo {
+        display: flex;
+    }
+
+    #imput-logo :global(svg) {
         width: 48px;
         height: 42px;
     }
