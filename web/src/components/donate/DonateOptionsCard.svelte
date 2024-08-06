@@ -13,6 +13,7 @@
 
     let customInput: HTMLInputElement;
     let customInputValue: number | null;
+    let customFocused = false;
 
     type Processor = "stripe" | "liberapay";
     let processor: Processor = "stripe";
@@ -84,18 +85,31 @@
         </DonationOption>
     </div>
     <div id="donation-custom">
-        <input
-            id="donation-custom-input"
-            type="number"
-            min="2"
-            max="10000"
-            step=".01"
-            required
-            placeholder="custom amount (from $2)"
-            bind:this={customInput}
-            bind:value={customInputValue}
-            on:keydown={(e) => e.key === 'Enter' && sendCustom()}
-        />
+        <div
+            id="input-container"
+            class:focused={customFocused}
+        >
+            {#if customInputValue || customInput?.validity.badInput}
+                <span id="input-dollar-sign">
+                    $
+                </span>
+            {/if}
+            <input
+                id="donation-custom-input"
+                type="number"
+                min="2"
+                max="10000"
+                step=".01"
+                required
+                placeholder="custom amount (from $2)"
+                bind:this={customInput}
+                bind:value={customInputValue}
+                on:input ={() => customFocused = true}
+                on:focus ={() => customFocused = true}
+                on:blur  ={() => customFocused = false}
+                on:keydown={(e) => e.key === 'Enter' && sendCustom()}
+            />
+        </div>
         <button
             id="donation-custom-submit"
             on:click={sendCustom}
@@ -201,15 +215,45 @@
         gap: 6px;
     }
 
-    #donation-custom-input {
-        flex: 1;
+    #input-container {
         padding: 12px 18px;
         width: 100%;
-        font-size: 13px;
         border-radius: 12px;
         color: var(--white);
         background-color: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    #input-dollar-sign {
+        animation: grow-in .05s linear;
+        display: block;
+    }
+
+    @keyframes grow-in {
+        from { font-size: 0 }
+        to { font-size: inherit }
+    }
+
+    #input-container, #donation-custom-input {
+        font-size: 13px;
+    }
+
+    #donation-custom-input {
+        flex: 1;
+        background-color: transparent;
+        color: var(--white);
         border: none;
+    }
+
+    #donation-custom-input:focus-visible {
+        box-shadow: unset !important;
+    }
+
+    #input-container.focused {
+        box-shadow: 0 0 0 1.5px var(--blue) inset;
+        outline: var(--blue) 0.5px solid;
     }
 
     #donation-custom-submit {
