@@ -162,19 +162,4 @@
     .changelog-body {
         width: 100%;
     }
-
-    .changelog-body :global(ul) {
-        padding-inline-start: 30px;
-    }
-
-    .changelog-body :global(li) {
-        padding-left: 3px;
-    }
-
-    @media screen and (max-width: 535px) {
-        .changelog-body,
-        .changelog-body :global(*) {
-            font-size: 14px;
-        }
-    }
 </style>

@@ -443,6 +443,21 @@
         -webkit-user-select: text;
     }
 
+    :global(.long-text-noto ul) {
+        padding-inline-start: 30px;
+    }
+
+    :global(.long-text-noto li) {
+        padding-left: 3px;
+    }
+
+    @media screen and (max-width: 535px) {
+        :global(.long-text-noto),
+        :global(.long-text-noto *) {
+            font-size: 14px;
+        }
+    }
+
     [data-reduce-motion="true"] :global(*) {
         animation: none !important;
         transition: none !important;
