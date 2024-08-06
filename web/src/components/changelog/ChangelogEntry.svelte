@@ -75,7 +75,7 @@
         {#if skeleton}
             <Skeleton class="big changelog-banner" width="100%" />
         {/if}
-        <div class="changelog-body">
+        <div class="changelog-body long-text-noto">
             {#if skeleton}
                 {#each { length: 3 + Math.random() * 5 } as _}
                     <p>
@@ -161,16 +161,6 @@
 
     .changelog-body {
         width: 100%;
-    }
-
-    .changelog-body,
-    .changelog-body :global(*) {
-        line-height: 1.7;
-        font-size: 14.5px;
-        font-weight: 410;
-        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
-        user-select: text;
-        -webkit-user-select: text;
     }
 
     .changelog-body :global(ul) {
