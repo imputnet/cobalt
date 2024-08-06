@@ -11,8 +11,10 @@
     <div id="banner-contents">
         <div id="banner-left">
             <img id="imput-logo" src="/icons/imput.svg" alt="imput logo" />
-            <div id="banner-title" class="redaction">{$t("donate.title")}</div>
-            <div id="banner-subtitle">{$t("donate.subtitle")}</div>
+            <div id="banner-title" class="redaction">
+                {$t("donate.banner.title")}
+            </div>
+            <div id="banner-subtitle">{$t("donate.banner.subtitle")}</div>
         </div>
         <div id="banner-right">
             <Meowbalt emotion="fast" />
@@ -32,9 +34,23 @@
 <style>
     #banner {
         --banner-radius: 28px;
+        --border-opacity: 0.1;
+        --gradient-start: #1a1a1a;
+        --gradient-end: #404040;
         position: relative;
         border-radius: var(--banner-radius);
-        background: linear-gradient(180deg, #1a1a1a 30%, #404040 100%);
+        background: linear-gradient(
+            180deg,
+            var(--gradient-start) 30%,
+            var(--gradient-end) 100%
+        );
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--border-opacity)) inset;
+    }
+
+    :global([data-theme="dark"]) #banner {
+        --border-opacity: 0.05;
+        --gradient-start: #101010;
+        --gradient-end: #2d2d2d;
     }
 
     #banner-contents {
@@ -56,7 +72,7 @@
             150deg,
             rgba(0, 0, 0, 0.7) 0%,
             rgba(255, 255, 255, 0) 65%
-        )
+        );
     }
 
     #banner-background-inner {
@@ -72,7 +88,7 @@
     }
 
     #banner-right :global(.meowbalt) {
-        height: 38vmin;
+        height: 330px;
     }
 
     #banner-right {
@@ -86,6 +102,7 @@
 
     #imput-logo {
         width: 48px;
+        height: 42px;
     }
 
     #banner-left {
@@ -95,7 +112,7 @@
         color: white;
         padding: 55px;
         padding-right: 0;
-        gap: 16px;
+        gap: 14px;
         white-space: pre-wrap;
         max-width: 55%;
     }
@@ -130,6 +147,88 @@
 
         to {
             transform: translate(85px) translateY(108px);
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        #banner-right {
+            transform: translate(-4px, 44px);
+        }
+    }
+
+    @media screen and (max-width: 990px) {
+        #banner-right :global(.meowbalt) {
+            height: 300px;
+        }
+    }
+
+    @media screen and (max-width: 960px) {
+        #banner-right :global(.meowbalt) {
+            height: 280px;
+        }
+
+        #banner-right {
+            transform: translate(-4px, 30px);
+        }
+    }
+
+    @media screen and (max-width: 930px) {
+        #banner-right :global(.meowbalt) {
+            height: 260px;
+        }
+
+        #banner-right {
+            transform: translate(-4px, 20px);
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        #banner-right :global(.meowbalt) {
+            height: 230px;
+        }
+
+        #banner-right {
+            transform: translate(-10px, 15px);
+        }
+    }
+
+    @media screen and (max-width: 865px) {
+        #banner-right {
+            display: none;
+        }
+
+        #banner-left {
+            max-width: 100%;
+            padding: 55px;
+        }
+
+        #banner-background {
+            mask-image: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.5) 0%,
+                rgba(255, 255, 255, 0) 90%
+            );
+        }
+
+        #banner-contents {
+            justify-content: center;
+        }
+
+        #banner-left {
+            padding: 45px 32px;
+            gap: 14px;
+            align-items: center;
+        }
+
+        #banner-title,
+        #banner-subtitle {
+            text-align: center;
+        }
+    }
+
+    @media screen and (max-width: 610px) {
+        #banner-title {
+            font-size: 40px;
         }
     }
 </style>
