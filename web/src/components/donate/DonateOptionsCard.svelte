@@ -11,6 +11,7 @@
 
     import { donate } from "$lib/env";
 
+    let customInput: HTMLInputElement;
     let customInputValue: number | null;
 
     type Processor = "stripe" | "liberapay";
@@ -33,6 +34,15 @@
 
     const send = (amount: number) => {
         return donationMethods[processor](amount);
+    }
+
+    const sendCustom = () => {
+        if (!customInput.reportValidity()) {
+            return;
+        }
+
+        const amount = Number(customInputValue) * 100;
+        send(amount);
     }
 </script>
 
@@ -79,13 +89,16 @@
             type="number"
             min="2"
             max="10000"
+            step=".01"
             required
             placeholder="custom amount (from $2)"
+            bind:this={customInput}
             bind:value={customInputValue}
+            on:keydown={(e) => e.key === 'Enter' && sendCustom()}
         />
         <button
             id="donation-custom-submit"
-            on:click={() => donateStripe(customInputValue)}
+            on:click={sendCustom}
         >
             <IconArrowRight />
         </button>
