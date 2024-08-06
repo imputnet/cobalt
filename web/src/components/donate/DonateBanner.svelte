@@ -72,6 +72,7 @@
     #banner-background-inner {
         color: white;
         transform: rotate(-10deg) scale(1.5) translateY(-70px);
+        display: table-row;
     }
 
     #banner-background-inner :global(.heart-icon) {
