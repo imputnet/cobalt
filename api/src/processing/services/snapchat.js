@@ -57,10 +57,10 @@ async function getStory(username, storyId) {
         const defaultStory = data.props.pageProps.curatedHighlights[0];
         if (defaultStory) {
             return {
-                picker: defaultStory.snapList.map((snap) => ({
+                picker: defaultStory.snapList.map(snap => ({
                     type: snap.snapMediaType === 0 ? 'photo' : 'video',
                     url: snap.snapUrls.mediaUrl,
-                    thumb: snap.snapUrls.mediaPreviewUrl.value
+                    thumb: snap.snapMediaType ==! 0 ? snap.snapUrls.mediaPreviewUrl.value : undefined,
                 }))
             }
         }
