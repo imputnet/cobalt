@@ -254,6 +254,8 @@
 
         /* workaround for safari */
         font-size: inherit;
+        user-select: text;
+        -webkit-user-select: text;
     }
 
     #link-area:focus-visible {
