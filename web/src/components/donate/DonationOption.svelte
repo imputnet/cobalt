@@ -1,7 +1,9 @@
 <script lang="ts">
     export let price: number;
     export let desc: string;
-    export let click: () => void;
+    export let send: (amount: number) => void;
+
+    const click = () => send(price * 100);
 </script>
 
 <button class="donation-option" on:click={click}>

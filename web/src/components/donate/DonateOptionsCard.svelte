@@ -11,65 +11,65 @@
 
     import { donate } from "$lib/env";
 
-    let customInputValue: number;
+    let customInputValue: number | null;
 
-    const donateStripe = (amount: number) => {
-        const url = new URL(donate.stripe);
-        url.searchParams.set("__prefilled_amount", (amount * 100).toString());
-        window.open(url, "_blank");
+    type Processor = "stripe" | "liberapay";
+    let processor: Processor = "stripe";
+
+    const donationMethods: Record<Processor, (_: number) => void> = {
+        stripe: (amount: number) => {
+            const url = new URL(donate.stripe);
+            url.searchParams.set("__prefilled_amount", amount.toString());
+            window.open(url, "_blank");
+        },
+        liberapay: (amount: number) => {
+            const url = new URL(donate.liberapay);
+            url.searchParams.set("currency", "USD");
+            url.searchParams.set("period", "monthly");
+            url.searchParams.set("amount", (amount / 100).toString());
+            window.open(url, "_blank");
+        }
     };
 
-    const donateLibera = (amount: number) => {
-        const url = new URL(donate.liberapay);
-        url.searchParams.set("currency", "USD");
-        url.searchParams.set("period", "monthly");
-        url.searchParams.set("amount", (amount / 100).toString());
-        window.open(url, "_blank");
-    };
-
-    const toClipboard = (text: string) => navigator.clipboard.writeText(text);
+    const send = (amount: number) => {
+        return donationMethods[processor](amount);
+    }
 </script>
 
 <div id="donation-box">
     <div id="donation-types">
-        <button id="donation-type-once" class="donation-type selected">
+        <button
+            id="donation-type-once"
+            class="donation-type"
+            on:click={() => processor = 'stripe'}
+            class:selected={processor === 'stripe'}
+        >
             <div class="donation-type-icon"><IconCoin /></div>
             <div class="donation-title">one-time donation</div>
             <div class="donation-subtitle">processed by stripe</div>
         </button>
-        <button id="donation-type-monthly" class="donation-type">
+        <button
+            id="donation-type-monthly"
+            class="donation-type"
+            on:click={() => processor = 'liberapay'}
+            class:selected={processor === 'liberapay'}
+        >
             <div class="donation-type-icon"><IconCalendarRepeat /></div>
             <div class="donation-title">monthly donation</div>
             <div class="donation-subtitle">processed by liberapay</div>
         </button>
     </div>
     <div id="donation-options">
-        <DonationOption
-            price={5}
-            desc="cup of coffee"
-            click={() => donateStripe(5)}
-        >
+        <DonationOption price={5} desc="cup of coffee" {send}>
             <IconCup />
         </DonationOption>
-        <DonationOption
-            price={10}
-            desc="full size pizza"
-            click={() => donateStripe(10)}
-        >
+        <DonationOption price={10} desc="full size pizza" {send}>
             <IconPizza />
         </DonationOption>
-        <DonationOption
-            price={15}
-            desc="full lunch"
-            click={() => donateStripe(15)}
-        >
+        <DonationOption price={15} desc="full lunch" {send}>
             <IconToolsKitchen2 />
         </DonationOption>
-        <DonationOption
-            price={30}
-            desc="two lunches"
-            click={() => donateStripe(30)}
-        >
+        <DonationOption price={30} desc="two lunches" {send}>
             <IconToolsKitchen2 />
         </DonationOption>
     </div>
