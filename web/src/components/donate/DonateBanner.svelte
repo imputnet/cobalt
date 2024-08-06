@@ -33,24 +33,14 @@
 
 <style>
     #banner {
-        --banner-radius: 28px;
-        --border-opacity: 0.1;
-        --gradient-start: #1a1a1a;
-        --gradient-end: #404040;
         position: relative;
-        border-radius: var(--banner-radius);
+        border-radius: var(--donate-border-radius);
         background: linear-gradient(
             180deg,
-            var(--gradient-start) 30%,
-            var(--gradient-end) 100%
+            var(--donate-gradient-start) 30%,
+            var(--donate-gradient-end) 100%
         );
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--border-opacity)) inset;
-    }
-
-    :global([data-theme="dark"]) #banner {
-        --border-opacity: 0.05;
-        --gradient-start: #101010;
-        --gradient-end: #2d2d2d;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset;
     }
 
     #banner-contents {
@@ -67,7 +57,7 @@
         height: 100%;
         z-index: 1;
         opacity: 8%;
-        border-radius: var(--banner-radius);
+        border-radius: var(--donate-border-radius);
         mask-image: linear-gradient(
             150deg,
             rgba(0, 0, 0, 0.7) 0%,
