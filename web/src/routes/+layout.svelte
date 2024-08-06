@@ -365,6 +365,12 @@
         background-color: var(--blue) !important;
     }
 
+    /* workaround for typing into inputs being ignored on iPadOS 15 */
+    :global(input) {
+        user-select: text;
+        -webkit-user-select: text;
+    }
+
     @media (hover: hover) {
         :global(button:hover) {
             background-color: var(--button-hover);
