@@ -1,14 +1,19 @@
 enum CobaltResponseType {
     Error = 'error',
-    RateLimit = 'rate-limit',
     Picker = 'picker',
     Redirect = 'redirect',
     Stream = 'stream',
 }
 
 type CobaltErrorResponse = {
-    status: CobaltResponseType.Error | CobaltResponseType.RateLimit,
-    text: string,
+    status: CobaltResponseType.Error,
+    error: {
+        code: string,
+        context?: {
+            service?: string,
+            limit?: number,
+        }
+    }
 };
 
 type CobaltPartialURLResponse = {

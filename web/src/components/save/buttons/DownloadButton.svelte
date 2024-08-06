@@ -68,16 +68,16 @@
 
             return createDialog({
                 ...defaultErrorPopup,
-                bodyText: "couldn't access the api",
+                bodyText: $t("error.api.unreachable"),
             });
         }
 
-        if (response.status === "error" || response.status === "rate-limit") {
+        if (response.status === "error") {
             changeDownloadButton("error");
 
             return createDialog({
                 ...defaultErrorPopup,
-                bodyText: response.text,
+                bodyText: $t(response.error.code),
             });
         }
 
@@ -101,7 +101,7 @@
 
                 return createDialog({
                     ...defaultErrorPopup,
-                    bodyText: "couldn't probe the stream",
+                    bodyText: $t("error.stream.failed_probe"),
                 });
             }
         }
@@ -139,7 +139,7 @@
 
         return createDialog({
             ...defaultErrorPopup,
-            bodyText: "unknown/unsupported status",
+            bodyText: $t("error.api.unknown_response"),
         });
     };
 </script>

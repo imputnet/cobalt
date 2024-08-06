@@ -91,12 +91,22 @@ const request = async (url: string) => {
     const response: Optional<CobaltAPIResponse> = await fetch(api, {
         method: "POST",
         redirect: "manual",
+        signal: AbortSignal.timeout(10000),
         body: JSON.stringify(request),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-    }).then(r => r.json()).catch(() => {});
+    }).then(r => r.json()).catch((e) => {
+        if (e?.message?.includes("timed out")) {
+            return {
+                status: "error",
+                error: {
+                    code: "error.api.timed_out"
+                }
+            }
+        }
+    });
 
     return response;
 }
