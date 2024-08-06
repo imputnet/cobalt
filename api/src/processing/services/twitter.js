@@ -180,7 +180,6 @@ export default async function({ id, index, toGif, dispatcher }) {
                     return {
                         type: "photo",
                         url,
-                        thumb: url,
                     }
                 }
 
