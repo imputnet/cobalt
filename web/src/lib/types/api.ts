@@ -20,24 +20,15 @@ type CobaltPartialURLResponse = {
     url: string,
 }
 
-type CobaltPartialImagesPickerResponse = {
-    pickerType: 'images',
-    picker: CobaltPartialURLResponse[],
-}
-
-type CobaltPartialVariousPickerResponse = {
-    pickerType: 'various',
-    picker: {
-        type: 'photo' | 'video',
-        url: string,
-        thumb: string,
-    }[];
-}
-
 type CobaltPickerResponse = {
     status: CobaltResponseType.Picker
-    audio: string | false,
-} & (CobaltPartialImagesPickerResponse | CobaltPartialVariousPickerResponse);
+    picker: {
+        type: 'photo' | 'video' | 'gif',
+        url: string,
+        thumb?: string,
+    }[];
+    audio?: string,
+};
 
 type CobaltRedirectResponse = {
     status: CobaltResponseType.Redirect,
