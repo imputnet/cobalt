@@ -207,4 +207,10 @@
         width: 24px;
         height: 24px;
     }
+
+    #donation-custom-input::-webkit-outer-spin-button,
+    #donation-custom-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 </style>
