@@ -96,7 +96,10 @@ export default async function(obj) {
     if (images) {
         let imageLinks = images
             .map(i => i.imageURL.urlList.find(p => p.includes(".jpeg?")))
-            .map(url => ({ url }));
+            .map(url => ({
+                type: "photo",
+                url
+            }));
 
         return {
             picker: imageLinks,

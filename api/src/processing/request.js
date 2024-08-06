@@ -48,14 +48,14 @@ export function createResponse(responseType, responseData) {
             case "error":
                 response = {
                     error: {
-                        code: responseData.code,
+                        code: responseData?.code,
                         context: responseData?.context,
                     }
                 }
                 break;
             case "redirect":
                 response = {
-                    url: responseData.u,
+                    url: responseData?.u,
                 }
                 break;
 
@@ -66,22 +66,15 @@ export function createResponse(responseType, responseData) {
                 break;
 
             case "picker":
-                let pickerType = "various",
-                    audio = false;
-
-                if (responseData.service === "tiktok") {
-                    audio = responseData.u;
-                    pickerType = "images";
-                }
-
                 response = {
-                    pickerType: pickerType,
-                    picker: responseData.picker,
-                    audio: audio,
+                    picker: responseData?.picker,
+                    audio: responseData?.u
                 }
                 break;
+
             case "critical":
-                return internalError(responseData.code);
+                return internalError(responseData?.code);
+
             default:
                 throw "unreachable"
         }
