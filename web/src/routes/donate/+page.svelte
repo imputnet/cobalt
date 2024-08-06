@@ -15,7 +15,6 @@
     <DonateBanner />
     <section id="support-options">
         <DonateOptionsCard />
-        <DonateOptionsCard />
     </section>
     <section id="donate-text" class="long-text-noto">
         <p>

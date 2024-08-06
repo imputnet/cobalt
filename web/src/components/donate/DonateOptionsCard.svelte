@@ -1,59 +1,101 @@
 <script lang="ts">
     import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
-    import IconCup from "@tabler/icons-svelte/IconCup.svelte";
+    import IconCoin from "@tabler/icons-svelte/IconCoin.svelte";
     import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
+
+    import IconCup from "@tabler/icons-svelte/IconCup.svelte";
+    import IconPizza from "@tabler/icons-svelte/IconPizza.svelte";
+    import IconToolsKitchen2 from "@tabler/icons-svelte/IconToolsKitchen2.svelte";
+
+    import DonationOption from "$components/donate/DonationOption.svelte";
 
     import { donate } from "$lib/env";
 
-    let customAmountOnceInput: HTMLInputElement;
-    let customAmountRecurringInput: HTMLInputElement;
+    let customInputValue: number;
 
     const donateStripe = (amount: number) => {
         const url = new URL(donate.stripe);
-        url.searchParams.set('__prefilled_amount', amount.toString());
-        window.open(url, '_blank');
-    }
+        url.searchParams.set("__prefilled_amount", amount.toString());
+        window.open(url, "_blank");
+    };
 
     const donateLibera = (amount: number) => {
         const url = new URL(donate.liberapay);
-        url.searchParams.set('currency', 'USD');
-        url.searchParams.set('period', 'monthly');
-        url.searchParams.set('amount', (amount / 100).toString());
-        window.open(url, '_blank');
-    }
+        url.searchParams.set("currency", "USD");
+        url.searchParams.set("period", "monthly");
+        url.searchParams.set("amount", (amount / 100).toString());
+        window.open(url, "_blank");
+    };
 
     const toClipboard = (text: string) => navigator.clipboard.writeText(text);
 </script>
 
-<div class="donation-box">
-    <div class="donation-info">
-        <div class="donation-icon"><IconCalendarRepeat /></div>
-        <div class="donation-title">monthly donation</div>
-        <div class="donation-subtitle">processed by liberapay</div>
+<div id="donation-box">
+    <div id="donation-types">
+        <button id="donation-type-once" class="donation-type selected">
+            <div class="donation-type-icon"><IconCoin /></div>
+            <div class="donation-title">one-time donation</div>
+            <div class="donation-subtitle">processed by stripe</div>
+        </button>
+        <button id="donation-type-monthly" class="donation-type">
+            <div class="donation-type-icon"><IconCalendarRepeat /></div>
+            <div class="donation-title">monthly donation</div>
+            <div class="donation-subtitle">processed by liberapay</div>
+        </button>
     </div>
-    <div class="donation-scrollbox">
-        {#each { length: 4 } as _}
-            <!-- TODO: maybe move this also into a component -->
-            <button class="donation-option">
-                <div class="donation-amount"><IconCup /> $5</div>
-                <div class="donation-subtitle">cup of coffee</div>
-            </button>
-        {/each}
+    <div id="donation-options">
+        <DonationOption
+            price={5}
+            desc="cup of coffee"
+            click={() => donateStripe(5)}
+        >
+            <IconCup />
+        </DonationOption>
+        <DonationOption
+            price={10}
+            desc="full size pizza"
+            click={() => donateStripe(10)}
+        >
+            <IconPizza />
+        </DonationOption>
+        <DonationOption
+            price={15}
+            desc="full lunch"
+            click={() => donateStripe(15)}
+        >
+            <IconToolsKitchen2 />
+        </DonationOption>
+        <DonationOption
+            price={30}
+            desc="two lunches"
+            click={() => donateStripe(30)}
+        >
+            <IconToolsKitchen2 />
+        </DonationOption>
     </div>
-    <div class="donation-custom">
-        <input type="number" placeholder="custom amount (from $2)" />
-        <button><IconArrowRight /></button>
-    </div>
-    <div class="donation-footer donation-subtitle">
-        you will be redirected to liberapay
+    <div id="donation-custom">
+        <input
+            id="donation-custom-input"
+            type="number"
+            placeholder="custom amount (from $2)"
+            bind:value={customInputValue}
+        />
+        <button
+            id="donation-custom-submit"
+            on:click={() => donateStripe(customInputValue)}
+        >
+            <IconArrowRight />
+        </button>
     </div>
 </div>
 
 <style>
-    .donation-box {
+    #donation-box {
+        --donation-box-padding: 12px;
         display: flex;
         flex-direction: column;
         width: 100%;
+        max-width: 480px;
 
         padding: var(--donate-border-radius);
         border-radius: var(--donate-border-radius);
@@ -65,65 +107,104 @@
             var(--donate-gradient-end) 0%,
             var(--donate-gradient-start) 80%
         );
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity))
+            inset;
     }
 
-    .donation-icon :global(*) {
+    #donation-types {
+        display: flex;
+        flex-direction: row;
+        gap: var(--donation-box-padding);
+    }
+
+    .donation-type,
+    :global(.donation-option) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        border-radius: var(--donation-box-padding);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 14px 18px;
+        color: var(--white);
+        gap: 0;
+        letter-spacing: -0.3px;
+    }
+
+    .donation-type {
+        width: 100%;
+    }
+
+    :global(#donation-box button:not(:focus-visible)) {
+        box-shadow: none;
+    }
+
+    @media (hover: hover) {
+        :global(#donation-box button:hover) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    .donation-type.selected {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .donation-type.selected:not(:focus-visible) {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) inset !important;
+    }
+
+    .donation-subtitle {
+        line-height: 1.5;
+    }
+
+    .donation-type-icon :global(svg) {
         width: 28px;
         height: 28px;
     }
 
-    .donation-title {
-        font-size: 14.5px;
-    }
-
-    .donation-subtitle {
-        font-size: 12px;
-        color: #9a9a9a;
-    }
-
-    .donation-scrollbox {
-        display: flex;
-        overflow-x: scroll;
-        width: 384px;
-        gap: 5px;
-    }
-
-    .donation-option {
-        display: flex;
-        flex-direction: column;
-        background: #3b3b3b;
-        color: white;
-        align-items: start;
-        padding: 15px;
-        border-radius: var(--border-radius);
-        width: 128px;
-    }
-
-    .donation-amount {
+    :global(.donation-title) {
         display: flex;
         align-items: center;
-        gap: 5px;
-    }
-
-    .donation-custom {
-        display: flex;
+        font-size: 16px;
         gap: 4px;
     }
 
-    .donation-custom * {
-        border-radius: var(--border-radius);
-        border: none;
-        background-color: #3b3b3b;
-        color: white;
+    :global(.donation-subtitle) {
+        font-size: 13px;
+        color: #9a9a9a;
     }
 
-    .donation-custom input {
+    #donation-options {
+        display: flex;
+        overflow-x: scroll;
+        gap: 6px;
+    }
+
+    #donation-custom {
+        display: flex;
+        gap: 6px;
+    }
+
+    #donation-custom-input {
         flex: 1;
-        padding-left: 12px;
+        padding: 12px 18px;
+        width: 100%;
+        font-size: 13px;
+        border-radius: 12px;
+        color: var(--white);
+        background-color: rgba(255, 255, 255, 0.1);
+        border: none;
     }
 
-    .donation-footer {
-        text-align: center;
+    #donation-custom-submit {
+        color: var(--white);
+        background-color: rgba(255, 255, 255, 0.1);
+        aspect-ratio: 1/1;
+        padding: 8px;
+    }
+
+    #donation-custom-submit :global(svg) {
+        width: 24px;
+        height: 24px;
     }
 </style>
