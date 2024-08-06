@@ -51,7 +51,6 @@
         position: relative;
         display: flex;
         width: 100%;
-        z-index: 2;
     }
 
     #banner-background {
