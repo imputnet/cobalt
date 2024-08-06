@@ -15,7 +15,7 @@
 
     const donateStripe = (amount: number) => {
         const url = new URL(donate.stripe);
-        url.searchParams.set("__prefilled_amount", amount.toString());
+        url.searchParams.set("__prefilled_amount", (amount * 100).toString());
         window.open(url, "_blank");
     };
 
