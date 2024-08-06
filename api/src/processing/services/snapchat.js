@@ -60,7 +60,7 @@ async function getStory(username, storyId) {
                 picker: defaultStory.snapList.map(snap => ({
                     type: snap.snapMediaType === 0 ? 'photo' : 'video',
                     url: snap.snapUrls.mediaUrl,
-                    thumb: snap.snapMediaType ==! 0 ? snap.snapUrls.mediaPreviewUrl.value : undefined,
+                    thumb: snap.snapMediaType !== 0 ? snap.snapUrls.mediaPreviewUrl.value : undefined,
                 }))
             }
         }
