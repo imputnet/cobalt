@@ -1,4 +1,4 @@
-export default async function({}) {
+export default function({}) {
     return {
         urls: "https://http.cat/451"
     }

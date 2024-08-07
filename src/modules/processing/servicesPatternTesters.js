@@ -64,8 +64,8 @@ export const testers = {
     "youtube": (patternMatch) =>
         patternMatch.id?.length <= 11,
 
-    "spotify": (patternMatch) => 1,
-    "apple": (patternMatch) => 1,
+    "spotify": (patternMatch) => patternMatch,
+    "apple": (patternMatch) => patternMatch,
 
     "facebook": (patternMatch) =>
         patternMatch.shortLink?.length <= 11
