@@ -134,7 +134,7 @@
         "apple": {
             "alias": "apple music",
             "patterns": [":country/album/:albumname/:id"],
-            "subdomains": ["music"],
+            "subdomains": ["music", "embed.music"],
             "enabled": true
         },
         "facebook": {
