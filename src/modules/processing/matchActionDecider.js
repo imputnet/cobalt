@@ -139,6 +139,8 @@ export default function(r, host, userFormat, isAudioOnly, lang, isAudioMuted, di
                 case "streamable":
                 case "snapchat":
                 case "loom":
+                case "spotify":
+                case "apple":
                     responseType = "redirect";
                     break;
             }

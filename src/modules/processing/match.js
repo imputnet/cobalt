@@ -27,6 +27,8 @@ import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
+import spotify from "./services/spotify.js";
+import applemusic from "./services/applemusic.js";
 
 let freebind;
 
@@ -205,6 +207,12 @@ export default async function(host, patternMatch, lang, obj) {
                 r = await facebook({
                     ...patternMatch
                 });
+                break;
+            case "spotify":
+                r = await spotify({});
+                break;
+            case "apple":
+                r = await applemusic({});
                 break;
             default:
                 return createResponse("error", {

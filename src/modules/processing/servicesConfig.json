@@ -125,6 +125,18 @@
             "patterns": ["share/:id"],
             "enabled": true
         },
+        "spotify": {
+            "alias": "spotify music",
+            "patterns": ["album/:id", "track/:id", "embed/track/:id"],
+            "subdomains": ["open"],
+            "enabled": true
+        },
+        "apple": {
+            "alias": "apple music",
+            "patterns": [":country/album/:albumname/:id"],
+            "subdomains": ["music"],
+            "enabled": true
+        },
         "facebook": {
             "alias": "facebook videos",
             "altDomains": ["fb.watch"],
