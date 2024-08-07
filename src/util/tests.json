@@ -1132,6 +1132,24 @@
             "status": "stream"
         }
     }],
+    "spotify": [{
+        "name": "spotify track",
+        "url": "https://open.spotify.com/track/5dpNZESiavrMXgwkTHi1hy",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }],
+    "apple": [{
+        "name": "spotify music album",
+        "url": "https://music.apple.com/us/album/brat/1739079974",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }],
     "dailymotion": [{
         "name": "regular video",
         "url": "https://www.dailymotion.com/video/x8t1eho",
