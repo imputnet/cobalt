@@ -34,8 +34,10 @@ for (let i in services) {
             let params = {...{url: test.url}, ...test.params};
             console.log(params);
 
-            let chck = normalizeRequest(params);
-            if (chck) {
+            let chck = await normalizeRequest(params);
+            if (chck.success) {
+                chck = chck.data;
+
                 const parsed = extract(chck.url);
                 if (parsed === null) {
                     throw `Invalid URL: ${chck.url}`

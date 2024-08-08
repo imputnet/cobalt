@@ -3,8 +3,8 @@ import match from "../processing/match.js";
 import { extract } from "../processing/url.js";
 
 export async function runTest(url, params, expect) {
-    const normalized = normalizeRequest({ url, ...params });
-    if (!normalized) {
+    const { success, data: normalized } = await normalizeRequest({ url, ...params });
+    if (!success) {
         throw "invalid request";
     }
 

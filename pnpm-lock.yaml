@@ -61,6 +61,9 @@ importers:
       youtubei.js:
         specifier: ^10.3.0
         version: 10.3.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     optionalDependencies:
       freebind:
         specifier: ^0.2.2
@@ -1834,6 +1837,9 @@ packages:
   youtubei.js@10.3.0:
     resolution: {integrity: sha512-tLmeJCECK2xF2hZZtF2nEqirdKVNLFSDpa0LhTaXY3tngtL7doQXyy7M2CLueramDTlmCnFaW+rctHirTPFaRQ==}
 
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -3405,3 +3411,5 @@ snapshots:
       jintr: 2.1.1
       tslib: 2.6.3
       undici: 5.28.4
+
+  zod@3.23.8: {}

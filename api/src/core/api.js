@@ -138,8 +138,8 @@ export function runAPI(express, app, __dirname) {
             request.youtubeDubLang = lang;
         }
 
-        const normalizedRequest = normalizeRequest(request);
-        if (!normalizedRequest) {
+        const { success, data: normalizedRequest } = await normalizeRequest(request);
+        if (!success) {
             return fail('ErrorCantProcess');
         }
 
