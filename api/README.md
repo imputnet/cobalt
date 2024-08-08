@@ -23,6 +23,7 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 | instagram         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | facebook          | ✅            | ❌         | ✅         | ➖         | ➖              |
 | loom              | ✅            | ❌         | ✅         | ✅         | ➖              |
+| newgrounds        | ✅            | ✅         | ✅         | ✅         | ✅              |
 | ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
 | pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |

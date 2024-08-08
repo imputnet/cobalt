@@ -161,6 +161,7 @@ export default function({
                 case "vk":
                 case "tiktok":
                 case "xiaohongshu":
+                case "newgrounds":
                     params = { type: "proxy" };
                     break;
 
