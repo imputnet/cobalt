@@ -1220,8 +1220,8 @@
             "isAudioOnly": true
         },
         "expected": {
-            "code": 400,
-            "status": "error"
+            "code": 200,
+            "status": "stream"
         }
     }],
     "facebook": [{
