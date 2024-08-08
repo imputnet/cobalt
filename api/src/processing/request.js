@@ -72,7 +72,9 @@ export function createResponse(responseType, responseData) {
 }
 
 export function normalizeRequest(request) {
-    return apiSchema.safeParseAsync(request).catch(() => ({ success: false }));
+    return apiSchema.safeParseAsync(request).catch(() => (
+        { success: false }
+    ));
 }
 
 export function getIP(req) {

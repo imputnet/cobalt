@@ -24,9 +24,9 @@ export const apiSchema = z.object({
         ["h264", "av1", "vp9"]
     ).default("h264"),
 
-    videoQuality: z.enum([
-        "max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"
-    ]).default("720"),
+    videoQuality: z.enum(
+        ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"]
+    ).default("720"),
 
     youtubeDubLang: z.string()
                      .length(2)
