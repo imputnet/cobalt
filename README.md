@@ -19,7 +19,7 @@ this list is not final and keeps expanding over time. if support for a service y
 | bilibili.com & bilibili.tv     | ✅            | ✅         | ✅         | ➖         | ➖              |
 | dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
 | instagram posts & reels        | ✅            | ✅         | ✅         | ➖         | ➖              |
-| facebook videos                | ✅            | ❌         | ❌         | ➖         | ➖              |
+| facebook videos                | ✅            | ✅         | ✅         | ➖         | ➖              |
 | loom                           | ✅            | ❌         | ✅         | ✅         | ➖              |
 | ok video                       | ✅            | ❌         | ✅         | ✅         | ✅              |
 | pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
