@@ -128,10 +128,10 @@
 
         display: flex;
         flex-direction: column;
-        width: calc(100% - var(--donation-box-main-padding) * 2);
+        width: 100%;
         max-width: 480px;
 
-        padding: var(--donation-box-main-padding);
+        padding: var(--donation-box-main-padding) 0;
         border-radius: var(--donate-border-radius);
         gap: calc(var(--donation-box-main-padding) / 2);
 
@@ -143,6 +143,12 @@
         );
         box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity))
             inset;
+    }
+
+    #donation-types,
+    #donation-options,
+    #donation-custom {
+        padding: 0 var(--donation-box-main-padding);
     }
 
     #donation-types {
@@ -214,6 +220,14 @@
         display: flex;
         overflow-x: scroll;
         gap: 6px;
+        mask-image: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 1) 4%,
+            rgba(0, 0, 0, 1) 50%,
+            rgba(0, 0, 0, 1) 96%,
+            rgba(0, 0, 0, 0) 100%
+        );
     }
 
     #donation-custom {
