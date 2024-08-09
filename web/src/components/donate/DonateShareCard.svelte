@@ -13,6 +13,7 @@
 
     import CobaltQr from "$lib/icons/CobaltQR.svelte";
     import CopyIcon from "$components/misc/CopyIcon.svelte";
+    import { device } from "$lib/device";
 
     const cobaltUrl = "https://cobalt.tools/";
 
@@ -50,16 +51,18 @@
                 copy
             </button>
 
-            <button
-                id="action-button-share"
-                class="action-button"
-                on:click={async () => shareURL(cobaltUrl)}
-            >
-                <div class="action-button-icon">
-                    <IconShare2 />
-                </div>
-                {$t("button.share")}
-            </button>
+            {#if device.supports.share}
+                <button
+                    id="action-button-share"
+                    class="action-button"
+                    on:click={async () => shareURL(cobaltUrl)}
+                >
+                    <div class="action-button-icon">
+                        <IconShare2 />
+                    </div>
+                    {$t("button.share")}
+                </button>
+            {/if}
 
             <button
                 id="action-button-github"
