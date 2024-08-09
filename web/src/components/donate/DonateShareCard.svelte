@@ -24,17 +24,24 @@
             copied = false;
         }, 1500);
     }
+
+    let expanded = false;
 </script>
 
-<DonateCardContainer id="share-box">
+<DonateCardContainer id="share-box" classes={expanded ? "expanded" : ""}>
     <div id="share-card-header">
         <div class="share-header-icon"><IconMoodSmileBeam /></div>
         <div class="donate-card-title">{$t("donate.share.title")}</div>
     </div>
     <div id="share-card-body">
-        <div id="share-qr">
+        <button
+            id="share-qr"
+            on:click={() => {
+                expanded = !expanded;
+            }}
+        >
             <CobaltQr />
-        </div>
+        </button>
         <div id="action-buttons">
             <button
                 id="action-button-copy"
@@ -87,7 +94,12 @@
             </button>
         </div>
     </div>
-    <div class="donate-card-subtitle share-footer-link">cobalt.tools</div>
+    <div
+        class="donate-card-subtitle share-footer-link"
+        class:centered={expanded}
+    >
+        cobalt.tools
+    </div>
 </DonateCardContainer>
 
 <style>
@@ -101,6 +113,10 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+    }
+
+    .centered {
+        text-align: center;
     }
 
     .share-header-icon {
@@ -120,10 +136,28 @@
         max-height: 140px;
     }
 
+    #share-qr {
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+        aspect-ratio: 1 / 1;
+        padding: 0;
+        background: none;
+    }
+
     #share-qr :global(svg) {
         width: 140px;
         height: 140px;
         border-radius: 12px;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity));
+    }
+
+    #share-qr:focus-visible {
+        box-shadow: none !important;
+    }
+
+    #share-qr:focus-visible :global(svg) {
+        box-shadow: 0 0 0 2px var(--blue);
     }
 
     #action-buttons {
@@ -153,9 +187,46 @@
         stroke-width: 1.8px;
     }
 
-    @media screen and (max-width: 550px) {
+    :global(#share-box.expanded) {
+        margin-bottom: -300px;
+        z-index: 1;
+        box-shadow:
+            0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset,
+            0 0 10px 2px rgba(0, 0, 0, 0.5);
+        transition: box-shadow 0.15s;
+    }
+
+    :global(#share-box.expanded #share-qr svg) {
+        width: 99%;
+        height: 99%;
+        transition: all 0.15s;
+    }
+
+    :global(#share-box.expanded) #share-card-body {
+        flex-direction: column;
+        max-height: unset;
+    }
+
+    :global(#share-box.expanded) #action-buttons {
+        display: flex;
+    }
+
+    :global(#share-box.expanded) .action-button {
+        padding: 10px;
+        transition: all 0.15s;
+    }
+
+    @media screen and (max-width: 760px) {
         :global(#share-box) {
             width: calc(100% - var(--donate-card-main-padding) * 2);
+            min-width: unset;
+        }
+
+        :global(#share-box.expanded) {
+            margin-bottom: unset;
+            z-index: unset;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset;
+            transition: none;
         }
     }
 </style>

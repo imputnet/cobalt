@@ -137,7 +137,7 @@
 
 <style>
     :global(#donation-box) {
-        min-width: 350px;
+        min-width: 300px;
         padding: var(--donate-card-main-padding) 0;
     }
 
@@ -273,6 +273,10 @@
     }
 
     @media screen and (max-width: 550px) {
+        :global(#donation-box) {
+            min-width: unset;
+        }
+
         :global(#donation-box .donate-card-title) {
             font-size: 14px;
         }

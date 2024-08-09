@@ -1,8 +1,9 @@
 <script lang="ts">
     export let id: string;
+    export let classes: string = "";
 </script>
 
-<div {id} class="donate-card">
+<div {id} class="donate-card {classes}">
     <slot></slot>
 </div>
 
@@ -14,6 +15,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        height: fit-content;
 
         border-radius: var(--donate-border-radius);
         gap: calc(var(--donate-card-main-padding) / 2);

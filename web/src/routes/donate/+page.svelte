@@ -65,7 +65,7 @@
         padding: 0 24px;
     }
 
-    @media screen and (max-width: 550px) {
+    @media screen and (max-width: 760px) {
         #support-options {
             flex-direction: column;
         }
