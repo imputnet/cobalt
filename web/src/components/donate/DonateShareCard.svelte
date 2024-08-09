@@ -40,6 +40,9 @@
             on:click={() => {
                 expanded = !expanded;
             }}
+            aria-label={$t(
+                `a11y.donate.share.qr.${expanded ? "collapse" : "expand"}`
+            )}
         >
             <CobaltQr />
         </button>
@@ -228,7 +231,8 @@
         :global(#share-box.expanded) {
             margin-bottom: unset;
             z-index: unset;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset;
+            box-shadow: 0 0 0 2px
+                rgba(255, 255, 255, var(--donate-border-opacity)) inset;
             transition: none;
         }
     }
