@@ -22,7 +22,7 @@
 
 <nav id="sidebar" aria-label={$t("a11y.tabs.tabPanel")}>
     <CobaltLogo />
-    <div id="sidebar-tabs" role="tablist" aria-orientation="horizontal">
+    <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
