@@ -160,6 +160,7 @@
         "ErrorYTAgeRestrict": "this youtube video is age-restricted, so i can't see it. try another one!",
         "ErrorYTLogin": "couldn't get this youtube video because it requires an account to view.\n\nthis limitation is done by google to seemingly stop scraping, affecting all 3rd party tools and even their own clients.\n\ntry again, but if issue persists, {ContactLink}.",
         "ErrorYTRateLimit": "i got rate limited by youtube. try again in a few seconds, but if issue persists, {ContactLink}.",
-        "ErrorInvalidAcceptHeader": "invalid accept header"
+        "ErrorInvalidAcceptHeader": "invalid accept header",
+        "ErrorYoutubeDecipher": "youtube updated its decipher algorithm, so i can't get the video info. try again, but if it still doesn't work, please <a class=\"text-backdrop link\" href=\"{repo}\" target=\"_blank\">create an issue on github</a>."
     }
 }

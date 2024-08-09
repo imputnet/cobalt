@@ -1,4 +1,4 @@
-name: Build Docker image
+name: Build Docker development image
 
 on:
   workflow_dispatch:
@@ -40,18 +40,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          tags: |
-            type=raw,value=latest
-            type=raw,value=${{ steps.release-meta.outputs.version }}
-            type=raw,value=${{ steps.release-meta.outputs.major_version }}
-            type=raw,value=${{ steps.release-meta.outputs.version }}-${{ steps.release-meta.outputs.commit_short }}
+          tags: type=raw,value=develop
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
