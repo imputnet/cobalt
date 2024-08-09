@@ -30,12 +30,12 @@
                 bodyText: $t("dialog.import.body"),
                 buttons: [
                     {
-                        text: $t("dialog.button.cancel"),
+                        text: $t("button.cancel"),
                         main: false,
                         action: () => {},
                     },
                     {
-                        text: $t("dialog.button.import"),
+                        text: $t("button.import"),
                         color: "red",
                         main: true,
                         timeout: 5000,
@@ -60,7 +60,7 @@
                 bodyText: message,
                 buttons: [
                     {
-                        text: $t("dialog.button.gotit"),
+                        text: $t("button.gotit"),
                         main: true,
                         action: () => {},
                     },

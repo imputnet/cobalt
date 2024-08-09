@@ -20,7 +20,7 @@
         meowbalt: "error",
         buttons: [
             {
-                text: $t("dialog.button.gotit"),
+                text: $t("button.gotit"),
                 main: true,
                 action: () => {},
             },
@@ -110,7 +110,7 @@
             changeDownloadButton("done");
             const buttons = [
                 {
-                    text: $t("dialog.button.done"),
+                    text: $t("button.done"),
                     main: true,
                     action: () => {},
                 },
@@ -119,7 +119,7 @@
             if (response.audio) {
                 const pickerAudio = response.audio;
                 buttons.unshift({
-                    text: $t("dialog.button.downloadAudio"),
+                    text: $t("button.download_audio"),
                     main: false,
                     action: () => {
                         downloadFile(pickerAudio);

@@ -15,12 +15,12 @@
             bodyText: $t("dialog.reset.body"),
             buttons: [
                 {
-                    text: $t("dialog.button.cancel"),
+                    text: $t("button.cancel"),
                     main: false,
                     action: () => {},
                 },
                 {
-                    text: $t("dialog.button.reset"),
+                    text: $t("button.reset"),
                     color: "red",
                     main: true,
                     timeout: 5000,

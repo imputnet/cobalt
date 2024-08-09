@@ -42,7 +42,7 @@
                     copyURL(cobaltUrl);
                     copied = true;
                 }}
-                aria-label={copied ? $t("a11y.dialog.saving.copied") : ""}
+                aria-label={copied ? $t("button.copied") : ""}
             >
                 <div class="share-button-icon">
                     <CopyIcon check={copied} />

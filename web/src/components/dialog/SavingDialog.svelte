@@ -53,7 +53,7 @@
                         click={() => openURL(url)}
                     >
                         <IconDownload />
-                        {$t("dialog.button.download")}
+                        {$t("button.download")}
                     </VerticalActionButton>
                 {/if}
 
@@ -65,7 +65,7 @@
                         click={async () => await shareURL(url)}
                     >
                         <IconShare2 />
-                        {$t("dialog.button.share")}
+                        {$t("button.share")}
                     </VerticalActionButton>
                 {/if}
 
@@ -77,10 +77,10 @@
                         copyURL(url);
                         copied = true;
                     }}
-                    ariaLabel={copied ? $t("a11y.dialog.saving.copied") : ""}
+                    ariaLabel={copied ? $t("button.copied") : ""}
                 >
                     <CopyIcon check={copied} />
-                    {$t("dialog.button.copy")}
+                    {$t("button.copy")}
                 </VerticalActionButton>
             </div>
         </div>
@@ -94,7 +94,7 @@
         <DialogButtons
             buttons={[
                 {
-                    text: $t("dialog.button.done"),
+                    text: $t("button.done"),
                     main: true,
                     action: () => {},
                 },

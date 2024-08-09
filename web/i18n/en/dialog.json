@@ -1,15 +1,4 @@
 {
-    "button.gotit": "got it",
-    "button.cancel": "cancel",
-    "button.reset": "reset",
-    "button.done": "done",
-    "button.downloadAudio": "download audio",
-    "button.download": "download",
-    "button.share": "share",
-    "button.copy": "copy",
-    "button.import": "import",
-    "button.continue": "continue",
-
     "reset.title": "reset all settings?",
     "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible.",
 

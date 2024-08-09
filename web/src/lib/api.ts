@@ -51,7 +51,7 @@ const request = async (url: string) => {
             dismissable: false,
             buttons: [
                 {
-                    text: get(t)("dialog.button.cancel"),
+                    text: get(t)("button.cancel"),
                     main: false,
                     action: () => {
                         _actions.reject();
@@ -63,7 +63,7 @@ const request = async (url: string) => {
                     },
                 },
                 {
-                    text: get(t)("dialog.button.continue"),
+                    text: get(t)("button.continue"),
                     color: "red",
                     main: true,
                     timeout: 5000,
