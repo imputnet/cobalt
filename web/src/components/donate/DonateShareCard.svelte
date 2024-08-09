@@ -1,5 +1,6 @@
 <script lang="ts">
     import { contacts } from "$lib/env";
+    import { device } from "$lib/device";
     import { t } from "$lib/i18n/translations";
 
     import { openURL, copyURL, shareURL } from "$lib/download";
@@ -13,7 +14,6 @@
 
     import CobaltQr from "$lib/icons/CobaltQR.svelte";
     import CopyIcon from "$components/misc/CopyIcon.svelte";
-    import { device } from "$lib/device";
 
     const cobaltUrl = "https://cobalt.tools/";
 
