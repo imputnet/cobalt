@@ -7,6 +7,11 @@ const variables = {
     DEFAULT_API: env.PUBLIC_DEFAULT_API,
 }
 
+const contacts = {
+    github: "https://github.com/imputnet/cobalt",
+    twitter: "https://x.com/justusecobalt",
+}
+
 const donate = {
     stripe: 'https://donate.stripe.com/3cs2cc6ew1Qda4wbII',
     liberapay: 'https://liberapay.com/imput/donate',
@@ -23,5 +28,5 @@ const donate = {
 
 const apiURL = "https://api.cobalt.tools";
 
-export { donate, apiURL };
+export { donate, apiURL, contacts };
 export default variables;

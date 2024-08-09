@@ -5,6 +5,7 @@
 
     import DonateBanner from "$components/donate/DonateBanner.svelte";
     import DonateOptionsCard from "$components/donate/DonateOptionsCard.svelte";
+    import DonateShareCard from "$components/donate/DonateShareCard.svelte";
 </script>
 
 <svelte:head>
@@ -17,6 +18,7 @@
     <DonateBanner />
     <section id="support-options">
         <DonateOptionsCard />
+        <DonateShareCard />
     </section>
     <section id="donate-text" class="long-text-noto">
         <p>
@@ -63,7 +65,11 @@
         padding: 0 24px;
     }
 
-    @media screen and (max-width: 535px) {
+    @media screen and (max-width: 550px) {
+        #support-options {
+            flex-direction: column;
+        }
+
         #donate-text {
             padding: 0 6px;
         }

@@ -22,6 +22,7 @@
     .donation-option :global(svg) {
         width: 20px;
         height: 20px;
+        stroke-width: 1.8px;
     }
 
     @media screen and (max-width: 550px) {

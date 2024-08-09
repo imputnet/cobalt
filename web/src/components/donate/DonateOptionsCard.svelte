@@ -62,9 +62,11 @@
             role="tab"
         >
             <div class="donation-type-icon"><IconCoin /></div>
-            <div class="donate-card-title">{$t("donate.card.once")}</div>
-            <div class="donate-card-subtitle">
-                {$t("donate.card.processor.stripe")}
+            <div class="donation-type-text">
+                <div class="donate-card-title">{$t("donate.card.once")}</div>
+                <div class="donate-card-subtitle">
+                    {$t("donate.card.processor.stripe")}
+                </div>
             </div>
         </button>
         <button
@@ -76,9 +78,11 @@
             role="tab"
         >
             <div class="donation-type-icon"><IconCalendarRepeat /></div>
-            <div class="donate-card-title">{$t("donate.card.monthly")}</div>
-            <div class="donate-card-subtitle">
-                {$t("donate.card.processor.liberapay")}
+            <div class="donation-type-text">
+                <div class="donate-card-title">{$t("donate.card.monthly")}</div>
+                <div class="donate-card-subtitle">
+                    {$t("donate.card.processor.liberapay")}
+                </div>
             </div>
         </button>
     </div>
@@ -133,7 +137,7 @@
 
 <style>
     :global(#donation-box) {
-        max-width: 480px;
+        min-width: 350px;
         padding: var(--donate-card-main-padding) 0;
     }
 
@@ -153,11 +157,22 @@
     .donation-type {
         width: 100%;
         overflow: hidden;
+        gap: 2px;
+    }
+
+    .donation-type-icon {
+        display: flex;
     }
 
     .donation-type-icon :global(svg) {
         width: 28px;
         height: 28px;
+        stroke-width: 1.8px;
+    }
+
+    .donation-type-text {
+        display: flex;
+        flex-direction: column;
     }
 
     #donation-options {

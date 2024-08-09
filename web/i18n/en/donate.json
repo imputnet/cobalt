@@ -17,5 +17,7 @@
     "card.option.15": "full lunch",
     "card.option.30": "lunch for two",
 
-    "card.custom.submit": "donate custom amount"
+    "card.custom.submit": "donate custom amount",
+
+    "share.title": "share cobalt with a friend"
 }
