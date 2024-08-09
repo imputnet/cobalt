@@ -1,5 +1,5 @@
 <script>
-    import IconCobalt from '$lib/icons/Cobalt.svelte';
+    import IconCobalt from "$components/icons/Cobalt.svelte";
 </script>
 
 <div id="cobalt-logo">
@@ -14,9 +14,7 @@
         padding: calc(var(--padding) * 2);
 
         /* accommodate space for scaling animation */
-        padding-bottom: calc(
-            var(--padding) * 2 - var(--sidebar-inner-padding)
-        );
+        padding-bottom: calc(var(--padding) * 2 - var(--sidebar-inner-padding));
     }
 
     @media screen and (max-width: 535px) {

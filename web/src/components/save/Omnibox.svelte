@@ -22,10 +22,10 @@
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
-    import IconMute from "$lib/icons/Mute.svelte";
-    import IconMusic from "$lib/icons/Music.svelte";
-    import IconSparkles from "$lib/icons/Sparkles.svelte";
-    import IconClipboard from "$lib/icons/Clipboard.svelte";
+    import IconMute from "$components/icons/Mute.svelte";
+    import IconMusic from "$components/icons/Music.svelte";
+    import IconSparkles from "$components/icons/Sparkles.svelte";
+    import IconClipboard from "$components/icons/Clipboard.svelte";
 
     let linkInput: Optional<HTMLInputElement>;
     let isFocused = false;

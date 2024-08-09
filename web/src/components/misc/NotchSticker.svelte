@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import CobaltSticker from "$lib/icons/CobaltSticker.svelte";
+    import CobaltSticker from "$components/icons/CobaltSticker.svelte";
 
     // please add a source link (https://github.com/imputnet/cobalt) if you use this implementation
     // i spent 4 hours switching between simulators and devices to get the best way to do this

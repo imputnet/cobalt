@@ -13,7 +13,7 @@
     import IconBrandTwitter from "@tabler/icons-svelte/IconBrandTwitter.svelte";
     import IconMoodSmileBeam from "@tabler/icons-svelte/IconMoodSmileBeam.svelte";
 
-    import CobaltQr from "$lib/icons/CobaltQR.svelte";
+    import CobaltQr from "$components/icons/CobaltQR.svelte";
     import CopyIcon from "$components/misc/CopyIcon.svelte";
 
     const cobaltUrl = "https://cobalt.tools/";

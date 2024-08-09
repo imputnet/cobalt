@@ -3,7 +3,7 @@
 
     import { t } from "$lib/i18n/translations";
 
-    import Imput from "$lib/icons/Imput.svelte";
+    import Imput from "$components/icons/Imput.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
 
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
