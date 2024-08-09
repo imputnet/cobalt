@@ -1,6 +1,8 @@
 <script lang="ts">
     import "@fontsource/redaction-10/400.css";
+
     import { t } from "$lib/i18n/translations";
+
     import DonateBanner from "$components/donate/DonateBanner.svelte";
     import DonateOptionsCard from "$components/donate/DonateOptionsCard.svelte";
 </script>

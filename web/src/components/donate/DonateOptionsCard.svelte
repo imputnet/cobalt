@@ -5,6 +5,8 @@
     import IconCoin from "@tabler/icons-svelte/IconCoin.svelte";
     import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
 
+    import DonateCardContainer from "$components/donate/DonateCardContainer.svelte";
+
     import DonationOption from "$components/donate/DonationOption.svelte";
 
     import IconCup from "@tabler/icons-svelte/IconCup.svelte";
@@ -49,7 +51,7 @@
     };
 </script>
 
-<div id="donation-box">
+<DonateCardContainer id="donation-box">
     <div id="donation-types" role="tablist" aria-orientation="horizontal">
         <button
             id="donation-type-once"
@@ -60,8 +62,8 @@
             role="tab"
         >
             <div class="donation-type-icon"><IconCoin /></div>
-            <div class="donation-title">{$t("donate.card.once")}</div>
-            <div class="donation-subtitle">
+            <div class="donate-card-title">{$t("donate.card.once")}</div>
+            <div class="donate-card-subtitle">
                 {$t("donate.card.processor.stripe")}
             </div>
         </button>
@@ -74,8 +76,8 @@
             role="tab"
         >
             <div class="donation-type-icon"><IconCalendarRepeat /></div>
-            <div class="donation-title">{$t("donate.card.monthly")}</div>
-            <div class="donation-subtitle">
+            <div class="donate-card-title">{$t("donate.card.monthly")}</div>
+            <div class="donate-card-subtitle">
                 {$t("donate.card.processor.liberapay")}
             </div>
         </button>
@@ -124,60 +126,28 @@
             <IconArrowRight />
         </button>
     </div>
-    <div class="donation-subtitle processor-mobile">
+    <div class="donate-card-subtitle processor-mobile">
         {$t(`donate.card.processor.${processor}`)}
     </div>
-</div>
+</DonateCardContainer>
 
 <style>
-    #donation-box {
-        --donation-box-main-padding: var(--donate-border-radius);
-        --donation-box-padding: 12px;
-
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+    :global(#donation-box) {
         max-width: 480px;
-
-        padding: var(--donation-box-main-padding) 0;
-        border-radius: var(--donate-border-radius);
-        gap: calc(var(--donation-box-main-padding) / 2);
-
-        color: white;
-        background: linear-gradient(
-            180deg,
-            var(--donate-gradient-end) 0%,
-            var(--donate-gradient-start) 80%
-        );
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity))
-            inset;
+        padding: var(--donate-card-main-padding) 0;
     }
 
     #donation-types,
     #donation-options,
     #donation-custom {
-        padding: 0 var(--donation-box-main-padding);
+        padding: 0 var(--donate-card-main-padding);
     }
 
     #donation-types {
         display: flex;
         flex-direction: row;
-        gap: var(--donation-box-padding);
+        gap: var(--donate-card-padding);
         overflow: scroll;
-    }
-
-    .donation-type,
-    :global(.donation-option) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-        border-radius: var(--donation-box-padding);
-        background: rgba(255, 255, 255, 0.05);
-        padding: 14px 18px;
-        color: var(--white);
-        gap: 0;
-        letter-spacing: -0.3px;
     }
 
     .donation-type {
@@ -185,48 +155,9 @@
         overflow: hidden;
     }
 
-    :global(#donation-box button:not(:focus-visible)) {
-        box-shadow: none;
-    }
-
-    :global(#donation-box button:active) {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    @media (hover: hover) {
-        :global(#donation-box button:hover) {
-            background: rgba(255, 255, 255, 0.1);
-        }
-    }
-
-    .donation-type.selected {
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-    .donation-type.selected:not(:focus-visible) {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) inset !important;
-    }
-
-    .donation-subtitle {
-        line-height: 1.5;
-    }
-
     .donation-type-icon :global(svg) {
         width: 28px;
         height: 28px;
-    }
-
-    :global(.donation-title) {
-        display: flex;
-        align-items: center;
-        font-size: 16px;
-        gap: 4px;
-    }
-
-    :global(.donation-subtitle) {
-        font-size: 13px;
-        color: var(--white);
-        opacity: 0.5;
     }
 
     #donation-options {
@@ -324,19 +255,23 @@
     .processor-mobile {
         display: none;
         text-align: center;
-        font-size: 13px;
     }
 
     @media screen and (max-width: 550px) {
-        #donation-box {
-            --donation-box-main-padding: 18px;
-        }
-
-        .donation-title {
+        :global(#donation-box .donate-card-title) {
             font-size: 14px;
         }
 
-        .donation-type .donation-subtitle {
+        :global(#donation-box .donate-card-subtitle) {
+            font-size: 12px;
+        }
+
+        .donation-type-icon :global(svg) {
+            width: 26px;
+            height: 26px;
+        }
+
+        .donation-type .donate-card-subtitle {
             display: none;
         }
 
