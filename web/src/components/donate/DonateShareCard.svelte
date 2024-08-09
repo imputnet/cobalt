@@ -34,56 +34,56 @@
         <div id="share-qr">
             <CobaltQr />
         </div>
-        <div id="share-buttons">
+        <div id="action-buttons">
             <button
-                id="share-button-copy"
-                class="share-button"
+                id="action-button-copy"
+                class="action-button"
                 on:click={async () => {
                     copyURL(cobaltUrl);
                     copied = true;
                 }}
                 aria-label={copied ? $t("button.copied") : ""}
             >
-                <div class="share-button-icon">
+                <div class="action-button-icon">
                     <CopyIcon check={copied} />
                 </div>
                 copy
             </button>
 
             <button
-                id="share-button-share"
-                class="share-button"
+                id="action-button-share"
+                class="action-button"
                 on:click={async () => shareURL(cobaltUrl)}
             >
-                <div class="share-button-icon">
+                <div class="action-button-icon">
                     <IconShare2 />
                 </div>
                 {$t("button.share")}
             </button>
 
             <button
-                id="share-button-github"
-                class="share-button"
+                id="action-button-github"
+                class="action-button"
                 on:click={async () => {
                     openURL(contacts.github);
                     copied = true;
                 }}
             >
-                <div class="share-button-icon">
+                <div class="action-button-icon">
                     <IconBrandGithub />
                 </div>
                 {$t("button.star")}
             </button>
 
             <button
-                id="share-button-twitter"
-                class="share-button"
+                id="action-button-twitter"
+                class="action-button"
                 on:click={async () => {
                     openURL(contacts.twitter);
                     copied = true;
                 }}
             >
-                <div class="share-button-icon">
+                <div class="action-button-icon">
                     <IconBrandTwitter />
                 </div>
                 {$t("button.follow")}
@@ -129,14 +129,14 @@
         border-radius: 12px;
     }
 
-    #share-buttons {
+    #action-buttons {
         display: grid;
         grid-template-columns: 1fr 1fr;
         width: 100%;
         gap: 6px;
     }
 
-    .share-button {
+    .action-button {
         align-items: center;
         width: 100%;
         padding: 0 10px;
@@ -144,13 +144,13 @@
         gap: 2px;
     }
 
-    .share-button-icon {
+    .action-button-icon {
         width: 21px;
         height: 21px;
         display: flex;
     }
 
-    .share-button-icon :global(svg) {
+    .action-button-icon :global(svg) {
         width: 21px;
         height: 21px;
         stroke-width: 1.8px;
