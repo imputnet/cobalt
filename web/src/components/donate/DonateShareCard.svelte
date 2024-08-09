@@ -58,7 +58,7 @@
                 <div class="share-button-icon">
                     <IconShare2 />
                 </div>
-                share
+                {$t("button.share")}
             </button>
 
             <button
@@ -72,7 +72,7 @@
                 <div class="share-button-icon">
                     <IconBrandGithub />
                 </div>
-                star
+                {$t("button.star")}
             </button>
 
             <button
@@ -86,7 +86,7 @@
                 <div class="share-button-icon">
                     <IconBrandTwitter />
                 </div>
-                follow
+                {$t("button.follow")}
             </button>
         </div>
     </div>
