@@ -60,4 +60,10 @@
     #donate-text {
         padding: 0 24px;
     }
+
+    @media screen and (max-width: 535px) {
+        #donate-text {
+            padding: 0 6px;
+        }
+    }
 </style>
