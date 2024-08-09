@@ -3,5 +3,17 @@
     "banner.subtitle": "donate to imput or share the\njoy of cobalt with a friend",
 
     "body.motivation": "cobalt helps thousands of producers, educators, and other creative people to do what they love. we created cobalt because we believe that internet doesn’t have to be scary. greed and ads have ruined the internet — we are fighting back with friendly and open tools that aren’t made for profit.",
-    "body.keep_going": "you can help us stay motivated & keep creating safe alternatives to unfair and abusive web tools by sharing cobalt with a friend or by donating to us."
+    "body.keep_going": "you can help us stay motivated & keep creating safe alternatives to unfair and abusive web tools by sharing cobalt with a friend or by donating to us.",
+
+    "card.once": "one-time donation",
+    "card.monthly": "monthly donation",
+    "card.custom": "custom amount (from $2)",
+
+    "card.processor.stripe": "processed by stripe",
+    "card.processor.liberapay": "processed by liberapay",
+
+    "card.option.5": "cup of coffee",
+    "card.option.10": "full size pizza",
+    "card.option.15": "full lunch",
+    "card.option.30": "lunch for two"
 }

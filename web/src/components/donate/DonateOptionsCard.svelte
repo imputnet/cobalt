@@ -1,15 +1,17 @@
 <script lang="ts">
-    import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
+    import { donate } from "$lib/env";
+    import { t } from "$lib/i18n/translations";
+
     import IconCoin from "@tabler/icons-svelte/IconCoin.svelte";
-    import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
+    import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
+
+    import DonationOption from "$components/donate/DonationOption.svelte";
 
     import IconCup from "@tabler/icons-svelte/IconCup.svelte";
     import IconPizza from "@tabler/icons-svelte/IconPizza.svelte";
     import IconToolsKitchen2 from "@tabler/icons-svelte/IconToolsKitchen2.svelte";
 
-    import DonationOption from "$components/donate/DonationOption.svelte";
-
-    import { donate } from "$lib/env";
+    import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
 
     let customInput: HTMLInputElement;
     let customInputValue: number | null;
@@ -30,12 +32,12 @@
             url.searchParams.set("period", "monthly");
             url.searchParams.set("amount", (amount / 100).toString());
             window.open(url, "_blank");
-        }
+        },
     };
 
     const send = (amount: number) => {
         return donationMethods[processor](amount);
-    }
+    };
 
     const sendCustom = () => {
         if (!customInput.reportValidity()) {
@@ -44,7 +46,7 @@
 
         const amount = Number(customInputValue) * 100;
         send(amount);
-    }
+    };
 </script>
 
 <div id="donation-box">
@@ -52,47 +54,46 @@
         <button
             id="donation-type-once"
             class="donation-type"
-            on:click={() => processor = 'stripe'}
-            class:selected={processor === 'stripe'}
+            on:click={() => (processor = "stripe")}
+            class:selected={processor === "stripe"}
         >
             <div class="donation-type-icon"><IconCoin /></div>
-            <div class="donation-title">one-time donation</div>
-            <div class="donation-subtitle">processed by stripe</div>
+            <div class="donation-title">{$t("donate.card.once")}</div>
+            <div class="donation-subtitle">
+                {$t("donate.card.processor.stripe")}
+            </div>
         </button>
         <button
             id="donation-type-monthly"
             class="donation-type"
-            on:click={() => processor = 'liberapay'}
-            class:selected={processor === 'liberapay'}
+            on:click={() => (processor = "liberapay")}
+            class:selected={processor === "liberapay"}
         >
             <div class="donation-type-icon"><IconCalendarRepeat /></div>
-            <div class="donation-title">monthly donation</div>
-            <div class="donation-subtitle">processed by liberapay</div>
+            <div class="donation-title">{$t("donate.card.monthly")}</div>
+            <div class="donation-subtitle">
+                {$t("donate.card.processor.liberapay")}
+            </div>
         </button>
     </div>
     <div id="donation-options">
-        <DonationOption price={5} desc="cup of coffee" {send}>
+        <DonationOption price={5} desc={$t("donate.card.option.5")} {send}>
             <IconCup />
         </DonationOption>
-        <DonationOption price={10} desc="full size pizza" {send}>
+        <DonationOption price={10} desc={$t("donate.card.option.10")} {send}>
             <IconPizza />
         </DonationOption>
-        <DonationOption price={15} desc="full lunch" {send}>
+        <DonationOption price={15} desc={$t("donate.card.option.15")} {send}>
             <IconToolsKitchen2 />
         </DonationOption>
-        <DonationOption price={30} desc="two lunches" {send}>
+        <DonationOption price={30} desc={$t("donate.card.option.30")} {send}>
             <IconToolsKitchen2 />
         </DonationOption>
     </div>
     <div id="donation-custom">
-        <div
-            id="input-container"
-            class:focused={customFocused}
-        >
+        <div id="input-container" class:focused={customFocused}>
             {#if customInputValue || customInput?.validity.badInput}
-                <span id="input-dollar-sign">
-                    $
-                </span>
+                <span id="input-dollar-sign">$</span>
             {/if}
             <input
                 id="donation-custom-input"
@@ -101,35 +102,38 @@
                 max="10000"
                 step=".01"
                 required
-                placeholder="custom amount (from $2)"
+                placeholder={$t("donate.card.custom")}
                 bind:this={customInput}
                 bind:value={customInputValue}
-                on:input ={() => customFocused = true}
-                on:focus ={() => customFocused = true}
-                on:blur  ={() => customFocused = false}
-                on:keydown={(e) => e.key === 'Enter' && sendCustom()}
+                on:input={() => (customFocused = true)}
+                on:focus={() => (customFocused = true)}
+                on:blur={() => (customFocused = false)}
+                on:keydown={(e) => e.key === "Enter" && sendCustom()}
             />
         </div>
-        <button
-            id="donation-custom-submit"
-            on:click={sendCustom}
-        >
+        <button id="donation-custom-submit" on:click={sendCustom}>
             <IconArrowRight />
         </button>
+    </div>
+    <div class="donation-subtitle processor-mobile">
+        {$t(`donate.card.processor.${processor}`)}
     </div>
 </div>
 
 <style>
     #donation-box {
+        --donation-box-main-padding: var(--donate-border-radius);
         --donation-box-padding: 12px;
+        --donation-box-gray-text: #9a9a9a;
+
         display: flex;
         flex-direction: column;
-        width: calc(100% - var(--donate-border-radius) * 2);
+        width: calc(100% - var(--donation-box-main-padding) * 2);
         max-width: 480px;
 
-        padding: var(--donate-border-radius);
+        padding: var(--donation-box-main-padding);
         border-radius: var(--donate-border-radius);
-        gap: calc(var(--donate-border-radius) / 2);
+        gap: calc(var(--donation-box-main-padding) / 2);
 
         color: white;
         background: linear-gradient(
@@ -145,6 +149,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--donation-box-padding);
+        overflow: scroll;
     }
 
     .donation-type,
@@ -163,6 +168,7 @@
 
     .donation-type {
         width: 100%;
+        overflow: hidden;
     }
 
     :global(#donation-box button:not(:focus-visible)) {
@@ -213,6 +219,7 @@
     #donation-custom {
         display: flex;
         gap: 6px;
+        overflow: scroll;
     }
 
     #input-container {
@@ -227,16 +234,21 @@
     }
 
     #input-dollar-sign {
-        animation: grow-in .05s linear;
+        animation: grow-in 0.05s linear;
         display: block;
     }
 
     @keyframes grow-in {
-        from { font-size: 0 }
-        to { font-size: inherit }
+        from {
+            font-size: 0;
+        }
+        to {
+            font-size: inherit;
+        }
     }
 
-    #input-container, #donation-custom-input {
+    #input-container,
+    #donation-custom-input {
         font-size: 13px;
     }
 
@@ -245,6 +257,14 @@
         background-color: transparent;
         color: var(--white);
         border: none;
+        padding-block: 0;
+        padding-inline: 0;
+        padding: 0;
+    }
+
+    #donation-custom-input::placeholder {
+        color: var(--donation-box-gray-text);
+        opacity: 1;
     }
 
     #donation-custom-input:focus-visible {
@@ -260,7 +280,7 @@
         color: var(--white);
         background-color: rgba(255, 255, 255, 0.1);
         aspect-ratio: 1/1;
-        padding: 8px;
+        padding: 0px 10px;
     }
 
     #donation-custom-submit :global(svg) {
@@ -272,5 +292,29 @@
     #donation-custom-input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    .processor-mobile {
+        display: none;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    @media screen and (max-width: 550px) {
+        #donation-box {
+            --donation-box-main-padding: 18px;
+        }
+
+        .donation-title {
+            font-size: 14px;
+        }
+
+        .donation-type .donation-subtitle {
+            display: none;
+        }
+
+        .processor-mobile {
+            display: block;
+        }
     }
 </style>
