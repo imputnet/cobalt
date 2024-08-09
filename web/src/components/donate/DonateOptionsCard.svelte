@@ -181,6 +181,10 @@
         box-shadow: none;
     }
 
+    :global(#donation-box button:active) {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
     @media (hover: hover) {
         :global(#donation-box button:hover) {
             background: rgba(255, 255, 255, 0.1);
