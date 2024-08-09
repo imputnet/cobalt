@@ -50,12 +50,14 @@
 </script>
 
 <div id="donation-box">
-    <div id="donation-types">
+    <div id="donation-types" role="tablist" aria-orientation="horizontal">
         <button
             id="donation-type-once"
             class="donation-type"
             on:click={() => (processor = "stripe")}
             class:selected={processor === "stripe"}
+            aria-selected={processor === "stripe"}
+            role="tab"
         >
             <div class="donation-type-icon"><IconCoin /></div>
             <div class="donation-title">{$t("donate.card.once")}</div>
@@ -68,6 +70,8 @@
             class="donation-type"
             on:click={() => (processor = "liberapay")}
             class:selected={processor === "liberapay"}
+            aria-selected={processor === "liberapay"}
+            role="tab"
         >
             <div class="donation-type-icon"><IconCalendarRepeat /></div>
             <div class="donation-title">{$t("donate.card.monthly")}</div>
@@ -111,7 +115,12 @@
                 on:keydown={(e) => e.key === "Enter" && sendCustom()}
             />
         </div>
-        <button id="donation-custom-submit" on:click={sendCustom}>
+        <button
+            id="donation-custom-submit"
+            on:click={sendCustom}
+            aria-label={$t("donate.card.custom.submit")}
+            type="submit"
+        >
             <IconArrowRight />
         </button>
     </div>

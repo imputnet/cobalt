@@ -15,5 +15,7 @@
     "card.option.5": "cup of coffee",
     "card.option.10": "full size pizza",
     "card.option.15": "full lunch",
-    "card.option.30": "lunch for two"
+    "card.option.30": "lunch for two",
+
+    "card.custom.submit": "donate custom amount"
 }
