@@ -1,6 +1,7 @@
 <script lang="ts">
     import { contacts } from "$lib/env";
     import { device } from "$lib/device";
+    import locale from "$lib/i18n/locale";
     import { t } from "$lib/i18n/translations";
 
     import { openURL, copyURL, shareURL } from "$lib/download";
@@ -82,16 +83,18 @@
                 {$t("button.star")}
             </button>
 
-            <button
-                id="action-button-twitter"
-                class="action-button"
-                on:click={async () => openURL(contacts.twitter)}
-            >
-                <div class="action-button-icon">
-                    <IconBrandTwitter />
-                </div>
-                {$t("button.follow")}
-            </button>
+            {#if $locale !== "ru"}
+                <button
+                    id="action-button-twitter"
+                    class="action-button"
+                    on:click={async () => openURL(contacts.twitter)}
+                >
+                    <div class="action-button-icon">
+                        <IconBrandTwitter />
+                    </div>
+                    {$t("button.follow")}
+                </button>
+            {/if}
         </div>
     </div>
     <div
