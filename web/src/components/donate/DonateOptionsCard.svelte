@@ -133,7 +133,6 @@
     #donation-box {
         --donation-box-main-padding: var(--donate-border-radius);
         --donation-box-padding: 12px;
-        --donation-box-gray-text: #9a9a9a;
 
         display: flex;
         flex-direction: column;
@@ -226,7 +225,8 @@
 
     :global(.donation-subtitle) {
         font-size: 13px;
-        color: #9a9a9a;
+        color: var(--white);
+        opacity: 0.5;
     }
 
     #donation-options {
@@ -290,8 +290,8 @@
     }
 
     #donation-custom-input::placeholder {
-        color: var(--donation-box-gray-text);
-        opacity: 1;
+        color: var(--white);
+        opacity: 0.5;
     }
 
     #donation-custom-input:focus-visible {
