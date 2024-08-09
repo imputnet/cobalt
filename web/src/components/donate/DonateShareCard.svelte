@@ -64,10 +64,7 @@
             <button
                 id="action-button-github"
                 class="action-button"
-                on:click={async () => {
-                    openURL(contacts.github);
-                    copied = true;
-                }}
+                on:click={async () => openURL(contacts.github)}
             >
                 <div class="action-button-icon">
                     <IconBrandGithub />
@@ -78,10 +75,7 @@
             <button
                 id="action-button-twitter"
                 class="action-button"
-                on:click={async () => {
-                    openURL(contacts.twitter);
-                    copied = true;
-                }}
+                on:click={async () => openURL(contacts.twitter)}
             >
                 <div class="action-button-icon">
                     <IconBrandTwitter />
