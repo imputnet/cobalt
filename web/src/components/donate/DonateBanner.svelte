@@ -215,7 +215,7 @@
         }
 
         #banner-left {
-            padding: 45px 32px;
+            padding: 45px 12px;
             gap: 14px;
             align-items: center;
         }
@@ -229,6 +229,16 @@
     @media screen and (max-width: 610px) {
         #banner-title {
             font-size: 40px;
+        }
+    }
+
+    @media screen and (max-width: 550px) {
+        #banner-title {
+            font-size: 36px;
+        }
+
+        #banner-subtitle {
+            font-size: 14px;
         }
     }
 </style>
