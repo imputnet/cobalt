@@ -15,7 +15,13 @@
             <div id="imput-logo">
                 <Imput />
             </div>
-            <div id="banner-title" class="redaction">
+            <div
+                id="banner-title"
+                class="redaction"
+                tabindex="-1"
+                data-first-focus
+                data-focus-ring-hidden
+            >
                 {$t("donate.banner.title")}
             </div>
             <div id="banner-subtitle">{$t("donate.banner.subtitle")}</div>
@@ -44,7 +50,8 @@
             var(--donate-gradient-start) 30%,
             var(--donate-gradient-end) 100%
         );
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity))
+            inset;
     }
 
     #banner-contents {
