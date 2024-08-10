@@ -7,6 +7,8 @@
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
     import IconSettings from "@tabler/icons-svelte/IconSettings.svelte";
 
+    import IconRepeat from "@tabler/icons-svelte/IconRepeat.svelte";
+
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
@@ -26,6 +28,9 @@
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
+            </SidebarTab>
+            <SidebarTab tabName="remux" tabLink="/remux">
+                <IconRepeat />
             </SidebarTab>
             <SidebarTab tabName="settings" tabLink={settingsLink}>
                 <IconSettings />

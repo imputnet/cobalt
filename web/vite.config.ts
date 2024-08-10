@@ -1,9 +1,22 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig, searchForWorkspaceRoot } from "vite";
 
+import basicSSL from "@vitejs/plugin-basic-ssl";
+
 export default defineConfig({
     plugins: [
-        sveltekit()
+        basicSSL(),
+        sveltekit(),
+        {
+            name: "isolation",
+            configureServer(server) {
+                server.middlewares.use((_req, res, next) => {
+                    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+                    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+                    next();
+                })
+            }
+        }
     ],
     build: {
         rollupOptions: {
@@ -24,6 +37,10 @@ export default defineConfig({
             allow: [
                 searchForWorkspaceRoot(process.cwd())
             ]
-        }
-    }
+        },
+        proxy: {}
+    },
+    optimizeDeps: {
+        exclude: ["@imput/ffmpeg.wasm"]
+    },
 });
