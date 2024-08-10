@@ -94,9 +94,6 @@ importers:
       '@imput/ffmpeg-core':
         specifier: ^0.0.3
         version: 0.0.3
-      '@imput/ffmpeg-types':
-        specifier: ^0.12.3
-        version: 0.12.3
       '@imput/ffmpeg-util':
         specifier: ^0.12.1
         version: 0.12.1

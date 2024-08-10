@@ -46,7 +46,6 @@
         "@fontsource-variable/noto-sans-mono": "^5.0.20",
         "@fontsource/ibm-plex-mono": "^5.0.13",
         "@imput/ffmpeg-core": "^0.0.3",
-        "@imput/ffmpeg-types": "^0.12.3",
         "@imput/ffmpeg-util": "^0.12.1",
         "@imput/ffmpeg.wasm": "^0.12.11",
         "@imput/version-info": "workspace:^",

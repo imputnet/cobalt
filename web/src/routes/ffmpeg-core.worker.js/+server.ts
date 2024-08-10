@@ -10,3 +10,5 @@ export function GET() {
         }
     })
 }
+
+export const prerender = true;
