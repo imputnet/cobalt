@@ -1,19 +1,20 @@
+import { FFmpeg } from "@imput/ffmpeg.wasm";
 import ffmpegCore from "@imput/ffmpeg-core?url";
 import ffmpegCoreWASM from "@imput/ffmpeg-core/wasm?url";
 
-import { FFmpeg } from "@imput/ffmpeg.wasm";
-import { fetchFile } from "@imput/ffmpeg-util";
+import mime from "mime";
 
-type renderParams = {
-    url: string,
-    input: {
-        type: string,
-        format: string,
-    },
-    output: {
-        type: string,
-        format: string,
-    },
+type InputFileKind = "video" | "audio";
+
+type FileInfo = {
+    type?: string | null,
+    kind: InputFileKind,
+    extension: string,
+}
+
+type RenderParams = {
+    file: File,
+    output?: FileInfo,
     args: string[],
 }
 
@@ -51,26 +52,41 @@ export default class FFmpegWrapper {
         return this.ffmpeg.terminate();
     }
 
-    async renderFile({ url, input, output, args }: renderParams) {
-        const inputFile = `input.${input.format}`;
+    async renderFile({ file, output, args }: RenderParams) {
+        const inputKind = file.type.split("/")[0];
+        const inputExtension = mime.getExtension(file.type);
 
+        if (inputKind !== "video" && inputKind !== "audio") return;
+        if (!inputExtension) return;
+
+        const input: FileInfo = {
+            kind: inputKind,
+            extension: inputExtension,
+        }
+
+        if (!output) output = input;
+
+        output.type = mime.getType(output.extension);
+        if (!output.type) return;
+
+        const buffer = new Uint8Array(await file.arrayBuffer());
         await this.ffmpeg.writeFile(
-            inputFile,
-            await fetchFile(url)
-        )
+            'input',
+            buffer
+        );
 
         await this.ffmpeg.exec([
             '-threads', this.concurrency.toString(),
-            '-i', inputFile,
+            '-i', 'input',
             ...args,
-            `output.${output.format}`
+            `output.${output.extension}`
         ]);
 
-        const data = await this.ffmpeg.readFile(`output.${output.format}`);
-        const finalBlob = URL.createObjectURL(
-            new Blob([data], { type: `${output.type}/${output.format}` })
+        const renderBlob = new Blob(
+            [await this.ffmpeg.readFile(`output.${output.extension}`)],
+            { type: output.type }
         );
 
-        return finalBlob
+        return renderBlob;
     }
 }
