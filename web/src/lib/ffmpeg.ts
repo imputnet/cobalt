@@ -87,6 +87,7 @@ export default class FFmpegWrapper {
             { type: output.type }
         );
 
+        if (renderBlob.size === 0) return;
         return renderBlob;
     }
 }
