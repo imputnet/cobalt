@@ -15,9 +15,10 @@ export default class LibAVWrapper {
         if (!this.libav) {
             this.libav = await LibAV.LibAV({
                 yesthreads: true,
-                base: '/_libav/'
-            })
+                base: '/_libav'
+            });
         }
+    }
     }
 
     async render({ blob, output, args }: RenderParams) {
@@ -78,10 +79,7 @@ export default class LibAVWrapper {
         ]);
 
         await this.libav.unlink(outputName);
-
-        // FIXME: this is not correct, and needs to be replaced
-        //        with unlinkmkreadaheadfile().
-        await this.libav.unlink("input");
+        await this.libav.unlinkreadaheadfile("input");
 
         const renderBlob = new Blob(
             [ writtenData ],
