@@ -92,8 +92,8 @@ importers:
         specifier: ^5.0.13
         version: 5.0.13
       '@imput/libav.js-remux-cli':
-        specifier: ^5.4.6
-        version: 5.4.6
+        specifier: ^5.5.6
+        version: 5.5.6
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
@@ -514,8 +514,8 @@ packages:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
 
-  '@imput/libav.js-remux-cli@5.4.6':
-    resolution: {integrity: sha512-lO83tppljyCyJAks2cfA0YULnPstAYE/5LQVoFAFu+CSwUcgZqB9OmBNHufMj3GnTXzYE35OORSuYHYZEyiC5w==}
+  '@imput/libav.js-remux-cli@5.5.6':
+    resolution: {integrity: sha512-XdAab90EZKf6ULtD/x9Y2bnlmNJodXSO6w8aWrn97+N2IRuOS8zv3tAFPRC69SWKa8Utjeu5YTYuTolnX3QprQ==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2470,7 +2470,7 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@imput/libav.js-remux-cli@5.4.6': {}
+  '@imput/libav.js-remux-cli@5.5.6': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
