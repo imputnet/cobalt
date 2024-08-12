@@ -10,7 +10,7 @@ type FileInfo = {
 }
 
 type RenderParams = {
-    file: File,
+    blob: Blob,
     output?: FileInfo,
     args: string[],
 }
@@ -26,16 +26,17 @@ export default class LibAVWrapper {
     async init() {
         if (!this.libav) {
             this.libav = await LibAV.LibAV({
-                yesthreads: true
+                yesthreads: true,
+                base: '/_libav/'
             })
         }
     }
 
-    async renderFile({ file, output, args }: RenderParams) {
+    async render({ blob, output, args }: RenderParams) {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
 
-        const inputKind = file.type.split("/")[0];
-        const inputExtension = mime.getExtension(file.type);
+        const inputKind = blob.type.split("/")[0];
+        const inputExtension = mime.getExtension(blob.type);
 
         if (inputKind !== "video" && inputKind !== "audio") return;
         if (!inputExtension) return;
@@ -52,14 +53,15 @@ export default class LibAVWrapper {
 
         const outputName = `output.${output.extension}`;
 
-        const buffer = new Blob([await file.arrayBuffer()]);
-        await this.libav.mkreadaheadfile("input", buffer);
+        await this.libav.mkreadaheadfile("input", blob);
 
         // https://github.com/Yahweasel/libav.js/blob/7d359f69/docs/IO.md#block-writer-devices
         await this.libav.mkwriterdev(outputName);
         let writtenData = new Uint8Array(0);
 
         this.libav.onwrite = (name, pos, data) => {
+            if (name !== outputName) return;
+
             const newLen = Math.max(writtenData.length, pos + data.length);
             if (newLen > writtenData.length) {
                 const newData = new Uint8Array(newLen);
@@ -70,16 +72,21 @@ export default class LibAVWrapper {
         };
 
         await this.libav.ffmpeg([
+            '-nostdin', '-y',
             '-threads', this.concurrency.toString(),
             '-i', 'input',
             ...args,
             outputName
         ]);
 
-        await this.libav.unlinkmkreadaheadfile("input");
+        await this.libav.unlink(outputName);
+
+        // FIXME: this is not correct, and needs to be replaced
+        //        with unlinkmkreadaheadfile().
+        await this.libav.unlink("input");
 
         const renderBlob = new Blob(
-            [writtenData],
+            [ writtenData ],
             { type: output.type }
         );
 

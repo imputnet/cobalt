@@ -1,5 +1,5 @@
 <script lang="ts">
-    import FFmpegWrapper from "$lib/ffmpeg";
+    import LibAVWrapper from "$lib/libav";
     import { openURL } from "$lib/download";
 
     import DragDropArea from "$components/misc/DragDropArea.svelte";
@@ -9,11 +9,11 @@
     let file: File;
 
     const render = async () => {
-        const ff = new FFmpegWrapper();
+        const ff = new LibAVWrapper();
         await ff.init();
 
-        const render = await ff.renderFile({
-            file,
+        const render = await ff.render({
+            blob: file,
             args: ["-c", "copy"],
         });
 
