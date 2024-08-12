@@ -1,19 +1,6 @@
 import mime from "mime";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
-
-type InputFileKind = "video" | "audio";
-
-type FileInfo = {
-    type?: string | null,
-    kind: InputFileKind,
-    extension: string,
-}
-
-type RenderParams = {
-    blob: Blob,
-    output?: FileInfo,
-    args: string[],
-}
+import type { FileInfo, RenderParams } from "./types/libav";
 
 export default class LibAVWrapper {
     libav!: LibAVInstance | null;
