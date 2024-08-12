@@ -57,12 +57,16 @@ export default class LibAVWrapper {
 
         // https://github.com/Yahweasel/libav.js/blob/7d359f69/docs/IO.md#block-writer-devices
         await this.libav.mkwriterdev(outputName);
-        let writtenData = new Uint8Array(0);
+
+        // since we expect the output file to be roughly the same size
+        // as the original, preallocate its size for the output
+        let writtenData = new Uint8Array(blob.size), actualSize = 0;
 
         this.libav.onwrite = (name, pos, data) => {
             if (name !== outputName) return;
 
-            const newLen = Math.max(writtenData.length, pos + data.length);
+            actualSize = Math.max(pos + data.length, actualSize);
+            const newLen = Math.max(pos + data.length, writtenData.length);
             if (newLen > writtenData.length) {
                 const newData = new Uint8Array(newLen);
                 newData.set(writtenData);
@@ -70,6 +74,12 @@ export default class LibAVWrapper {
             }
             writtenData.set(data, pos);
         };
+
+        // if we didn't need as much space as we allocated for some reason,
+        // shrink the buffer so that we don't inflate the file with zeros
+        if (writtenData.length > actualSize) {
+            writtenData = writtenData.slice(0, actualSize);
+        }
 
         await this.libav.ffmpeg([
             '-nostdin', '-y',
