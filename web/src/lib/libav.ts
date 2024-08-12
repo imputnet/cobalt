@@ -19,7 +19,6 @@ export default class LibAVWrapper {
             });
         }
     }
-    }
 
     async render({ blob, output, args }: RenderParams) {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
