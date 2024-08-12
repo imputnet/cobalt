@@ -3,10 +3,11 @@ import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 import type { FileInfo, RenderParams } from "./types/libav";
 
 export default class LibAVWrapper {
-    libav!: LibAVInstance | null;
+    libav: LibAVInstance | null;
     concurrency: number;
 
     constructor() {
+        this.libav = null;
         this.concurrency = Math.min(4, navigator.hardwareConcurrency);
     }
 
