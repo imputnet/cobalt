@@ -100,6 +100,9 @@ importers:
       '@imput/ffmpeg.wasm':
         specifier: ^0.12.11
         version: 0.12.11
+      '@imput/libav.js-remux-cli':
+        specifier: ^5.4.6
+        version: 5.4.6
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
@@ -532,6 +535,9 @@ packages:
   '@imput/ffmpeg.wasm@0.12.11':
     resolution: {integrity: sha512-/krk6BPy7TdDN73KHj/g0TVNDNLvvtlTv2T8di4GwrbuIcqfv5wCa2iMR2II/Vhf7zFYJvC2m5kDYHTtDQWS5Q==}
     engines: {node: '>=18.x'}
+
+  '@imput/libav.js-remux-cli@5.4.6':
+    resolution: {integrity: sha512-lO83tppljyCyJAks2cfA0YULnPstAYE/5LQVoFAFu+CSwUcgZqB9OmBNHufMj3GnTXzYE35OORSuYHYZEyiC5w==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2495,6 +2501,8 @@ snapshots:
   '@imput/ffmpeg.wasm@0.12.11':
     dependencies:
       '@imput/ffmpeg-types': 0.12.3
+
+  '@imput/libav.js-remux-cli@5.4.6': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
