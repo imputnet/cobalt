@@ -91,15 +91,6 @@ importers:
       '@fontsource/ibm-plex-mono':
         specifier: ^5.0.13
         version: 5.0.13
-      '@imput/ffmpeg-core':
-        specifier: ^0.0.3
-        version: 0.0.3
-      '@imput/ffmpeg-util':
-        specifier: ^0.12.1
-        version: 0.12.1
-      '@imput/ffmpeg.wasm':
-        specifier: ^0.12.11
-        version: 0.12.11
       '@imput/libav.js-remux-cli':
         specifier: ^5.4.6
         version: 5.4.6
@@ -522,22 +513,6 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
-
-  '@imput/ffmpeg-core@0.0.3':
-    resolution: {integrity: sha512-JIFUBzj1S2c2G2rhz4GlQD+rv8ftLhHwuyaG5TPesmGTrsgJjg+0CKAcjnirmpvwYZ4f/MLYprvAOVrNPLAbFA==}
-    engines: {node: '>=16.x'}
-
-  '@imput/ffmpeg-types@0.12.3':
-    resolution: {integrity: sha512-Gi9d26eLEsI15Imt74tvWxPbsnyD0eWwrABd57cOjniIKCgAUTzFOXx4eHyj6CV/1WzQqDAr4haQk0XYCUtRqg==}
-    engines: {node: '>=16.x'}
-
-  '@imput/ffmpeg-util@0.12.1':
-    resolution: {integrity: sha512-egmHSHEMgAxX0lqv6BiIP/ndPtjHm0LVJcrsO4P0T20dO9WLB8gMQLL6E3qmzJ8cpQgkG466f0OSGUNL/E70bg==}
-    engines: {node: '>=18.x'}
-
-  '@imput/ffmpeg.wasm@0.12.11':
-    resolution: {integrity: sha512-/krk6BPy7TdDN73KHj/g0TVNDNLvvtlTv2T8di4GwrbuIcqfv5wCa2iMR2II/Vhf7zFYJvC2m5kDYHTtDQWS5Q==}
-    engines: {node: '>=18.x'}
 
   '@imput/libav.js-remux-cli@5.4.6':
     resolution: {integrity: sha512-lO83tppljyCyJAks2cfA0YULnPstAYE/5LQVoFAFu+CSwUcgZqB9OmBNHufMj3GnTXzYE35OORSuYHYZEyiC5w==}
@@ -2494,16 +2469,6 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
-
-  '@imput/ffmpeg-core@0.0.3': {}
-
-  '@imput/ffmpeg-types@0.12.3': {}
-
-  '@imput/ffmpeg-util@0.12.1': {}
-
-  '@imput/ffmpeg.wasm@0.12.11':
-    dependencies:
-      '@imput/ffmpeg-types': 0.12.3
 
   '@imput/libav.js-remux-cli@5.4.6': {}
 
