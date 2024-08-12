@@ -48,6 +48,7 @@
         "@imput/ffmpeg-core": "^0.0.3",
         "@imput/ffmpeg-util": "^0.12.1",
         "@imput/ffmpeg.wasm": "^0.12.11",
+        "@imput/libav.js-remux-cli": "^5.4.6",
         "@imput/version-info": "workspace:^",
         "@tabler/icons-svelte": "3.6.0",
         "@vitejs/plugin-basic-ssl": "^1.1.0",
