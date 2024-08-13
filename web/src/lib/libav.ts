@@ -1,6 +1,7 @@
 import mime from "mime";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, FileInfo, RenderParams } from "./types/libav";
+import type { FfprobeData } from "fluent-ffmpeg";
 
 export default class LibAVWrapper {
     libav: Promise<LibAVInstance> | null;
@@ -20,6 +21,45 @@ export default class LibAVWrapper {
                 base: '/_libav'
             });
         }
+    }
+
+    async probe(blob: Blob) {
+        if (!this.libav) throw new Error("LibAV wasn't initialized");
+        const libav = await this.libav;
+
+        const OUT_FILE = 'output.json';
+        await libav.mkreadaheadfile('input', blob);
+        await libav.mkwriterdev(OUT_FILE);
+
+        let writtenData = new Uint8Array(0);
+
+        libav.onwrite = (name, pos, data) => {
+            if (name !== OUT_FILE) return;
+
+            const newLen = Math.max(pos + data.length, writtenData.length);
+            if (newLen > writtenData.length) {
+                const newData = new Uint8Array(newLen);
+                newData.set(writtenData);
+                writtenData = newData;
+            }
+            writtenData.set(data, pos);
+        };
+
+        await libav.ffprobe([
+            '-v', 'quiet',
+            '-print_format', 'json',
+            '-show_format',
+            '-show_streams',
+            'input',
+            '-o', OUT_FILE
+        ]);
+
+        await libav.unlink(OUT_FILE);
+        await libav.unlinkreadaheadfile('input');
+
+        const copy = new Uint8Array(writtenData);
+        const text = new TextDecoder().decode(copy);
+        return JSON.parse(text) as FfprobeData;
     }
 
     async render({ blob, output, args }: RenderParams) {

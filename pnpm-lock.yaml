@@ -131,6 +131,9 @@ importers:
       '@types/eslint__js':
         specifier: ^8.42.3
         version: 8.42.3
+      '@types/fluent-ffmpeg':
+        specifier: ^2.1.25
+        version: 2.1.25
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.14
@@ -694,6 +697,9 @@ packages:
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+
+  '@types/fluent-ffmpeg@2.1.25':
+    resolution: {integrity: sha512-a9/Jtv/RVaCG4lUwWIcuClWE5eXJFoFS/oHOecOv/RS8n+lQdJzcJVmDlxA8Xbk4B82YpO88Dijcoljb6sYTcA==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -2633,6 +2639,10 @@ snapshots:
       '@types/eslint': 9.6.0
 
   '@types/estree@1.0.5': {}
+
+  '@types/fluent-ffmpeg@2.1.25':
+    dependencies:
+      '@types/node': 20.14.14
 
   '@types/json-schema@7.0.15': {}
 

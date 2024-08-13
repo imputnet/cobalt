@@ -30,6 +30,7 @@
         "@sveltejs/kit": "^2.0.0",
         "@sveltejs/vite-plugin-svelte": "^3.0.0",
         "@types/eslint__js": "^8.42.3",
+        "@types/fluent-ffmpeg": "^2.1.25",
         "@types/node": "^20.14.10",
         "compare-versions": "^6.1.0",
         "eslint": "^8.57.0",
