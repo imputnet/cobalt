@@ -31,6 +31,12 @@
     <Meowbalt emotion="question" />
 
     <button class="open-file-button" on:click={() => openFile()}>
+        <div class="dashed-stroke">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="none" rx="24" ry="24" />
+            </svg>
+        </div>
+
         <div class="open-file-icon">
             <IconFileUpload />
         </div>
@@ -45,7 +51,7 @@
             </div>
             <div class="subtext accept-list">
                 {$t("receiver.accept", {
-                    formats: acceptExtensions.join(", ")
+                    formats: acceptExtensions.join(", "),
                 })}
             </div>
         </div>
@@ -53,33 +59,66 @@
 </div>
 
 <style>
+    .open-file-button {
+        flex-direction: column;
+        padding: 32px;
+        transition: box-shadow 0.2s;
+        position: relative;
+    }
+
+    .open-file-button:not(:focus-visible) {
+        box-shadow: none;
+    }
+
+    .open-file-button,
+    .dashed-stroke :global(svg) {
+        border-radius: 24px;
+    }
+
+    .dragged-over .open-file-button {
+        background-image: none;
+        box-shadow: 0 0 50px 10px var(--button-hover);
+    }
+
     .open-file-container {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    .open-file-button {
-        flex-direction: column;
-        padding: 36px;
-        border-radius: 24px;
-        box-shadow: none;
-        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%236E6E6E60' stroke-width='5' stroke-dasharray='10%2c20' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    .dashed-stroke {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        bottom: 0;
+        pointer-events: none;
+    }
 
-        transition: box-shadow 0.2s;
+    .dashed-stroke :global(svg rect) {
+        width: 100%;
+        height: 100%;
+        stroke-width: 5;
+        stroke-dashoffset: 3;
+        stroke-linecap: square;
+        stroke-dasharray: 10, 15;
+        stroke: var(--input-border);
+        transition:
+            stroke-dasharray 0.2s,
+            stroke-dashoffset 0.2s;
+    }
+
+    .dragged-over .dashed-stroke :global(svg rect) {
+        stroke-dasharray: 20, 5;
+        stroke-dashoffset: 8;
     }
 
     .open-file-container :global(.meowbalt) {
         clip-path: inset(0px 0px 16px 0px);
         margin-bottom: -16px;
 
-        transition: clip-path 0.2s, margin-bottom 0.2s;
-    }
-
-    .dragged-over .open-file-button {
-        box-shadow:
-            0 0 0 2px var(--button-hover-transparent) inset,
-            0 0 50px 10px var(--button-hover);
+        transition:
+            clip-path 0.2s,
+            margin-bottom 0.2s;
     }
 
     .dragged-over :global(.meowbalt) {
@@ -100,7 +139,7 @@
     .open-file-text {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
     }
 
     .open-title {
