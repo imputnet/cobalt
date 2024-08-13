@@ -11,10 +11,11 @@
 
     let processing = false;
 
+    const ff = new LibAVWrapper(console.log);
+    ff.init();
+
     const render = async () => {
         if (!file || processing) return;
-
-        const ff = new LibAVWrapper();
         await ff.init();
 
         processing = true;
