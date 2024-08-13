@@ -32,16 +32,16 @@
             <SidebarTab tabName="remux" tabLink="/remux">
                 <IconRepeat />
             </SidebarTab>
+        </div>
+        <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab tabName="settings" tabLink={settingsLink}>
                 <IconSettings />
             </SidebarTab>
-        </div>
-        <div id="sidebar-info" class="sidebar-inner-container">
-            <SidebarTab tabName="updates" tabLink="/updates">
-                <IconComet />
-            </SidebarTab>
             <SidebarTab tabName="donate" tabLink="/donate">
                 <IconHeart />
+            </SidebarTab>
+            <SidebarTab tabName="updates" tabLink="/updates">
+                <IconComet />
             </SidebarTab>
             <SidebarTab tabName="about" tabLink="/about">
                 <IconInfoCircle />
