@@ -63,12 +63,6 @@ export default class LibAVWrapper {
             writtenData.set(data, pos);
         };
 
-        // if we didn't need as much space as we allocated for some reason,
-        // shrink the buffer so that we don't inflate the file with zeros
-        if (writtenData.length > actualSize) {
-            writtenData = writtenData.slice(0, actualSize);
-        }
-
         await this.libav.ffmpeg([
             '-nostdin', '-y',
             '-threads', this.concurrency.toString(),
@@ -79,6 +73,12 @@ export default class LibAVWrapper {
 
         await this.libav.unlink(outputName);
         await this.libav.unlinkreadaheadfile("input");
+
+        // if we didn't need as much space as we allocated for some reason,
+        // shrink the buffer so that we don't inflate the file with zeros
+        if (writtenData.length > actualSize) {
+            writtenData = writtenData.slice(0, actualSize);
+        }
 
         const renderBlob = new Blob(
             [ writtenData ],
