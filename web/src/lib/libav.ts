@@ -3,7 +3,7 @@ import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, FileInfo, RenderParams } from "./types/libav";
 
 export default class LibAVWrapper {
-    libav: LibAVInstance | null;
+    libav: Promise<LibAVInstance> | null;
     concurrency: number;
     onProgress?: FFmpegProgressCallback;
 
@@ -15,7 +15,7 @@ export default class LibAVWrapper {
 
     async init() {
         if (!this.libav) {
-            this.libav = await LibAV.LibAV({
+            this.libav = LibAV.LibAV({
                 yesthreads: true,
                 base: '/_libav'
             });
@@ -24,7 +24,7 @@ export default class LibAVWrapper {
 
     async render({ blob, output, args }: RenderParams) {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
-
+        const libav = await this.libav;
         const inputKind = blob.type.split("/")[0];
         const inputExtension = mime.getExtension(blob.type);
 
@@ -43,19 +43,23 @@ export default class LibAVWrapper {
 
         const outputName = `output.${output.extension}`;
 
-        await this.libav.mkreadaheadfile("input", blob);
+        await libav.mkreadaheadfile("input", blob);
 
         // https://github.com/Yahweasel/libav.js/blob/7d359f69/docs/IO.md#block-writer-devices
-        await this.libav.mkwriterdev(outputName);
-        await this.libav.mkwriterdev('progress.txt');
+        await libav.mkwriterdev(outputName);
+        await libav.mkwriterdev('progress.txt');
 
         // since we expect the output file to be roughly the same size
         // as the original, preallocate its size for the output
         let writtenData = new Uint8Array(blob.size), actualSize = 0;
 
-        this.libav.onwrite = (name, pos, data) => {
+        libav.onwrite = (name, pos, data) => {
             if (name === 'progress.txt') {
-                return this.#emitProgress(data);
+                try {
+                    return this.#emitProgress(data);
+                } catch(e) {
+                    console.error(e);
+                }
             } else if (name !== outputName) return;
 
             actualSize = Math.max(pos + data.length, actualSize);
@@ -68,7 +72,7 @@ export default class LibAVWrapper {
             writtenData.set(data, pos);
         };
 
-        await this.libav.ffmpeg([
+        await libav.ffmpeg([
             '-nostdin', '-y',
             '-loglevel', 'error',
             '-progress', 'progress.txt',
@@ -78,9 +82,9 @@ export default class LibAVWrapper {
             outputName
         ]);
 
-        await this.libav.unlink(outputName);
-        await this.libav.unlink('progress.txt');
-        await this.libav.unlinkreadaheadfile("input");
+        await libav.unlink(outputName);
+        await libav.unlink('progress.txt');
+        await libav.unlinkreadaheadfile("input");
 
         // if we didn't need as much space as we allocated for some reason,
         // shrink the buffer so that we don't inflate the file with zeros
@@ -98,6 +102,8 @@ export default class LibAVWrapper {
     }
 
     #emitProgress(data: Uint8Array | Int8Array) {
+        if (!this.onProgress) return;
+
         const copy = new Uint8Array(data);
         const text = new TextDecoder().decode(copy);
         const entries = Object.fromEntries(
