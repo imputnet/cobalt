@@ -11,13 +11,18 @@
 
     let totalDuration: number | undefined;
     let processedDuration: number | undefined;
+    let speed: number | undefined;
     let progress = '';
 
     $: {
-        if (totalDuration && processedDuration && processing) {
-            const percentage = ((processedDuration / totalDuration) * 100).toFixed(2);
-            progress = `(${percentage}%)`;
-        } else progress = '';
+        if (totalDuration && processedDuration) {
+            const percentage = Math.min(100, (processedDuration / totalDuration) * 100).toFixed(2);
+            progress = `${percentage}%, ${speed}x`;
+        } else if (processing) {
+            progress = 'getting video metadata';
+        } else {
+            progress = '';
+        }
     }
 
     let processing = false;
@@ -25,6 +30,10 @@
     const ff = new LibAVWrapper(progress => {
         if (progress.out_time_sec) {
             processedDuration = progress.out_time_sec;
+        }
+
+        if (progress.speed) {
+            speed = progress.speed;
         }
     });
 
@@ -83,7 +92,7 @@
 
     <div id="remux-processing" class:processing>
         {#if processing}
-            processing... {progress}
+            processing{progress ? ` (${(progress)})` : ''}...
         {:else}
             done!
         {/if}
