@@ -43,10 +43,11 @@
         if (!file || processing) return;
         await ff.init();
 
+        progress = '';
+        processing = true;
+
         const file_info = await ff.probe(file);
         totalDuration = Number(file_info.format.duration);
-
-        processing = true;
 
         const render = await ff.render({
             blob: file,
