@@ -4,5 +4,7 @@
     "updates": "updates",
     "donate": "donate",
     "about": "about",
-    "remux": "remux"
+    "remux": "remux",
+    "shrink": "shrink",
+    "convert": "convert"
 }

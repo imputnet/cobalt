@@ -6,7 +6,7 @@
     export let tabName: string;
     export let tabLink: string;
 
-    const firstTabPage = ["save", "remux", "settings"];
+    const firstTabPage = ["save", "convert", "shrink", "remux"];
 
     let tab: HTMLElement;
 
