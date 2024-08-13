@@ -113,9 +113,9 @@
     }
 
     .open-file-container :global(.meowbalt) {
+        z-index: 2;
         clip-path: inset(0px 0px 16px 0px);
         margin-bottom: -16px;
-
         transition:
             clip-path 0.2s,
             margin-bottom 0.2s;
