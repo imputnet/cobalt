@@ -9,14 +9,33 @@
     let draggedOver = false;
     let file: File | undefined;
 
+    let totalDuration: number | undefined;
+    let processedDuration: number | undefined;
+    let progress = '';
+
+    $: {
+        if (totalDuration && processedDuration && processing) {
+            const percentage = ((processedDuration / totalDuration) * 100).toFixed(2);
+            progress = `(${percentage}%)`;
+        } else progress = '';
+    }
+
     let processing = false;
 
-    const ff = new LibAVWrapper(console.log);
+    const ff = new LibAVWrapper(progress => {
+        if (progress.out_time_sec) {
+            processedDuration = progress.out_time_sec;
+        }
+    });
+
     ff.init();
 
     const render = async () => {
         if (!file || processing) return;
         await ff.init();
+
+        const file_info = await ff.probe(file);
+        totalDuration = Number(file_info.format.duration);
 
         processing = true;
 
@@ -64,7 +83,7 @@
 
     <div id="remux-processing" class:processing>
         {#if processing}
-            processing...
+            processing... {progress}
         {:else}
             done!
         {/if}

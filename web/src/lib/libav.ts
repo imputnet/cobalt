@@ -162,11 +162,14 @@ export default class LibAVWrapper {
             return "unknown";
         })();
 
-        const tryNumber = (str: string) => {
+        const tryNumber = (str: string, transform?: (n: number) => number) => {
             if (str) {
                 const num = Number(str);
                 if (!isNaN(num)) {
-                    return num;
+                    if (transform)
+                        return transform(num);
+                    else
+                        return num;
                 }
             }
         }
@@ -179,6 +182,7 @@ export default class LibAVWrapper {
             dup_frames: tryNumber(entries.dup_frames),
             drop_frames: tryNumber(entries.drop_frames),
             speed: tryNumber(entries.speed?.trim()?.replace('x', '')),
+            out_time_sec: tryNumber(entries.out_time_us, n => Math.floor(n / 1e6))
         };
 
         this.onProgress(progress);

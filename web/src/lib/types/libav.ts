@@ -22,6 +22,7 @@ export type FFmpegProgressEvent = {
     dup_frames?: number,
     drop_frames?: number,
     speed?: number,
+    out_time_sec?: number,
 }
 
 export type FFmpegProgressCallback = (info: FFmpegProgressEvent) => void;
