@@ -2,7 +2,8 @@
     import { t } from "$lib/i18n/translations";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
-    import IconFileUpload from "@tabler/icons-svelte/IconFileUpload.svelte";
+    import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
+    import IconUpload from "@tabler/icons-svelte/IconUpload.svelte";
 
     export let file: File | undefined;
     export let draggedOver = false;
@@ -38,7 +39,11 @@
         </div>
 
         <div class="open-file-icon">
-            <IconFileUpload />
+            {#if draggedOver}
+                <IconUpload />
+            {:else}
+                <IconFileImport />
+            {/if}
         </div>
 
         <div class="open-file-text">
@@ -60,10 +65,11 @@
 
 <style>
     .open-file-button {
+        position: relative;
         flex-direction: column;
+        gap: 8px;
         padding: 32px;
         transition: box-shadow 0.2s;
-        position: relative;
     }
 
     .open-file-button:not(:focus-visible) {
@@ -131,9 +137,9 @@
     }
 
     .open-file-icon :global(svg) {
-        width: 52px;
-        height: 52px;
-        stroke-width: 1.5px;
+        width: 32px;
+        height: 32px;
+        stroke-width: 1.8px;
     }
 
     .open-file-text {
