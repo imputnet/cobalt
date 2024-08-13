@@ -4,7 +4,7 @@
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import IconFileUpload from "@tabler/icons-svelte/IconFileUpload.svelte";
 
-    export let file: File;
+    export let file: File | undefined;
     export let draggedOver = false;
     export let acceptTypes: string[];
     export let acceptExtensions: string[];

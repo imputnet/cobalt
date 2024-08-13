@@ -4,25 +4,35 @@
     import { t } from "$lib/i18n/translations";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
-    import OpenFileButton from "$components/misc/FileReceiver.svelte";
+    import FileReceiver from "$components/misc/FileReceiver.svelte";
 
     let draggedOver = false;
-    let file: File;
+    let file: File | undefined;
+
+    let processing = false;
 
     const render = async () => {
+        if (!file || processing) return;
+
         const ff = new LibAVWrapper();
         await ff.init();
+
+        processing = true;
 
         const render = await ff.render({
             blob: file,
             args: ["-c", "copy"],
         });
 
+        processing = false;
+
         if (render) {
             openURL(URL.createObjectURL(render));
         } else {
             console.log("not a valid file");
         }
+
+        file = undefined;
     };
 
     $: if (file) {
@@ -31,8 +41,8 @@
 </script>
 
 <DropReceiver id="remux-container" bind:draggedOver bind:file>
-    <div id="remux-inner">
-        <OpenFileButton
+    <div id="remux-open" class:processing>
+        <FileReceiver
             bind:draggedOver
             bind:file
             acceptTypes={["video/*", "audio/*"]}
@@ -50,6 +60,14 @@
             {$t("remux.description")}
         </div>
     </div>
+
+    <div id="remux-processing" class:processing>
+        {#if processing}
+            processing...
+        {:else}
+            done!
+        {/if}
+    </div>
 </DropReceiver>
 
 <style>
@@ -60,7 +78,7 @@
         width: 100%;
     }
 
-    #remux-inner {
+    #remux-open {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -68,6 +86,25 @@
         max-width: 450px;
         text-align: center;
         gap: 32px;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    #remux-processing {
+        position: absolute;
+        display: flex;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    #remux-processing.processing {
+        opacity: 1;
+        transform: none;
+    }
+
+    #remux-open.processing {
+        transform: scale(0.9);
+        opacity: 0;
     }
 
     .remux-description {
