@@ -30,6 +30,9 @@
     on:dragend={() => {
         draggedOver = false;
     }}
+    on:dragleave={() => {
+        draggedOver = false;
+    }}
 >
     <slot></slot>
 </div>

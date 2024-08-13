@@ -3,7 +3,7 @@
     import { openURL } from "$lib/download";
     import { t } from "$lib/i18n/translations";
 
-    import DragDropArea from "$components/misc/DragDropArea.svelte";
+    import DropReceiver from "$components/misc/DropReceiver.svelte";
     import OpenFileButton from "$components/misc/FileReceiver.svelte";
 
     let draggedOver = false;
@@ -30,7 +30,7 @@
     }
 </script>
 
-<DragDropArea id="remux-container" bind:draggedOver bind:file>
+<DropReceiver id="remux-container" bind:draggedOver bind:file>
     <div id="remux-inner">
         <OpenFileButton
             bind:draggedOver
@@ -50,7 +50,7 @@
             {$t("remux.description")}
         </div>
     </div>
-</DragDropArea>
+</DropReceiver>
 
 <style>
     :global(#remux-container) {
