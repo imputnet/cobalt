@@ -12,3 +12,16 @@ export type RenderParams = {
     args: string[],
 }
 
+
+export type FFmpegProgressStatus = "continue" | "end" | "unknown";
+export type FFmpegProgressEvent = {
+    status: FFmpegProgressStatus,
+    frame?: number,
+    fps?: number,
+    total_size?: number,
+    dup_frames?: number,
+    drop_frames?: number,
+    speed?: number,
+}
+
+export type FFmpegProgressCallback = (info: FFmpegProgressEvent) => void;
