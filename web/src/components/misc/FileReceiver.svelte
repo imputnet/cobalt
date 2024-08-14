@@ -68,7 +68,7 @@
         position: relative;
         flex-direction: column;
         gap: 8px;
-        padding: 32px;
+        padding: 28px 26px;
         transition: box-shadow 0.2s;
     }
 
@@ -145,7 +145,9 @@
     .open-file-text {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 8px;
+        max-width: 300px;
     }
 
     .open-title {
