@@ -132,11 +132,13 @@
         class:focused={isFocused}
         class:downloadable={validLink($link)}
     >
-        {#if isDisabled}
-            <IconLoader2 id="input-link-icon" class="loading" />
-        {:else}
-            <IconLink id="input-link-icon" />
-        {/if}
+        <div id="input-link-icon" class:loading={isDisabled}>
+            {#if isDisabled}
+                <IconLoader2 />
+            {:else}
+                <IconLink />
+            {/if}
+        </div>
 
         <input
             id="link-area"
@@ -232,14 +234,18 @@
         outline: var(--secondary) 0.5px solid;
     }
 
-    :global(#input-link-icon) {
+    #input-link-icon {
+        display: flex;
+    }
+
+    #input-link-icon :global(svg) {
         stroke: var(--gray);
         width: 18px;
         height: 18px;
         stroke-width: 2px;
     }
 
-    :global(#input-link-icon.loading) {
+    #input-link-icon.loading :global(svg) {
         animation: spin 0.7s infinite linear;
     }
 
@@ -252,11 +258,11 @@
         }
     }
 
-    #input-container.focused :global(#input-link-icon) {
+    #input-container.focused #input-link-icon :global(svg) {
         stroke: var(--secondary);
     }
 
-    #input-container.downloadable :global(#input-link-icon) {
+    #input-container.downloadable #input-link-icon :global(svg) {
         stroke: var(--secondary);
     }
 
