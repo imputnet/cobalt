@@ -12,7 +12,8 @@ import { languageCode } from "../misc/utils.js";
 
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import { verifyStream, getInternalStream } from "../stream/manage.js";
-import { randomizeCiphers } from '../misc/randomize-ciphers.js';
+import { randomizeCiphers } from "../misc/randomize-ciphers.js";
+import { verifyTurnstileToken } from "../misc/turnstile.js";
 import { extract } from "../processing/url.js";
 import match from "../processing/match.js";
 import stream from "../stream/stream.js";
@@ -132,6 +133,23 @@ export function runAPI(express, app, __dirname) {
 
         if (!request.url) {
             return fail('ErrorNoLink');
+        }
+
+        if (env.turnstileSecret) {
+            const turnstileResponse = req.header("cf-turnstile-response");
+
+            if (!turnstileResponse) {
+                return fail("error.api.authentication");
+            }
+
+            const turnstileResult = await verifyTurnstileToken(
+                turnstileResponse,
+                req.ip
+            );
+
+            if (!turnstileResult) {
+                return fail("error.api.authentication");
+            }
         }
 
         if (request.youtubeDubBrowserLang) {

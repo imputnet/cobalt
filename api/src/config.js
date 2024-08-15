@@ -32,6 +32,8 @@ const env = {
         && parseInt(process.env.PROCESSING_PRIORITY),
 
     externalProxy: process.env.API_EXTERNAL_PROXY,
+
+    turnstileSecret: process.env.TURNSTILE_SECRET,
 }
 
 export {
