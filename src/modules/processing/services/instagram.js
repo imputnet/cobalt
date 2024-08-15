@@ -142,25 +142,23 @@ export default function(obj) {
         if (cookie) {
             dtsgId = await findDtsgId(cookie);
         }
-        const url = new URL('https://www.instagram.com/api/graphql/');
+        const url = new URL('https://www.instagram.com/graphql/query');
 
         const requestData = {
-            jazoest: '26406',
+            jazoest: '2947',
             variables: JSON.stringify({
             shortcode: id,
             __relay_internal__pv__PolarisShareMenurelayprovider: false
             }),
-            doc_id: '7153618348081770'
+            doc_id: '25531498899829322'
         };
         if (dtsgId) {
             requestData.fb_dtsg = dtsgId;
         }
 
         return (await request(url, cookie, 'POST', requestData))
-                .data
-                ?.xdt_api__v1__media__shortcode__web_info
-                ?.items
-                ?.[0];
+        .data
+        ?.xdt_shortcode_media;
     }
 
     function extractOldPost(data, id) {
@@ -239,6 +237,10 @@ export default function(obj) {
                 urls: data.image_versions2.candidates[0].url,
                 isPhoto: true
             }
+        } else if(data.video_url) {
+            return {
+                urls: data.video_url,
+            }
         }
     }
 
@@ -266,6 +268,7 @@ export default function(obj) {
             if (!data) data = await requestHTML(id);
             if (!data && cookie) data = await requestHTML(id, cookie);
 
+            if(Object.keys(data).length == 2 && !data.gql_data && data.context) data = false;
             // web app graphql api (no cookie, cookie)
             if (!data) data = await requestGQL(id);
             if (!data && cookie) data = await requestGQL(id, cookie);
