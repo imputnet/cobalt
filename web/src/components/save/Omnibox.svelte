@@ -3,17 +3,20 @@
     import { goto } from "$app/navigation";
     import { SvelteComponent, tick } from "svelte";
 
+    import env from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
     import dialogs from "$lib/dialogs";
 
     import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
+    import { turnstileLoaded } from "$lib/state/turnstile";
 
-    import type { DownloadModeOption } from "$lib/types/settings";
     import type { Optional } from "$lib/types/generic";
+    import type { DownloadModeOption } from "$lib/types/settings";
 
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
+    import IconLoader2 from "@tabler/icons-svelte/IconLoader2.svelte";
 
     import ClearButton from "$components/save/buttons/ClearButton.svelte";
     import DownloadButton from "$components/save/buttons/DownloadButton.svelte";
@@ -28,11 +31,10 @@
     import IconClipboard from "$components/icons/Clipboard.svelte";
 
     let linkInput: Optional<HTMLInputElement>;
-    let isFocused = false;
-
-    let isDisabled: boolean = false;
-
     let downloadButton: SvelteComponent;
+
+    let isFocused = false;
+    let isDisabled = false;
 
     const validLink = (url: string) => {
         try {
@@ -52,6 +54,14 @@
 
         // clear hash and query to prevent bookmarking unwanted links
         goto("/", { replaceState: true });
+    }
+
+    $: if (env.TURNSTILE_KEY) {
+        if ($turnstileLoaded) {
+            isDisabled = false;
+        } else {
+            isDisabled = true;
+        }
     }
 
     const pasteClipboard = () => {
@@ -122,7 +132,11 @@
         class:focused={isFocused}
         class:downloadable={validLink($link)}
     >
-        <IconLink id="input-link-icon" />
+        {#if isDisabled}
+            <IconLoader2 id="input-link-icon" class="loading" />
+        {:else}
+            <IconLink id="input-link-icon" />
+        {/if}
 
         <input
             id="link-area"
@@ -223,6 +237,19 @@
         width: 18px;
         height: 18px;
         stroke-width: 2px;
+    }
+
+    :global(#input-link-icon.loading) {
+        animation: spin 0.7s infinite linear;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 
     #input-container.focused :global(#input-link-icon) {

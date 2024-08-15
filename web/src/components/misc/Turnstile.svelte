@@ -2,6 +2,8 @@
     import env from "$lib/env";
     import { onMount } from "svelte";
 
+    import { turnstileLoaded } from "$lib/state/turnstile";
+
     let turnstileElement: HTMLElement;
     let turnstileScript: HTMLElement;
 
@@ -15,6 +17,9 @@
                     console.log("turnstile error code:", error);
                     return true;
                 },
+                callback: () => {
+                    $turnstileLoaded = true;
+                }
             });
         });
     });
