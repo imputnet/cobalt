@@ -161,6 +161,9 @@ importers:
       tslib:
         specifier: ^2.4.1
         version: 2.6.3
+      turnstile-types:
+        specifier: ^1.2.2
+        version: 1.2.2
       typescript:
         specifier: ^5.4.5
         version: 5.5.4
@@ -2136,6 +2139,9 @@ packages:
       typescript:
         optional: true
 
+  turnstile-types@1.2.2:
+    resolution: {integrity: sha512-FlsojSOGe7OxdC5UXVXVyNV3zdWTSaC6tG6cLPWeTSkcBuCzPP+0xUwc1l090ISDcfDEt398GLbXopcGZesY/A==}
+
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -4076,6 +4082,8 @@ snapshots:
       - supports-color
       - tsx
       - yaml
+
+  turnstile-types@1.2.2: {}
 
   type-check@0.4.0:
     dependencies:

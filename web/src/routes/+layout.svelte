@@ -13,6 +13,7 @@
     import "@fontsource/ibm-plex-mono/500.css";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
+    import Turnstile from "$components/misc/Turnstile.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
     import DialogHolder from "$components/dialog/DialogHolder.svelte";
     import UpdateNotification from "$components/misc/UpdateNotification.svelte";
@@ -61,6 +62,9 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
+            {#if env.TURNSTILE_KEY}
+                <Turnstile />
+            {/if}
             <slot></slot>
         </div>
     </div>

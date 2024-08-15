@@ -9,7 +9,8 @@
         "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,
-        "moduleResolution": "bundler"
+        "moduleResolution": "bundler",
+        "types": ["turnstile-types"]
     }
     // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
     // except $lib which is handled by https://kit.svelte.dev/docs/configuration#files

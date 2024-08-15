@@ -1,8 +1,10 @@
 import { get } from "svelte/store";
 
+import turnstile from "$lib/turnstile";
 import env, { apiURL } from "$lib/env";
 import { t } from "$lib/i18n/translations";
 import settings, { updateSetting } from "$lib/state/settings";
+
 import { createDialog } from "$lib/dialogs";
 
 import type { CobaltAPIResponse } from "$lib/types/api";
@@ -88,16 +90,29 @@ const request = async (url: string) => {
         api = env.DEFAULT_API;
     }
 
+    let turnstileHeader = {};
+    if (env.TURNSTILE_KEY) {
+        const turnstileResponse = turnstile.getResponse();
+        if (turnstileResponse) {
+            turnstileHeader = {
+                "cf-turnstile-response": turnstileResponse
+            };
+        }
+    }
+
     const response: Optional<CobaltAPIResponse> = await fetch(api, {
         method: "POST",
         redirect: "manual",
         signal: AbortSignal.timeout(10000),
         body: JSON.stringify(request),
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then(r => r.json()).catch((e) => {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            ...turnstileHeader,
+        },
+    })
+    .then(r => r.json())
+    .catch((e) => {
         if (e?.message?.includes("timed out")) {
             return {
                 status: "error",
