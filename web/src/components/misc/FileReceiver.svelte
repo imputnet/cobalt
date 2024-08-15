@@ -113,9 +113,14 @@
             stroke-dashoffset 0.2s;
     }
 
-    .dragged-over .dashed-stroke :global(svg rect) {
+    .dragged-over .dashed-stroke :global(svg rect),
+    .open-file-button:focus-visible .dashed-stroke :global(svg rect) {
         stroke-dasharray: 20, 5;
         stroke-dashoffset: 8;
+    }
+
+    .open-file-button:focus-visible .dashed-stroke :global(svg rect) {
+        stroke: var(--blue);
     }
 
     .open-file-container :global(.meowbalt) {
