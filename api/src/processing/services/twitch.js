@@ -64,7 +64,7 @@ export default async function (obj) {
     let format = formats.find(f => f.quality === obj.quality) || formats[0];
 
     return {
-        type: "bridge",
+        type: "proxy",
         urls: `${format.sourceURL}?${new URLSearchParams({
             sig: req_token[0].data.clip.playbackAccessToken.signature,
             token: req_token[0].data.clip.playbackAccessToken.value

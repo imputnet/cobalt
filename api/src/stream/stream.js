@@ -4,7 +4,7 @@ import { closeResponse } from "./shared.js";
 
 export default async function(res, streamInfo) {
     try {
-        if (streamInfo.isAudioOnly && streamInfo.type !== "bridge") {
+        if (streamInfo.isAudioOnly && streamInfo.type !== "proxy") {
             streamAudioOnly(streamInfo, res);
             return;
         }

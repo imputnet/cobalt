@@ -258,7 +258,7 @@ export default async function(o) {
 
     if (!o.isAudioOnly && !o.isAudioMuted && format === 'h264') {
         match = info.streaming_data.formats.find(checkSingle);
-        type = "bridge";
+        type = "proxy";
         urls = match?.decipher(yt.session.player);
     }
 

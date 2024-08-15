@@ -34,6 +34,7 @@ export function createResponse(responseType, responseData) {
                     }
                 }
                 break;
+
             case "redirect":
                 response = {
                     url: responseData?.u,
@@ -59,6 +60,7 @@ export function createResponse(responseType, responseData) {
             default:
                 throw "unreachable"
         }
+
         return {
             status,
             body: {

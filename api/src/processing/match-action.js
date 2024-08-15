@@ -59,7 +59,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         case "muteVideo":
             let muteType = "mute";
             if (Array.isArray(r.urls) && !r.isM3U8) {
-                muteType = "bridge";
+                muteType = "proxy";
             }
             params = {
                 type: muteType,
@@ -82,7 +82,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                     let audioStreamType = "render";
                     if (r.bestAudio === "mp3" && (audioFormat === "mp3" || audioFormat === "best")) {
                         audioFormat = "mp3";
-                        audioStreamType = "bridge"
+                        audioStreamType = "proxy"
                     }
                     params = {
                         picker: r.picker,
@@ -130,7 +130,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
                 case "vk":
                 case "tiktok":
-                    params = { type: "bridge" };
+                    params = { type: "proxy" };
                     break;
 
                 case "facebook":
@@ -172,7 +172,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
             if (isBestAudioDefined || isBestHostAudio) {
                 audioFormat = serviceBestAudio;
-                processType = "bridge";
+                processType = "proxy";
                 if (isSoundCloud || (isTiktok && audioFormat === "m4a")) {
                     processType = "render"
                     copy = true
@@ -184,7 +184,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
             if (isTumblrAudio && isBestOrMp3) {
                 audioFormat = "mp3";
-                processType = "bridge"
+                processType = "proxy"
             }
 
             if (r.isM3U8 || host === "vimeo") {
