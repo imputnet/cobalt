@@ -125,6 +125,7 @@
         opacity: 0;
         transform: scale(0.9);
         transition: transform 0.2s, opacity 0.2s;
+        pointer-events: none;
     }
 
     #remux-processing.processing {
@@ -135,6 +136,7 @@
     #remux-open.processing {
         transform: scale(0.9);
         opacity: 0;
+        pointer-events: none;
     }
 
     .remux-description {
