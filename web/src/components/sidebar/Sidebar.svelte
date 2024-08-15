@@ -32,12 +32,14 @@
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
             </SidebarTab>
+            <!--
             <SidebarTab tabName="convert" tabLink="/convert">
                 <IconTransform />
             </SidebarTab>
             <SidebarTab tabName="shrink" tabLink="/shrink">
                 <IconArrowsMinimize />
             </SidebarTab>
+            -->
             <SidebarTab tabName="remux" tabLink="/remux">
                 <IconRepeat />
             </SidebarTab>
