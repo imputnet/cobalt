@@ -35,6 +35,11 @@ const corsConfig = env.corsWildcard ? {} : {
     optionsSuccessStatus: 200
 }
 
+const fail = (res, code) => {
+    const { status, body } = createResponse("error", { code });
+    res.status(status).json(body);
+}
+
 export function runAPI(express, app, __dirname) {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
@@ -52,7 +57,12 @@ export function runAPI(express, app, __dirname) {
         max: env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => generateHmac(getIP(req), ipSalt),
+        keyGenerator: req => {
+            if (req.authorized) {
+                return generateHmac(req.header("Authorization"), ipSalt);
+            }
+            return generateHmac(getIP(req), ipSalt);
+        },
         handler: (req, res) => {
             const { status, body } = createResponse("error", {
                 code: "error.rate_exceeded",
@@ -86,9 +96,45 @@ export function runAPI(express, app, __dirname) {
             'Ratelimit-Reset'
         ],
         ...corsConfig,
-    }))
+    }));
 
-    app.use('/', apiLimiter);
+    app.post('/', (req, res, next) => {
+        try {
+            if (env.turnstileSecret && env.jwtSecret) {
+                const authorization = req.header("Authorization");
+                if (!authorization) {
+                    return fail(res, "error.api.auth.jwt.missing");
+                }
+
+                if (!authorization.startsWith("Bearer ") || authorization.length > 256) {
+                    return fail(res, "error.api.auth.jwt.invalid");
+                }
+
+                const verifyJwt = jwt.verify(
+                    authorization.split("Bearer ", 2)[1]
+                );
+
+                if (!verifyJwt) {
+                    return fail(res, "error.api.auth.jwt.invalid");
+                }
+
+                if (!acceptRegex.test(req.header('Accept'))) {
+                    return fail(res, 'ErrorInvalidAcceptHeader');
+                }
+
+                if (!acceptRegex.test(req.header('Content-Type'))) {
+                    return fail(res, 'ErrorInvalidContentType');
+                }
+
+                req.authorized = true;
+                next();
+            }
+        } catch {
+            return fail(res, "error.api.generic");
+        }
+    });
+
+    app.post('/', apiLimiter);
     app.use('/stream', apiLimiterStream);
 
     app.use((req, res, next) => {
@@ -117,13 +163,13 @@ export function runAPI(express, app, __dirname) {
 
     app.post("/session", async (req, res) => {
         if (!env.turnstileSecret || !env.jwtSecret) {
-            return fail("error.api.auth.not_configured")
+            return fail(res, "error.api.auth.not_configured")
         }
 
         const turnstileResponse = req.header("cf-turnstile-response");
 
         if (!turnstileResponse) {
-            return fail("error.api.auth.turnstile.missing");
+            return fail(res, "error.api.auth.turnstile.missing");
         }
 
         const turnstileResult = await verifyTurnstileToken(
@@ -132,13 +178,13 @@ export function runAPI(express, app, __dirname) {
         );
 
         if (!turnstileResult) {
-            return fail("error.api.auth.turnstile.invalid");
+            return fail(res, "error.api.auth.turnstile.invalid");
         }
 
         try {
             res.json(jwt.generate());
         } catch {
-            return fail("error.api.generic");
+            return fail(res, "error.api.generic");
         }
     });
 
@@ -146,40 +192,8 @@ export function runAPI(express, app, __dirname) {
         const request = req.body;
         const lang = languageCode(req);
 
-        const fail = (code) => {
-            const { status, body } = createResponse("error", { code });
-            res.status(status).json(body);
-        }
-
-        if (env.jwtSecret) {
-            const authorization = req.header("Authorization");
-            if (!authorization) {
-                return fail("error.api.auth.jwt.missing");
-            }
-
-            if (!authorization.startsWith("Bearer ") || authorization.length > 256) {
-                return fail("error.api.auth.jwt.invalid");
-            }
-
-            const verifyJwt = jwt.verify(
-                req.header("Authorization").split("Bearer ", 2)[1]
-            );
-
-            if (!verifyJwt) {
-                return fail("error.api.auth.jwt.invalid");
-            }
-        }
-
-        if (!acceptRegex.test(req.header('Accept'))) {
-            return fail('ErrorInvalidAcceptHeader');
-        }
-
-        if (!acceptRegex.test(req.header('Content-Type'))) {
-            return fail('ErrorInvalidContentType');
-        }
-
         if (!request.url) {
-            return fail('ErrorNoLink');
+            return fail(res, 'ErrorNoLink');
         }
 
         if (request.youtubeDubBrowserLang) {
@@ -188,12 +202,12 @@ export function runAPI(express, app, __dirname) {
 
         const { success, data: normalizedRequest } = await normalizeRequest(request);
         if (!success) {
-            return fail('ErrorCantProcess');
+            return fail(res, 'ErrorCantProcess');
         }
 
         const parsed = extract(normalizedRequest.url);
         if (parsed === null) {
-            return fail('ErrorUnsupported');
+            return fail(res, 'ErrorUnsupported');
         }
 
         try {
@@ -203,7 +217,7 @@ export function runAPI(express, app, __dirname) {
 
             res.status(result.status).json(result.body);
         } catch {
-            fail('ErrorSomethingWentWrong');
+            fail(res, 'ErrorSomethingWentWrong');
         }
     })
 
