@@ -70,6 +70,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>{$t("general.cobalt")}: {$t("tabs.remux")}</title>
+</svelte:head>
+
 <DropReceiver id="remux-container" bind:draggedOver bind:file>
     <div id="remux-open" class:processing>
         <FileReceiver
