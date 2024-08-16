@@ -101,7 +101,7 @@ export function runAPI(express, app, __dirname) {
     })
 
     app.use('/', express.json({ limit: 1024 }));
-    app.use('/post', (err, _, res, next) => {
+    app.use('/', (err, _, res, next) => {
         if (err) {
             const { status, body } = createResponse("error", {
                 code: "error.body_invalid",
