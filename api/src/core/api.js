@@ -99,39 +99,41 @@ export function runAPI(express, app, __dirname) {
     }));
 
     app.post('/', (req, res, next) => {
+        if (!env.turnstileSecret || !env.jwtSecret) {
+            return next();
+        }
+
         try {
-            if (env.turnstileSecret && env.jwtSecret) {
-                const authorization = req.header("Authorization");
-                if (!authorization) {
-                    return fail(res, "error.api.auth.jwt.missing");
-                }
-
-                if (!authorization.startsWith("Bearer ") || authorization.length > 256) {
-                    return fail(res, "error.api.auth.jwt.invalid");
-                }
-
-                const verifyJwt = jwt.verify(
-                    authorization.split("Bearer ", 2)[1]
-                );
-
-                if (!verifyJwt) {
-                    return fail(res, "error.api.auth.jwt.invalid");
-                }
-
-                if (!acceptRegex.test(req.header('Accept'))) {
-                    return fail(res, 'ErrorInvalidAcceptHeader');
-                }
-
-                if (!acceptRegex.test(req.header('Content-Type'))) {
-                    return fail(res, 'ErrorInvalidContentType');
-                }
-
-                req.authorized = true;
-                next();
+            const authorization = req.header("Authorization");
+            if (!authorization) {
+                return fail(res, "error.api.auth.jwt.missing");
             }
+
+            if (!authorization.startsWith("Bearer ") || authorization.length > 256) {
+                return fail(res, "error.api.auth.jwt.invalid");
+            }
+
+            const verifyJwt = jwt.verify(
+                authorization.split("Bearer ", 2)[1]
+            );
+
+            if (!verifyJwt) {
+                return fail(res, "error.api.auth.jwt.invalid");
+            }
+
+            if (!acceptRegex.test(req.header('Accept'))) {
+                return fail(res, 'ErrorInvalidAcceptHeader');
+            }
+
+            if (!acceptRegex.test(req.header('Content-Type'))) {
+                return fail(res, 'ErrorInvalidContentType');
+            }
+
+            req.authorized = true;
         } catch {
             return fail(res, "error.api.generic");
         }
+        next();
     });
 
     app.post('/', apiLimiter);
