@@ -7,7 +7,7 @@ import { cachedSession } from "$lib/state/session";
 import type { CobaltSessionResponse, CobaltErrorResponse } from "$lib/types/api";
 
 export const requestSession = async() => {
-    const apiEndpoint = `${currentApiURL()}session`;
+    const apiEndpoint = `${currentApiURL()}/session`;
 
     let requestHeaders = {};
 

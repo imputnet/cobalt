@@ -5,7 +5,7 @@ import settings from "$lib/state/settings";
 
 export const currentApiURL = () => {
     if (env.DEFAULT_API && get(settings).processing.allowDefaultOverride) {
-        return env.DEFAULT_API;
+        return new URL(env.DEFAULT_API).origin;
     }
-    return apiURL;
+    return new URL(apiURL).origin;
 }
