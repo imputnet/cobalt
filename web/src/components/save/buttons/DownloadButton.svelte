@@ -1,7 +1,7 @@
 <script lang="ts">
     import "@fontsource-variable/noto-sans-mono";
 
-    import API from "$lib/api";
+    import API from "$lib/api/api";
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/dialogs";
     import { downloadFile } from "$lib/download";

@@ -5,7 +5,7 @@ enum CobaltResponseType {
     Stream = 'stream',
 }
 
-type CobaltErrorResponse = {
+export type CobaltErrorResponse = {
     status: CobaltResponseType.Error,
     error: {
         code: string,
@@ -13,7 +13,7 @@ type CobaltErrorResponse = {
             service?: string,
             limit?: number,
         }
-    }
+    },
 };
 
 type CobaltPartialURLResponse = {
@@ -37,6 +37,13 @@ type CobaltRedirectResponse = {
 type CobaltStreamResponse = {
     status: CobaltResponseType.Stream,
 } & CobaltPartialURLResponse;
+
+export type CobaltSession = {
+    token: string,
+    exp: number,
+}
+
+export type CobaltSessionResponse = CobaltSession | CobaltErrorResponse;
 
 export type CobaltAPIResponse = CobaltErrorResponse
                             | CobaltPickerResponse
