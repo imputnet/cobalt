@@ -34,6 +34,8 @@ const env = {
     externalProxy: process.env.API_EXTERNAL_PROXY,
 
     turnstileSecret: process.env.TURNSTILE_SECRET,
+    jwtSecret: process.env.JWT_SECRET,
+    jwtLifetime: process.env.JWT_EXPIRY || 120,
 }
 
 export {

@@ -13,10 +13,11 @@ import { languageCode } from "../misc/utils.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import { verifyStream, getInternalStream } from "../stream/manage.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
-import { verifyTurnstileToken } from "../misc/turnstile.js";
+import { verifyTurnstileToken } from "../security/turnstile.js";
 import { extract } from "../processing/url.js";
 import match from "../processing/match.js";
 import stream from "../stream/stream.js";
+import jwt from "../security/jwt.js";
 
 const git = {
     branch: await getBranch(),
@@ -100,7 +101,7 @@ export function runAPI(express, app, __dirname) {
     })
 
     app.use('/', express.json({ limit: 1024 }));
-    app.use('/', (err, _, res, next) => {
+    app.use('/post', (err, _, res, next) => {
         if (err) {
             const { status, body } = createResponse("error", {
                 code: "error.body_invalid",
@@ -114,6 +115,33 @@ export function runAPI(express, app, __dirname) {
         next();
     });
 
+    app.post("/session", async (req, res) => {
+        if (!env.turnstileSecret || !env.jwtSecret) {
+            return fail("error.api.auth.not_configured")
+        }
+
+        const turnstileResponse = req.header("cf-turnstile-response");
+
+        if (!turnstileResponse) {
+            return fail("error.api.auth.turnstile.missing");
+        }
+
+        const turnstileResult = await verifyTurnstileToken(
+            turnstileResponse,
+            req.ip
+        );
+
+        if (!turnstileResult) {
+            return fail("error.api.auth.turnstile.invalid");
+        }
+
+        try {
+            res.json(jwt.generate());
+        } catch {
+            return fail("error.api.generic");
+        }
+    });
+
     app.post('/', async (req, res) => {
         const request = req.body;
         const lang = languageCode(req);
@@ -121,6 +149,25 @@ export function runAPI(express, app, __dirname) {
         const fail = (code) => {
             const { status, body } = createResponse("error", { code });
             res.status(status).json(body);
+        }
+
+        if (env.jwtSecret) {
+            const authorization = req.header("Authorization");
+            if (!authorization) {
+                return fail("error.api.auth.jwt.missing");
+            }
+
+            if (!authorization.startsWith("Bearer ")) {
+                return fail("error.api.auth.jwt.invalid");
+            }
+
+            const verifyJwt = jwt.verify(
+                req.header("Authorization").split("Bearer ", 2)[1]
+            );
+
+            if (!verifyJwt) {
+                return fail("error.api.auth.jwt.invalid");
+            }
         }
 
         if (!acceptRegex.test(req.header('Accept'))) {
@@ -133,23 +180,6 @@ export function runAPI(express, app, __dirname) {
 
         if (!request.url) {
             return fail('ErrorNoLink');
-        }
-
-        if (env.turnstileSecret) {
-            const turnstileResponse = req.header("cf-turnstile-response");
-
-            if (!turnstileResponse) {
-                return fail("error.api.authentication");
-            }
-
-            const turnstileResult = await verifyTurnstileToken(
-                turnstileResponse,
-                req.ip
-            );
-
-            if (!turnstileResult) {
-                return fail("error.api.authentication");
-            }
         }
 
         if (request.youtubeDubBrowserLang) {
