@@ -157,7 +157,7 @@ export function runAPI(express, app, __dirname) {
                 return fail("error.api.auth.jwt.missing");
             }
 
-            if (!authorization.startsWith("Bearer ")) {
+            if (!authorization.startsWith("Bearer ") || authorization.length > 256) {
                 return fail("error.api.auth.jwt.invalid");
             }
 
