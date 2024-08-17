@@ -51,7 +51,7 @@
 
         const render = await ff.render({
             blob: file,
-            args: ["-c", "copy"],
+            args: ['-c', 'copy', '-map', '0']
         });
 
         processing = false;
