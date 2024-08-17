@@ -42,7 +42,7 @@ export const requestSession = async() => {
 }
 
 export const getSession = async () => {
-    const currentTime = new Date().getTime();
+    const currentTime = Math.floor(new Date().getTime() / 1000);
     const cache = get(cachedSession);
 
     if (cache?.token && cache?.exp > currentTime) {

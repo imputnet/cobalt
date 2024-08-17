@@ -12,7 +12,7 @@ const makeHmac = (header, payload) =>
         .digest("base64url");
 
 export const generate = () => {
-    const exp = new Date().getTime() + env.jwtLifetime * 1000;
+    const exp = Math.floor(new Date().getTime() / 1000) + env.jwtLifetime;
 
     const header = toBase64URL(JSON.stringify({
         alg: "HS256",
@@ -20,7 +20,7 @@ export const generate = () => {
     }));
 
     const payload = toBase64URL(JSON.stringify({
-        jti: nanoid(3),
+        jti: nanoid(8),
         exp,
     }));
 
@@ -34,7 +34,7 @@ export const generate = () => {
 
 export const verify = (jwt) => {
     const [header, payload, signature] = jwt.split(".", 3);
-    const timestamp = new Date().getTime();
+    const timestamp = Math.floor(new Date().getTime() / 1000);
 
     if ([header, payload, signature].join('.') !== jwt) {
         return false;
