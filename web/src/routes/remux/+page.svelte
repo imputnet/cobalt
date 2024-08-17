@@ -17,7 +17,7 @@
 
     $: {
         if (totalDuration && processedDuration) {
-            const percentage = Math.min(100, (processedDuration / totalDuration) * 100).toFixed(2);
+            const percentage = Math.max(0, Math.min(100, (processedDuration / totalDuration) * 100)).toFixed(2);
             progress = `${percentage}%, ${speed}x`;
         } else if (processing) {
             progress = 'getting video metadata';
