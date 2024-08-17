@@ -66,8 +66,15 @@ export default class LibAVWrapper {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
         const inputKind = blob.type.split("/")[0];
-        const inputExtension = mime.getExtension(blob.type);
+        let inputExtension;
 
+        const extensions = mime.getAllExtensions(blob.type);
+        if (extensions?.has('mp3')) {
+            inputExtension = 'mp3';
+        } else if (extensions) {
+            inputExtension = [...extensions][0];
+        }
+        console.log(extensions, blob);
         if (inputKind !== "video" && inputKind !== "audio") return;
         if (!inputExtension) return;
 
