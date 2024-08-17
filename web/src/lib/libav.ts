@@ -62,19 +62,26 @@ export default class LibAVWrapper {
         return JSON.parse(text) as FfprobeData;
     }
 
+    static getExtensionFromType(blob: Blob) {
+        const extensions = mime.getAllExtensions(blob.type);
+        const overrides = ['mp3', 'mov'];
+
+        if (!extensions)
+            return;
+
+        for (const override of overrides)
+            if (extensions?.has(override))
+                return override;
+
+        return [...extensions][0];
+    }
+
     async render({ blob, output, args }: RenderParams) {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
         const inputKind = blob.type.split("/")[0];
-        let inputExtension;
+        const inputExtension = LibAVWrapper.getExtensionFromType(blob);
 
-        const extensions = mime.getAllExtensions(blob.type);
-        if (extensions?.has('mp3')) {
-            inputExtension = 'mp3';
-        } else if (extensions) {
-            inputExtension = [...extensions][0];
-        }
-        console.log(extensions, blob);
         if (inputKind !== "video" && inputKind !== "audio") return;
         if (!inputExtension) return;
 
