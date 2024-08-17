@@ -6,9 +6,10 @@
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
     import { createDialog } from "$lib/dialogs";
+    import mime from "mime";
 
     let draggedOver = false;
-    let file: File | undefined;
+    let file: File | Blob | undefined;
 
     let totalDuration: number | undefined;
     let processedDuration: number | undefined;
@@ -65,6 +66,12 @@
             }
 
             totalDuration = Number(file_info.format.duration);
+
+            if (file instanceof File && !file.type) {
+                file = new Blob([ file ], {
+                    type: mime.getType(file.name) ?? undefined
+                });
+            }
 
             const render = await ff.render({
                 blob: file,
