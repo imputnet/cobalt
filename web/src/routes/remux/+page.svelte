@@ -43,43 +43,44 @@
     const render = async () => {
         if (!file || processing) return;
         await ff.init();
+        try {
+            progress = '';
+            processing = true;
 
-        progress = '';
-        processing = true;
+            const file_info = await ff.probe(file);
+            if (!file_info?.format) {
+                return createDialog({
+                    id: "remux-error",
+                    type: "small",
+                    meowbalt: "error",
+                    bodyText: $t("error.remux.corrupted"),
+                    buttons: [
+                        {
+                            text: $t("button.gotit"),
+                            main: true,
+                            action: () => {},
+                        },
+                    ],
+                });
+            }
 
-        const file_info = await ff.probe(file);
-        if (!file_info?.format) {
-            return createDialog({
-                id: "remux-error",
-                type: "small",
-                meowbalt: "error",
-                bodyText: $t("error.remux.corrupted"),
-                buttons: [
-                    {
-                        text: $t("button.gotit"),
-                        main: true,
-                        action: () => {},
-                    },
-                ],
+            totalDuration = Number(file_info.format.duration);
+
+            const render = await ff.render({
+                blob: file,
+                args: ['-c', 'copy', '-map', '0']
             });
+
+            if (render) {
+                openURL(URL.createObjectURL(render));
+            } else {
+                console.log("not a valid file");
+            }
+
+        } finally {
+            processing = false;
+            file = undefined;
         }
-
-        totalDuration = Number(file_info.format.duration);
-
-        const render = await ff.render({
-            blob: file,
-            args: ['-c', 'copy', '-map', '0']
-        });
-
-        processing = false;
-
-        if (render) {
-            openURL(URL.createObjectURL(render));
-        } else {
-            console.log("not a valid file");
-        }
-
-        file = undefined;
     };
 
     $: if (file) {
