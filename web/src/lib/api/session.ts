@@ -45,7 +45,7 @@ export const getSession = async () => {
     const currentTime = Math.floor(new Date().getTime() / 1000);
     const cache = get(cachedSession);
 
-    if (cache?.token && cache?.exp > currentTime) {
+    if (cache?.token && cache?.exp - 2 > currentTime) {
         return cache;
     }
 
