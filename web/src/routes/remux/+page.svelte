@@ -5,6 +5,7 @@
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
+    import { createDialog } from "$lib/dialogs";
 
     let draggedOver = false;
     let file: File | undefined;
@@ -47,6 +48,22 @@
         processing = true;
 
         const file_info = await ff.probe(file);
+        if (!file_info?.format) {
+            return createDialog({
+                id: "remux-error",
+                type: "small",
+                meowbalt: "error",
+                bodyText: $t("error.remux.corrupted"),
+                buttons: [
+                    {
+                        text: $t("button.gotit"),
+                        main: true,
+                        action: () => {},
+                    },
+                ],
+            });
+        }
+
         totalDuration = Number(file_info.format.duration);
 
         const render = await ff.render({

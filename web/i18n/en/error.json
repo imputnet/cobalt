@@ -3,5 +3,6 @@
     "import.invalid": "your file doesn't have valid cobalt settings to import. are you sure it's the right one?",
     "import.unknown": "couldn't load data from the file. it may be corrupted or of wrong format. here's the error i got:\n{{ value }}",
 
-    "api.authentication": "couldn't confirm that you're not a robot. try again in a few seconds, or reload the page. this could be caused by a browser extension or your network.\n\nif error still occurs after several attempts, let us know, and we'll try to help!"
+    "api.authentication": "couldn't confirm that you're not a robot. try again in a few seconds, or reload the page. this could be caused by a browser extension or your network.\n\nif error still occurs after several attempts, let us know, and we'll try to help!",
+    "remux.corrupted": "couldn't read the metadata from this file, it may be corrupted."
 }
