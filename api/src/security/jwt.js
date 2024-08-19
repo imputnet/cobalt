@@ -28,7 +28,7 @@ export const generate = () => {
 
     return {
         token: `${header}.${payload}.${signature}`,
-        exp,
+        exp: env.jwtLifetime - 2,
     };
 }
 

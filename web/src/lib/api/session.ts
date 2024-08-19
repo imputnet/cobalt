@@ -42,10 +42,10 @@ export const requestSession = async() => {
 }
 
 export const getSession = async () => {
-    const currentTime = Math.floor(new Date().getTime() / 1000);
+    const currentTime = () => Math.floor(new Date().getTime() / 1000);
     const cache = get(cachedSession);
 
-    if (cache?.token && cache?.exp - 2 > currentTime) {
+    if (cache?.token && cache?.exp - 2 > currentTime()) {
         return cache;
     }
 
@@ -59,6 +59,7 @@ export const getSession = async () => {
     } as CobaltErrorResponse
 
     if (!("status" in newSession)) {
+        newSession.exp = currentTime() + newSession.exp;
         cachedSession.set(newSession);
     }
     return newSession;
