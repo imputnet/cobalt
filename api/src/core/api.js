@@ -65,7 +65,7 @@ export function runAPI(express, app, __dirname) {
         },
         handler: (req, res) => {
             const { status, body } = createResponse("error", {
-                code: "error.rate_exceeded",
+                code: "error.api.rate_exceeded",
                 context: {
                     limit: env.rateLimitWindow
                 }
@@ -122,11 +122,11 @@ export function runAPI(express, app, __dirname) {
             }
 
             if (!acceptRegex.test(req.header('Accept'))) {
-                return fail(res, 'ErrorInvalidAcceptHeader');
+                return fail(res, "error.api.header.accept");
             }
 
             if (!acceptRegex.test(req.header('Content-Type'))) {
-                return fail(res, 'ErrorInvalidContentType');
+                return fail(res, "error.api.header.content_type");
             }
 
             req.authorized = true;
@@ -152,10 +152,7 @@ export function runAPI(express, app, __dirname) {
     app.use('/', (err, _, res, next) => {
         if (err) {
             const { status, body } = createResponse("error", {
-                code: "error.body_invalid",
-                context: {
-                    limit: env.rateLimitWindow
-                }
+                code: "error.api.invalid_body",
             });
             return res.status(status).json(body);
         }
@@ -195,7 +192,7 @@ export function runAPI(express, app, __dirname) {
         const lang = languageCode(req);
 
         if (!request.url) {
-            return fail(res, 'ErrorNoLink');
+            return fail(res, "error.api.link.missing");
         }
 
         if (request.youtubeDubBrowserLang) {
@@ -204,12 +201,12 @@ export function runAPI(express, app, __dirname) {
 
         const { success, data: normalizedRequest } = await normalizeRequest(request);
         if (!success) {
-            return fail(res, 'ErrorCantProcess');
+            return fail(res, "error.api.invalid_body");
         }
 
         const parsed = extract(normalizedRequest.url);
         if (parsed === null) {
-            return fail(res, 'ErrorUnsupported');
+            return fail(res, "error.api.service.unsupported");
         }
 
         try {
@@ -219,7 +216,7 @@ export function runAPI(express, app, __dirname) {
 
             res.status(result.status).json(result.body);
         } catch {
-            fail(res, 'ErrorSomethingWentWrong');
+            fail(res, "error.api.generic");
         }
     })
 

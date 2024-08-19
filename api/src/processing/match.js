@@ -51,12 +51,12 @@ export default async function(host, patternMatch, obj) {
 
         if (!testers[host]) {
             return createResponse("error", {
-                code: "ErrorUnsupported"
+                code: "error.api.service.unsupported"
             });
         }
         if (!(testers[host](patternMatch))) {
             return createResponse("error", {
-                code: "ErrorBrokenLink",
+                code: "error.api.link.invalid",
                 context: {
                     service: host
                 }
@@ -230,7 +230,7 @@ export default async function(host, patternMatch, obj) {
 
             default:
                 return createResponse("error", {
-                    code: "ErrorUnsupported"
+                    code: "error.api.service.unsupported"
                 });
         }
 
@@ -265,7 +265,7 @@ export default async function(host, patternMatch, obj) {
         })
     } catch {
         return createResponse("error", {
-            code: "ErrorBadFetch",
+            code: "error.api.fetch.critical",
             context: {
                 service: host
             }

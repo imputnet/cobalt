@@ -10,7 +10,7 @@ export function createResponse(responseType, responseData) {
             body: {
                 status: "error",
                 error: {
-                    code: code || "Internal Server Error",
+                    code: code || "error.api.fetch.critical",
                 },
                 critical: true
             }

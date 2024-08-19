@@ -39,7 +39,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
     switch (action) {
         default:
             return createResponse("error", {
-                code: "ErrorEmptyDownload"
+                code: "error.api.fetch.empty"
             });
 
         case "photo":
@@ -149,7 +149,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         case "audio":
             if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
-                    code: "ErrorEmptyDownload"
+                    code: "error.api.fetch.empty"
                 })
             }
 
