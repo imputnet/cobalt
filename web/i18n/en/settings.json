@@ -37,7 +37,7 @@
 
     "video.twitter.gif": "twitter/x",
     "video.twitter.gif.title": "convert looping videos to GIF",
-    "video.twitter.gif.description": "GIF conversion is very inefficient, converted file may be obnoxiously big and low quality.",
+    "video.twitter.gif.description": "GIF conversion is inefficient, converted file may be lower in quality and obnoxiously big.",
 
     "video.tiktok.h265": "tiktok",
     "video.tiktok.h265.title": "prefer HEVC/H265 format",
