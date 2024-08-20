@@ -184,8 +184,6 @@ export default async function(o) {
         }
     }
 
-    let bestQuality, hasAudio;
-
     const filterByCodec = (formats) =>
         formats
         .filter(e =>
@@ -201,10 +199,12 @@ export default async function(o) {
         adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats)
     }
 
-    bestQuality = adaptive_formats.find(i => i.has_video && i.content_length);
-    hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
+    let bestQuality;
 
-    if (bestQuality) bestQuality = qual(bestQuality);
+    const bestVideo = adaptive_formats.find(i => i.has_video && i.content_length);
+    const hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
+
+    if (bestVideo) bestQuality = qual(bestVideo);
 
     if ((!bestQuality && !o.isAudioOnly) || !hasAudio)
         return { error: "youtube.codec" };
@@ -279,7 +279,8 @@ export default async function(o) {
 
     let match, type, urls;
 
-    if (!o.isAudioOnly && !o.isAudioMuted && format === 'h264') {
+    // prefer good premuxed videos if available
+    if (!o.isAudioOnly && !o.isAudioMuted && format === "h264" && bestVideo.fps <= 30) {
         match = info.streaming_data.formats.find(checkSingle);
         type = "proxy";
         urls = match?.decipher(yt.session.player);
