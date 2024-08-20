@@ -186,9 +186,9 @@
 
         text-align: center;
         text-indent: -5px;
-        letter-spacing: -0.22em;
+        letter-spacing: -5.3px;
 
-        margin-bottom: 0.1rem;
+        margin-bottom: 2px;
     }
 
     #download-button:disabled {
