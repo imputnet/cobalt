@@ -26,7 +26,7 @@ export const apiSchema = z.object({
 
     videoQuality: z.enum(
         ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"]
-    ).default("720"),
+    ).default("1080"),
 
     youtubeDubLang: z.string()
                      .length(2)
@@ -36,7 +36,7 @@ export const apiSchema = z.object({
     disableMetadata: z.boolean().default(false),
     tiktokFullAudio: z.boolean().default(false),
     tiktokH265: z.boolean().default(false),
-    twitterGif: z.boolean().default(false),
+    twitterGif: z.boolean().default(true),
     youtubeDubBrowserLang: z.boolean().default(false),
 })
 .strict();
