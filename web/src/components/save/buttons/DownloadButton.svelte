@@ -43,10 +43,10 @@
         buttonAltText = $t(
             ({
                  idle: "a11y.save.download",
-                think: "a11y.save.downloadThink",
-                check: "a11y.save.downloadCheck",
-                 done: "a11y.save.downloadDone",
-                error: "a11y.save.downloadError",
+                think: "a11y.save.download.think",
+                check: "a11y.save.download.check",
+                 done: "a11y.save.download.done",
+                error: "a11y.save.download.error",
             })[state]
         );
 

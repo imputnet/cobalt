@@ -1,9 +1,9 @@
 {
-    "linkArea": "зона вставки ссылки",
-    "clearInput": "clear input",
+    "link_area": "зона вставки ссылки",
+    "clear_input": "clear input",
     "download": "скачать",
-    "downloadThink": "обрабатываю ссылку...",
-    "downloadCheck": "проверяю загрузку...",
-    "downloadDone": "загрузка завершена!",
-    "downloadError": "ошибка загрузки"
+    "download.think": "обрабатываю ссылку...",
+    "download.check": "проверяю загрузку...",
+    "download.done": "загрузка завершена!",
+    "download.error": "ошибка загрузки"
 }

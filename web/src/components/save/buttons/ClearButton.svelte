@@ -8,7 +8,7 @@
 <button
     id="clear-button"
     on:click={click}
-    aria-label={$t("a11y.save.clearInput")}
+    aria-label={$t("a11y.save.clear_input")}
 >
     <IconX />
 </button>

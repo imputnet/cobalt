@@ -1,9 +1,9 @@
 {
-    "linkArea": "link input area",
-    "clearInput": "clear input",
+    "link_area": "link input area",
+    "clear_input": "clear input",
     "download": "download",
-    "downloadThink": "processing the link...",
-    "downloadCheck": "verifying download...",
-    "downloadDone": "downloading done",
-    "downloadError": "downloading error"
+    "download.think": "processing the link...",
+    "download.check": "verifying download...",
+    "download.done": "downloading done",
+    "download.error": "downloading error"
 }

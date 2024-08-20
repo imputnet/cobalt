@@ -152,7 +152,7 @@
             autocapitalize="off"
             maxlength="256"
             placeholder={$t("save.input.placeholder")}
-            aria-label={$t("a11y.save.linkArea")}
+            aria-label={$t("a11y.save.link_area")}
             data-form-type="other"
             disabled={isDisabled}
         />

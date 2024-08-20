@@ -25,7 +25,7 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<nav id="sidebar" aria-label={$t("a11y.tabs.tabPanel")}>
+<nav id="sidebar" aria-label={$t("a11y.tabs.tab_panel")}>
     <CobaltLogo />
     <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
