@@ -105,7 +105,7 @@ export default async function({ id, index, toGif, dispatcher }) {
     const cookie = await getCookie('twitter');
 
     let guestToken = await getGuestToken(dispatcher);
-    if (!guestToken) return { error: 'ErrorCouldntFetch' };
+    if (!guestToken) return { error: "fetch.fail" };
 
     let tweet = await requestTweet(dispatcher, id, guestToken);
 
@@ -123,18 +123,22 @@ export default async function({ id, index, toGif, dispatcher }) {
         const reason = tweet?.data?.tweetResult?.result?.reason;
         switch(reason) {
             case "Protected":
-                return { error: 'ErrorTweetProtected' }
+                return { error: "content.post.private" }
             case "NsfwLoggedOut":
                 if (cookie) {
                     tweet = await requestTweet(dispatcher, id, guestToken, cookie);
                     tweet = await tweet.json();
                     tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
-                } else return { error: 'ErrorTweetNSFW' }
+                } else return { error: "content.post.age" }
         }
     }
 
+    if (!tweetTypename) {
+        return { error: "link.invalid" }
+    }
+
     if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
-        return { error: 'ErrorTweetUnavailable' }
+        return { error: "content.post.unavailable" }
     }
 
     let tweetResult = tweet.data.tweetResult.result,
@@ -156,7 +160,9 @@ export default async function({ id, index, toGif, dispatcher }) {
     switch (media?.length) {
         case undefined:
         case 0:
-            return { error: 'ErrorNoVideosInTweet' };
+            return {
+                error: "fetch.empty"
+            }
         case 1:
             if (media[0].type === "photo") {
                 return {

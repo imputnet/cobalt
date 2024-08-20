@@ -241,14 +241,14 @@ export default async function(host, patternMatch, obj) {
 
         if (r.error && r.critical) {
             return createResponse("critical", {
-                code: r.error
+                code: `error.api.${r.error}`,
             })
         }
 
         if (r.error) {
             return createResponse("error", {
-                code: r.error,
-                context: response?.context
+                code: `error.api.${r.error}`,
+                context: r?.context
             })
         }
 

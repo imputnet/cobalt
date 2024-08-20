@@ -5,7 +5,7 @@ const gqlURL = "https://gql.twitch.tv/gql";
 const clientIdHead = { "client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko" };
 
 export default async function (obj) {
-    let req_metadata = await fetch(gqlURL, {
+    const req_metadata = await fetch(gqlURL, {
         method: "POST",
         headers: clientIdHead,
         body: JSON.stringify({
@@ -30,16 +30,24 @@ export default async function (obj) {
         }`
         })
     }).then(r => r.status === 200 ? r.json() : false).catch(() => {});
-    if (!req_metadata) return { error: 'ErrorCouldntFetch' };
 
-    let clipMetadata = req_metadata.data.clip;
+    if (!req_metadata) return { error: "fetch.fail" };
 
-    if (clipMetadata.durationSeconds > env.durationLimit)
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
-    if (!clipMetadata.videoQualities || !clipMetadata.broadcaster)
-        return { error: 'ErrorEmptyDownload' };
+    const clipMetadata = req_metadata.data.clip;
 
-    let req_token = await fetch(gqlURL, {
+    if (clipMetadata.durationSeconds > env.durationLimit) {
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
+    }
+    if (!clipMetadata.videoQualities || !clipMetadata.broadcaster) {
+        return { error: "fetch.empty" };
+    }
+
+    const req_token = await fetch(gqlURL, {
         method: "POST",
         headers: clientIdHead,
         body: JSON.stringify([
@@ -58,10 +66,10 @@ export default async function (obj) {
         ])
     }).then(r => r.status === 200 ? r.json() : false).catch(() => {});
 
-    if (!req_token) return { error: 'ErrorCouldntFetch' };
+    if (!req_token) return { error: "fetch.fail" };
 
-    let formats = clipMetadata.videoQualities;
-    let format = formats.find(f => f.quality === obj.quality) || formats[0];
+    const formats = clipMetadata.videoQualities;
+    const format = formats.find(f => f.quality === obj.quality) || formats[0];
 
     return {
         type: "proxy",

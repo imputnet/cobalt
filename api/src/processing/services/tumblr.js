@@ -22,7 +22,12 @@ export default async function(input) {
     let { subdomain } = psl.parse(input.url.hostname);
 
     if (subdomain?.includes('.')) {
-        return { error: ['ErrorBrokenLink', 'tumblr'] }
+        return {
+            error: "link.unsupported",
+            context: {
+                service: "tumblr"
+            }
+        }
     } else if (subdomain === 'www' || subdomain === 'at') {
         subdomain = undefined
     }
@@ -31,7 +36,7 @@ export default async function(input) {
     const data = await request(domain, input.id);
 
     const element = data?.response?.timeline?.elements?.[0];
-    if (!element) return { error: 'ErrorEmptyDownload' };
+    if (!element) return { error: "fetch.empty" };
 
     const contents = [
         ...element.content,
@@ -66,5 +71,5 @@ export default async function(input) {
         }
     }
 
-    return { error: 'ErrorEmptyDownload' }
+    return { error: "link.unsupported" }
 }

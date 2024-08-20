@@ -23,7 +23,7 @@ export default async function({ id }) {
     .then(r => r.status === 200 ? r.json() : false)
     .catch(() => {});
 
-    if (!gql) return { error: 'ErrorEmptyDownload' };
+    if (!gql) return { error: "fetch.empty" };
 
     const videoUrl = gql?.url;
 
@@ -35,5 +35,5 @@ export default async function({ id }) {
         }
     }
 
-    return { error: 'ErrorEmptyDownload' }
+    return { error: "fetch.empty" }
 }

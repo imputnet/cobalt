@@ -1,7 +1,7 @@
-import HLS from 'hls-parser';
+import HLS from "hls-parser";
 
 import { env } from "../../config.js";
-import { cleanString } from '../../misc/utils.js';
+import { cleanString } from "../../misc/utils.js";
 
 async function requestJSON(url) {
     try {
@@ -18,7 +18,7 @@ export default async function(obj) {
             `https://rutube.ru/pangolin/api/web/yappy/yappypage/?client=wdp&videoId=${obj.yappyId}&page=1&page_size=15`
         )
         const yappyURL = yappy?.results?.find(r => r.id === obj.yappyId)?.link;
-        if (!yappyURL) return { error: 'ErrorEmptyDownload' };
+        if (!yappyURL) return { error: "fetch.empty" };
 
         return {
             urls: yappyURL,
@@ -33,19 +33,24 @@ export default async function(obj) {
     if (obj.key) requestURL.searchParams.set('p', obj.key);
 
     const play = await requestJSON(requestURL);
-    if (!play) return { error: 'ErrorCouldntFetch' };
+    if (!play) return { error: "fetch.fail" };
 
-    if (play.detail || !play.video_balancer) return { error: 'ErrorEmptyDownload' };
-    if (play.live_streams?.hls) return { error: 'ErrorLiveVideo' };
+    if (play.detail || !play.video_balancer) return { error: "fetch.empty" };
+    if (play.live_streams?.hls) return { error: "content.video.live" };
 
     if (play.duration > env.durationLimit * 1000)
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
 
     let m3u8 = await fetch(play.video_balancer.m3u8)
                      .then(r => r.text())
                      .catch(() => {});
 
-    if (!m3u8) return { error: 'ErrorCouldntFetch' };
+    if (!m3u8) return { error: "fetch.fail" };
 
     m3u8 = HLS.parse(m3u8).variants;
 

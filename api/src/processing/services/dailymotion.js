@@ -1,5 +1,5 @@
-import HLSParser from 'hls-parser';
-import { env } from '../../config.js';
+import HLSParser from "hls-parser";
+import { env } from "../../config.js";
 
 let _token;
 
@@ -31,7 +31,7 @@ const getToken = async () => {
 
 export default async function({ id }) {
     const token = await getToken();
-    if (!token) return { error: 'ErrorSomethingWentWrong' };
+    if (!token) return { error: "fetch.fail" };
 
     const req = await fetch('https://graphql.api.dailymotion.com/',
         {
@@ -70,20 +70,25 @@ export default async function({ id }) {
     const media = req?.data?.media;
 
     if (media?.__typename !== 'Video' || !media.hlsURL) {
-        return { error: 'ErrorEmptyDownload' }
+        return { error: "fetch.empty" }
     }
 
     if (media.duration > env.durationLimit) {
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
     }
 
     const manifest = await fetch(media.hlsURL).then(r => r.text()).catch(() => {});
-    if (!manifest) return { error: 'ErrorSomethingWentWrong' };
+    if (!manifest) return { error: "fetch.fail" };
 
     const bestQuality = HLSParser.parse(manifest).variants
                         .filter(v => v.codecs.includes('avc1'))
                         .reduce((a, b) => a.bandwidth > b.bandwidth ? a : b);
-    if (!bestQuality) return { error: 'ErrorEmptyDownload' }
+    if (!bestQuality) return { error: "fetch.empty" }
 
     const fileMetadata = {
         title: media.title,

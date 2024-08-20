@@ -3,7 +3,7 @@ export default async function(obj) {
                     .then(r => r.json())
                     .catch(() => {});
 
-    if (!post) return { error: 'ErrorEmptyDownload' };
+    if (!post) return { error: "fetch.empty" };
 
     if (post.videoUrl) return {
         urls: post.videoUrl.replace("http://", "https://"),
@@ -11,5 +11,5 @@ export default async function(obj) {
         audioFilename: `vine_${obj.id}_audio`
     }
 
-    return { error: 'ErrorEmptyDownload' }
+    return { error: "fetch.empty" }
 }

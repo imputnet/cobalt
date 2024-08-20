@@ -19,26 +19,31 @@ export default async function(o) {
         headers: { "user-agent": genericUserAgent }
     }).then(r => r.text()).catch(() => {});
 
-    if (!html) return { error: 'ErrorCouldntFetch' };
+    if (!html) return { error: "fetch.fail" };
 
     let videoData = html.match(/<div data-module="OKVideo" .*? data-options="({.*?})"( .*?)>/)
                         ?.[1]
                         ?.replaceAll("&quot;", '"');
 
     if (!videoData) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     videoData = JSON.parse(JSON.parse(videoData).flashvars.metadata);
 
     if (videoData.provider !== "UPLOADED_ODKL")
-        return { error: 'ErrorUnsupported' };
+        return { error: "link.unsupported" };
 
     if (videoData.movie.is_live)
-        return { error: 'ErrorLiveVideo' };
+        return { error: "content.video.live" };
 
     if (videoData.movie.duration > env.durationLimit)
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
 
     let videos = videoData.videos.filter(v => !v.disallowed);
     let bestVideo = videos.find(v => resolutions[v.name] === quality) || videos[videos.length - 1];
@@ -61,5 +66,5 @@ export default async function(o) {
         }
     }
 
-    return { error: 'ErrorEmptyDownload' }
+    return { error: "fetch.empty" }
 }

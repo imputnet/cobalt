@@ -3,9 +3,9 @@ export default async function(obj) {
                       .then(r => r.status === 200 ? r.json() : false)
                       .catch(() => {});
 
-    if (!video) return { error: 'ErrorEmptyDownload' };
+    if (!video) return { error: "fetch.empty" };
 
-    let best = video.files['mp4-mobile'];
+    let best = video.files["mp4-mobile"];
     if (video.files.mp4 && (obj.isAudioOnly || obj.quality === "max" || obj.quality >= 720)) {
         best = video.files.mp4;
     }
@@ -18,5 +18,5 @@ export default async function(obj) {
             title: video.title
         }
     }
-    return { error: 'ErrorEmptyDownload' }
+    return { error: "fetch.fail" }
 }

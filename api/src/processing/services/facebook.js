@@ -33,7 +33,8 @@ export default async function({ id, shareType, shortLink }) {
         .then(r => r.text())
         .catch(() => false);
 
-    if (!html) return { error: 'ErrorCouldntFetch' };
+    if (!html && shortLink) return { error: "fetch.short_link" }
+    if (!html) return { error: "fetch.fail" };
 
     const urls = [];
     const hd = html.match('"browser_native_hd_url":(".*?")');
@@ -43,7 +44,7 @@ export default async function({ id, shareType, shortLink }) {
     if (sd?.[1]) urls.push(JSON.parse(sd[1]));
 
     if (!urls.length) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     const baseFilename = `facebook_${id || shortLink}`;

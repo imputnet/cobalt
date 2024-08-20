@@ -1,7 +1,7 @@
+import HLS from "hls-parser";
+
 import { env } from "../../config.js";
 import { cleanString, merge } from '../../misc/utils.js';
-
-import HLS from "hls-parser";
 
 const resolutionMatch = {
     "3840": 2160,
@@ -73,25 +73,30 @@ const getHLS = async (configURL, obj) => {
     const api = await fetch(configURL)
                     .then(r => r.json())
                     .catch(() => {});
-    if (!api) return { error: 'ErrorCouldntFetch' };
+    if (!api) return { error: "fetch.fail" };
 
     if (api.video?.duration > env.durationLimit) {
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
     }
 
     const urlMasterHLS = api.request?.files?.hls?.cdns?.akfire_interconnect_quic?.url;
-    if (!urlMasterHLS) return { error: 'ErrorCouldntFetch' }
+    if (!urlMasterHLS) return { error: "fetch.fail" };
 
     const masterHLS = await fetch(urlMasterHLS)
                             .then(r => r.text())
                             .catch(() => {});
 
-    if (!masterHLS) return { error: 'ErrorCouldntFetch' };
+    if (!masterHLS) return { error: "fetch.fail" };
 
     const variants = HLS.parse(masterHLS)?.variants?.sort(
         (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
     );
-    if (!variants || variants.length === 0) return { error: 'ErrorEmptyDownload' };
+    if (!variants || variants.length === 0) return { error: "fetch.empty" };
 
     let bestQuality;
 
@@ -116,7 +121,7 @@ const getHLS = async (configURL, obj) => {
             expandLink(audioPath)
         ]
     } else if (obj.isAudioOnly) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     return {
@@ -143,7 +148,7 @@ export default async function(obj) {
     }
 
     if (!response) response = getDirectLink(info, quality);
-    if (!response) response = { error: 'ErrorEmptyDownload' };
+    if (!response) response = { error: "fetch.empty" };
 
     if (response.error) {
         return response;

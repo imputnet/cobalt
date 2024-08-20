@@ -1,7 +1,8 @@
+import Cookie from "../cookie/cookie.js";
+
+import { extract } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { updateCookie } from "../cookie/manager.js";
-import { extract } from "../url.js";
-import Cookie from "../cookie/cookie.js";
 
 const shortDomain = "https://vt.tiktok.com/";
 
@@ -17,7 +18,7 @@ export default async function(obj) {
             }
         }).then(r => r.text()).catch(() => {});
 
-        if (!html) return { error: 'ErrorCouldntFetch' };
+        if (!html) return { error: "fetch.fail" };
 
         if (html.startsWith('<a href="https://')) {
             const extractedURL = html.split('<a href="')[1].split('?')[0];
@@ -25,7 +26,7 @@ export default async function(obj) {
             postId = patternMatch.postId
         }
     }
-    if (!postId) return { error: 'ErrorCantGetID' };
+    if (!postId) return { error: "fetch.short_link" };
 
     // should always be /video/, even for photos
     const res = await fetch(`https://tiktok.com/@i/video/${postId}`, {
@@ -46,7 +47,7 @@ export default async function(obj) {
         const data = JSON.parse(json)
         detail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
     } catch {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: "fetch.fail" };
     }
 
     let video, videoFilename, audioFilename, audio, images,

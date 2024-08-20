@@ -12,13 +12,13 @@ export default async function(o) {
                    .catch(() => {});
     }
     if (id.includes("--")) id = id.split("--")[1];
-    if (!id) return { error: 'ErrorCouldntFetch' };
+    if (!id) return { error: "fetch.fail" };
 
     let html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
         headers: { "user-agent": genericUserAgent }
     }).then(r => r.text()).catch(() => {});
 
-    if (!html) return { error: 'ErrorCouldntFetch' };
+    if (!html) return { error: "fetch.fail" };
 
     let videoLink = [...html.matchAll(videoRegex)]
                     .map(([, link]) => link)
@@ -39,5 +39,5 @@ export default async function(o) {
         isPhoto: true
     }
 
-    return { error: 'ErrorEmptyDownload' };
+    return { error: "fetch.empty" };
 }

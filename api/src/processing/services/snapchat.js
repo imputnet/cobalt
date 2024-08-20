@@ -1,16 +1,16 @@
+import { extract, normalizeURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { getRedirectingURL } from "../../misc/utils.js";
-import { extract, normalizeURL } from "../url.js";
 
 const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(https:\/\/cf-st\.sc-cdn\.net\/d\/[\w.?=]+&amp;uc=\d+)" as="video"\/>/;
 const NEXT_DATA_REGEX = /<script id="__NEXT_DATA__" type="application\/json">({.+})<\/script><\/body><\/html>$/;
 
 async function getSpotlight(id) {
     const html = await fetch(`https://www.snapchat.com/spotlight/${id}`, {
-        headers: { 'User-Agent': genericUserAgent }
+        headers: { 'user-agent': genericUserAgent }
     }).then((r) => r.text()).catch(() => null);
     if (!html) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: "fetch.fail" };
     }
 
     const videoURL = html.match(SPOTLIGHT_VIDEO_REGEX)?.[1];
@@ -24,11 +24,15 @@ async function getSpotlight(id) {
 }
 
 async function getStory(username, storyId) {
-    const html = await fetch(`https://www.snapchat.com/add/${username}${storyId ? `/${storyId}` : ''}`, {
-        headers: { 'User-Agent': genericUserAgent }
-    }).then((r) => r.text()).catch(() => null);
+    const html = await fetch(
+        `https://www.snapchat.com/add/${username}${storyId ? `/${storyId}` : ''}`,
+        { headers: { 'user-agent': genericUserAgent } }
+    )
+    .then((r) => r.text())
+    .catch(() => null);
+
     if (!html) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: "fetch.fail" };
     }
 
     const nextDataString = html.match(NEXT_DATA_REGEX)?.[1];
@@ -73,12 +77,12 @@ export default async function (obj) {
         const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
 
         if (!link?.startsWith('https://www.snapchat.com/')) {
-            return { error: 'ErrorCouldntFetch' };
+            return { error: "fetch.short_link" };
         }
 
         const extractResult = extract(normalizeURL(link));
         if (extractResult?.host !== 'snapchat') {
-            return { error: 'ErrorCouldntFetch' };
+            return { error: "fetch.short_link" };
         }
 
         params = extractResult.patternMatch;
@@ -92,5 +96,5 @@ export default async function (obj) {
         if (result) return result;
     }
 
-    return { error: 'ErrorCouldntFetch' };
+    return { error: "fetch.fail" };
 }

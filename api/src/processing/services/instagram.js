@@ -1,5 +1,5 @@
-import { createStream } from "../../stream/manage.js";
 import { genericUserAgent } from "../../config.js";
+import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
 
 const commonHeaders = {
@@ -206,7 +206,7 @@ export default function(obj) {
                 .map(e => {
                     const type = e.video_versions ? "video" : "photo";
                     const imageUrl = e.image_versions2.candidates[0].url;
-                    
+
                     let url = imageUrl;
                     if (type === 'video') {
                         const video = e.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a);
@@ -246,7 +246,7 @@ export default function(obj) {
         let data, result;
         try {
             const cookie = getCookie('instagram');
-        
+
             const bearer = getCookie('instagram_bearer');
             const token = bearer?.values()?.token;
 
@@ -271,7 +271,7 @@ export default function(obj) {
             if (!data && cookie) data = await requestGQL(id, cookie);
         } catch {}
 
-        if (!data) return { error: 'ErrorCouldntFetch' };
+        if (!data) return { error: "fetch.fail" };
 
         if (data?.gql_data) {
             result = extractOldPost(data, id)
@@ -280,7 +280,7 @@ export default function(obj) {
         }
 
         if (result) return result;
-        return { error: 'ErrorEmptyDownload' }
+        return { error: "fetch.empty" }
     }
 
     async function usernameToId(username, cookie) {
@@ -295,11 +295,16 @@ export default function(obj) {
 
     async function getStory(username, id) {
         const cookie = getCookie('instagram');
-        if (!cookie) return { error: 'ErrorUnsupported' };
+        if (!cookie) return {
+            error: "link.unsupported",
+            context: {
+                service: "instagram"
+            }
+        }
 
         const userId = await usernameToId(username, cookie);
-        if (!userId) return { error: 'ErrorEmptyDownload' };
-        
+        if (!userId) return { error: "fetch.empty" };
+
         const dtsgId = await findDtsgId(cookie);
 
         const url = new URL('https://www.instagram.com/api/graphql/');
@@ -320,8 +325,8 @@ export default function(obj) {
         } catch {}
 
         const item = media.items.find(m => m.pk === id);
-        if (!item) return { error: 'ErrorEmptyDownload' };
-        
+        if (!item) return { error: "fetch.empty" };
+
         if (item.video_versions) {
             const video = item.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a)
             return {
@@ -338,12 +343,17 @@ export default function(obj) {
             }
         }
 
-        return { error: 'ErrorUnsupported' };
+        return {
+            error: "link.unsupported",
+            context: {
+                service: "instagram"
+            }
+        }
     }
 
     const { postId, storyId, username } = obj;
     if (postId) return getPost(postId);
     if (username && storyId) return getStory(username, storyId);
 
-    return { error: 'ErrorUnsupported' }
+    return { error: "fetch.fail" }
 }

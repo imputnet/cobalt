@@ -39,7 +39,7 @@ async function findClientID() {
 
 export default async function(obj) {
     let clientId = await findClientID();
-    if (!clientId) return { error: 'ErrorSoundCloudNoClientId' };
+    if (!clientId) return { error: "fetch.fail" };
 
     let link;
     if (obj.url.hostname === 'on.soundcloud.com' && obj.shortLink) {
@@ -54,15 +54,16 @@ export default async function(obj) {
         link = `https://soundcloud.com/${obj.author}/${obj.song}${obj.accessKey ? `/s-${obj.accessKey}` : ''}`
     }
 
-    if (!link) return { error: 'ErrorCouldntFetch' };
+    if (!link && obj.shortLink) return { error: "fetch.short_link" };
+    if (!link) return { error: "link.unsupported" };
 
     let json = await fetch(`https://api-v2.soundcloud.com/resolve?url=${link}&client_id=${clientId}`)
                      .then(r => r.status === 200 ? r.json() : false)
                      .catch(() => {});
 
-    if (!json) return { error: 'ErrorCouldntFetch' };
+    if (!json) return { error: "fetch.fail" };
 
-    if (!json.media.transcodings) return { error: 'ErrorEmptyDownload' };
+    if (!json.media.transcodings) return { error: "fetch.empty" };
 
     let bestAudio = "opus",
         selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0"),
@@ -78,15 +79,21 @@ export default async function(obj) {
     let fileUrl = `${fileUrlBase}${fileUrlBase.includes("?") ? "&" : "?"}client_id=${clientId}&track_authorization=${json.track_authorization}`;
 
     if (!fileUrl.startsWith("https://api-v2.soundcloud.com/media/soundcloud:tracks:"))
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
 
-    if (json.duration > env.durationLimit * 1000)
-        return { error: ['ErrorLengthAudioConvert', env.durationLimit / 60] };
+    if (json.duration > env.durationLimit * 1000) {
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
+    }
 
     let file = await fetch(fileUrl)
                      .then(async r => (await r.json()).url)
                      .catch(() => {});
-    if (!file) return { error: 'ErrorCouldntFetch' };
+    if (!file) return { error: "fetch.empty" };
 
     let fileMetadata = {
         title: cleanString(json.title.trim()),

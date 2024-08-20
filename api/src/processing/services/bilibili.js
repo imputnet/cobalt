@@ -30,22 +30,34 @@ function extractBestQuality(dashData) {
 
 async function com_download(id) {
     let html = await fetch(`https://bilibili.com/video/${id}`, {
-        headers: { "user-agent": genericUserAgent }
-    }).then(r => r.text()).catch(() => {});
-    if (!html) return { error: 'ErrorCouldntFetch' };
+        headers: {
+            "user-agent": genericUserAgent
+        }
+    })
+    .then(r => r.text())
+    .catch(() => {});
+
+    if (!html) {
+        return { error: "fetch.fail" }
+    }
 
     if (!(html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"'))) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
     if (streamData.data.timelength > env.durationLimit * 1000) {
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
     }
 
     const [ video, audio ] = extractBestQuality(streamData.data.dash);
     if (!video || !audio) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     return {
@@ -66,7 +78,7 @@ async function tv_download(id) {
 
     const { data } = await fetch(url).then(a => a.json());
     if (!data?.playurl?.video) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     const [ video, audio ] = extractBestQuality({
@@ -76,11 +88,16 @@ async function tv_download(id) {
     });
 
     if (!video || !audio) {
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
     }
 
     if (video.duration > env.durationLimit * 1000) {
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
     }
 
     return {
@@ -101,5 +118,5 @@ export default async function({ comId, tvId, comShortLink }) {
         return tv_download(tvId);
     }
 
-    return { error: 'ErrorCouldntFetch' };
+    return { error: "fetch.fail" };
 }

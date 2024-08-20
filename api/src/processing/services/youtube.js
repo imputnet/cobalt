@@ -110,7 +110,7 @@ export default async function(o) {
         );
     } catch(e) {
         if (e.message?.endsWith("decipher algorithm")) {
-            return { error: "ErrorYoutubeDecipher" }
+            return { error: "youtube.decipher" }
         } else throw e;
     }
 
@@ -130,38 +130,56 @@ export default async function(o) {
     try {
         info = await yt.getBasicInfo(o.id, yt.session.logged_in ? 'ANDROID' : 'IOS');
     } catch(e) {
-        if (e?.message === 'This video is unavailable') {
-            return { error: 'ErrorCouldntFetch' };
+        if (e?.info?.reason === "This video is private") {
+            return { error: "content.video.private" };
+        } else if (e?.message === "This video is unavailable") {
+            return { error: "content.video.unavailable" };
         } else {
-            return { error: 'ErrorCantConnectToServiceAPI' };
+            return { error: "fetch.fail" };
         }
     }
 
-    if (!info) return { error: 'ErrorCantConnectToServiceAPI' };
+    if (!info) return { error: "fetch.fail" };
 
     const playability = info.playability_status;
     const basicInfo = info.basic_info;
 
-    if (playability.status === 'LOGIN_REQUIRED') {
-        if (playability.reason.endsWith('bot')) {
-            return { error: 'ErrorYTLogin' }
+    if (playability.status === "LOGIN_REQUIRED") {
+        if (playability.reason.endsWith("bot")) {
+            return { error: "youtube.login" }
         }
-        if (playability.reason.endsWith('age')) {
-            return { error: 'ErrorYTAgeRestrict' }
+        if (playability.reason.endsWith("age")) {
+            return { error: "content.video.age" }
         }
-    }
-    if (playability.status === "UNPLAYABLE" && playability.reason.endsWith('request limit.')) {
-        return { error: 'ErrorYTRateLimit' }
+        if (playability?.error_screen?.reason?.text === "Private video") {
+            return { error: "content.video.private" }
+        }
     }
 
-    if (playability.status !== 'OK') return { error: 'ErrorYTUnavailable' };
-    if (basicInfo.is_live) return { error: 'ErrorLiveVideo' };
+    if (playability.status === "UNPLAYABLE") {
+        if (playability?.reason?.endsWith("request limit.")) {
+            return { error: "fetch.rate" }
+        }
+        if (playability?.error_screen?.subreason?.text?.endsWith("in your country")) {
+            return { error: "content.video.region" }
+        }
+        if (playability?.error_screen?.reason?.text === "Private video") {
+            return { error: "content.video.private" }
+        }
+    }
+
+    if (playability.status !== "OK") {
+        return { error: "content.video.unavailable" };
+    }
+    if (basicInfo.is_live) {
+        return { error: "content.video.live" };
+    }
 
     // return a critical error if returned video is "Video Not Available"
     // or a similar stub by youtube
     if (basicInfo.id !== o.id) {
         return {
-            error: 'ErrorCantConnectToServiceAPI',
+            error: "fetch.fail",
             critical: true
         }
     }
@@ -189,10 +207,15 @@ export default async function(o) {
     if (bestQuality) bestQuality = qual(bestQuality);
 
     if ((!bestQuality && !o.isAudioOnly) || !hasAudio)
-        return { error: 'ErrorYTTryOtherCodec' };
+        return { error: "youtube.codec" };
 
     if (basicInfo.duration > env.durationLimit)
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
 
     const checkBestAudio = (i) => (i.has_audio && !i.has_video);
 
@@ -286,5 +309,5 @@ export default async function(o) {
         }
     }
 
-    return { error: 'ErrorYTTryOtherCodec' }
+    return { error: "fetch.fail" }
 }

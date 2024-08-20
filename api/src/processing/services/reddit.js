@@ -9,7 +9,7 @@ async function getAccessToken() {
      * you can get these by making a reddit app and
      * authenticating an account against reddit's oauth2 api
      * see: https://github.com/reddit-archive/reddit/wiki/OAuth2
-     * 
+     *
      * any additional cookie fields are managed by this code and you
      * should not touch them unless you know what you're doing. **/
     const cookie = await getCookie('reddit');
@@ -67,7 +67,9 @@ export default async function(obj) {
         }
     ).then(r => r.json()).catch(() => {});
 
-    if (!data || !Array.isArray(data)) return { error: 'ErrorCouldntFetch' };
+    if (!data || !Array.isArray(data)) {
+        return { error: "fetch.fail" }
+    }
 
     data = data[0]?.data?.children[0]?.data;
 
@@ -77,10 +79,15 @@ export default async function(obj) {
     }
 
     if (!data.secure_media?.reddit_video)
-        return { error: 'ErrorEmptyDownload' };
+        return { error: "fetch.empty" };
 
     if (data.secure_media?.reddit_video?.duration > env.durationLimit)
-        return { error: ['ErrorLengthLimit', env.durationLimit / 60] };
+        return {
+            error: "content.too_long",
+            context: {
+                limit: env.durationLimit / 60
+            }
+        }
 
     let audio = false,
         video = data.secure_media?.reddit_video?.fallback_url?.split('?')[0],
