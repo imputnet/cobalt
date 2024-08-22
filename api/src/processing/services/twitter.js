@@ -180,12 +180,21 @@ export default async function({ id, index, toGif, dispatcher }) {
                 isGif: media[0].type === "animated_gif"
             }
         default:
+            const proxyThumb = (url) =>
+                createStream({
+                    service: "twitter",
+                    type: "default",
+                    u: url,
+                    filename: `image.${new URL(url).pathname.split(".", 2)[1]}`
+                })
+
             const picker = media.map((content, i) => {
                 if (content.type === "photo") {
                     let url = `${content.media_url_https}?name=4096x4096`;
                     return {
                         type: "photo",
                         url,
+                        thumb: proxyThumb(url),
                     }
                 }
 
@@ -207,7 +216,7 @@ export default async function({ id, index, toGif, dispatcher }) {
                 return {
                     type,
                     url,
-                    thumb: content.media_url_https
+                    thumb: proxyThumb(content.media_url_https),
                 }
             });
             return { picker };
