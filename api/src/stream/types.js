@@ -45,6 +45,8 @@ export async function streamDefault(streamInfo, res) {
         if (streamInfo.isAudioOnly) {
             filename = `${streamInfo.filename}.${streamInfo.audioFormat}`
         }
+
+        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
         res.setHeader('Content-disposition', contentDisposition(filename));
 
         const { body: stream, headers } = await request(streamInfo.urls, {
