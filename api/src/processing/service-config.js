@@ -166,7 +166,6 @@ export const services = {
             "/channels/:user/:id"
         ],
         subdomains: ["player"],
-        bestAudio: "mp3",
     },
     vk: {
         enabled: true,
@@ -185,7 +184,6 @@ export const services = {
             "watch/:id"
         ],
         subdomains: ["music", "m"],
-        bestAudio: "opus",
     }
 }
 

@@ -1,9 +1,8 @@
 import createFilename from "./create-filename.js";
 
-import { supportedAudio } from "../config.js";
 import { createResponse } from "./request.js";
+import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
-import { audioIgnore, services } from "./service-config.js";
 
 export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate }) {
     let action,
@@ -65,8 +64,9 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 type: muteType,
                 u: Array.isArray(r.urls) ? r.urls[0] : r.urls
             }
-            if (host === "reddit" && r.typeId === "redirect")
+            if (host === "reddit" && r.typeId === "redirect") {
                 responseType = "redirect";
+            }
             break;
 
         case "picker":
@@ -77,9 +77,10 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "snapchat":
                     params = { picker: r.picker };
                     break;
+
                 case "tiktok":
                     let audioStreamType = "audio";
-                    if (r.bestAudio === "mp3" && (audioFormat === "mp3" || audioFormat === "best")) {
+                    if (r.bestAudio === "mp3" && audioFormat === "best") {
                         audioFormat = "mp3";
                         audioStreamType = "proxy"
                     }
@@ -95,6 +96,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             audioFormat,
                         })
                     }
+                    break;
             }
             break;
 
@@ -103,13 +105,16 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "bilibili":
                     params = { type: "merge" };
                     break;
+
                 case "youtube":
                     params = { type: r.type };
                     break;
+
                 case "reddit":
                     responseType = r.typeId;
                     params = { type: r.type };
                     break;
+
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
                         params = { type: "merge" }
@@ -151,43 +156,29 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 })
             }
 
-            let processType = "audio",
-                copy = false;
+            let processType = "audio";
+            let copy = false;
 
-            if (!supportedAudio.includes(audioFormat)) {
-                audioFormat = "best"
-            }
+            if (audioFormat === "best") {
+                const serviceBestAudio = r.bestAudio;
 
-            const serviceBestAudio = r.bestAudio || services[host]["bestAudio"];
-            const isBestAudio = audioFormat === "best";
-            const isBestOrMp3 = isBestAudio || audioFormat === "mp3";
-            const isBestAudioDefined = isBestAudio && serviceBestAudio;
-            const isBestHostAudio = serviceBestAudio && (audioFormat === serviceBestAudio);
+                if (serviceBestAudio) {
+                    audioFormat = serviceBestAudio;
+                    processType = "proxy";
 
-            const isTumblrAudio = host === "tumblr" && !r.filename;
-            const isSoundCloud = host === "soundcloud";
-            const isTiktok = host === "tiktok";
-
-            if (isBestAudioDefined || isBestHostAudio) {
-                audioFormat = serviceBestAudio;
-                processType = "proxy";
-                if (isSoundCloud || (isTiktok && audioFormat === "m4a")) {
-                    processType = "audio"
-                    copy = true
+                    if (host === "soundcloud") {
+                        processType = "audio";
+                        copy = true;
+                    }
+                } else {
+                    audioFormat = "m4a";
+                    copy = true;
                 }
-            } else if (isBestAudio && !isSoundCloud) {
-                audioFormat = "m4a";
-                copy = true
-            }
-
-            if (isTumblrAudio && isBestOrMp3) {
-                audioFormat = "mp3";
-                processType = "proxy"
             }
 
             if (r.isM3U8 || host === "vimeo") {
                 copy = false;
-                processType = "audio"
+                processType = "audio";
             }
 
             params = {

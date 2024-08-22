@@ -52,7 +52,7 @@ export default async function(obj) {
 
     let video, videoFilename, audioFilename, audio, images,
         filenameBase = `tiktok_${detail.author.uniqueId}_${postId}`,
-        bestAudio = 'm4a';
+        bestAudio; // will get defaulted to m4a later on in match-action
 
     images = detail.imagePost?.images;
 

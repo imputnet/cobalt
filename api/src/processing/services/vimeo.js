@@ -63,7 +63,8 @@ const getDirectLink = (data, quality) => {
             resolution: `${match.width}x${match.height}`,
             qualityLabel: match.rendition,
             extension: "mp4"
-        }
+        },
+        bestAudio: "mp3",
     }
 }
 
@@ -131,7 +132,8 @@ const getHLS = async (configURL, obj) => {
             resolution: `${bestQuality.resolution.width}x${bestQuality.resolution.height}`,
             qualityLabel: `${resolutionMatch[bestQuality.resolution.width]}p`,
             extension: "mp4"
-        }
+        },
+        bestAudio: "mp3",
     }
 }
 

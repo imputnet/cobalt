@@ -58,7 +58,8 @@ export default async function(input) {
                 title: fileMetadata.title,
                 author: fileMetadata.artist
             },
-            isAudioOnly: true
+            isAudioOnly: true,
+            bestAudio: "mp3",
         }
     }
 
