@@ -263,7 +263,7 @@ export default async function(o) {
     }
 
     if (audio && o.isAudioOnly) return {
-        type: "render",
+        type: "audio",
         isAudioOnly: true,
         urls: audio.decipher(yt.session.player),
         filenameAttributes: filenameAttributes,
@@ -290,7 +290,7 @@ export default async function(o) {
 
     if (!match && video && audio) {
         match = video;
-        type = "render";
+        type = "merge";
         urls = [
             video.decipher(yt.session.player),
             audio.decipher(yt.session.player)

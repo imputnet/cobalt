@@ -1,9 +1,9 @@
-import { supportedAudio } from "../config.js";
-import { audioIgnore, services } from "./service-config.js";
-
-import { createResponse } from "./request.js";
 import createFilename from "./create-filename.js";
+
+import { supportedAudio } from "../config.js";
+import { createResponse } from "./request.js";
 import { createStream } from "../stream/manage.js";
+import { audioIgnore, services } from "./service-config.js";
 
 export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP }) {
     let action,
@@ -29,9 +29,9 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
     if (action === "picker" || action === "audio") {
         if (!r.filenameAttributes) defaultParams.filename = r.audioFilename;
-        defaultParams.isAudioOnly = true;
         defaultParams.audioFormat = audioFormat;
     }
+
     if (isAudioMuted && !r.filenameAttributes) {
         defaultParams.filename = r.filename.replace('.', '_mute.')
     }
@@ -47,12 +47,12 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             break;
 
         case "gif":
-            params = { type: "gif" }
+            params = { type: "gif" };
             break;
 
         case "m3u8":
             params = {
-                type: Array.isArray(r.urls) ? "render" : "remux"
+                type: Array.isArray(r.urls) ? "merge" : "remux"
             }
             break;
 
@@ -63,8 +63,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             }
             params = {
                 type: muteType,
-                u: Array.isArray(r.urls) ? r.urls[0] : r.urls,
-                mute: true
+                u: Array.isArray(r.urls) ? r.urls[0] : r.urls
             }
             if (host === "reddit" && r.typeId === "redirect")
                 responseType = "redirect";
@@ -79,7 +78,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                     params = { picker: r.picker };
                     break;
                 case "tiktok":
-                    let audioStreamType = "render";
+                    let audioStreamType = "audio";
                     if (r.bestAudio === "mp3" && (audioFormat === "mp3" || audioFormat === "best")) {
                         audioFormat = "mp3";
                         audioStreamType = "proxy"
@@ -94,8 +93,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             filename: r.audioFilename,
                             isAudioOnly: true,
                             audioFormat,
-                        }),
-                        copy: audioFormat === "best"
+                        })
                     }
             }
             break;
@@ -103,7 +101,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         case "video":
             switch (host) {
                 case "bilibili":
-                    params = { type: "render" };
+                    params = { type: "merge" };
                     break;
                 case "youtube":
                     params = { type: r.type };
@@ -114,7 +112,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                     break;
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
-                        params = { type: "render" }
+                        params = { type: "merge" }
                     } else {
                         responseType = "redirect";
                     }
@@ -153,7 +151,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 })
             }
 
-            let processType = "render",
+            let processType = "audio",
                 copy = false;
 
             if (!supportedAudio.includes(audioFormat)) {
@@ -174,7 +172,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 audioFormat = serviceBestAudio;
                 processType = "proxy";
                 if (isSoundCloud || (isTiktok && audioFormat === "m4a")) {
-                    processType = "render"
+                    processType = "audio"
                     copy = true
                 }
             } else if (isBestAudio && !isSoundCloud) {
@@ -189,7 +187,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
             if (r.isM3U8 || host === "vimeo") {
                 copy = false;
-                processType = "render"
+                processType = "audio"
             }
 
             params = {

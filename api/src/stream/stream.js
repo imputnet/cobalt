@@ -1,31 +1,33 @@
-import { streamAudioOnly, streamDefault, streamLiveRender, streamVideoOnly, convertToGif } from "./types.js";
-import { internalStream } from './internal.js';
+import stream from "./types.js";
+
 import { closeResponse } from "./shared.js";
+import { internalStream } from "./internal.js";
 
 export default async function(res, streamInfo) {
     try {
-        if (streamInfo.isAudioOnly && streamInfo.type !== "proxy") {
-            streamAudioOnly(streamInfo, res);
-            return;
-        }
         switch (streamInfo.type) {
+            case "proxy":
+                return await stream.proxy(streamInfo, res);
+
             case "internal":
-                return await internalStream(streamInfo, res);
-            case "render":
-                await streamLiveRender(streamInfo, res);
-                break;
-            case "gif":
-                convertToGif(streamInfo, res);
-                break;
+                return internalStream(streamInfo, res);
+
+            case "merge":
+                return stream.merge(streamInfo, res);
+
             case "remux":
             case "mute":
-                streamVideoOnly(streamInfo, res);
-                break;
-            default:
-                await streamDefault(streamInfo, res);
-                break;
+                return stream.remux(streamInfo, res);
+
+            case "audio":
+                return stream.convertAudio(streamInfo, res);
+
+            case "gif":
+                return stream.convertGif(streamInfo, res);
         }
+
+        closeResponse(res);
     } catch {
-        closeResponse(res)
+        closeResponse(res);
     }
 }

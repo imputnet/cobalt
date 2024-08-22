@@ -123,7 +123,7 @@ export default async function(obj) {
 
     return {
         typeId: "stream",
-        type: "render",
+        type: "merge",
         urls: [video, audioFileLink],
         audioFilename: `reddit_${id}_audio`,
         filename: `reddit_${id}.mp4`

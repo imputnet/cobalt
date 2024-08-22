@@ -1,7 +1,7 @@
-import { request } from 'undici';
-import { Readable } from 'node:stream';
-import { closeRequest, getHeaders, pipe } from './shared.js';
-import { handleHlsPlaylist, isHlsRequest } from './internal-hls.js';
+import { request } from "undici";
+import { Readable } from "node:stream";
+import { closeRequest, getHeaders, pipe } from "./shared.js";
+import { handleHlsPlaylist, isHlsRequest } from "./internal-hls.js";
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;

@@ -1,5 +1,5 @@
-import { createInternalStream } from './manage.js';
-import HLS from 'hls-parser';
+import HLS from "hls-parser";
+import { createInternalStream } from "./manage.js";
 
 function getURL(url) {
     try {

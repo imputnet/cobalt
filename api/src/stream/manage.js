@@ -1,12 +1,13 @@
 import NodeCache from "node-cache";
-import { randomBytes } from "crypto";
+
 import { nanoid } from "nanoid";
+import { randomBytes } from "crypto";
+import { strict as assert } from "assert";
 import { setMaxListeners } from "node:events";
 
-import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
 import { env } from "../config.js";
-import { strict as assert } from "assert";
 import { closeRequest } from "./shared.js";
+import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
@@ -37,10 +38,8 @@ export function createStream(obj) {
             service: obj.service,
             filename: obj.filename,
             audioFormat: obj.audioFormat,
-            isAudioOnly: !!obj.isAudioOnly,
             headers: obj.headers,
             copy: !!obj.copy,
-            mute: !!obj.mute,
             metadata: obj.fileMetadata || false,
             requestIP: obj.requestIP
         };

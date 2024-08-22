@@ -166,14 +166,14 @@ export default async function({ id, index, toGif, dispatcher }) {
         case 1:
             if (media[0].type === "photo") {
                 return {
-                    type: "normal",
+                    type: "proxy",
                     isPhoto: true,
                     urls: `${media[0].media_url_https}?name=4096x4096`
                 }
             }
 
             return {
-                type: needsFixing(media[0]) ? "remux" : "normal",
+                type: needsFixing(media[0]) ? "remux" : "proxy",
                 urls: bestQuality(media[0].video_info.variants),
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`,
@@ -183,7 +183,7 @@ export default async function({ id, index, toGif, dispatcher }) {
             const proxyThumb = (url) =>
                 createStream({
                     service: "twitter",
-                    type: "default",
+                    type: "proxy",
                     u: url,
                     filename: `image.${new URL(url).pathname.split(".", 2)[1]}`
                 })
@@ -199,15 +199,15 @@ export default async function({ id, index, toGif, dispatcher }) {
                 }
 
                 let url = bestQuality(content.video_info.variants);
-                const shouldRenderGif = content.type === 'animated_gif' && toGif;
+                const shouldRenderGif = content.type === "animated_gif" && toGif;
 
                 let type = "video";
                 if (shouldRenderGif) type = "gif";
 
                 if (needsFixing(content) || shouldRenderGif) {
                     url = createStream({
-                        service: 'twitter',
-                        type: shouldRenderGif ? 'gif' : 'remux',
+                        service: "twitter",
+                        type: shouldRenderGif ? "gif" : "remux",
                         u: url,
                         filename: `twitter_${id}_${i + 1}.mp4`
                     })

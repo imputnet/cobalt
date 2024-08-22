@@ -177,7 +177,7 @@ export default function(obj) {
                         ** set to `same-origin`, so we need to proxy them */
                         thumb: createStream({
                             service: "instagram",
-                            type: "default",
+                            type: "proxy",
                             u: e.node?.display_url,
                             filename: "image.jpg"
                         })
@@ -219,7 +219,7 @@ export default function(obj) {
                         ** set to `same-origin`, so we need to proxy them */
                         thumb: createStream({
                             service: "instagram",
-                            type: "default",
+                            type: "proxy",
                             u: imageUrl,
                             filename: "image.jpg"
                         })
