@@ -119,7 +119,7 @@
             if (response.audio) {
                 const pickerAudio = response.audio;
                 buttons.unshift({
-                    text: $t("button.download_audio"),
+                    text: $t("button.download.audio"),
                     main: false,
                     action: () => {
                         downloadFile(pickerAudio);
