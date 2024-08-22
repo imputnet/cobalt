@@ -9,7 +9,7 @@ export const apiSchema = z.object({
           .transform((url) => normalizeURL(decodeURIComponent(url))),
 
     audioBitrate: z.enum(
-        ["320", "256", "128", "96", "64"]
+        ["320", "256", "128", "96", "64", "8"]
     ).default("256"),
 
     audioFormat: z.enum(
