@@ -15,6 +15,7 @@ const defaultSettings: CobaltSettings = {
         reduceTransparency: false,
     },
     save: {
+        audioBitrate: "256",
         audioFormat: "mp3",
         disableMetadata: false,
         downloadMode: "auto",

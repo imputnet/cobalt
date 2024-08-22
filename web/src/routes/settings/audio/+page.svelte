@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    import { audioFormatOptions } from "$lib/types/settings";
+    import { audioFormatOptions, audioBitrateOptions } from "$lib/types/settings";
 
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
@@ -18,6 +18,21 @@
                 settingValue={value}
             >
                 {$t(`settings.audio.format.${value}`)}
+            </SettingsButton>
+        {/each}
+    </Switcher>
+</SettingsCategory>
+
+
+<SettingsCategory sectionId="audio-bitrate" title={$t("settings.audio.bitrate")}>
+    <Switcher big={true} description={$t("settings.audio.bitrate.description")}>
+        {#each audioBitrateOptions as value}
+            <SettingsButton
+                settingContext="save"
+                settingId="audioBitrate"
+                settingValue={value}
+            >
+                {value}{$t("settings.audio.bitrate.kbps")}
             </SettingsButton>
         {/each}
     </Switcher>

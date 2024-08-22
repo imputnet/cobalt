@@ -16,6 +16,7 @@ const request = async (url: string) => {
 
         downloadMode: saveSettings.downloadMode,
 
+        audioBitrate: saveSettings.audioBitrate,
         audioFormat: saveSettings.audioFormat,
         tiktokFullAudio: saveSettings.tiktokFullAudio,
         youtubeDubBrowserLang: saveSettings.youtubeDubBrowserLang,

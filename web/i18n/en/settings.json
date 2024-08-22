@@ -49,15 +49,19 @@
     "audio.format.ogg": "ogg",
     "audio.format.wav": "wav",
     "audio.format.opus": "opus",
-    "audio.format.description": "every format but \"best\" is converted, meaning that they're lossy. if preferred format matches best available audio, it won't be converted.",
+    "audio.format.description": "all formats but \"best\" are converted, meaning that there'll be some quality loss. if preferred format matches best available audio, it won't be converted.",
+
+    "audio.bitrate": "audio bitrate",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "preferred bitrate to use when converting audio. final perceived quality may differ based on the format.",
 
     "audio.youtube.dub": "youtube",
     "audio.youtube.dub.title": "use browser language for dubbed videos",
     "audio.youtube.dub.description": "works even if cobalt isn't translated to your language.",
 
     "audio.tiktok.original": "tiktok",
-    "audio.tiktok.original.title": "use original sound",
-    "audio.tiktok.original.description": "downloads original sound used in the post without any additional changes by the post's author.",
+    "audio.tiktok.original.title": "download original sound",
+    "audio.tiktok.original.description": "if enabled, cobalt will download the sound from the post without any changes by the post's author.",
 
     "metadata.filename": "filename style",
     "metadata.filename.classic": "classic",

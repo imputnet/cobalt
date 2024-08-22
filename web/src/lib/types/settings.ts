@@ -2,6 +2,7 @@ import languages from '$i18n/languages.json';
 import type { RecursivePartial } from './generic';
 
 export const themeOptions = ["auto", "light", "dark"] as const;
+export const audioBitrateOptions = ["320", "256", "128", "96", "64"] as const;
 export const audioFormatOptions = ["best", "mp3", "ogg", "wav", "opus"] as const;
 export const downloadModeOptions = ["auto", "audio", "mute"] as const;
 export const filenameStyleOptions = ["classic", "basic", "pretty", "nerdy"] as const;
@@ -32,6 +33,7 @@ type CobaltSettingsProcessing = {
 
 type CobaltSettingsSave = {
     audioFormat: typeof audioFormatOptions[number],
+    audioBitrate: typeof audioBitrateOptions[number],
     disableMetadata: boolean,
     downloadMode: typeof downloadModeOptions[number],
     filenameStyle: typeof filenameStyleOptions[number],
