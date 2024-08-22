@@ -57,12 +57,6 @@
         display: none;
     }
 
-    @media screen and (max-width: 535px) {
-        :global(dialog) {
-            justify-content: end;
-        }
-    }
-
     #dialog-holder {
         position: absolute;
         padding-top: env(safe-area-inset-bottom);
@@ -130,6 +124,10 @@
     }
 
     @media screen and (max-width: 535px) {
+        :global(dialog) {
+            justify-content: flex-end;
+        }
+
         :global(dialog.open .dialog-body) {
             animation: modal-in-mobile 0.4s;
         }
@@ -170,9 +168,12 @@
     }
 
     @keyframes modal-in-mobile {
-        from {
-            transform: translateY(200px);
+        0% {
+            transform: translateY(0);
             opacity: 0;
+        }
+        1% {
+            transform: translateY(200px);
         }
         30% {
             opacity: 1;
