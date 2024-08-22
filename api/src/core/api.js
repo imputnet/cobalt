@@ -42,13 +42,16 @@ export const runAPI = (express, app, __dirname) => {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
-    const serverInfo = {
-        version: version,
+    const serverInfo = JSON.stringify({
+        cobalt: {
+            version: version,
+            url: env.apiURL,
+            startTime: `${startTimestamp}`,
+            durationLimit: env.durationLimit,
+            services: [...env.enabledServices],
+        },
         git,
-        cors: env.corsWildcard,
-        url: env.apiURL,
-        startTime: `${startTimestamp}`,
-    }
+    })
 
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
@@ -267,7 +270,8 @@ export const runAPI = (express, app, __dirname) => {
     })
 
     app.get('/', (_, res) => {
-        return res.status(200).json(serverInfo);
+        res.type('json');
+        res.status(200).send(serverInfo);
     })
 
     app.get('/favicon.ico', (req, res) => {
