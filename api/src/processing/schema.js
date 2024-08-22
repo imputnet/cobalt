@@ -10,7 +10,7 @@ export const apiSchema = z.object({
 
     audioBitrate: z.enum(
         ["320", "256", "128", "96", "64", "8"]
-    ).default("256"),
+    ).default("128"),
 
     audioFormat: z.enum(
         ["best", "mp3", "ogg", "wav", "opus"]
