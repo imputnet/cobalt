@@ -167,7 +167,7 @@ export default function(obj) {
         const sidecar = data?.gql_data?.shortcode_media?.edge_sidecar_to_children;
         if (sidecar) {
             const picker = sidecar.edges.filter(e => e.node?.display_url)
-                .map(e => {
+                .map((e, i) => {
                     const type = e.node?.is_video ? "video" : "photo";
                     const url = type === "video" ? e.node?.video_url : e.node?.display_url;
 
@@ -179,7 +179,7 @@ export default function(obj) {
                             service: "instagram",
                             type: "proxy",
                             u: e.node?.display_url,
-                            filename: "image.jpg"
+                            filename: `instagram_${id}_${i + 1}.jpg`
                         })
                     }
                 });
@@ -203,7 +203,7 @@ export default function(obj) {
         const carousel = data.carousel_media;
         if (carousel) {
             const picker = carousel.filter(e => e?.image_versions2)
-                .map(e => {
+                .map((e, i) => {
                     const type = e.video_versions ? "video" : "photo";
                     const imageUrl = e.image_versions2.candidates[0].url;
 
@@ -221,7 +221,7 @@ export default function(obj) {
                             service: "instagram",
                             type: "proxy",
                             u: imageUrl,
-                            filename: "image.jpg"
+                            filename: `instagram_${id}_${i + 1}.jpg`
                         })
                     }
                 });
