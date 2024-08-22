@@ -203,8 +203,8 @@ export const runAPI = (express, app, __dirname) => {
         }
 
         const parsed = extract(normalizedRequest.url);
-        if (parsed === null) {
-            return fail(res, "error.api.service.unsupported");
+        if ("error" in parsed) {
+            return fail(res, `error.api.service.${parsed.error}`);
         }
 
         try {

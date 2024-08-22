@@ -1,6 +1,8 @@
-import { services } from "./service-config.js";
-import { strict as assert } from "node:assert";
 import psl from "psl";
+import { strict as assert } from "node:assert";
+
+import { env } from "../config.js";
+import { services } from "./service-config.js";
 
 function aliasURL(url) {
     assert(url instanceof URL);
@@ -160,8 +162,12 @@ export function extract(url) {
 
     const host = getHostIfValid(url);
 
-    if (!host || !services[host].enabled) {
-        return null;
+    if (!host) {
+        return { error: "unsupported" };
+    }
+
+    if (!env.enabledServices.has(host)) {
+        return { error: "disabled" };
     }
 
     let patternMatch;

@@ -5,7 +5,6 @@ export const hlsExceptions = ["dailymotion", "vimeo", "rutube"];
 
 export const services = {
     bilibili: {
-        enabled: true,
         patterns: [
             "video/:comId",
             "_shortLink/:comShortLink",
@@ -15,11 +14,9 @@ export const services = {
         subdomains: ["m"],
     },
     dailymotion: {
-        enabled: true,
         patterns: ["video/:id"],
     },
     facebook: {
-        enabled: true,
         patterns: [
             "_shortLink/:shortLink",
             ":username/videos/:caption/:id",
@@ -31,7 +28,6 @@ export const services = {
         altDomains: ["fb.watch"],
     },
     instagram: {
-        enabled: true,
         patterns: [
             "reels/:postId",
             ":username/reel/:postId",
@@ -44,11 +40,9 @@ export const services = {
         altDomains: ["ddinstagram.com"],
     },
     loom: {
-        enabled: true,
         patterns: ["share/:id"],
     },
     ok: {
-        enabled: true,
         patterns: [
             "video/:id",
             "videoembed/:id"
@@ -56,7 +50,6 @@ export const services = {
         tld: "ru",
     },
     pinterest: {
-        enabled: true,
         patterns: [
             "pin/:id",
             "pin/:id/:garbage",
@@ -64,7 +57,6 @@ export const services = {
         ],
     },
     reddit: {
-        enabled: true,
         patterns: [
             "r/:sub/comments/:id/:title",
             "user/:user/comments/:id/:title"
@@ -72,7 +64,6 @@ export const services = {
         subdomains: "*",
     },
     rutube: {
-        enabled: true,
         patterns: [
             "video/:id",
             "play/embed/:id",
@@ -84,7 +75,6 @@ export const services = {
         tld: "ru",
     },
     snapchat: {
-        enabled: true,
         patterns: [
             ":shortLink",
             "spotlight/:spotlightId",
@@ -97,7 +87,6 @@ export const services = {
         subdomains: ["t", "story"],
     },
     soundcloud: {
-        enabled: true,
         patterns: [
             ":author/:song/s-:accessKey",
             ":author/:song",
@@ -106,7 +95,6 @@ export const services = {
         subdomains: ["on", "m"],
     },
     streamable: {
-        enabled: true,
         patterns: [
             ":id",
             "o/:id",
@@ -115,7 +103,6 @@ export const services = {
         ],
     },
     tiktok: {
-        enabled: true,
         patterns: [
             ":user/video/:postId",
             ":id",
@@ -126,7 +113,6 @@ export const services = {
         subdomains: ["vt", "vm", "m"],
     },
     tumblr: {
-        enabled: true,
         patterns: [
             "post/:id",
             "blog/view/:user/:id",
@@ -136,12 +122,10 @@ export const services = {
         subdomains: "*",
     },
     twitch: {
-        enabled: true,
         patterns: [":channel/clip/:clip"],
         tld: "tv",
     },
     twitter: {
-        enabled: true,
         patterns: [
             ":user/status/:id",
             ":user/status/:id/video/:index",
@@ -153,12 +137,10 @@ export const services = {
         altDomains: ["x.com", "vxtwitter.com", "fixvx.com"],
     },
     vine: {
-        enabled: true,
         patterns: ["v/:id"],
         tld: "co",
     },
     vimeo: {
-        enabled: true,
         patterns: [
             ":id",
             "video/:id",
@@ -168,7 +150,6 @@ export const services = {
         subdomains: ["player"],
     },
     vk: {
-        enabled: true,
         patterns: [
             "video:userId_:videoId",
             "clip:userId_:videoId",
@@ -177,7 +158,6 @@ export const services = {
         subdomains: ["m"],
     },
     youtube: {
-        enabled: true,
         patterns: [
             "watch?v=:id",
             "embed/:id",

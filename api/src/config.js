@@ -1,4 +1,13 @@
+import { services } from "./processing/service-config.js";
+
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
+
+const disabledServices = process.env.DISABLED_SERVICES?.split(',') || [];
+const enabledServices = new Set(Object.keys(services).filter(e => {
+    if (!disabledServices.includes(e)) {
+        return e;
+    }
+}));
 
 const env = {
     apiURL: process.env.API_URL || '',
@@ -27,6 +36,8 @@ const env = {
     turnstileSecret: process.env.TURNSTILE_SECRET,
     jwtSecret: process.env.JWT_SECRET,
     jwtLifetime: process.env.JWT_EXPIRY || 120,
+
+    enabledServices,
 }
 
 export {
