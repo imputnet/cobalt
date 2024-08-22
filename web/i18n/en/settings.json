@@ -53,7 +53,7 @@
 
     "audio.bitrate": "audio bitrate",
     "audio.bitrate.kbps": "kb/s",
-    "audio.bitrate.description": "preferred bitrate to use when converting audio. final perceived quality may differ based on the format.",
+    "audio.bitrate.description": "bitrate will be used only when converting audio. cobalt cannot get higher quality than what source provides, so selecting bitrate greater than 128kb/s may artificially inflate the file with no audible difference. final perceived quality may differ based on the format.",
 
     "audio.youtube.dub": "youtube",
     "audio.youtube.dub.title": "use browser language for dubbed videos",
