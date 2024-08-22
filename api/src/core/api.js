@@ -1,23 +1,21 @@
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, ProxyAgent } from "undici";
-
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
 
+import jwt from "../security/jwt.js";
+import stream from "../stream/stream.js";
+import match from "../processing/match.js";
+
 import { env } from "../config.js";
-
-import { generateHmac, generateSalt } from "../misc/crypto.js";
-import { Bright, Cyan } from "../misc/console-text.js";
+import { extract } from "../processing/url.js";
 import { languageCode } from "../misc/utils.js";
-
-import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
-import { verifyStream, getInternalStream } from "../stream/manage.js";
+import { Bright, Cyan } from "../misc/console-text.js";
+import { generateHmac, generateSalt } from "../misc/crypto.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
-import { extract } from "../processing/url.js";
-import match from "../processing/match.js";
-import stream from "../stream/stream.js";
-import jwt from "../security/jwt.js";
+import { verifyStream, getInternalStream } from "../stream/manage.js";
+import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 
 const git = {
     branch: await getBranch(),
@@ -40,7 +38,7 @@ const fail = (res, code) => {
     res.status(status).json(body);
 }
 
-export function runAPI(express, app, __dirname) {
+export const runAPI = (express, app, __dirname) => {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
