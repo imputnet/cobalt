@@ -261,7 +261,8 @@ export default async function(host, patternMatch, obj) {
             disableMetadata,
             filenameStyle: obj.filenameStyle,
             twitterGif: obj.twitterGif,
-            requestIP
+            requestIP,
+            audioBitrate: obj.audioBitrate,
         })
     } catch {
         return createResponse("error", {

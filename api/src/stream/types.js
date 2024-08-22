@@ -3,11 +3,18 @@ import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
 
-import { env, ffmpegArgs } from "../config.js";
+import { env } from "../config.js";
 import { metadataManager } from "../misc/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
 import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
+
+const ffmpegArgs = {
+    webm: ["-c:v", "copy", "-c:a", "copy"],
+    mp4: ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
+    m4a: ["-movflags", "frag_keyframe+empty_moov"],
+    gif: ["-vf", "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse", "-loop", "0"]
+}
 
 const toRawHeaders = (headers) => {
     return Object.entries(headers)
@@ -209,16 +216,22 @@ const convertAudio = (streamInfo, res) => {
             '-vn'
         )
 
-        if (streamInfo.metadata) {
-            args = args.concat(metadataManager(streamInfo.metadata))
+        if (streamInfo.audioCopy) {
+            args.push("-c:a", "copy")
+        } else {
+            args.push("-b:a", `${streamInfo.audioBitrate}k`)
         }
 
-        args = args.concat(
-            streamInfo.copy ? ["-c:a", "copy"] : ffmpegArgs.audio
-        );
+        if (streamInfo.audioFormat === "opus") {
+            args.push("-vbr", "off")
+        }
 
         if (ffmpegArgs[streamInfo.audioFormat]) {
             args = args.concat(ffmpegArgs[streamInfo.audioFormat])
+        }
+
+        if (streamInfo.metadata) {
+            args = args.concat(metadataManager(streamInfo.metadata))
         }
 
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');
@@ -257,7 +270,7 @@ const convertGif = (streamInfo, res) => {
         }
 
         args.push('-i', streamInfo.urls);
-        args = args.concat(ffmpegArgs["gif"]);
+        args = args.concat(ffmpegArgs.gif);
         args.push('-f', "gif", 'pipe:3');
 
         process = spawn(...getCommand(args), {

@@ -5,7 +5,7 @@ import { createResponse } from "./request.js";
 import { createStream } from "../stream/manage.js";
 import { audioIgnore, services } from "./service-config.js";
 
-export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP }) {
+export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate }) {
     let action,
         responseType = "stream",
         defaultParams = {
@@ -193,8 +193,10 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             params = {
                 type: processType,
                 u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
-                audioFormat: audioFormat,
-                copy: copy
+
+                audioBitrate,
+                audioCopy: copy,
+                audioFormat,
             }
             break;
     }

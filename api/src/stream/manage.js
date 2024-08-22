@@ -37,11 +37,15 @@ export function createStream(obj) {
             urls: obj.u,
             service: obj.service,
             filename: obj.filename,
-            audioFormat: obj.audioFormat,
+
+            requestIP: obj.requestIP,
             headers: obj.headers,
-            copy: !!obj.copy,
+
             metadata: obj.fileMetadata || false,
-            requestIP: obj.requestIP
+
+            audioBitrate: obj.audioBitrate,
+            audioCopy: !!obj.audioCopy,
+            audioFormat: obj.audioFormat,
         };
 
     streamCache.set(
