@@ -50,8 +50,8 @@
 
     :global([data-theme="dark"]) #donate-page {
         --donate-border-opacity: 0.05;
-        --donate-gradient-start: #101010;
-        --donate-gradient-end: #2d2d2d;
+        --donate-gradient-start: #111111;
+        --donate-gradient-end: #2a2a2a;
     }
 
     #support-options {
