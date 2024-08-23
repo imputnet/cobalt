@@ -6,7 +6,7 @@
 
 <svelte:head>
     <title>
-        {$t("general.cobalt")}: {$t("tabs.about")}
+        {$t("tabs.about")} ~ {$t("general.cobalt")}
     </title>
 </svelte:head>
 

@@ -96,7 +96,7 @@
 </script>
 
 <svelte:head>
-    <title>{$t("general.cobalt")}: {$t("tabs.remux")}</title>
+    <title>{$t("tabs.remux")} ~ {$t("general.cobalt")}</title>
 </svelte:head>
 
 <DropReceiver id="remux-container" bind:draggedOver bind:file>

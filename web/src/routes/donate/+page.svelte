@@ -10,7 +10,7 @@
 
 <svelte:head>
     <title>
-        {$t("general.cobalt")}: {$t("tabs.donate")}
+        {$t("tabs.donate")} ~ {$t("general.cobalt")}
     </title>
 </svelte:head>
 
