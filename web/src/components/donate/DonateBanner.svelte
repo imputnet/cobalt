@@ -116,7 +116,7 @@
         flex-direction: column;
         justify-content: center;
         color: white;
-        padding: 55px;
+        padding: 48px;
         padding-right: 0;
         gap: 14px;
         white-space: pre-wrap;
