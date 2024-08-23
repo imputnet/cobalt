@@ -33,7 +33,7 @@
     <div id="banner-background">
         <div id="banner-background-animation">
             <div id="banner-background-inner">
-                {#each { length: 160 } as _}
+                {#each { length: 150 } as _}
                     <IconHeart class="heart-icon" />
                 {/each}
             </div>
