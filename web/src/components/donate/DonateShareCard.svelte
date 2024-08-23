@@ -225,6 +225,7 @@
     @media screen and (max-width: 760px) {
         :global(#share-box) {
             width: calc(100% - var(--donate-card-main-padding) * 2);
+            background: var(--donate-gradient-start);
             min-width: unset;
         }
 
