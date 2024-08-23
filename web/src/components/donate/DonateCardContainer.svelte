@@ -79,4 +79,10 @@
         gap: 4px;
         font-weight: 500;
     }
+
+    @media screen and (max-width: 760px) {
+        :global(.donate-card) {
+            --donate-card-main-padding: 16px;
+        }
+    }
 </style>
