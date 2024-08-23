@@ -23,7 +23,7 @@
             <slot></slot>
         </div>
         <div class="settings-tab-text">
-            <span>{$t(`settings.page.${tabName}`)}</span>
+            {$t(`settings.page.${tabName}`)}
         </div>
     </div>
     <div class="settings-tab-chevron">
@@ -97,8 +97,9 @@
         color: var(--primary);
     }
 
-    .settings-tab span {
+    .settings-tab-text {
         font-size: 14.5px;
+        line-height: 1.35;
     }
 
     @media screen and (max-width: 750px) {
