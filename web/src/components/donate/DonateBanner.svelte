@@ -240,6 +240,11 @@
     }
 
     @media screen and (max-width: 550px) {
+        #banner-left {
+            padding: 32px 12px;
+            gap: 12px;
+        }
+
         #banner-title {
             font-size: 36px;
         }
