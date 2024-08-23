@@ -22,7 +22,9 @@
         <div class="tab-icon" style="background: var(--{iconColor})">
             <slot></slot>
         </div>
-        <span>{$t(`settings.page.${tabName}`)}</span>
+        <div class="settings-tab-text">
+            <span>{$t(`settings.page.${tabName}`)}</span>
+        </div>
     </div>
     <div class="settings-tab-chevron">
         <IconChevronRight />
@@ -57,19 +59,27 @@
         font-weight: 500;
     }
 
-    .settings-tab :global(svg) {
+    .tab-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: var(--small-padding);
+        border-radius: 5px;
+    }
+
+    .settings-tab .tab-icon :global(svg) {
         stroke-width: 1.5px;
+        stroke: var(--white);
         height: 20px;
         width: 20px;
     }
 
-    .settings-tab .tab-icon :global(svg) {
-        stroke: var(--white);
-    }
-
     .settings-tab-chevron :global(svg) {
         display: none;
-        stroke: var(--secondary);
+        stroke-width: 2px;
+        stroke: var(--gray);
+        height: 18px;
+        width: 18px;
     }
 
     @media (hover: hover) {
@@ -91,34 +101,26 @@
         font-size: 14.5px;
     }
 
-    .tab-icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: var(--small-padding);
-        border-radius: 5px;
-    }
-
     @media screen and (max-width: 750px) {
         .settings-tab {
             --big-padding: 7px;
             background: none;
-            padding: var(--big-padding) calc(var(--big-padding) * 1.5);
-        }
-
-        .settings-tab-left {
-            gap: calc(var(--big-padding) * 1.5);
+            padding: var(--big-padding) 11px;
         }
 
         .settings-tab:not(:last-child) {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
-            box-shadow: 0 3px 0px -1.7px var(--button-stroke);
+            box-shadow: 48px 3px 0px -1.8px var(--button-stroke);
         }
 
         .settings-tab:not(:first-child) {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
+        }
+
+        .settings-tab-left {
+            gap: 10px;
         }
 
         .settings-tab-chevron :global(svg) {

@@ -24,6 +24,8 @@
 
     #settings-section {
         gap: 6px;
+        border-radius: var(--border-radius);
+        overflow: hidden;
     }
 
     #settings-section-title {
