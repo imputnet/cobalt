@@ -30,7 +30,7 @@
         tab.classList.add("animate");
         setTimeout(() => {
             tab.classList.remove("animate");
-        }, 220);
+        }, 250);
     }
 </script>
 
@@ -102,10 +102,10 @@
             transform: scale(0.95);
         }
         50% {
-            transform: scale(1.01);
+            transform: scale(1.02);
         }
         100% {
-            transform: none;
+            transform: scale(1);
         }
     }
 
