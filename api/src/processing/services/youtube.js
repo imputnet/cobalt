@@ -111,6 +111,8 @@ export default async function(o) {
     } catch(e) {
         if (e.message?.endsWith("decipher algorithm")) {
             return { error: "youtube.decipher" }
+        } else if (e.message?.includes("refresh access token")) {
+            return { error: "youtube.token_expired" }
         } else throw e;
     }
 
