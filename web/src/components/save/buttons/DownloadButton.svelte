@@ -77,7 +77,7 @@
 
             return createDialog({
                 ...defaultErrorPopup,
-                bodyText: $t(response.error.code),
+                bodyText: $t(response.error.code, response?.error?.context),
             });
         }
 

@@ -25,6 +25,8 @@ const defaultLocale = 'en';
 const config: Config<{
     value?: string;
     formats?: string;
+    limit?: number;
+    service?: string;
 }> = {
     fallbackLocale: defaultLocale,
     translations: Object.keys(parsedLocfiles).reduce((obj, lang) => {
