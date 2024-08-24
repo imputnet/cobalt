@@ -77,12 +77,7 @@ const getHLS = async (configURL, obj) => {
     if (!api) return { error: "fetch.fail" };
 
     if (api.video?.duration > env.durationLimit) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
 
     const urlMasterHLS = api.request?.files?.hls?.cdns?.akfire_interconnect_quic?.url;

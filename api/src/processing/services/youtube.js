@@ -210,12 +210,7 @@ export default async function(o) {
         return { error: "youtube.codec" };
 
     if (basicInfo.duration > env.durationLimit)
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
 
     const checkBestAudio = (i) => (i.has_audio && !i.has_video);
 

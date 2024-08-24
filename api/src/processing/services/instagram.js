@@ -295,12 +295,7 @@ export default function(obj) {
 
     async function getStory(username, id) {
         const cookie = getCookie('instagram');
-        if (!cookie) return {
-            error: "link.unsupported",
-            context: {
-                service: "instagram"
-            }
-        }
+        if (!cookie) return { error: "link.unsupported" };
 
         const userId = await usernameToId(username, cookie);
         if (!userId) return { error: "fetch.empty" };
@@ -343,12 +338,7 @@ export default function(obj) {
             }
         }
 
-        return {
-            error: "link.unsupported",
-            context: {
-                service: "instagram"
-            }
-        }
+        return { error: "link.unsupported" };
     }
 
     const { postId, storyId, username } = obj;

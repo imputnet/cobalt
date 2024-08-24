@@ -22,12 +22,7 @@ export default async function(input) {
     let { subdomain } = psl.parse(input.url.hostname);
 
     if (subdomain?.includes('.')) {
-        return {
-            error: "link.unsupported",
-            context: {
-                service: "tumblr"
-            }
-        }
+        return { error: "link.unsupported" };
     } else if (subdomain === 'www' || subdomain === 'at') {
         subdomain = undefined
     }

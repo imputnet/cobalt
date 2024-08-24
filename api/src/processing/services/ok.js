@@ -38,12 +38,7 @@ export default async function(o) {
         return { error: "content.video.live" };
 
     if (videoData.movie.duration > env.durationLimit)
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
 
     let videos = videoData.videos.filter(v => !v.disallowed);
     let bestVideo = videos.find(v => resolutions[v.name] === quality) || videos[videos.length - 1];

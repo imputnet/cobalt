@@ -246,9 +246,27 @@ export default async function(host, patternMatch, obj) {
         }
 
         if (r.error) {
+            let context;
+            switch(r.error) {
+                case "content.too_long":
+                    context = {
+                        limit: env.durationLimit / 60,
+                    }
+                    break;
+
+                case "fetch.fail":
+                case "fetch.rate":
+                case "content.video.unavailable":
+                case "link.unsupported":
+                    context = {
+                        service: host,
+                    }
+                    break;
+            }
+
             return createResponse("error", {
                 code: `error.api.${r.error}`,
-                context: r?.context
+                context
             })
         }
 

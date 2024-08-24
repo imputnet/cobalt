@@ -39,12 +39,7 @@ export default async function(obj) {
     if (play.live_streams?.hls) return { error: "content.video.live" };
 
     if (play.duration > env.durationLimit * 1000)
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
 
     let m3u8 = await fetch(play.video_balancer.m3u8)
                      .then(r => r.text())

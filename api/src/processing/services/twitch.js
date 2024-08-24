@@ -36,12 +36,7 @@ export default async function (obj) {
     const clipMetadata = req_metadata.data.clip;
 
     if (clipMetadata.durationSeconds > env.durationLimit) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
     if (!clipMetadata.videoQualities || !clipMetadata.broadcaster) {
         return { error: "fetch.empty" };

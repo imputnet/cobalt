@@ -82,12 +82,7 @@ export default async function(obj) {
         return { error: "fetch.empty" };
 
     if (json.duration > env.durationLimit * 1000) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
 
     let file = await fetch(fileUrl)

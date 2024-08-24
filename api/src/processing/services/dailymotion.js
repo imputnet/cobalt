@@ -74,12 +74,7 @@ export default async function({ id }) {
     }
 
     if (media.duration > env.durationLimit) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
 
     const manifest = await fetch(media.hlsURL).then(r => r.text()).catch(() => {});

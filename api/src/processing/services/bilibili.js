@@ -47,12 +47,7 @@ async function com_download(id) {
 
     let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
     if (streamData.data.timelength > env.durationLimit * 1000) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
 
     const [ video, audio ] = extractBestQuality(streamData.data.dash);
@@ -92,12 +87,7 @@ async function tv_download(id) {
     }
 
     if (video.duration > env.durationLimit * 1000) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
 
     return {

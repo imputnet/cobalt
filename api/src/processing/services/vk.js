@@ -29,12 +29,7 @@ export default async function(o) {
     }
 
     if (js.mvData.duration > env.durationLimit) {
-        return {
-            error: "content.too_long",
-            context: {
-                limit: env.durationLimit / 60
-            }
-        }
+        return { error: "content.too_long" };
     }
 
     for (let i in resolutions) {
