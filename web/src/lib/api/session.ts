@@ -54,7 +54,7 @@ export const getSession = async () => {
     if (!newSession) return {
         status: "error",
         error: {
-            code: "error.api.generic"
+            code: "error.api.unreachable"
         }
     } as CobaltErrorResponse
 
