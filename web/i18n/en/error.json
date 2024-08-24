@@ -21,7 +21,7 @@
     "api.service.unsupported": "this service is not supported yet. have you pasted the right link?",
     "api.service.disabled": "this service is supported by cobalt, but it's disabled on this instance. try a link from another service!",
 
-    "api.link.invalid": "your link is invalid or this service is not supported yet. are you sure you pasted the right link?",
+    "api.link.invalid": "your link is invalid or this service is not supported yet. have you pasted the right link?",
     "api.link.unsupported": "{{ service }} is supported, but i couldn't recognize your link. have you pasted the right one?",
 
     "api.fetch.fail": "something went wrong when fetching info from {{ service }} and i couldn't find anything for you. are you sure your link works? if it does and you still see this error, let us know, and we'll try to help!",
