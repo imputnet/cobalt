@@ -119,6 +119,10 @@ export default async function({ id, index, toGif, dispatcher }) {
 
     let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
 
+    if (!tweetTypename) {
+        return { error: "fetch.empty" }
+    }
+
     if (tweetTypename === "TweetUnavailable") {
         const reason = tweet?.data?.tweetResult?.result?.reason;
         switch(reason) {
@@ -131,10 +135,6 @@ export default async function({ id, index, toGif, dispatcher }) {
                     tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
                 } else return { error: "content.post.age" }
         }
-    }
-
-    if (!tweetTypename) {
-        return { error: "link.invalid" }
     }
 
     if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
