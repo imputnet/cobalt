@@ -256,8 +256,8 @@ export default async function(host, patternMatch, obj) {
 
                 case "fetch.fail":
                 case "fetch.rate":
+                case "fetch.critical":
                 case "link.unsupported":
-                case "api.fetch.critical":
                 case "content.video.unavailable":
                     context = {
                         service: host,
