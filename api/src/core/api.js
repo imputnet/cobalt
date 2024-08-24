@@ -33,8 +33,8 @@ const corsConfig = env.corsWildcard ? {} : {
     optionsSuccessStatus: 200
 }
 
-const fail = (res, code) => {
-    const { status, body } = createResponse("error", { code });
+const fail = (res, code, context) => {
+    const { status, body } = createResponse("error", { code, context });
     res.status(status).json(body);
 }
 
@@ -206,8 +206,16 @@ export const runAPI = (express, app, __dirname) => {
         }
 
         const parsed = extract(normalizedRequest.url);
+
+        if (!parsed) {
+            return fail(res, "error.api.link.invalid");
+        }
         if ("error" in parsed) {
-            return fail(res, `error.api.service.${parsed.error}`);
+            let context;
+            if (parsed?.context) {
+                context = parsed.context;
+            }
+            return fail(res, `error.api.${parsed.error}`, context);
         }
 
         try {

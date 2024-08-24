@@ -56,7 +56,7 @@ export default async function(host, patternMatch, obj) {
         }
         if (!(testers[host](patternMatch))) {
             return createResponse("error", {
-                code: "error.api.link.invalid",
+                code: "error.api.link.unsupported",
                 context: {
                     service: host
                 }

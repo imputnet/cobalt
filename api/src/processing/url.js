@@ -163,11 +163,11 @@ export function extract(url) {
     const host = getHostIfValid(url);
 
     if (!host) {
-        return { error: "unsupported" };
+        return { error: "link.invalid" };
     }
 
     if (!env.enabledServices.has(host)) {
-        return { error: "disabled" };
+        return { error: "service.disabled" };
     }
 
     let patternMatch;
@@ -182,7 +182,12 @@ export function extract(url) {
     }
 
     if (!patternMatch) {
-        return null;
+        return {
+            error: "link.unsupported",
+            context: {
+                service: host
+            }
+        };
     }
 
     return { host, patternMatch };
