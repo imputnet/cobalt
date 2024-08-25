@@ -1,78 +1,46 @@
-export default function(f, template, isAudioOnly, isAudioMuted) {
+export default (f, style, isAudioOnly, isAudioMuted) => {
     let filename = '';
 
-    switch(template) {
+    let infoBase = [f.service, f.id];
+
+    let classicTags = infoBase.concat([
+        f.resolution,
+        f.youtubeFormat,
+    ]);
+
+    let basicTags = [f.qualityLabel, f.youtubeFormat];
+
+    const title = `${f.title} - ${f.author}`;
+
+    if (isAudioMuted) {
+        classicTags.push("mute");
+        basicTags.push("mute");
+    } else if (f.youtubeDubName) {
+        classicTags.push(f.youtubeDubName);
+        basicTags.push(f.youtubeDubName);
+    }
+
+    switch (style) {
         default:
         case "classic":
-            // youtube_MMK3L4W70g4_1920x1080_h264_mute.mp4
-            // youtube_MMK3L4W70g4_audio.mp3
-            filename += `${f.service}_${f.id}`;
-            if (!isAudioOnly) {
-                if (f.resolution) filename += `_${f.resolution}`;
-                if (f.youtubeFormat) filename += `_${f.youtubeFormat}`;
-                if (!isAudioMuted && f.youtubeDubName) filename += `_${f.youtubeDubName}`;
-                if (isAudioMuted) filename += '_mute';
-                filename += `.${f.extension}`
-            } else {
-                filename += `_audio`;
-                if (f.youtubeDubName) filename += `_${f.youtubeDubName}`;
+            if (isAudioOnly) {
+                infoBase.push(f.youtubeDubName);
+                return `${infoBase.join("_")}_audio`;
             }
-            break;
-        case "pretty":
-            // Loossemble (루셈블) - 'Sensitive' MV (1080p, h264, mute, youtube).mp4
-            // How secure is 256 bit security? - 3Blue1Brown (es, youtube).mp3
-            filename += `${f.title} `;
-            if (!isAudioOnly) {
-                filename += '('
-                if (f.qualityLabel) filename += `${f.qualityLabel}, `;
-                if (f.youtubeFormat) filename += `${f.youtubeFormat}, `;
-                if (!isAudioMuted && f.youtubeDubName) filename += `${f.youtubeDubName}, `;
-                if (isAudioMuted) filename += 'mute, ';
-                filename += `${f.service}`;
-                filename += ')';
-                filename += `.${f.extension}`
-            } else {
-                filename += `- ${f.author} (`;
-                if (f.youtubeDubName) filename += `${f.youtubeDubName}, `;
-                filename += `${f.service})`
-            }
+            filename = classicTags.join("_");
             break;
         case "basic":
-            // Loossemble (루셈블) - 'Sensitive' MV (1080p, h264, ru).mp4
-            // How secure is 256 bit security? - 3Blue1Brown (es).mp3
-            filename += `${f.title} `;
-            if (!isAudioOnly) {
-                filename += '('
-                if (f.qualityLabel) filename += `${f.qualityLabel}, `;
-                if (f.youtubeFormat) filename += `${f.youtubeFormat}`;
-                if (!isAudioMuted && f.youtubeDubName) filename += `, ${f.youtubeDubName}`;
-                if (isAudioMuted) filename += ', mute';
-                filename += ')';
-                filename += `.${f.extension}`
-            } else {
-                filename += `- ${f.author}`;
-                if (f.youtubeDubName) filename += ` (${f.youtubeDubName})`;
-            }
+            if (isAudioOnly) return title;
+            filename = `${title} (${basicTags.join(", ")})`;
+            break;
+        case "pretty":
+            if (isAudioOnly) return `${title} (${infoBase[0]})`;
+            filename = `${title} (${[...basicTags, infoBase[0]].join(", ")})`;
             break;
         case "nerdy":
-            // Loossemble (루셈블) - 'Sensitive' MV (1080p, h264, ru, youtube, MMK3L4W70g4).mp4
-            // Loossemble (루셈블) - 'Sensitive' MV - Loossemble (ru, youtube, MMK3L4W70g4).mp4
-            filename += `${f.title} `;
-            if (!isAudioOnly) {
-                filename += '('
-                if (f.qualityLabel) filename += `${f.qualityLabel}, `;
-                if (f.youtubeFormat) filename += `${f.youtubeFormat}, `;
-                if (!isAudioMuted && f.youtubeDubName) filename += `${f.youtubeDubName}, `;
-                if (isAudioMuted) filename += 'mute, ';
-                filename += `${f.service}, ${f.id}`;
-                filename += ')'
-                filename += `.${f.extension}`
-            } else {
-                filename += `- ${f.author} (`;
-                if (f.youtubeDubName) filename += `${f.youtubeDubName}, `;
-                filename += `${f.service}, ${f.id})`
-            }
+            if (isAudioOnly) return `${title} (${infoBase.join(", ")})`;
+            filename = `${title} (${basicTags.concat(infoBase).join(", ")})`;
             break;
     }
-    return filename.replace(' ,', '').replace(', )', ')').replace(',)', ')')
+    return `${filename}.${f.extension}`;
 }
