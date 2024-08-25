@@ -1,7 +1,10 @@
 <script lang="ts">
-    import { copyURL } from "$lib/download";
-    import CopyIcon from "$components/misc/CopyIcon.svelte";
+    import { copyURL, openURL } from "$lib/download";
 
+    import CopyIcon from "$components/misc/CopyIcon.svelte";
+    import IconExternalLink from "@tabler/icons-svelte/IconExternalLink.svelte";
+
+    export let type: "copy" | "open";
     export let name: string;
     export let address: string;
 
@@ -18,17 +21,31 @@
     <button
         class="wallet"
         on:click={() => {
-            copied = true;
-            copyURL(address);
+            if (type === "copy") {
+                copied = true;
+                copyURL(address);
+            } else {
+                openURL(address);
+            }
         }}
     >
-        <div class="wallet-copy">
-            <CopyIcon regularIcon={true} check={copied} />
+        <div class="wallet-icon">
+            {#if type === "copy"}
+                <CopyIcon regularIcon={true} check={copied} />
+            {:else}
+                <IconExternalLink />
+            {/if}
         </div>
 
         <div class="wallet-text">
             <div class="wallet-name">{name}</div>
-            <span class="wallet-address">{address}</span>
+            <span class="wallet-address">
+                {#if type === "copy"}
+                    {address}
+                {:else}
+                    {address.split("//", 2)[1]}
+                {/if}
+            </span>
         </div>
     </button>
 </div>
@@ -57,7 +74,7 @@
         gap: 10px;
     }
 
-    .wallet-copy {
+    .wallet-icon {
         min-width: 42px;
         max-width: 42px;
         height: 100%;
@@ -74,9 +91,10 @@
         padding: 6px 0;
     }
 
-    .wallet-copy :global(svg) {
+    .wallet-icon :global(svg) {
         width: 18px;
         height: 18px;
+        color: var(--secondary);
     }
 
     .wallet-text,

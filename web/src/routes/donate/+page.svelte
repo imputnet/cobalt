@@ -4,10 +4,10 @@
     import { donate } from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
-    import WalletItem from "$components/donate/WalletItem.svelte";
     import DonateBanner from "$components/donate/DonateBanner.svelte";
-    import DonateOptionsCard from "$components/donate/DonateOptionsCard.svelte";
+    import DonateAltItem from "$components/donate/DonateAltItem.svelte";
     import DonateShareCard from "$components/donate/DonateShareCard.svelte";
+    import DonateOptionsCard from "$components/donate/DonateOptionsCard.svelte";
 
     import IconDiamond from "@tabler/icons-svelte/IconDiamond.svelte";
 </script>
@@ -38,7 +38,10 @@
         </div>
         <div id="wallet-grid">
             {#each Object.entries(donate.crypto) as [name, address]}
-                <WalletItem {name} {address} />
+                <DonateAltItem type="copy" {name} {address} />
+            {/each}
+            {#each Object.entries(donate.other) as [name, address]}
+                <DonateAltItem type="open" {name} {address} />
             {/each}
         </div>
     </section>
