@@ -97,7 +97,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        margin-bottom: 2em;
+        margin-bottom: 12px;
     }
 
     @media screen and (max-width: 760px) {
