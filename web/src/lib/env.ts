@@ -23,6 +23,9 @@ const donate = {
         litecoin: "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
         bitcoin: "bc1qlvcnlnyzfsgnuxyxsv3k0p0q0yln0azjpadyx4",
         ton: "UQA3SO-hHZq1oCCT--u6or6ollB8fd2o52aD8mXiLk9iDZd3",
+    },
+    other: {
+        boosty: "https://boosty.to/wukko/donate",
     }
 };
 
