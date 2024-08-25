@@ -227,7 +227,7 @@ export default async function(o) {
             && i.audio_track
         )
 
-        if (dubbedAudio) {
+        if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
             audio = dubbedAudio;
             isDubbed = true;
         }
