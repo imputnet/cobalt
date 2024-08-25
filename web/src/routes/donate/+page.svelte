@@ -80,6 +80,10 @@
         padding: 0 12px;
     }
 
+    #crypto {
+        margin-bottom: 12px;
+    }
+
     #crypto-section-header {
         display: flex;
         align-items: center;
@@ -97,7 +101,6 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        margin-bottom: 12px;
     }
 
     @media screen and (max-width: 760px) {
