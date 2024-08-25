@@ -1,11 +1,15 @@
 <script lang="ts">
     import "@fontsource/redaction-10/400.css";
 
+    import { donate } from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
+    import WalletItem from "$components/donate/WalletItem.svelte";
     import DonateBanner from "$components/donate/DonateBanner.svelte";
     import DonateOptionsCard from "$components/donate/DonateOptionsCard.svelte";
     import DonateShareCard from "$components/donate/DonateShareCard.svelte";
+
+    import IconDiamond from "@tabler/icons-svelte/IconDiamond.svelte";
 </script>
 
 <svelte:head>
@@ -16,17 +20,27 @@
 
 <main id="donate-page">
     <DonateBanner />
+
     <section id="support-options">
         <DonateOptionsCard />
         <DonateShareCard />
     </section>
-    <section id="donate-text" class="long-text-noto">
-        <p>
-            {$t("donate.body.motivation")}
-        </p>
-        <p>
-            {$t("donate.body.keep_going")}
-        </p>
+
+    <section id="motivation" class="long-text-noto">
+        <p>{$t("donate.body.motivation")}</p>
+        <p>{$t("donate.body.keep_going")}</p>
+    </section>
+
+    <section id="crypto">
+        <div id="crypto-section-header">
+            <IconDiamond />
+            <h3 id="crypto-title">{$t("donate.alternative.title")}</h3>
+        </div>
+        <div id="wallet-grid">
+            {#each Object.entries(donate.crypto) as [name, address]}
+                <WalletItem {name} {address} />
+            {/each}
+        </div>
     </section>
 </main>
 
@@ -61,8 +75,29 @@
         width: 100%;
     }
 
-    #donate-text {
-        padding: 0 24px;
+    #motivation,
+    #crypto {
+        padding: 0 12px;
+    }
+
+    #crypto-section-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+    #crypto-section-header :global(svg) {
+        width: 22px;
+        height: 22px;
+        stroke-width: 1.8px;
+    }
+
+    #wallet-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 2em;
     }
 
     @media screen and (max-width: 760px) {
@@ -70,7 +105,12 @@
             flex-direction: column;
         }
 
-        #donate-text {
+        #wallet-grid {
+            grid-template-columns: 1fr;
+        }
+
+        #motivation,
+        #crypto {
             padding: 0 6px;
         }
     }

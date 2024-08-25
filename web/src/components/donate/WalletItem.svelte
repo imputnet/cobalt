@@ -1,0 +1,92 @@
+<script lang="ts">
+    import { copyURL } from "$lib/download";
+    import CopyIcon from "$components/misc/CopyIcon.svelte";
+
+    export let name: string;
+    export let address: string;
+
+    let copied = false;
+
+    $: if (copied) {
+        setTimeout(() => {
+            copied = false;
+        }, 1500);
+    }
+</script>
+
+<div class="wallet-holder">
+    <button
+        class="wallet"
+        on:click={() => {
+            copied = true;
+            copyURL(address);
+        }}
+    >
+        <div class="wallet-copy">
+            <CopyIcon regularIcon={true} check={copied} />
+        </div>
+
+        <div class="wallet-text">
+            <div class="wallet-name">{name}</div>
+            <span class="wallet-address">{address}</span>
+        </div>
+    </button>
+</div>
+
+<style>
+    .wallet-holder {
+        display: flex;
+        gap: 6px;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .wallet-name {
+        font-size: 13px;
+        color: var(--gray);
+        font-weight: 400;
+    }
+
+    .wallet {
+        overflow: clip;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: left;
+        line-break: anywhere;
+        padding: 0;
+        gap: 10px;
+    }
+
+    .wallet-copy {
+        min-width: 42px;
+        max-width: 42px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1.5px var(--button-stroke) solid;
+        margin-left: 3px;
+    }
+
+    .wallet-text {
+        display: flex;
+        flex-direction: column;
+        padding: 6px 0;
+    }
+
+    .wallet-copy :global(svg) {
+        width: 18px;
+        height: 18px;
+    }
+
+    .wallet-text,
+    .wallet-address {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .wallet-address {
+        font-size: 14px;
+    }
+</style>
