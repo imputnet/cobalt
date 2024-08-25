@@ -11,9 +11,7 @@
 
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
-    import IconTransform from "@tabler/icons-svelte/IconTransform.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
-    import IconArrowsMinimize from "@tabler/icons-svelte/IconArrowsMinimize.svelte";
 
     import { defaultSettingsPage } from "$lib/settings/defaults";
 
@@ -32,14 +30,6 @@
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
             </SidebarTab>
-            <!--
-            <SidebarTab tabName="convert" tabLink="/convert">
-                <IconTransform />
-            </SidebarTab>
-            <SidebarTab tabName="shrink" tabLink="/shrink">
-                <IconArrowsMinimize />
-            </SidebarTab>
-            -->
             <SidebarTab tabName="remux" tabLink="/remux">
                 <IconRepeat />
             </SidebarTab>
