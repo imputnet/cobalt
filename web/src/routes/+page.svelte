@@ -3,6 +3,7 @@
 
     import Omnibox from "$components/save/Omnibox.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import SupportedServices from "$components/save/SupportedServices.svelte";
 </script>
 
 <svelte:head>
@@ -10,6 +11,7 @@
 </svelte:head>
 
 <div id="cobalt-save-container" class="center-column-container">
+    <SupportedServices />
     <main
         id="cobalt-save"
         tabindex="-1"

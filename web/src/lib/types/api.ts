@@ -43,7 +43,23 @@ export type CobaltSession = {
     exp: number,
 }
 
+export type CobaltServerInfo = {
+    cobalt: {
+        version: string,
+        url: string,
+        startTime: string,
+        durationLimit: number,
+        services: string[]
+    },
+    git: {
+        branch: string,
+        commit: string,
+        remote: string,
+    }
+}
+
 export type CobaltSessionResponse = CobaltSession | CobaltErrorResponse;
+export type CobaltServerInfoResponse = CobaltServerInfo | CobaltErrorResponse;
 
 export type CobaltAPIResponse = CobaltErrorResponse
                             | CobaltPickerResponse
