@@ -1,10 +1,10 @@
-import { get } from "svelte/store";
-
 import turnstile from "$lib/api/turnstile";
+import { writable, get } from "svelte/store";
 import { currentApiURL } from "$lib/api/api-url";
-import { cachedSession } from "$lib/state/session";
 
-import type { CobaltSessionResponse, CobaltErrorResponse } from "$lib/types/api";
+import type { CobaltSession, CobaltErrorResponse, CobaltSessionResponse } from "$lib/types/api";
+
+const cachedSession = writable<CobaltSession | undefined>();
 
 export const requestSession = async() => {
     const apiEndpoint = `${currentApiURL()}/session`;
