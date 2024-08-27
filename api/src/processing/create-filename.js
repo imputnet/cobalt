@@ -24,7 +24,9 @@ export default (f, style, isAudioOnly, isAudioMuted) => {
         default:
         case "classic":
             if (isAudioOnly) {
-                infoBase.push(f.youtubeDubName);
+                if (f.youtubeDubName) {
+                    infoBase.push(f.youtubeDubName);
+                }
                 return `${infoBase.join("_")}_audio`;
             }
             filename = classicTags.join("_");
