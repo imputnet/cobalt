@@ -51,6 +51,10 @@
     }
 
     @media screen and (max-width: 535px) {
+        #cobalt-save-container {
+            padding-top: calc(var(--padding) / 2);
+        }
+
         #terms-note {
             font-size: 11px;
             padding-bottom: 0;

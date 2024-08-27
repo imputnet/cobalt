@@ -101,11 +101,16 @@
         flex-direction: row;
         font-size: 13px;
         font-weight: 500;
+        background: none;
+    }
+
+    #services-button:not(:focus-visible) {
+        box-shadow: none;
     }
 
     .expand-icon {
-        height: 21px;
-        width: 21px;
+        height: 22px;
+        width: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -116,8 +121,14 @@
         transition: transform 0.2s;
     }
 
-    #services-button:hover .expand-icon {
+    #services-button:active .expand-icon {
         background: var(--button-elevated-hover);
+    }
+
+    @media (hover: hover) {
+        #services-button:hover .expand-icon {
+            background: var(--button-elevated-hover);
+        }
     }
 
     .expand-icon :global(svg) {
@@ -130,7 +141,6 @@
 
     .expanded .expand-icon {
         transform: rotate(45deg);
-        transition: transform 0.2s;
     }
 
     #services-container {
@@ -151,5 +161,17 @@
 
     #services-disclaimer {
         padding: 0;
+    }
+
+    @media screen and (max-width: 535px) {
+        .expand-icon {
+            height: 21px;
+            width: 21px;
+        }
+
+        .expand-icon :global(svg) {
+            height: 16px;
+            width: 16px;
+        }
     }
 </style>
