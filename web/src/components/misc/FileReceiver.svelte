@@ -68,7 +68,7 @@
         position: relative;
         flex-direction: column;
         gap: 8px;
-        padding: 28px 26px;
+        padding: 28px 32px;
         transition: box-shadow 0.2s;
     }
 
@@ -162,5 +162,6 @@
     .accept-list {
         max-width: 250px;
         font-size: 14px;
+        padding: 0;
     }
 </style>
