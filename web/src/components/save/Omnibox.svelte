@@ -150,7 +150,7 @@
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
-            maxlength="256"
+            maxlength="512"
             placeholder={$t("save.input.placeholder")}
             aria-label={$t("a11y.save.link_area")}
             data-form-type="other"
