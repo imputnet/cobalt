@@ -3,7 +3,12 @@ import { currentApiURL } from "$lib/api/api-url";
 
 import type { CobaltServerInfoResponse, CobaltErrorResponse, CobaltServerInfo } from "$lib/types/api";
 
-export const cachedInfo = writable<CobaltServerInfo | undefined>();
+export type CobaltServerInfoCache = {
+    info: CobaltServerInfo,
+    origin: string,
+}
+
+export const cachedInfo = writable<CobaltServerInfoCache | undefined>();
 
 const request = async () => {
     const apiEndpoint = `${currentApiURL()}/`;
@@ -29,7 +34,10 @@ const request = async () => {
 
 export const getServerInfo = async () => {
     const cache = get(cachedInfo);
-    if (cache) return true;
+
+    if (cache && cache.origin === currentApiURL()) {
+        return true
+    }
 
     const freshInfo = await request();
 
@@ -38,7 +46,10 @@ export const getServerInfo = async () => {
     }
 
     if (!("status" in freshInfo)) {
-        cachedInfo.set(freshInfo);
+        cachedInfo.set({
+            info: freshInfo,
+            origin: currentApiURL(),
+        });
         return true;
     }
 

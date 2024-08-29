@@ -15,7 +15,7 @@
 
         if ($cachedInfo) {
             loaded = true;
-            services = $cachedInfo.cobalt.services;
+            services = $cachedInfo.info.cobalt.services;
         }
     };
 </script>
