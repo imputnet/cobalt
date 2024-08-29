@@ -245,8 +245,7 @@
     }
 
     #input-container.focused {
-        box-shadow: 0 0 0 1.5px var(--blue) inset;
-        outline: var(--blue) 0.5px solid;
+        box-shadow: 0 0 0 2px var(--white) inset;
     }
 
     #donation-custom-submit {
