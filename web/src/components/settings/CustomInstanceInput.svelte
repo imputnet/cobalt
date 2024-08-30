@@ -96,7 +96,6 @@
 
 <style>
     #custom-instance-holder {
-        width: 100%;
         display: flex;
         gap: 6px;
     }
@@ -104,7 +103,7 @@
     #input-container {
         padding: 0 18px;
         border-radius: var(--border-radius);
-        color: var(--white);
+        color: var(--secondary);
         background-color: var(--button);
         box-shadow: var(--button-box-shadow);
         display: flex;
@@ -114,7 +113,7 @@
 
     #input-container,
     #custom-instance-input {
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 500;
         min-width: 0;
     }
@@ -122,7 +121,7 @@
     #custom-instance-input {
         flex: 1;
         background-color: transparent;
-        color: var(--white);
+        color: var(--secondary);
         border: none;
         padding-block: 0;
         padding-inline: 0;
@@ -130,8 +129,9 @@
     }
 
     #custom-instance-input::placeholder {
-        color: var(--white);
-        opacity: 0.5;
+        color: var(--gray);
+        /* fix for firefox */
+        opacity: 1;
     }
 
     #custom-instance-input:focus-visible {
@@ -139,7 +139,7 @@
     }
 
     #input-container.focused {
-        box-shadow: 0 0 0 2px var(--white) inset;
+        box-shadow: 0 0 0 2px var(--secondary) inset;
     }
 
     #custom-instance-buttons {
@@ -149,9 +149,9 @@
     }
 
     .custom-instance-button {
-        height: 100%;
-        aspect-ratio: 1 / 1;
-        padding: 0px 8px;
+        height: 42px;
+        width: 42px;
+        padding: 0;
     }
 
     .custom-instance-button :global(svg) {
