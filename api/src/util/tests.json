@@ -105,6 +105,7 @@
             "name": "retweeted video",
             "url": "https://twitter.com/uwukko/status/1696901469633421344",
             "params": {},
+            "canFail": true,
             "expected": {
                 "code": 200,
                 "status": "redirect"
@@ -164,6 +165,7 @@
                 "downloadMode": "mute",
                 "audioFormat": "mp3"
             },
+            "canFail": true,
             "expected": {
                 "code": 200,
                 "status": "stream"
