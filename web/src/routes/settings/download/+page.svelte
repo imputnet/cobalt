@@ -11,20 +11,20 @@
 </script>
 
 <SettingsCategory sectionId="filename" title={$t("settings.metadata.filename")}>
-    <Switcher big={true}>
-        {#each filenameStyleOptions as value}
-            <SettingsButton
-                settingContext="save"
-                settingId="filenameStyle"
-                settingValue={value}
-            >
-                {$t(`settings.metadata.filename.${value}`)}
-            </SettingsButton>
-        {/each}
-    </Switcher>
-
-    <FilenamePreview />
-
+    <div class="category-inside-group">
+        <Switcher big={true}>
+            {#each filenameStyleOptions as value}
+                <SettingsButton
+                    settingContext="save"
+                    settingId="filenameStyle"
+                    settingValue={value}
+                >
+                    {$t(`settings.metadata.filename.${value}`)}
+                </SettingsButton>
+            {/each}
+        </Switcher>
+        <FilenamePreview />
+    </div>
     <div class="subtext">
         {$t("settings.metadata.filename.description")}
     </div>
@@ -55,3 +55,15 @@
         description={$t("settings.metadata.disable.description")}
     />
 </SettingsCategory>
+
+<style>
+    .category-inside-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .subtext {
+        margin-top: -3px;
+    }
+</style>
