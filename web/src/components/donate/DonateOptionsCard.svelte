@@ -2,22 +2,44 @@
     import { donate } from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
-    import IconCoin from "@tabler/icons-svelte/IconCoin.svelte";
-    import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
-
     import DonateCardContainer from "$components/donate/DonateCardContainer.svelte";
-
     import DonationOption from "$components/donate/DonationOption.svelte";
 
+    import IconCoin from "@tabler/icons-svelte/IconCoin.svelte";
+    import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
     import IconCup from "@tabler/icons-svelte/IconCup.svelte";
     import IconPizza from "@tabler/icons-svelte/IconPizza.svelte";
     import IconToolsKitchen2 from "@tabler/icons-svelte/IconToolsKitchen2.svelte";
-
+    import IconPaperBag from "@tabler/icons-svelte/IconPaperBag.svelte";
     import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
+    import IconSoup from "@tabler/icons-svelte/IconSoup.svelte";
+    import IconFridge from "@tabler/icons-svelte/IconFridge.svelte";
+    import IconArmchair from "@tabler/icons-svelte/IconArmchair.svelte";
+    import IconDeviceLaptop from "@tabler/icons-svelte/IconDeviceLaptop.svelte";
+    import IconApple from "@tabler/icons-svelte/IconApple.svelte";
+    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
+    import IconWorldWww from "@tabler/icons-svelte/IconWorldWww.svelte";
+    import IconBath from "@tabler/icons-svelte/IconBath.svelte";
 
     let customInput: HTMLInputElement;
     let customInputValue: number | null;
     let customFocused = false;
+
+    const PRESET_DONATION_AMOUNTS = {
+        5: IconCup,
+        10: IconPizza,
+        15: IconSoup,
+        30: IconToolsKitchen2,
+        50: IconPaperBag,
+        100: IconWorldWww,
+        200: IconFridge,
+        500: IconArmchair,
+        1599: IconDeviceLaptop,
+        4900: IconApple,
+        7398: IconDeviceLaptop,
+        8629: IconPhoto,
+        9433: IconBath
+    };
 
     type Processor = "stripe" | "liberapay";
     let processor: Processor = "stripe";
@@ -87,18 +109,11 @@
         </button>
     </div>
     <div id="donation-options">
-        <DonationOption price={5} desc={$t("donate.card.option.5")} {send}>
-            <IconCup />
-        </DonationOption>
-        <DonationOption price={10} desc={$t("donate.card.option.10")} {send}>
-            <IconPizza />
-        </DonationOption>
-        <DonationOption price={15} desc={$t("donate.card.option.15")} {send}>
-            <IconToolsKitchen2 />
-        </DonationOption>
-        <DonationOption price={30} desc={$t("donate.card.option.30")} {send}>
-            <IconToolsKitchen2 />
-        </DonationOption>
+        {#each Object.entries(PRESET_DONATION_AMOUNTS) as [ amount, component ]}
+            <DonationOption price={+amount} desc={$t(`donate.card.option.${amount}`)} {send}>
+                <svelte:component this={component} />
+            </DonationOption>
+        {/each}
     </div>
     <div id="donation-custom">
         <div id="input-container" class:focused={customFocused}>
