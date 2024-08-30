@@ -1,14 +1,13 @@
 <script lang="ts">
-    import settings, { updateSetting } from "$lib/state/settings";
-    import { t, locales } from "$lib/i18n/translations";
     import locale from "$lib/i18n/locale";
-
     import languages from "$i18n/languages.json";
+
+    import { t, locales } from "$lib/i18n/translations";
+    import settings, { updateSetting } from "$lib/state/settings";
 
     import IconSelector from "@tabler/icons-svelte/IconSelector.svelte";
 
     $: currentSetting = $settings.appearance.language;
-
     $: disabled = $settings.appearance.autoLanguage;
 
     const updateLocale = (lang: string) => {
@@ -37,7 +36,7 @@
             id="setting-dropdown-appearance-language"
             bind:value={$locale}
             on:change={() => updateLocale($locale)}
-            disabled={disabled}
+            {disabled}
         >
             {#each $locales as value}
                 <option {value} selected={currentSetting === value}>
