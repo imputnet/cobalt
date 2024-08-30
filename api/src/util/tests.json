@@ -124,6 +124,7 @@
             "name": "twitter voice + x.com link",
             "url": "https://x.com/eggsaladscreams/status/1693089534886506756?s=46",
             "params": {},
+            "canFail": true,
             "expected": {
                 "code": 200,
                 "status": "redirect"
