@@ -4,12 +4,17 @@
     export let send: (amount: number) => void;
 
     const click = () => send(price * 100);
+    const USD = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0
+    });
 </script>
 
 <button class="donation-option" on:click={click}>
     <div class="donate-card-title">
         <slot></slot>
-        ${price}
+        { USD.format(price) }
     </div>
     <div class="donate-card-subtitle">{desc}</div>
 </button>
