@@ -12,7 +12,7 @@
     "api.auth.turnstile.invalid": "couldn't confirm whether you're not a robot because your human access token expired and wasn't renewed. try again in a few seconds or reload the page!",
 
     "api.unreachable": "couldn't connect to the processing server. check your internet connection and try again.",
-    "api.timed_out": "the processing server took way too long to respond. it may be a little overwhelmed at the moment, try again in a few seconds!",
+    "api.timed_out": "the processing server took way too long to respond. it may be overwhelmed at the moment, try again in a few seconds!",
     "api.rate_exceeded": "you're making way too many requests. try again in {{ limit }} seconds!",
 
     "api.generic": "something went wrong and i couldn't get anything for you. try again in a few seconds, but if issue sticks, let us know and we'll try to help!",
