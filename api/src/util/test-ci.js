@@ -2,6 +2,7 @@ import { env } from "../config.js";
 import { runTest } from "../misc/run-test.js";
 import { loadJSON } from "../misc/load-from-fs.js";
 import { Red, Bright } from "../misc/console-text.js";
+import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 
 import { services } from "../processing/service-config.js";
 
@@ -40,6 +41,7 @@ switch (action) {
 
         env.streamLifespan = 10000;
         env.apiURL = 'http://x';
+        randomizeCiphers();
 
         for (const test of tests[service]) {
             const { name, url, params, expected } = test;
