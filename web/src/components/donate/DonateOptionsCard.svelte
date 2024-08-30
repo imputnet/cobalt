@@ -233,6 +233,7 @@
         padding-block: 0;
         padding-inline: 0;
         padding: 0;
+        appearance: textfield;
     }
 
     #donation-custom-input::placeholder {
