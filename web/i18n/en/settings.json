@@ -6,7 +6,7 @@
     "page.download": "downloading",
     "page.advanced": "advanced",
     "page.debug": "debug information",
-    "page.processing": "processing",
+    "page.instances": "instances",
 
     "section.general": "general",
     "section.save": "save",
@@ -112,5 +112,10 @@
 
     "processing.override": "default instance override",
     "processing.override.title": "use instance-provided processing server",
-    "processing.override.description": "cobalt will use the processing server from DEFAULT_API when this is enabled. this is a temporary description."
+    "processing.override.description": "if web instance provides its own default processing server, you can choose to use it over the main processing server. make sure it's a server by someone you trust.",
+
+    "processing.community": "community instances",
+
+    "processing.enable_custom.title": "use a custom processing server",
+    "processing.enable_custom.description": "cobalt will use a custom processing server if you choose to. even though cobalt has some security measures in place, we are not responsible for any damage done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust."
 }

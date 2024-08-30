@@ -29,6 +29,7 @@ type SmallDialog = Dialog & {
     bodyText?: string,
     bodySubText?: string,
     buttons?: DialogButton[],
+    leftAligned?: boolean,
 };
 
 type PickerDialog = Dialog & {

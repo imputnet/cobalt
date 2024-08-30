@@ -33,7 +33,10 @@ const defaultSettings: CobaltSettings = {
     },
     processing: {
         allowDefaultOverride: false,
+        customInstanceURL: "",
+        enableCustomInstances: false,
         seenOverrideWarning: false,
+        seenCustomWarning: false,
     }
 }
 

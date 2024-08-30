@@ -10,14 +10,15 @@
     import SettingsNavSection from "$components/settings/SettingsNavSection.svelte";
 
     import IconSunHigh from "@tabler/icons-svelte/IconSunHigh.svelte";
+    import IconLock from "@tabler/icons-svelte/IconLock.svelte";
 
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
-    import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
+
     import IconBug from "@tabler/icons-svelte/IconBug.svelte";
-    import IconLock from "@tabler/icons-svelte/IconLock.svelte";
-    import IconCloudNetwork from "@tabler/icons-svelte/IconCloudNetwork.svelte";
+    import IconWorld from "@tabler/icons-svelte/IconWorld.svelte";
+    import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
 
     import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
 
@@ -131,11 +132,11 @@
 
             <SettingsNavSection>
                 <SettingsNavTab
-                    tabName="processing"
-                    tabLink="processing"
+                    tabName="instances"
+                    tabLink="instances"
                     iconColor="gray"
                 >
-                    <IconCloudNetwork />
+                    <IconWorld />
                 </SettingsNavTab>
                 <SettingsNavTab
                     tabName="advanced"

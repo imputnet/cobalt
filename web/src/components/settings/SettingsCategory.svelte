@@ -1,8 +1,10 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
-    export let sectionId: string;
     export let title: string;
+    export let sectionId: string;
+
+    export let disabled = false;
 
     let animate = false;
 
@@ -17,6 +19,8 @@
     id={sectionId}
     class="settings-content"
     class:animate
+    class:disabled
+    aria-hidden={disabled}
 >
     <h3 class="settings-content-title">{title}</h3>
     <slot></slot>
@@ -29,6 +33,11 @@
         gap: var(--padding);
         padding: calc(var(--settings-padding) / 2);
         border-radius: 18px;
+        transition: opacity 0.2s;
+    }
+
+    .settings-content.disabled {
+        opacity: 0.5;
     }
 
     .settings-content.animate {

@@ -3,7 +3,7 @@ import { get } from "svelte/store";
 import settings from "$lib/state/settings";
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
-import { apiOverrideWarning } from "$lib/api/override-warning";
+import { apiOverrideWarning } from "$lib/api/safety-warning";
 
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";

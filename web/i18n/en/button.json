@@ -11,5 +11,6 @@
     "import": "import",
     "continue": "continue",
     "star": "star",
-    "follow": "follow"
+    "follow": "follow",
+    "save": "save"
 }

@@ -10,28 +10,37 @@
 
     import Toggle from "$components/misc/Toggle.svelte";
 
-    export let settingContext: Context;
     export let settingId: Id;
+    export let settingContext: Context;
 
     export let title: string;
     export let description: string = "";
+
+    export let disabled = false;
+    export let disabledOpacity = false;
 
     $: setting = $settings[settingContext][settingId];
     $: isEnabled = !!setting;
 </script>
 
-<div id="setting-toggle-{settingContext}-{String(settingId)}" class="toggle-parent">
+<div
+    id="setting-toggle-{settingContext}-{String(settingId)}"
+    class="toggle-parent"
+    class:disabled
+    class:faded={disabledOpacity}
+    aria-hidden={disabled}
+>
     <button
         class="toggle-container"
         role="switch"
         aria-checked={isEnabled}
+        disabled={disabled}
         on:click={() =>
             updateSetting({
                 [settingContext]: {
                     [settingId]: !isEnabled,
                 },
-            })
-        }
+            })}
     >
         <h4 class="toggle-title">{title}</h4>
         <Toggle enabled={isEnabled} />
@@ -51,6 +60,15 @@
         flex-direction: column;
         gap: 8px;
         overflow: hidden;
+        transition: opacity 0.2s;
+    }
+
+    .toggle-parent.disabled {
+        pointer-events: none;
+    }
+
+    .toggle-parent.faded {
+        opacity: 0.5;
     }
 
     .toggle-container {

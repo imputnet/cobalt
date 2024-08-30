@@ -28,6 +28,9 @@ type CobaltSettingsPrivacy = {
 
 type CobaltSettingsProcessing = {
     allowDefaultOverride: boolean,
+    customInstanceURL: string,
+    enableCustomInstances: boolean,
+    seenCustomWarning: boolean,
     seenOverrideWarning: boolean,
 }
 
