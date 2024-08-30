@@ -3,11 +3,10 @@
 
     import { themeOptions } from "$lib/types/settings";
 
-    import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
-
+    import SettingsCategory from "$components/settings/SettingsCategory.svelte";
     import LanguageDropdown from "$components/settings/LanguageDropdown.svelte";
 </script>
 
