@@ -1,11 +1,12 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    import SettingsCategory from "$components/settings/SettingsCategory.svelte";
-    import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
-    import ResetSettingsButton from "$components/buttons/ResetSettingsButton.svelte";
-    import TransferSettings from "$components/settings/TransferSettings.svelte";
     import { storedSettings } from "$lib/state/settings";
+
+    import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
+    import TransferSettings from "$components/settings/TransferSettings.svelte";
+    import SettingsCategory from "$components/settings/SettingsCategory.svelte";
+    import ResetSettingsButton from "$components/settings/ResetSettingsButton.svelte";
 </script>
 
 <SettingsCategory sectionId="debug" title={$t("settings.advanced.debug")}>

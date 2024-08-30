@@ -23,7 +23,7 @@
                     text: $t("button.reset"),
                     color: "red",
                     main: true,
-                    timeout: 5000,
+                    timeout: 2000,
                     action: () => resetSettings(),
                 },
             ],
