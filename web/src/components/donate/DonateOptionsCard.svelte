@@ -196,7 +196,7 @@
     }
 
     #input-container {
-        padding: 12px 18px;
+        padding: 0 18px;
         width: 100%;
         border-radius: 12px;
         color: var(--white);
@@ -232,7 +232,7 @@
         border: none;
         padding-block: 0;
         padding-inline: 0;
-        padding: 0;
+        padding: 12px 0;
         appearance: textfield;
     }
 
