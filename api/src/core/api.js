@@ -140,15 +140,6 @@ export const runAPI = (express, app, __dirname) => {
     app.post('/', apiLimiter);
     app.use('/stream', apiLimiterStream);
 
-    app.use((req, res, next) => {
-        try {
-            decodeURIComponent(req.path)
-        } catch {
-            return res.redirect('/')
-        }
-        next();
-    })
-
     app.use('/', express.json({ limit: 1024 }));
     app.use('/', (err, _, res, next) => {
         if (err) {
@@ -288,6 +279,11 @@ export const runAPI = (express, app, __dirname) => {
 
     app.get('/*', (req, res) => {
         res.redirect('/');
+    })
+
+    // handle all express errors
+    app.use((err, req, res, next) => {
+        return fail(res, "error.api.generic");
     })
 
     randomizeCiphers();
