@@ -6,7 +6,7 @@ import { verifyLanguageCode } from "../misc/utils.js";
 export const apiSchema = z.object({
     url: z.string()
           .min(1)
-          .transform((url) => normalizeURL(decodeURIComponent(url))),
+          .transform(url => normalizeURL(url)),
 
     audioBitrate: z.enum(
         ["320", "256", "128", "96", "64", "8"]
