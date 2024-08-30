@@ -31,13 +31,29 @@
     sectionId="community"
     title={$t("settings.processing.community")}
 >
-    <SettingsToggle
-        settingContext="processing"
-        settingId="enableCustomInstances"
-        title={$t("settings.processing.enable_custom.title")}
-        description={$t("settings.processing.enable_custom.description")}
-    />
-    {#if $settings.processing.enableCustomInstances}
-        <CustomInstanceInput />
-    {/if}
+    <div class="category-inside-group">
+        <SettingsToggle
+            settingContext="processing"
+            settingId="enableCustomInstances"
+            title={$t("settings.processing.enable_custom.title")}
+        />
+        {#if $settings.processing.enableCustomInstances}
+            <CustomInstanceInput />
+        {/if}
+    </div>
+    <div class="subtext">
+        {$t("settings.processing.enable_custom.description")}
+    </div>
 </SettingsCategory>
+
+<style>
+    .category-inside-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .subtext {
+        margin-top: -3px;
+    }
+</style>

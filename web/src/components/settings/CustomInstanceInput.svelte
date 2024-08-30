@@ -5,15 +5,18 @@
     import settings, { updateSetting } from "$lib/state/settings";
     import { customInstanceWarning } from "$lib/api/safety-warning";
 
+    import IconX from "@tabler/icons-svelte/IconX.svelte";
+    import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
+
     let inputValue = get(settings).processing.customInstanceURL;
+    let inputFocused = false;
 
     let url: string;
     let validUrl: boolean;
 
     const checkUrl = () => {
         try {
-            let test = /^https:/i.test(new URL(inputValue).protocol);
-            if (test) url = new URL(inputValue).origin.toString();
+            url = new URL(inputValue).origin.toString();
             validUrl = true;
         } catch {
             validUrl = false;
@@ -36,50 +39,128 @@
     };
 </script>
 
-<input
-    id="link-area"
-    bind:value={inputValue}
-    on:input={() => {
-        checkUrl();
-    }}
-    spellcheck="false"
-    autocomplete="off"
-    autocapitalize="off"
-    maxlength="128"
-    placeholder="instance url"
-/>
+<div id="custom-instance-holder">
+    <div id="input-container" class:focused={inputFocused}>
+        <input
+            id="custom-instance-input"
+            bind:value={inputValue}
+            on:input={() => {
+                checkUrl();
+                inputFocused = true;
+            }}
+            on:input={() => (inputFocused = true)}
+            on:focus={() => (inputFocused = true)}
+            on:blur={() => (inputFocused = false)}
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            maxlength="64"
+            placeholder={$t("settings.processing.custom.placeholder")}
+        />
+    </div>
+    <div id="custom-instance-buttons">
+        <button
+            id="instance-save"
+            class="custom-instance-button"
+            aria-label={$t("button.save")}
+            disabled={inputValue == $settings.processing.customInstanceURL ||
+                !validUrl}
+            on:click={async () => {
+                await customInstanceWarning();
+                if ($settings.processing.seenCustomWarning) {
+                    if (inputValue) writeInput();
+                }
+            }}
+        >
+            <IconCheck />
+        </button>
 
-<button
-    id="instance-save"
-    disabled={inputValue == $settings.processing.customInstanceURL || !validUrl}
-    on:click={async () => {
-        await customInstanceWarning();
-        if ($settings.processing.seenCustomWarning) {
-            if (inputValue) writeInput();
-        }
-    }}
->
-    {$t("button.save")}
-</button>
-
-{#if $settings.processing.customInstanceURL.length > 0}
-    <button
-        id="instance-reset"
-        on:click={() => {
-            updateSetting({
-                processing: {
-                    customInstanceURL: "",
-                },
-            });
-            inputValue = get(settings).processing.customInstanceURL;
-        }}
-    >
-        {$t("button.reset")}
-    </button>
-{/if}
+        <button
+            id="instance-reset"
+            class="custom-instance-button"
+            aria-label={$t("button.reset")}
+            disabled={$settings.processing.customInstanceURL.length <= 0}
+            on:click={() => {
+                updateSetting({
+                    processing: {
+                        customInstanceURL: "",
+                    },
+                });
+                inputValue = get(settings).processing.customInstanceURL;
+            }}
+        >
+            <IconX />
+        </button>
+    </div>
+</div>
 
 <style>
-    #instance-save[disabled] {
+    #custom-instance-holder {
+        width: 100%;
+        display: flex;
+        gap: 6px;
+    }
+
+    #input-container {
+        padding: 0 18px;
+        border-radius: var(--border-radius);
+        color: var(--white);
+        background-color: var(--button);
+        box-shadow: var(--button-box-shadow);
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    #input-container,
+    #custom-instance-input {
+        font-size: 14px;
+        font-weight: 500;
+        min-width: 0;
+    }
+
+    #custom-instance-input {
+        flex: 1;
+        background-color: transparent;
+        color: var(--white);
+        border: none;
+        padding-block: 0;
+        padding-inline: 0;
+        padding: 12px 0;
+    }
+
+    #custom-instance-input::placeholder {
+        color: var(--white);
+        opacity: 0.5;
+    }
+
+    #custom-instance-input:focus-visible {
+        box-shadow: unset !important;
+    }
+
+    #input-container.focused {
+        box-shadow: 0 0 0 2px var(--white) inset;
+    }
+
+    #custom-instance-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+    }
+
+    .custom-instance-button {
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        padding: 0px 8px;
+    }
+
+    .custom-instance-button :global(svg) {
+        height: 21px;
+        width: 21px;
+        stroke-width: 1.5px;
+    }
+
+    .custom-instance-button[disabled] {
         opacity: 0.5;
         pointer-events: none;
     }
