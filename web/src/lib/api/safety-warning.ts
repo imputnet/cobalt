@@ -62,7 +62,7 @@ export const apiOverrideWarning = async () => {
 }
 
 export const customInstanceWarning = async () => {
-    if (env.DEFAULT_API && !get(settings).processing.seenCustomWarning) {
+    if (!get(settings).processing.seenCustomWarning) {
         let _actions: {
             resolve: () => void;
             reject: () => void;
