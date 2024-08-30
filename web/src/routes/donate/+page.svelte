@@ -18,47 +18,55 @@
     </title>
 </svelte:head>
 
-<main id="donate-page">
-    <DonateBanner />
+<div id="donate-page-wrapper">
+    <main id="donate-page">
+        <DonateBanner />
 
-    <section id="support-options">
-        <DonateOptionsCard />
-        <DonateShareCard />
-    </section>
+        <section id="support-options">
+            <DonateOptionsCard />
+            <DonateShareCard />
+        </section>
 
-    <section id="motivation" class="long-text-noto">
-        <p>{$t("donate.body.motivation")}</p>
-        <p>{$t("donate.body.keep_going")}</p>
-    </section>
+        <section id="motivation" class="long-text-noto">
+            <p>{$t("donate.body.motivation")}</p>
+            <p>{$t("donate.body.keep_going")}</p>
+        </section>
 
-    <section id="crypto">
-        <div id="crypto-section-header">
-            <IconDiamond />
-            <h3 id="crypto-title">{$t("donate.alternative.title")}</h3>
-        </div>
-        <div id="wallet-grid">
-            {#each Object.entries(donate.crypto) as [name, address]}
-                <DonateAltItem type="copy" {name} {address} />
-            {/each}
-            {#each Object.entries(donate.other) as [name, address]}
-                <DonateAltItem type="open" {name} {address} />
-            {/each}
-        </div>
-    </section>
-</main>
+        <section id="crypto">
+            <div id="crypto-section-header">
+                <IconDiamond />
+                <h3 id="crypto-title">{$t("donate.alternative.title")}</h3>
+            </div>
+            <div id="wallet-grid">
+                {#each Object.entries(donate.crypto) as [name, address]}
+                    <DonateAltItem type="copy" {name} {address} />
+                {/each}
+                {#each Object.entries(donate.other) as [name, address]}
+                    <DonateAltItem type="open" {name} {address} />
+                {/each}
+            </div>
+        </section>
+    </main>
+</div>
 
 <style>
+    #donate-page-wrapper {
+        display: flex;
+        width: 100%;
+        height: max-content;
+        justify-content: center;
+        overflow-y: scroll;
+        padding: var(--padding);
+    }
+
     #donate-page {
         --donate-border-radius: 24px;
         --donate-border-opacity: 0.1;
         --donate-gradient-start: #1a1a1a;
         --donate-gradient-end: #404040;
 
-        max-width: 950px;
+        max-width: 100%;
         width: 900px;
-        margin: 0 auto;
-        overflow-x: hidden;
-        padding: var(--padding);
 
         display: flex;
         flex-direction: column;
