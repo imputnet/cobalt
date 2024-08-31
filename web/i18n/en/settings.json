@@ -123,5 +123,7 @@
     "processing.enable_custom.title": "use a custom processing server",
     "processing.enable_custom.description": "cobalt will use a custom processing server if you choose to. even though cobalt has some security measures in place, we are not responsible for any damage done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
 
-    "processing.custom.placeholder": "custom instance domain"
+    "processing.custom.placeholder": "custom instance domain",
+
+    "feature.beta": "BETA"
 }
