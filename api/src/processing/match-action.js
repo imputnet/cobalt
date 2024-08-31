@@ -4,7 +4,7 @@ import { createResponse } from "./request.js";
 import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
 
-export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate }) {
+export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate, alwaysProxy }) {
     let action,
         responseType = "stream",
         defaultParams = {
@@ -190,6 +190,11 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 audioFormat,
             }
             break;
+    }
+
+    if (alwaysProxy && responseType === "redirect") {
+        responseType = "stream";
+        params.type = "proxy";
     }
 
     return createResponse(responseType, {...defaultParams, ...params})

@@ -282,6 +282,7 @@ export default async function(host, patternMatch, obj) {
             twitterGif: obj.twitterGif,
             requestIP,
             audioBitrate: obj.audioBitrate,
+            alwaysProxy: obj.alwaysProxy,
         })
     } catch {
         return createResponse("error", {
