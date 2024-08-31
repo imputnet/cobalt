@@ -157,6 +157,8 @@ export default async function({ id, index, toGif, dispatcher }) {
         media = [media[index]]
     }
 
+    const getFileExt = (url) => new URL(url).pathname.split(".", 2)[1];
+
     switch (media?.length) {
         case undefined:
         case 0:
@@ -168,6 +170,7 @@ export default async function({ id, index, toGif, dispatcher }) {
                 return {
                     type: "proxy",
                     isPhoto: true,
+                    filename: `twitter_${id}.${getFileExt(media[0].media_url_https)}`,
                     urls: `${media[0].media_url_https}?name=4096x4096`
                 }
             }
@@ -185,7 +188,7 @@ export default async function({ id, index, toGif, dispatcher }) {
                     service: "twitter",
                     type: "proxy",
                     u: url,
-                    filename: `twitter_${id}_${i + 1}.${new URL(url).pathname.split(".", 2)[1]}`
+                    filename: `twitter_${id}_${i + 1}.${getFileExt(url)}`
                 })
 
             const picker = media.map((content, i) => {
