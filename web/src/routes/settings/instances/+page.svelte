@@ -30,6 +30,7 @@
 <SettingsCategory
     sectionId="community"
     title={$t("settings.processing.community")}
+    beta
 >
     <div class="category-inside-group">
         <SettingsToggle
