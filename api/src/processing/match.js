@@ -69,6 +69,7 @@ export default async function(host, patternMatch, obj) {
                     id: patternMatch.id,
                     index: patternMatch.index - 1,
                     toGif: !!obj.twitterGif,
+                    alwaysProxy: obj.alwaysProxy,
                     dispatcher
                 });
                 break;

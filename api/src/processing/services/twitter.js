@@ -101,7 +101,7 @@ const requestTweet = async(dispatcher, tweetId, token, cookie) => {
     return result
 }
 
-export default async function({ id, index, toGif, dispatcher }) {
+export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
     const cookie = await getCookie('twitter');
 
     let guestToken = await getGuestToken(dispatcher);
@@ -159,6 +159,12 @@ export default async function({ id, index, toGif, dispatcher }) {
 
     const getFileExt = (url) => new URL(url).pathname.split(".", 2)[1];
 
+    const proxyMedia = (u, filename) => createStream({
+        service: "twitter",
+        type: "proxy",
+        u, filename,
+    })
+
     switch (media?.length) {
         case undefined:
         case 0:
@@ -184,25 +190,25 @@ export default async function({ id, index, toGif, dispatcher }) {
             }
         default:
             const proxyThumb = (url, i) =>
-                createStream({
-                    service: "twitter",
-                    type: "proxy",
-                    u: url,
-                    filename: `twitter_${id}_${i + 1}.${getFileExt(url)}`
-                })
+                proxyMedia(url, `twitter_${id}_${i + 1}.${getFileExt(url)}`);
 
             const picker = media.map((content, i) => {
                 if (content.type === "photo") {
                     let url = `${content.media_url_https}?name=4096x4096`;
+                    let proxiedImage = proxyThumb(url, i);
+
+                    if (alwaysProxy) url = proxiedImage;
+
                     return {
                         type: "photo",
                         url,
-                        thumb: proxyThumb(url, i),
+                        thumb: proxiedImage,
                     }
                 }
 
                 let url = bestQuality(content.video_info.variants);
                 const shouldRenderGif = content.type === "animated_gif" && toGif;
+                const videoFilename = `twitter_${id}_${i + 1}.mp4`;
 
                 let type = "video";
                 if (shouldRenderGif) type = "gif";
@@ -212,8 +218,10 @@ export default async function({ id, index, toGif, dispatcher }) {
                         service: "twitter",
                         type: shouldRenderGif ? "gif" : "remux",
                         u: url,
-                        filename: `twitter_${id}_${i + 1}.mp4`
+                        filename: videoFilename,
                     })
+                } else if (alwaysProxy) {
+                    url = proxyMedia(url, videoFilename);
                 }
 
                 return {
