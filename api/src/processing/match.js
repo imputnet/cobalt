@@ -215,7 +215,10 @@ export default async function(host, patternMatch, obj) {
                 break;
 
             case "snapchat":
-                r = await snapchat(patternMatch);
+                r = await snapchat({
+                    ...patternMatch,
+                    alwaysProxy: obj.alwaysProxy,
+                });
                 break;
 
             case "loom":

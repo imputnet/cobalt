@@ -1,5 +1,6 @@
 import { extract, normalizeURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
+import { createStream } from "../../stream/manage.js";
 import { getRedirectingURL } from "../../misc/utils.js";
 
 const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(https:\/\/cf-st\.sc-cdn\.net\/d\/[\w.?=]+&amp;uc=\d+)" as="video"\/>/;
@@ -23,7 +24,7 @@ async function getSpotlight(id) {
     }
 }
 
-async function getStory(username, storyId) {
+async function getStory(username, storyId, alwaysProxy) {
     const html = await fetch(
         `https://www.snapchat.com/add/${username}${storyId ? `/${storyId}` : ''}`,
         { headers: { 'user-agent': genericUserAgent } }
@@ -46,6 +47,7 @@ async function getStory(username, storyId) {
                 if (story.snapMediaType === 0) {
                     return {
                         urls: story.snapUrls.mediaUrl,
+                        filename: `snapchat_${storyId}.jpg`,
                         isPhoto: true
                     }
                 }
@@ -61,11 +63,33 @@ async function getStory(username, storyId) {
         const defaultStory = data.props.pageProps.curatedHighlights[0];
         if (defaultStory) {
             return {
-                picker: defaultStory.snapList.map(snap => ({
-                    type: snap.snapMediaType === 0 ? 'photo' : 'video',
-                    url: snap.snapUrls.mediaUrl,
-                    thumb: snap.snapMediaType !== 0 ? snap.snapUrls.mediaPreviewUrl.value : undefined,
-                }))
+                picker: defaultStory.snapList.map(snap => {
+                    const snapType = snap.snapMediaType === 0 ? "photo" : "video";
+                    const snapExt = snapType === "video" ? "mp4" : "jpg";
+                    let snapUrl = snap.snapUrls.mediaUrl;
+
+                    const proxy = createStream({
+                        service: "snapchat",
+                        type: "proxy",
+                        u: snapUrl,
+                        filename: `snapchat_${username}_${snap.timestampInSec.value}.${snapExt}`,
+                    });
+
+                    let thumbProxy;
+                    if (snapType === "video") thumbProxy = createStream({
+                        service: "snapchat",
+                        type: "proxy",
+                        u: snap.snapUrls.mediaPreviewUrl.value,
+                    });
+
+                    if (alwaysProxy) snapUrl = proxy;
+
+                    return {
+                        type: snapType,
+                        url: snapUrl,
+                        thumb: thumbProxy || proxy,
+                    }
+                })
             }
         }
     }
@@ -92,7 +116,7 @@ export default async function (obj) {
         const result = await getSpotlight(params.spotlightId);
         if (result) return result;
     } else if (params.username) {
-        const result = await getStory(params.username, params.storyId);
+        const result = await getStory(params.username, params.storyId, obj.alwaysProxy);
         if (result) return result;
     }
 
