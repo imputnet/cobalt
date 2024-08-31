@@ -29,6 +29,7 @@ const defaultSettings: CobaltSettings = {
         youtubeDubBrowserLang: false,
     },
     privacy: {
+        alwaysProxy: false,
         disableAnalytics: false,
     },
     processing: {

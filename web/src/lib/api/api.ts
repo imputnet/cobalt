@@ -9,7 +9,9 @@ import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
 
 const request = async (url: string) => {
-    const saveSettings = get(settings).save;
+    const gSettings = get(settings);
+    const saveSettings = gSettings.save;
+    const privacySettings = gSettings.privacy;
 
     const request = {
         url,
@@ -29,6 +31,8 @@ const request = async (url: string) => {
 
         twitterGif: saveSettings.twitterGif,
         tiktokH265: saveSettings.tiktokH265,
+
+        alwaysProxy: privacySettings.alwaysProxy,
     }
 
     await apiOverrideWarning();

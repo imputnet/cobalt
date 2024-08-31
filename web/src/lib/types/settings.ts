@@ -23,6 +23,7 @@ type CobaltSettingsAdvanced = {
 };
 
 type CobaltSettingsPrivacy = {
+    alwaysProxy: boolean,
     disableAnalytics: boolean,
 };
 
