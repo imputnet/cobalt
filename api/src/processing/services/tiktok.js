@@ -3,6 +3,7 @@ import Cookie from "../cookie/cookie.js";
 import { extract } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { updateCookie } from "../cookie/manager.js";
+import { createStream } from "../../stream/manage.js";
 
 const shortDomain = "https://vt.tiktok.com/";
 
@@ -97,10 +98,19 @@ export default async function(obj) {
     if (images) {
         let imageLinks = images
             .map(i => i.imageURL.urlList.find(p => p.includes(".jpeg?")))
-            .map(url => ({
-                type: "photo",
-                url
-            }));
+            .map((url, i) => {
+                if (obj.alwaysProxy) url = createStream({
+                    service: "tiktok",
+                    type: "proxy",
+                    u: url,
+                    filename: `${filenameBase}_photo_${i + 1}.jpg`
+                })
+
+                return {
+                    type: "photo",
+                    url
+                }
+            });
 
         return {
             picker: imageLinks,

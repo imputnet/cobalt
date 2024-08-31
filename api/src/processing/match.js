@@ -128,7 +128,8 @@ export default async function(host, patternMatch, obj) {
                     id: patternMatch.id,
                     fullAudio: obj.tiktokFullAudio,
                     isAudioOnly,
-                    h265: obj.tiktokH265
+                    h265: obj.tiktokH265,
+                    alwaysProxy: obj.alwaysProxy,
                 });
                 break;
 
