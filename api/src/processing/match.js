@@ -165,6 +165,7 @@ export default async function(host, patternMatch, obj) {
                 r = await instagram({
                     ...patternMatch,
                     quality: obj.videoQuality,
+                    alwaysProxy: obj.alwaysProxy,
                     dispatcher
                 })
                 break;

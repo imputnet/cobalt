@@ -163,7 +163,7 @@ export default function(obj) {
                 ?.[0];
     }
 
-    function extractOldPost(data, id) {
+    function extractOldPost(data, id, alwaysProxy) {
         const sidecar = data?.gql_data?.shortcode_media?.edge_sidecar_to_children;
         if (sidecar) {
             const picker = sidecar.edges.filter(e => e.node?.display_url)
@@ -171,8 +171,19 @@ export default function(obj) {
                     const type = e.node?.is_video ? "video" : "photo";
                     const url = type === "video" ? e.node?.video_url : e.node?.display_url;
 
+                    let itemExt = type === "video" ? "mp4" : "jpg";
+
+                    let proxyFile;
+                    if (alwaysProxy) proxyFile = createStream({
+                        service: "instagram",
+                        type: "proxy",
+                        u: url,
+                        filename: `instagram_${id}_${i + 1}.${itemExt}`
+                    });
+
                     return {
-                        type, url,
+                        type,
+                        url: proxyFile || url,
                         /* thumbnails have `Cross-Origin-Resource-Policy`
                         ** set to `same-origin`, so we need to proxy them */
                         thumb: createStream({
@@ -199,7 +210,7 @@ export default function(obj) {
         }
     }
 
-    function extractNewPost(data, id) {
+    function extractNewPost(data, id, alwaysProxy) {
         const carousel = data.carousel_media;
         if (carousel) {
             const picker = carousel.filter(e => e?.image_versions2)
@@ -208,15 +219,26 @@ export default function(obj) {
                     const imageUrl = e.image_versions2.candidates[0].url;
 
                     let url = imageUrl;
-                    if (type === 'video') {
+                    let itemExt = type === "video" ? "mp4" : "jpg";
+
+                    if (type === "video") {
                         const video = e.video_versions.reduce((a, b) => a.width * a.height < b.width * b.height ? b : a);
                         url = video.url;
                     }
 
+                    let proxyFile;
+                    if (alwaysProxy) proxyFile = createStream({
+                        service: "instagram",
+                        type: "proxy",
+                        u: url,
+                        filename: `instagram_${id}_${i + 1}.${itemExt}`
+                    });
+
                     return {
-                        type, url,
+                        type,
+                        url: proxyFile || url,
                         /* thumbnails have `Cross-Origin-Resource-Policy`
-                        ** set to `same-origin`, so we need to proxy them */
+                        ** set to `same-origin`, so we need to always proxy them */
                         thumb: createStream({
                             service: "instagram",
                             type: "proxy",
@@ -237,12 +259,13 @@ export default function(obj) {
         } else if (data.image_versions2?.candidates) {
             return {
                 urls: data.image_versions2.candidates[0].url,
-                isPhoto: true
+                isPhoto: true,
+                filename: `instagram_${id}.jpg`,
             }
         }
     }
 
-    async function getPost(id) {
+    async function getPost(id, alwaysProxy) {
         let data, result;
         try {
             const cookie = getCookie('instagram');
@@ -274,9 +297,9 @@ export default function(obj) {
         if (!data) return { error: "fetch.fail" };
 
         if (data?.gql_data) {
-            result = extractOldPost(data, id)
+            result = extractOldPost(data, id, alwaysProxy)
         } else {
-            result = extractNewPost(data, id)
+            result = extractNewPost(data, id, alwaysProxy)
         }
 
         if (result) return result;
@@ -341,9 +364,9 @@ export default function(obj) {
         return { error: "link.unsupported" };
     }
 
-    const { postId, storyId, username } = obj;
-    if (postId) return getPost(postId);
+    const { postId, storyId, username, alwaysProxy } = obj;
+    if (postId) return getPost(postId, alwaysProxy);
     if (username && storyId) return getStory(username, storyId);
 
-    return { error: "fetch.fail" }
+    return { error: "fetch.empty" }
 }
