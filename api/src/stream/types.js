@@ -52,16 +52,21 @@ const proxy = async (streamInfo, res) => {
             filename = `${streamInfo.filename}.${streamInfo.audioFormat}`
         }
 
-        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         res.setHeader('Content-disposition', contentDisposition(filename));
 
-        const { body: stream, headers } = await request(streamInfo.urls, {
-            headers: getHeaders(streamInfo.service),
+        const { body: stream, headers, statusCode } = await request(streamInfo.urls, {
+            headers: {
+                ...getHeaders(streamInfo.service),
+                Range: streamInfo.range
+            },
             signal: abortController.signal,
             maxRedirections: 16
         });
 
-        for (const headerName of ['content-type', 'content-length']) {
+        res.status(statusCode);
+
+        for (const headerName of ['accept-ranges', 'content-type', 'content-length']) {
             if (headers[headerName]) {
                 res.setHeader(headerName, headers[headerName]);
             }
