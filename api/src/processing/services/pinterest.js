@@ -14,13 +14,13 @@ export default async function(o) {
     if (id.includes("--")) id = id.split("--")[1];
     if (!id) return { error: "fetch.fail" };
 
-    let html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
+    const html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
         headers: { "user-agent": genericUserAgent }
     }).then(r => r.text()).catch(() => {});
 
     if (!html) return { error: "fetch.fail" };
 
-    let videoLink = [...html.matchAll(videoRegex)]
+    const videoLink = [...html.matchAll(videoRegex)]
                     .map(([, link]) => link)
                     .find(a => a.endsWith('.mp4') && a.includes('720p'));
 
@@ -30,13 +30,16 @@ export default async function(o) {
         audioFilename: `pinterest_${o.id}_audio`
     }
 
-    let imageLink = [...html.matchAll(imageRegex)]
+    const imageLink = [...html.matchAll(imageRegex)]
                     .map(([, link]) => link)
                     .find(a => a.endsWith('.jpg') || a.endsWith('.gif'));
 
+    const imageType = imageLink.endsWith(".gif") ? "gif" : "jpg"
+
     if (imageLink) return {
         urls: imageLink,
-        isPhoto: true
+        isPhoto: true,
+        filename: `pinterest_${o.id}.${imageType}`
     }
 
     return { error: "fetch.empty" };
