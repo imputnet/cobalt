@@ -73,9 +73,12 @@ export default async function(obj) {
 
     data = data[0]?.data?.children[0]?.data;
 
+    const id = `${String(obj.sub).toLowerCase()}_${obj.id}`;
+
     if (data?.url?.endsWith('.gif')) return {
         typeId: "redirect",
-        urls: data.url
+        urls: data.url,
+        filename: `reddit_${id}.gif`,
     }
 
     if (!data.secure_media?.reddit_video)
@@ -108,8 +111,6 @@ export default async function(obj) {
             }
         }).catch(() => {})
     }
-
-    let id = `${String(obj.sub).toLowerCase()}_${obj.id}`;
 
     if (!audio) return {
         typeId: "redirect",
