@@ -1,11 +1,20 @@
-import { env } from "$env/dynamic/public";
+import * as _env from "$env/static/public";
+
+const getEnv = (_key: string) => {
+    const env = _env as Record<string, string | undefined>;
+    const key = `PUBLIC_${_key}`;
+
+    if (key in env) {
+        return env[key];
+    }
+}
 
 const variables = {
-    HOST: env.PUBLIC_HOST,
-    PLAUSIBLE_HOST: env.PUBLIC_PLAUSIBLE_HOST,
-    PLAUSIBLE_ENABLED: env.PUBLIC_HOST && env.PUBLIC_PLAUSIBLE_HOST,
-    DEFAULT_API: env.PUBLIC_DEFAULT_API,
-    TURNSTILE_KEY: env.PUBLIC_TURNSTILE_KEY,
+    HOST: getEnv('HOST'),
+    PLAUSIBLE_HOST: getEnv('PLAUSIBLE_HOST'),
+    PLAUSIBLE_ENABLED: getEnv('HOST') && getEnv('PLAUSIBLE_HOST'),
+    DEFAULT_API: getEnv('DEFAULT_API'),
+    TURNSTILE_KEY: getEnv('TURNSTILE_KEY'),
 }
 
 const contacts = {

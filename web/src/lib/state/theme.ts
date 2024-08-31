@@ -1,4 +1,5 @@
 import { readable, derived, type Readable } from 'svelte/store';
+import { browser } from '$app/environment';
 
 import settings from '$lib/state/settings';
 import { themeOptions } from '$lib/types/settings';
@@ -7,19 +8,25 @@ type Theme = typeof themeOptions[number];
 
 let set: (_: Theme) => void;
 
-const browserPreference = () =>
-    window.matchMedia('(prefers-color-scheme: light)')
-        .matches ? 'light' : 'dark';
+const browserPreference = () => {
+    if (!browser || window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'light';
+    }
+
+    return 'dark'
+}
 
 const browserPreferenceReadable = readable(
     browserPreference(),
     _set => { set = _set }
 )
 
-const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+if (browser) {
+    const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
-if (matchMedia.addEventListener) {
-    matchMedia.addEventListener('change', () => set(browserPreference()));
+    if (matchMedia.addEventListener) {
+        matchMedia.addEventListener('change', () => set(browserPreference()));
+    }
 }
 
 export default derived(

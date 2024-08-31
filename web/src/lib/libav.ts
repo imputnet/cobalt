@@ -2,6 +2,7 @@ import mime from "mime";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, FileInfo, RenderParams } from "./types/libav";
 import type { FfprobeData } from "fluent-ffmpeg";
+import { browser } from "$app/environment";
 
 export default class LibAVWrapper {
     libav: Promise<LibAVInstance> | null;
@@ -10,12 +11,12 @@ export default class LibAVWrapper {
 
     constructor(onProgress?: FFmpegProgressCallback) {
         this.libav = null;
-        this.concurrency = Math.min(4, navigator.hardwareConcurrency);
+        this.concurrency = Math.min(4, browser ? navigator.hardwareConcurrency : 0);
         this.onProgress = onProgress;
     }
 
     async init() {
-        if (!this.libav) {
+        if (this.concurrency && !this.libav) {
             this.libav = LibAV.LibAV({
                 yesthreads: true,
                 base: '/_libav'

@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { t } from "$lib/i18n/translations";
     import { page } from "$app/stores";
+    import { browser } from "$app/environment";
 
+    import { t } from "$lib/i18n/translations";
     import { getAllChangelogs } from "$lib/changelogs";
-    import type { ChangelogImport } from "$lib/types/changelogs";
     import type { Optional } from "$lib/types/generic";
+    import type { ChangelogImport } from "$lib/types/changelogs";
 
     import ChangelogEntry from "$components/changelog/ChangelogEntry.svelte";
 
@@ -36,7 +37,10 @@
             page: changelogs[version]() as Promise<ChangelogImport>,
         };
 
-        window.location.hash = version;
+        if (browser) {
+            window.location.hash = version;
+        }
+
         await changelog.page;
     };
 
