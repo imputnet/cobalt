@@ -3,6 +3,7 @@ import { strict as assert } from "node:assert";
 
 import { env } from "../config.js";
 import { services } from "./service-config.js";
+import { friendlyServiceName } from "./service-alias.js";
 
 function aliasURL(url) {
     assert(url instanceof URL);
@@ -186,7 +187,7 @@ export function extract(url) {
         return {
             error: "link.unsupported",
             context: {
-                service: host
+                service: friendlyServiceName(host),
             }
         };
     }
