@@ -67,6 +67,7 @@ function aliasURL(url) {
             if (url.hostname === 'dai.ly' && parts.length === 2) {
                 url = new URL(`https://dailymotion.com/video/${parts[1]}`)
             }
+            break;
 
         case "facebook":
         case "fb":
