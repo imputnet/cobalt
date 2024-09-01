@@ -1,10 +1,9 @@
 const friendlyNames = {
     bsky: "bluesky",
 }
-const friendlyKeys = Object.keys(friendlyNames);
 
 export const friendlyServiceName = (service) => {
-    if (service in friendlyKeys) {
+    if (service in friendlyNames) {
         return friendlyNames[service];
     }
     return service;
