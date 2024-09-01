@@ -1397,5 +1397,47 @@
                 "status": "redirect"
             }
         }
+    ],
+    "bsky": [
+        {
+            "name": "horizontal video",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2udah76ch2c",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "stream"
+            }
+        },
+        {
+            "name": "vertical video",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "stream"
+            }
+        },
+        {
+            "name": "vertical video (muted)",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "stream"
+            }
+        },
+        {
+            "name": "vertical video (audio)",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "stream"
+            }
+        }
     ]
 }
