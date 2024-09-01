@@ -158,15 +158,18 @@ const remux = (streamInfo, res) => {
 
         args.push(
             '-i', streamInfo.urls,
-            '-c', 'copy'
+            '-c:v', 'copy',
         )
 
         if (streamInfo.type === "mute") {
-            args.push('-an')
+            args.push('-an');
         }
 
         if (hlsExceptions.includes(streamInfo.service)) {
-            args.push('-bsf:a', 'aac_adtstoasc')
+            if (streamInfo.type !== "mute") {
+                args.push('-c:a', 'aac')
+            }
+            args.push('-bsf:a', 'aac_adtstoasc');
         }
 
         let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
