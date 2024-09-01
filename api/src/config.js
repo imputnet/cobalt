@@ -7,8 +7,10 @@ const version = await getVersion();
 const disabledServices = process.env.DISABLED_SERVICES?.split(',') || [];
 const enabledServices = new Set(Object.keys(services).filter(e => {
     if (!disabledServices.includes(e)) {
-        return friendlyServiceName(e);
+        return e;
     }
+}).map(e => {
+    return friendlyServiceName(e);
 }));
 
 const env = {
