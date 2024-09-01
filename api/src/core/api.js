@@ -14,6 +14,7 @@ import { Bright, Cyan } from "../misc/console-text.js";
 import { generateHmac, generateSalt } from "../misc/crypto.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
+import { friendlyServiceName } from "../processing/service-alias.js";
 import { verifyStream, getInternalStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 
@@ -48,7 +49,9 @@ export const runAPI = (express, app, __dirname) => {
             url: env.apiURL,
             startTime: `${startTimestamp}`,
             durationLimit: env.durationLimit,
-            services: [...env.enabledServices],
+            services: [...env.enabledServices].map(e => {
+                return friendlyServiceName(e);
+            }),
         },
         git,
     })

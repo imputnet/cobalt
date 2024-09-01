@@ -1,6 +1,5 @@
 import { getVersion } from "@imput/version-info";
 import { services } from "./processing/service-config.js";
-import { friendlyServiceName } from "./processing/service-alias.js";
 
 const version = await getVersion();
 
@@ -9,8 +8,6 @@ const enabledServices = new Set(Object.keys(services).filter(e => {
     if (!disabledServices.includes(e)) {
         return e;
     }
-}).map(e => {
-    return friendlyServiceName(e);
 }));
 
 const env = {
