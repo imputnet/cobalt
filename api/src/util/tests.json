@@ -1438,6 +1438,24 @@
                 "code": 200,
                 "status": "stream"
             }
+        },
+        {
+            "name": "single image",
+            "url": "https://bsky.app/profile/thehardyboycats.bsky.social/post/3l33flpoygt26",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "several images",
+            "url": "https://bsky.app/profile/tracey-m.bsky.social/post/3kzxuxbiul626",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
         }
     ]
 }

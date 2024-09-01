@@ -78,6 +78,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "instagram":
                 case "twitter":
                 case "snapchat":
+                case "bsky":
                     params = { picker: r.picker };
                     break;
 

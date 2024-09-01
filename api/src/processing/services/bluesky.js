@@ -1,5 +1,6 @@
 import HLS from "hls-parser";
 import { cobaltUserAgent } from "../../config.js";
+import { createStream } from "../../stream/manage.js";
 
 const extractVideo = async ({ getPost, filename }) => {
     const urlMasterHLS = getPost?.thread?.post?.embed?.playlist;
@@ -24,7 +25,41 @@ const extractVideo = async ({ getPost, filename }) => {
     }
 }
 
-export default async function ({ user, post }) {
+const extractImages = async ({ getPost, filename, alwaysProxy }) => {
+    const images = getPost?.thread?.post?.embed?.images;
+
+    if (!images || images.length === 0) {
+        return { error: "fetch.empty" };
+    }
+
+    if (images.length === 1) return {
+        urls: images[0].fullsize,
+        isPhoto: true,
+        filename: `${filename}.jpg`,
+    }
+
+    const picker = images.map((image, i) => {
+        let url = image.fullsize;
+        let proxiedImage = createStream({
+            service: "bluesky",
+            type: "proxy",
+            u: url,
+            filename: `${filename}_${i + 1}.jpg`,
+        });
+
+        if (alwaysProxy) url = proxiedImage;
+
+        return {
+            type: "photo",
+            url,
+            thumb: proxiedImage,
+        }
+    });
+
+    return { picker };
+}
+
+export default async function ({ user, post, alwaysProxy }) {
     const apiEndpoint = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?depth=0&parentHeight=0");
     apiEndpoint.searchParams.set(
         "uri",
@@ -46,6 +81,9 @@ export default async function ({ user, post }) {
 
     if (embedType === "app.bsky.embed.video#view") {
         return await extractVideo({ getPost, filename });
+    }
+    if (embedType === "app.bsky.embed.images#view") {
+        return await extractImages({ getPost, filename, alwaysProxy });
     }
 
     return { error: "fetch.empty" };
