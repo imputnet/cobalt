@@ -31,8 +31,11 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         defaultParams.audioFormat = audioFormat;
     }
 
-    if (isAudioMuted && !r.filenameAttributes) {
-        defaultParams.filename = r.filename.replace('.', '_mute.')
+    if (action === "muteVideo" && isAudioMuted && !r.filenameAttributes) {
+        const parts = r.filename.split(".");
+        const ext = parts.pop();
+
+        defaultParams.filename = `${parts.join(".")}_mute.${ext}`;
     }
 
     switch (action) {
