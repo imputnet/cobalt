@@ -1,6 +1,7 @@
+import { getVersion } from "@imput/version-info";
 import { services } from "./processing/service-config.js";
 
-const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
+const version = await getVersion();
 
 const disabledServices = process.env.DISABLED_SERVICES?.split(',') || [];
 const enabledServices = new Set(Object.keys(services).filter(e => {
@@ -40,7 +41,11 @@ const env = {
     enabledServices,
 }
 
+const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
+const cobaltUserAgent = `cobalt/${version} (+https://github.com/imputnet/cobalt)`;
+
 export {
     env,
     genericUserAgent,
+    cobaltUserAgent,
 }
