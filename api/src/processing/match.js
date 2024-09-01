@@ -26,6 +26,7 @@ import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
+import bluesky from "./services/bluesky.js";
 
 let freebind;
 
@@ -230,6 +231,12 @@ export default async function(host, patternMatch, obj) {
 
             case "facebook":
                 r = await facebook({
+                    ...patternMatch
+                });
+                break;
+
+            case "bsky":
+                r = await bluesky({
                     ...patternMatch
                 });
                 break;
