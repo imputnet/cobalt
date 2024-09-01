@@ -7,7 +7,7 @@ const extractVideo = async ({ getPost, filename }) => {
 
     const masterHLS = await fetch(urlMasterHLS)
                         .then(r => r.text())
-                        .catch();
+                        .catch(() => {});
     if (!masterHLS) return { error: "fetch.fail" };
 
     const video = HLS.parse(masterHLS)
@@ -37,7 +37,7 @@ export default async function ({ user, post }) {
         }
     })
     .then(r => r.json())
-    .catch();
+    .catch(() => {});
 
     if (!getPost || getPost?.error) return { error: "fetch.empty" };
 
