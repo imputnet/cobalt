@@ -6,6 +6,8 @@ import { createResponse } from "../processing/request.js";
 import { testers } from "./service-patterns.js";
 import matchAction from "./match-action.js";
 
+import { friendlyServiceName } from "./service-alias.js";
+
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
 import twitter from "./services/twitter.js";
@@ -59,7 +61,7 @@ export default async function(host, patternMatch, obj) {
             return createResponse("error", {
                 code: "error.api.link.unsupported",
                 context: {
-                    service: host
+                    service: friendlyServiceName(host),
                 }
             });
         }
@@ -273,14 +275,14 @@ export default async function(host, patternMatch, obj) {
                 case "link.unsupported":
                 case "content.video.unavailable":
                     context = {
-                        service: host,
+                        service: friendlyServiceName(host),
                     }
                     break;
             }
 
             return createResponse("error", {
                 code: `error.api.${r.error}`,
-                context
+                context,
             })
         }
 
@@ -301,7 +303,7 @@ export default async function(host, patternMatch, obj) {
         return createResponse("error", {
             code: "error.api.fetch.critical",
             context: {
-                service: host
+                service: friendlyServiceName(host),
             }
         })
     }
