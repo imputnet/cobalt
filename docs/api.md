@@ -53,6 +53,13 @@ item type: `object`
 | `url`   | `string` | direct link to a file or a link to cobalt's live render |                                        |
 | `thumb` | `string` | item thumbnail that's displayed in the picker           | used for `video` and `gif` types       |
 
+## GET: `/api/best_audio`
+cobalt's best audio endpoint. this endpoint purely fetches the best audio available in any format without re-encoding, and redirects you to the download URL for the audio file. The query paramater `url` is required.
+
+```
+⚠️ Ensure that the `url` parameter is properly encoded before making the request.
+```
+
 ## GET: `/api/stream`
 cobalt's live render (or stream) endpoint. usually, you will receive a url to this endpoint
 from a successful call to `/api/json`. however, the parameters passed to it are **opaque**
