@@ -1,6 +1,7 @@
 <script lang="ts">
     import { afterNavigate } from "$app/navigation";
     import { updated } from "$app/stores";
+    import { browser } from "$app/environment";
 
     import env from "$lib/env";
     import settings from "$lib/state/settings";
@@ -46,9 +47,10 @@
     {/if}
 </svelte:head>
 
-<div style="display: contents" data-theme={$currentTheme} lang={$locale}>
+<div style="display: contents" data-theme={browser ? $currentTheme : undefined} lang={$locale}>
     <div
         id="cobalt"
+        class:loaded={browser}
         data-iphone={device.is.iPhone}
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}

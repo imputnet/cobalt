@@ -17,17 +17,46 @@
         <link rel="apple-touch-icon" sizes="180x180" href="%sveltekit.assets%/icons/apple-touch-icon.png">
 
         <link crossorigin="use-credentials" rel="manifest" href="%sveltekit.assets%/manifest.json">
-    </head>
-    <style>
-        body {
-            background-color: black;
-        }
-        @media (prefers-color-scheme: light) {
-            body {
+
+        <noscript>
+            <style>
+                #cobalt { opacity: 1 !important }
+            </style>
+        </noscript>
+
+        <style>
+            body, #body-dark {
+                background-color: black;
+            }
+
+            #body-light {
                 background-color: white;
             }
-        }
-    </style>
+
+            @media (prefers-color-scheme: light) {
+                body {
+                    background-color: white;
+                }
+            }
+
+            #cobalt {
+                opacity: 0;
+            }
+
+            #cobalt.loaded {
+                opacity: 1;
+                transition: opacity .2s ease-out;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let settings = localStorage.getItem('settings'), theme;
+                if (settings && ({ theme } = JSON.parse(settings)?.appearance)) {
+                    document.body.id = `body-${theme}`;
+                }
+            });
+        </script>
+    </head>
     <body data-sveltekit-preload-data="hover" data-sveltekit-preload-code="eager">
         <div style="display: contents">
             %sveltekit.body%
