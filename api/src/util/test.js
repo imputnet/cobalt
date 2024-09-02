@@ -43,7 +43,11 @@ for (let i in services) {
                     throw `Invalid URL: ${chck.url}`
                 }
 
-                let j = await match(parsed.host, parsed.patternMatch, chck);
+                let j = await match({
+                    host: parsed.host,
+                    patternMatch: parsed.patternMatch,
+                    params: chck,
+                });
                 console.log('\nReceived:');
                 console.log(j)
                 if (j.status === test.expected.code && j.body.status === test.expected.status) {

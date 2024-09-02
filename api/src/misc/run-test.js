@@ -13,9 +13,11 @@ export async function runTest(url, params, expect) {
         throw `invalid url: ${normalized.url}`;
     }
 
-    const result = await match(
-        parsed.host, parsed.patternMatch, normalized
-    );
+    const result = await match({
+        host: parsed.host,
+        patternMatch: parsed.patternMatch,
+        params: normalized,
+    });
 
     let error = [];
     if (expect.status !== result.body.status) {
