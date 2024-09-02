@@ -32,8 +32,8 @@ import bluesky from "./services/bluesky.js";
 
 let freebind;
 
-export default async function(host, patternMatch, obj) {
-    const { url } = obj;
+export default async function({ host, patternMatch, params }) {
+    const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
 
@@ -48,9 +48,8 @@ export default async function(host, patternMatch, obj) {
 
     try {
         let r,
-            isAudioOnly = obj.downloadMode === "audio",
-            isAudioMuted = obj.downloadMode === "mute",
-            disableMetadata = !!obj.disableMetadata;
+            isAudioOnly = params.downloadMode === "audio",
+            isAudioMuted = params.downloadMode === "mute";
 
         if (!testers[host]) {
             return createResponse("error", {
@@ -71,8 +70,8 @@ export default async function(host, patternMatch, obj) {
                 r = await twitter({
                     id: patternMatch.id,
                     index: patternMatch.index - 1,
-                    toGif: !!obj.twitterGif,
-                    alwaysProxy: obj.alwaysProxy,
+                    toGif: !!params.twitterGif,
+                    alwaysProxy: params.alwaysProxy,
                     dispatcher
                 });
                 break;
@@ -81,14 +80,14 @@ export default async function(host, patternMatch, obj) {
                 r = await vk({
                     userId: patternMatch.userId,
                     videoId: patternMatch.videoId,
-                    quality: obj.videoQuality
+                    quality: params.videoQuality
                 });
                 break;
 
             case "ok":
                 r = await ok({
                     id: patternMatch.id,
-                    quality: obj.videoQuality
+                    quality: params.videoQuality
                 });
                 break;
 
@@ -99,11 +98,11 @@ export default async function(host, patternMatch, obj) {
             case "youtube":
                 let fetchInfo = {
                     id: patternMatch.id.slice(0, 11),
-                    quality: obj.videoQuality,
-                    format: obj.youtubeVideoCodec,
+                    quality: params.videoQuality,
+                    format: params.youtubeVideoCodec,
                     isAudioOnly,
                     isAudioMuted,
-                    dubLang: obj.youtubeDubLang,
+                    dubLang: params.youtubeDubLang,
                     dispatcher
                 }
 
@@ -129,10 +128,10 @@ export default async function(host, patternMatch, obj) {
                 r = await tiktok({
                     postId: patternMatch.postId,
                     id: patternMatch.id,
-                    fullAudio: obj.tiktokFullAudio,
+                    fullAudio: params.tiktokFullAudio,
                     isAudioOnly,
-                    h265: obj.tiktokH265,
-                    alwaysProxy: obj.alwaysProxy,
+                    h265: params.tiktokH265,
+                    alwaysProxy: params.alwaysProxy,
                 });
                 break;
 
@@ -148,7 +147,7 @@ export default async function(host, patternMatch, obj) {
                 r = await vimeo({
                     id: patternMatch.id.slice(0, 11),
                     password: patternMatch.password,
-                    quality: obj.videoQuality,
+                    quality: params.videoQuality,
                     isAudioOnly,
                 });
                 break;
@@ -160,7 +159,7 @@ export default async function(host, patternMatch, obj) {
                     url,
                     author: patternMatch.author,
                     song: patternMatch.song,
-                    format: obj.audioFormat,
+                    format: params.audioFormat,
                     shortLink: patternMatch.shortLink || false,
                     accessKey: patternMatch.accessKey || false
                 });
@@ -169,8 +168,8 @@ export default async function(host, patternMatch, obj) {
             case "instagram":
                 r = await instagram({
                     ...patternMatch,
-                    quality: obj.videoQuality,
-                    alwaysProxy: obj.alwaysProxy,
+                    quality: params.videoQuality,
+                    alwaysProxy: params.alwaysProxy,
                     dispatcher
                 })
                 break;
@@ -191,7 +190,7 @@ export default async function(host, patternMatch, obj) {
             case "streamable":
                 r = await streamable({
                     id: patternMatch.id,
-                    quality: obj.videoQuality,
+                    quality: params.videoQuality,
                     isAudioOnly,
                 });
                 break;
@@ -199,7 +198,7 @@ export default async function(host, patternMatch, obj) {
             case "twitch":
                 r = await twitch({
                     clipId: patternMatch.clip || false,
-                    quality: obj.videoQuality,
+                    quality: params.videoQuality,
                     isAudioOnly,
                 });
                 break;
@@ -209,7 +208,7 @@ export default async function(host, patternMatch, obj) {
                     id: patternMatch.id,
                     yappyId: patternMatch.yappyId,
                     key: patternMatch.key,
-                    quality: obj.videoQuality,
+                    quality: params.videoQuality,
                     isAudioOnly,
                 });
                 break;
@@ -221,7 +220,7 @@ export default async function(host, patternMatch, obj) {
             case "snapchat":
                 r = await snapchat({
                     ...patternMatch,
-                    alwaysProxy: obj.alwaysProxy,
+                    alwaysProxy: params.alwaysProxy,
                 });
                 break;
 
@@ -240,7 +239,7 @@ export default async function(host, patternMatch, obj) {
             case "bsky":
                 r = await bluesky({
                     ...patternMatch,
-                    alwaysProxy: obj.alwaysProxy
+                    alwaysProxy: params.alwaysProxy
                 });
                 break;
 
@@ -290,15 +289,15 @@ export default async function(host, patternMatch, obj) {
         return matchAction({
             r,
             host,
-            audioFormat: obj.audioFormat,
+            audioFormat: params.audioFormat,
             isAudioOnly,
             isAudioMuted,
-            disableMetadata,
-            filenameStyle: obj.filenameStyle,
-            twitterGif: obj.twitterGif,
+            disableMetadata: params.disableMetadata,
+            filenameStyle: params.filenameStyle,
+            twitterGif: params.twitterGif,
             requestIP,
-            audioBitrate: obj.audioBitrate,
-            alwaysProxy: obj.alwaysProxy,
+            audioBitrate: params.audioBitrate,
+            alwaysProxy: params.alwaysProxy,
         })
     } catch {
         return createResponse("error", {

@@ -213,9 +213,11 @@ export const runAPI = (express, app, __dirname) => {
         }
 
         try {
-            const result = await match(
-                parsed.host, parsed.patternMatch, normalizedRequest
-            );
+            const result = await match({
+                host: parsed.host,
+                patternMatch: parsed.patternMatch,
+                params: normalizedRequest,
+            });
 
             res.status(result.status).json(result.body);
         } catch {
