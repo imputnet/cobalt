@@ -145,6 +145,13 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
 
     app.get('/api/best_audio', async (req, res) => {
 
+        const lang = languageCode(req);
+
+        const fail = (t) => {
+            const { status, body } = createResponse("error", { t: loc(lang, t) });
+            res.status(status).json(body);
+        }
+        
         if (!req.query.url) { return res.status(400).send('Missing required "url" query parameter'); }
 
         const request = req.query;
@@ -168,7 +175,7 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
             fail('ErrorSomethingWentWrong');
         }
     })
-    
+
     app.get('/api/stream', (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
