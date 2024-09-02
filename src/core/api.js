@@ -143,6 +143,32 @@ export function runAPI(express, app, gitCommit, gitBranch, __dirname) {
         }
     })
 
+    app.get('/api/best_audio', async (req, res) => {
+
+        if (!req.query.url) { return res.status(400).send('Missing required "url" query parameter'); }
+
+        const request = req.query;
+        request.aFormat = "best";
+        request.isAudioOnly = true;
+
+        const normalizedRequest = normalizeRequest(request);
+        if (!normalizedRequest) {
+            return fail('ErrorCantProcess');
+        }
+
+        const parsed = extract(normalizedRequest.url);
+        if (parsed === null) {
+            return fail('ErrorUnsupported');
+        }
+
+        try {
+            const result = await match(parsed.host, parsed.patternMatch, false, normalizedRequest);
+            res.status(302).set('Location', result.body.url).end();
+        } catch {
+            fail('ErrorSomethingWentWrong');
+        }
+    })
+    
     app.get('/api/stream', (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
