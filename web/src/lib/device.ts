@@ -1,14 +1,29 @@
-import { browser } from '$app/environment'
-
-const device = {
-    is: {},
-    prefers: {},
-    supports: {},
-    userAgent: 'sveltekit server'
-};
+import { browser } from "$app/environment";
 
 const app = {
-    is: {}
+    is: {
+        installed: false,
+    }
+}
+
+const device = {
+    is: {
+        iPhone: false,
+        iPad: false,
+        iOS: false,
+        android: false,
+        mobile: false,
+    },
+    prefers: {
+        language: "en",
+        reducedMotion: false,
+        reducedTransparency: false,
+    },
+    supports: {
+        share: false,
+        directDownload: false,
+    },
+    userAgent: "sveltekit server",
 }
 
 if (browser) {
@@ -20,28 +35,24 @@ if (browser) {
     const iOS = iPhone || iPad;
     const android = ua.includes("android") || ua.includes("diordna");
 
-    const mobile = iOS || android;
-
-    const language = navigator.language.toLowerCase().slice(0, 2);
-
     const installed = window.matchMedia('(display-mode: standalone)').matches;
 
-    const reducedMotion = window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;
-    const reducedTransparency = window.matchMedia(`(prefers-reduced-transparency: reduce)`).matches;
+    app.is = {
+        installed,
+    };
 
-    app.is = { installed };
     device.is = {
         iPhone,
         iPad,
         iOS,
         android,
-        mobile,
+        mobile: iOS || android,
     };
 
     device.prefers = {
-        language,
-        reducedMotion,
-        reducedTransparency,
+        language: navigator.language.toLowerCase().slice(0, 2) || "en",
+        reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        reducedTransparency: window.matchMedia('(prefers-reduced-transparency: reduce)').matches,
     };
 
     device.supports = {
