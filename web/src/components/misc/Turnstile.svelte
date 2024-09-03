@@ -1,6 +1,7 @@
 <script lang="ts">
     import env from "$lib/env";
     import { onMount } from "svelte";
+    import { browser } from "$app/environment";
 
     import { turnstileLoaded } from "$lib/state/turnstile";
 
@@ -10,8 +11,7 @@
     onMount(() => {
         const sitekey = env.TURNSTILE_KEY;
         if (!sitekey) return;
-
-        turnstileScript.addEventListener("load", () => {
+        const setup = () => {
             window.turnstile?.render(turnstileElement, {
                 sitekey,
                 "error-callback": (error) => {
@@ -22,7 +22,13 @@
                     $turnstileLoaded = true;
                 }
             });
-        });
+        }
+
+        if (window.turnstile) {
+            setup();
+        } else {
+            turnstileScript.addEventListener("load", setup);
+        }
     });
 </script>
 
