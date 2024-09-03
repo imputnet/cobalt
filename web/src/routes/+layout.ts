@@ -1,5 +1,5 @@
 export const prerender = true;
-export const ssr = false;
+export const ssr = true;
 
 import { browser } from '$app/environment';
 

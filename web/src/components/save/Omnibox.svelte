@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
+    import { browser } from "$app/environment";
     import { SvelteComponent, tick } from "svelte";
 
     import env from "$lib/env";
@@ -43,7 +44,7 @@
     };
 
     $: linkFromHash = $page.url.hash.replace("#", "") || "";
-    $: linkFromQuery = $page.url.searchParams.get("u") || "";
+    $: linkFromQuery = (browser ? $page.url.searchParams.get("u") : 0) || "";
 
     $: if (linkFromHash || linkFromQuery) {
         if (validLink(linkFromHash)) {

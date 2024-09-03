@@ -1,4 +1,5 @@
 import { derived, readable, type Updater } from 'svelte/store';
+import { browser } from '$app/environment';
 import { merge } from 'ts-deepmerge';
 
 import type {
@@ -43,6 +44,9 @@ const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
 
 
 const loadFromStorage = () => {
+    if (!browser)
+        return {};
+
     const settings = localStorage.getItem('settings');
     if (!settings) {
         const migrated = migrateOldSettings();

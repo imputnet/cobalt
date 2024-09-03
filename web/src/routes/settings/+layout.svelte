@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    import { browser } from "$app/environment";
 
     import settings from "$lib/state/settings";
     import { version } from "$lib/version";
@@ -38,7 +39,7 @@
     $: isMobile = screenWidth <= 750;
     $: isHome = $page.url.pathname === "/settings";
     $: {
-        if (!isMobile && isHome) {
+        if (browser && !isMobile && isHome) {
             goto(defaultSettingsPage(), { replaceState: true });
         }
     }
