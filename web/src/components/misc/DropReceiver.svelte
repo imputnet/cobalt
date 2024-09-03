@@ -3,7 +3,7 @@
     export let classes = "";
 
     export let draggedOver = false;
-    export let file: File | undefined;
+    export let file: File | Blob | undefined;
 
     const dropHandler = async (ev: DragEvent) => {
         draggedOver = false;

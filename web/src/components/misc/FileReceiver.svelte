@@ -5,7 +5,7 @@
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
     import IconUpload from "@tabler/icons-svelte/IconUpload.svelte";
 
-    export let file: File | undefined;
+    export let file: File | Blob | undefined;
     export let draggedOver = false;
     export let acceptTypes: string[];
     export let acceptExtensions: string[];

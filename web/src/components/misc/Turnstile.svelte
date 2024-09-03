@@ -8,11 +8,12 @@
     let turnstileScript: HTMLElement;
 
     onMount(() => {
-        if (!env.TURNSTILE_KEY) return;
+        const sitekey = env.TURNSTILE_KEY;
+        if (!sitekey) return;
 
         turnstileScript.addEventListener("load", () => {
             window.turnstile?.render(turnstileElement, {
-                sitekey: env.TURNSTILE_KEY,
+                sitekey,
                 "error-callback": (error) => {
                     console.log("turnstile error code:", error);
                     return true;
