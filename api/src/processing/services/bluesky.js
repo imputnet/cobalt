@@ -5,15 +5,20 @@ import { createStream } from "../../stream/manage.js";
 const extractVideo = async ({ getPost, filename }) => {
     const urlMasterHLS = getPost?.thread?.post?.embed?.playlist;
     if (!urlMasterHLS) return { error: "fetch.empty" };
+    if (!urlMasterHLS.startsWith("https://video.bsky.app/")) return { error: "fetch.empty" };
 
     const masterHLS = await fetch(urlMasterHLS)
-                        .then(r => r.text())
-                        .catch(() => {});
-    if (!masterHLS) return { error: "fetch.fail" };
+        .then(r => {
+            if (r.status !== 200) return;
+            return r.text();
+        })
+        .catch(() => {});
+
+    if (!masterHLS) return { error: "fetch.empty" };
 
     const video = HLS.parse(masterHLS)
-                     ?.variants
-                     ?.reduce((a, b) => a?.bandwidth > b?.bandwidth ? a : b);
+            ?.variants
+            ?.reduce((a, b) => a?.bandwidth > b?.bandwidth ? a : b);
 
     const videoURL = new URL(video.uri, urlMasterHLS).toString();
 
@@ -70,9 +75,7 @@ export default async function ({ user, post, alwaysProxy }) {
         headers: {
             "user-agent": cobaltUserAgent
         }
-    })
-    .then(r => r.json())
-    .catch(() => {});
+    }).then(r => r.json()).catch(() => {});
 
     if (!getPost || getPost?.error) return { error: "fetch.empty" };
 
