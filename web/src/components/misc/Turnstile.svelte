@@ -1,7 +1,6 @@
 <script lang="ts">
     import env from "$lib/env";
     import { onMount } from "svelte";
-    import { browser } from "$app/environment";
 
     import { turnstileLoaded } from "$lib/state/turnstile";
 
