@@ -50,9 +50,9 @@
         </style>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                let settings = localStorage.getItem('settings'), theme;
-                if (settings && ({ theme } = JSON.parse(settings)?.appearance)) {
-                    document.body.id = `body-${theme}`;
+                let settings = localStorage.getItem('settings'), appearance;
+                if (settings && ({ appearance } = JSON.parse(settings)) && appearance?.theme) {
+                    document.body.id = `body-${appearance.theme}`;
                 }
             });
         </script>
