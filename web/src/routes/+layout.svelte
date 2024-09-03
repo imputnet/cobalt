@@ -224,10 +224,6 @@
         overscroll-behavior-y: none;
     }
 
-    :global(body) {
-        background-color: var(--secondary);
-    }
-
     #cobalt {
         position: fixed;
         height: 100%;
