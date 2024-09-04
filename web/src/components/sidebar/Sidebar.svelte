@@ -16,8 +16,11 @@
 
     let screenWidth: number;
     let settingsLink = defaultNavPage("settings");
+    let aboutLink = defaultNavPage("about");
 
-    $: screenWidth, settingsLink = defaultNavPage("settings");
+    $: screenWidth,
+       settingsLink = defaultNavPage("settings"),
+       aboutLink = defaultNavPage("about");
 </script>
 
 <svelte:window bind:innerWidth={screenWidth} />
@@ -43,7 +46,7 @@
             <SidebarTab tabName="updates" tabLink="/updates">
                 <IconComet />
             </SidebarTab>
-            <SidebarTab tabName="about" tabLink="/about">
+            <SidebarTab tabName="about" tabLink={aboutLink}>
                 <IconInfoCircle />
             </SidebarTab>
         </div>
