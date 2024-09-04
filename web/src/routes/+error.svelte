@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import { page } from "$app/stores";
-    import { defaultSettingsPage } from "$lib/settings/defaults";
     import { onMount } from "svelte";
+    import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
+    import { defaultSettingsPage } from "$lib/subnav";
 
     onMount(() => {
         if ($page.error?.message === "Not Found") {

@@ -1,4 +1,3 @@
-import { browser } from "$app/environment";
 import { defaultLocale } from "$lib/i18n/translations";
 import type { CobaltSettings } from "$lib/types/settings";
 
@@ -41,15 +40,4 @@ const defaultSettings: CobaltSettings = {
     }
 }
 
-const defaultSettingsPage = () => {
-    if (browser) {
-        if (window.innerWidth <= 750) {
-            return "/settings";
-        }
-    }
-
-    return "/settings/appearance";
-}
-
 export default defaultSettings;
-export { defaultSettingsPage };

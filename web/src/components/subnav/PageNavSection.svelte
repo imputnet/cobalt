@@ -1,34 +1,32 @@
 <script lang="ts">
-    import { t } from "$lib/i18n/translations";
-
     export let sectionTitle: string = "";
 </script>
 
-<div id="settings-section">
+<div id="subnav-section">
     {#if sectionTitle}
-        <div id="settings-section-title">
-            {$t(`settings.section.${sectionTitle}`)}
+        <div id="subnav-section-title">
+            {sectionTitle}
         </div>
     {/if}
-    <div id="settings-section-categories">
+    <div id="subnav-section-categories">
         <slot></slot>
     </div>
 </div>
 
 <style>
-    #settings-section,
-    #settings-section-categories {
+    #subnav-section,
+    #subnav-section-categories {
         display: flex;
         flex-direction: column;
     }
 
-    #settings-section {
+    #subnav-section {
         gap: 6px;
         border-radius: var(--border-radius);
         overflow: hidden;
     }
 
-    #settings-section-title {
+    #subnav-section-title {
         font-size: 12.5px;
         font-weight: 500;
         color: var(--gray);
@@ -36,13 +34,13 @@
     }
 
     @media screen and (max-width: 750px) {
-        #settings-section-categories {
+        #subnav-section-categories {
             background: var(--button);
             border-radius: var(--border-radius);
             box-shadow: var(--button-box-shadow);
         }
 
-        #settings-section-title {
+        #subnav-section-title {
             padding-left: calc(7px * 1.5);
         }
     }

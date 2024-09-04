@@ -1,5 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
+    import { defaultSettingsPage } from "$lib/subnav";
 
     import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
     import SidebarTab from "$components/sidebar/SidebarTab.svelte";
@@ -12,8 +13,6 @@
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
-
-    import { defaultSettingsPage } from "$lib/settings/defaults";
 
     let screenWidth: number;
     let settingsLink = defaultSettingsPage();

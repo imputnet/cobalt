@@ -1,38 +1,36 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
-    import { t } from "$lib/i18n/translations";
-
     import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
 
-    export let tabName: string;
-    export let tabLink: string;
+    export let tabPath: string;
+    export let tabTitle: string;
     export let iconColor: "gray" | "blue" | "green" = "gray";
 
-    $: isActive = $page.url.pathname === `/settings/${tabLink}`;
+    $: isActive = $page.url.pathname === tabPath;
 </script>
 
 <a
-    class="settings-tab"
-    href="/settings/{tabLink}"
+    class="subnav-tab"
+    href={tabPath}
     class:active={isActive}
     role="button"
 >
-    <div class="settings-tab-left">
+    <div class="subnav-tab-left">
         <div class="tab-icon" style="background: var(--{iconColor})">
             <slot></slot>
         </div>
-        <div class="settings-tab-text">
-            {$t(`settings.page.${tabName}`)}
+        <div class="subnav-tab-text">
+            {tabTitle}
         </div>
     </div>
-    <div class="settings-tab-chevron">
+    <div class="subnav-tab-chevron">
         <IconChevronRight />
     </div>
 </a>
 
 <style>
-    .settings-tab {
+    .subnav-tab {
         --small-padding: 4px;
         --big-padding: 6px;
         display: flex;
@@ -51,7 +49,7 @@
         text-decoration-line: none;
     }
 
-    .settings-tab-left {
+    .subnav-tab-left {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -67,14 +65,14 @@
         border-radius: 5px;
     }
 
-    .settings-tab .tab-icon :global(svg) {
+    .subnav-tab .tab-icon :global(svg) {
         stroke-width: 1.5px;
         stroke: var(--white);
         height: 20px;
         width: 20px;
     }
 
-    .settings-tab-chevron :global(svg) {
+    .subnav-tab-chevron :global(svg) {
         display: none;
         stroke-width: 2px;
         stroke: var(--gray);
@@ -83,48 +81,48 @@
     }
 
     @media (hover: hover) {
-        .settings-tab:hover {
+        .subnav-tab:hover {
             background: var(--button-hover-transparent);
         }
     }
 
-    .settings-tab:active {
+    .subnav-tab:active {
         background: var(--button-hover-transparent);
     }
 
-    .settings-tab.active {
+    .subnav-tab.active {
         background: var(--secondary);
         color: var(--primary);
     }
 
-    .settings-tab-text {
+    .subnav-tab-text {
         font-size: 14.5px;
         line-height: 1.35;
     }
 
     @media screen and (max-width: 750px) {
-        .settings-tab {
+        .subnav-tab {
             --big-padding: 7px;
             background: none;
             padding: var(--big-padding) 11px;
         }
 
-        .settings-tab:not(:last-child) {
+        .subnav-tab:not(:last-child) {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
             box-shadow: 48px 3px 0px -1.8px var(--button-stroke);
         }
 
-        .settings-tab:not(:first-child) {
+        .subnav-tab:not(:first-child) {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
 
-        .settings-tab-left {
+        .subnav-tab-left {
             gap: 10px;
         }
 
-        .settings-tab-chevron :global(svg) {
+        .subnav-tab-chevron :global(svg) {
             display: block;
         }
     }

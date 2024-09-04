@@ -2,10 +2,10 @@
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
 
-    import { device, app } from "$lib/device";
     import { version } from "$lib/version";
+    import { device, app } from "$lib/device";
+    import { defaultSettingsPage } from "$lib/subnav";
     import settings, { storedSettings } from "$lib/state/settings";
-    import { defaultSettingsPage } from "$lib/settings/defaults";
 
     onMount(() => {
         if (!$settings.advanced.debug) {

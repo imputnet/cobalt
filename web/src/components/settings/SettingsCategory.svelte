@@ -38,7 +38,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--padding);
-        padding: calc(var(--settings-padding) / 2);
+        padding: calc(var(--subnav-padding) / 2);
         border-radius: 18px;
         transition: opacity 0.2s;
     }
