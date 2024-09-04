@@ -48,6 +48,7 @@
         font-size: 13px;
         text-align: center;
         padding-bottom: var(--padding);
+        font-weight: 500;
     }
 
     @media screen and (max-width: 535px) {
