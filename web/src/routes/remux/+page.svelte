@@ -172,4 +172,14 @@
         font-size: 14px;
         line-height: 1.5;
     }
+
+    @media screen and (max-width: 535px) {
+        #remux-open {
+            gap: 24px;
+        }
+
+        .remux-description {
+            font-size: 12px;
+        }
+    }
 </style>
