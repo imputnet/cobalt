@@ -14,6 +14,7 @@
     "api.unreachable": "couldn't connect to the processing server. check your internet connection and try again.",
     "api.timed_out": "the processing server took way too long to respond. it may be overwhelmed at the moment, try again in a few seconds!",
     "api.rate_exceeded": "you're making way too many requests. try again in {{ limit }} seconds!",
+    "api.capacity": "cobalt is at capacity and can't process your request at the moment. try again in a few seconds. if it still doesn't work, let us know and we'll try to help!",
 
     "api.generic": "something went wrong and i couldn't get anything for you. try again in a few seconds, but if issue sticks, let us know and we'll try to help!",
     "api.unknown_response": "couldn't parse the response from the server. this could be caused by a version mismatch. are you sure you're on the latest version of cobalt?",
@@ -24,7 +25,7 @@
     "api.link.invalid": "your link is invalid or this service is not supported yet. have you pasted the right link?",
     "api.link.unsupported": "{{ service }} is supported, but i couldn't recognize your link. have you pasted the right one?",
 
-    "api.fetch.fail": "something went wrong when fetching info from {{ service }} and i couldn't find anything for you. are you sure your link works? if it does and you still see this error, let us know, and we'll try to help!",
+    "api.fetch.fail": "something went wrong when fetching info from {{ service }} and i couldn't find anything for you. are you sure your link works? if it does and you still see this error, let us know and we'll try to help!",
     "api.fetch.critical": "the {{ service }} module returned an error that i don't recognize. try again in a few seconds, but if issue sticks, let us know!",
     "api.fetch.empty": "couldn't find any media that i could download for you. are you sure you pasted the right link?",
     "api.fetch.rate": "the cobalt processing server got rate limited by the {{ service }} api. try again in a few seconds!",
