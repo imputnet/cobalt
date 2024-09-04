@@ -23,7 +23,7 @@ test_api() {
     echo "API_RESPONSE=$API_RESPONSE"
     STATUS=$(echo "$API_RESPONSE" | jq -r .status)
     STREAM_URL=$(echo "$API_RESPONSE" | jq -r .url)
-    [ "$STATUS" = stream ] || exit 1;
+    [ "$STATUS" = tunnel ] || exit 1;
     S=$(curl -I -m 3 "$STREAM_URL")
 
     CONTENT_LENGTH=$(echo "$S" \

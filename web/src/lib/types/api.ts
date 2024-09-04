@@ -2,7 +2,7 @@ enum CobaltResponseType {
     Error = 'error',
     Picker = 'picker',
     Redirect = 'redirect',
-    Stream = 'stream',
+    Tunnel = 'tunnel',
 }
 
 export type CobaltErrorResponse = {
@@ -34,8 +34,8 @@ type CobaltRedirectResponse = {
     status: CobaltResponseType.Redirect,
 } & CobaltPartialURLResponse;
 
-type CobaltStreamResponse = {
-    status: CobaltResponseType.Stream,
+type CobaltTunnelResponse = {
+    status: CobaltResponseType.Tunnel,
 } & CobaltPartialURLResponse;
 
 export type CobaltSession = {
@@ -64,4 +64,4 @@ export type CobaltServerInfoResponse = CobaltServerInfo | CobaltErrorResponse;
 export type CobaltAPIResponse = CobaltErrorResponse
                             | CobaltPickerResponse
                             | CobaltRedirectResponse
-                            | CobaltStreamResponse;
+                            | CobaltTunnelResponse;

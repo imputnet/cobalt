@@ -87,10 +87,10 @@
             return downloadFile(response.url);
         }
 
-        if (response.status === "stream") {
+        if (response.status === "tunnel") {
             changeDownloadButton("check");
 
-            const probeResult = await API.probeCobaltStream(response.url);
+            const probeResult = await API.probeCobaltTunnel(response.url);
 
             if (probeResult === 200) {
                 changeDownloadButton("done");
@@ -101,7 +101,7 @@
 
                 return createDialog({
                     ...defaultErrorPopup,
-                    bodyText: $t("error.stream.failed_probe"),
+                    bodyText: $t("error.tunnel.probe"),
                 });
             }
         }

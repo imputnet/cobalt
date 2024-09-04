@@ -79,7 +79,7 @@ const request = async (url: string) => {
     return response;
 }
 
-const probeCobaltStream = async (url: string) => {
+const probeCobaltTunnel = async (url: string) => {
     const request = await fetch(`${url}&p=1`).catch(() => {});
     if (request?.status === 200) {
         return request?.status;
@@ -89,5 +89,5 @@ const probeCobaltStream = async (url: string) => {
 
 export default {
     request,
-    probeCobaltStream,
+    probeCobaltTunnel,
 }

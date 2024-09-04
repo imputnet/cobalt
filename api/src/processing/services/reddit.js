@@ -118,7 +118,7 @@ export default async function(obj) {
     }
 
     return {
-        typeId: "stream",
+        typeId: "tunnel",
         type: "merge",
         urls: [video, audioFileLink],
         audioFilename: `reddit_${id}_audio`,

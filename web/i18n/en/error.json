@@ -4,7 +4,7 @@
     "import.unknown": "couldn't load data from the file. it may be corrupted or of wrong format. here's the error i got:\n\n{{ value }}",
 
     "remux.corrupted": "couldn't read the metadata from this file, it may be corrupted.",
-    "stream.probe": "couldn't verify whether you can download this file. try again in a few seconds!",
+    "tunnel.probe": "couldn't verify whether you can download this file. try again in a few seconds!",
 
     "api.auth.jwt.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
     "api.auth.jwt.invalid": "couldn't confirm whether you're not a robot because your human access token expired and wasn't renewed. try again in a few seconds or reload the page!",

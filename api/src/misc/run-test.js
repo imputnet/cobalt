@@ -38,7 +38,7 @@ export async function runTest(url, params, expect) {
         throw error.join('\n');
     }
 
-    if (result.body.status === 'stream') {
+    if (result.body.status === 'tunnel') {
         // TODO: stream testing
     }
 }

@@ -141,7 +141,7 @@ export const runAPI = (express, app, __dirname) => {
     });
 
     app.post('/', apiLimiter);
-    app.use('/stream', apiLimiterStream);
+    app.use('/tunnel', apiLimiterStream);
 
     app.use('/', express.json({ limit: 1024 }));
     app.use('/', (err, _, res, next) => {
@@ -225,7 +225,7 @@ export const runAPI = (express, app, __dirname) => {
         }
     })
 
-    app.get('/stream', (req, res) => {
+    app.get('/tunnel', (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
         const sig = String(req.query.sig);
@@ -256,7 +256,7 @@ export const runAPI = (express, app, __dirname) => {
         return stream(res, streamInfo);
     })
 
-    app.get('/istream', (req, res) => {
+    app.get('/itunnel', (req, res) => {
         if (!req.ip.endsWith('127.0.0.1')) {
             return res.sendStatus(403);
         }

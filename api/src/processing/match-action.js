@@ -6,7 +6,7 @@ import { createStream } from "../stream/manage.js";
 
 export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate, alwaysProxy }) {
     let action,
-        responseType = "stream",
+        responseType = "tunnel",
         defaultParams = {
             u: r.urls,
             headers: r.headers,
@@ -197,7 +197,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
     }
 
     if (alwaysProxy && responseType === "redirect") {
-        responseType = "stream";
+        responseType = "tunnel";
         params.type = "proxy";
     }
 

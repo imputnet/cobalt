@@ -41,7 +41,7 @@ export function createResponse(responseType, responseData) {
                 }
                 break;
 
-            case "stream":
+            case "tunnel":
                 response = {
                     url: createStream(responseData),
                 }

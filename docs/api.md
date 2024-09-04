@@ -39,13 +39,13 @@ the response will always be a JSON object containing the `status` key, which wil
 - `error` - something went wrong
 - `picker` - we have multiple items to choose from
 - `redirect` - you are being redirected to the direct service URL
-- `stream` - cobalt is proxying the download for you
+- `tunnel` - cobalt is proxying the download for you
 
-### stream/redirect response
+### tunnel/redirect response
 | key          | type     | values                                                      |
 |:-------------|:---------|:------------------------------------------------------------|
-| `status`     | `string` | `stream / redirect`                                         |
-| `url`        | `string` | url for the cobalt stream, or redirect to an external link  |
+| `status`     | `string` | `tunnel / redirect`                                         |
+| `url`        | `string` | url for the cobalt tunnel, or redirect to an external link  |
 
 ### picker response
 | key          | type     | values                                                      |
