@@ -1,17 +1,20 @@
 <script lang="ts">
-    import { afterNavigate } from "$app/navigation";
-    import { updated } from "$app/stores";
-    import { browser } from "$app/environment";
-
-    import env from "$lib/env";
-    import settings from "$lib/state/settings";
-    import { device, app } from "$lib/device";
-    import locale from "$lib/i18n/locale";
-    import currentTheme, { statusBarColors } from "$lib/state/theme";
-
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/400-italic.css";
     import "@fontsource/ibm-plex-mono/500.css";
+
+    import { page } from "$app/stores";
+    import { updated } from "$app/stores";
+    import { browser } from "$app/environment";
+    import { afterNavigate } from "$app/navigation";
+
+    import env from "$lib/env";
+    import settings from "$lib/state/settings";
+    import locale from "$lib/i18n/locale";
+
+    import { device, app } from "$lib/device";
+    import { turnstileCreated } from "$lib/state/turnstile";
+    import currentTheme, { statusBarColors } from "$lib/state/theme";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import Turnstile from "$components/misc/Turnstile.svelte";
@@ -64,7 +67,7 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
-            {#if env.TURNSTILE_KEY}
+            {#if (env.TURNSTILE_KEY && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
             <slot></slot>

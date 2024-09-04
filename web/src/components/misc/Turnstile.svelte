@@ -2,7 +2,7 @@
     import env from "$lib/env";
     import { onMount } from "svelte";
 
-    import { turnstileLoaded } from "$lib/state/turnstile";
+    import { turnstileLoaded, turnstileCreated } from "$lib/state/turnstile";
 
     let turnstileElement: HTMLElement;
     let turnstileScript: HTMLElement;
@@ -10,6 +10,9 @@
     onMount(() => {
         const sitekey = env.TURNSTILE_KEY;
         if (!sitekey) return;
+
+        $turnstileCreated = true;
+
         const setup = () => {
             window.turnstile?.render(turnstileElement, {
                 sitekey,
