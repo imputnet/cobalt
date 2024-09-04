@@ -8,6 +8,8 @@
         if ($page.error?.message === "Not Found") {
             if ($page.url.pathname.startsWith("/settings")) {
                 goto(defaultNavPage("settings"), { replaceState: true });
+            } else if ($page.url.pathname.startsWith("/about")) {
+                goto(defaultNavPage("about"), { replaceState: true });
             } else {
                 goto("/", { replaceState: true });
             }
