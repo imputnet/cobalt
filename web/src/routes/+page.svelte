@@ -22,7 +22,7 @@
         <Omnibox />
     </main>
     <div id="terms-note">
-        {$t("save.terms.note.agreement")} <a href="/about">{$t("save.terms.note.link")}</a>
+        {$t("save.terms.note.agreement")} <a href="/about/terms">{$t("save.terms.note.link")}</a>
     </div>
 </div>
 
