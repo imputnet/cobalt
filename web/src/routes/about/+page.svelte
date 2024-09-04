@@ -1,13 +1,4 @@
-<script>
-    import { t } from "$lib/i18n/translations";
-
-    import Placeholder from "$components/misc/Placeholder.svelte";
-</script>
-
-<svelte:head>
-    <title>
-        {$t("tabs.about")} ~ {$t("general.cobalt")}
-    </title>
-</svelte:head>
-
-<Placeholder pageName="about" />
+<!--
+    please don't remove this file
+    it's used to display page navigation on mobile, without a blank page it won't work
+-->
