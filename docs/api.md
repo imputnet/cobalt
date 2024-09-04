@@ -19,7 +19,7 @@ Content-Type: application/json
 ### request body
 | key                          | type      | expected value(s)                  | default   | description                                                                     |
 |:-----------------------------|:----------|:-----------------------------------|:----------|:--------------------------------------------------------------------------------|
-| `url`                        | `string`  | URL encoded as URI                 | `null`    | **must** be included in every request.                                          |
+| `url`                        | `string`  | URL to download                    | --        | **must** be included in every request.                                          |
 | `videoQuality`               | `string`  | `144 / ... / 2160 / 4320 / max`    | `1080`    | `720` quality is recommended for phones.                                        |
 | `audioFormat`                | `string`  | `best / mp3 / ogg / wav / opus`    | `mp3`     |                                                                                 |
 | `audioBitrate`               | `string`  | `320 / 256 / 128 / 96 / 64 / 8`    | `128`     | specifies the bitrate to use for the audio. applies only to audio conversion.   |
