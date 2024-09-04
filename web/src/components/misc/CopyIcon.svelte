@@ -7,7 +7,7 @@
     export let regularIcon = false;
 </script>
 
-<div id="copy-animation" class:check>
+<div class="copy-animation" class:check>
     <div class="icon-copy">
         {#if regularIcon}
             <IconCopy />
@@ -21,7 +21,7 @@
 </div>
 
 <style>
-    #copy-animation {
+    .copy-animation {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -30,7 +30,7 @@
         width: 24px;
     }
 
-    #copy-animation :global(svg) {
+    .copy-animation :global(svg) {
         will-change: transform;
     }
 
