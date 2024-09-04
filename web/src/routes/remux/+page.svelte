@@ -144,7 +144,7 @@
         align-items: center;
         max-width: 450px;
         text-align: center;
-        gap: 32px;
+        gap: 24px;
         transition: transform 0.2s, opacity 0.2s;
     }
 
@@ -174,10 +174,6 @@
     }
 
     @media screen and (max-width: 535px) {
-        #remux-open {
-            gap: 24px;
-        }
-
         .remux-description {
             font-size: 12px;
         }
