@@ -13,6 +13,7 @@
     export let homeTitle: string;
     export let pageSubtitle = "";
     export let contentPadding = false;
+    export let wideContent = false;
 
     let screenWidth: number;
 
@@ -93,6 +94,7 @@
             id="{pageName}-page-content"
             class="subnav-page-content"
             class:padding={contentPadding}
+            class:wide={wideContent}
             tabindex="-1"
             data-first-focus
             data-focus-ring-hidden
@@ -122,6 +124,10 @@
         max-width: 600px;
         padding: calc(var(--subnav-padding) / 2);
         overflow-y: scroll;
+    }
+
+    .subnav-page-content.wide {
+        max-width: 800px;
     }
 
     .subnav-page-content.padding {
