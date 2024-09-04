@@ -9,8 +9,7 @@
     "card.monthly": "monthly donation",
     "card.custom": "custom amount (from $2)",
 
-    "card.processor.stripe": "processed by stripe",
-    "card.processor.liberapay": "processed by liberapay",
+    "card.processor": "processed by {{value}}",
 
     "card.option.5": "cup of coffee",
     "card.option.10": "full size pizza",

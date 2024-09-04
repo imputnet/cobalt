@@ -87,7 +87,7 @@
             <div class="donation-type-text">
                 <div class="donate-card-title">{$t("donate.card.once")}</div>
                 <div class="donate-card-subtitle">
-                    {$t("donate.card.processor.stripe")}
+                    {$t("donate.card.processor", { value: 'stripe' })}
                 </div>
             </div>
         </button>
@@ -103,7 +103,7 @@
             <div class="donation-type-text">
                 <div class="donate-card-title">{$t("donate.card.monthly")}</div>
                 <div class="donate-card-subtitle">
-                    {$t("donate.card.processor.liberapay")}
+                    {$t("donate.card.processor", { value: 'liberapay' })}
                 </div>
             </div>
         </button>
@@ -146,7 +146,7 @@
         </button>
     </div>
     <div class="donate-card-subtitle processor-mobile">
-        {$t(`donate.card.processor.${processor}`)}
+        {$t("donate.card.processor", { value: processor })}
     </div>
 </DonateCardContainer>
 
