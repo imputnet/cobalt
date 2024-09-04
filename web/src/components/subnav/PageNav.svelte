@@ -12,6 +12,7 @@
     export let homeDesktopPath: string;
     export let homeTitle: string;
     export let pageSubtitle = "";
+    export let contentPadding = false;
 
     let screenWidth: number;
 
@@ -91,6 +92,7 @@
         <main
             id="{pageName}-page-content"
             class="subnav-page-content"
+            class:padding={contentPadding}
             tabindex="-1"
             data-first-focus
             data-focus-ring-hidden
@@ -120,6 +122,10 @@
         max-width: 600px;
         padding: calc(var(--subnav-padding) / 2);
         overflow-y: scroll;
+    }
+
+    .subnav-page-content.padding {
+        padding: var(--subnav-padding);
     }
 
     .subnav-sidebar,
@@ -205,6 +211,10 @@
             padding: var(--padding) 0;
             padding-top: 0;
             max-width: unset;
+        }
+
+        .subnav-page-content.padding {
+            padding: var(--padding);
         }
 
         .subnav-header {
