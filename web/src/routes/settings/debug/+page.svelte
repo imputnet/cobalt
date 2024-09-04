@@ -4,12 +4,12 @@
 
     import { version } from "$lib/version";
     import { device, app } from "$lib/device";
-    import { defaultSettingsPage } from "$lib/subnav";
+    import { defaultNavPage } from "$lib/subnav";
     import settings, { storedSettings } from "$lib/state/settings";
 
     onMount(() => {
         if (!$settings.advanced.debug) {
-            goto(defaultSettingsPage(), { replaceState: true });
+            goto(defaultNavPage("settings"), { replaceState: true });
         }
     });
 </script>

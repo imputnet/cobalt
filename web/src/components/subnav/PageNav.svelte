@@ -2,14 +2,14 @@
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { browser } from "$app/environment";
+    import { defaultNavPage } from "$lib/subnav";
 
     import { t } from "$lib/i18n/translations";
 
     import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
 
-    export let pageName: string;
+    export let pageName: "settings" | "about";
     export let homeNavPath: string;
-    export let homeDesktopPath: string;
     export let homeTitle: string;
     export let pageSubtitle = "";
     export let contentPadding = false;
@@ -27,7 +27,7 @@
     $: isHome = $page.url.pathname === homeNavPath;
     $: {
         if (browser && !isMobile && isHome) {
-            goto(homeDesktopPath, { replaceState: true });
+            goto(defaultNavPage(pageName), { replaceState: true });
         }
     }
 </script>

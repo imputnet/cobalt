@@ -1,6 +1,5 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { defaultAboutPage } from "$lib/subnav";
 
     import PageNav from "$components/subnav/PageNav.svelte";
 
@@ -20,7 +19,6 @@
 
 <PageNav
     pageName="about"
-    homeDesktopPath={defaultAboutPage()}
     homeNavPath="/about"
     homeTitle={$t("tabs.about")}
     contentPadding

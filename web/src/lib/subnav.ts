@@ -1,26 +1,16 @@
 import { browser } from "$app/environment";
 
-const defaultSettingsPage = () => {
-    if (browser) {
-        if (window.innerWidth <= 750) {
-            return "/settings";
-        }
+const defaultNavPage = (page: "settings" | "about") => {
+    if (browser && window.innerWidth <= 750) {
+        return `/${page}`;
     }
 
-    return "/settings/appearance";
-}
-
-const defaultAboutPage = () => {
-    if (browser) {
-        if (window.innerWidth <= 750) {
-            return "/about";
-        }
+    switch (page) {
+        case "settings":
+            return "/settings/appearance";
+        case "about":
+            return "/about/general";
     }
-
-    return "/about/general";
 }
 
-export {
-    defaultSettingsPage,
-    defaultAboutPage
-}
+export { defaultNavPage };

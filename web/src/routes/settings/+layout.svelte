@@ -3,7 +3,6 @@
 
     import { version } from "$lib/version";
     import { t } from "$lib/i18n/translations";
-    import { defaultSettingsPage } from "$lib/subnav";
 
     import PageNav from "$components/subnav/PageNav.svelte";
 
@@ -27,7 +26,6 @@
 <PageNav
     pageName="settings"
     pageSubtitle={versionText}
-    homeDesktopPath={defaultSettingsPage()}
     homeNavPath="/settings"
     homeTitle={$t("tabs.settings")}
 >
