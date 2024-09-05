@@ -1,6 +1,7 @@
 <script lang="ts">
     import mime from "mime";
     import LibAVWrapper from "$lib/libav";
+    import { browser } from "$app/environment";
     import { beforeNavigate } from '$app/navigation';
 
     import { openURL } from "$lib/download";
@@ -151,9 +152,9 @@
         }
     })
 
-    $: if (processing) {
+    $: if (browser && processing) {
         window.addEventListener("beforeunload", beforeUnloadHandler);
-    } else {
+    } else if (browser) {
         window.removeEventListener("beforeunload", beforeUnloadHandler);
     }
 
