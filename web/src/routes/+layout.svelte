@@ -445,7 +445,7 @@
     }
 
     :global(.long-text-noto),
-    :global(.long-text-noto *) {
+    :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
         line-height: 1.7;
         font-size: 14.5px;
         font-weight: 410;
