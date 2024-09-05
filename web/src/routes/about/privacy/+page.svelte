@@ -9,6 +9,9 @@
         <p>
             cobalt's privacy policy is simple: we don't collect or store anything about you. what you do is solely your business, not ours or anyone else's.
         </p>
+        <p>
+            these terms are applicable only when using the official cobalt instance. in other cases, you may need to contact the hoster for accurate info.
+        </p>
     </section>
 
     <section id="local">
