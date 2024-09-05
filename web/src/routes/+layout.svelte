@@ -462,9 +462,14 @@
         padding-left: 3px;
     }
 
+    :global(.long-text-noto h3) {
+        margin-bottom: -5px;
+        font-size: 17px;
+    }
+
     @media screen and (max-width: 535px) {
         :global(.long-text-noto),
-        :global(.long-text-noto *) {
+        :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
             font-size: 14px;
         }
     }
