@@ -5,6 +5,7 @@
 
     export let tabName: string;
     export let tabLink: string;
+    export let beta = false;
 
     const firstTabPage = ["save", "remux", "settings"];
 
@@ -44,6 +45,9 @@
     role="tab"
     aria-selected={isTabActive}
 >
+    {#if beta}
+        <div class="beta-sign">β</div>
+    {/if}
     <slot></slot>
     {$t(`tabs.${tabName}`)}
 </a>
@@ -95,6 +99,12 @@
 
     :global([data-reduce-motion="true"]) .sidebar-tab:active:not(.active) {
         transform: none;
+    }
+
+    .beta-sign {
+        position: absolute;
+        transform: translateX(16px) translateY(-6px);
+        opacity: 0.7;
     }
 
     @keyframes pressButton {

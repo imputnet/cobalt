@@ -32,7 +32,7 @@
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
             </SidebarTab>
-            <SidebarTab tabName="remux" tabLink="/remux">
+            <SidebarTab tabName="remux" tabLink="/remux" beta>
                 <IconRepeat />
             </SidebarTab>
         </div>
