@@ -9,11 +9,22 @@
         <p>
             cobalt's privacy policy is simple: we don't collect or store anything about you. what you do is solely your business, not ours or anyone else's.
         </p>
+    </section>
+
+    <section id="local">
+        <h3>on-device processing</h3>
+        <p>
+            tools that use on-device processing work offline, locally, and never send any data anywhere. they are explicitly marked as such whenever applicable.
+        </p>
+    </section>
+
+    <section id="saving">
+        <h3>saving</h3>
         <p>
             when using saving functionality, in some cases cobalt will encrypt & temporarily store information needed for tunnelling. it's stored in processing server's RAM for 90 seconds and irreversibly purged afterwards. no one has access to it, even instance owners, as long as they don't modify the official cobalt image.
         </p>
         <p>
-            processed/tunnelled files are never cached anywhere. everything is tunnelled live. cobalt is essentially a fancy proxy service.
+            processed/tunnelled files are never cached anywhere. everything is tunnelled live. cobalt's saving functionality is essentially a fancy proxy service.
         </p>
     </section>
 
@@ -62,10 +73,3 @@
         </p>
     </section>
 </div>
-
-<style>
-    #privacy-body h3 {
-        margin-bottom: -5px;
-        font-size: 17px;
-    }
-</style>
