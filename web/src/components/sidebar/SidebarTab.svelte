@@ -46,7 +46,7 @@
     aria-selected={isTabActive}
 >
     {#if beta}
-        <div class="beta-sign">β</div>
+        <div class="beta-sign" aria-label={$t("general.beta")}>β</div>
     {/if}
     <slot></slot>
     {$t(`tabs.${tabName}`)}
@@ -69,6 +69,7 @@
 
         text-decoration: none;
         text-decoration-line: none;
+        position: relative;
     }
 
     .sidebar-tab :global(svg) {
