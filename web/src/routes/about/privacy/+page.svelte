@@ -61,7 +61,7 @@
     <section id="cloudflare">
         <h3>web privacy & security</h3>
         <p>
-            we use cloudflare for ddos & bot protection. we also use cloudflare pages for deploying & hosting the static web app. all of these are required to provide the best experience for everyone. it's the most private & reliable provider that we know of.
+            we use cloudflare services for ddos & bot protection. we also use cloudflare pages for deploying & hosting the static web app. all of these are required to provide the best experience for everyone. it's the most private & reliable provider that we know of.
         </p>
         <p>
             cloudflare is fully compliant with GDPR and HIPAA.
