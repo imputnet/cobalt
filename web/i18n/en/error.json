@@ -4,6 +4,8 @@
     "import.unknown": "couldn't load data from the file. it may be corrupted or of wrong format. here's the error i got:\n\n{{ value }}",
 
     "remux.corrupted": "couldn't read the metadata from this file, it may be corrupted.",
+    "remux.out_of_resources": "cobalt ran out of resources and can't continue with on-device processing. this is related to limitations on your browser's side. try refreshing or reopening the app and trying again. some devices can only process tiny files.",
+
     "tunnel.probe": "couldn't verify whether you can download this file. try again in a few seconds!",
 
     "api.auth.jwt.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
