@@ -27,7 +27,7 @@
     <div class="settings-content-header">
         <h3 class="settings-content-title">{title}</h3>
         {#if beta}
-            <div class="beta-label">{$t("settings.feature.beta")}</div>
+            <div class="beta-label">{$t("general.beta")}</div>
         {/if}
     </div>
     <slot></slot>
