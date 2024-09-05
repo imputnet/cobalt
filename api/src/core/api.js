@@ -309,7 +309,7 @@ export const runAPI = (express, app, __dirname) => {
 
     app.listen(env.apiPort, env.listenAddress, () => {
         console.log(`\n` +
-            Bright(Cyan("cobalt ")) + Bright("API ^_^") + "\n" +
+            Bright(Cyan("cobalt ")) + Bright("API ^ω⁠^") + "\n" +
 
             "~~~~~~\n" +
             Bright("version: ") + version + "\n" +
