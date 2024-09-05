@@ -70,7 +70,7 @@
             return;
         }
 
-        navigator.clipboard.readText().then(async (text) => {
+        navigator.clipboard.readText().then(async (text: string) => {
             let matchLink = text.match(/https:\/\/[^\s]+/g);
             if (matchLink) {
                 $link = matchLink[0];
