@@ -1,4 +1,5 @@
 <script lang="ts">
+    import env from "$lib/env";
     import { t } from "$lib/i18n/translations";
     import OuterLink from "$components/misc/OuterLink.svelte";
 </script>
@@ -38,28 +39,30 @@
         </p>
     </section>
 
-    <section id="plausible">
-        <h3>anonymous traffic analytics</h3>
-        <p>
-            for sake of privacy, we use
-            <OuterLink href="https://plausible.io/"> plausible's anonymous traffic analytics</OuterLink>
-            to get an approximate number of active cobalt users. no identifiable information about you or your requests is ever stored. all data is anonymized and aggregated. the plausible instance we use is hosted & managed by us.
-        </p>
+    {#if env.PLAUSIBLE_ENABLED}
+        <section id="plausible">
+            <h3>anonymous traffic analytics</h3>
+            <p>
+                for sake of privacy, we use
+                <OuterLink href="https://plausible.io/"> plausible's anonymous traffic analytics</OuterLink>
+                to get an approximate number of active cobalt users. no identifiable information about you or your requests is ever stored. all data is anonymized and aggregated. the plausible instance we use is hosted & managed by us.
+            </p>
 
-        <p>
-           plausible doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.
-        </p>
+            <p>
+            plausible doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.
+            </p>
 
-        <p>
-            <OuterLink href="https://plausible.io/privacy-focused-web-analytics">
-                {$t("settings.privacy.analytics.learnmore")}
-            </OuterLink>
-        </p>
+            <p>
+                <OuterLink href="https://plausible.io/privacy-focused-web-analytics">
+                    {$t("settings.privacy.analytics.learnmore")}
+                </OuterLink>
+            </p>
 
-        <p>
-            if you wish to opt out of anonymous analytics, you can do it in <a href="/settings/privacy#analytics">privacy settings</a>.
-        </p>
-    </section>
+            <p>
+                if you wish to opt out of anonymous analytics, you can do it in <a href="/settings/privacy#analytics">privacy settings</a>.
+            </p>
+        </section>
+    {/if}
 
     <section id="cloudflare">
         <h3>web privacy & security</h3>
