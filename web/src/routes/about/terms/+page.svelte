@@ -28,13 +28,10 @@
         </p>
     </section>
 
-    <section id="other-responsibiliy">
-        <h3>other responsibilities</h3>
+    <section id="abuse">
+        <h3>reporting abuse</h3>
         <p>
-            when our tools are used for potentially dangerous activities, we have no way of detecting them, as cobalt is 100% anonymous.
-        </p>
-        <p>
-            however, you can report such activities to us manually and we will do our best to comply: <a href="mailto:safety@imput.net">safety@imput.net</a>
+            we have no way of detecting abusive behavior automatically, as cobalt is 100% anonymous. however, you can report such activities to us and we will do our best to comply manually: <a href="mailto:safety@imput.net">safety@imput.net</a>
         </p>
     </section>
 </div>
