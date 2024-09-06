@@ -23,7 +23,6 @@
     #subnav-section {
         gap: 6px;
         border-radius: var(--border-radius);
-        overflow: hidden;
     }
 
     #subnav-section-title {
@@ -38,6 +37,7 @@
             background: var(--button);
             border-radius: var(--border-radius);
             box-shadow: var(--button-box-shadow);
+            overflow-x: hidden;
         }
 
         #subnav-section-title {
