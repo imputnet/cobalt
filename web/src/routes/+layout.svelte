@@ -463,7 +463,7 @@
     }
 
     :global(.long-text-noto h3) {
-        margin-bottom: -5px;
+        margin-bottom: -10px;
         font-size: 17px;
     }
 
