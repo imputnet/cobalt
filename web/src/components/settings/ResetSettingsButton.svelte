@@ -1,10 +1,9 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
+    import { createDialog } from "$lib/dialogs";
     import { resetSettings } from "$lib/state/settings";
 
     import IconTrash from "@tabler/icons-svelte/IconTrash.svelte";
-
-    import { createDialog } from "$lib/dialogs";
 
     const resetDialog = () => {
         createDialog({
@@ -33,7 +32,7 @@
 
 <button id="setting-button-reset" class="button" on:click={resetDialog}>
     <IconTrash />
-    {$t("settings.advanced.reset")}
+    {$t("button.reset")}
 </button>
 
 <style>

@@ -12,5 +12,6 @@
     "continue": "continue",
     "star": "star",
     "follow": "follow",
-    "save": "save"
+    "save": "save",
+    "export": "export"
 }

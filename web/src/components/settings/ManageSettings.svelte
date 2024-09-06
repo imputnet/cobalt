@@ -9,6 +9,7 @@
     import { validateSettings } from "$lib/settings/validate";
 
     import ActionButton from "$components/buttons/ActionButton.svelte";
+    import ResetSettingsButton from "$components/settings/ResetSettingsButton.svelte";
 
     import IconFileExport from "@tabler/icons-svelte/IconFileExport.svelte";
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
@@ -102,13 +103,18 @@
 <div class="button-row" id="settings-data-transfer">
     <ActionButton id="import-settings" click={importSettings}>
         <IconFileImport />
-        {$t("settings.advanced.import")}
+        {$t("button.import")}
     </ActionButton>
+
     {#if $storedSettings.schemaVersion}
         <ActionButton id="export-settings" click={exportSettings}>
             <IconFileExport />
-            {$t("settings.advanced.export")}
+            {$t("button.export")}
         </ActionButton>
+    {/if}
+
+    {#if $storedSettings.schemaVersion}
+        <ResetSettingsButton />
     {/if}
 </div>
 
