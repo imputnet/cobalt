@@ -8,5 +8,7 @@
     "terms.note.agreement": "by continuing, you agree to",
     "terms.note.link": "terms and ethics of use",
     "services.title": "supported services",
+    "services.title_show": "show supported services",
+    "services.title_hide": "hide supported services",
     "services.disclaimer": "cobalt is not affiliated with any of the services listed above."
 }

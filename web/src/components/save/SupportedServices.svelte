@@ -30,6 +30,7 @@
                 await loadInfo();
             }
         }}
+        aria-label={$t(`save.services.title_${expanded ? "hide" : "show"}`)}
     >
         <div class="expand-icon">
             <IconPlus />
