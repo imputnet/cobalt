@@ -38,15 +38,6 @@
     </Switcher>
 </SettingsCategory>
 
-<SettingsCategory sectionId="youtube" title={$t("settings.audio.youtube.dub")}>
-    <SettingsToggle
-        settingContext="save"
-        settingId="youtubeDubBrowserLang"
-        title={$t("settings.audio.youtube.dub.title")}
-        description={$t("settings.audio.youtube.dub.description")}
-    />
-</SettingsCategory>
-
 <SettingsCategory
     sectionId="tiktok"
     title={$t("settings.audio.tiktok.original")}
@@ -56,5 +47,14 @@
         settingId="tiktokFullAudio"
         title={$t("settings.audio.tiktok.original.title")}
         description={$t("settings.audio.tiktok.original.description")}
+    />
+</SettingsCategory>
+
+<SettingsCategory sectionId="youtube" title={$t("settings.audio.youtube.dub")}>
+    <SettingsToggle
+        settingContext="save"
+        settingId="youtubeDubBrowserLang"
+        title={$t("settings.audio.youtube.dub.title")}
+        description={$t("settings.audio.youtube.dub.description")}
     />
 </SettingsCategory>
