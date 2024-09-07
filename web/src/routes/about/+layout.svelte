@@ -9,7 +9,6 @@
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconLock from "@tabler/icons-svelte/IconLock.svelte";
 
-    import IconHeartHandshake from "@tabler/icons-svelte/IconHeartHandshake.svelte";
     import IconChecklist from "@tabler/icons-svelte/IconChecklist.svelte";
 
     import IconMessages from "@tabler/icons-svelte/IconMessages.svelte";
@@ -50,29 +49,22 @@
             >
                 <IconUsersGroup />
             </PageNavTab>
-            <PageNavTab
-                tabPath="/about/help"
-                tabTitle={$t("about.page.help")}
-                iconColor="green"
-            >
-                <IconHeartHandshake />
-            </PageNavTab>
         </PageNavSection>
 
         <PageNavSection>
-            <PageNavTab
-                tabPath="/about/privacy"
-                tabTitle={$t("about.page.privacy")}
-                iconColor="gray"
-            >
-                <IconLock />
-            </PageNavTab>
             <PageNavTab
                 tabPath="/about/terms"
                 tabTitle={$t("about.page.terms")}
                 iconColor="gray"
             >
                 <IconChecklist />
+            </PageNavTab>
+            <PageNavTab
+                tabPath="/about/privacy"
+                tabTitle={$t("about.page.privacy")}
+                iconColor="gray"
+            >
+                <IconLock />
             </PageNavTab>
             <PageNavTab
                 tabPath="/about/credits"
