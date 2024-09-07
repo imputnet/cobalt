@@ -38,8 +38,12 @@
 </script>
 
 <svelte:head>
-    <meta name="description" content={$t("general.embed.description")}>
     <meta property="og:title" content={$t("general.cobalt")}>
+    <meta
+        name="description"
+        property="og:description"
+        content={$t("general.embed.description")}
+    >
 
     {#if device.is.mobile}
         <meta name="theme-color" content={statusBarColors[$currentTheme]} />
