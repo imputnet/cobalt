@@ -225,6 +225,10 @@ const convertAudio = (streamInfo, res) => {
             args.push("-b:a", `${streamInfo.audioBitrate}k`)
         }
 
+        if (streamInfo.audioFormat === "mp3" && streamInfo.audioBitrate === "8") {
+            args.push("-ar", "12000");
+        }
+
         if (streamInfo.audioFormat === "opus") {
             args.push("-vbr", "off")
         }
