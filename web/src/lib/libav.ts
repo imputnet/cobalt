@@ -29,22 +29,25 @@ export default class LibAVWrapper {
         const libav = await this.libav;
 
         await libav.mkreadaheadfile('input', blob);
-        await libav.ffprobe([
-            '-v', 'quiet',
-            '-print_format', 'json',
-            '-show_format',
-            '-show_streams',
-            'input',
-            '-o', 'output.json'
-        ]);
 
-        await libav.unlinkreadaheadfile('input');
+        try {
+            await libav.ffprobe([
+                '-v', 'quiet',
+                '-print_format', 'json',
+                '-show_format',
+                '-show_streams',
+                'input',
+                '-o', 'output.json'
+            ]);
 
-        const copy = await libav.readFile('output.json');
-        const text = new TextDecoder().decode(copy);
-        await libav.unlink('output.json');
+            const copy = await libav.readFile('output.json');
+            const text = new TextDecoder().decode(copy);
+            await libav.unlink('output.json');
 
-        return JSON.parse(text) as FfprobeData;
+            return JSON.parse(text) as FfprobeData;
+        } finally {
+            await libav.unlinkreadaheadfile('input');
+        }
     }
 
     static getExtensionFromType(blob: Blob) {
@@ -82,62 +85,67 @@ export default class LibAVWrapper {
 
         const outputName = `output.${output.extension}`;
 
-        await libav.mkreadaheadfile("input", blob);
+        try {
+            await libav.mkreadaheadfile("input", blob);
 
-        // https://github.com/Yahweasel/libav.js/blob/7d359f69/docs/IO.md#block-writer-devices
-        await libav.mkwriterdev(outputName);
-        await libav.mkwriterdev('progress.txt');
+            // https://github.com/Yahweasel/libav.js/blob/7d359f69/docs/IO.md#block-writer-devices
+            await libav.mkwriterdev(outputName);
+            await libav.mkwriterdev('progress.txt');
 
-        // since we expect the output file to be roughly the same size
-        // as the original, preallocate its size for the output
-        let writtenData = new Uint8Array(blob.size), actualSize = 0;
+            // since we expect the output file to be roughly the same size
+            // as the original, preallocate its size for the output
+            let writtenData = new Uint8Array(blob.size), actualSize = 0;
 
-        libav.onwrite = (name, pos, data) => {
-            if (name === 'progress.txt') {
-                try {
-                    return this.#emitProgress(data);
-                } catch(e) {
-                    console.error(e);
+            libav.onwrite = (name, pos, data) => {
+                if (name === 'progress.txt') {
+                    try {
+                        return this.#emitProgress(data);
+                    } catch(e) {
+                        console.error(e);
+                    }
+                } else if (name !== outputName) return;
+
+                actualSize = Math.max(pos + data.length, actualSize);
+                const newLen = Math.max(pos + data.length, writtenData.length);
+                if (newLen > writtenData.length) {
+                    const newData = new Uint8Array(newLen);
+                    newData.set(writtenData);
+                    writtenData = newData;
                 }
-            } else if (name !== outputName) return;
+                writtenData.set(data, pos);
+            };
 
-            actualSize = Math.max(pos + data.length, actualSize);
-            const newLen = Math.max(pos + data.length, writtenData.length);
-            if (newLen > writtenData.length) {
-                const newData = new Uint8Array(newLen);
-                newData.set(writtenData);
-                writtenData = newData;
+            await libav.ffmpeg([
+                '-nostdin', '-y',
+                '-loglevel', 'error',
+                '-progress', 'progress.txt',
+                '-threads', this.concurrency.toString(),
+                '-i', 'input',
+                ...args,
+                outputName
+            ]);
+
+            // if we didn't need as much space as we allocated for some reason,
+            // shrink the buffer so that we don't inflate the file with zeros
+            if (writtenData.length > actualSize) {
+                writtenData = writtenData.slice(0, actualSize);
             }
-            writtenData.set(data, pos);
-        };
 
-        await libav.ffmpeg([
-            '-nostdin', '-y',
-            '-loglevel', 'error',
-            '-progress', 'progress.txt',
-            '-threads', this.concurrency.toString(),
-            '-i', 'input',
-            ...args,
-            outputName
-        ]);
+            const renderBlob = new Blob(
+                [ writtenData ],
+                { type: output.type }
+            );
 
-        await libav.unlink(outputName);
-        await libav.unlink('progress.txt');
-        await libav.unlinkreadaheadfile("input");
+            if (renderBlob.size === 0) return;
+            return renderBlob;
 
-        // if we didn't need as much space as we allocated for some reason,
-        // shrink the buffer so that we don't inflate the file with zeros
-        if (writtenData.length > actualSize) {
-            writtenData = writtenData.slice(0, actualSize);
+        } finally {
+            try {
+                await libav.unlink(outputName);
+                await libav.unlink('progress.txt');
+                await libav.unlinkreadaheadfile("input");
+            } catch {}
         }
-
-        const renderBlob = new Blob(
-            [ writtenData ],
-            { type: output.type }
-        );
-
-        if (renderBlob.size === 0) return;
-        return renderBlob;
     }
 
     #emitProgress(data: Uint8Array | Int8Array) {
