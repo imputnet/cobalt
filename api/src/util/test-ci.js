@@ -10,7 +10,7 @@ const tests = loadJSON('./src/util/tests.json');
 
 // services that are known to frequently fail due to external
 // factors (e.g. rate limiting)
-const finnicky = new Set(['bilibili', 'instagram', 'youtube'])
+const finnicky = new Set(['bilibili', 'instagram', 'facebook', 'youtube'])
 
 const action = process.argv[2];
 switch (action) {
