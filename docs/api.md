@@ -46,12 +46,15 @@ the response will always be a JSON object containing the `status` key, which wil
 |:-------------|:---------|:------------------------------------------------------------|
 | `status`     | `string` | `tunnel / redirect`                                         |
 | `url`        | `string` | url for the cobalt tunnel, or redirect to an external link  |
+| `filename`   | `string` | cobalt-generated filename for the file being downloaded     |
 
 ### picker response
-| key          | type     | values                                                      |
-|:-------------|:---------|:------------------------------------------------------------|
-| `status`     | `string` | `picker`                                                    |
-| `picker`     | `array`  | array of objects containing the individual media            |
+| key             | type     | values                                                                                           |
+|:----------------|:---------|:-------------------------------------------------------------------------------------------------|
+| `status`        | `string` | `picker`                                                                                         |
+| `audio`         | `string` | **optional** returned when an image slideshow (such as on tiktok) has a general background audio |
+| `audioFilename` | `string` | **optional** cobalt-generated filename, returned if `audio` exists                               |
+| `picker`        | `array`  | array of objects containing the individual media                                                 |
 
 #### picker object
 | key          | type      | values                                                      |

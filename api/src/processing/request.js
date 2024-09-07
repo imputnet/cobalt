@@ -38,19 +38,22 @@ export function createResponse(responseType, responseData) {
             case "redirect":
                 response = {
                     url: responseData?.u,
+                    filename: responseData?.filename
                 }
                 break;
 
             case "tunnel":
                 response = {
                     url: createStream(responseData),
+                    filename: responseData?.filename
                 }
                 break;
 
             case "picker":
                 response = {
                     picker: responseData?.picker,
-                    audio: responseData?.u
+                    audio: responseData?.u,
+                    audioFilename: responseData?.filename
                 }
                 break;
 

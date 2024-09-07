@@ -18,6 +18,7 @@ export type CobaltErrorResponse = {
 
 type CobaltPartialURLResponse = {
     url: string,
+    filename: string,
 }
 
 type CobaltPickerResponse = {
@@ -28,6 +29,7 @@ type CobaltPickerResponse = {
         thumb?: string,
     }[];
     audio?: string,
+    audioFilename?: string,
 };
 
 type CobaltRedirectResponse = {
