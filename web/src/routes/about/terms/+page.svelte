@@ -1,4 +1,4 @@
-<div id="terms-body" class="long-text-noto">
+<div id="terms-body" class="long-text-noto about">
     <section id="saving">
         <section id="general">
             <h3>general terms</h3>

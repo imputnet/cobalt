@@ -3,7 +3,7 @@
     import OuterLink from "$components/misc/OuterLink.svelte";
 </script>
 
-<div id="privacy-body" class="long-text-noto">
+<div id="privacy-body" class="long-text-noto about">
     <section id="saving">
         <h3>best way to save what you love</h3>
         <p>

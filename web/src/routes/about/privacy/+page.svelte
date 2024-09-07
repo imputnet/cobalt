@@ -4,7 +4,7 @@
     import OuterLink from "$components/misc/OuterLink.svelte";
 </script>
 
-<div id="privacy-body" class="long-text-noto">
+<div id="privacy-body" class="long-text-noto about">
     <section id="general">
         <h3>general terms</h3>
         <p>

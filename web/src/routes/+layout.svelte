@@ -463,8 +463,11 @@
     }
 
     :global(.long-text-noto h3) {
-        margin-bottom: -10px;
         font-size: 17px;
+    }
+
+    :global(.long-text-noto.about section p:first-of-type) {
+        margin-block-start: 0.3em;
     }
 
     @media screen and (max-width: 535px) {
