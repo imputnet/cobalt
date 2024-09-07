@@ -47,13 +47,8 @@ const proxy = async (streamInfo, res) => {
     );
 
     try {
-        let filename = streamInfo.filename;
-        if (streamInfo.audioFormat) {
-            filename = `${streamInfo.filename}.${streamInfo.audioFormat}`
-        }
-
         res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-        res.setHeader('Content-disposition', contentDisposition(filename));
+        res.setHeader('Content-disposition', contentDisposition(streamInfo.filename));
 
         const { body: stream, headers, statusCode } = await request(streamInfo.urls, {
             headers: {
@@ -255,7 +250,7 @@ const convertAudio = (streamInfo, res) => {
         const [,,, muxOutput] = process.stdio;
 
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', contentDisposition(`${streamInfo.filename}.${streamInfo.audioFormat}`));
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
         pipe(muxOutput, res, shutdown);
         res.on('finish', shutdown);

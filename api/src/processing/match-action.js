@@ -196,6 +196,10 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             break;
     }
 
+    if (defaultParams.filename && (action === "picker" || action === "audio")) {
+        defaultParams.filename += `.${audioFormat}`;
+    }
+
     if (alwaysProxy && responseType === "redirect") {
         responseType = "tunnel";
         params.type = "proxy";
