@@ -20,6 +20,11 @@ const variables = {
 const contacts = {
     github: "https://github.com/imputnet/cobalt",
     twitter: "https://x.com/justusecobalt",
+    bluesky: "https://bsky.app/profile/cobalt.tools",
+}
+
+const partners = {
+    royalehosting: "https://royalehosting.net/?partner=cobalt",
 }
 
 const donate = {
@@ -40,5 +45,5 @@ const donate = {
 
 const apiURL = "https://api.cobalt.tools";
 
-export { donate, apiURL, contacts };
+export { donate, apiURL, contacts, partners };
 export default variables;
