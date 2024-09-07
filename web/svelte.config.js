@@ -10,6 +10,17 @@ const config = {
     // for more information about preprocessors
     extensions: [".svelte", ".md"],
     preprocess: [
+        {
+            name: "strip-announcer",
+            markup: ({ content: code }) => {
+                code = code.replace(
+                    /<div id="svelte-announcer" [\s\S]*?<\/div>/,
+                    '<svelte:component this={null} />'
+                );
+
+                return { code }
+            }
+        },
         sveltePreprocess(),
         mdsvex({
             extensions: ['.md'],
