@@ -12,6 +12,8 @@
     import settings from "$lib/state/settings";
     import locale from "$lib/i18n/locale";
 
+    import { t } from "$lib/i18n/translations";
+
     import { device, app } from "$lib/device";
     import { turnstileCreated } from "$lib/state/turnstile";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
@@ -36,6 +38,9 @@
 </script>
 
 <svelte:head>
+    <meta name="description" content={$t("general.embed.description")}>
+    <meta property="og:title" content={$t("general.cobalt")}>
+
     {#if device.is.mobile}
         <meta name="theme-color" content={statusBarColors[$currentTheme]} />
     {/if}
