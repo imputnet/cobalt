@@ -20,6 +20,7 @@
         if (e) {
             e.scrollIntoView({
                 inline: firstTabPage.includes(tabName) ? "end" : "start",
+                block: "nearest",
                 behavior: "smooth",
             });
         }
@@ -70,6 +71,7 @@
         text-decoration: none;
         text-decoration-line: none;
         position: relative;
+        scroll-behavior: smooth;
     }
 
     .sidebar-tab :global(svg) {
