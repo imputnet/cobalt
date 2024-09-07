@@ -4,7 +4,7 @@
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
 </script>
 
-<div id="update-notification">
+<div id="update-notification" role="alert" aria-atomic="true">
     <button class="update-button" on:click={() => window.location.reload()}>
         <div class="update-icon">
             <IconComet />
