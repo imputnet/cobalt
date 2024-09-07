@@ -28,38 +28,22 @@ export default class LibAVWrapper {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
 
-        const OUT_FILE = 'output.json';
         await libav.mkreadaheadfile('input', blob);
-        await libav.mkwriterdev(OUT_FILE);
-
-        let writtenData = new Uint8Array(0);
-
-        libav.onwrite = (name, pos, data) => {
-            if (name !== OUT_FILE) return;
-
-            const newLen = Math.max(pos + data.length, writtenData.length);
-            if (newLen > writtenData.length) {
-                const newData = new Uint8Array(newLen);
-                newData.set(writtenData);
-                writtenData = newData;
-            }
-            writtenData.set(data, pos);
-        };
-
         await libav.ffprobe([
             '-v', 'quiet',
             '-print_format', 'json',
             '-show_format',
             '-show_streams',
             'input',
-            '-o', OUT_FILE
+            '-o', 'output.json'
         ]);
 
-        await libav.unlink(OUT_FILE);
         await libav.unlinkreadaheadfile('input');
 
-        const copy = new Uint8Array(writtenData);
+        const copy = await libav.readFile('output.json');
         const text = new TextDecoder().decode(copy);
+        await libav.unlink('output.json');
+
         return JSON.parse(text) as FfprobeData;
     }
 
