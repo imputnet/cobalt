@@ -2,7 +2,7 @@
     import mime from "mime";
     import LibAVWrapper from "$lib/libav";
     import { browser } from "$app/environment";
-    import { beforeNavigate } from '$app/navigation';
+    import { beforeNavigate } from "$app/navigation";
 
     import { openURL } from "$lib/download";
     import { t } from "$lib/i18n/translations";
@@ -23,7 +23,10 @@
 
     $: {
         if (totalDuration && processedDuration) {
-            const percentage = Math.max(0, Math.min(100, (processedDuration / totalDuration) * 100)).toFixed(2);
+            const percentage = Math.max(
+                0,
+                Math.min(100, (processedDuration / totalDuration) * 100)
+            ).toFixed(2);
             progress = percentage;
         } else if (processing) {
             progress = undefined;
@@ -101,38 +104,39 @@
             totalDuration = Number(file_info.format.duration);
 
             if (file instanceof File && !file.type) {
-                file = new Blob([ file ], {
-                    type: mime.getType(file.name) ?? undefined
+                file = new Blob([file], {
+                    type: mime.getType(file.name) ?? undefined,
                 });
             }
 
-            const render = await ff.render({
-                blob: file,
-                args: ['-c', 'copy', '-map', '0']
-            }).catch(e => {
-                console.error("uh-oh! render error")
-                console.error(e)
-                return createDialog({
-                    id: "remux-error",
-                    type: "small",
-                    meowbalt: "error",
-                    bodyText: $t("error.remux.out_of_resources"),
-                    buttons: [
-                        {
-                            text: $t("button.gotit"),
-                            main: true,
-                            action: () => {},
-                        },
-                    ],
+            const render = await ff
+                .render({
+                    blob: file,
+                    args: ["-c", "copy", "-map", "0"],
+                })
+                .catch((e) => {
+                    console.error("uh-oh! render error");
+                    console.error(e);
+                    return createDialog({
+                        id: "remux-error",
+                        type: "small",
+                        meowbalt: "error",
+                        bodyText: $t("error.remux.out_of_resources"),
+                        buttons: [
+                            {
+                                text: $t("button.gotit"),
+                                main: true,
+                                action: () => {},
+                            },
+                        ],
+                    });
                 });
-            });
 
             if (render) {
                 openURL(URL.createObjectURL(render));
             } else {
                 console.log("not a valid file");
             }
-
         } finally {
             processing = false;
             file = undefined;
@@ -150,7 +154,7 @@
             event.cancel();
             //TODO: show a popup with an option to kill ongoing processing
         }
-    })
+    });
 
     $: if (browser && processing) {
         window.addEventListener("beforeunload", beforeUnloadHandler);
@@ -168,7 +172,13 @@
 </svelte:head>
 
 <DropReceiver id="remux-container" bind:draggedOver bind:file>
-    <div id="remux-open" class:processing>
+    <div
+        id="remux-open"
+        class:processing
+        tabindex="-1"
+        data-first-focus
+        data-focus-ring-hidden
+    >
         <FileReceiver
             bind:draggedOver
             bind:file
@@ -188,11 +198,15 @@
         </div>
     </div>
 
-    <div id="remux-processing" class:processing>
+    <div id="remux-processing" class:processing aria-hidden={!processing}>
         {#if processing}
             {#if progress && speed}
                 <div class="progress-bar">
-                    <Skeleton width="{progress}%" height="20px" class="elevated" />
+                    <Skeleton
+                        width="{progress}%"
+                        height="20px"
+                        class="elevated"
+                    />
                 </div>
                 <div class="progress-text">
                     processing ({progress}%, {speed}x)...
