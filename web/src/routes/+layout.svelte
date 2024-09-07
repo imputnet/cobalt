@@ -42,6 +42,10 @@
     <meta name="description" content={$t("general.embed.description")}>
     <meta property="og:description" content={$t("general.embed.description")}>
 
+    {#if env.HOST}
+        <meta property="og:url" content="https://{env.HOST}/">
+    {/if}
+
     {#if device.is.mobile}
         <meta name="theme-color" content={statusBarColors[$currentTheme]} />
     {/if}
