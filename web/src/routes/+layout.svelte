@@ -3,6 +3,8 @@
     import "@fontsource/ibm-plex-mono/400-italic.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import { beforeUpdate } from "svelte";
+
     import { page } from "$app/stores";
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
@@ -33,6 +35,10 @@
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
     });
+
+    beforeUpdate(() => {
+        document.getElementById("svelte-announcer")?.remove();
+    })
 </script>
 
 <svelte:head>
