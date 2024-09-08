@@ -1,10 +1,8 @@
 <script lang="ts">
     import mime from "mime";
     import LibAVWrapper from "$lib/libav";
-    import { browser } from "$app/environment";
-    import { beforeNavigate } from "$app/navigation";
+    import { beforeNavigate, goto } from "$app/navigation";
 
-    import { device } from "$lib/device";
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/dialogs";
     import { downloadFile } from "$lib/download";
@@ -21,6 +19,8 @@
 
     let speed: number | undefined;
     let progress: string | undefined;
+
+    let wentAway = false;
 
     $: {
         if (totalDuration && processedDuration) {
@@ -136,10 +136,7 @@
             if (!render) {
                 return console.log("not a valid file");
             }
-
-            return await downloadFile({
-                file,
-            })
+            return await downloadFile({ file });
         } finally {
             processing = false;
             file = undefined;
@@ -148,22 +145,39 @@
         }
     };
 
-    const beforeUnloadHandler = (event: BeforeUnloadEvent) => {
-        event.preventDefault();
-    };
-
     beforeNavigate((event) => {
-        if (processing) {
+        if (processing && !wentAway) {
             event.cancel();
-            //TODO: show a popup with an option to kill ongoing processing
+            const path = event.to?.route?.id;
+
+            if (path) {
+                return createDialog({
+                    id: "remux-ongoing",
+                    type: "small",
+                    icon: "warn-red",
+                    title: $t("dialog.processing.title.ongoing"),
+                    bodyText: $t("dialog.processing.ongoing"),
+                    buttons: [
+                        {
+                            text: $t("button.no"),
+                            main: false,
+                            action: () => {},
+                        },
+                        {
+                            text: $t("button.yes"),
+                            main: true,
+                            color: "red",
+                            action: async () => {
+                                await ff.terminate();
+                                wentAway = true;
+                                goto(path);
+                            },
+                        },
+                    ],
+                });
+            }
         }
     });
-
-    $: if (browser && processing) {
-        window.addEventListener("beforeunload", beforeUnloadHandler);
-    } else if (browser) {
-        window.removeEventListener("beforeunload", beforeUnloadHandler);
-    }
 
     $: if (file) {
         render();

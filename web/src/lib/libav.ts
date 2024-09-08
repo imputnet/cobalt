@@ -24,6 +24,13 @@ export default class LibAVWrapper {
         }
     }
 
+    async terminate() {
+        if (this.libav) {
+            const libav = await this.libav;
+            libav.terminate();
+        }
+    }
+
     async probe(blob: Blob) {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
@@ -173,7 +180,7 @@ export default class LibAVWrapper {
                 await libav.unlink(outputName);
                 await libav.unlink('progress.txt');
                 await libav.unlinkreadaheadfile("input");
-            } catch {}
+            } catch { /* catch & ignore */ }
         }
     }
 

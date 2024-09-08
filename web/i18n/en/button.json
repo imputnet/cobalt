@@ -13,5 +13,7 @@
     "star": "star",
     "follow": "follow",
     "save": "save",
-    "export": "export"
+    "export": "export",
+    "yes": "yes",
+    "no": "no"
 }
