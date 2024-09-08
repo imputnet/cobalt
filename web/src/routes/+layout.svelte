@@ -247,6 +247,7 @@
         overflow: hidden;
         background-color: var(--sidebar-bg);
         color: var(--secondary);
+        position: fixed;
     }
 
     /* add padding for notch / dynamic island in landscape */
