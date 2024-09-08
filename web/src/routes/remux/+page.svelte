@@ -4,6 +4,7 @@
     import { browser } from "$app/environment";
     import { beforeNavigate } from "$app/navigation";
 
+    import { device } from "$lib/device";
     import { openURL } from "$lib/download";
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/dialogs";
@@ -133,6 +134,14 @@
                 });
 
             if (render) {
+                if (device.is.iOS) {
+                    return await navigator.share({
+                        files: [
+                            new File([ render ], file.name, { type: render.type })
+                        ]
+                    }).catch(() => {});
+                }
+
                 openURL(URL.createObjectURL(render));
             } else {
                 console.log("not a valid file");
