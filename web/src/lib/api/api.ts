@@ -4,41 +4,38 @@ import settings from "$lib/state/settings";
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
 import { apiOverrideWarning } from "$lib/api/safety-warning";
-
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
+import lazySettingGetter from "$lib/settings/lazy-get";
 
 const request = async (url: string) => {
-    const currentSettings = get(settings);
-    const saveSettings = currentSettings.save;
-    const privacySettings = currentSettings.privacy;
+    const getSetting = lazySettingGetter(get(settings));
 
     const request = {
         url,
 
-        downloadMode: saveSettings.downloadMode,
+        downloadMode: getSetting("save", "downloadMode"),
+        audioBitrate: getSetting("save", "audioBitrate"),
+        audioFormat: getSetting("save", "audioFormat"),
+        tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
+        youtubeDubBrowserLang: getSetting("save", "youtubeDubBrowserLang"),
 
-        audioBitrate: saveSettings.audioBitrate,
-        audioFormat: saveSettings.audioFormat,
-        tiktokFullAudio: saveSettings.tiktokFullAudio,
-        youtubeDubBrowserLang: saveSettings.youtubeDubBrowserLang,
+        youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
+        videoQuality: getSetting("save", "videoQuality"),
 
-        youtubeVideoCodec: saveSettings.youtubeVideoCodec,
-        videoQuality: saveSettings.videoQuality,
+        filenameStyle: getSetting("save", "filenameStyle"),
+        disableMetadata: getSetting("save", "disableMetadata"),
 
-        filenameStyle: saveSettings.filenameStyle,
-        disableMetadata: saveSettings.disableMetadata,
+        twitterGif: getSetting("save", "twitterGif"),
+        tiktokH265: getSetting("save", "tiktokH265"),
 
-        twitterGif: saveSettings.twitterGif,
-        tiktokH265: saveSettings.tiktokH265,
-
-        alwaysProxy: privacySettings.alwaysProxy,
+        alwaysProxy: getSetting("privacy", "alwaysProxy"),
     }
 
     await apiOverrideWarning();
 
-    const usingCustomInstance = currentSettings.processing.enableCustomInstances
-                                && currentSettings.processing.customInstanceURL;
+    const usingCustomInstance = getSetting("processing", "enableCustomInstances")
+                                && getSetting("processing", "customInstanceURL");
     const api = currentApiURL();
     // FIXME: rewrite this to allow custom instances to specify their own turnstile tokens
     const session = usingCustomInstance ? undefined : await getSession();
