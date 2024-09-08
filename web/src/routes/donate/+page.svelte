@@ -56,6 +56,7 @@
         height: max-content;
         justify-content: center;
         overflow-y: scroll;
+        overflow-x: hidden;
         padding: var(--padding);
     }
 
