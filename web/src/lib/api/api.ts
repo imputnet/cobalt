@@ -9,9 +9,9 @@ import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
 
 const request = async (url: string) => {
-    const gSettings = get(settings);
-    const saveSettings = gSettings.save;
-    const privacySettings = gSettings.privacy;
+    const currentSettings = get(settings);
+    const saveSettings = currentSettings.save;
+    const privacySettings = currentSettings.privacy;
 
     const request = {
         url,
@@ -36,8 +36,12 @@ const request = async (url: string) => {
     }
 
     await apiOverrideWarning();
+
+    const usingCustomInstance = currentSettings.processing.enableCustomInstances
+                                && currentSettings.processing.customInstanceURL;
     const api = currentApiURL();
-    const session = await getSession();
+    // FIXME: rewrite this to allow custom instances to specify their own turnstile tokens
+    const session = usingCustomInstance ? undefined : await getSession();
 
     let extraHeaders = {}
 
