@@ -8,8 +8,7 @@ body:
       value: |
         thanks for taking the time to make a service request!
         before you start, please make to read the "adding features or support for services" section of
-        our [contributor guidelines](https://github.com/imputnet/cobalt/blob/current/CONTRIBUTING.md#adding-features-or-support-for-services)
-        to make sure your request is a good fit for cobalt.
+        our [contributor guidelines](https://github.com/imputnet/cobalt/blob/current/CONTRIBUTING.md#adding-features-or-support-for-services) to make sure your request is a good fit for cobalt.
   - type: input
     id: service-name
     attributes:
