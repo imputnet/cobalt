@@ -58,8 +58,8 @@
     }
 
     #dialog-holder {
-        position: absolute;
-        padding-top: env(safe-area-inset-bottom);
+        position: fixed;
+        padding-top: env(safe-area-inset-top);
         height: 100%;
         width: 100%;
         z-index: 99;
