@@ -29,5 +29,8 @@
 
     "share.title": "share cobalt with a friend",
 
-    "alternative.title": "alternative ways to donate"
+    "alternative.title": "alternative ways to donate",
+
+    "alt.copy": "{{ value }}. crypto wallet address. press to copy.",
+    "alt.open": "{{ value }}. donation link, press to open."
 }

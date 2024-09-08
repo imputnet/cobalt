@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
     import { copyURL, openURL } from "$lib/download";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
@@ -20,6 +21,9 @@
 <div class="wallet-holder">
     <button
         class="wallet"
+        aria-label={$t(`donate.alt.${type}`, {
+            value: name,
+        })}
         on:click={() => {
             if (type === "copy") {
                 copied = true;
