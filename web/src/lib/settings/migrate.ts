@@ -15,7 +15,6 @@ const oldCheckboxes = [
     'reduceTransparency',
     'disableAnimations',
     'disableMetadata',
-    'twitterGif',
     'plausible_ignore',
     'ytDub',
     'tiktokH265'
@@ -101,7 +100,6 @@ export const migrateOldSettings = () => {
             tiktokFullAudio: getBool('fullTikTokAudio'),
             tiktokH265: getBool('tiktokH265'),
             disableMetadata: getBool('disableMetadata'),
-            twitterGif: getBool('twitterGif'),
             youtubeDubBrowserLang: getBool('ytDub'),
         }
     };
