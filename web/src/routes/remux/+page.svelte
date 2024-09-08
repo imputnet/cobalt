@@ -13,7 +13,7 @@
     import FileReceiver from "$components/misc/FileReceiver.svelte";
 
     let draggedOver = false;
-    let file: File | Blob | undefined;
+    let file: File | undefined;
 
     let totalDuration: number | undefined;
     let processedDuration: number | undefined;
@@ -104,7 +104,7 @@
             totalDuration = Number(file_info.format.duration);
 
             if (file instanceof File && !file.type) {
-                file = new Blob([file], {
+                file = new File([ file ], file.name, {
                     type: mime.getType(file.name) ?? undefined,
                 });
             }
