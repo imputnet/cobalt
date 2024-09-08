@@ -21,7 +21,7 @@ const defaultSettings: CobaltSettings = {
         filenameStyle: "classic",
         savingMethod: "download",
         tiktokH265: false,
-        tiktokFullAudio: true,
+        tiktokFullAudio: false,
         twitterGif: true,
         videoQuality: "1080",
         youtubeVideoCodec: "h264",
