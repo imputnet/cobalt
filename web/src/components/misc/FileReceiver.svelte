@@ -10,18 +10,16 @@
     export let acceptTypes: string[];
     export let acceptExtensions: string[];
 
+    let fileInput: HTMLInputElement;
     const openFile = async () => {
-        const fileInput = document.createElement("input");
+        fileInput = document.createElement("input");
         fileInput.type = "file";
         fileInput.accept = acceptTypes.join(",");
 
         fileInput.click();
-
-        fileInput.onchange = async (e: Event) => {
-            const target = e.target as HTMLInputElement;
-
-            if (target.files?.length === 1) {
-                file = target.files[0];
+        fileInput.onchange = async () => {
+            if (fileInput.files?.length === 1) {
+                file = fileInput.files[0];
                 return file;
             }
         };
@@ -31,7 +29,7 @@
 <div class="open-file-container" class:dragged-over={draggedOver}>
     <Meowbalt emotion="question" />
 
-    <button class="open-file-button" on:click={() => openFile()}>
+    <button class="open-file-button" on:click={openFile}>
         <div class="dashed-stroke">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="none" rx="24" ry="24" />
