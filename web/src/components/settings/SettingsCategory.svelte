@@ -8,19 +8,19 @@
     export let disabled = false;
     export let beta = false;
 
-    let animate = false;
+    let focus = false;
 
     $: hash = $page.url.hash.replace("#", "");
 
     $: if (hash === sectionId) {
-        animate = true;
+        focus = true;
     }
 </script>
 
 <section
     id={sectionId}
     class="settings-content"
-    class:animate
+    class:focus
     class:disabled
     aria-hidden={disabled}
 >
@@ -47,11 +47,11 @@
         opacity: 0.5;
     }
 
-    .settings-content.animate {
+    .settings-content.focus {
         animation: highlight 2s;
     }
 
-    :global([data-reduce-motion="true"]) .settings-content.animate {
+    :global([data-reduce-motion="true"]) .settings-content.focus {
         animation: highlight-lite 2s !important;
     }
 
