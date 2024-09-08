@@ -5,9 +5,9 @@
     import { beforeNavigate } from "$app/navigation";
 
     import { device } from "$lib/device";
-    import { openURL } from "$lib/download";
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/dialogs";
+    import { downloadFile } from "$lib/download";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
     import DropReceiver from "$components/misc/DropReceiver.svelte";
@@ -133,19 +133,13 @@
                     });
                 });
 
-            if (render) {
-                if (device.is.iOS) {
-                    return await navigator.share({
-                        files: [
-                            new File([ render ], file.name, { type: render.type })
-                        ]
-                    }).catch(() => {});
-                }
-
-                openURL(URL.createObjectURL(render));
-            } else {
-                console.log("not a valid file");
+            if (!render) {
+                return console.log("not a valid file");
             }
+
+            return await downloadFile({
+                file,
+            })
         } finally {
             processing = false;
             file = undefined;
