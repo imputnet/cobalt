@@ -30,29 +30,29 @@
     type DownloadButtonState = "idle" | "think" | "check" | "done" | "error";
 
     const changeDownloadButton = (state: DownloadButtonState) => {
-        disabled = state !== 'idle';
+        disabled = state !== "idle";
 
-        buttonText = ({
-             idle: ">>",
+        buttonText = {
+            idle: ">>",
             think: "...",
             check: "..?",
-             done: ">>>",
-            error: "!!"
-        })[state];
+            done: ">>>",
+            error: "!!",
+        }[state];
 
         buttonAltText = $t(
-            ({
-                 idle: "a11y.save.download",
+            {
+                idle: "a11y.save.download",
                 think: "a11y.save.download.think",
                 check: "a11y.save.download.check",
-                 done: "a11y.save.download.done",
+                done: "a11y.save.download.done",
                 error: "a11y.save.download.error",
-            })[state]
+            }[state]
         );
 
         // states that don't wait for anything, and thus can
         // transition back to idle after some period of time.
-        const final: DownloadButtonState[] = ['done', 'error'];
+        const final: DownloadButtonState[] = ["done", "error"];
         if (final.includes(state)) {
             setTimeout(() => changeDownloadButton("idle"), 1500);
         }
@@ -84,7 +84,9 @@
         if (response.status === "redirect") {
             changeDownloadButton("done");
 
-            return downloadFile(response.url);
+            return downloadFile({
+                url: response.url,
+            });
         }
 
         if (response.status === "tunnel") {
@@ -95,7 +97,9 @@
             if (probeResult === 200) {
                 changeDownloadButton("done");
 
-                return downloadFile(response.url);
+                return downloadFile({
+                    url: response.url,
+                });
             } else {
                 changeDownloadButton("error");
 
@@ -122,7 +126,9 @@
                     text: $t("button.download.audio"),
                     main: false,
                     action: () => {
-                        downloadFile(pickerAudio);
+                        downloadFile({
+                            url: pickerAudio,
+                        });
                     },
                 });
             }

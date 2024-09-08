@@ -40,8 +40,9 @@ type PickerDialog = Dialog & {
 
 type SavingDialog = Dialog & {
     type: "saving",
-    url: string,
     bodyText?: string,
+    url?: string,
+    file?: File,
 };
 
 export type DialogInfo = SmallDialog | PickerDialog | SavingDialog;

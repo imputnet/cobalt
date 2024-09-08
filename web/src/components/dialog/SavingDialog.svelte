@@ -2,7 +2,13 @@
     import { t } from "$lib/i18n/translations";
 
     import { device } from "$lib/device";
-    import { copyURL, openURL, shareURL } from "$lib/download";
+    import {
+        copyURL,
+        openURL,
+        shareURL,
+        openFile,
+        shareFile,
+    } from "$lib/download";
 
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
@@ -17,9 +23,11 @@
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
     export let id: string;
-    export let url: string;
-    export let bodyText: string = "";
     export let dismissable = true;
+    export let bodyText: string = "";
+
+    export let url: string = "";
+    export let file: File | undefined = undefined;
 
     let close: () => void;
 
@@ -45,13 +53,20 @@
                     {$t("dialog.saving.title")}
                 </h2>
             </div>
+
             <div class="action-buttons">
                 {#if device.supports.directDownload}
                     <VerticalActionButton
                         id="save-download"
                         fill
                         elevated
-                        click={() => openURL(url)}
+                        click={() => {
+                            if (file) {
+                                return openFile(file);
+                            } else if (url) {
+                                return openURL(url);
+                            }
+                        }}
                     >
                         <IconDownload />
                         {$t("button.download")}
@@ -63,26 +78,34 @@
                         id="save-share"
                         fill
                         elevated
-                        click={async () => await shareURL(url)}
+                        click={async () => {
+                            if (file) {
+                                return await shareFile(file);
+                            } else if (url) {
+                                return await shareURL(url);
+                            }
+                        }}
                     >
                         <IconShare2 />
                         {$t("button.share")}
                     </VerticalActionButton>
                 {/if}
 
-                <VerticalActionButton
-                    id="save-copy"
-                    fill
-                    elevated
-                    click={async () => {
-                        copyURL(url);
-                        copied = true;
-                    }}
-                    ariaLabel={copied ? $t("button.copied") : ""}
-                >
-                    <CopyIcon check={copied} />
-                    {$t("button.copy")}
-                </VerticalActionButton>
+                {#if !file}
+                    <VerticalActionButton
+                        id="save-copy"
+                        fill
+                        elevated
+                        click={async () => {
+                            copyURL(url);
+                            copied = true;
+                        }}
+                        ariaLabel={copied ? $t("button.copied") : ""}
+                    >
+                        <CopyIcon check={copied} />
+                        {$t("button.copy")}
+                    </VerticalActionButton>
+                {/if}
             </div>
 
             {#if device.is.iOS}
