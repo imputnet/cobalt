@@ -38,7 +38,6 @@
 </script>
 
 <svelte:head>
-    <meta property="og:title" content={$t("general.cobalt")}>
     <meta name="description" content={$t("general.embed.description")}>
     <meta property="og:description" content={$t("general.embed.description")}>
 
