@@ -5,5 +5,8 @@
     "download.think": "processing the link...",
     "download.check": "verifying download...",
     "download.done": "downloading done",
-    "download.error": "downloading error"
+    "download.error": "downloading error",
+
+    "tutorial.shortcut.photos": "add photos shortcut",
+    "tutorial.shortcut.files": "add files shortcut"
 }

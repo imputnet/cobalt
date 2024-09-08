@@ -8,6 +8,7 @@
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
+    import SavingTutorial from "$components/dialog/SavingTutorial.svelte";
     import VerticalActionButton from "$components/buttons/VerticalActionButton.svelte";
 
     import IconShare2 from "@tabler/icons-svelte/IconShare2.svelte";
@@ -15,7 +16,6 @@
     import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
-
     export let id: string;
     export let url: string;
     export let bodyText: string = "";
@@ -37,6 +37,7 @@
         <div class="meowbalt-container">
             <Meowbalt emotion="question" />
         </div>
+
         <div class="dialog-inner-container">
             <div class="popup-header">
                 <IconFileDownload />
@@ -83,13 +84,17 @@
                     {$t("button.copy")}
                 </VerticalActionButton>
             </div>
-        </div>
 
-        {#if bodyText}
-            <div class="body-text">
-                {bodyText}
-            </div>
-        {/if}
+            {#if device.is.iOS}
+                <SavingTutorial />
+            {/if}
+
+            {#if bodyText}
+                <div class="body-text">
+                    {bodyText}
+                </div>
+            {/if}
+        </div>
 
         <DialogButtons
             buttons={[
@@ -121,7 +126,7 @@
     .popup-body {
         max-width: 340px;
         width: calc(100% - var(--padding) - var(--dialog-padding) * 2);
-        max-height: 50%;
+        max-height: 70%;
         margin: calc(var(--padding) / 2);
     }
 
@@ -159,7 +164,7 @@
         display: flex;
         flex-direction: row;
         gap: calc(var(--padding) / 2);
-        overflow-x: scroll;
+        position: relative;
     }
 
     .body-text {

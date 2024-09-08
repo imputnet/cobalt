@@ -43,7 +43,12 @@ const donate = {
     }
 };
 
+const siriShortcuts = {
+    photos: "https://www.icloud.com/shortcuts/14e9aebf04b24156acc34ceccf7e6fcd",
+    files: "https://www.icloud.com/shortcuts/2134cd9d4d6b41448b2201f933542b2e",
+}
+
 const apiURL = "https://api.cobalt.tools";
 
-export { donate, apiURL, contacts, partners };
+export { donate, apiURL, contacts, partners, siriShortcuts };
 export default variables;
