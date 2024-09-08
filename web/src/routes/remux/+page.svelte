@@ -208,24 +208,26 @@
     </div>
 
     <div id="remux-processing" class:processing aria-hidden={!processing}>
-        {#if processing}
-            {#if progress && speed}
-                <div class="progress-bar">
-                    <Skeleton
-                        width="{progress}%"
-                        height="20px"
-                        class="elevated"
-                    />
-                </div>
-                <div class="progress-text">
-                    processing ({progress}%, {speed}x)...
-                </div>
+        <div id="processing-status">
+            {#if processing}
+                {#if progress && speed}
+                    <div class="progress-bar">
+                        <Skeleton
+                            width="{progress}%"
+                            height="20px"
+                            class="elevated"
+                        />
+                    </div>
+                    <div class="progress-text">
+                        processing ({progress}%, {speed}x)...
+                    </div>
+                {:else}
+                    processing...
+                {/if}
             {:else}
-                processing...
+                done!
             {/if}
-        {:else}
-            done!
-        {/if}
+        </div>
     </div>
 </DropReceiver>
 
@@ -258,13 +260,6 @@
         pointer-events: none;
     }
 
-    .progress-bar {
-        height: 20px;
-        width: 400px;
-        border-radius: 6px;
-        background: var(--button);
-    }
-
     #remux-processing.processing {
         opacity: 1;
         transform: none;
@@ -276,6 +271,27 @@
         pointer-events: none;
     }
 
+    #processing-status {
+        display: flex;
+        flex-direction: column;
+        padding: var(--padding);
+        gap: var(--padding);
+        justify-content: center;
+    }
+
+    .progress-bar {
+        height: 20px;
+        width: 400px;
+        max-width: 400px;
+        border-radius: 6px;
+        background: var(--button);
+    }
+
+    .progress-text {
+        font-size: 14px;
+        text-align: center;
+    }
+
     .remux-description {
         font-size: 14px;
         line-height: 1.5;
@@ -284,6 +300,10 @@
     @media screen and (max-width: 535px) {
         .remux-description {
             font-size: 12px;
+        }
+
+        .progress-bar {
+            width: 350px;
         }
     }
 </style>
