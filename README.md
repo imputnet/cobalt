@@ -67,6 +67,7 @@ cobalt is ***NOT*** a piracy tool and cannot be used as such. it can only downlo
 
 ## cobalt license
 for relevant licensing information, see the [api](api/README.md) and [web](web/README.md) READMEs.
+unless specified otherwise, the remainder of this repository is licensed under [AGPL-3.0](LICENSE).
 
 ## acknowledgements
 ### ffmpeg
