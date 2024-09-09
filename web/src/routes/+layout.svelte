@@ -457,10 +457,14 @@
     :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
         line-height: 1.7;
         font-size: 14.5px;
-        font-weight: 410;
         font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
         user-select: text;
         -webkit-user-select: text;
+    }
+
+    :global(.long-text-noto),
+    :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6, strong, em, del)) {
+        font-weight: 410;
     }
 
     :global(.long-text-noto ul) {
