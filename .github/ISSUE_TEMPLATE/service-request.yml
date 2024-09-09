@@ -1,0 +1,39 @@
+name: service request
+description: "request service support in cobalt"
+title: "add support for [service name]"
+labels: ["service request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        thanks for taking the time to make a service request!
+        before you start, please make to read the "adding features or support for services" section of
+        our [contributor guidelines](https://github.com/imputnet/cobalt/blob/current/CONTRIBUTING.md#adding-features-or-support-for-services) to make sure your request is a good fit for cobalt.
+  - type: input
+    id: service-name
+    attributes:
+      label: service name
+    validations:
+      required: true
+  - type: textarea
+    id: service-description
+    attributes:
+      label: service description
+      description: a brief description of what the service is and/or what it provides
+    validations:
+      required: true
+  - type: textarea
+    id: link-samples
+    attributes:
+      label: link samples
+      description: |
+        list of links that cobalt should recognize.
+        could be regular video link, shared video link, mobile video link, shortened link, etc.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: more-context
+    attributes:
+      label: additional context
+      description: any additional context or screenshots should go here.

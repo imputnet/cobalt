@@ -1,0 +1,22 @@
+name: feature request
+description: suggest a feature for cobalt
+labels: ["feature request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        thanks for taking the time to make a feature request!
+        before you start, please make to read the "adding features or support for services" section of
+        our [contributor guidelines](https://github.com/imputnet/cobalt/blob/current/CONTRIBUTING.md#adding-features-or-support-for-services) to make sure your request is a good fit for cobalt.
+  - type: textarea
+    id: feat-description
+    attributes:
+      label: describe the feature you'd like to see
+      description: "clear and concise description of the feature you want to see in cobalt."
+    validations:
+      required: true
+  - type: textarea
+    id: more-context
+    attributes:
+      label: additional context
+      description: add any other context about the problem here if applicable.
