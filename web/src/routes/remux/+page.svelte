@@ -136,7 +136,11 @@
             if (!render) {
                 return console.log("not a valid file");
             }
-            return await downloadFile({ file });
+            return await downloadFile({
+                file: new File([render], file.name, {
+                    type: render.type
+                })
+            });
         } finally {
             processing = false;
             file = undefined;
