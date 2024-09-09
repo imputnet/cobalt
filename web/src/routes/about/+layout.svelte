@@ -6,14 +6,11 @@
     import PageNavTab from "$components/subnav/PageNavTab.svelte";
     import PageNavSection from "$components/subnav/PageNavSection.svelte";
 
-    import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconLock from "@tabler/icons-svelte/IconLock.svelte";
-
-    import IconChecklist from "@tabler/icons-svelte/IconChecklist.svelte";
-
-    import IconMessages from "@tabler/icons-svelte/IconMessages.svelte";
-    import IconUsersGroup from "@tabler/icons-svelte/IconUsersGroup.svelte";
+    import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconLicense from "@tabler/icons-svelte/IconLicense.svelte";
+    import IconChecklist from "@tabler/icons-svelte/IconChecklist.svelte";
+    import IconUsersGroup from "@tabler/icons-svelte/IconUsersGroup.svelte";
 </script>
 
 <PageNav
@@ -32,16 +29,6 @@
             >
                 <IconComet />
             </PageNavTab>
-            <PageNavTab
-                tabPath="/about/faq"
-                tabTitle={$t("about.page.faq")}
-                iconColor="blue"
-            >
-                <IconMessages />
-            </PageNavTab>
-        </PageNavSection>
-
-        <PageNavSection>
             <PageNavTab
                 tabPath="/about/community"
                 tabTitle={$t("about.page.community")}
