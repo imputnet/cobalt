@@ -32,7 +32,7 @@ jobs:
       - name: Get release metadata
         id: release-meta
         run: |
-            version=$(cat package.json | jq -r .version)
+            version=$(cat api/package.json | jq -r .version)
             echo "commit_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
             echo "version=$version" >> $GITHUB_OUTPUT
             echo "major_version=$(echo "$version" | cut -d. -f1)" >> $GITHUB_OUTPUT
