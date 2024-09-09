@@ -6,20 +6,20 @@ if you need help with installing docker, follow *only the first step* of these t
 - [how to install docker](https://www.digitalocean.com/community/tutorial-collections/how-to-install-and-use-docker)
 - [how to install docker compose](https://www.digitalocean.com/community/tutorial-collections/how-to-install-docker-compose)
 
-## how to run a cobalt docker package: 
-1. create a folder for cobalt config file, something like this:  
+## how to run a cobalt docker package:
+1. create a folder for cobalt config file, something like this:
     ```sh
     mkdir cobalt
-    ```  
+    ```
 
-2. go to cobalt folder, and create a docker compose config file:  
+2. go to cobalt folder, and create a docker compose config file:
     ```sh
     cd cobalt && nano docker-compose.yml
-    ```  
-    i'm using `nano` in this example, it may not be available in your distro. you can use any other text editor.  
+    ```
+    i'm using `nano` in this example, it may not be available in your distro. you can use any other text editor.
 
-3. copy and paste the [sample config from here](examples/docker-compose.example.yml) for either web or api instance (or both, if you wish) and edit it to your needs.  
-    make sure to replace default URLs with your own or cobalt won't work correctly.  
+3. copy and paste the [sample config from here](examples/docker-compose.example.yml) for either web or api instance (or both, if you wish) and edit it to your needs.
+    make sure to replace default URLs with your own or cobalt won't work correctly.
 
 4. finally, start the cobalt container (from cobalt directory):
     ```sh
@@ -73,15 +73,3 @@ setting a `FREEBIND_CIDR` allows cobalt to pick a random IP for every download a
 requests it makes for that particular download. to use freebind in cobalt, you need to follow its [setup instructions](https://github.com/imputnet/freebind.js?tab=readme-ov-file#setup) first. if you configure this option while running cobalt
 in a docker container, you also need to set the `API_LISTEN_ADDRESS` env to `127.0.0.1`, and set
 `network_mode` for the container to `host`.
-
-### variables for web
-| variable name        | default                     | example                     | description                                                                           |
-|:---------------------|:----------------------------|:----------------------------|:--------------------------------------------------------------------------------------|
-| `WEB_PORT`           | `9001`                      |  `9001`                     | changes port from which frontend server is accessible.                                |
-| `WEB_URL`            | ➖                          | `https://cobalt.tools/`     | changes url from which frontend server is accessible. <br> ***REQUIRED TO RUN WEB***. |
-| `API_URL`            | `https://api.cobalt.tools/` | `https://api.cobalt.tools/` | changes url which is used for api requests by frontend clients.                       |
-| `SHOW_SPONSORS`      | `0`                         | `1`                         | toggles sponsor list in about popup. <br> `0`: disabled. `1`: enabled.                |
-| `IS_BETA`            | `0`                         | `1`                         | toggles beta tag next to cobalt logo. <br> `0`: disabled. `1`: enabled.               |
-| `PLAUSIBLE_HOSTNAME` | ➖                          | `plausible.io`*             | enables plausible analytics with provided hostname as receiver backend.               |
-
-\* don't use plausible.io as receiver backend unless you paid for their cloud service. use your own domain when hosting community edition of plausible. refer to their [docs](https://plausible.io/docs) when needed.
