@@ -42,7 +42,7 @@
     <meta property="og:description" content={$t("general.embed.description")}>
 
     {#if env.HOST}
-        <meta property="og:url" content="https://{env.HOST}/">
+        <meta property="og:url" content="https://{env.HOST}{$page.url.pathname}">
     {/if}
 
     {#if device.is.mobile}
