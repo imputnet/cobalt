@@ -18,5 +18,5 @@ currently, there is no publicly accessible main api. we plan on providing a publ
 cobalt 10 in some form in the future. we recommend deploying your own instance if you wish
 to use the latest api. you can access [the documentation](/docs/api.md) for it here.
 
-if you are looking for documentations for version 7.x api, you can find
+if you are looking for the documentation for the old (7.x) api, you can find
 it [here](https://github.com/imputnet/cobalt/blob/7/docs/api.md)

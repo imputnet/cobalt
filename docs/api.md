@@ -1,6 +1,8 @@
 # cobalt api documentation
 this document provides info about methods and acceptable variables for all cobalt api requests.
 
+> if you are looking for the documentation for the old (7.x) api, you can find
+> it [here](https://github.com/imputnet/cobalt/blob/7/docs/api.md)
 <!-- TODO: authorization -->
 
 ## POST: `/`
