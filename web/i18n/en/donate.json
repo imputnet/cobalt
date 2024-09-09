@@ -32,5 +32,5 @@
     "alternative.title": "alternative ways to donate",
 
     "alt.copy": "{{ value }}. crypto wallet address. press to copy.",
-    "alt.open": "{{ value }}. donation link, press to open."
+    "alt.open": "{{ value }}. press to open."
 }

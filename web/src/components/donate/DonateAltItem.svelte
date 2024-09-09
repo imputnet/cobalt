@@ -8,6 +8,7 @@
     export let type: "copy" | "open";
     export let name: string;
     export let address: string;
+    export let title = "";
 
     let copied = false;
 
@@ -44,7 +45,9 @@
         <div class="wallet-text">
             <div class="wallet-name">{name}</div>
             <span class="wallet-address">
-                {#if type === "copy"}
+                {#if title}
+                    {title}
+                {:else if type === "copy"}
                     {address}
                 {:else}
                     {address.split("//", 2)[1]}

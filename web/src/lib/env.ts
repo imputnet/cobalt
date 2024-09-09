@@ -18,9 +18,11 @@ const variables = {
 }
 
 const contacts = {
-    github: "https://github.com/imputnet/cobalt",
+    discord: "https://discord.gg/pQPt8HBUPu",
     twitter: "https://x.com/justusecobalt",
-    bluesky: "https://bsky.app/profile/cobalt.tools",
+    github: "https://github.com/imputnet/cobalt",
+    email: "support@cobalt.tools",
+    telegram_ru: "https://t.me/justusecobalt_ru",
 }
 
 const partners = {
