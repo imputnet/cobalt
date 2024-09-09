@@ -292,7 +292,7 @@ export const runAPI = (express, app, __dirname) => {
     })
 
     // handle all express errors
-    app.use((err, req, res, next) => {
+    app.use((_, req, res, next) => {
         return fail(res, "error.api.generic");
     })
 
