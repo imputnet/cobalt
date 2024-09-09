@@ -1,40 +1,56 @@
-# cobalt
-best way to save what you love: [cobalt.tools](https://cobalt.tools/)
+<div align="center">
+    <br/>
+    <p>
+        <img src="web/static/favicon.png" title="cobalt" alt="cobalt logo" width="100" />
+    </p>
+    <p>
+        best way to save what you love
+        <br/>
+        <a href="https://cobalt.tools">
+            cobalt.tools
+        </a>
+    </p>
+    <p>
+        <a href="https://discord.gg/pQPt8HBUPu">
+            💬 community discord server
+        </a>
+        <a href="https://x.com/justusecobalt">
+            🐦 twitter/x
+        </a>
+    </p>
+    <br/>
+</div>
 
-[💬 community discord server](https://discord.gg/pQPt8HBUPu)
-[🐦 twitter/x](https://x.com/justusecobalt)
-
-## what's cobalt?
-cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or invasive analytics***.
+cobalt is a media downloader that doesn't piss you off. it's fast, friendly, and doesn't have any bullshit that modern web is filled with: ***no ads, trackers, or paywalls***.
 
 paste the link, get the file, move on. it's that simple. just how it should be.
 
-## supported services
+### supported services
 this list is not final and keeps expanding over time. if support for a service you want is missing, create an issue (or a pull request 👀).
 
-| service                        | video + audio | only audio | only video | metadata | rich file names |
-| :--------                      | :-----------: | :--------: | :--------: | :------: | :-------------: |
-| bilibili.com & bilibili.tv     | ✅            | ✅         | ✅         | ➖         | ➖              |
-| bluesky                        | ✅            | ✅         | ✅         | ➖         | ➖              |
-| dailymotion                    | ✅            | ✅         | ✅         | ✅         | ✅              |
-| instagram posts & reels        | ✅            | ✅         | ✅         | ➖         | ➖              |
-| facebook videos                | ✅            | ❌         | ❌         | ➖         | ➖              |
-| loom                           | ✅            | ❌         | ✅         | ✅         | ➖              |
-| ok video                       | ✅            | ❌         | ✅         | ✅         | ✅              |
-| pinterest                      | ✅            | ✅         | ✅         | ➖         | ➖              |
-| reddit                         | ✅            | ✅         | ✅         | ❌         | ❌              |
-| rutube                         | ✅            | ✅         | ✅         | ✅         | ✅              |
-| snapchat stories & spotlights  | ✅            | ✅         | ✅         | ➖         | ➖              |
-| soundcloud                     | ➖            | ✅         | ➖         | ✅         | ✅              |
-| streamable                     | ✅            | ✅         | ✅         | ➖         | ➖              |
-| tiktok                         | ✅            | ✅         | ✅         | ❌         | ❌              |
-| tumblr                         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| twitch clips                   | ✅            | ✅         | ✅         | ✅         | ✅              |
-| twitter/x                      | ✅            | ✅         | ✅         | ➖         | ➖              |
-| vimeo                          | ✅            | ✅         | ✅         | ✅         | ✅              |
-| vine archive                   | ✅            | ✅         | ✅         | ➖         | ➖              |
-| vk videos & clips              | ✅            | ❌         | ✅         | ✅         | ✅              |
-| youtube videos, shorts & music | ✅            | ✅         | ✅         | ✅         | ✅              |
+| service           | video + audio | only audio | only video | metadata | rich file names |
+| :--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
+| bilibili          | ✅            | ✅         | ✅         | ➖         | ➖              |
+| bluesky           | ✅            | ✅         | ✅         | ➖         | ➖              |
+| dailymotion       | ✅            | ✅         | ✅         | ✅         | ✅              |
+| instagram         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| facebook          | ✅            | ❌         | ✅         | ➖         | ➖              |
+| loom              | ✅            | ❌         | ✅         | ✅         | ➖              |
+| ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
+| pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |
+| rutube            | ✅            | ✅         | ✅         | ✅         | ✅              |
+| snapchat          | ✅            | ✅         | ✅         | ➖         | ➖              |
+| soundcloud        | ➖            | ✅         | ➖         | ✅         | ✅              |
+| streamable        | ✅            | ✅         | ✅         | ➖         | ➖              |
+| tiktok            | ✅            | ✅         | ✅         | ❌         | ❌              |
+| tumblr            | ✅            | ✅         | ✅         | ➖         | ➖              |
+| twitch clips      | ✅            | ✅         | ✅         | ✅         | ✅              |
+| twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
+| vine              | ✅            | ✅         | ✅         | ➖         | ➖              |
+| vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
+| youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
@@ -57,15 +73,15 @@ this list is not final and keeps expanding over time. if support for a service y
 | vimeo      | audio downloads are only available for dash.                                                                         |
 | youtube    | supports videos, music, and shorts. 8K, 4K, HDR, VR, and high FPS videos. rich metadata & dubs. h264/av1/vp9 codecs. |
 
-## partners
+### partners
 cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt), all main instances are currently hosted on their network :)
 
-## ethics and disclaimer
+### ethics and disclaimer
 cobalt is a tool for easing content downloads from internet and takes ***zero liability***. you are responsible for what you download, how you use and distribute that content. please be mindful when using content of others and always credit original creators. fair use and credits benefit everyone.
 
 cobalt is ***NOT*** a piracy tool and cannot be used as such. it can only download free, publicly accessible content. such content can be easily downloaded through any browser's dev tools. pressing one button is easier, so i made a convenient, ad-less tool for such repeated actions.
 
-## cobalt license
+### cobalt license
 for relevant licensing information, see the [api](api/README.md) and [web](web/README.md) READMEs.
 unless specified otherwise, the remainder of this repository is licensed under [AGPL-3.0](LICENSE).
 
