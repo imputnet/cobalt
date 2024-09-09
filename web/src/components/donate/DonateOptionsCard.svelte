@@ -65,8 +65,8 @@
             return;
         }
 
-        const amount = Number(customInputValue) * 100;
-        return donationMethods[processor](amount);
+        const amount = Math.floor(Number(customInputValue) * 100);
+        return window.open(donationMethods[processor](amount), '_blank');
     };
 </script>
 
