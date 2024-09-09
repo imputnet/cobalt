@@ -20,6 +20,7 @@
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
     import IconWorldWww from "@tabler/icons-svelte/IconWorldWww.svelte";
     import IconBath from "@tabler/icons-svelte/IconBath.svelte";
+    import OuterLink from "$components/misc/OuterLink.svelte";
 
     let customInput: HTMLInputElement;
     let customInputValue: number | null;
@@ -44,23 +45,19 @@
     type Processor = "stripe" | "liberapay";
     let processor: Processor = "stripe";
 
-    const donationMethods: Record<Processor, (_: number) => void> = {
+    const donationMethods: Record<Processor, (_: number) => string> = {
         stripe: (amount: number) => {
             const url = new URL(donate.stripe);
             url.searchParams.set("__prefilled_amount", amount.toString());
-            window.open(url, "_blank");
+            return url.toString();
         },
         liberapay: (amount: number) => {
             const url = new URL(donate.liberapay);
             url.searchParams.set("currency", "USD");
             url.searchParams.set("period", "monthly");
             url.searchParams.set("amount", (amount / 100).toString());
-            window.open(url, "_blank");
+            return url.toString();
         },
-    };
-
-    const send = (amount: number) => {
-        return donationMethods[processor](amount);
     };
 
     const sendCustom = () => {
@@ -69,7 +66,7 @@
         }
 
         const amount = Number(customInputValue) * 100;
-        send(amount);
+        return donationMethods[processor](amount);
     };
 </script>
 
@@ -110,9 +107,11 @@
     </div>
     <div id="donation-options">
         {#each Object.entries(PRESET_DONATION_AMOUNTS) as [ amount, component ]}
-            <DonationOption price={+amount} desc={$t(`donate.card.option.${amount}`)} {send}>
-                <svelte:component this={component} />
-            </DonationOption>
+            <OuterLink href={donationMethods[processor](+amount * 100)}>
+                <DonationOption price={+amount} desc={$t(`donate.card.option.${amount}`)}>
+                    <svelte:component this={component} />
+                </DonationOption>
+            </OuterLink>
         {/each}
     </div>
     <div id="donation-custom">
@@ -312,5 +311,9 @@
         .processor-mobile {
             display: block;
         }
+    }
+
+    #donation-options > :global(a) {
+        text-decoration: none;
     }
 </style>

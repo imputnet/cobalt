@@ -1,9 +1,7 @@
 <script lang="ts">
     export let price: number;
     export let desc: string;
-    export let send: (amount: number) => void;
 
-    const click = () => send(price * 100);
     const USD = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -11,7 +9,7 @@
     });
 </script>
 
-<button class="donation-option" on:click={click}>
+<button class="donation-option">
     <div class="donate-card-title">
         <slot></slot>
         { USD.format(price) }
