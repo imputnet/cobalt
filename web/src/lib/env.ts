@@ -46,9 +46,13 @@ const donate = {
 const siriShortcuts = {
     photos: "https://www.icloud.com/shortcuts/14e9aebf04b24156acc34ceccf7e6fcd",
     files: "https://www.icloud.com/shortcuts/2134cd9d4d6b41448b2201f933542b2e",
-}
+};
+
+const docs = {
+    instanceHosting: "https://github.com/imputnet/cobalt/blob/main/docs/run-an-instance.md",
+};
 
 const apiURL = "https://api.cobalt.tools";
 
-export { donate, apiURL, contacts, partners, siriShortcuts };
+export { donate, apiURL, contacts, partners, siriShortcuts, docs };
 export default variables;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { partners, contacts } from "$lib/env";
+    import { partners, contacts, docs } from "$lib/env";
     import OuterLink from "$components/misc/OuterLink.svelte";
 </script>
 
@@ -51,16 +51,28 @@
     <section id="community">
         <h3>open community</h3>
         <p>
-            we believe that the future of the internet is open,
-            which is why cobalt's backend is open source, and the web app is source-available.
-            you can
-            <OuterLink href="{contacts.github}">check & contribute to both</OuterLink>
-            at any time, we welcome all contributions and suggestions!
-        </p>
-        <p>
             cobalt is used by countless artists, educators, and content creators to do what they love.
             we're always on the line with our community and work together to create even more useful tools for them.
-            feel free to <a href="/about/community">join the conversation</a>, too!
+            feel free to <a href="/about/community">join the conversation</a>!
+        </p>
+        <p>
+            we believe that the future of the internet is open,
+            which is why cobalt is
+            <OuterLink
+                href="https://sourcefirst.com/">
+                source first
+            </OuterLink>
+            and
+            <OuterLink href={docs.instanceHosting}>
+                easily self-hostable.
+            </OuterLink>
+
+            you can <OuterLink href="{contacts.github}">check the source code & contribute to cobalt</OuterLink>
+            at any time, we welcome all contributions and suggestions.
+        </p>
+        <p>
+            you can use any processing instances hosted by the community, including your own.
+            if your friend hosts one, just ask them for a domain and <a href="/settings/instances#community">add it in instance settings</a>.
         </p>
     </section>
 
