@@ -1,13 +1,10 @@
 services:
     cobalt-api:
-        image: ghcr.io/imputnet/cobalt:7
+        image: ghcr.io/imputnet/cobalt:10
         restart: unless-stopped
         container_name: cobalt-api
 
         init: true
-
-        # if container doesn't run detached on your machine, uncomment the next line
-        #tty: true
 
         ports:
             - 9000:9000/tcp
@@ -17,8 +14,6 @@ services:
         environment:
             # replace https://api.cobalt.tools/ with your instance's target url in same format
             API_URL: "https://api.cobalt.tools/"
-            # replace eu-nl with your instance's distinctive name
-            API_NAME: "eu-nl"
             # if you want to use cookies when fetching data from services, uncomment the next line and the lines under volume
             # COOKIE_PATH: "/cookies.json"
             # see docs/run-an-instance.md for more information
