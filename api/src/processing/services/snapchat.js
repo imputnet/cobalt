@@ -3,7 +3,7 @@ import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getRedirectingURL } from "../../misc/utils.js";
 
-const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(.+)" as="video"\/>/;
+const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="([^"]+)" as="video"\/>/;
 const NEXT_DATA_REGEX = /<script id="__NEXT_DATA__" type="application\/json">({.+})<\/script><\/body><\/html>$/;
 
 async function getSpotlight(id) {
