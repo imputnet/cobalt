@@ -20,7 +20,7 @@ const openSavingDialog = ({ url, file, body }: { url?: string, file?: File, body
     createDialog(dialogData)
 }
 
-export const openFile = async (file: File) => {
+export const openFile = (file: File) => {
     const a = document.createElement("a");
     const url = URL.createObjectURL(file);
 
