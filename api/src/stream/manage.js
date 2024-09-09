@@ -22,7 +22,7 @@ streamCache.on("expired", (key) => {
     streamCache.del(key);
 })
 
-const internalStreamCache = {};
+const internalStreamCache = new Map();
 const hmacSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
@@ -71,7 +71,7 @@ export function createStream(obj) {
 }
 
 export function getInternalStream(id) {
-    return internalStreamCache[id];
+    return internalStreamCache.get(id);
 }
 
 export function createInternalStream(url, obj = {}) {
@@ -95,13 +95,13 @@ export function createInternalStream(url, obj = {}) {
         headers = new Map(Object.entries(obj.headers));
     }
 
-    internalStreamCache[streamID] = {
+    internalStreamCache.set(streamID, {
         url,
         service: obj.service,
         headers,
         controller,
         dispatcher
-    };
+    });
 
     let streamLink = new URL('/itunnel', `http://127.0.0.1:${env.apiPort}`);
     streamLink.searchParams.set('id', streamID);
@@ -124,9 +124,9 @@ export function destroyInternalStream(url) {
 
     const id = url.searchParams.get('id');
 
-    if (internalStreamCache[id]) {
-        closeRequest(internalStreamCache[id].controller);
-        delete internalStreamCache[id];
+    if (internalStreamCache.has(id)) {
+        closeRequest(getInternalStream(id)?.controller);
+        internalStreamCache.delete(id);
     }
 }
 
