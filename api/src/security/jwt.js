@@ -11,7 +11,7 @@ const makeHmac = (header, payload) =>
         .update(`${header}.${payload}`)
         .digest("base64url");
 
-export const generate = () => {
+const generate = () => {
     const exp = Math.floor(new Date().getTime() / 1000) + env.jwtLifetime;
 
     const header = toBase64URL(JSON.stringify({
@@ -32,7 +32,7 @@ export const generate = () => {
     };
 }
 
-export const verify = (jwt) => {
+const verify = (jwt) => {
     const [header, payload, signature] = jwt.split(".", 3);
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
