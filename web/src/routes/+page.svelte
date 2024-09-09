@@ -8,6 +8,7 @@
 
 <svelte:head>
     <title>{$t("general.cobalt")}</title>
+    <meta property="og:title" content={$t("general.cobalt")} />
 </svelte:head>
 
 <div id="cobalt-save-container" class="center-column-container">
@@ -22,7 +23,8 @@
         <Omnibox />
     </main>
     <div id="terms-note">
-        {$t("save.terms.note.agreement")} <a href="/about/terms">{$t("save.terms.note.link")}</a>
+        {$t("save.terms.note.agreement")}
+        <a href="/about/terms">{$t("save.terms.note.link")}</a>
     </div>
 </div>
 

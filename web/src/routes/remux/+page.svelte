@@ -190,6 +190,10 @@
 
 <svelte:head>
     <title>{$t("tabs.remux")} ~ {$t("general.cobalt")}</title>
+    <meta
+        property="og:title"
+        content="{$t("tabs.remux")} ~ {$t("general.cobalt")}"
+    />
 </svelte:head>
 
 <DropReceiver id="remux-container" bind:draggedOver bind:file>

@@ -82,6 +82,10 @@
     <title>
         {$t("tabs.updates")} ~ {$t("general.cobalt")}
     </title>
+    <meta
+        property="og:title"
+        content="{$t("tabs.updates")} ~ {$t("general.cobalt")}"
+    />
 </svelte:head>
 
 <svelte:window on:keydown={handleKeydown} />

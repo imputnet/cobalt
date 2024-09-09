@@ -16,6 +16,10 @@
     <title>
         {$t("tabs.donate")} ~ {$t("general.cobalt")}
     </title>
+    <meta
+        property="og:title"
+        content="{$t("tabs.donate")} ~ {$t("general.cobalt")}"
+    />
 </svelte:head>
 
 <div id="donate-page-wrapper">

@@ -36,6 +36,10 @@
     <title>
         {homeTitle}{stringPageTitle} ~ {$t("general.cobalt")}
     </title>
+    <meta
+        property="og:title"
+        content="{homeTitle}{stringPageTitle} ~ {$t('general.cobalt')}"
+    />
 </svelte:head>
 
 <svelte:window bind:innerWidth={screenWidth} />
@@ -79,7 +83,10 @@
             {/if}
         </div>
 
-        <nav class="subnav-navigation" class:visible-mobile={isMobile && isHome}>
+        <nav
+            class="subnav-navigation"
+            class:visible-mobile={isMobile && isHome}
+        >
             <slot name="navigation"></slot>
             {#if isMobile && isHome && pageSubtitle}
                 <div class="subtext subnav-subtitle center">
@@ -108,9 +115,7 @@
     .subnav-page {
         --subnav-nav-width: 250px;
         --subnav-padding: 30px;
-        --subnav-padding-small: calc(
-            var(--subnav-padding) - var(--padding)
-        );
+        --subnav-padding-small: calc(var(--subnav-padding) - var(--padding));
         display: grid;
         width: 100%;
         grid-template-columns: var(--subnav-nav-width) 1fr;
