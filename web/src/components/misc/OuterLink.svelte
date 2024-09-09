@@ -5,8 +5,17 @@
     // no way to change this behavior atm (https://github.com/pngwn/MDsveX/issues/609)
     export let rel: string = "";
     rel;
+
+    const [ target, _rel ] = (() => {
+        try {
+            new URL(href)
+            return [ '_blank', 'noopener noreferrer' ];
+        } catch {}
+
+        return [];
+    })();
 </script>
 
-<a target="_blank" rel="noopener noreferrer" {href}>
+<a rel={_rel} {target} {href}>
     <slot></slot>
 </a>
