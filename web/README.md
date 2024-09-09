@@ -35,7 +35,7 @@ as long as you:
 
 cobalt branding, mascots, and other related assets included in the repo are ***copyrighted*** and not covered by the license. you ***cannot*** use them under same terms.
 
-you are allowed to host an ***unmodified*** instance of cobalt with branding for **non-commercial purposes**, but this ***does not*** give you permission to use it anywhere else, or make derivatives of it in any way.
+you are allowed to host an ***unmodified*** instance of cobalt with branding for **non-commercial purposes**, but this ***does not*** give you permission to use the branding anywhere else, or make derivatives of it in any way.
 
 when making an alternative version of the project, please replace or remove all branding (including the name).
 
