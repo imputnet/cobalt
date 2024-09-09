@@ -9,6 +9,7 @@
 
     "saving.title": "choose how to save",
     "saving.blocked": "cobalt tried opening the file in a new tab, but your browser blocked it. you can allow pop-ups for cobalt to prevent this from happening next time.",
+    "saving.timeout": "cobalt tried saving the file automatically, but your browser stopped it. you have to select a preferred method manually.",
 
     "safety.title": "important safety notice",
 

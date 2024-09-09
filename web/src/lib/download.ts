@@ -65,18 +65,25 @@ export const downloadFile = ({ url, file }: { url?: string, file?: File }) => {
 
     const pref = get(settings).save.savingMethod;
 
+    if (pref === "ask") {
+        return openSavingDialog({ url, file });
+    }
+
     /*
         user actions (such as invoke share, open new tab) have expiration.
         in webkit, for example, that timeout is 5 seconds.
-        https://github.com/WebKit/WebKit/blob/b838f8bb3573bd5906bc5f02fcc8cb274b3c9b8a/Source/WebCore/page/LocalDOMWindow.cpp#L167
+        https://github.com/WebKit/WebKit/blob/b838f8bb/Source/WebCore/page/LocalDOMWindow.cpp#L167
 
         navigator.userActivation.isActive makes sure that we're still able to
         invoke an action without the user agent interrupting it.
         if not, we show a saving dialog for user to re-invoke that action.
     */
-
-    if (pref === "ask" || !navigator.userActivation.isActive) {
-        return openSavingDialog({ url, file });
+    if (!navigator.userActivation.isActive) {
+        return openSavingDialog({
+            url,
+            file,
+            body: get(t)("dialog.saving.timeout"),
+        });
     }
 
     try {
