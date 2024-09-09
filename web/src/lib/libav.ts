@@ -15,7 +15,7 @@ export default class LibAVWrapper {
         this.onProgress = onProgress;
     }
 
-    async init() {
+    init() {
         if (this.concurrency && !this.libav) {
             this.libav = LibAV.LibAV({
                 yesthreads: true,
