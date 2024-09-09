@@ -1,5 +1,4 @@
 # cobalt api
-[documentation] | [running your own instance](/docs/run-an-instance.md)
 
 ## license
 cobalt api code is licensed under [AGPL-3.0](LICENSE).
