@@ -2,7 +2,7 @@ import * as _env from "$env/static/public";
 
 const getEnv = (_key: string) => {
     const env = _env as Record<string, string | undefined>;
-    const key = `PUBLIC_${_key}`;
+    const key = `WEB_${_key}`;
 
     if (key in env) {
         return env[key];

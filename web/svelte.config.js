@@ -40,6 +40,9 @@ const config = {
             precompress: false,
             strict: true
         }),
+        env: {
+            publicPrefix: 'WEB_'
+        },
         version: {
             pollInterval: 60000
         },
