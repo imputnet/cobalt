@@ -84,13 +84,4 @@
             it perfectly aligns with our future goal of moving as much processing as possible to client.
         </p>
     </section>
-
-    <section id="human">
-        <h3>made by people, for people</h3>
-        <p>
-            everything we do is made by humans, not large language models.
-            we believe that putting your soul into what you do is an indispensable part of creating something.
-            human creativity & attention to detail cannot be replaced.
-        </p>
-    </section>
 </div>
