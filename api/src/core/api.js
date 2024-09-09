@@ -102,6 +102,9 @@ export const runAPI = (express, app, __dirname) => {
         ...corsConfig,
     }));
 
+    app.post('/', apiLimiter);
+    app.use('/tunnel', apiLimiterStream);
+
     app.post('/', (req, res, next) => {
         if (!env.turnstileSecret || !env.jwtSecret) {
             return next();
@@ -139,9 +142,6 @@ export const runAPI = (express, app, __dirname) => {
         }
         next();
     });
-
-    app.post('/', apiLimiter);
-    app.use('/tunnel', apiLimiterStream);
 
     app.use('/', express.json({ limit: 1024 }));
     app.use('/', (err, _, res, next) => {
