@@ -30,7 +30,7 @@ const extractVideo = async ({ getPost, filename }) => {
     }
 }
 
-const extractImages = async ({ getPost, filename, alwaysProxy }) => {
+const extractImages = ({ getPost, filename, alwaysProxy }) => {
     const images = getPost?.thread?.post?.embed?.images;
 
     if (!images || images.length === 0) {
@@ -83,10 +83,10 @@ export default async function ({ user, post, alwaysProxy }) {
     const filename = `bluesky_${user}_${post}`;
 
     if (embedType === "app.bsky.embed.video#view") {
-        return await extractVideo({ getPost, filename });
+        return extractVideo({ getPost, filename });
     }
     if (embedType === "app.bsky.embed.images#view") {
-        return await extractImages({ getPost, filename, alwaysProxy });
+        return extractImages({ getPost, filename, alwaysProxy });
     }
 
     return { error: "fetch.empty" };
