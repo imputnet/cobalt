@@ -1,0 +1,36 @@
+{
+    "banner.title": "Support a safe\nand open Internet",
+    "banner.subtitle": "donate to imput or share the\njoy of cobalt with a friend",
+
+    "body.motivation": "cobalt helps thousands of producers, educators, and other creative people to do what they love. we created cobalt because we believe that internet doesn’t have to be scary. greed and ads have ruined the internet — we fight back with friendly and open tools that are made with love, not for profit.",
+    "body.keep_going": "you can help us stay motivated & keep creating safe alternatives to abusive tools by sharing cobalt with a friend or donating.",
+
+    "card.once": "one-time donation",
+    "card.monthly": "monthly donation",
+    "card.custom": "custom amount (from $2)",
+
+    "card.processor": "processed by {{value}}",
+
+    "card.option.5": "cup of coffee",
+    "card.option.10": "full size pizza",
+    "card.option.15": "full lunch",
+    "card.option.30": "lunch for two",
+    "card.option.50": "10kg of cat food",
+    "card.option.100": "one year of domains",
+    "card.option.200": "air fryer",
+    "card.option.500": "fancy office chair",
+    "card.option.1599": "base macbook pro",
+    "card.option.4900": "10,000 apples",
+    "card.option.7398": "maxed out macbook pro",
+    "card.option.8629": "a small plot of land",
+    "card.option.9433": "luxury hot tub",
+
+    "card.custom.submit": "donate custom amount",
+
+    "share.title": "share cobalt with a friend",
+
+    "alternative.title": "alternative ways to donate",
+
+    "alt.copy": "{{ value }}. crypto wallet address. press to copy.",
+    "alt.open": "{{ value }}. press to open."
+}

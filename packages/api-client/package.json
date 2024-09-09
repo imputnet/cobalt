@@ -1,0 +1,15 @@
+{
+    "name": "@imput/cobalt-client",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {},
+    "keywords": [],
+    "author": "imput <meow@imput.net>",
+    "license": "MIT",
+    "devDependencies": {
+        "prettier": "3.3.3",
+        "tsup": "^8.2.4",
+        "typescript": "^5.4.5"
+    }
+}

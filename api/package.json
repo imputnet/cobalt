@@ -1,0 +1,49 @@
+{
+    "name": "@imput/cobalt-api",
+    "description": "save what you love",
+    "version": "10.0.0",
+    "author": "imput",
+    "exports": "./src/cobalt.js",
+    "type": "module",
+    "engines": {
+        "node": ">=18"
+    },
+    "scripts": {
+        "start": "node src/cobalt",
+        "setup": "node src/util/setup",
+        "test": "node src/util/test",
+        "token:youtube": "node src/util/generate-youtube-tokens"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/imputnet/cobalt.git"
+    },
+    "license": "AGPL-3.0",
+    "bugs": {
+        "url": "https://github.com/imputnet/cobalt/issues"
+    },
+    "homepage": "https://github.com/imputnet/cobalt#readme",
+    "dependencies": {
+        "@imput/version-info": "workspace:^",
+        "content-disposition-header": "0.6.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "esbuild": "^0.14.51",
+        "express": "^4.18.1",
+        "express-rate-limit": "^6.3.0",
+        "ffmpeg-static": "^5.1.0",
+        "hls-parser": "^0.10.7",
+        "ipaddr.js": "2.1.0",
+        "nanoid": "^4.0.2",
+        "node-cache": "^5.1.2",
+        "psl": "1.9.0",
+        "set-cookie-parser": "2.6.0",
+        "undici": "^5.19.1",
+        "url-pattern": "1.0.3",
+        "youtubei.js": "^10.3.0",
+        "zod": "^3.23.8"
+    },
+    "optionalDependencies": {
+        "freebind": "^0.2.2"
+    }
+}

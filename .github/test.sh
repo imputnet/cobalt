@@ -13,19 +13,20 @@ waitport() {
 
 test_api() {
     waitport 3000
-    curl -m 3 http://localhost:3000/api/serverInfo
-    API_RESPONSE=$(curl -m 3 http://localhost:3000/api/json \
+    curl -m 3 http://localhost:3000/
+    API_RESPONSE=$(curl -m 3 http://localhost:3000/ \
          -X POST \
          -H "Accept: application/json" \
          -H "Content-Type: application/json" \
-         -d '{"url":"https://vine.co/v/huwVJIEJW50", "isAudioOnly": true}')
+         -d '{"url":"https://www.tiktok.com/@fatfatmillycat/video/7195741644585454894"}')
 
-    echo "$API_RESPONSE"
+    echo "API_RESPONSE=$API_RESPONSE"
     STATUS=$(echo "$API_RESPONSE" | jq -r .status)
     STREAM_URL=$(echo "$API_RESPONSE" | jq -r .url)
-    [ "$STATUS" = stream ] || exit 1;
+    [ "$STATUS" = tunnel ] || exit 1;
+    S=$(curl -I -m 3 "$STREAM_URL")
 
-    CONTENT_LENGTH=$(curl -I -m 3 "$STREAM_URL" \
+    CONTENT_LENGTH=$(echo "$S" \
                         | grep -i content-length \
                         | cut -d' ' -f2 \
                         | tr -d '\r')
@@ -37,34 +38,27 @@ test_api() {
     fi
 }
 
-test_web() {
-    waitport 3001
-    curl -m 3 http://127.0.0.1:3001/onDemand?blockId=0 \
-        | grep -q '"status":"success"' 
-}
-
 setup_api() {
     export API_PORT=3000
     export API_URL=http://localhost:3000
-    timeout 10 npm run start
+    timeout 10 pnpm run --prefix api start &
+    API_PID=$!
 }
 
 setup_web() {
-    export WEB_PORT=3001
-    export WEB_URL=http://localhost:3001
-    export API_URL=http://localhost:3000
-    timeout 5 npm run start
+    pnpm run --prefix web build
 }
 
 cd "$(git rev-parse --show-toplevel)"
-npm i
+pnpm install --frozen-lockfile
 
 if [ "$1" = "api" ]; then
-    setup_api &
+    setup_api
     test_api
+    [ "$API_PID" != "" ] \
+        && kill "$API_PID"
 elif [ "$1" = "web" ]; then
-    setup_web &
-    test_web
+    setup_web
 else
     echo "usage: $0 <api/web>" >&2
     exit 1

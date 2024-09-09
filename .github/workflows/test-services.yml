@@ -1,0 +1,33 @@
+name: Run service tests
+
+on:
+  pull_request:
+  push:
+    paths:
+      - api/**
+      - packages/**
+
+jobs:
+  check-services:
+    name: test service functionality
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.checkServices.outputs.service_list }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - id: checkServices
+        run: pnpm i --frozen-lockfile && echo "service_list=$(node api/src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
+
+  test-services:
+    needs: check-services
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJson(needs.check-services.outputs.services) }}
+    name: "test service: ${{ matrix.service }}"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - run: pnpm i --frozen-lockfile && node api/src/util/test-ci run-tests-for ${{ matrix.service }}

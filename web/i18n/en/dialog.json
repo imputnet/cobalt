@@ -1,0 +1,25 @@
+{
+    "reset.title": "reset all settings?",
+    "reset.body": "are you sure you want to reset all settings? this action is immediate and irreversible.",
+
+    "picker.title": "select what to save",
+    "picker.description.desktop": "click an item to save it. images can also be saved via the right click menu.",
+    "picker.description.phone": "press an item to save it. images can also be saved with a long press.",
+    "picker.description.ios": "press an item to save it with a shortcut. images can also be saved with a long press.",
+
+    "saving.title": "choose how to save",
+    "saving.blocked": "cobalt tried opening the file in a new tab, but your browser blocked it. you can allow pop-ups for cobalt to prevent this from happening next time.",
+    "saving.timeout": "cobalt tried saving the file automatically, but your browser stopped it. you have to select a preferred method manually.",
+
+    "safety.title": "important safety notice",
+
+    "import.body": "importing unknown or corrupted files may unexpectedly alter or break cobalt functionality. only import files that you've personally exported and haven't modified. if you were asked to import this file by someone - don't do it.\n\nwe are not responsible for any harm caused by importing unknown setting files.",
+
+    "api.override.title": "processing instance override",
+    "api.override.body": "{{ value }} is now the processing instance. if you don't trust it, press \"cancel\" and it'll be ignored.\n\nyou can change your choice later in processing settings.",
+
+    "safety.custom_instance.body": "custom instances can potentially pose privacy & safety risks.\n\nbad instances can:\n1. redirect you away from cobalt and try to scam you.\n2. log all information about your requests, store it forever, and use it to track you.\n3. serve you malicious files (such as malware).\n4. force you to watch ads, or make you pay for downloading.\n\nafter this point, we can't protect you. please be mindful of what instances to use and always trust your gut. if anything feels off, come back to this page, reset the custom instance, and report it to us on github.",
+
+    "processing.ongoing": "cobalt is currently processing media in this tab. going away will abort it. are you sure you want to do this?",
+    "processing.title.ongoing": "processing will be cancelled"
+}

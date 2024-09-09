@@ -1,0 +1,1461 @@
+{
+    "twitter": [
+        {
+            "name": "regular video",
+            "url": "https://twitter.com/X/status/1697304622749086011",
+            "params": {
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "video with mobile web mediaviewer",
+            "url": "https://twitter.com/X/status/1697304622749086011/mediaViewer?currentTweet=1697304622749086011&currentTweetUser=X&currentTweet=1697304622749086011&currentTweetUser=X",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "embedded twitter video",
+            "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+            "params": {
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "mixed media (image + gif)",
+            "url": "https://twitter.com/sky_mj26/status/1807756010712428565",
+            "params": {
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        },
+        {
+            "name": "picker: mixed media (3 videos)",
+            "url": "https://twitter.com/DankGameAlert/status/1584726006094794774",
+            "params": {
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        },
+        {
+            "name": "audio from embedded twitter video (mp3, isAudioOnly)",
+            "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "audio from embedded twitter video (best, isAudioOnly)",
+            "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "best"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "audio from embedded twitter video (ogg, isAudioOnly, isAudioMuted)",
+            "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "best"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "muted embedded twitter video",
+            "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+            "params": {
+                "downloadMode": "mute",
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "retweeted video",
+            "url": "https://twitter.com/uwukko/status/1696901469633421344",
+            "params": {},
+            "canFail": true,
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "age restricted video",
+            "url": "https://x.com/XSpaces/status/1526955853743546372",
+            "params": {},
+            "canFail": true,
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "twitter voice + x.com link",
+            "url": "https://x.com/eggsaladscreams/status/1693089534886506756?s=46",
+            "params": {},
+            "canFail": true,
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "vxtwitter link",
+            "url": "https://vxtwitter.com/dustbin_nie/status/1624596567188717568?s=20",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "post with 1 image",
+            "url": "https://x.com/PopCrave/status/1815960083475423235",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "post with 4 images",
+            "url": "https://x.com/PopCrave/status/1816260887147114696",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        },
+        {
+            "name": "retweeted video, isAudioOnly",
+            "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
+            "params": {
+                "downloadMode": "mute",
+                "audioFormat": "mp3"
+            },
+            "canFail": true,
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "inexistent post",
+            "url": "https://twitter.com/test/status/9487653",
+            "params": {
+                "audioFormat": "best"
+            },
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        },
+        {
+            "name": "post with no media content",
+            "url": "https://twitter.com/elonmusk/status/1604617643973124097?s=20",
+            "params": {
+                "audioFormat": "best"
+            },
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        }
+    ],
+    "soundcloud": [
+        {
+            "name": "public song (best)",
+            "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+            "params": {
+                "audioFormat": "best"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "public song (mp3, isAudioMuted)",
+            "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+            "params": {
+                "downloadMode": "mute",
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "private song",
+            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "params": {
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "private song (wav, isAudioMuted)",
+            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "params": {
+                "downloadMode": "mute",
+                "audioFormat": "wav"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "private song (ogg, isAudioMuted, isAudioOnly)",
+            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "ogg"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "on.soundcloud link",
+            "url": "https://on.soundcloud.com/wLZre",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "on.soundcloud link, different stream type",
+            "url": "https://on.soundcloud.com/AG4c",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "no opus audio, fallback to mp3",
+            "url": "https://soundcloud.com/frums/credits",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "youtube": [
+        {
+            "name": "4k video (h264, 1440)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "youtubeVideoCodec": "h264",
+                "videoQuality": "1440"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (vp9, 720)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "youtubeVideoCodec": "vp9",
+                "videoQuality": "720"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (av1, max)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "youtubeVideoCodec": "av1",
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (h264, 720)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "youtubeVideoCodec": "h264",
+                "videoQuality": "720"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (vp9, max, isAudioMuted)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "downloadMode": "mute",
+                "youtubeVideoCodec": "vp9",
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (h264, max, isAudioMuted)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "downloadMode": "mute",
+                "youtubeVideoCodec": "h264",
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (av1, max, isAudioMuted, isAudioOnly, mp3)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "mp3",
+                "youtubeVideoCodec": "av1",
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video (av1, max, isAudioMuted, isAudioOnly, best)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "best",
+                "youtubeVideoCodec": "av1",
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "music (mp3, isAudioOnly, isAudioMuted)",
+            "url": "https://music.youtube.com/watch?v=5rGTsvZCEdk&feature=share",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "music (mp3)",
+            "url": "https://music.youtube.com/watch?v=5rGTsvZCEdk&feature=share",
+            "params": {
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "audio bitrate higher than video, no vp9 video in response (mp3, isAudioOnly)",
+            "url": "https://www.youtube.com/watch?v=t5nC_ucYBrc",
+            "params": {
+                "downloadMode": "audio",
+                "audioFormat": "mp3"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "audio bitrate higher than video, no vp9 video in response (vp9)",
+            "url": "https://www.youtube.com/watch?v=t5nC_ucYBrc",
+            "params": {
+                "youtubeVideoCodec": "vp9"
+            },
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        },
+        {
+            "name": "short, defaults",
+            "url": "https://www.youtube.com/shorts/r5FpeOJItbw",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vr 360, av1, max",
+            "url": "https://www.youtube.com/watch?v=hEdzv7D4CbQ",
+            "params": {
+                "youtubeVideoCodec": "vp9",
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "live link, defaults",
+            "url": "https://www.youtube.com/live/ENxZS6PUDuI?feature=shared",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "inexistent video",
+            "url": "https://youtube.com/watch?v=gnjuHYWGEW",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        }
+    ],
+    "vk": [
+        {
+            "name": "clip, defaults",
+            "url": "https://vk.com/clip-57274055_456239788",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "clip, 360",
+            "url": "https://vk.com/clip-57274055_456239788",
+            "params": {
+                "videoQuality": "360"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "clip different link, max",
+            "url": "https://vk.com/clips-57274055?z=clip-57274055_456239788",
+            "params": {
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "video, defaults",
+            "url": "https://vk.com/video-57274055_456239399",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "4k video",
+            "url": "https://vk.com/video-1112285_456248465",
+            "params": {
+                "videoQuality": "max"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "ancient video (fallback to 240p)",
+            "url": "https://vk.com/video-1959_28496479",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "inexistent video",
+            "url": "https://vk.com/video-53333333_456233333",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        }
+    ],
+    "tiktok": [
+        {
+            "name": "long link video",
+            "url": "https://www.tiktok.com/@fatfatmillycat/video/7195741644585454894",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "images",
+            "url": "https://www.tiktok.com/@matryoshk4/video/7231234675476532526",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        },
+        {
+            "name": "long link inexistent",
+            "url": "https://www.tiktok.com/@blablabla/video/7120851458451417478",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        },
+        {
+            "name": "short link inexistent",
+            "url": "https://vt.tiktok.com/2p4ewa7/",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        }
+    ],
+    "bilibili": [
+        {
+            "name": "1080p video",
+            "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "1080p video muted",
+            "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "1080p vertical video",
+            "url": "https://www.bilibili.com/video/BV1uu411z7VV/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "1080p vertical video muted",
+            "url": "https://www.bilibili.com/video/BV1uu411z7VV/",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "b23.tv shortlink",
+            "url": "https://b23.tv/lbMyOI9",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "bilibili.tv link",
+            "url": "https://www.bilibili.tv/en/video/4789599404426256",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "tumblr": [
+        {
+            "name": "at.tumblr link",
+            "url": "https://at.tumblr.com/music/704177038274281472/n7x7pr7x4w2b",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "user subdomain link",
+            "url": "https://garfield-69.tumblr.com/post/696499862852780032",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "web app link",
+            "url": "https://www.tumblr.com/rongzhi/707729381162958848/english-added-by-me?source=share",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "tumblr audio",
+            "url": "https://www.tumblr.com/zedneon/737815079301562368/zedneon-ft-mr-sauceman-tech-n9ne-speed-of?source=share",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "tumblr video converted to audio",
+            "url": "https://garfield-69.tumblr.com/post/696499862852780032",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "vimeo": [
+        {
+            "name": "4k progressive",
+            "url": "https://vimeo.com/288386543",
+            "params": {
+                "videoQuality": "2160"
+            },
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "720p progressive",
+            "url": "https://vimeo.com/288386543",
+            "params": {
+                "videoQuality": "720"
+            },
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "1080p dash parcel",
+            "url": "https://vimeo.com/967252742",
+            "params": {
+                "videoQuality": "1440"
+            },
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "720p dash parcel",
+            "url": "https://vimeo.com/967252742",
+            "params": {
+                "videoQuality": "360"
+            },
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "private video",
+            "url": "https://vimeo.com/903115595/f14d06da38",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "mature video",
+            "url": "https://vimeo.com/973212054",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        }
+    ],
+    "reddit": [
+        {
+            "name": "video with audio",
+            "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "video with audio (isAudioOnly)",
+            "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "video with audio (isAudioMuted)",
+            "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "video without audio",
+            "url": "https://www.reddit.com/r/catvideos/comments/ftoeo7/luna_doesnt_want_to_be_bothered_while_shes_napping/?utm_source=share&utm_medium=web2x&context=3",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "actual gif, not looping video",
+            "url": "https://www.reddit.com/r/whenthe/comments/109wqy1/god_really_did_some_trolling/?utm_source=share&utm_medium=web2x&context=3",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "different audio link, live render",
+            "url": "https://www.reddit.com/r/TikTokCringe/comments/15hce91/asian_daddy_kink/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "instagram": [
+        {
+            "name": "single photo post",
+            "url": "https://www.instagram.com/p/CwIgW8Yu5-I/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "various picker (photos + video)",
+            "url": "https://www.instagram.com/p/CvYrSgnsKjv/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        },
+        {
+            "name": "reel",
+            "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular video",
+            "url": "https://www.instagram.com/p/CmCVWoIr9OH/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "reel (isAudioOnly)",
+            "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "reel (isAudioMuted)",
+            "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "inexistent reel",
+            "url": "https://www.instagram.com/reel/XXXXXXXXXX/",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        },
+        {
+            "name": "inexistent post",
+            "url": "https://www.instagram.com/p/XXXXXXXXXX/",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        },
+        {
+            "name": "post info in an array (for whatever reason??)",
+            "url": "https://www.instagram.com/reel/CrVB9tatUDv/?igshid=blaBlABALALbLABULLSHIT==",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "prone to get rate limited",
+            "url": "https://www.instagram.com/reel/CrO-T7Qo6rq/?igshid=fuckYouNoTrackingIdForYou==",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "ddinstagram link",
+            "url": "https://ddinstagram.com/p/CmCVWoIr9OH/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "d.ddinstagram.com link",
+            "url": "https://d.ddinstagram.com/p/CmCVWoIr9OH/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "g.ddinstagram.com link",
+            "url": "https://g.ddinstagram.com/p/CmCVWoIr9OH/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        }
+    ],
+    "vine": [
+        {
+            "name": "regular vine link (9+10=21)",
+            "url": "https://vine.co/v/huwVJIEJW50",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular vine link (isAudioOnly)",
+            "url": "https://vine.co/v/huwVJIEJW50",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "regular vine link (isAudioMuted)",
+            "url": "https://vine.co/v/huwVJIEJW50",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "pinterest": [
+        {
+            "name": "regular video",
+            "url": "https://www.pinterest.com/pin/70437485604616/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular video (isAudioOnly)",
+            "url": "https://www.pinterest.com/pin/70437485604616/",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "regular video (isAudioMuted)",
+            "url": "https://www.pinterest.com/pin/70437485604616/",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "regular video (.ca TLD)",
+            "url": "https://www.pinterest.ca/pin/70437485604616/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "story",
+            "url": "https://www.pinterest.com/pin/gadget-cool-products-amazon-product-technology-kitchen-gadgets--1084663891475263837/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular picture",
+            "url": "https://www.pinterest.com/pin/412994228343400946/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular picture (.ca TLD)",
+            "url": "https://www.pinterest.ca/pin/412994228343400946/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular gif",
+            "url": "https://www.pinterest.com/pin/814447913881127862/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular gif (.ca TLD)",
+            "url": "https://www.pinterest.ca/pin/814447913881127862/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        }
+    ],
+    "streamable": [
+        {
+            "name": "regular video",
+            "url": "https://streamable.com/p9cln4",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "embedded link",
+            "url": "https://streamable.com/e/rsmo56",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "regular video (isAudioOnly)",
+            "url": "https://streamable.com/p9cln4",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "regular video (isAudioMuted)",
+            "url": "https://streamable.com/p9cln4",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "inexistent video",
+            "url": "https://streamable.com/XXXXXX",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        }
+    ],
+    "twitch": [
+        {
+            "name": "clip",
+            "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "clip (isAudioOnly)",
+            "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "clip (isAudioMuted)",
+            "url": "https://twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "rutube": [
+        {
+            "name": "regular video",
+            "url": "https://rutube.ru/video/b2f6c27649907c2fde0af411b03825eb/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vertical video (isAudioMuted)",
+            "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "russian region lock",
+            "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        },
+        {
+            "name": "vertical video",
+            "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "yappy",
+            "url": "https://rutube.ru/yappy/c8c32bf7aee04412837656ea26c2b25b/",
+            "canFail": true,
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "shorts",
+            "url": "https://rutube.ru/shorts/935c1afafd0e7d52836d671967d53dac/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vertical video (isAudioOnly)",
+            "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vertical video (isAudioMuted)",
+            "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "private video",
+            "url": "https://rutube.ru/video/private/1161415be0e686214bb2a498165cab3e/?p=_IL1G8RSnKutunnTYwhZ5A",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "ok": [
+        {
+            "name": "regular video",
+            "url": "https://ok.ru/video/7204071410346",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "dailymotion": [
+        {
+            "name": "regular video",
+            "url": "https://www.dailymotion.com/video/x8t1eho",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "private video",
+            "url": "https://www.dailymotion.com/video/k41fZWpx2TaAORA2nok",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "dai.ly shortened link",
+            "url": "https://dai.ly/k41fZWpx2TaAORA2nok",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }
+    ],
+    "snapchat": [
+        {
+            "name": "spotlight",
+            "url": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYdWxucG9pZmNqAY46j0a5AY46j0YbAAAAAQ",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "shortlinked spotlight",
+            "url": "https://t.snapchat.com/4ZsiBLDi",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "story",
+            "url": "https://www.snapchat.com/add/bazerkmakane",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        }
+    ],
+    "loom": [
+        {
+            "name": "1080p video",
+            "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "1080p video (muted)",
+            "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "1080p video (audio only)",
+            "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 400,
+                "status": "error"
+            }
+        }
+    ],
+    "facebook": [
+        {
+            "name": "direct video with username and id",
+            "url": "https://web.facebook.com/100048111287134/videos/1157798148685638/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "direct video with id as query param",
+            "url": "https://web.facebook.com/watch/?v=883839773514682&ref=sharing",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "direct video with caption",
+            "url": "https://web.facebook.com/wood57/videos/𝐒𝐞𝐛𝐚𝐬𝐤𝐨𝐦-𝐟𝐮𝐥𝐥/883839773514682",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "shortlink video",
+            "url": "https://fb.watch/r1K6XHMfGT/",
+            "canFail": true,
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "reel video",
+            "url": "https://web.facebook.com/reel/730293269054758",
+            "canFail": true,
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "shared video link",
+            "url": "https://www.facebook.com/share/v/NEf87jbPTvFE8LsL/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "shared video link v2",
+            "url": "https://web.facebook.com/share/r/JFZfPVgLkiJQmWrr/",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        }
+    ],
+    "bsky": [
+        {
+            "name": "horizontal video",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2udah76ch2c",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vertical video",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vertical video (muted)",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "params": {
+                "downloadMode": "mute"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "vertical video (audio)",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "single image",
+            "url": "https://bsky.app/profile/thehardyboycats.bsky.social/post/3l33flpoygt26",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "several images",
+            "url": "https://bsky.app/profile/tracey-m.bsky.social/post/3kzxuxbiul626",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        }
+    ]
+}
