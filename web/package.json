@@ -1,5 +1,5 @@
 {
-    "name": "cobalt-web",
+    "name": "@imput/cobalt-web",
     "version": "10.0.0",
     "type": "module",
     "private": true,
