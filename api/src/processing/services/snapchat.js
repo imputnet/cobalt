@@ -3,19 +3,21 @@ import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getRedirectingURL } from "../../misc/utils.js";
 
-const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(https:\/\/cf-st\.sc-cdn\.net\/d\/[\w.?=]+&amp;uc=\d+)" as="video"\/>/;
+const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="(.+)" as="video"\/>/;
 const NEXT_DATA_REGEX = /<script id="__NEXT_DATA__" type="application\/json">({.+})<\/script><\/body><\/html>$/;
 
 async function getSpotlight(id) {
     const html = await fetch(`https://www.snapchat.com/spotlight/${id}`, {
         headers: { 'user-agent': genericUserAgent }
     }).then((r) => r.text()).catch(() => null);
+
     if (!html) {
         return { error: "fetch.fail" };
     }
 
     const videoURL = html.match(SPOTLIGHT_VIDEO_REGEX)?.[1];
-    if (videoURL) {
+
+    if (videoURL && new URL(videoURL).hostname.endsWith(".sc-cdn.net")) {
         return {
             urls: videoURL,
             filename: `snapchat_${id}.mp4`,
