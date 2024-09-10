@@ -136,8 +136,14 @@
             if (!render) {
                 return console.log("not a valid file");
             }
+
+            const filenameParts = file.name.split(".");
+            const filenameExt = filenameParts.pop();
+
+            const filename = `${filenameParts.join(".")} (remux).${filenameExt}`;
+
             return await downloadFile({
-                file: new File([render], file.name, {
+                file: new File([render], filename, {
                     type: render.type
                 })
             });
