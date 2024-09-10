@@ -1,0 +1,12 @@
+{
+    "link_area": "zone de saisie de lien",
+    "clear_input": "effacer la saisie",
+    "download": "télécharger",
+    "download.think": "traitement du lien...",
+    "download.check": "vérification du téléchargement...",
+    "download.done": "téléchargement terminé",
+    "download.error": "erreur de téléchargement",
+
+    "tutorial.shortcut.photos": "raccourci pour ajouter des photos",
+    "tutorial.shortcut.files": "raccourci pour ajouter des fichiers"
+}
