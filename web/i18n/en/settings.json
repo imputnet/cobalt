@@ -27,7 +27,7 @@
     "video.quality.360": "360p",
     "video.quality.240": "240p",
     "video.quality.144": "144p",
-    "video.quality.description": "if preferred video quality isn't available, closest best is picked instead.",
+    "video.quality.description": "if preferred video quality isn't available, next best is picked instead.",
 
     "video.youtube.codec": "youtube video codec and container",
     "video.youtube.codec.h264": "h264 (mp4)",
