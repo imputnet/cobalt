@@ -71,19 +71,19 @@ async function getVideo(obj) {
     .then(request => request.text())
     .catch(() => {});
 
-    if (!req) return { error: 'ErrorCouldntFetch' };
+    if (!req) return { error: 'fetch.fail' };
 
     let json;
     try {
         json = JSON.parse(req);
-    } catch { return { error: 'ErrorEmptyDownload' }; }
+    } catch { return { error: 'fetch.empty' }; }
 
     const videoData = getQuality(json.sources, obj.quality);
     if (videoData == null) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'fetch.empty' };
     }
     if (!videoData.type.includes('mp4')) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'fetch.empty' };
     }
 
     let fileMetadata = {
@@ -115,14 +115,14 @@ async function getMusic(obj) {
     .then(request => request.text())
     .catch(() => {});
 
-    if (!req) return { error: 'ErrorCouldntFetch' };
+    if (!req) return { error: 'fetch.fail' };
 
     const titleMatch = req.match(/"name"\s*:\s*"([^"]+)"/);
     const artistMatch = req.match(/"artist"\s*:\s*"([^"]+)"/);
     const urlMatch = req.match(/"filename"\s*:\s*"([^"]+)"/);
 
     if (!titleMatch || !artistMatch || !urlMatch) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'fetch.empty' };
     }
 
     const title = titleMatch[1];
@@ -153,5 +153,5 @@ export default function(obj) {
     if (obj.type == 'audio') {
         return getMusic(obj);
     }
-    return { error: 'ErrorUnsupported' };
+    return { error: 'link.unsupported' };
 }
