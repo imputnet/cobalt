@@ -56,11 +56,11 @@ export enum CobaltYouTubeError {
     TokenExpired = 'error.api.youtube.token_expired'
 }
 
-export type CobaltAPIError = CobaltAuthError
-                           | CobaltReachabilityError
-                           | CobaltGenericError
-                           | CobaltServiceError
-                           | CobaltLinkError
-                           | CobaltProcessingError
-                           | CobaltContentError
-                           | CobaltYouTubeError;
+export type CobaltAPIErrorCode = CobaltAuthError
+                               | CobaltReachabilityError
+                               | CobaltGenericError
+                               | CobaltServiceError
+                               | CobaltLinkError
+                               | CobaltProcessingError
+                               | CobaltContentError
+                               | CobaltYouTubeError;
