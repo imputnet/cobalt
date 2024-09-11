@@ -49,9 +49,13 @@ export default class CobaltSessionHandler {
         return response;
     }
 
+    hasSession() {
+        return this.#session && this.#session.exp - EXPIRY_THRESHOLD_SECONDS > currentTime();
+    }
+
     async getSession(turnstileResponse?: string): Promise<CobaltSessionResponse> {
-        if (this.#session && this.#session.exp - EXPIRY_THRESHOLD_SECONDS > currentTime()) {
-            return this.#session;
+        if (this.hasSession()) {
+            return this.#session!;
         }
 
         return this.#requestSession(turnstileResponse);
