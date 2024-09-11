@@ -1,6 +1,6 @@
-import { CobaltResponseType, type CobaltAPIResponse } from "../types/response";
-import type { CobaltRequest } from "../types/request";
+import { CobaltResponseType, type CobaltResponse } from "../types/response";
 import { CobaltReachabilityError } from "../types/errors";
+import type { CobaltRequest } from "../types/request";
 
 export default class BaseCobaltAPI {
     #baseURL: string;
@@ -22,7 +22,7 @@ export default class BaseCobaltAPI {
             headers['user-agent'] = this.#userAgent;
         }
 
-        const response: CobaltAPIResponse = await fetch(this.#baseURL, {
+        const response: CobaltResponse = await fetch(this.#baseURL, {
             method: 'POST',
             redirect: 'manual',
             signal: AbortSignal.timeout(10000),

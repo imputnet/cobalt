@@ -65,7 +65,7 @@ export type CobaltServerInfo = {
 export type CobaltSessionResponse = CobaltSession | CobaltErrorResponse;
 export type CobaltServerInfoResponse = CobaltServerInfo | CobaltErrorResponse;
 
-export type CobaltAPIResponse = CobaltErrorResponse
-                              | CobaltPickerResponse
-                              | CobaltRedirectResponse
-                              | CobaltTunnelResponse;
+export type CobaltResponse = CobaltErrorResponse
+                           | CobaltPickerResponse
+                           | CobaltRedirectResponse
+                           | CobaltTunnelResponse;
