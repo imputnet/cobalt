@@ -9,3 +9,4 @@ export type RecursivePartial<Type> = {
 
 export type DefaultImport<T> = () => Promise<{ default: T }>;
 export type Optional<T> = T | undefined;
+export type Writeable<T> = { -readonly [P in keyof T]: T[P] };

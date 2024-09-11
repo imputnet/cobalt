@@ -8,6 +8,7 @@
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
 
+    import "$lib/polyfills";
     import env from "$lib/env";
     import settings from "$lib/state/settings";
     import locale from "$lib/i18n/locale";
