@@ -7,6 +7,7 @@
     // i spent 4 hours switching between simulators and devices to get the best way to do this
 
     $: safeAreaTop = 0;
+    $: safeAreaBottom = 0;
     $: state = "hidden"; // "notch", "island", "notch x"
 
     const islandValues = [
@@ -24,8 +25,16 @@
             .trim();
     };
 
+    const getSafeAreaBottom = () => {
+        const root = document.documentElement;
+        return getComputedStyle(root)
+            .getPropertyValue("--safe-area-inset-bottom")
+            .trim();
+    };
+
     onMount(() => {
         safeAreaTop = Number(getSafeAreaTop().replace("px", ""));
+        safeAreaBottom = Number(getSafeAreaBottom().replace("px", ""));
     });
 
     $: if (safeAreaTop > 20) {
@@ -35,6 +44,10 @@
         }
         if (xNotch.includes(safeAreaTop)) {
             state = "notch x";
+        }
+        // exception for XR and 11 at regular screen zoom
+        if (safeAreaTop === 48 && safeAreaBottom === 34) {
+            state = "notch";
         }
     }
 </script>
@@ -84,8 +97,12 @@
         }
     }
 
-    /* plus iphone size, dynamic island, larger text display mode */
+    /* regular & plus iphone size, dynamic island, larger text display mode */
     @media screen and (max-width: 375px) {
+        #cobalt-notch-sticker.island :global(svg) {
+            height: 26px;
+        }
+
         #cobalt-notch-sticker.island {
             padding-top: 11px;
         }
