@@ -1,5 +1,5 @@
-import { CobaltSession, CobaltResponseType, CobaltSessionResponse } from "./types/response";
-import { CobaltReachabilityError } from "./types/errors";
+import { CobaltSession, CobaltResponseType, CobaltSessionResponse } from "../types/response";
+import { CobaltReachabilityError } from "../types/errors";
 
 const currentTime = () => Math.floor(new Date().getTime() / 1000);
 const EXPIRY_THRESHOLD_SECONDS = 2;

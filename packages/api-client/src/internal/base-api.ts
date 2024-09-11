@@ -1,11 +1,12 @@
-import { CobaltResponseType, type CobaltAPIResponse } from "./types/response";
-import type { CobaltRequest } from "./types/request";
-import { CobaltReachabilityError } from "./types/errors";
+import { CobaltResponseType, type CobaltAPIResponse } from "../types/response";
+import type { CobaltRequest } from "../types/request";
+import { CobaltReachabilityError } from "../types/errors";
 
-export default class CobaltAPI {
+export default class BaseCobaltAPI {
     #baseURL: string;
+    #userAgent: string | undefined;
 
-    constructor(baseURL: string) {
+    constructor(baseURL: string, userAgent?: string) {
         const url = new URL(baseURL);
 
         if (baseURL !== url.origin && baseURL !== `${url.origin}/`) {
@@ -13,9 +14,14 @@ export default class CobaltAPI {
         }
 
         this.#baseURL = url.origin;
+        this.#userAgent = userAgent;
     }
 
-    async request(data: CobaltRequest, headers: Record<string, string>) {
+    protected async _request(data: CobaltRequest, headers: Record<string, string>) {
+        if (this.#userAgent) {
+            headers['user-agent'] = this.#userAgent;
+        }
+
         const response: CobaltAPIResponse = await fetch(this.#baseURL, {
             method: 'POST',
             redirect: 'manual',
