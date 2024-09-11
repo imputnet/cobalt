@@ -6,47 +6,5 @@
     "remux.corrupted": "couldn't read the metadata from this file, it may be corrupted.",
     "remux.out_of_resources": "cobalt ran out of resources and can't continue with on-device processing. this is related to limitations on your browser's side. try refreshing or reopening the app and trying again. some devices can only process tiny files.",
 
-    "tunnel.probe": "couldn't verify whether you can download this file. try again in a few seconds!",
-
-    "api.auth.jwt.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
-    "api.auth.jwt.invalid": "couldn't confirm whether you're not a robot because your human access token expired and wasn't renewed. try again in a few seconds or reload the page!",
-    "api.auth.turnstile.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
-    "api.auth.turnstile.invalid": "couldn't confirm whether you're not a robot because your human access token expired and wasn't renewed. try again in a few seconds or reload the page!",
-
-    "api.unreachable": "couldn't connect to the processing server. check your internet connection and try again.",
-    "api.timed_out": "the processing server took way too long to respond. it may be overwhelmed at the moment, try again in a few seconds!",
-    "api.rate_exceeded": "you're making way too many requests. try again in {{ limit }} seconds!",
-    "api.capacity": "cobalt is at capacity and can't process your request at the moment. try again in a few seconds. if it still doesn't work, let us know and we'll try to help!",
-
-    "api.generic": "something went wrong and i couldn't get anything for you. try again in a few seconds, but if issue sticks, let us know and we'll try to help!",
-    "api.unknown_response": "couldn't parse the response from the server. this could be caused by a version mismatch. are you sure you're on the latest version of cobalt?",
-
-    "api.service.unsupported": "this service is not supported yet. have you pasted the right link?",
-    "api.service.disabled": "this service is supported by cobalt, but it's disabled on this instance. try a link from another service!",
-
-    "api.link.invalid": "your link is invalid or this service is not supported yet. have you pasted the right link?",
-    "api.link.unsupported": "{{ service }} is supported, but i couldn't recognize your link. have you pasted the right one?",
-
-    "api.fetch.fail": "something went wrong when fetching info from {{ service }} and i couldn't find anything for you. are you sure your link works? if it does and you still see this error, let us know and we'll try to help!",
-    "api.fetch.critical": "the {{ service }} module returned an error that i don't recognize. try again in a few seconds, but if issue sticks, let us know!",
-    "api.fetch.empty": "couldn't find any media that i could download for you. are you sure you pasted the right link?",
-    "api.fetch.rate": "the cobalt processing server got rate limited by the {{ service }} api. try again in a few seconds!",
-    "api.fetch.short_link": "couldn't get link info from the short link. are you sure it works? if it does and you still get this error, let us know, and we'll try to help!",
-
-    "api.content.too_long": "the media you requested is too long. current duration limit is {{ limit }} minutes. try something shorter instead!",
-
-    "api.content.video.unavailable": "i can't access this video. it may be restricted on {{ service }}'s side. have you pasted the right link?",
-    "api.content.video.live": "this video is currently live, so i can't download it yet. wait for the livestream to finish, and then try again!",
-    "api.content.video.private": "this video is private, so i cannot access it. change its visibility or try another one!",
-    "api.content.video.age": "this video is age-restricted, so i can't access it anonymously. try another one!",
-    "api.content.video.region": "this video is region locked, and the processing server is in a different location. try another one!",
-
-    "api.content.post.unavailable": "couldn't find anything about this post. its visibility may be limited or it may not exist at all. make sure your link works and try again in a few seconds!",
-    "api.content.post.private": "this post is from a private account, so i can't access it. have you pasted the right link?",
-    "api.content.post.age": "this post is age-restricted, so i can't access it anonymously. have you pasted the right link?",
-
-    "api.youtube.codec": "youtube didn't return anything with your preferred codec & resolution. try another set of settings!",
-    "api.youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video.\n\ntry again in a few seconds, but if issue sticks, contact us for support.",
-    "api.youtube.login": "couldn't get this video because youtube labeled me as a bot. this is potentially caused by the processing instance not having any active account tokens. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
-    "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!"
+    "tunnel.probe": "couldn't verify whether you can download this file. try again in a few seconds!"
 }
