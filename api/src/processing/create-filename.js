@@ -2,15 +2,15 @@ export default (f, style, isAudioOnly, isAudioMuted) => {
     let filename = '';
 
     let infoBase = [f.service, f.id];
-
-    let classicTags = infoBase.concat([
-        f.resolution,
-        f.youtubeFormat,
-    ]);
-
-    let basicTags = [f.qualityLabel, f.youtubeFormat];
+    let classicTags = [...infoBase, f.resolution];
+    let basicTags = [f.qualityLabel];
 
     const title = `${f.title} - ${f.author}`;
+
+    if (f.youtubeFormat) {
+        classicTags.push(f.youtubeFormat);
+        basicTags.push(f.youtubeFormat);
+    }
 
     if (isAudioMuted) {
         classicTags.push("mute");
