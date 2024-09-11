@@ -77,8 +77,10 @@ export const downloadFile = ({ url, file }: { url?: string, file?: File }) => {
         navigator.userActivation.isActive makes sure that we're still able to
         invoke an action without the user agent interrupting it.
         if not, we show a saving dialog for user to re-invoke that action.
+
+        if browser is old or doesn't support this API, we just assume that it expired.
     */
-    if (!navigator.userActivation.isActive) {
+    if (!navigator?.userActivation?.isActive) {
         return openSavingDialog({
             url,
             file,
