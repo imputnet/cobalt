@@ -1,4 +1,5 @@
 export enum CobaltAuthError {
+    NotConfigured = 'error.api.auth.not_configured',
     JWTMissing = 'error.api.auth.jwt.missing',
     JWTInvalid = 'error.api.auth.jwt.invalid',
     TurnstileMissing = 'error.api.auth.turnstile.missing',
