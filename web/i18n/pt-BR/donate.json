@@ -1,0 +1,36 @@
+{
+	"banner.title": "Apoie uma Internet segura\ne aberta",
+	"banner.subtitle": "Doe para o Imput ou compartilhe\na alegria do cobalt com um amigo",
+
+	"body.motivation": "o cobalt ajuda milhares de produtores, educadores e outras pessoas criativas a fazerem o que amam. criamos o cobalt porque acreditamos que a internet não precisa ser assustadora. a ganância e os anúncios arruinaram a Internet — nós combatemos com ferramentas amigáveis e abertas que são feitas com amor, sem fins lucrativos.",
+	"body.keep_going": "você pode nos ajudar a permanecer motivados e continuar criando alternativas seguras para ferramentas abusivas compartilhando o cobalt com um amigo ou doando.",
+
+	"card.once": "doação única",
+	"card.monthly": "doação mensal",
+	"card.custom": "valor personalizado (a partir de US$ 2)",
+
+	"card.processor": "processado por {{value}}",
+
+	"card.option.5": "copo de café",
+	"card.option.10": "pizza tamanho grande",
+	"card.option.15": "almoço completo",
+	"card.option.30": "almoço para dois",
+	"card.option.50": "10kg de ração de gato",
+	"card.option.100": "um ano de domínios",
+	"card.option.200": "air fryer",
+	"card.option.500": "cadeira de escritório chique",
+	"card.option.1599": "macbook pro básico",
+	"card.option.4900": "10.000 maçãs",
+	"card.option.7398": "macbook pro mais top",
+	"card.option.8629": "um pequeno pedaço de uma ilha",
+	"card.option.9433": "banheira de hidromassagem de luxo",
+
+	"card.custom.submit": "doe valor personalizado",
+
+	"share.title": "compartilhe o cobalt com um amigo",
+
+	"alternative.title": "formas alternativas de doar",
+
+	"alt.copy": "{{ value }}. endereço da carteira de criptomoedas. pressione para copiar.",
+	"alt.open": "{{ value }}. pressione para abrir."
+}

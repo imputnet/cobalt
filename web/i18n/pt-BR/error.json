@@ -1,0 +1,52 @@
+{
+	"import.no_data": "não há nada para carregar do arquivo. tem certeza de que é o arquivo correto?",
+	"import.invalid": "seu arquivo não contém configurações válidas do cobalt para importar. tem certeza de que é o arquivo correto?",
+	"import.unknown": "não foi possível carregar os dados do arquivo. ele pode estar corrompido ou em um formato incorreto. aqui está o erro que obtive:\n\n{{ value }}",
+
+	"remux.corrupted": "não foi possível ler os metadados deste arquivo, ele pode estar corrompido.",
+	"remux.out_of_resources": "o cobalt ficou sem recursos e não pode continuar o processamento no dispositivo. isso está relacionado às limitações do seu navegador. tente atualizar ou reabrir o app e tentar novamente. alguns dispositivos só podem processar arquivos pequenos.",
+
+	"tunnel.probe": "não foi possível verificar se você pode baixar este arquivo. tente novamente em alguns segundos!",
+
+	"api.auth.jwt.missing": "não foi possível confirmar se você não é um robô, pois o servidor de processamento não recebeu o token de acesso humano. tente novamente em alguns segundos ou recarregue a página!",
+	"api.auth.jwt.invalid": "não foi possível confirmar se você não é um robô, pois seu token de acesso humano expirou e não foi renovado. tente novamente em alguns segundos ou recarregue a página!",
+	"api.auth.turnstile.missing": "não foi possível confirmar se você não é um robô, pois o servidor de processamento não recebeu o token de acesso humano. tente novamente em alguns segundos ou recarregue a página!",
+	"api.auth.turnstile.invalid": "não foi possível confirmar se você não é um robô, pois seu token de acesso humano expirou e não foi renovado. tente novamente em alguns segundos ou recarregue a página!",
+
+	"api.unreachable": "não foi possível conectar ao servidor de processamento. verifique sua conexão com a internet e tente novamente.",
+	"api.timed_out": "o servidor de processamento demorou demais para responder. ele pode estar sobrecarregado no momento, tente novamente em alguns segundos!",
+	"api.rate_exceeded": "você está fazendo muitas solicitações. tente novamente em {{ limit }} segundos!",
+	"api.capacity": "o cobalt atingiu a capacidade máxima e não pode processar sua solicitação no momento. tente novamente em alguns segundos. se ainda não funcionar, nos avise e tentaremos ajudar!",
+
+	"api.generic": "algo deu errado e não consegui encontrar nada para você. tente novamente em alguns segundos, mas se o problema persistir, nos avise e tentaremos ajudar!",
+	"api.unknown_response": "não foi possível interpretar a resposta do servidor. isso pode ser causado por uma incompatibilidade de versão. você tem certeza de que está na versão mais recente do cobalt?",
+
+	"api.service.unsupported": "este serviço ainda não é suportado. você colou o link correto?",
+	"api.service.disabled": "este serviço é suportado pelo cobalt, mas está desativado nesta instância. tente um link de outro serviço!",
+
+	"api.link.invalid": "seu link é inválido ou este serviço ainda não é suportado. você colou o link correto?",
+	"api.link.unsupported": "{{ service }} é suportado, mas não consegui reconhecer seu link. você colou o correto?",
+
+	"api.fetch.fail": "algo deu errado ao buscar informações do {{ service }} e não consegui encontrar nada para você. seu link está funcionando? se sim e você ainda vê este erro, nos avise e tentaremos ajudar!",
+	"api.fetch.critical": "o módulo do {{ service }} retornou um erro que eu não reconheço. tente novamente em alguns segundos, mas se o problema persistir, nos avise!",
+	"api.fetch.empty": "não consegui encontrar nenhuma mídia que eu pudesse baixar para você. você colou o link correto?",
+	"api.fetch.rate": "o servidor de processamento do cobalt foi limitado pela API do {{ service }}. tente novamente em alguns segundos!",
+	"api.fetch.short_link": "não consegui obter informações do link encurtado. você tem certeza de que ele funciona? se sim e você ainda recebe este erro, nos avise e tentaremos ajudar!",
+
+	"api.content.too_long": "a mídia que você solicitou é muito longa. o limite atual de duração é {{ limit }} minutos. tente algo mais curto!",
+
+	"api.content.video.unavailable": "não consigo acessar este vídeo. ele pode estar restrito no lado do {{ service }}. você colou o link correto?",
+	"api.content.video.live": "este vídeo está ao vivo no momento, então não posso baixá-lo ainda. espere a transmissão terminar e tente novamente!",
+	"api.content.video.private": "este vídeo é privado, então não posso acessá-lo. altere a visibilidade ou tente outro!",
+	"api.content.video.age": "este vídeo tem restrição de idade, então não posso acessá-lo anonimamente. tente outro!",
+	"api.content.video.region": "este vídeo é restrito por região, e o servidor de processamento está em um local diferente. tente outro!",
+
+	"api.content.post.unavailable": "não consegui encontrar nada sobre esse post. a visibilidade dela pode ser limitada ou ela pode não existir. certifique-se de que o link funciona e tente novamente em alguns segundos!",
+	"api.content.post.private": "esse post é de uma conta privada, então não posso acessá-la. você colou o link correto?",
+	"api.content.post.age": "esse post tem restrição de idade, então não posso acessá-la anonimamente. você colou o link correto?",
+
+	"api.youtube.codec": "o youtube não retornou nada com seu codec e resolução preferidos. tente outro conjunto de configurações!",
+	"api.youtube.decipher": "o youtube atualizou seu algoritmo de decodificação e não consegui extrair as informações do vídeo.\n\ntente novamente em alguns segundos, mas se o problema persistir, entre em contato conosco para obter suporte.",
+	"api.youtube.login": "não consegui obter este vídeo porque o youtube me identificou como um robô. isso pode ser causado pela instância de processamento não ter tokens de conta ativos. tente novamente em alguns segundos, mas se ainda não funcionar, avise o proprietário da instância sobre este erro!",
+	"api.youtube.token_expired": "não consegui obter este vídeo porque o token do youtube expirou e não consegui atualizá-lo. tente novamente em alguns segundos, mas se ainda não funcionar, avise o proprietário da instância sobre este erro!"
+}
