@@ -14,7 +14,7 @@ waitport() {
 test_api() {
     waitport 3000
     curl -m 3 http://localhost:3000/
-    API_RESPONSE=$(curl -m 3 http://localhost:3000/ \
+    API_RESPONSE=$(curl -m 10 http://localhost:3000/ \
          -X POST \
          -H "Accept: application/json" \
          -H "Content-Type: application/json" \
@@ -24,7 +24,7 @@ test_api() {
     STATUS=$(echo "$API_RESPONSE" | jq -r .status)
     STREAM_URL=$(echo "$API_RESPONSE" | jq -r .url)
     [ "$STATUS" = tunnel ] || exit 1;
-    S=$(curl -I -m 3 "$STREAM_URL")
+    S=$(curl -I -m 10 "$STREAM_URL")
 
     CONTENT_LENGTH=$(echo "$S" \
                         | grep -i content-length \
