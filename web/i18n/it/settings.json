@@ -1,0 +1,124 @@
+{
+    "page.appearance": "aspetto",
+    "page.privacy": "privacy",
+    "page.video": "video",
+    "page.audio": "audio",
+    "page.download": "download",
+    "page.advanced": "avanzate",
+    "page.debug": "informazioni di debug",
+    "page.instances": "istance",
+
+    "section.general": "generale",
+    "section.save": "salva",
+
+    "theme": "thema",
+    "theme.auto": "auto",
+    "theme.light": "chiaro",
+    "theme.dark": "scuro",
+    "theme.description": "il tema automatico cambia fra chiaro e scuro in base alle impostazioni del tuo dispositivo",
+
+    "video.quality": "qualità video",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "se la qualità preferita non è disponibile, verrà la scelta la successiva più alta.",
+
+    "video.youtube.codec": "codec youtube e container",
+    "video.youtube.codec.h264": "h264 (mp4)",
+    "video.youtube.codec.av1": "av1 (mp4)",
+    "video.youtube.codec.vp9": "vp9 (webm)",
+    "video.youtube.codec.description": "h264: miglior compatibilità, bitrate medio. qualità massima is 1080p. \nav1: miglior qualità, efficienza, e bitrate. supporta 8k e HDR. \nvp9: stessa qualità e bitrate di av1, ma il file è circa due volte più grande. supporta 4k e HDR.\n\nav1 e vp9 non sono supportati quanto h264.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "converti video in loop in GIF",
+    "video.twitter.gif.description": "la conversione a GIF è inefficiente, il file converso potrebbe essere inutilmente grande è di bassa qualità.",
+
+    "video.tiktok.h265": "tiktok",
+    "video.tiktok.h265.title": "usa formato HEVC/H265",
+    "video.tiktok.h265.description": "scarica video in 1080p al costo della compatibilità.",
+
+    "audio.format": "formato audio",
+    "audio.format.best": "migliore",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "tutti i fromati tranne \"migliore\" sono convertiti, quindi ci sarà perdita di qualitl. l'audio viene ricodificato solo quando \"migliore\" è selezionato.",
+
+    "audio.bitrate": "bitrate audio",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "bitrate applies only to audio conversion. cobalt can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
+
+    "audio.youtube.dub": "youtube",
+    "audio.youtube.dub.title": "use browser language for dubbed videos",
+    "audio.youtube.dub.description": "works even if cobalt isn't translated to your language.",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "download original sound",
+    "audio.tiktok.original.description": "cobalt will download the sound from the video without any changes by the post's author.",
+
+    "metadata.filename": "stile nome file",
+    "metadata.filename.classic": "classico",
+    "metadata.filename.basic": "base",
+    "metadata.filename.pretty": "carino",
+    "metadata.filename.nerdy": "nerd",
+    "metadata.filename.description": "lo stile del nome file sarà solo usato dai file che passano per cobalt. alcuni servizi non supportano nomi diversi da classico.",
+
+    "metadata.filename.preview.video": "Titolo Video",
+    "metadata.filename.preview.audio": "Titolo Audio - Autore Audio",
+
+    "metadata.file": "metadati file",
+    "metadata.disable.title": "disabilità metadati file",
+    "metadata.disable.description": "titolo, artista, e altre informazioni non saranno aggiunte nel file.",
+
+    "saving.title": "metodo download",
+    "saving.ask": "chiedi",
+    "saving.download": "scarica",
+    "saving.share": "condividi",
+    "saving.copy": "cop",
+    "saving.description": "metodo preferito per salvare i file o link da colbat. se il metodo non è disponibile o qualcosa va storto, cobalt ti chiederà come continuare.",
+
+    "accessibility": "accessibilità",
+    "accessibility.transparency.title": "riduci transparenza",
+    "accessibility.transparency.description": "riduce la transparenza delle finestre e disabilità effetti di sfocatura.",
+    "accessibility.motion.title": "riduce movimento",
+    "accessibility.motion.description": "disabilità animazioni e transizioni quando possibile.",
+
+    "language": "lingua",
+    "language.auto.title": "usa default del browser",
+    "language.auto.description": "la lingua viene scelta in automatico. se la lingua del browser non è disponibile, verrà usato l'inglese.",
+    "language.preferred.title": "lingua preferita",
+    "language.preferred.description": "se del testo non è stato tradotto nella lingua preferita, verrà usato l'inglese.",
+
+    "privacy.analytics": "analitica di traffico anonimo",
+    "privacy.analytics.title": "non contribuire all'analitica",
+    "privacy.analytics.description": "l'analitica del traffico anonimo è necessaria per sapere approssimativamente quanti utenti attivi abbia cobalt. nessun'informazione identificativa è mai preservata. tutti i dati elaborati sono anonimi e aggregati.\n\nusiamo un'istanza plausible in self-hosting che non colleziona cookie ed è completamente GDPR, CCPA, e PECR certificata.",
+    "privacy.analytics.learnmore": "scopri di più sull'impegno verso la privacy di plausible.",
+
+    "privacy.tunnel": "tunnelling",
+    "privacy.tunnel.title": "usa sempre il protocollo di tunnelling",
+    "privacy.tunnel.description": "cobalt nasconderà il tuo IP, informazioni del browser, and bypasserà restrizioni della rete locale. quando attivo, i file avranno anche nomi leggibili.",
+
+    "advanced.debug": "debug",
+    "advanced.debug.title": "abilità funzioni di debug",
+    "advanced.debug.description": "abilità l'accesso a una pagina con informazioni utili per il debug.",
+
+    "advanced.data": "dati delle impostazioni",
+
+    "processing.override": "override istanza di default",
+    "processing.override.title": "usa il server di elaborazione di default dell'istanza",
+    "processing.override.description": "se l'istanza usata presenta anche un server di elaborazione, puoi scegliere di usarlo come defualt. assicurati che sia affidabile.",
+
+    "processing.community": "istanze della community",
+
+    "processing.enable_custom.title": "usa un server di elaborazione personalizzato",
+    "processing.enable_custom.description": "cobalt userà un server di elaborazione diverso dal default se desideri. anche se cobalt ha misure di sicurezza, non siamo responsabili per qualsivoglia danno causato da un'istanza personalizzata, poichè non abbiamo controllo.\n\nper favore sii consapevole delle istanze che usi e assicurati che siano affidabili.",
+
+    "processing.custom.placeholder": "dominio d'istanza personalizzato"
+}

@@ -1,0 +1,24 @@
+{
+    "reset.title": "resettare tutte le impostazioni?",
+    "reset.body": "vuoi davvero resettare tutte le impostazioni? quest'azione è immediata e irreversibile.",
+
+    "picker.title": "seleziona cosa salvare",
+    "picker.description.desktop": "clicca un elemento per salvarlo. anche le immagini possono essere salvate col tasto destro",
+    "picker.description.phone": "premi un elemento per salvarlo. anche le immagini possono essere salvate tenendo premuto.",
+    "picker.description.ios": "premi un elemento per salvarlo con uno shortcut. anche le immagini possono essere salvate tenendo premuto.",
+
+    "saving.title": "scegli come salvare",
+    "saving.blocked": "cobalt ha provato ad aprire il file in un'altra scheda, ma il tuo browser l'ha bloccato. puoi aggiungere i permessi per i pop-up a cobalt per evitare ciò.",
+    "saving.timeout": "cobalt ha provato a scaricare il file automaticamente, ma il tuo browser l'ha bloccato. dovrai scegliere un metodo preferito manualmente.",
+
+    "safety.title": "importante avviso di sicurezza",
+
+    "import.body": "importare file sconosciuti o corrotti potrebbe alterare o rompere le funzionalità di cobalt in modo inaspettato. importa solo file che hai esportato personalmente senza modifiche. se qualcuno ti ha chiesto di importare questo file - non farlo.\n\nnon siamo responsabili per qualsivoglia danno causato importando file di configurazione sconosciuti",
+    "api.override.title": "override dell'instanza di elaborazione",
+    "api.override.body": "{{ value }} è ora l'instanza di elaborazione. se non ti fidi, premi \"cancella\" e verrà ignorata.\n\npuoi cambiare la tua scelta in secondo momento nella impostazioni di elaborazione.",
+
+    "safety.custom_instance.body": "le instanze personalizzate potrebbero mettere la tua sicurezza a rischio.\n\ninstanze malevoli possono:\n1. reindirizzarti via da cobalt su siti truffa.\n2. loggare ogni informazione delle tue richieste, immagazzinarla, e usarla per tracciarti.\n3. inviare file malevoli (virus come malware).\n4. forzare delle pubblicità, o un prezzo per ogni download.\n\ndopo questo punto, non possiamo più proteggerti. per favore sii consapevole e agisci con istinto. se qualcosa sembra strano, ritorna su questa pagina, resetta l'instanza personalizzata, e segnala al team di cobalt su github.",
+
+    "processing.ongoing": "cobalt sta elaborando il contenuto in questa scheda. chiuderla fermerà il processo. vuoi continuare?",
+    "processing.title.ongoing": "il processo sarà cancellato"
+}

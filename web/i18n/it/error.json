@@ -1,0 +1,52 @@
+{
+    "import.no_data": "non c'è nulla da caricare nel file. è quello giusto?",
+    "import.invalid": "il tuo file non ha configurazioni cobalt valide da importare. è quello giusto?",
+    "import.unknown": "impossibile caricare il file. potrebbe essere corrotto on in un informato invalido. errore ricevuto:\n\n{{ value }}",
+
+    "remux.corrupted": "impossibile leggere i metadati del file. potrebbe essere corrotto.",
+    "remux.out_of_resources": "cobalt ha finito le risorse disponibili e non può più continuare con l'elaborazione sul tuo dispositivo. queste limitazioni sono dovute dal tuo browser. ricarica l'app e riprova di nuovo. alcuni dispositivi possono leggere solo file piccoli.",
+
+    "tunnel.probe": "impossibile verificare sei puoi scaricare il file o no. riprova in alcuni secondi!",
+
+    "api.auth.jwt.missing": "impossibile confermare che tu non sia un robot poichè il server d'elaborazione non ha riceveuto un token d'accesso umano. riprova di nuovo in alcuni secondi o ricarica la pagina!",
+    "api.auth.jwt.invalid": "impossibile confermare che tu non sia un robot poichè il tuo token di accesso umano è scaduto e non è stato rinnovato. riprova di nuovo in alcuni secondi o ricarica la pagina!",
+    "api.auth.turnstile.missing": "impossibile confermare che tu non sia un robot poichè il server d'elaborazione non ha riceveuto un token d'accesso umano. riprova di nuovo in alcuni secondi o ricarica la pagina!",
+    "api.auth.turnstile.invalid": "impossibile confermare che tu non sia un robot poichè il tuo token di accesso umano è scaduto e non è stato rinnovato. riprova di nuovo in alcuni secondi o ricarica la pagina!",
+
+    "api.unreachable": "impossibile connettersi al server di elaborazione. controlla la tua connessione e riprova!",
+    "api.timed_out": "il server di elaborazione ci ha messo troppo per rispondere. potrebbe essere in sovraccarico, riprova di nuovo in alcuni secondi!",
+    "api.rate_exceeded": "stai inviando fin troppe richieste. prova di nuovo in {{ limit }} secondi!",
+    "api.capacity": "cobalt è in sovraccarico e non può elaborare la tua richiesta al momento. riprova di nuovo in alcuni secondi. se comunque non funziona, facci sapere e cercheremo di aiutare!",
+
+    "api.generic": "qualcosa è andato storto e non sono riuscito ad elaborare la richiesta. riprova di nuovo in alcuni secondi, ma se il problema persiste, facci sapere e cercheremo di aiutare!",
+    "api.unknown_response": "impossibile parsare la risposta dal server. ciò potrebbe essere causato da una mancata corrispondenza di versione. ti trovi sull'ultima version di cobalt?",
+
+    "api.service.unsupported": "questo servizio non è ancora supportato. hai copiato il link giusto?",
+    "api.service.disabled": "questo servizio è supportato da cobalt, ma è disabilitato su quest'instanza. prova un link di un altro servizio!",
+
+    "api.link.invalid": "il tuo link è invalido o il servizio non è ancora supportato. hai copiato il link giusto?",
+    "api.link.unsupported": "{{ service }} è supportato, ma non riesco a riconoscere il link. hai copiato il link giusto?",
+
+    "api.fetch.fail": "qualcosa è andato storto nel fetching di {{ service }} e non ho potuto trovare nulla. sicuro che il link funzioni? se è cosi ma vedi ancora quest'errore, facci sapere e cercheremo di aiutare!",
+    "api.fetch.critical": "il modulo {{ service }} ha ritornato un errore che non riconosco. riprova di nuovo in alcuni secondi, ma se il problema persiste, facci sapere!",
+    "api.fetch.empty": "impossibile trovare un contenuto scaricabile. hai copiato il link giusto?",
+    "api.fetch.rate": "il server d'elaborazione cobalt è stato limitato da l'api di {{ service }}. riprova di nuovo in alcuni secondi!",
+    "api.fetch.short_link": "impossibile reperire informazioni sul link dal link corto. sicuro che funzioni? se è cosi ma vedi ancora quest'errore, facci sapere e cercheremo di aiutare!",
+
+    "api.content.too_long": "il contenuto da te richiesto è troppo lungo. la durata limite attuale è {{ limit }} minuti. riprova con qualcosa di più corto!",
+
+    "api.content.video.unavailable": "impossibile accedere a questo video. potrebbe essere stato limitao su {{ service }}. hai copiato il link giusto?",
+    "api.content.video.live": "questo videp è attualmente in diretta, non posso scaricarlo per il momento. aspetta che la diretta finisca, e allora prova di nuovo!",
+    "api.content.video.private": "questo video è privato, non posso accederci. cambia la sua visibilità o trovane un altro!",
+    "api.content.video.age": "questo video ha una protezione per l'età, non posso accederci in anonimato. provane un altro!",
+    "api.content.video.region": "questo video è bloccato in una regione, and il server d'elaborazione si trova in una differente. prova un altro video!",
+
+    "api.content.post.unavailable": "impossibile trovare qualcosa per questo post. la sua visibilità potrebbe essere limitata o il contenuto è inesistente, assicurati che il link funzioni and riprova in alcuni secondi!",
+    "api.content.post.private": "questo post è di un account privato, quindi non posso accederci. hai postato il link giusto?",
+    "api.content.post.age": "questo post presenta limite per l'età, quindi non posso accederci in anonimato. hai copiato il link giusto?",
+
+    "api.youtube.codec": "youtube non ha ritornato nulla con il codec e risoluzione da te scelti. riprova con altre configurazioni!",
+    "api.youtube.decipher": "youtube ha aggiornato il suo algoritmo di decriptazione rendendo impossibile l'esporto dei dati di questo video.\n\nriprova in alcuni secondi, ma se il problema persiste, contattaci per supporto.",
+    "api.youtube.login": "impossibile reperire questo video poichè youtube mi ha etichettato come bot. ciò è causato probabilmente dall'istanza di elaborazione a cui potrebbero manchare token d'account validi. riprova in alcuni secondi, ma se il problema persiste, informa il proprietario dell'istanza!",
+    "api.youtube.token_expired": "impossibile reperire il video poichè il token di youtube è scaduto e non sono riuscito a ricaricarlo. riprova in alcuni secondi, ma se il problema persiste, informa il proprietario dell'istanza!"
+}
