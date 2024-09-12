@@ -1113,7 +1113,7 @@
             "params": {},
             "expected": {
                 "code": 200,
-                "status": "tunnel"
+                "status": "redirect"
             }
         },
         {
