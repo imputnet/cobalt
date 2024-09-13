@@ -8,6 +8,12 @@
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
+
+    const codecTitles = {
+        h264: "h264 (mp4)",
+        av1: "av1 (webm)",
+        vp9: "vp9 (webm)",
+    }
 </script>
 
 <SettingsCategory
@@ -41,7 +47,7 @@
                 settingId="youtubeVideoCodec"
                 settingValue={value}
             >
-                {$t(`settings.video.youtube.codec.${value}`)}
+                {codecTitles[value]}
             </SettingsButton>
         {/each}
     </Switcher>
