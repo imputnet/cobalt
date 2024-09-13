@@ -32,13 +32,19 @@ cobalt package will update automatically thanks to watchtower.
 
 it's highly recommended to use a reverse proxy (such as nginx) if you want your instance to face the public internet. look up tutorials online.
 
-## using regular node.js (useful for local development)
-setup script installs all needed `npm` dependencies, but you have to install `node.js` *(version 18 or above)* and `git` yourself.
+## run cobalt api outside of docker (useful for local development)
+requirements:
+- node.js >= 18
+- git
+- pnpm
 
 1. clone the repo: `git clone https://github.com/imputnet/cobalt`.
-2. run setup script and follow instructions: `npm run setup`. you need to host api and web instances separately, so pick whichever applies.
-3. run cobalt via `npm start`.
-4. done.
+2. go to api/src directory: `cd cobalt/api/src`.
+4. install dependencies: `pnpm install`.
+5. create `.env` file in the same directory.
+6. add needed environment variables to `.env` file. only `API_URL` is required to run cobalt.
+    - if you don't know what api url to use for local development, use `http://localhost:9000/`.
+8. run cobalt: `pnpm start`.
 
 ### ubuntu 22.04 workaround
 `nscd` needs to be installed and running so that the `ffmpeg-static` binary can resolve DNS ([#101](https://github.com/imputnet/cobalt/issues/101#issuecomment-1494822258)):
