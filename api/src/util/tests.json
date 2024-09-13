@@ -1401,7 +1401,16 @@
     "bsky": [
         {
             "name": "horizontal video",
-            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2udah76ch2c",
+            "url": "https://bsky.app/profile/haileyok.com/post/3l3giwtwp222m",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        },
+        {
+            "name": "horizontal video, recordWithMedia",
+            "url": "https://bsky.app/profile/juicysteak117.gay/post/3l3wonhk23g2i",
             "params": {},
             "expected": {
                 "code": 200,
@@ -1410,7 +1419,7 @@
         },
         {
             "name": "vertical video",
-            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "url": "https://bsky.app/profile/haileyok.com/post/3l3jhpomhjk2m",
             "params": {},
             "expected": {
                 "code": 200,
@@ -1419,7 +1428,7 @@
         },
         {
             "name": "vertical video (muted)",
-            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "url": "https://bsky.app/profile/haileyok.com/post/3l3jhpomhjk2m",
             "params": {
                 "downloadMode": "mute"
             },
@@ -1430,7 +1439,7 @@
         },
         {
             "name": "vertical video (audio)",
-            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2uftgmitr2p",
+            "url": "https://bsky.app/profile/haileyok.com/post/3l3jhpomhjk2m",
             "params": {
                 "downloadMode": "audio"
             },
@@ -1455,6 +1464,15 @@
             "expected": {
                 "code": 200,
                 "status": "picker"
+            }
+        },
+        {
+            "name": "deleted post",
+            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2udah76ch2c",
+            "params": {},
+            "expected": {
+                "code": 400,
+                "status": "error"
             }
         }
     ]
