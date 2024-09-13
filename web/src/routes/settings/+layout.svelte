@@ -9,16 +9,14 @@
     import PageNavTab from "$components/subnav/PageNavTab.svelte";
     import PageNavSection from "$components/subnav/PageNavSection.svelte";
 
-    import IconLock from "@tabler/icons-svelte/IconLock.svelte";
-    import IconSunHigh from "@tabler/icons-svelte/IconSunHigh.svelte";
-
-    import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
-    import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
-    import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
-
-    import IconBug from "@tabler/icons-svelte/IconBug.svelte";
-    import IconWorld from "@tabler/icons-svelte/IconWorld.svelte";
-    import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
+    import IconLock from "virtual:icons/tabler/lock";
+    import IconSunHigh from "virtual:icons/tabler/sun-high";
+    import IconMovie from "virtual:icons/tabler/movie";
+    import IconMusic from "virtual:icons/tabler/music";
+    import IconFileDownload from "virtual:icons/tabler/file-download";
+    import IconBug from "virtual:icons/tabler/bug";
+    import IconWorld from "virtual:icons/tabler/world";
+    import IconSettingsBolt from "virtual:icons/tabler/settings-bolt";
 
     $: versionText = $version ? `v${$version.version}-${$version.commit.slice(0, 8)}` : '\xa0';
 </script>

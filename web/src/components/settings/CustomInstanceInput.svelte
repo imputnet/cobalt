@@ -5,8 +5,8 @@
     import settings, { updateSetting } from "$lib/state/settings";
     import { customInstanceWarning } from "$lib/api/safety-warning";
 
-    import IconX from "@tabler/icons-svelte/IconX.svelte";
-    import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
+    import IconX from "virtual:icons/tabler/x";
+    import IconCheck from "virtual:icons/tabler/check";
 
     let inputValue = get(settings).processing.customInstanceURL;
     let inputFocused = false;

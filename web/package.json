@@ -26,6 +26,7 @@
     "devDependencies": {
         "@eslint/js": "^9.5.0",
         "@fontsource/redaction-10": "^5.0.2",
+        "@iconify-json/tabler": "^1.2.2",
         "@sveltejs/adapter-static": "^3.0.2",
         "@sveltejs/kit": "^2.0.0",
         "@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -43,6 +44,7 @@
         "turnstile-types": "^1.2.2",
         "typescript": "^5.4.5",
         "typescript-eslint": "^7.13.1",
+        "unplugin-icons": "^0.19.3",
         "vite": "^5.0.3"
     },
     "dependencies": {
@@ -50,7 +52,6 @@
         "@fontsource/ibm-plex-mono": "^5.0.13",
         "@imput/libav.js-remux-cli": "^5.5.6",
         "@imput/version-info": "workspace:^",
-        "@tabler/icons-svelte": "3.6.0",
         "@vitejs/plugin-basic-ssl": "^1.1.0",
         "mime": "^4.0.4",
         "sveltekit-i18n": "^2.4.2",

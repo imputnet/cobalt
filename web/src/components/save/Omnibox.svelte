@@ -16,8 +16,8 @@
     import type { Optional } from "$lib/types/generic";
     import type { DownloadModeOption } from "$lib/types/settings";
 
-    import IconLink from "@tabler/icons-svelte/IconLink.svelte";
-    import IconLoader2 from "@tabler/icons-svelte/IconLoader2.svelte";
+    import IconLink from "virtual:icons/tabler/link";
+    import IconLoader2 from "virtual:icons/tabler/loader-2";
 
     import ClearButton from "$components/save/buttons/ClearButton.svelte";
     import DownloadButton from "$components/save/buttons/DownloadButton.svelte";

@@ -8,7 +8,7 @@
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
 
-    import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
+    import IconAlertTriangle from "virtual:icons/tabler/alert-triangle";
 
     export let id: string;
     export let meowbalt: Optional<MeowbaltEmotions> = undefined;

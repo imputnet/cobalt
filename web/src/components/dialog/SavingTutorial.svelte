@@ -2,9 +2,9 @@
     import { siriShortcuts } from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
-    import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
-    import IconFlower from "@tabler/icons-svelte/IconFlower.svelte";
-    import IconFolder from "@tabler/icons-svelte/IconFolder.svelte";
+    import IconPlus from "virtual:icons/tabler/plus";
+    import IconFlower from "virtual:icons/tabler/flower";
+    import IconFolder from "virtual:icons/tabler/folder";
 
     let tutorialExpanded = false;
 </script>

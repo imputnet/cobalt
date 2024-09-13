@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    import IconComet from "@tabler/icons-svelte/IconComet.svelte";
+    import IconComet from "virtual:icons/tabler/comet";
 </script>
 
 <div id="update-notification" role="alert" aria-atomic="true">

@@ -10,7 +10,7 @@
         "sourceMap": true,
         "strict": true,
         "moduleResolution": "bundler",
-        "types": ["turnstile-types"]
+        "types": ["turnstile-types",  "unplugin-icons/types/svelte"]
     }
     // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
     // except $lib which is handled by https://kit.svelte.dev/docs/configuration#files

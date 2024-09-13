@@ -5,7 +5,7 @@
     import { t, locales } from "$lib/i18n/translations";
     import settings, { updateSetting } from "$lib/state/settings";
 
-    import IconSelector from "@tabler/icons-svelte/IconSelector.svelte";
+    import IconSelector from "virtual:icons/tabler/selector";
 
     $: currentSetting = $settings.appearance.language;
     $: disabled = $settings.appearance.autoLanguage;

@@ -3,7 +3,7 @@
     import { getServerInfo, cachedInfo } from "$lib/api/server-info";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
-    import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
+    import IconPlus from "virtual:icons/tabler/plus";
 
     let services: string[] = [];
 

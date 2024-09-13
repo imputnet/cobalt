@@ -6,11 +6,11 @@
     import PageNavTab from "$components/subnav/PageNavTab.svelte";
     import PageNavSection from "$components/subnav/PageNavSection.svelte";
 
-    import IconLock from "@tabler/icons-svelte/IconLock.svelte";
-    import IconComet from "@tabler/icons-svelte/IconComet.svelte";
-    import IconLicense from "@tabler/icons-svelte/IconLicense.svelte";
-    import IconChecklist from "@tabler/icons-svelte/IconChecklist.svelte";
-    import IconUsersGroup from "@tabler/icons-svelte/IconUsersGroup.svelte";
+    import IconLock from "virtual:icons/tabler/lock";
+    import IconComet from "virtual:icons/tabler/comet";
+    import IconLicense from "virtual:icons/tabler/license";
+    import IconChecklist from "virtual:icons/tabler/checklist";
+    import IconUsersGroup from "virtual:icons/tabler/users-group";
 </script>
 
 <PageNav

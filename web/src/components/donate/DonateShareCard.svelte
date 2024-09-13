@@ -8,10 +8,10 @@
 
     import DonateCardContainer from "$components/donate/DonateCardContainer.svelte";
 
-    import IconShare2 from "@tabler/icons-svelte/IconShare2.svelte";
-    import IconBrandGithub from "@tabler/icons-svelte/IconBrandGithub.svelte";
-    import IconBrandTwitter from "@tabler/icons-svelte/IconBrandTwitter.svelte";
-    import IconMoodSmileBeam from "@tabler/icons-svelte/IconMoodSmileBeam.svelte";
+    import IconShare2 from "virtual:icons/tabler/share-2";
+    import IconBrandGithub from "virtual:icons/tabler/brand-github";
+    import IconBrandTwitter from "virtual:icons/tabler/brand-twitter";
+    import IconMoodSmileBeam from "virtual:icons/tabler/mood-smile-beam";
 
     import CobaltQr from "$components/icons/CobaltQR.svelte";
     import CopyIcon from "$components/misc/CopyIcon.svelte";

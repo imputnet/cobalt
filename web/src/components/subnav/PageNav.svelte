@@ -6,7 +6,7 @@
 
     import { t } from "$lib/i18n/translations";
 
-    import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
+    import IconArrowLeft from "virtual:icons/tabler/arrow-left";
 
     export let pageName: "settings" | "about";
     export let homeNavPath: string;

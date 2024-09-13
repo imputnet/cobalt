@@ -9,8 +9,8 @@
 
     import ChangelogEntry from "$components/changelog/ChangelogEntry.svelte";
 
-    import IconArrowLeft from "@tabler/icons-svelte/IconArrowLeft.svelte";
-    import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
+    import IconArrowLeft from "virtual:icons/tabler/arrow-left";
+    import IconArrowRight from "virtual:icons/tabler/arrow-right";
 
     const changelogs = getAllChangelogs();
     const versions = Object.keys(changelogs);
