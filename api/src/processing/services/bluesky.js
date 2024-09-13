@@ -2,8 +2,8 @@ import HLS from "hls-parser";
 import { cobaltUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 
-const extractVideo = async ({ getPost, filename }) => {
-    const urlMasterHLS = getPost?.thread?.post?.embed?.playlist;
+const extractVideo = async ({ media, filename }) => {
+    const urlMasterHLS = media?.playlist;
     if (!urlMasterHLS) return { error: "fetch.empty" };
     if (!urlMasterHLS.startsWith("https://video.bsky.app/")) return { error: "fetch.empty" };
 
@@ -77,14 +77,37 @@ export default async function ({ user, post, alwaysProxy }) {
         }
     }).then(r => r.json()).catch(() => {});
 
-    if (!getPost || getPost?.error) return { error: "fetch.empty" };
+    if (!getPost) return { error: "fetch.empty" };
+
+    if (getPost.error) {
+        switch (getPost.error) {
+            case "NotFound":
+            case "InternalServerError":
+                return { error: "content.post.unavailable" };
+            case "InvalidRequest":
+                return { error: "link.unsupported" };
+            default:
+                return { error: "fetch.empty" };
+        }
+    }
 
     const embedType = getPost?.thread?.post?.embed?.$type;
     const filename = `bluesky_${user}_${post}`;
 
     if (embedType === "app.bsky.embed.video#view") {
-        return extractVideo({ getPost, filename });
+        return extractVideo({
+            media: getPost.thread?.post?.embed,
+            filename,
+        })
     }
+
+    if (embedType === "app.bsky.embed.recordWithMedia#view") {
+        return extractVideo({
+            media: getPost.thread?.post?.embed?.media,
+            filename,
+        })
+    }
+
     if (embedType === "app.bsky.embed.images#view") {
         return extractImages({ getPost, filename, alwaysProxy });
     }

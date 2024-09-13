@@ -148,6 +148,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "streamable":
                 case "snapchat":
                 case "loom":
+                case "twitch":
                     responseType = "redirect";
                     break;
             }
