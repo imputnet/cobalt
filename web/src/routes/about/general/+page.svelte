@@ -18,7 +18,7 @@
         <h3>leading privacy</h3>
         <p>
             all requests to backend are anonymous and all tunnels are encrypted.
-            we have a strict zero log policy and don't track <i>anything at all</i>.
+            we have a strict zero log policy and don't track <i>anything</i> about individual people.
         </p>
         <p>
             to avoid caching or storing downloaded files, cobalt processes them on-fly, sending processed pieces directly to client.
