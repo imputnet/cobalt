@@ -1467,8 +1467,8 @@
             }
         },
         {
-            "name": "deleted post",
-            "url": "https://bsky.app/profile/samuel.bsky.team/post/3l2udah76ch2c",
+            "name": "deleted post/invalid user",
+            "url": "https://bsky.app/profile/notreal.bsky.team/post/3l2udah76ch2c",
             "params": {},
             "expected": {
                 "code": 400,
