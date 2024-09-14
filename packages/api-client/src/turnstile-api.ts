@@ -26,17 +26,20 @@ export class TurnstileCobaltAPI extends CobaltAPI {
     }
 
     async request(data: CobaltRequest) {
-        const sessionOrError = await this.#session.getSession();
         const headers: Record<string, string> = {};
 
-        if ("error" in sessionOrError) {
-            if (sessionOrError.error.code !== CobaltAuthError.NotConfigured) {
-                return sessionOrError;
+        if (this.#instanceHasTurnstile) {
+            const sessionOrError = await this.#session.getSession();
+
+            if ("error" in sessionOrError) {
+                if (sessionOrError.error.code !== CobaltAuthError.NotConfigured) {
+                    return sessionOrError;
+                } else {
+                    this.#instanceHasTurnstile = false;
+                }
             } else {
-                this.#instanceHasTurnstile = false;
+                headers['Authorization'] = `Bearer ${sessionOrError.token}`;
             }
-        } else {
-            headers['Authorization'] = `Bearer ${sessionOrError.token}`;
         }
 
         return super.request(data, headers);
