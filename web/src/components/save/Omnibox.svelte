@@ -11,7 +11,7 @@
 
     import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
-    import { turnstileLoaded } from "$lib/state/turnstile";
+    import { turnstileCreated } from "$lib/state/turnstile";
 
     import type { Optional } from "$lib/types/generic";
     import type { DownloadModeOption } from "$lib/types/settings";
@@ -58,7 +58,7 @@
     }
 
     $: if (env.TURNSTILE_KEY) {
-        if ($turnstileLoaded) {
+        if ($turnstileCreated) {
             isDisabled = false;
         } else {
             isDisabled = true;
