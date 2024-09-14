@@ -125,6 +125,9 @@ importers:
       '@fontsource/redaction-10':
         specifier: ^5.0.2
         version: 5.0.2
+      '@imput/cobalt-client':
+        specifier: workspace:^
+        version: link:../packages/api-client
       '@sveltejs/adapter-static':
         specifier: ^3.0.2
         version: 3.0.2(@sveltejs/kit@2.5.19(@sveltejs/vite-plugin-svelte@3.1.1(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14)))(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14)))

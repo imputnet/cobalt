@@ -1,12 +1,23 @@
 <script lang="ts">
     import "@fontsource-variable/noto-sans-mono";
+    import { onMount } from "svelte";
 
+    import settings from "$lib/state/settings";
     import API from "$lib/api/api";
+    import APIUrl from "$lib/state/api-url";
+    import lazySettingGetter from "$lib/settings/lazy-get";
+    import { apiOverrideWarning } from "$lib/api/safety-warning";
+
+    import env from "$lib/env";
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/dialogs";
-    import { downloadFile } from "$lib/download";
-
     import type { DialogInfo } from "$lib/types/dialog";
+    import { downloadFile } from "$lib/download";
+    import {
+        UnauthenticatedCobaltAPI,
+        TurnstileCobaltAPI,
+        type CobaltAPIClient
+    } from "@imput/cobalt-client";
 
     export let url: string;
     export let disabled = false;
@@ -58,10 +69,47 @@
         }
     };
 
+    let client: CobaltAPIClient;
+
+    $: client?.setBaseURL($APIUrl);
+
+    onMount(() => {
+        if (env.TURNSTILE_KEY) {
+            client = new TurnstileCobaltAPI(window.turnstile);
+        } else {
+            client = new UnauthenticatedCobaltAPI();
+        }
+        client.setBaseURL($APIUrl);
+    });
+
     export const download = async (link: string) => {
         changeDownloadButton("think");
 
-        const response = await API.request(link);
+        const getSetting = lazySettingGetter($settings);
+
+        const request = {
+            url: link,
+
+            downloadMode: getSetting("save", "downloadMode"),
+            audioBitrate: getSetting("save", "audioBitrate"),
+            audioFormat: getSetting("save", "audioFormat"),
+            tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
+            youtubeDubBrowserLang: getSetting("save", "youtubeDubBrowserLang"),
+
+            youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
+            videoQuality: getSetting("save", "videoQuality"),
+
+            filenameStyle: getSetting("save", "filenameStyle"),
+            disableMetadata: getSetting("save", "disableMetadata"),
+
+            twitterGif: getSetting("save", "twitterGif"),
+            tiktokH265: getSetting("save", "tiktokH265"),
+
+            alwaysProxy: getSetting("privacy", "alwaysProxy"),
+        }
+
+        await apiOverrideWarning();
+        const response = await client.request(request);
 
         if (!response) {
             changeDownloadButton("error");
