@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store";
-import { currentApiURL } from "$lib/api/api-url";
+import APIUrl from "$lib/state/api-url";
 
 import type { CobaltServerInfoResponse, CobaltErrorResponse, CobaltServerInfo } from "$lib/types/api";
 
@@ -11,7 +11,7 @@ export type CobaltServerInfoCache = {
 export const cachedInfo = writable<CobaltServerInfoCache | undefined>();
 
 const request = async () => {
-    const apiEndpoint = `${currentApiURL()}/`;
+    const apiEndpoint = `${get(APIUrl)}/`;
 
     const response: CobaltServerInfoResponse = await fetch(apiEndpoint, {
         redirect: "manual",
@@ -35,7 +35,7 @@ const request = async () => {
 export const getServerInfo = async () => {
     const cache = get(cachedInfo);
 
-    if (cache && cache.origin === currentApiURL()) {
+    if (cache && cache.origin === get(APIUrl)) {
         return true
     }
 
@@ -48,7 +48,7 @@ export const getServerInfo = async () => {
     if (!("status" in freshInfo)) {
         cachedInfo.set({
             info: freshInfo,
-            origin: currentApiURL(),
+            origin: get(APIUrl),
         });
         return true;
     }
