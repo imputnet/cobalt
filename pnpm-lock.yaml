@@ -77,6 +77,9 @@ importers:
       tsup:
         specifier: ^8.2.4
         version: 8.2.4(postcss@8.4.40)(typescript@5.5.4)
+      turnstile-types:
+        specifier: ^1.2.2
+        version: 1.2.2
       typescript:
         specifier: ^5.4.5
         version: 5.5.4

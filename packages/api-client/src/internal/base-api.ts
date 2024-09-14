@@ -4,9 +4,8 @@ import type { CobaltRequest } from "../types/request";
 
 export default class BaseCobaltAPI {
     #baseURL: string;
-    #userAgent: string | undefined;
 
-    constructor(baseURL: string, userAgent?: string) {
+    constructor(baseURL: string) {
         const url = new URL(baseURL);
 
         if (baseURL !== url.origin && baseURL !== `${url.origin}/`) {
@@ -14,14 +13,9 @@ export default class BaseCobaltAPI {
         }
 
         this.#baseURL = url.origin;
-        this.#userAgent = userAgent;
     }
 
-    protected async _request(data: CobaltRequest, headers: Record<string, string>) {
-        if (this.#userAgent) {
-            headers['user-agent'] = this.#userAgent;
-        }
-
+    async request(data: CobaltRequest, headers?: Record<string, string>) {
         const response: CobaltResponse = await fetch(this.#baseURL, {
             method: 'POST',
             redirect: 'manual',
