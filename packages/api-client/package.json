@@ -3,7 +3,10 @@
     "version": "0.0.1",
     "description": "",
     "main": "index.js",
-    "scripts": {},
+    "scripts": {
+        "build": "tsup",
+        "dev": "tsup --watch"
+    },
     "keywords": [],
     "author": "imput <meow@imput.net>",
     "license": "MIT",
@@ -13,5 +16,21 @@
         "turnstile-types": "^1.2.2",
         "typescript": "^5.4.5",
         "zod": "^3.23.8"
+    },
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "tsup": {
+        "dts": true,
+        "bundle": false,
+        "treeshake": true,
+        "target": "node18",
+        "format": ["esm", "cjs"],
+        "entry": ["src/**/*.ts"]
     }
 }
