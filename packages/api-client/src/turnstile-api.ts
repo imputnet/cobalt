@@ -1,21 +1,28 @@
 import CobaltSessionHandler from "./internal/session";
-import BaseCobaltAPI from "./internal/base-api";
+import CobaltAPI from "./internal/base-api";
 import { CobaltRequest } from "./types/request";
 import { CobaltAuthError } from "./types/errors";
-import { CobaltAPIClient } from "./types/interface";
 import type { TurnstileObject } from "turnstile-types";
 
-export default class TurnstileCobaltAPI extends BaseCobaltAPI implements CobaltAPIClient {
+export class TurnstileCobaltAPI extends CobaltAPI {
     #session: CobaltSessionHandler;
     #instanceHasTurnstile = true;
 
-    constructor(baseURL: string, turnstile: TurnstileObject) {
-        super(baseURL);
-        this.#session = new CobaltSessionHandler(baseURL, turnstile);
+    constructor(turnstile: TurnstileObject) {
+        super();
+        this.#session = new CobaltSessionHandler(this, turnstile);
     }
 
     needsSession() {
         return this.#instanceHasTurnstile && !this.#session.hasSession();
+    }
+
+    setBaseURL(baseURL: string): string {
+        if (this.#session && super.getBaseURL() !== super.setBaseURL(baseURL)) {
+            this.#session.reset();
+        }
+
+        return super.getBaseURL()!;
     }
 
     async request(data: CobaltRequest) {

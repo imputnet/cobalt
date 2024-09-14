@@ -1,22 +1,30 @@
 import { CobaltResponseType, type CobaltResponse } from "../types/response";
 import { CobaltReachabilityError } from "../types/errors";
 import type { CobaltRequest } from "../types/request";
+import { CobaltAPIClient } from "../types/interface";
 
-export default class BaseCobaltAPI {
-    #baseURL: string;
+export default class CobaltAPI implements CobaltAPIClient {
+    #baseURL: string | undefined;
 
-    constructor(baseURL: string) {
+    getBaseURL() {
+        return this.#baseURL;
+    }
+
+    setBaseURL(baseURL: string) {
         const url = new URL(baseURL);
 
         if (baseURL !== url.origin && baseURL !== `${url.origin}/`) {
             throw new Error('Invalid cobalt instance URL');
         }
 
-        this.#baseURL = url.origin;
+        return this.#baseURL = url.origin;
     }
 
     async request(data: CobaltRequest, headers?: Record<string, string>) {
-        const response: CobaltResponse = await fetch(this.#baseURL, {
+        const baseURL = this.getBaseURL();
+        if (!baseURL) throw "baseURL is undefined";
+
+        const response: CobaltResponse = await fetch(baseURL, {
             method: 'POST',
             redirect: 'manual',
             signal: AbortSignal.timeout(10000),
