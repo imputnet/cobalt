@@ -1,0 +1,47 @@
+name: main instance bug report
+description: "report an issue with cobalt.tools or api.cobalt.tools"
+labels: ["main instance issue"]
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: bug description
+      description: "clear and concise description of what the issue is."
+    validations:
+      required: true
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: reproduction steps
+      description: steps to reproduce the described behavior.
+      placeholder: |
+        1. go to '...'
+        2. click on '....'
+        3. download [media type] from [service]
+        4. see error
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: screenshots
+      description: if applicable, add screenshots or screen recordings to support your explanation.
+  - type: textarea
+    id: links
+    attributes:
+      label: links
+      description: if applicable, add links that cause the issue. more = better.
+      render: shell
+  - type: input
+    id: platform
+    attributes:
+      label: platform information
+      description: "the operating system, browser and their versions where you encounter the issue"
+      placeholder: safari 7 on mac os x 10.8
+    validations:
+      required: true
+  - type: textarea
+    id: more-context
+    attributes:
+      label: additional context
+      description: add any other context about the problem here if applicable.

@@ -3,60 +3,32 @@ name: Run tests
 on:
   pull_request:
   push:
-    branches: [ current ]
 
 jobs:
   check-lockfile:
     name: check lockfile correctness
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Check that lockfile does not need an update
-        run: |
-          cp package-lock.json before.json
-          npm ci
-          npm i --package-lock-only
-          diff before.json package-lock.json
+        run: pnpm install --frozen-lockfile
 
   test-web:
     name: web sanity check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Run test script
-        run: .github/test.sh web
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      - uses: pnpm/action-setup@v4
+      - run: .github/test.sh web
 
   test-api:
     name: api sanity check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Run test script
-        run: .github/test.sh api
-
-  check-services:
-    name: test service functionality
-    runs-on: ubuntu-latest
-    outputs:
-      services: ${{ steps.checkServices.outputs.service_list }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - id: checkServices
-        run: npm ci && echo "service_list=$(node src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
-
-  test-services:
-    needs: check-services
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        service: ${{ fromJson(needs.check-services.outputs.services) }}
-    name: "test service: ${{ matrix.service }}"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - run: npm ci && node src/util/test-ci run-tests-for ${{ matrix.service }}
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - run: .github/test.sh api

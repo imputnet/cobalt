@@ -1,0 +1,21 @@
+name: instance hosting help
+description: ask any question regarding cobalt instance hosting
+labels: ["instance hosting help"]
+body:
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: problem description
+      description: |
+        describe what issue you're having, clearly and concisely.
+        support your description with screenshots/links/etc when needed.
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: your instance configuration
+      description: |
+        if applicable, add or describe your instance configuration (e.g. compose file) or any changes you made to it.
+        please **do not share senstive information** such as secret keys or the contents of your cookies file!
+      render: shell

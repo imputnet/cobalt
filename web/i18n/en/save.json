@@ -1,0 +1,23 @@
+{
+    "paste": "paste",
+    "paste.long": "paste and download",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "mute",
+    "input.placeholder": "paste the link here",
+    "terms.note.agreement": "by continuing, you agree to",
+    "terms.note.link": "terms and ethics of use",
+    "services.title": "supported services",
+    "services.title_show": "show supported services",
+    "services.title_hide": "hide supported services",
+    "services.disclaimer": "cobalt is not affiliated with any of the services listed above.",
+
+    "tutorial.title": "how to save on ios?",
+    "tutorial.intro": "to save media conveniently on ios, you'll need to use a companion siri shortcut from the share sheet.",
+    "tutorial.step.1": "add companion siri shortcuts:",
+    "tutorial.step.2": "press the \"share\" button in cobalt's saving dialog.",
+    "tutorial.step.3": "select the respective shortcut in the share sheet.",
+    "tutorial.outro": "these shortcuts will work only from the cobalt app, sharing links from other apps will not work.",
+    "tutorial.shortcut.photos": "to photos",
+    "tutorial.shortcut.files": "to files"
+}

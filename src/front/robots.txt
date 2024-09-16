@@ -1,8 +1,0 @@
-User-Agent: *
-Disallow: /emoji/
-Disallow: /fonts/
-Disallow: /icons/
-Disallow: /sponsors/
-Disallow: /updateBanners/
-Disallow: /*.js
-Disallow: /*.css
