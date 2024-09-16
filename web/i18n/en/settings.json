@@ -65,7 +65,7 @@
     "metadata.filename.basic": "basic",
     "metadata.filename.pretty": "pretty",
     "metadata.filename.nerdy": "nerdy",
-    "metadata.filename.description": "filename style will only be used for files tunnelled by cobalt. some services don't support filename styles other than classic.",
+    "metadata.filename.description": "filename style will only be used for files tunneled by cobalt. some services don't support filename styles other than classic.",
 
     "metadata.filename.preview.video": "Video Title",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
@@ -98,7 +98,7 @@
     "privacy.analytics.description": "anonymous traffic analytics are needed to get an approximate number of active cobalt users. no identifiable information about you is ever stored. all processed data is anonymized and aggregated.\n\nwe use a self-hosted plausible instance that doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.",
     "privacy.analytics.learnmore": "learn more about plausible's dedication to privacy.",
 
-    "privacy.tunnel": "tunnelling",
+    "privacy.tunnel": "tunneling",
     "privacy.tunnel.title": "always tunnel files",
     "privacy.tunnel.description": "cobalt will hide your ip address, browser info, and bypass local network restrictions. when enabled, files will also have readable filenames that otherwise would be gibberish.",
 
