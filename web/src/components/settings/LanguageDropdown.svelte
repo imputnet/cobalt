@@ -1,5 +1,4 @@
 <script lang="ts">
-    import locale from "$lib/i18n/locale";
     import languages from "$i18n/languages.json";
 
     import { t, locales } from "$lib/i18n/translations";
@@ -10,10 +9,12 @@
     $: currentSetting = $settings.appearance.language;
     $: disabled = $settings.appearance.autoLanguage;
 
-    const updateLocale = (lang: string) => {
+    const updateLocale = (event: Event) => {
+       const target = event.target as HTMLSelectElement;
+
         updateSetting({
             appearance: {
-                language: lang as keyof typeof languages,
+                language: target.value as keyof typeof languages,
             },
         });
     };
@@ -34,8 +35,7 @@
         </div>
         <select
             id="setting-dropdown-appearance-language"
-            bind:value={$locale}
-            on:change={() => updateLocale($locale)}
+            on:change={updateLocale}
             {disabled}
         >
             {#each $locales as value}
