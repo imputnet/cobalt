@@ -196,7 +196,7 @@
         --input-border: #383838;
 
         --toggle-bg: var(--input-border);
-        --toggle-bg-enabled: #777777;
+        --toggle-bg-enabled: var(--green);
 
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
