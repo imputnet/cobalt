@@ -59,7 +59,7 @@
                 <div class="action-button-icon">
                     <CopyIcon check={copied} />
                 </div>
-                copy
+                {$t("button.copy")}
             </button>
 
             {#if device.supports.share}
