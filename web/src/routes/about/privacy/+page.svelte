@@ -25,10 +25,10 @@
     <section id="saving">
         <h3>saving</h3>
         <p>
-            when using saving functionality, in some cases cobalt will encrypt & temporarily store information needed for tunnelling. it's stored in processing server's RAM for 90 seconds and irreversibly purged afterwards. no one has access to it, even instance owners, as long as they don't modify the official cobalt image.
+            when using saving functionality, in some cases cobalt will encrypt & temporarily store information needed for tunneling. it's stored in processing server's RAM for 90 seconds and irreversibly purged afterwards. no one has access to it, even instance owners, as long as they don't modify the official cobalt image.
         </p>
         <p>
-            processed/tunnelled files are never cached anywhere. everything is tunnelled live. cobalt's saving functionality is essentially a fancy proxy service.
+            processed/tunneled files are never cached anywhere. everything is tunneled live. cobalt's saving functionality is essentially a fancy proxy service.
         </p>
     </section>
 
