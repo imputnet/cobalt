@@ -33,7 +33,7 @@
     }
 
     .toggle.enabled {
-        background: var(--toggle-bg-enabled);
+        background: var(--green);
     }
 
     .toggle.enabled .toggle-switcher {
