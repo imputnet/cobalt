@@ -24,10 +24,16 @@ const config = {
         sveltePreprocess(),
         mdsvex({
             extensions: ['.md'],
-            layout: join(
-                dirname(fileURLToPath(import.meta.url)),
-                '/src/components/changelog/ChangelogEntryWrapper.svelte'
-            )
+            layout: {
+                about: join(
+                    dirname(fileURLToPath(import.meta.url)),
+                    '/src/components/misc/AboutPageWrapper.svelte'
+                ),
+                changelogs: join(
+                    dirname(fileURLToPath(import.meta.url)),
+                    '/src/components/changelog/ChangelogEntryWrapper.svelte'
+                )
+            }
         })
     ],
     kit: {
