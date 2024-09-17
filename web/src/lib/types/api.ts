@@ -51,6 +51,7 @@ export type CobaltServerInfo = {
         url: string,
         startTime: string,
         durationLimit: number,
+        turnstileSitekey?: string,
         services: string[]
     },
     git: {

@@ -4,12 +4,12 @@
     import { browser } from "$app/environment";
     import { SvelteComponent, tick } from "svelte";
 
-    import env from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
     import dialogs from "$lib/dialogs";
 
     import { link } from "$lib/state/omnibox";
+    import { cachedInfo } from "$lib/api/server-info";
     import { updateSetting } from "$lib/state/settings";
     import { turnstileLoaded } from "$lib/state/turnstile";
 
@@ -57,7 +57,9 @@
         goto("/", { replaceState: true });
     }
 
-    $: if (env.TURNSTILE_KEY) {
+    // FIXME: figure out why regular processing spinner
+    // doesn't show up after turnstile loads
+    $: if ($cachedInfo?.info?.cobalt?.turnstileSitekey) {
         if ($turnstileLoaded) {
             isDisabled = false;
         } else {

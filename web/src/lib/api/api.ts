@@ -1,12 +1,15 @@
 import { get } from "svelte/store";
 
 import settings from "$lib/state/settings";
+import lazySettingGetter from "$lib/settings/lazy-get";
+
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
+import { cachedInfo } from "$lib/api/server-info";
 import { apiOverrideWarning } from "$lib/api/safety-warning";
+
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
-import lazySettingGetter from "$lib/settings/lazy-get";
 
 const request = async (url: string) => {
     const getSetting = lazySettingGetter(get(settings));
@@ -34,11 +37,10 @@ const request = async (url: string) => {
 
     await apiOverrideWarning();
 
-    const usingCustomInstance = getSetting("processing", "enableCustomInstances")
-                                && getSetting("processing", "customInstanceURL");
     const api = currentApiURL();
-    // FIXME: rewrite this to allow custom instances to specify their own turnstile tokens
-    const session = usingCustomInstance ? undefined : await getSession();
+
+    const session = get(cachedInfo)?.info?.cobalt?.turnstileSitekey
+                    ? await getSession() : undefined;
 
     let extraHeaders = {}
 

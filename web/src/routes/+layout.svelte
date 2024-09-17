@@ -7,6 +7,7 @@
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
+    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
 
     import "$lib/polyfills";
     import env from "$lib/env";
@@ -31,10 +32,16 @@
         $settings.appearance.reduceTransparency ||
         device.prefers.reducedTransparency;
 
-    afterNavigate(() => {
+    $: spawnTurnstile = !!$cachedInfo?.info?.cobalt?.turnstileSitekey;
+
+    afterNavigate(async() => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
+
+        if ($page.url.pathname === "/") {
+            await getServerInfo();
+        }
     });
 </script>
 
@@ -77,7 +84,7 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
-            {#if (env.TURNSTILE_KEY && $page.url.pathname === "/") || $turnstileCreated}
+            {#if (spawnTurnstile && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
             <slot></slot>
