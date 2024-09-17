@@ -88,10 +88,10 @@
     "accessibility.motion.description": "disables animations and transitions whenever possible.",
 
     "language": "language",
-    "language.auto.title": "use default browser language",
-    "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead.",
+    "language.auto.title": "automatic selection",
+    "language.auto.description": "cobalt will use your browser's default language if translation is available. if not, english will be used instead.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "if any text isn’t translated to the preferred language, it will fall back to english.",
+    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.",
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",
