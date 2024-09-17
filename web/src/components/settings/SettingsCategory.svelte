@@ -1,6 +1,8 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { t } from "$lib/i18n/translations";
+    import { copyURL as _copyURL } from "$lib/download";
+    import CopyIcon from "$components/misc/CopyIcon.svelte";
 
     export let title: string;
     export let sectionId: string;
@@ -9,11 +11,22 @@
     export let beta = false;
 
     let focus = false;
+    let animate = false;
+    let copied = false;
+    let showCopy = false;
+
+    const copyURL = () => _copyURL(`${$page.url.origin}${$page.url.pathname}#${sectionId}`);
 
     $: hash = $page.url.hash.replace("#", "");
 
     $: if (hash === sectionId) {
         focus = true;
+    }
+
+    $: if (copied) {
+        setTimeout(() => {
+            copied = false;
+        }, 1500);
     }
 </script>
 
@@ -24,16 +37,55 @@
     class:disabled
     aria-hidden={disabled}
 >
-    <div class="settings-content-header">
+    <div
+        class="settings-content-header"
+        on:mouseenter={() => showCopy = true}
+        on:mouseleave={() => showCopy = false}
+        role="link"
+        tabindex="0"
+    >
         <h3 class="settings-content-title">{title}</h3>
         {#if beta}
             <div class="beta-label">{$t("general.beta")}</div>
+        {/if}
+        {#if showCopy}
+            <button
+                class="settings-link-copy"
+                on:click={() => {
+                    copied = true;
+                    copyURL();
+                }}
+            >
+                <CopyIcon check={copied} />
+            </button>
         {/if}
     </div>
     <slot></slot>
 </section>
 
 <style>
+    .settings-link-copy {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .settings-link-copy :global(.copy-animation) {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+    }
+
+    .settings-link-copy :global(.copy-animation *) {
+        width: 16px;
+        height: 16px;
+    }
+
+    .settings-link-copy :global(.copy-animation):hover {
+        opacity: 1;
+    }
+
     .settings-content {
         display: flex;
         flex-direction: column;
@@ -86,7 +138,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
     }
 
     .beta-label {
