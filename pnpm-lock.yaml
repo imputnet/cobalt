@@ -140,6 +140,9 @@ importers:
       compare-versions:
         specifier: ^6.1.0
         version: 6.1.1
+      dotenv:
+        specifier: ^16.0.1
+        version: 16.4.5
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
