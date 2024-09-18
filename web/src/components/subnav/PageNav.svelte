@@ -73,7 +73,10 @@
                 </h3>
             {:else}
                 {#if pageSubtitle}
-                    <div class="subtext subnav-subtitle">
+                    <div
+                        class="subtext subnav-subtitle"
+                        class:hidden={pageSubtitle === "\xa0"}
+                    >
                         {pageSubtitle}
                     </div>
                 {/if}
@@ -89,7 +92,10 @@
         >
             <slot name="navigation"></slot>
             {#if isMobile && isHome && pageSubtitle}
-                <div class="subtext subnav-subtitle center">
+                <div
+                    class="subtext subnav-subtitle center"
+                    class:hidden={pageSubtitle === "\xa0"}
+                >
                     {pageSubtitle}
                 </div>
             {/if}
@@ -170,6 +176,11 @@
 
     .subnav-subtitle {
         padding: 0;
+        transition: opacity 0.1s;
+    }
+
+    .subnav-subtitle.hidden {
+        opacity: 0;
     }
 
     .subnav-subtitle.center {
