@@ -9,15 +9,7 @@ const allowedScriptOrigins = [
 export async function GET() {
     const CSP = {
         "connect-src": ["*"],
-        "default-src": ["'none'"],
-
-        "font-src": ["'self'"],
-        "style-src": ["'self'"],
-        "style-src-attr": ["'self'"],
-        "style-src-elem": ["'self'"],
-        "img-src": ["'self'", "data:"],
-        "manifest-src": ["'self'"],
-        "worker-src": ["'self'"],
+        "default-src": ["'self'"],
 
         "script-src": allowedScriptOrigins,
         "script-src-attr": allowedScriptOrigins,
