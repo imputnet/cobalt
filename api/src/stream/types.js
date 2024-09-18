@@ -291,7 +291,7 @@ const convertGif = (streamInfo, res) => {
         const [,,, muxOutput] = process.stdio;
 
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename.split('.')[0] + ".gif"));
+        res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
         pipe(muxOutput, res, shutdown);
 
