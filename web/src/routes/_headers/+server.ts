@@ -1,5 +1,11 @@
 import env from "$lib/env";
 
+const allowedScriptOrigins = [
+    "'self'",
+    "challenges.cloudflare.com",
+    env.PLAUSIBLE_HOST ? env.PLAUSIBLE_HOST : ""
+]
+
 export async function GET() {
     const CSP = {
         "connect-src": ["*"],
@@ -7,15 +13,14 @@ export async function GET() {
 
         "font-src": ["'self'"],
         "style-src": ["'self'"],
-        "img-src": ["'self'"],
+        "style-src-attr": ["'self'"],
+        "style-src-elem": ["'self'"],
+        "img-src": ["'self'", "data:"],
         "manifest-src": ["'self'"],
         "worker-src": ["'self'"],
 
-        "script-src": [
-            "'self'",
-            "challenges.cloudflare.com",
-            env.PLAUSIBLE_HOST ? env.PLAUSIBLE_HOST : ""
-        ],
+        "script-src": allowedScriptOrigins,
+        "script-src-attr": allowedScriptOrigins,
         "frame-src": ["challenges.cloudflare.com"],
     }
 
