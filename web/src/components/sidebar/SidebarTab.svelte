@@ -28,11 +28,6 @@
 
     $: if (isTabActive && tab) {
         showTab(tab);
-
-        tab.classList.add("animate");
-        setTimeout(() => {
-            tab.classList.remove("animate");
-        }, 250);
     }
 </script>
 
@@ -63,7 +58,7 @@
         padding: var(--padding) 5px;
         color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
-        opacity: 0.8;
+        opacity: 0.75;
         height: fit-content;
         border-radius: var(--border-radius);
         transition: transform 0.2s;
@@ -88,19 +83,15 @@
         color: var(--sidebar-bg);
         background: var(--sidebar-highlight);
         opacity: 1;
-        transition: none;
         transform: none;
+        animation: pressButton 0.3s;
     }
 
-    :global(.sidebar-tab.animate) {
-        animation: pressButton 0.2s;
-    }
-
-    .sidebar-tab:active:not(.active) {
+    .sidebar-tab:active {
         transform: scale(0.95);
     }
 
-    :global([data-reduce-motion="true"]) .sidebar-tab:active:not(.active) {
+    :global([data-reduce-motion="true"]) .sidebar-tab:active {
         transform: none;
     }
 
@@ -112,10 +103,10 @@
 
     @keyframes pressButton {
         0% {
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
         50% {
-            transform: scale(1.02);
+            transform: scale(1.015);
         }
         100% {
             transform: scale(1);
@@ -127,6 +118,7 @@
             opacity: 1;
             background-color: var(--sidebar-hover);
         }
+
         .sidebar-tab:hover:not(.active) {
             opacity: 1;
             background-color: var(--sidebar-hover);
@@ -136,7 +128,13 @@
     @media screen and (max-width: 535px) {
         .sidebar-tab {
             padding: 5px var(--padding);
+            gap: 3px;
             min-width: calc(var(--sidebar-width) / 2);
+        }
+
+        .sidebar-tab :global(svg) {
+            height: 22px;
+            width: 22px;
         }
 
         .sidebar-tab.active {
@@ -149,10 +147,10 @@
 
         @keyframes pressButton {
             0% {
-                transform: scale(0.9);
+                transform: scale(0.8);
             }
-            60% {
-                transform: scale(1.015);
+            50% {
+                transform: scale(1.02);
             }
             100% {
                 transform: scale(1);
