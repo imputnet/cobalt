@@ -1,11 +1,13 @@
 <script lang="ts">
     import env from "$lib/env";
+    import { t } from "$lib/i18n/translations";
+
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
 
 <section id="general">
 <SectionHeading
-    title="general terms"
+    title={$t("about.heading.general")}
     sectionId="general"
 />
 
@@ -16,7 +18,7 @@ these terms are applicable only when using the official cobalt instance. in othe
 
 <section id="local">
 <SectionHeading
-    title="on-device processing"
+    title={$t("about.heading.local")}
     sectionId="local"
 />
 
@@ -25,7 +27,7 @@ tools that use on-device processing work offline, locally, and never send any da
 
 <section id="saving">
 <SectionHeading
-    title="saving"
+    title={$t("about.heading.saving")}
     sectionId="saving"
 />
 
@@ -36,7 +38,7 @@ processed/tunneled files are never cached anywhere. everything is tunneled live.
 
 <section id="encryption">
 <SectionHeading
-    title="encryption"
+    title={$t("about.heading.encryption")}
     sectionId="encryption"
 />
 
@@ -46,7 +48,7 @@ temporarily stored tunnel data is encrypted using the AES-256 standard. decrypti
 {#if env.PLAUSIBLE_ENABLED}
 <section id="plausible">
 <SectionHeading
-    title="anonymous traffic analytics"
+    title={$t("about.heading.plausible")}
     sectionId="plausible"
 />
 
@@ -62,7 +64,7 @@ if you wish to opt out of anonymous analytics, you can do it in <a href="/settin
 
 <section id="cloudflare">
 <SectionHeading
-    title="web privacy & security"
+    title={$t("about.heading.cloudflare")}
     sectionId="cloudflare"
 />
 

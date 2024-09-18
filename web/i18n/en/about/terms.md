@@ -1,10 +1,11 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
 
 <section id="general">
 <SectionHeading
-    title="general terms"
+    title={$t("about.heading.general")}
     sectionId="general"
 />
 
@@ -13,7 +14,7 @@ these terms are applicable only when using the official cobalt instance. in othe
 
 <section id="saving">
 <SectionHeading
-    title="saving"
+    title={$t("about.heading.saving")}
     sectionId="saving"
 />
 
@@ -24,7 +25,7 @@ saving functionality simplifies downloading content from the internet and takes 
 
 <section id="responsibility">
 <SectionHeading
-    title="responsibilities"
+    title={$t("about.heading.responsibility")}
     sectionId="responsibility"
 />
 
@@ -37,7 +38,7 @@ fair use and credits benefit everyone.
 
 <section id="abuse">
 <SectionHeading
-    title="reporting abuse"
+    title={$t("about.heading.abuse")}
     sectionId="abuse"
 />
 

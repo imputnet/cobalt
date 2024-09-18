@@ -1,11 +1,13 @@
 <script lang="ts">
     import { contacts, docs } from "$lib/env";
+    import { t } from "$lib/i18n/translations";
+
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
 
 <section id="meowbalt">
 <SectionHeading
-    title="meowbalt"
+    title={$t("general.meowbalt")}
     sectionId="meowbalt"
 />
 
@@ -21,7 +23,7 @@ you cannot use or modify the meowbalt character design commercially or in any fo
 
 <section id="licenses">
 <SectionHeading
-    title="cobalt licenses"
+    title={$t("about.heading.licenses")}
     sectionId="licenses"
 />
 

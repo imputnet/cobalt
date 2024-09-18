@@ -1,11 +1,13 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
     import { partners, contacts, docs } from "$lib/env";
+
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
 
 <section id="saving">
 <SectionHeading
-    title="best way to save what you love"
+    title={$t("about.heading.summary")}
     sectionId="saving"
 />
 
@@ -16,7 +18,7 @@ no ads, trackers, or paywalls, no nonsense. just a convenient web app that works
 
 <section id="privacy">
 <SectionHeading
-    title="leading privacy"
+    title={$t("about.heading.privacy")}
     sectionId="privacy"
 />
 
@@ -33,7 +35,7 @@ all they'll see is that you're using cobalt.
 
 <section id="speed">
 <SectionHeading
-    title="blazing speed"
+    title={$t("about.heading.speed")}
     sectionId="speed"
 />
 
@@ -49,7 +51,7 @@ you're in good hands, and will get what you need within seconds.
 
 <section id="community">
 <SectionHeading
-    title="open community"
+    title={$t("about.heading.community")}
     sectionId="community"
 />
 
@@ -66,7 +68,7 @@ if your friend hosts one, just ask them for a domain and [add it in instance set
 
 <section id="local">
 <SectionHeading
-    title="on-device processing"
+    title={$t("about.heading.local")}
     sectionId="local"
 />
 
