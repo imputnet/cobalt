@@ -8,6 +8,8 @@
 
     "tunnel.probe": "couldn't verify whether you can download this file. try again in a few seconds!",
 
+    "captcha_ongoing": "still checking if you're not a bot. wait for the spinner to disappear and try again.\n\nif it takes too long, please let us know! we use cloudflare turnstile for bot protection and sometimes it blocks people for no reason.",
+
     "api.auth.jwt.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
     "api.auth.jwt.invalid": "couldn't confirm whether you're not a robot because your human access token expired and wasn't renewed. try again in a few seconds or reload the page!",
     "api.auth.turnstile.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
