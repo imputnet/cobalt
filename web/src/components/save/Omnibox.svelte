@@ -35,9 +35,10 @@
     let downloadButton: SvelteComponent;
 
     let isFocused = false;
+
     let isDisabled = false;
-    let isBotCheckOngoing = false;
     let isLoading = false;
+    let isBotCheckOngoing = false;
 
     const validLink = (url: string) => {
         try {
@@ -164,7 +165,7 @@
             disabled={isDisabled}
         />
 
-        {#if $link}
+        {#if $link && !isLoading}
             <ClearButton click={() => ($link = "")} />
         {/if}
         {#if validLink($link)}
