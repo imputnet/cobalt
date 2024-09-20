@@ -36,6 +36,8 @@
 
     let isFocused = false;
     let isDisabled = false;
+    let isBotCheckOngoing = false;
+    let isLoading = false;
 
     const validLink = (url: string) => {
         try {
@@ -57,18 +59,18 @@
         goto("/", { replaceState: true });
     }
 
-    // FIXME: figure out why regular processing spinner
-    // doesn't show up after turnstile loads
     $: if ($cachedInfo?.info?.cobalt?.turnstileSitekey) {
         if ($turnstileLoaded) {
-            isDisabled = false;
+            isBotCheckOngoing = false;
         } else {
-            isDisabled = true;
+            isBotCheckOngoing = true;
         }
+    } else {
+        isBotCheckOngoing = false;
     }
 
     const pasteClipboard = () => {
-        if (isDisabled || $dialogs.length > 0) {
+        if ($dialogs.length > 0 || isDisabled || isLoading) {
             return;
         }
 
@@ -77,8 +79,10 @@
             if (matchLink) {
                 $link = matchLink[0];
 
-                await tick(); // wait for button to render
-                downloadButton.download($link);
+                if (!isBotCheckOngoing) {
+                    await tick(); // wait for button to render
+                    downloadButton.download($link);
+                }
             }
         });
     };
@@ -88,7 +92,7 @@
     };
 
     const handleKeydown = (e: KeyboardEvent) => {
-        if (!linkInput || $dialogs.length > 0 || isDisabled) {
+        if (!linkInput || $dialogs.length > 0 || isDisabled || isLoading) {
             return;
         }
 
@@ -135,8 +139,8 @@
         class:focused={isFocused}
         class:downloadable={validLink($link)}
     >
-        <div id="input-link-icon" class:loading={isDisabled}>
-            {#if isDisabled}
+        <div id="input-link-icon" class:loading={isLoading || isBotCheckOngoing}>
+            {#if isLoading || isBotCheckOngoing}
                 <IconLoader2 />
             {:else}
                 <IconLink />
@@ -168,6 +172,7 @@
                 url={$link}
                 bind:this={downloadButton}
                 bind:disabled={isDisabled}
+                bind:loading={isLoading}
             />
         {/if}
     </div>
