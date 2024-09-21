@@ -192,6 +192,24 @@
                 "code": 400,
                 "status": "error"
             }
+        },
+        {
+            "name": "bookmarked video",
+            "url": "https://twitter.com/i/bookmarks?post_id=1828099210220294314",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "bookmarked photo",
+            "url": "https://twitter.com/i/bookmarks?post_id=1837430141179289876",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
         }
     ],
     "soundcloud": [
