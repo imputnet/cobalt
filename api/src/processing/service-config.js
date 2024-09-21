@@ -141,7 +141,7 @@ export const services = {
             "i/bookmarks?post_id=:id"
         ],
         subdomains: ["mobile"],
-        altDomains: ["x.com", "vxtwitter.com", "fixvx.com"],
+        altDomains: ["x.com", "vxtwitter.com", "fixvx.com", "stupidpenisx.com"],
     },
     vine: {
         patterns: ["v/:id"],
