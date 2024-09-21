@@ -8,7 +8,10 @@
         "build": "vite build",
         "preview": "vite preview",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+        "test": "playwright test",
+        "test:headfull": "playwright test --headed",
+        "test:withui": "playwright test --ui"
     },
     "license": "CC-BY-NC-SA-4.0",
     "engines": {
@@ -26,12 +29,13 @@
     "devDependencies": {
         "@eslint/js": "^9.5.0",
         "@fontsource/redaction-10": "^5.0.2",
+        "@playwright/test": "^1.47.1",
         "@sveltejs/adapter-static": "^3.0.2",
         "@sveltejs/kit": "^2.0.0",
         "@sveltejs/vite-plugin-svelte": "^3.0.0",
         "@types/eslint__js": "^8.42.3",
         "@types/fluent-ffmpeg": "^2.1.25",
-        "@types/node": "^20.14.10",
+        "@types/node": "^20.14.14",
         "compare-versions": "^6.1.0",
         "eslint": "^8.57.0",
         "glob": "^10.4.5",

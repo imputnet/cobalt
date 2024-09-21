@@ -6,3 +6,8 @@
 # vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
