@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
-    import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
+    import IconChevronRight from "virtual:icons/tabler/chevron-right";
 
     export let tabPath: string;
     export let tabTitle: string;

@@ -3,6 +3,8 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import basicSSL from "@vitejs/plugin-basic-ssl";
 import { glob } from "glob";
 import mime from "mime";
+import Icons from 'unplugin-icons/vite'
+
 
 import { cp, readdir, mkdir } from "node:fs/promises";
 import { createReadStream } from "node:fs";
@@ -65,6 +67,7 @@ export default defineConfig({
     plugins: [
         basicSSL(),
         sveltekit(),
+        Icons({ compiler: 'svelte' }),
         enableCOEP,
         exposeLibAV
     ],

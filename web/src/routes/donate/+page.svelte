@@ -9,7 +9,7 @@
     import DonateShareCard from "$components/donate/DonateShareCard.svelte";
     import DonateOptionsCard from "$components/donate/DonateOptionsCard.svelte";
 
-    import IconDiamond from "@tabler/icons-svelte/IconDiamond.svelte";
+    import IconDiamond from "virtual:icons/tabler/diamond";
 </script>
 
 <svelte:head>

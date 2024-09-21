@@ -5,21 +5,21 @@
     import DonateCardContainer from "$components/donate/DonateCardContainer.svelte";
     import DonationOption from "$components/donate/DonationOption.svelte";
 
-    import IconCoin from "@tabler/icons-svelte/IconCoin.svelte";
-    import IconCalendarRepeat from "@tabler/icons-svelte/IconCalendarRepeat.svelte";
-    import IconCup from "@tabler/icons-svelte/IconCup.svelte";
-    import IconPizza from "@tabler/icons-svelte/IconPizza.svelte";
-    import IconToolsKitchen2 from "@tabler/icons-svelte/IconToolsKitchen2.svelte";
-    import IconPaperBag from "@tabler/icons-svelte/IconPaperBag.svelte";
-    import IconArrowRight from "@tabler/icons-svelte/IconArrowRight.svelte";
-    import IconSoup from "@tabler/icons-svelte/IconSoup.svelte";
-    import IconFridge from "@tabler/icons-svelte/IconFridge.svelte";
-    import IconArmchair from "@tabler/icons-svelte/IconArmchair.svelte";
-    import IconDeviceLaptop from "@tabler/icons-svelte/IconDeviceLaptop.svelte";
-    import IconApple from "@tabler/icons-svelte/IconApple.svelte";
-    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
-    import IconWorldWww from "@tabler/icons-svelte/IconWorldWww.svelte";
-    import IconBath from "@tabler/icons-svelte/IconBath.svelte";
+    import IconCoin from "virtual:icons/tabler/coin";
+    import IconCalendarRepeat from "virtual:icons/tabler/calendar-repeat";
+    import IconCup from "virtual:icons/tabler/cup";
+    import IconPizza from "virtual:icons/tabler/pizza";
+    import IconToolsKitchen2 from "virtual:icons/tabler/tools-kitchen-2";
+    import IconPaperBag from "virtual:icons/tabler/paper-bag";
+    import IconArrowRight from "virtual:icons/tabler/arrow-right";
+    import IconSoup from "virtual:icons/tabler/soup";
+    import IconFridge from "virtual:icons/tabler/fridge";
+    import IconArmchair from "virtual:icons/tabler/armchair";
+    import IconDeviceLaptop from "virtual:icons/tabler/device-laptop";
+    import IconApple from "virtual:icons/tabler/apple";
+    import IconPhoto from "virtual:icons/tabler/photo";
+    import IconWorldWww from "virtual:icons/tabler/world-www";
+    import IconBath from "virtual:icons/tabler/bath";
     import OuterLink from "$components/misc/OuterLink.svelte";
 
     let customInput: HTMLInputElement;

@@ -3,7 +3,7 @@
     import { createDialog } from "$lib/dialogs";
     import { resetSettings } from "$lib/state/settings";
 
-    import IconTrash from "@tabler/icons-svelte/IconTrash.svelte";
+    import IconTrash from "virtual:icons/tabler/trash";
 
     const resetDialog = () => {
         createDialog({

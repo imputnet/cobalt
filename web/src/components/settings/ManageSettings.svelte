@@ -11,9 +11,9 @@
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import ResetSettingsButton from "$components/settings/ResetSettingsButton.svelte";
 
-    import IconFileExport from "@tabler/icons-svelte/IconFileExport.svelte";
-    import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
-
+    import IconFileExport from "virtual:icons/tabler/file-export";
+    import IconFileImport from "virtual:icons/tabler/file-import";
+    
     const updateSettings = (reader: FileReader) => {
         try {
             const data = reader.result?.toString();
