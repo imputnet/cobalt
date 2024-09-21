@@ -137,7 +137,8 @@ export const services = {
             ":user/status/:id/video/:index",
             ":user/status/:id/photo/:index",
             ":user/status/:id/mediaviewer",
-            ":user/status/:id/mediaViewer"
+            ":user/status/:id/mediaViewer",
+            "i/bookmarks?post_id=:id"
         ],
         subdomains: ["mobile"],
         altDomains: ["x.com", "vxtwitter.com", "fixvx.com"],
