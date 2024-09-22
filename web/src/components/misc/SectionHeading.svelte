@@ -39,7 +39,7 @@
     .heading-container {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: wrap-reverse;
         gap: 6px;
         justify-content: start;
         align-items: center;
