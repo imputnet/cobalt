@@ -5,8 +5,9 @@ import lazySettingGetter from "$lib/settings/lazy-get";
 
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
-import { cachedInfo } from "$lib/api/server-info";
+import { turnstileLoaded } from "$lib/state/turnstile";
 import { apiOverrideWarning } from "$lib/api/safety-warning";
+import { cachedInfo, getServerInfo } from "$lib/api/server-info";
 
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
@@ -37,9 +38,31 @@ const request = async (url: string) => {
 
     await apiOverrideWarning();
 
+    await getServerInfo();
+
+    const getCachedInfo = get(cachedInfo);
+
+    if (!getCachedInfo) {
+        return {
+            status: "error",
+            error: {
+                code: "error.api.unreachable"
+            }
+        } as CobaltErrorResponse;
+    }
+
+    if (getCachedInfo?.info?.cobalt?.turnstileSitekey && !get(turnstileLoaded)) {
+        return {
+            status: "error",
+            error: {
+                code: "error.captcha_ongoing"
+            }
+        } as CobaltErrorResponse;
+    }
+
     const api = currentApiURL();
 
-    const session = get(cachedInfo)?.info?.cobalt?.turnstileSitekey
+    const session = getCachedInfo?.info?.cobalt?.turnstileSitekey
                     ? await getSession() : undefined;
 
     let extraHeaders = {}

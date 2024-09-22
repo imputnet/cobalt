@@ -6,9 +6,6 @@
     import { createDialog } from "$lib/dialogs";
     import { downloadFile } from "$lib/download";
 
-    import { cachedInfo, getServerInfo } from "$lib/api/server-info";
-    import { turnstileLoaded } from "$lib/state/turnstile";
-
     import type { DialogInfo } from "$lib/types/dialog";
 
     export let url: string;
@@ -65,26 +62,6 @@
 
     export const download = async (link: string) => {
         changeDownloadButton("think");
-
-        await getServerInfo();
-
-        if (!$cachedInfo) {
-            changeDownloadButton("error");
-
-            return createDialog({
-                ...defaultErrorPopup,
-                bodyText: $t("error.api.unreachable"),
-            });
-        }
-
-        if ($cachedInfo?.info?.cobalt?.turnstileSitekey && !$turnstileLoaded) {
-            changeDownloadButton("error");
-
-            return createDialog({
-                ...defaultErrorPopup,
-                bodyText: $t("error.captcha_ongoing"),
-            });
-        }
 
         const response = await API.request(link);
 
