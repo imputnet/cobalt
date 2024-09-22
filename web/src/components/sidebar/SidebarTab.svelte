@@ -67,6 +67,8 @@
         text-decoration-line: none;
         position: relative;
         scroll-behavior: smooth;
+
+        cursor: pointer;
     }
 
     .sidebar-tab :global(svg) {
@@ -84,10 +86,12 @@
         background: var(--sidebar-highlight);
         opacity: 1;
         transform: none;
+        transition: none;
         animation: pressButton 0.3s;
+        cursor: default;
     }
 
-    .sidebar-tab:active {
+    .sidebar-tab:not(.active):active {
         transform: scale(0.95);
     }
 
