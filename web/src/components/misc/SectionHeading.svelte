@@ -51,22 +51,22 @@
         padding: 2px;
         box-shadow: none;
         border-radius: 5px;
-        transition: opacity 0.1s;
+        transition: opacity 0.2s;
+        opacity: 0.7;
+    }
+
+    .link-copy:focus-visible {
+        opacity: 1;
     }
 
     .link-copy :global(.copy-animation) {
         width: 17px;
         height: 17px;
-        opacity: 0.7;
     }
 
     .link-copy :global(.copy-animation *) {
         width: 17px;
         height: 17px;
-    }
-
-    .link-copy :global(.copy-animation):hover {
-        opacity: 1;
     }
 
     .beta-label {
@@ -84,10 +84,6 @@
     }
 
     @media (hover: hover) {
-        .link-copy:not(:focus-visible) {
-            opacity: 0;
-        }
-
         .heading-container:hover .link-copy {
             opacity: 1;
         }
