@@ -122,5 +122,6 @@
     .button-row {
         display: flex;
         gap: var(--padding);
+        flex-wrap: wrap;
     }
 </style>
