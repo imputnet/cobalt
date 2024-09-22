@@ -54,8 +54,8 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 5px;
-        padding: var(--padding) 5px;
+        gap: 3px;
+        padding: var(--padding) 3px;
         color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
         opacity: 0.75;
@@ -73,8 +73,8 @@
 
     .sidebar-tab :global(svg) {
         stroke-width: 1.2px;
-        height: 21px;
-        width: 21px;
+        height: 22px;
+        width: 22px;
     }
 
     :global([data-iphone="true"] .sidebar-tab svg) {
@@ -132,13 +132,7 @@
     @media screen and (max-width: 535px) {
         .sidebar-tab {
             padding: 5px var(--padding);
-            gap: 3px;
             min-width: calc(var(--sidebar-width) / 2);
-        }
-
-        .sidebar-tab :global(svg) {
-            height: 22px;
-            width: 22px;
         }
 
         .sidebar-tab.active {
