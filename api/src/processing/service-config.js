@@ -176,7 +176,7 @@ export const services = {
 Object.values(services).forEach(service => {
     service.patterns = service.patterns.map(
         pattern => new UrlPattern(pattern, {
-            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.'
+            segmentValueCharset: UrlPattern.defaultOptions.segmentValueCharset + '@\\.:'
         })
     )
 })
