@@ -140,7 +140,10 @@
         class:focused={isFocused}
         class:downloadable={validLink($link)}
     >
-        <div id="input-link-icon" class:loading={isLoading || isBotCheckOngoing}>
+        <div
+            id="input-link-icon"
+            class:loading={isLoading || isBotCheckOngoing}
+        >
             {#if isLoading || isBotCheckOngoing}
                 <IconLoader2 />
             {:else}
@@ -160,7 +163,9 @@
             autocapitalize="off"
             maxlength="512"
             placeholder={$t("save.input.placeholder")}
-            aria-label={$t("a11y.save.link_area")}
+            aria-label={isBotCheckOngoing
+                ? $t("a11y.save.link_area.turnstile")
+                : $t("a11y.save.link_area")}
             data-form-type="other"
             disabled={isDisabled}
         />

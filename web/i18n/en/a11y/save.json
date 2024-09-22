@@ -1,5 +1,6 @@
 {
     "link_area": "link input area",
+    "link_area.turnstile": "link input area. checking if you're not a robot.",
     "clear_input": "clear input",
     "download": "download",
     "download.think": "processing the link...",
