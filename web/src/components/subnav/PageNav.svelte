@@ -138,7 +138,7 @@
     }
 
     .subnav-page-content.wide {
-        max-width: 800px;
+        max-width: 700px;
     }
 
     .subnav-page-content.padding {
