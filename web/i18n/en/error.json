@@ -38,7 +38,7 @@
     "api.content.too_long": "the media you requested is too long. current duration limit is {{ limit }} minutes. try something shorter instead!",
 
     "api.content.video.unavailable": "i can't access this video. it may be restricted on {{ service }}'s side. have you pasted the right link?",
-    "api.content.video.live": "this video is currently live, so i can't download it yet. wait for the livestream to finish, and then try again!",
+    "api.content.video.live": "this video is currently live, so i can't download it yet. wait for the live stream to finish, and then try again!",
     "api.content.video.private": "this video is private, so i cannot access it. change its visibility or try another one!",
     "api.content.video.age": "this video is age-restricted, so i can't access it anonymously. try another one!",
     "api.content.video.region": "this video is region locked, and the processing server is in a different location. try another one!",
