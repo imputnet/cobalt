@@ -492,6 +492,14 @@
         margin-block-start: 0.3em;
     }
 
+    :global(.long-text-noto.about .heading-container) {
+        padding-top: calc(var(--padding) / 2);
+    }
+
+    :global(.long-text-noto.about section:first-of-type .heading-container) {
+        padding-top: 0;
+    }
+
     @media screen and (max-width: 535px) {
         :global(.long-text-noto),
         :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
