@@ -1401,7 +1401,7 @@
     "bsky": [
         {
             "name": "horizontal video",
-            "url": "https://bsky.app/profile/haileyok.com/post/3l3giwtwp222m",
+            "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3giwtwp222m",
             "params": {},
             "expected": {
                 "code": 200,
@@ -1410,7 +1410,7 @@
         },
         {
             "name": "horizontal video, recordWithMedia",
-            "url": "https://bsky.app/profile/juicysteak117.gay/post/3l3wonhk23g2i",
+            "url": "https://bsky.app/profile/did:plc:ywbm3iywnhzep3ckt6efhoh7/post/3l3wonhk23g2i",
             "params": {},
             "expected": {
                 "code": 200,
@@ -1419,7 +1419,7 @@
         },
         {
             "name": "vertical video",
-            "url": "https://bsky.app/profile/haileyok.com/post/3l3jhpomhjk2m",
+            "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
             "params": {},
             "expected": {
                 "code": 200,
@@ -1428,7 +1428,7 @@
         },
         {
             "name": "vertical video (muted)",
-            "url": "https://bsky.app/profile/haileyok.com/post/3l3jhpomhjk2m",
+            "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
             "params": {
                 "downloadMode": "mute"
             },
@@ -1439,7 +1439,7 @@
         },
         {
             "name": "vertical video (audio)",
-            "url": "https://bsky.app/profile/haileyok.com/post/3l3jhpomhjk2m",
+            "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
             "params": {
                 "downloadMode": "audio"
             },
@@ -1450,7 +1450,7 @@
         },
         {
             "name": "single image",
-            "url": "https://bsky.app/profile/thehardyboycats.bsky.social/post/3l33flpoygt26",
+            "url": "https://bsky.app/profile/did:plc:k4a7d65fcyevbrnntjxh57go/post/3l33flpoygt26",
             "params": {},
             "expected": {
                 "code": 200,
@@ -1459,7 +1459,7 @@
         },
         {
             "name": "several images",
-            "url": "https://bsky.app/profile/tracey-m.bsky.social/post/3kzxuxbiul626",
+            "url": "https://bsky.app/profile/did:plc:rai7s6su2sy22ss7skouedl7/post/3kzxuxbiul626",
             "params": {},
             "expected": {
                 "code": 200,

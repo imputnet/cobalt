@@ -107,6 +107,16 @@ export const runAPI = (express, app, __dirname) => {
     app.use('/tunnel', apiLimiterStream);
 
     app.post('/', (req, res, next) => {
+        if (!acceptRegex.test(req.header('Accept'))) {
+            return fail(res, "error.api.header.accept");
+        }
+        if (!acceptRegex.test(req.header('Content-Type'))) {
+            return fail(res, "error.api.header.content_type");
+        }
+        next();
+    });
+
+    app.post('/', (req, res, next) => {
         if (!env.sessionEnabled) {
             return next();
         }
@@ -127,14 +137,6 @@ export const runAPI = (express, app, __dirname) => {
 
             if (!verifyJwt) {
                 return fail(res, "error.api.auth.jwt.invalid");
-            }
-
-            if (!acceptRegex.test(req.header('Accept'))) {
-                return fail(res, "error.api.header.accept");
-            }
-
-            if (!acceptRegex.test(req.header('Content-Type'))) {
-                return fail(res, "error.api.header.content_type");
             }
 
             req.authorized = true;
