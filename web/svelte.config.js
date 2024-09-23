@@ -56,7 +56,7 @@ const config = {
 
                 "font-src": ["self"],
                 "style-src": ["self", "unsafe-inline"],
-                "img-src": ["self", "data:"],
+                "img-src": ["*"],
                 "manifest-src": ["self"],
                 "worker-src": ["self"],
 
