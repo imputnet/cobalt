@@ -45,7 +45,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="disable-metadata"
+    sectionId="metadata"
     title={$t("settings.metadata.file")}
 >
     <SettingsToggle

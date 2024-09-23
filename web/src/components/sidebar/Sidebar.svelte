@@ -70,7 +70,6 @@
 
     #sidebar-tabs {
         height: 100%;
-        width: var(--sidebar-width);
         justify-content: space-between;
         padding: var(--sidebar-inner-padding);
         padding-bottom: var(--border-radius);
@@ -110,7 +109,6 @@
             overflow-x: scroll;
             padding-bottom: 0;
             padding: var(--sidebar-inner-padding) 0;
-            width: unset;
             height: fit-content;
         }
 

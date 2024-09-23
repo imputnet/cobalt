@@ -49,6 +49,7 @@ export const runAPI = (express, app, __dirname) => {
             url: env.apiURL,
             startTime: `${startTimestamp}`,
             durationLimit: env.durationLimit,
+            turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
             services: [...env.enabledServices].map(e => {
                 return friendlyServiceName(e);
             }),
@@ -109,16 +110,14 @@ export const runAPI = (express, app, __dirname) => {
         if (!acceptRegex.test(req.header('Accept'))) {
             return fail(res, "error.api.header.accept");
         }
-
         if (!acceptRegex.test(req.header('Content-Type'))) {
             return fail(res, "error.api.header.content_type");
         }
-
         next();
     });
 
     app.post('/', (req, res, next) => {
-        if (!env.turnstileSecret || !env.jwtSecret) {
+        if (!env.sessionEnabled) {
             return next();
         }
 
@@ -160,7 +159,7 @@ export const runAPI = (express, app, __dirname) => {
     });
 
     app.post("/session", async (req, res) => {
-        if (!env.turnstileSecret || !env.jwtSecret) {
+        if (!env.sessionEnabled) {
             return fail(res, "error.api.auth.not_configured")
         }
 

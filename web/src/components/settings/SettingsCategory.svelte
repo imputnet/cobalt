@@ -1,6 +1,8 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import { t } from "$lib/i18n/translations";
+    import { copyURL as _copyURL } from "$lib/download";
+
+    import SectionHeading from "$components/misc/SectionHeading.svelte";
 
     export let title: string;
     export let sectionId: string;
@@ -9,11 +11,18 @@
     export let beta = false;
 
     let focus = false;
+    let copied = false;
 
     $: hash = $page.url.hash.replace("#", "");
 
     $: if (hash === sectionId) {
         focus = true;
+    }
+
+    $: if (copied) {
+        setTimeout(() => {
+            copied = false;
+        }, 1500);
     }
 </script>
 
@@ -24,12 +33,7 @@
     class:disabled
     aria-hidden={disabled}
 >
-    <div class="settings-content-header">
-        <h3 class="settings-content-title">{title}</h3>
-        {#if beta}
-            <div class="beta-label">{$t("general.beta")}</div>
-        {/if}
-    </div>
+    <SectionHeading {title} {sectionId} {beta} />
     <slot></slot>
 </section>
 
@@ -80,27 +84,6 @@
         100% {
             box-shadow: none;
         }
-    }
-
-    .settings-content-header {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .beta-label {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 5px;
-        padding: 0 5px;
-        background: var(--secondary);
-        color: var(--primary);
-        font-size: 11px;
-        font-weight: 500;
-        line-height: 0;
-        text-transform: uppercase;
     }
 
     @media screen and (max-width: 750px) {

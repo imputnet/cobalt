@@ -40,6 +40,8 @@ type CobaltTunnelResponse = {
     status: CobaltResponseType.Tunnel,
 } & CobaltPartialURLResponse;
 
+export type CobaltFileUrlType = "redirect" | "tunnel";
+
 export type CobaltSession = {
     token: string,
     exp: number,
@@ -51,6 +53,7 @@ export type CobaltServerInfo = {
         url: string,
         startTime: string,
         durationLimit: number,
+        turnstileSitekey?: string,
         services: string[]
     },
     git: {
@@ -64,6 +67,6 @@ export type CobaltSessionResponse = CobaltSession | CobaltErrorResponse;
 export type CobaltServerInfoResponse = CobaltServerInfo | CobaltErrorResponse;
 
 export type CobaltAPIResponse = CobaltErrorResponse
-                            | CobaltPickerResponse
-                            | CobaltRedirectResponse
-                            | CobaltTunnelResponse;
+                              | CobaltPickerResponse
+                              | CobaltRedirectResponse
+                              | CobaltTunnelResponse;

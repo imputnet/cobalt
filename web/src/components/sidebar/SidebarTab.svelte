@@ -28,11 +28,6 @@
 
     $: if (isTabActive && tab) {
         showTab(tab);
-
-        tab.classList.add("animate");
-        setTimeout(() => {
-            tab.classList.remove("animate");
-        }, 250);
     }
 </script>
 
@@ -59,11 +54,11 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 5px;
-        padding: var(--padding) 5px;
+        gap: 3px;
+        padding: var(--padding) 3px;
         color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
-        opacity: 0.8;
+        opacity: 0.75;
         height: fit-content;
         border-radius: var(--border-radius);
         transition: transform 0.2s;
@@ -72,12 +67,14 @@
         text-decoration-line: none;
         position: relative;
         scroll-behavior: smooth;
+
+        cursor: pointer;
     }
 
     .sidebar-tab :global(svg) {
         stroke-width: 1.2px;
-        height: 21px;
-        width: 21px;
+        height: 22px;
+        width: 22px;
     }
 
     :global([data-iphone="true"] .sidebar-tab svg) {
@@ -88,19 +85,17 @@
         color: var(--sidebar-bg);
         background: var(--sidebar-highlight);
         opacity: 1;
-        transition: none;
         transform: none;
+        transition: none;
+        animation: pressButton 0.3s;
+        cursor: default;
     }
 
-    :global(.sidebar-tab.animate) {
-        animation: pressButton 0.2s;
-    }
-
-    .sidebar-tab:active:not(.active) {
+    .sidebar-tab:not(.active):active {
         transform: scale(0.95);
     }
 
-    :global([data-reduce-motion="true"]) .sidebar-tab:active:not(.active) {
+    :global([data-reduce-motion="true"]) .sidebar-tab:active {
         transform: none;
     }
 
@@ -112,10 +107,10 @@
 
     @keyframes pressButton {
         0% {
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
         50% {
-            transform: scale(1.02);
+            transform: scale(1.015);
         }
         100% {
             transform: scale(1);
@@ -127,6 +122,7 @@
             opacity: 1;
             background-color: var(--sidebar-hover);
         }
+
         .sidebar-tab:hover:not(.active) {
             opacity: 1;
             background-color: var(--sidebar-hover);
@@ -149,10 +145,10 @@
 
         @keyframes pressButton {
             0% {
-                transform: scale(0.9);
+                transform: scale(0.8);
             }
-            60% {
-                transform: scale(1.015);
+            50% {
+                transform: scale(1.02);
             }
             100% {
                 transform: scale(1);

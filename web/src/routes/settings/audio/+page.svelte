@@ -9,7 +9,7 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 </script>
 
-<SettingsCategory sectionId="audio-format" title={$t("settings.audio.format")}>
+<SettingsCategory sectionId="format" title={$t("settings.audio.format")}>
     <Switcher big={true} description={$t("settings.audio.format.description")}>
         {#each audioFormatOptions as value}
             <SettingsButton
@@ -23,8 +23,7 @@
     </Switcher>
 </SettingsCategory>
 
-
-<SettingsCategory sectionId="audio-bitrate" title={$t("settings.audio.bitrate")}>
+<SettingsCategory sectionId="bitrate" title={$t("settings.audio.bitrate")}>
     <Switcher big={true} description={$t("settings.audio.bitrate.description")}>
         {#each audioBitrateOptions as value}
             <SettingsButton

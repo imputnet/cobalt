@@ -47,6 +47,8 @@
 
         text-decoration: none;
         text-decoration-line: none;
+
+        cursor: pointer;
     }
 
     .subnav-tab-left {
@@ -93,6 +95,7 @@
     .subnav-tab.active {
         background: var(--secondary);
         color: var(--primary);
+        cursor: default;
     }
 
     .subnav-tab-text {

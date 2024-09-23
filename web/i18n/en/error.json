@@ -8,6 +8,8 @@
 
     "tunnel.probe": "couldn't verify whether you can download this file. try again in a few seconds!",
 
+    "captcha_ongoing": "still checking if you're not a bot. wait for the spinner to disappear and try again.\n\nif it takes too long, please let us know! we use cloudflare turnstile for bot protection and sometimes it blocks people for no reason.",
+
     "api.auth.jwt.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
     "api.auth.jwt.invalid": "couldn't confirm whether you're not a robot because your human access token expired and wasn't renewed. try again in a few seconds or reload the page!",
     "api.auth.turnstile.missing": "couldn't confirm whether you're not a robot because the processing server didn't receive the human access token. try again in a few seconds or reload the page!",
@@ -36,7 +38,7 @@
     "api.content.too_long": "the media you requested is too long. current duration limit is {{ limit }} minutes. try something shorter instead!",
 
     "api.content.video.unavailable": "i can't access this video. it may be restricted on {{ service }}'s side. have you pasted the right link?",
-    "api.content.video.live": "this video is currently live, so i can't download it yet. wait for the livestream to finish, and then try again!",
+    "api.content.video.live": "this video is currently live, so i can't download it yet. wait for the live stream to finish, and then try again!",
     "api.content.video.private": "this video is private, so i cannot access it. change its visibility or try another one!",
     "api.content.video.age": "this video is age-restricted, so i can't access it anonymously. try another one!",
     "api.content.video.region": "this video is region locked, and the processing server is in a different location. try another one!",
@@ -45,7 +47,7 @@
     "api.content.post.private": "this post is from a private account, so i can't access it. have you pasted the right link?",
     "api.content.post.age": "this post is age-restricted, so i can't access it anonymously. have you pasted the right link?",
 
-    "api.youtube.codec": "youtube didn't return anything with your preferred codec & resolution. try another set of settings!",
+    "api.youtube.codec": "youtube didn't return anything with your preferred video codec. try another one in settings!",
     "api.youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video.\n\ntry again in a few seconds, but if issue sticks, contact us for support.",
     "api.youtube.login": "couldn't get this video because youtube labeled me as a bot. this is potentially caused by the processing instance not having any active account tokens. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
     "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!"
