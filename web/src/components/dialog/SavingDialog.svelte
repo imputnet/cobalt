@@ -10,6 +10,8 @@
         shareFile,
     } from "$lib/download";
 
+    import type { CobaltFileUrlType } from "$lib/types/api";
+
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
@@ -22,12 +24,14 @@
     import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
+
     export let id: string;
     export let dismissable = true;
     export let bodyText: string = "";
 
     export let url: string = "";
     export let file: File | undefined = undefined;
+    export let urlType: CobaltFileUrlType | undefined = undefined;
 
     let close: () => void;
 
@@ -55,7 +59,7 @@
             </div>
 
             <div class="action-buttons">
-                {#if device.supports.directDownload}
+                {#if device.supports.directDownload && !(device.is.iOS && urlType === "redirect")}
                     <VerticalActionButton
                         id="save-download"
                         fill

@@ -88,6 +88,7 @@
 
             return downloadFile({
                 url: response.url,
+                urlType: "redirect",
             });
         }
 
