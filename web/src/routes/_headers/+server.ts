@@ -1,4 +1,4 @@
-export async function GET() {
+export function GET() {
     const _headers = {
         "/*": {
             "Cross-Origin-Opener-Policy": "same-origin",
