@@ -8,6 +8,8 @@
 
     "tunnel.probe": "impossible de vérifier si vous pouvez télécharger ce fichier. réessayez dans quelques secondes !",
 
+    "captcha_ongoing": "je vérifie toujours si vous n'êtes pas un robot. attendez que le logo de chargement disparaisse et réessayez.\n\nsi cela prend trop de temps, veuillez nous le faire savoir ! nous utilisons cloudflare turnstile pour la protection contre les bots et il bloque parfois les gens sans raison.",
+
     "api.auth.jwt.missing": "impossible de confirmer que vous n'êtes pas un robot car le serveur de traitement n'a pas reçu le jeton d'accès humain. réessayez dans quelques secondes ou rechargez la page !",
     "api.auth.jwt.invalid": "impossible de confirmer que vous n'êtes pas un robot car votre jeton d'accès humain a expiré et n'a pas été renouvelé. réessayez dans quelques secondes ou rechargez la page !",
     "api.auth.turnstile.missing": "impossible de confirmer que vous n'êtes pas un robot car le serveur de traitement n'a pas reçu le jeton d'accès humain. réessayez dans quelques secondes ou rechargez la page !",
@@ -36,7 +38,7 @@
     "api.content.too_long": "le média que vous avez demandé est trop long. la limite de durée actuelle est de {{ limit }} minutes. essayez quelque chose de plus court à la place !",
 
     "api.content.video.unavailable": "je ne peux pas accéder à cette vidéo. elle peut être restreinte du côté de {{ service }}. avez-vous collé le bon lien ?",
-    "api.content.video.live": "cette vidéo est actuellement en direct, je ne peux donc pas la télécharger pour le moment. attendez que le livestream se termine, puis réessayez !",
+    "api.content.video.live": "cette vidéo est actuellement en direct, je ne peux donc pas la télécharger pour le moment. attendez que le direct se termine, puis réessayez !",
     "api.content.video.private": "cette vidéo est privée, je ne peux donc pas y accéder. changez sa visibilité ou essayez-en une autre !",
     "api.content.video.age": "cette vidéo est restreinte par âge, je ne peux donc pas y accéder de manière anonyme. essayez-en une autre !",
     "api.content.video.region": "cette vidéo est bloquée par région, et le serveur de traitement est dans un emplacement différent. essayez-en une autre !",
@@ -45,7 +47,7 @@
     "api.content.post.private": "ce post provient d'un compte privé, je ne peux donc pas y accéder. avez-vous collé le bon lien ?",
     "api.content.post.age": "ce post est restreint par âge, je ne peux donc pas y accéder de manière anonyme. avez-vous collé le bon lien ?",
 
-    "api.youtube.codec": "youtube n'a rien renvoyé avec votre codec et résolution préférés. essayez un autre ensemble de paramètres !",
+    "api.youtube.codec": "youtube n'a rien renvoyé avec votre codec vidéo préféré. essayez un autre paramètre !",
     "api.youtube.decipher": "youtube a mis à jour son algorithme de déchiffrement et je n'ai pas pu extraire les informations sur la vidéo.\n\nréessayez dans quelques secondes, mais si le problème persiste, contactez-nous pour obtenir de l'aide.",
     "api.youtube.login": "impossible de récupérer cette vidéo car youtube m'a considéré comme un bot. cela est potentiellement dû au fait que l'instance de traitement n'a pas de jetons de compte actifs. réessayez dans quelques secondes, mais si cela ne fonctionne toujours pas, informez le propriétaire de l'instance de cette erreur !",
     "api.youtube.token_expired": "impossible de récupérer cette vidéo car le jeton youtube a expiré et je n'ai pas pu le rafraîchir. réessayez dans quelques secondes, mais si cela ne fonctionne toujours pas, informez le propriétaire de l'instance de cette erreur !"

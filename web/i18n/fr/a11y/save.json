@@ -1,5 +1,6 @@
 {
     "link_area": "zone de saisie de lien",
+    "link_area.turnstile": "zone de saisie de lien. nous vérifions si vous n'êtes pas un robot.",
     "clear_input": "effacer la saisie",
     "download": "télécharger",
     "download.think": "traitement du lien...",

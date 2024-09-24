@@ -12,5 +12,19 @@
     "community.twitter": "compte d'actualités sur twitter",
     "community.github": "dépôt github",
     "community.email": "email de support",
-    "community.telegram": "chaîne d'actualités sur telegram"
+    "community.telegram": "chaîne d'actualités sur telegram",
+
+    "heading.general": "termes généraux",
+    "heading.licenses": "licences",
+    "heading.summary": "meilleur moyen de sauvegarder ce que vous aimez",
+    "heading.privacy": "confidentialité de premier plan",
+    "heading.speed": "vitesse fulgurante",
+    "heading.community": "communauté ouverte",
+    "heading.local": "traitement sur l'appareil",
+    "heading.saving": "sauvegarde",
+    "heading.encryption": "chiffrement",
+    "heading.plausible": "analyse de trafic anonyme",
+    "heading.cloudflare": "vie privée et sécurité web",
+    "heading.responsibility": "responsabilités de l'utilisateur",
+    "heading.abuse": "signalement d'abus"
 }

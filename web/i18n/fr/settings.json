@@ -30,9 +30,6 @@
     "video.quality.description": "si la qualité vidéo préférée n'est pas disponible, la meilleure suivante est choisie à la place.",
 
     "video.youtube.codec": "codec et conteneur vidéo youtube",
-    "video.youtube.codec.h264": "h264 (mp4)",
-    "video.youtube.codec.av1": "av1 (mp4)",
-    "video.youtube.codec.vp9": "vp9 (webm)",
     "video.youtube.codec.description": "h264 : meilleure compatibilité, débit binaire moyen. la qualité maximale est de 1080p. \nav1 : meilleure qualité, efficacité et débit binaire. prend en charge 8k & HDR. \nvp9 : même qualité & débit binaire qu'av1, mais le fichier est environ deux fois plus gros. prend en charge 4k & HDR.\n\nav1 et vp9 ne sont pas aussi largement pris en charge que h264.",
 
     "video.twitter.gif": "twitter/x",
@@ -91,10 +88,10 @@
     "accessibility.motion.description": "désactive les animations et les transitions chaque fois que possible.",
 
     "language": "langue",
-    "language.auto.title": "utiliser la langue du navigateur par défaut",
-    "language.auto.description": "choisit automatiquement la meilleure langue pour vous. si la langue du navigateur préférée n'est pas disponible, l'anglais est utilisé à la place.",
+    "language.auto.title": "sélection automatique",
+    "language.auto.description": "cobalt utilisera la langue par défaut de votre navigateur si une traduction est disponible. sinon, l'anglais sera utilisé à la place.",
     "language.preferred.title": "langue préférée",
-    "language.preferred.description": "si un texte n'est pas traduit dans la langue préférée, il sera affiché en anglais.",
+    "language.preferred.description": "cette langue sera utilisée lorsque la sélection automatique est désactivée. tout texte qui n'est pas traduit sera affiché en anglais.\n\nnous utilisons des traductions communautaires pour les langues autres que l'anglais, le russe et le tchèque. elles peuvent être inexactes ou incomplètes.",
 
     "privacy.analytics": "analyse de trafic anonyme",
     "privacy.analytics.title": "ne pas contribuer à l'analyse",
