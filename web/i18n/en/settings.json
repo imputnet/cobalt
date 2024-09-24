@@ -30,9 +30,6 @@
     "video.quality.description": "if preferred video quality isn't available, next best is picked instead.",
 
     "video.youtube.codec": "youtube video codec and container",
-    "video.youtube.codec.h264": "h264 (mp4)",
-    "video.youtube.codec.av1": "av1 (mp4)",
-    "video.youtube.codec.vp9": "vp9 (webm)",
     "video.youtube.codec.description": "h264: best compatibility, average bitrate. max quality is 1080p. \nav1: best quality, efficiency, and bitrate. supports 8k & HDR. \nvp9: same quality & bitrate as av1, but file is approximately two times bigger. supports 4k & HDR.\n\nav1 and vp9 aren't as widely supported as h264.",
 
     "video.twitter.gif": "twitter/x",
@@ -68,7 +65,7 @@
     "metadata.filename.basic": "basic",
     "metadata.filename.pretty": "pretty",
     "metadata.filename.nerdy": "nerdy",
-    "metadata.filename.description": "filename style will only be used for files tunnelled by cobalt. some services don't support filename styles other than classic.",
+    "metadata.filename.description": "filename style will only be used for files tunneled by cobalt. some services don't support filename styles other than classic.",
 
     "metadata.filename.preview.video": "Video Title",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
@@ -91,17 +88,17 @@
     "accessibility.motion.description": "disables animations and transitions whenever possible.",
 
     "language": "language",
-    "language.auto.title": "use default browser language",
-    "language.auto.description": "automatically picks the best language for you. if preferred browser language isn't available, english is used instead.",
+    "language.auto.title": "automatic selection",
+    "language.auto.description": "cobalt will use your browser's default language if translation is available. if not, english will be used instead.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "if any text isn’t translated to the preferred language, it will fall back to english.",
+    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nwe use community-sourced translations for languages other than english, russian, and czech. they may be inaccurate or incomplete.",
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",
     "privacy.analytics.description": "anonymous traffic analytics are needed to get an approximate number of active cobalt users. no identifiable information about you is ever stored. all processed data is anonymized and aggregated.\n\nwe use a self-hosted plausible instance that doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.",
     "privacy.analytics.learnmore": "learn more about plausible's dedication to privacy.",
 
-    "privacy.tunnel": "tunnelling",
+    "privacy.tunnel": "tunneling",
     "privacy.tunnel.title": "always tunnel files",
     "privacy.tunnel.description": "cobalt will hide your ip address, browser info, and bypass local network restrictions. when enabled, files will also have readable filenames that otherwise would be gibberish.",
 

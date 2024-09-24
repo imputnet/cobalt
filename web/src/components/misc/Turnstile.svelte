@@ -1,14 +1,14 @@
 <script lang="ts">
-    import env from "$lib/env";
     import { onMount } from "svelte";
 
+    import { cachedInfo } from "$lib/api/server-info";
     import { turnstileLoaded, turnstileCreated } from "$lib/state/turnstile";
 
     let turnstileElement: HTMLElement;
     let turnstileScript: HTMLElement;
 
     onMount(() => {
-        const sitekey = env.TURNSTILE_KEY;
+        const sitekey = $cachedInfo?.info?.cobalt?.turnstileSitekey;
         if (!sitekey) return;
 
         $turnstileCreated = true;
@@ -17,7 +17,7 @@
             window.turnstile?.render(turnstileElement, {
                 sitekey,
                 "error-callback": (error) => {
-                    console.log("turnstile error code:", error);
+                    console.log("error code from turnstile:", error);
                     return true;
                 },
                 callback: () => {

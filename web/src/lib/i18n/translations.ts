@@ -7,7 +7,7 @@ import type {
     LocalizationContent
 } from '$lib/types/i18n';
 
-import languages from '$i18n/languages.json';
+import _languages from '$i18n/languages.json';
 
 const locFiles = import.meta.glob('$i18n/*/**/*.json');
 const parsedLocfiles: StructuredLocfileInfo = {};
@@ -22,6 +22,8 @@ for (const [path, loader] of Object.entries(locFiles)) {
 }
 
 const defaultLocale = 'en';
+const languages: Record<string, string> = _languages;
+
 const config: Config<{
     value?: string;
     formats?: string;
@@ -30,6 +32,8 @@ const config: Config<{
 }> = {
     fallbackLocale: defaultLocale,
     translations: Object.keys(parsedLocfiles).reduce((obj, lang) => {
+        languages[lang] ??= `${lang} (missing name)`;
+
         return {
             ...obj,
             [lang]: { languages }

@@ -65,3 +65,14 @@ export function merge(a, b) {
 
     return a;
 }
+
+export function splitFilenameExtension(filename) {
+    const parts = filename.split('.');
+    const ext = parts.pop();
+
+    if (!parts.length) {
+        return [ ext, "" ]
+    } else {
+        return [ parts.join('.'), ext ]
+    }
+}

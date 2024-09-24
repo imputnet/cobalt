@@ -12,5 +12,19 @@
     "community.twitter": "news account on twitter",
     "community.github": "github repo",
     "community.email": "support email",
-    "community.telegram": "news channel on telegram"
+    "community.telegram": "news channel on telegram",
+
+    "heading.general": "general terms",
+    "heading.licenses": "licenses",
+    "heading.summary": "best way to save what you love",
+    "heading.privacy": "leading privacy",
+    "heading.speed": "blazing speed",
+    "heading.community": "open community",
+    "heading.local": "on-device processing",
+    "heading.saving": "saving",
+    "heading.encryption": "encryption",
+    "heading.plausible": "anonymous traffic analytics",
+    "heading.cloudflare": "web privacy & security",
+    "heading.responsibility": "user responsibilities",
+    "heading.abuse": "reporting abuse"
 }

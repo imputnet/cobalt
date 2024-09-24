@@ -14,7 +14,6 @@ const variables = {
     PLAUSIBLE_HOST: getEnv('PLAUSIBLE_HOST'),
     PLAUSIBLE_ENABLED: getEnv('HOST') && getEnv('PLAUSIBLE_HOST'),
     DEFAULT_API: getEnv('DEFAULT_API'),
-    TURNSTILE_KEY: getEnv('TURNSTILE_KEY'),
 }
 
 const contacts = {

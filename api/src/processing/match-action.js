@@ -3,6 +3,7 @@ import createFilename from "./create-filename.js";
 import { createResponse } from "./request.js";
 import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
+import { splitFilenameExtension } from "../misc/utils.js";
 
 export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate, alwaysProxy }) {
     let action,
@@ -32,10 +33,11 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
     }
 
     if (action === "muteVideo" && isAudioMuted && !r.filenameAttributes) {
-        const parts = r.filename.split(".");
-        const ext = parts.pop();
-
-        defaultParams.filename = `${parts.join(".")}_mute.${ext}`;
+        const [ name, ext ] = splitFilenameExtension(r.filename);
+        defaultParams.filename = `${name}_mute.${ext}`;
+    } else if (action === "gif") {
+        const [ name ] = splitFilenameExtension(r.filename);
+        defaultParams.filename = `${name}.gif`;
     }
 
     switch (action) {
@@ -148,6 +150,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "streamable":
                 case "snapchat":
                 case "loom":
+                case "twitch":
                     responseType = "redirect";
                     break;
             }

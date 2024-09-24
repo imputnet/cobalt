@@ -7,7 +7,9 @@
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
+    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
 
+    import "$lib/polyfills";
     import env from "$lib/env";
     import settings from "$lib/state/settings";
     import locale from "$lib/i18n/locale";
@@ -30,10 +32,16 @@
         $settings.appearance.reduceTransparency ||
         device.prefers.reducedTransparency;
 
-    afterNavigate(() => {
+    $: spawnTurnstile = !!$cachedInfo?.info?.cobalt?.turnstileSitekey;
+
+    afterNavigate(async() => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
+
+        if ($page.url.pathname === "/") {
+            await getServerInfo();
+        }
     });
 </script>
 
@@ -76,7 +84,7 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
-            {#if (env.TURNSTILE_KEY && $page.url.pathname === "/") || $turnstileCreated}
+            {#if (spawnTurnstile && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
             <slot></slot>
@@ -135,6 +143,7 @@
         );
 
         --safe-area-inset-top: env(safe-area-inset-top);
+        --safe-area-inset-bottom: env(safe-area-inset-bottom);
 
         --switcher-padding: var(--sidebar-inner-padding);
 
@@ -481,6 +490,14 @@
 
     :global(.long-text-noto.about section p:first-of-type) {
         margin-block-start: 0.3em;
+    }
+
+    :global(.long-text-noto.about .heading-container) {
+        padding-top: calc(var(--padding) / 2);
+    }
+
+    :global(.long-text-noto.about section:first-of-type .heading-container) {
+        padding-top: 0;
     }
 
     @media screen and (max-width: 535px) {

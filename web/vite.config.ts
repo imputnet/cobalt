@@ -43,7 +43,6 @@ const exposeLibAV: PluginOption = (() => {
 
             for (const module of modules) {
                 const distFolder = join(IMPUT_MODULE_DIR, module, 'dist/');
-                console.log(distFolder);
                 await cp(distFolder, assets, { recursive: true });
             }
         }
@@ -72,7 +71,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: (id) => {
-                    if (id.includes('/web/i18n')) {
+                    if (id.includes('/web/i18n') && id.endsWith('.json')) {
                         const lang = id.split('/web/i18n/')?.[1].split('/')?.[0];
                         if (lang) {
                             return `i18n_${lang}`;

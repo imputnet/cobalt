@@ -5,8 +5,6 @@
 
     import Imput from "$components/icons/Imput.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
-
-    import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
 </script>
 
 <header id="banner">

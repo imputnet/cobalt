@@ -84,41 +84,25 @@ importers:
   packages/version-info: {}
 
   web:
-    dependencies:
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.5.0
+        version: 9.8.0
       '@fontsource-variable/noto-sans-mono':
         specifier: ^5.0.20
         version: 5.0.20
       '@fontsource/ibm-plex-mono':
         specifier: ^5.0.13
         version: 5.0.13
+      '@fontsource/redaction-10':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@imput/libav.js-remux-cli':
         specifier: ^5.5.6
         version: 5.5.6
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
-      '@tabler/icons-svelte':
-        specifier: 3.6.0
-        version: 3.6.0(svelte@4.2.18)
-      '@vitejs/plugin-basic-ssl':
-        specifier: ^1.1.0
-        version: 1.1.0(vite@5.3.5(@types/node@20.14.14))
-      mime:
-        specifier: ^4.0.4
-        version: 4.0.4
-      sveltekit-i18n:
-        specifier: ^2.4.2
-        version: 2.4.2(svelte@4.2.18)
-      ts-deepmerge:
-        specifier: ^7.0.0
-        version: 7.0.1
-    devDependencies:
-      '@eslint/js':
-        specifier: ^9.5.0
-        version: 9.8.0
-      '@fontsource/redaction-10':
-        specifier: ^5.0.2
-        version: 5.0.2
       '@sveltejs/adapter-static':
         specifier: ^3.0.2
         version: 3.0.2(@sveltejs/kit@2.5.19(@sveltejs/vite-plugin-svelte@3.1.1(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14)))(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14)))
@@ -128,6 +112,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.0
         version: 3.1.1(svelte@4.2.18)(vite@5.3.5(@types/node@20.14.14))
+      '@tabler/icons-svelte':
+        specifier: 3.6.0
+        version: 3.6.0(svelte@4.2.18)
       '@types/eslint__js':
         specifier: ^8.42.3
         version: 8.42.3
@@ -137,9 +124,15 @@ importers:
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.14
+      '@vitejs/plugin-basic-ssl':
+        specifier: ^1.1.0
+        version: 1.1.0(vite@5.3.5(@types/node@20.14.14))
       compare-versions:
         specifier: ^6.1.0
         version: 6.1.1
+      dotenv:
+        specifier: ^16.0.1
+        version: 16.4.5
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -149,6 +142,9 @@ importers:
       mdsvex:
         specifier: ^0.11.2
         version: 0.11.2(svelte@4.2.18)
+      mime:
+        specifier: ^4.0.4
+        version: 4.0.4
       svelte:
         specifier: ^4.2.7
         version: 4.2.18
@@ -158,6 +154,12 @@ importers:
       svelte-preprocess:
         specifier: ^6.0.2
         version: 6.0.2(postcss@8.4.40)(svelte@4.2.18)(typescript@5.5.4)
+      sveltekit-i18n:
+        specifier: ^2.4.2
+        version: 2.4.2(svelte@4.2.18)
+      ts-deepmerge:
+        specifier: ^7.0.1
+        version: 7.0.1
       tslib:
         specifier: ^2.4.1
         version: 2.6.3

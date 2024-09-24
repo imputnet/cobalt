@@ -18,8 +18,8 @@ const codecMatch = {
     },
     av1: {
         videoCodec: "av01",
-        audioCodec: "mp4a",
-        container: "mp4"
+        audioCodec: "opus",
+        container: "webm"
     },
     vp9: {
         videoCodec: "vp9",

@@ -10,6 +10,7 @@
 
     export let url: string;
     export let disabled = false;
+    export let loading = false;
 
     $: buttonText = ">>";
     $: buttonAltText = $t("a11y.save.download");
@@ -31,6 +32,7 @@
 
     const changeDownloadButton = (state: DownloadButtonState) => {
         disabled = state !== "idle";
+        loading = state === "think" || state === "check";
 
         buttonText = {
             idle: ">>",
@@ -86,6 +88,7 @@
 
             return downloadFile({
                 url: response.url,
+                urlType: "redirect",
             });
         }
 

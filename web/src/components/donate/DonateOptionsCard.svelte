@@ -107,11 +107,13 @@
     </div>
     <div id="donation-options">
         {#each Object.entries(PRESET_DONATION_AMOUNTS) as [ amount, component ]}
-            <OuterLink href={donationMethods[processor](+amount * 100)}>
-                <DonationOption price={+amount} desc={$t(`donate.card.option.${amount}`)}>
-                    <svelte:component this={component} />
-                </DonationOption>
-            </OuterLink>
+            <DonationOption
+                price={+amount}
+                desc={$t(`donate.card.option.${amount}`)}
+                href={donationMethods[processor](+amount * 100)}
+            >
+                <svelte:component this={component} />
+            </DonationOption>
         {/each}
     </div>
     <div id="donation-custom">

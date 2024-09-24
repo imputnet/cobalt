@@ -2,15 +2,23 @@ export default (f, style, isAudioOnly, isAudioMuted) => {
     let filename = '';
 
     let infoBase = [f.service, f.id];
-
-    let classicTags = infoBase.concat([
-        f.resolution,
-        f.youtubeFormat,
-    ]);
-
-    let basicTags = [f.qualityLabel, f.youtubeFormat];
+    let classicTags = [...infoBase];
+    let basicTags = [];
 
     const title = `${f.title} - ${f.author}`;
+
+    if (f.resolution) {
+        classicTags.push(f.resolution);
+    }
+
+    if (f.qualityLabel) {
+        basicTags.push(f.qualityLabel);
+    }
+
+    if (f.youtubeFormat) {
+        classicTags.push(f.youtubeFormat);
+        basicTags.push(f.youtubeFormat);
+    }
 
     if (isAudioMuted) {
         classicTags.push("mute");
