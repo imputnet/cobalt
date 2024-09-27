@@ -11,11 +11,12 @@ export const youtubeVideoCodecOptions = ["h264", "av1", "vp9"] as const;
 export const savingMethodOptions = ["ask", "download", "share", "copy"] as const;
 
 type CobaltSettingsAppearance = {
-    theme: typeof themeOptions[number],
-    language: keyof typeof languages,
     autoLanguage: boolean,
+    darkSidebar: boolean,
+    language: keyof typeof languages,
     reduceMotion: boolean,
     reduceTransparency: boolean,
+    theme: typeof themeOptions[number],
 };
 
 type CobaltSettingsAdvanced = {

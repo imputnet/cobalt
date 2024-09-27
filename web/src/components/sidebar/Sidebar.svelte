@@ -1,6 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { defaultNavPage } from "$lib/subnav";
+    import settings from "$lib/state/settings";
 
     import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
     import SidebarTab from "$components/sidebar/SidebarTab.svelte";
@@ -19,13 +20,17 @@
     let aboutLink = defaultNavPage("about");
 
     $: screenWidth,
-       settingsLink = defaultNavPage("settings"),
-       aboutLink = defaultNavPage("about");
+        (settingsLink = defaultNavPage("settings")),
+        (aboutLink = defaultNavPage("about"));
 </script>
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<nav id="sidebar" aria-label={$t("a11y.tabs.tab_panel")}>
+<nav
+    id="sidebar"
+    aria-label={$t("a11y.tabs.tab_panel")}
+    class:always-dark={$settings.appearance.darkSidebar}
+>
     <CobaltLogo />
     <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
@@ -66,6 +71,7 @@
         height: 100vh;
         width: calc(var(--sidebar-width) + var(--sidebar-inner-padding) * 2);
         position: sticky;
+        color: var(--sidebar-text);
     }
 
     #sidebar-tabs {

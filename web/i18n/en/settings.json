@@ -17,6 +17,10 @@
     "theme.dark": "dark",
     "theme.description": "auto theme switches between light and dark themes depending on your device's display mode.",
 
+    "sidebar": "sidebar",
+    "sidebar.dark.title": "dark sidebar",
+    "sidebar.dark.description": "by default, the sidebar will be dark in light theme. if you'd prefer it to match the light theme, enable this option.",
+
     "video.quality": "video quality",
     "video.quality.max": "8k+",
     "video.quality.2160": "4k",

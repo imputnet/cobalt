@@ -34,7 +34,7 @@
 
     $: spawnTurnstile = !!$cachedInfo?.info?.cobalt?.turnstileSitekey;
 
-    afterNavigate(async() => {
+    afterNavigate(async () => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
@@ -46,11 +46,14 @@
 </script>
 
 <svelte:head>
-    <meta name="description" content={$t("general.embed.description")}>
-    <meta property="og:description" content={$t("general.embed.description")}>
+    <meta name="description" content={$t("general.embed.description")} />
+    <meta property="og:description" content={$t("general.embed.description")} />
 
     {#if env.HOST}
-        <meta property="og:url" content="https://{env.HOST}{$page.url.pathname}">
+        <meta
+            property="og:url"
+            content="https://{env.HOST}{$page.url.pathname}"
+        />
     {/if}
 
     {#if device.is.mobile}
@@ -67,7 +70,11 @@
     {/if}
 </svelte:head>
 
-<div style="display: contents" data-theme={browser ? $currentTheme : undefined} lang={$locale}>
+<div
+    style="display: contents"
+    data-theme={browser ? $currentTheme : undefined}
+    lang={$locale}
+>
     <div
         id="cobalt"
         class:loaded={browser}
@@ -123,9 +130,9 @@
         --dialog-backdrop: rgba(255, 255, 255, 0.3);
 
         --sidebar-bg: #f4f4f4;
-        --sidebar-text: var(--secondary);
-        --sidebar-highlight: var(--secondary);
-        --sidebar-highlight-text: var(--primary);
+        --sidebar-text: #101010;
+        --sidebar-highlight: #101010;
+        --sidebar-highlight-text: var(--sidebar-bg);
         --sidebar-hover: rgba(0, 0, 0, 0.1);
 
         --input-border: #adadb7;
@@ -174,7 +181,7 @@
         );
     }
 
-    :global([data-theme="dark"]) {
+    :global([data-theme="dark"]){
         --primary: #000000;
         --secondary: #e1e1e1;
 
@@ -198,12 +205,6 @@
         --popup-stroke: rgba(255, 255, 255, 0.08);
 
         --dialog-backdrop: rgba(0, 0, 0, 0.3);
-
-        --sidebar-bg: #101010;
-        --sidebar-text: var(--secondary);
-        --sidebar-highlight: var(--secondary);
-        --sidebar-highlight-text: var(--sidebar-bg);
-        --sidebar-hover: rgba(255, 255, 255, 0.1);
 
         --input-border: #383838;
 
@@ -232,6 +233,15 @@
             var(--button-elevated-hover),
             var(--button-elevated)
         );
+    }
+
+    :global([data-theme="dark"]),
+    :global(#sidebar.always-dark) {
+        --sidebar-bg: #101010;
+        --sidebar-text: #f4f4f4;
+        --sidebar-highlight: #f4f4f4;
+        --sidebar-highlight-text: var(--sidebar-bg);
+        --sidebar-hover: rgba(255, 255, 255, 0.1);
     }
 
     :global([data-theme="light"] [data-reduce-transparency="true"]) {

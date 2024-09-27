@@ -7,11 +7,12 @@ const defaultSettings: CobaltSettings = {
         debug: false,
     },
     appearance: {
-        theme: "auto",
-        language: defaultLocale,
         autoLanguage: true,
+        darkSidebar: true,
+        language: defaultLocale,
         reduceMotion: false,
         reduceTransparency: false,
+        theme: "auto",
     },
     save: {
         audioBitrate: "128",

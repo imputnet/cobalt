@@ -1,6 +1,8 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
+    import settings from "$lib/state/settings";
+
     import { themeOptions } from "$lib/types/settings";
 
     import Switcher from "$components/buttons/Switcher.svelte";
@@ -23,6 +25,17 @@
         {/each}
     </Switcher>
 </SettingsCategory>
+
+{#if $settings.appearance.theme === "light"}
+    <SettingsCategory sectionId="sidebar" title={$t("settings.sidebar")}>
+        <SettingsToggle
+            settingContext="appearance"
+            settingId="darkSidebar"
+            title={$t("settings.sidebar.dark.title")}
+            description={$t("settings.sidebar.dark.description")}
+        />
+    </SettingsCategory>
+{/if}
 
 <SettingsCategory sectionId="language" title={$t("settings.language")}>
     <SettingsToggle
