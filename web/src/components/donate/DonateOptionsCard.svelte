@@ -220,10 +220,6 @@
             <IconArrowRight />
         </button>
     </div>
-
-    <div class="donate-card-subtitle processor-mobile">
-        {$t("donate.card.processor", { value: processor })}
-    </div>
 </DonateCardContainer>
 
 <style>
@@ -358,11 +354,6 @@
         margin: 0;
     }
 
-    .processor-mobile {
-        display: none;
-        text-align: center;
-    }
-
     #donation-options-container {
         display: flex;
         flex-direction: column;
@@ -438,6 +429,7 @@
 
     @media screen and (max-width: 550px) {
         :global(#donation-box) {
+            --donate-card-main-padding: 14px;
             min-width: unset;
         }
 
@@ -453,17 +445,5 @@
             width: 26px;
             height: 26px;
         }
-
-        .donation-type .donate-card-subtitle {
-            display: none;
-        }
-
-        .processor-mobile {
-            display: block;
-        }
-    }
-
-    #donation-options > :global(a) {
-        text-decoration: none;
     }
 </style>
