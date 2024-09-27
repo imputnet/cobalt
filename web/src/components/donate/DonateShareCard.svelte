@@ -140,7 +140,6 @@
         display: flex;
         flex-direction: row;
         gap: 12px;
-        max-height: 140px;
     }
 
     #share-qr {
@@ -153,8 +152,8 @@
     }
 
     #share-qr :global(svg) {
-        width: 140px;
-        height: 140px;
+        width: 132px;
+        height: 132px;
         border-radius: 12px;
         box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity));
     }
