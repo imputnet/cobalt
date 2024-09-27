@@ -37,7 +37,7 @@
         text-align: left;
         border-radius: var(--donate-card-padding);
         background: rgba(255, 255, 255, 0.05);
-        padding: 14px 18px;
+        padding: 12px 16px;
         color: var(--white);
         gap: 0;
         letter-spacing: -0.3px;
