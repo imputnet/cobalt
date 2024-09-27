@@ -29,8 +29,7 @@
         <SettingsToggle
             settingContext="appearance"
             settingId="darkSidebar"
-            title={$t("settings.sidebar.dark.title")}
-            description={$t("settings.sidebar.dark.description")}
+            title={$t("settings.theme.darksidebar")}
         />
     {/if}
 </SettingsCategory>

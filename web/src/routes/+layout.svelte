@@ -225,7 +225,7 @@
     }
 
     :global([data-theme="dark"]),
-    :global(#sidebar.always-dark) {
+    :global(#sidebar.dark) {
         --sidebar-bg: #101010;
         --sidebar-text: #f4f4f4;
         --sidebar-highlight: #f4f4f4;

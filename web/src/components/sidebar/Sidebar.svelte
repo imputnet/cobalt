@@ -29,7 +29,7 @@
 <nav
     id="sidebar"
     aria-label={$t("a11y.tabs.tab_panel")}
-    class:always-dark={$settings.appearance.darkSidebar}
+    class:dark={$settings.appearance.darkSidebar}
 >
     <CobaltLogo />
     <div id="sidebar-tabs" role="tablist">
