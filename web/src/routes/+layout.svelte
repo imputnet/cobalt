@@ -181,7 +181,7 @@
         );
     }
 
-    :global([data-theme="dark"]){
+    :global([data-theme="dark"]) {
         --primary: #000000;
         --secondary: #e1e1e1;
 
