@@ -38,11 +38,11 @@
 </script>
 
 {#if $settings.advanced.debug}
-    <div id="advanced-page">
+    <div id="debug-page">
         {#each sections as { title, data }, i}
             <h3>{title}:</h3>
 
-            <div class="message-container subtext">
+            <div class="json-block subtext">
                 {JSON.stringify(data, null, 2)}
             </div>
 
@@ -63,14 +63,14 @@
 {/if}
 
 <style>
-    #advanced-page {
+    #debug-page {
         display: flex;
         flex-direction: column;
         padding: var(--padding);
         gap: var(--padding);
     }
 
-    .message-container {
+    .json-block {
         display: flex;
         flex-direction: column;
         line-break: anywhere;
