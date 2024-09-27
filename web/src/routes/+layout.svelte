@@ -134,6 +134,14 @@
         --sidebar-highlight: #101010;
         --sidebar-highlight-text: var(--sidebar-bg);
         --sidebar-hover: rgba(0, 0, 0, 0.1);
+        --sidebar-mobile-scroll-gradient: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(255, 255, 255, 0) 4%,
+            rgba(255, 255, 255, 0) 50%,
+            rgba(255, 255, 255, 0) 96%,
+            rgba(255, 255, 255, 0.9) 100%
+        );
 
         --input-border: #adadb7;
 
@@ -155,16 +163,6 @@
         --safe-area-inset-bottom: env(safe-area-inset-bottom);
 
         --switcher-padding: var(--sidebar-inner-padding);
-
-        /* used for fading the tab bar on scroll */
-        --sidebar-mobile-gradient: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0) 4%,
-            rgba(0, 0, 0, 0) 50%,
-            rgba(0, 0, 0, 0) 96%,
-            rgba(0, 0, 0, 0.9) 100%
-        );
 
         --skeleton-gradient: linear-gradient(
             90deg,
@@ -211,15 +209,6 @@
         --toggle-bg: var(--input-border);
         --toggle-bg-enabled: #777777;
 
-        --sidebar-mobile-gradient: linear-gradient(
-            90deg,
-            rgba(16, 16, 16, 0.9) 0%,
-            rgba(16, 16, 16, 0) 4%,
-            rgba(16, 16, 16, 0) 50%,
-            rgba(16, 16, 16, 0) 96%,
-            rgba(16, 16, 16, 0.9) 100%
-        );
-
         --skeleton-gradient: linear-gradient(
             90deg,
             var(--button),
@@ -242,6 +231,14 @@
         --sidebar-highlight: #f4f4f4;
         --sidebar-highlight-text: var(--sidebar-bg);
         --sidebar-hover: rgba(255, 255, 255, 0.1);
+        --sidebar-mobile-scroll-gradient: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 4%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 0) 96%,
+            rgba(0, 0, 0, 0.9) 100%
+        );
     }
 
     :global([data-theme="light"] [data-reduce-transparency="true"]) {

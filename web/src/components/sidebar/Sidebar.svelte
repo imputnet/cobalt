@@ -107,7 +107,7 @@
             display: block;
             position: absolute;
             pointer-events: none;
-            background: var(--sidebar-mobile-gradient);
+            background: var(--sidebar-mobile-scroll-gradient);
         }
 
         #sidebar-tabs {
