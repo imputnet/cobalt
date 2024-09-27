@@ -3,7 +3,6 @@
     import { goto } from "$app/navigation";
 
     import ActionButton from "$components/buttons/ActionButton.svelte";
-    import CopyIcon from "$components/misc/CopyIcon.svelte";
 
     import { t } from "$lib/i18n/translations";
     import { copyURL } from "$lib/download";
@@ -22,12 +21,12 @@
         { title: $t("settings.advanced.debug.version"), data: $version },
     ];
 
-    let lastCopiedSection = -1;
+    let lastCopiedSection: number | null = null;
     let lastCopiedSectionResetTimeout: ReturnType<typeof setTimeout>;
 
-    $: if (lastCopiedSection) {
+    $: if (lastCopiedSection !== null) {
         lastCopiedSectionResetTimeout = setTimeout(() => {
-            lastCopiedSection = -1;
+            lastCopiedSection = null;
         }, 1500);
     }
 
@@ -42,9 +41,11 @@
     <div id="advanced-page">
         {#each sections as { title, data }, i}
             <h3>{title}:</h3>
+
             <div class="message-container subtext">
                 {JSON.stringify(data, null, 2)}
             </div>
+
             <ActionButton
                 id="copy-button"
                 click={() => {
@@ -53,7 +54,6 @@
                     copyURL(JSON.stringify(data, null, 2));
                 }}
             >
-                <CopyIcon />
                 {lastCopiedSection === i
                     ? $t("button.copied")
                     : $t("button.copy")}
