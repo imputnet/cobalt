@@ -56,7 +56,7 @@
         text-align: center;
         gap: 3px;
         padding: var(--padding) 3px;
-        color: var(--sidebar-highlight);
+        color: var(--sidebar-text);
         font-size: var(--sidebar-font-size);
         opacity: 0.75;
         height: fit-content;
@@ -82,7 +82,7 @@
     }
 
     .sidebar-tab.active {
-        color: var(--sidebar-bg);
+        color: var(--sidebar-highlight-text);
         background: var(--sidebar-highlight);
         opacity: 1;
         transform: none;

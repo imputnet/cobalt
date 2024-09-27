@@ -122,9 +122,11 @@
 
         --dialog-backdrop: rgba(255, 255, 255, 0.3);
 
-        --sidebar-bg: #000000;
-        --sidebar-highlight: #ffffff;
-        --sidebar-hover: rgba(255, 255, 255, 0.1);
+        --sidebar-bg: #f4f4f4;
+        --sidebar-text: var(--secondary);
+        --sidebar-highlight: var(--secondary);
+        --sidebar-highlight-text: var(--primary);
+        --sidebar-hover: rgba(0, 0, 0, 0.1);
 
         --input-border: #adadb7;
 
@@ -198,7 +200,10 @@
         --dialog-backdrop: rgba(0, 0, 0, 0.3);
 
         --sidebar-bg: #101010;
-        --sidebar-highlight: #f2f2f2;
+        --sidebar-text: var(--secondary);
+        --sidebar-highlight: var(--secondary);
+        --sidebar-highlight-text: var(--sidebar-bg);
+        --sidebar-hover: rgba(255, 255, 255, 0.1);
 
         --input-border: #383838;
 
