@@ -5,15 +5,27 @@
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
 
-<section id="saving">
+<section id="summary">
 <SectionHeading
     title={$t("about.heading.summary")}
-    sectionId="saving"
+    sectionId="summary"
 />
 
-cobalt lets you save anything from your favorite websites: video, audio, photos or gifs — cobalt can do it all!
+cobalt helps you save anything from your favorite websites: video, audio, photos or gifs. just paste the link and you're ready to rock!
 
-no ads, trackers, or paywalls, no nonsense. just a convenient web app that works everywhere.
+no ads, trackers, paywalls, or other nonsense. just a convenient web app that works anywhere and whenever you need it.
+</section>
+
+<section id="motivation">
+<SectionHeading
+    title={$t("about.heading.motivation")}
+    sectionId="motivation"
+/>
+
+cobalt was created for public benefit, to protect people from ads and malware pushed by alternatives.
+we believe that the best software is safe, open, and accessible.
+
+it's possible thanks to our long-standing infrastructure partner, [royalehosting.net]({partners.royalehosting})!
 </section>
 
 <section id="privacy">
@@ -44,9 +56,6 @@ cobalt is extremely efficient and a processing server can run on basically any h
 
 main processing instances are hosted on several dedicated servers in several countries,
 to reduce latency and distribute the traffic.
-
-we constantly improve our infrastructure along with our long-standing partner, [royalehosting.net]({partners.royalehosting})!
-you're in good hands, and will get what you need within seconds.
 </section>
 
 <section id="community">
