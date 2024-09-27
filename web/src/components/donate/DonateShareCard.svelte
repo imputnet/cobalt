@@ -113,6 +113,7 @@
         padding: var(--donate-card-main-padding);
         min-width: 320px;
         width: fit-content;
+        transition: box-shadow 0.15s;
     }
 
     #share-card-header {
@@ -198,8 +199,7 @@
         z-index: 1;
         box-shadow:
             0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity)) inset,
-            0 0 10px 2px rgba(0, 0, 0, 0.5);
-        transition: box-shadow 0.15s;
+            0 0 20px 3px rgba(0, 0, 0, 0.5);
     }
 
     :global(#share-box.expanded #share-qr svg) {
