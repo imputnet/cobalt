@@ -169,7 +169,12 @@
         <div
             id="donation-options"
             bind:this={donateList}
-            on:scroll={(e) => {}}
+            on:wheel={() => {
+                const currentPos = donateList.scrollLeft;
+                const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width;
+                showLeftScroll = currentPos > 0;
+                showRightScroll = currentPos < maxPos && currentPos !== maxPos;
+            }}
         >
             {#each Object.entries(PRESET_DONATION_AMOUNTS) as [amount, component]}
                 <DonationOption
