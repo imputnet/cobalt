@@ -26,5 +26,6 @@
     "heading.plausible": "anonymous traffic analytics",
     "heading.cloudflare": "web privacy & security",
     "heading.responsibility": "user responsibilities",
-    "heading.abuse": "reporting abuse"
+    "heading.abuse": "reporting abuse",
+    "heading.motivation": "motivation"
 }

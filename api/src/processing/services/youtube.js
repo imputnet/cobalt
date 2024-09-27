@@ -243,11 +243,13 @@ export default async function(o) {
     }
 
     if (basicInfo?.short_description?.startsWith("Provided to YouTube by")) {
-        let descItems = basicInfo.short_description.split("\n\n");
-        fileMetadata.album = descItems[2];
-        fileMetadata.copyright = descItems[3];
-        if (descItems[4].startsWith("Released on:")) {
-            fileMetadata.date = descItems[4].replace("Released on: ", '').trim()
+        let descItems = basicInfo.short_description.split("\n\n", 5);
+        if (descItems.length === 5) {
+            fileMetadata.album = descItems[2];
+            fileMetadata.copyright = descItems[3];
+            if (descItems[4].startsWith("Released on:")) {
+                fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
+            }
         }
     }
 
