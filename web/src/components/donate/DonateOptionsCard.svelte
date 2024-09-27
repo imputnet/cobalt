@@ -119,7 +119,7 @@
         </button>
 
         <button
-            id="donation-type-monthly"
+            id="donation-type-recurring"
             class="donation-type"
             on:click={() => (processor = "liberapay")}
             class:selected={processor === "liberapay"}
@@ -128,7 +128,7 @@
         >
             <div class="donation-type-icon"><IconCalendarRepeat /></div>
             <div class="donation-type-text">
-                <div class="donate-card-title">{$t("donate.card.monthly")}</div>
+                <div class="donate-card-title">{$t("donate.card.recurring")}</div>
                 <div class="donate-card-subtitle">
                     {$t("donate.card.processor", { value: "liberapay" })}
                 </div>
@@ -241,7 +241,7 @@
     #donation-types {
         display: flex;
         flex-direction: row;
-        gap: var(--donate-card-padding);
+        gap: calc(var(--donate-card-main-padding) / 2);
         overflow: scroll;
     }
 
