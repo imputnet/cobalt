@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
 
-    import settings from "$lib/state/settings";
+    import currentTheme from "$lib/state/theme";
 
     import { themeOptions } from "$lib/types/settings";
 
@@ -24,18 +24,16 @@
             </SettingsButton>
         {/each}
     </Switcher>
-</SettingsCategory>
 
-{#if $settings.appearance.theme === "light"}
-    <SettingsCategory sectionId="sidebar" title={$t("settings.sidebar")}>
+    {#if $currentTheme === "light"}
         <SettingsToggle
             settingContext="appearance"
             settingId="darkSidebar"
             title={$t("settings.sidebar.dark.title")}
             description={$t("settings.sidebar.dark.description")}
         />
-    </SettingsCategory>
-{/if}
+    {/if}
+</SettingsCategory>
 
 <SettingsCategory sectionId="language" title={$t("settings.language")}>
     <SettingsToggle
