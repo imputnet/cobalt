@@ -111,7 +111,7 @@
 <style>
     :global(#share-box) {
         padding: var(--donate-card-main-padding);
-        min-width: 300px;
+        min-width: 320px;
         width: fit-content;
     }
 
