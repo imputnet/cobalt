@@ -78,6 +78,7 @@
     <div
         id="cobalt"
         class:loaded={browser}
+        class:dark-sidebar={$settings.appearance.darkSidebar}
         data-iphone={device.is.iPhone}
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
@@ -265,9 +266,14 @@
             calc(var(--sidebar-width) + var(--sidebar-inner-padding) * 2)
             1fr;
         overflow: hidden;
-        background-color: var(--sidebar-bg);
         color: var(--secondary);
         position: fixed;
+        background-color: var(--sidebar-bg);
+    }
+
+    /* only way to make the rounded corners the correct color */
+    :global(#cobalt.dark-sidebar) {
+        background-color: #101010 !important;
     }
 
     /* add padding for notch / dynamic island in landscape */
