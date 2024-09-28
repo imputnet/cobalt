@@ -13,7 +13,7 @@
 
 cobalt helps you save anything from your favorite websites: video, audio, photos or gifs. just paste the link and you're ready to rock!
 
-no ads, trackers, paywalls, or other nonsense. just a convenient web app that works anywhere and whenever you need it.
+no ads, trackers, paywalls, or other nonsense. just a convenient web app that works anywhere, whenever you need it.
 </section>
 
 <section id="motivation">
@@ -22,10 +22,10 @@ no ads, trackers, paywalls, or other nonsense. just a convenient web app that wo
     sectionId="motivation"
 />
 
-cobalt was created for public benefit, to protect people from ads and malware pushed by alternatives.
+cobalt was created for public benefit, to protect people from ads and malware pushed by its alternatives.
 we believe that the best software is safe, open, and accessible.
 
-it's possible thanks to our long-standing infrastructure partner, [royalehosting.net]({partners.royalehosting})!
+it's possible to keep the main instances up thanks to our long-standing infrastructure partner, [royalehosting.net]({partners.royalehosting})!
 </section>
 
 <section id="privacy">
@@ -34,28 +34,17 @@ it's possible thanks to our long-standing infrastructure partner, [royalehosting
     sectionId="privacy"
 />
 
-all requests to backend are anonymous and all tunnels are encrypted.
+all requests to the backend are anonymous and all information about tunnels is encrypted.
 we have a strict zero log policy and don't track *anything* about individual people.
 
-to avoid caching or storing downloaded files, cobalt processes them on-the-fly, sending processed pieces directly to client.
-this technology is used when your request needs additional processing, such as when source service stores video & audio in separate files.
+when a request needs additional processing, cobalt processes files on-the-fly.
+it's done by tunneling processed parts directly to the client, without ever saving anything to disk.
+for example, this method is used when the source service provides video and audio channels as separate files.
 
-for even higher level of protection, you can [ask cobalt to always tunnel everything](/settings/privacy#tunnel).
-when enabled, cobalt will proxy everything through itself. no one will know what you download, even your network provider/admin.
-all they'll see is that you're using cobalt.
-</section>
-
-<section id="speed">
-<SectionHeading
-    title={$t("about.heading.speed")}
-    sectionId="speed"
-/>
-
-since we don't rely on any existing downloaders and develop our own from ground up,
-cobalt is extremely efficient and a processing server can run on basically any hardware.
-
-main processing instances are hosted on several dedicated servers in several countries,
-to reduce latency and distribute the traffic.
+additionally, you can [enable forced tunneling](/settings/privacy#tunnel) to protect your privacy.
+when enabled, cobalt will tunnel all downloaded files.
+no one will know where you download something from, even your network provider.
+all they'll see is that you're using a cobalt instance.
 </section>
 
 <section id="community">
@@ -65,14 +54,16 @@ to reduce latency and distribute the traffic.
 />
 
 cobalt is used by countless artists, educators, and content creators to do what they love.
-we're always on the line with our community and work together to create even more useful tools for them.
+we're always on the line with our community and work together to make cobalt even more useful.
 feel free to [join the conversation](/about/community)!
 
-we believe that the future of the internet is open, which is why cobalt is [source first](https://sourcefirst.com/) and [easily self-hostable]({docs.instanceHosting}). you can [check the source code & contribute to cobalt]({contacts.github})
-at any time, we welcome all contributions and suggestions.
+we believe that the future of the internet is open, which is why cobalt is
+[source first](https://sourcefirst.com/) and [easily self-hostable]({docs.instanceHosting}).
 
-you can use any processing instances hosted by the community, including your own.
-if your friend hosts one, just ask them for a domain and [add it in instance settings](/settings/instances#community).
+if your friend hosts a processing instance, just ask them for a domain and [add it in instance settings](/settings/instances#community).
+
+you can check the source code and contribute [on github]({contacts.github}) at any time.
+we welcome all contributions and suggestions!
 </section>
 
 <section id="local">
@@ -81,8 +72,7 @@ if your friend hosts one, just ask them for a domain and [add it in instance set
     sectionId="local"
 />
 
-new features, such as [remuxing](/remux), work on-device.
+newest features, such as [remuxing](/remux), work locally on your device.
 on-device processing is efficient and never sends anything over the internet.
-it perfectly aligns with our future goal of moving as much processing as possible to client.
-
+it perfectly aligns with our future goal of moving as much processing as possible to the client.
 </section>
