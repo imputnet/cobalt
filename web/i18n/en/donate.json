@@ -6,10 +6,10 @@
     "body.keep_going": "you can help us stay motivated & keep creating safe alternatives to abusive tools by sharing cobalt with a friend or donating.",
 
     "card.once": "one-time donation",
-    "card.monthly": "monthly donation",
+    "card.recurring": "recurring donation",
     "card.custom": "custom amount (from $2)",
 
-    "card.processor": "processed by {{value}}",
+    "card.processor": "via {{value}}",
 
     "card.option.5": "cup of coffee",
     "card.option.10": "full size pizza",

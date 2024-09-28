@@ -9,7 +9,7 @@
 
 <style>
     :global(.donate-card) {
-        --donate-card-main-padding: 18px;
+        --donate-card-main-padding: 16px;
         --donate-card-padding: 12px;
 
         display: flex;
@@ -37,7 +37,7 @@
         text-align: left;
         border-radius: var(--donate-card-padding);
         background: rgba(255, 255, 255, 0.05);
-        padding: 14px 18px;
+        padding: 12px 16px;
         color: var(--white);
         gap: 0;
         letter-spacing: -0.3px;
@@ -78,11 +78,5 @@
         font-size: 16px;
         gap: 4px;
         font-weight: 500;
-    }
-
-    @media screen and (max-width: 760px) {
-        :global(.donate-card) {
-            --donate-card-main-padding: 16px;
-        }
     }
 </style>
