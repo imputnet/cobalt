@@ -102,8 +102,8 @@ jobs:
 #      - run:
 #          name: Get current helm values
 #          command: |
-#            helm get values cobalt_values -n infra -o yaml > /tmp/values.yaml
+#            helm get values cobalt-values -n infra -o yaml > /tmp/values.yaml
       - run:
           name: Deploy
           command: |
-            helm upgrade --install cobalt_values ./cobalt-chart -n infra  --set image.repository=${IMAGE},image.tag=<< parameters.tag_prefix >>-${CIRCLE_SHA1} --history-max=3 --wait --atomic --timeout 4m0s
+            helm upgrade --install cobalt-values ./cobalt-chart -n infra  --set image.repository=${IMAGE},image.tag=<< parameters.tag_prefix >>-${CIRCLE_SHA1} --history-max=3 --wait --atomic --timeout 4m0s
