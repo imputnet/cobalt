@@ -84,8 +84,8 @@
 
     const scroll = (direction: "left" | "right") => {
         const currentPos = donateList.scrollLeft;
-        const newPos = direction === "left" ? currentPos - 150 : currentPos + 150;
         const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width;
+        const newPos = direction === "left" ? currentPos - 150 : currentPos + 150;
 
         donateList.scroll({
             left: newPos,
@@ -171,7 +171,7 @@
             bind:this={donateList}
             on:wheel={() => {
                 const currentPos = donateList.scrollLeft;
-                const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width;
+                const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width - 5;
                 showLeftScroll = currentPos > 0;
                 showRightScroll = currentPos < maxPos && currentPos !== maxPos;
             }}
