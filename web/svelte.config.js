@@ -76,7 +76,9 @@ const config = {
 
                     // hash of the theme preloader in app.html
                     "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s=",
-                ]
+                ],
+
+                "frame-ancestors": ["none"]
             }
         },
         env: {
