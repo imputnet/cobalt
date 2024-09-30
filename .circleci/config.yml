@@ -1,0 +1,109 @@
+version: 2.1
+
+orbs:
+  evilms: evilms/gcr-cleaner@0.1.9
+
+workflows:
+  version: 2
+  deploy-process:
+    jobs:
+      - build_docker:
+          name: build_docker_infra
+          tag_prefix: staging
+          filters:
+            branches:
+              only:
+                - main
+      - evilms/single_image:
+          number: 2
+          image: 'kubein/cobalt'
+          tag_regex: 'staging.*'
+      - deploy:
+          name: deploy_infra
+          tag_prefix: staging
+          requires:
+            - build_docker_infra
+          filters:
+            branches:
+              only:
+                - main
+
+executors:
+  gcloud-helm:
+    docker:
+      - image: docker.io/celebrateyang/gcloud-helm:282.0.0
+jobs:
+  build_docker:
+    executor: gcloud-helm
+    parameters:
+      tag_prefix:
+        type: string
+    environment:
+      GCP_PROJECT_ID: ebay-mag
+      IMAGE: gcr.io/ebay-mag/kubein/cobalt
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - setup_remote_docker:
+          version: docker23
+          docker_layer_caching: true
+      - run:
+          name: Set environment variables
+          command: |
+            echo 'export IMAGE_TAG=<< parameters.tag_prefix >>-${CIRCLE_SHA1}' >> $BASH_ENV
+            echo 'export BUILDER_TAG=<< parameters.tag_prefix >>-builder' >> $BASH_ENV
+      - run:
+          name: Setup Google Cloud SDK
+          command: |
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project ebay-mag
+            gcloud --quiet auth configure-docker
+            gcloud --quiet config set compute/zone europe-west4-b
+            gcloud --quiet container clusters get-credentials staging
+      - run:
+          name: Pull builder and main docker images to use layer caching
+          command: |
+            source $BASH_ENV
+            docker pull ${IMAGE}:latest || true
+            docker pull ${IMAGE}:builder || true
+      - run:
+          name: Build Docker Image
+          command: |
+            source $BASH_ENV
+            docker build -t ${IMAGE}:${IMAGE_TAG} --cache-from ${IMAGE}:builder --cache-from ${IMAGE}:latest .
+
+      - run:
+          name: Push
+          command: |
+            source $BASH_ENV
+            docker push ${IMAGE}:${IMAGE_TAG}
+  deploy:
+    executor: gcloud-helm
+    parameters:
+      tag_prefix:
+        type: string
+    environment:
+      IMAGE: gcr.io/ebay-mag/kubein/cobalt
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: Setup Google Cloud SDK
+          command: |
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project ebay-mag
+            gcloud --quiet auth configure-docker
+            gcloud --quiet config set compute/zone europe-west4-b
+            gcloud --quiet container clusters get-credentials staging
+      - run:
+          name: Get current helm values
+          command: |
+            helm get values cobalt -n infra -o yaml > /tmp/values.yaml
+      - run:
+          name: Deploy
+          command: |
+            helm upgrade --install cobalt ./cobalt-chart -n infra -f /tmp/values.yaml --set image.repository=${IMAGE},image.tag=<< parameters.tag_prefix >>-${CIRCLE_SHA1} --history-max=3 --wait --atomic --timeout 4m0s
