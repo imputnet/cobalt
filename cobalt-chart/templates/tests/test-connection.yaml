@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "cobalt_chart.fullname" . }}-test-connection"
+  name: "{{ include "cobalt-chart.fullname" . }}-test-connection"
   labels:
-    {{- include "cobalt_chart.labels" . | nindent 4 }}
+    {{- include "cobalt-chart.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "cobalt_chart.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "cobalt-chart.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

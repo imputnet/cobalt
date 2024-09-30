@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "cobalt_chart.fullname" . }}
+  name: {{ include "cobalt-chart.fullname" . }}
   labels:
-    {{- include "cobalt_chart.labels" . | nindent 4 }}
+    {{- include "cobalt-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "cobalt_chart.fullname" . }}
+    name: {{ include "cobalt-chart.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

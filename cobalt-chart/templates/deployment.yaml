@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "cobalt_chart.fullname" . }}
+  name: {{ include "cobalt-chart.fullname" . }}
   labels:
-    {{- include "cobalt_chart.labels" . | nindent 4 }}
+    {{- include "cobalt-chart.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "cobalt_chart.selectorLabels" . | nindent 6 }}
+      {{- include "cobalt-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "cobalt_chart.labels" . | nindent 8 }}
+        {{- include "cobalt-chart.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
