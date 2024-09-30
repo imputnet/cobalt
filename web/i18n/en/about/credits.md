@@ -5,22 +5,6 @@
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
 
-<section id="meowbalt">
-<SectionHeading
-    title={$t("general.meowbalt")}
-    sectionId="meowbalt"
-/>
-
-meowbalt is cobalt's speedy mascot. he is an extremely expressive cat that loves fast internet.
-
-all amazing drawings of meowbalt that you see in cobalt were made by [GlitchyPSI](https://glitchypsi.xyz/).
-he is also the original designer of the character.
-
-you cannot use or modify GlitchyPSI's artworks of meowbalt without his explicit permission.
-
-you cannot use or modify the meowbalt character design commercially or in any form that isn't fan art.
-</section>
-
 <section id="testers">
 <SectionHeading
     title={$t("about.heading.testers")}
@@ -42,6 +26,22 @@ they also helped us ship cobalt 10!
 - [vimae](https://mae.wtf/)
 
 all links are external and lead to their personal websites or social media.
+</section>
+
+<section id="meowbalt">
+<SectionHeading
+    title={$t("general.meowbalt")}
+    sectionId="meowbalt"
+/>
+
+meowbalt is cobalt's speedy mascot. he is an extremely expressive cat that loves fast internet.
+
+all amazing drawings of meowbalt that you see in cobalt were made by [GlitchyPSI](https://glitchypsi.xyz/).
+he is also the original designer of the character.
+
+you cannot use or modify GlitchyPSI's artworks of meowbalt without his explicit permission.
+
+you cannot use or modify the meowbalt character design commercially or in any form that isn't fan art.
 </section>
 
 <section id="licenses">
