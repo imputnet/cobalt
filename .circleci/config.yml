@@ -106,4 +106,4 @@ jobs:
       - run:
           name: Deploy
           command: |
-            helm upgrade --install cobalt_values ./cobalt-chart -n infra -f /tmp/values.yaml --set image.repository=${IMAGE},image.tag=<< parameters.tag_prefix >>-${CIRCLE_SHA1} --history-max=3 --wait --atomic --timeout 4m0s
+            helm upgrade --install cobalt_values ./cobalt-chart -n infra  --set image.repository=${IMAGE},image.tag=<< parameters.tag_prefix >>-${CIRCLE_SHA1} --history-max=3 --wait --atomic --timeout 4m0s
