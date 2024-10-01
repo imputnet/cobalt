@@ -26,7 +26,7 @@ const env = {
     rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
 
     durationLimit: (process.env.DURATION_LIMIT && parseInt(process.env.DURATION_LIMIT)) || 10800,
-    streamLifespan: (process.env.STREAM_LIFESPAN && parseInt(process.env.STREAM_LIFESPAN)) || 90,
+    streamLifespan: (process.env.TUNNEL_LIFESPAN && parseInt(process.env.TUNNEL_LIFESPAN)) || 90,
 
     processingPriority: process.platform !== 'win32'
         && process.env.PROCESSING_PRIORITY
