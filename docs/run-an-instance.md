@@ -71,6 +71,7 @@ sudo service nscd start
 | `RATELIMIT_WINDOW`    | `60`      | `120`                   | rate limit time window in **seconds**. |
 | `RATELIMIT_MAX`       | `20`      | `30`                    | max requests per time window. requests above this amount will be blocked for the rate limit window duration. |
 | `DURATION_LIMIT`      | `10800`   | `18000`                 | max allowed video duration in **seconds**. |
+| `STREAM_LIFESPAN`     | `90`      | `120`                   | the duration a stream remains accessible for in **seconds**. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
