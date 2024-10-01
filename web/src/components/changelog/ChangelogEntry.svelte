@@ -146,6 +146,7 @@
         width: 100%;
         aspect-ratio: 16/9;
         border-radius: var(--padding);
+        pointer-events: all;
     }
 
     .changelog-banner.loading {
