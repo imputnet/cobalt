@@ -41,7 +41,7 @@ spec:
               protocol: TCP
           env:
             - name: API_URL
-              value: https://cobalt.tianfujixing.com:80
+              value: https://cobalt.tianfujixing.com/
             - name: API_PORT
               value: '80'
             - name: API_NAME
