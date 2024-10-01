@@ -30,7 +30,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 9000
+  port: 80
   targetPort: 9000
 
 ingress:
