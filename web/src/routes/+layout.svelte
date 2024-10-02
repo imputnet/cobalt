@@ -478,6 +478,7 @@
 
     :global(.long-text-noto ul) {
         padding-inline-start: 30px;
+        margin-block-start: 9px;
     }
 
     :global(.long-text-noto li) {
