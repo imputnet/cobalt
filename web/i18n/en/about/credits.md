@@ -19,7 +19,7 @@ they also helped us ship cobalt 10!
 - [hyperdefined](https://hyper.lol/)
 - [KwiatekMiki](https://kwiatekmiki.com/)
 - [Lao](https://lao.ooo/)
-- lostdusty
+- [lostdusty](https://lostdusty.dev.br/)
 - [noblereign](https://fursona.directory/@frost)
 - [Spax](https://spax.zone/)
 - [synzr](https://synzr.space/)
