@@ -501,6 +501,11 @@
         padding-top: 0;
     }
 
+    :global(::selection) {
+        color: var(--primary);
+        background: var(--secondary);
+    }
+
     @media screen and (max-width: 535px) {
         :global(.long-text-noto),
         :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
