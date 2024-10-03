@@ -7,6 +7,7 @@
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
+    import settings from "$lib/state/settings"
 </script>
 
 <SettingsCategory sectionId="format" title={$t("settings.audio.format")}>
@@ -23,7 +24,7 @@
     </Switcher>
 </SettingsCategory>
 
-<SettingsCategory sectionId="bitrate" title={$t("settings.audio.bitrate")}>
+<SettingsCategory sectionId="bitrate" title={$t("settings.audio.bitrate")} disabled={["wav", "best"].includes($settings.save.audioFormat)}>
     <Switcher big={true} description={$t("settings.audio.bitrate.description")}>
         {#each audioBitrateOptions as value}
             <SettingsButton
