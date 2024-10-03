@@ -89,11 +89,7 @@
         opacity: 0.7;
     }
 
-    #debug-section-copy-button :global(.copy-animation) {
-        width: 17px;
-        height: 17px;
-    }
-
+    #debug-section-copy-button :global(.copy-animation),
     #debug-section-copy-button :global(.copy-animation *) {
         width: 17px;
         height: 17px;
