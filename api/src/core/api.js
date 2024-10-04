@@ -148,7 +148,7 @@ export const runAPI = (express, app, __dirname) => {
     });
 
     app.post('/', (req, res, next) => {
-        if (!env.sessionEnabled) {
+        if (!env.sessionEnabled || req.rateLimitKey) {
             return next();
         }
 
