@@ -43,6 +43,11 @@ const env = {
                         && process.env.TURNSTILE_SECRET
                         && process.env.JWT_SECRET,
 
+    apiKeyURL: process.env.API_KEY_URL && new URL(process.env.API_KEY_URL),
+    authRequired: process.env.API_AUTH_REQUIRED === '1',
+
+    keyReloadInterval: 900,
+
     enabledServices,
 }
 
