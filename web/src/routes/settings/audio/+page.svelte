@@ -24,7 +24,11 @@
     </Switcher>
 </SettingsCategory>
 
-<SettingsCategory sectionId="bitrate" title={$t("settings.audio.bitrate")} disabled={["wav", "best"].includes($settings.save.audioFormat)}>
+<SettingsCategory 
+    sectionId="bitrate" 
+    title={$t("settings.audio.bitrate")}
+    disabled={["wav", "best"].includes($settings.save.audioFormat)}
+>
     <Switcher big={true} description={$t("settings.audio.bitrate.description")}>
         {#each audioBitrateOptions as value}
             <SettingsButton
