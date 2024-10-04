@@ -105,7 +105,6 @@ export const runAPI = (express, app, __dirname) => {
         ...corsConfig,
     }));
 
-    app.post('/', apiLimiter);
     app.use('/tunnel', apiLimiterStream);
 
     app.post('/', (req, res, next) => {
@@ -148,7 +147,9 @@ export const runAPI = (express, app, __dirname) => {
         next();
     });
 
+    app.post('/', apiLimiter);
     app.use('/', express.json({ limit: 1024 }));
+
     app.use('/', (err, _, res, next) => {
         if (err) {
             const { status, body } = createResponse("error", {
