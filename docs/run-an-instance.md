@@ -103,6 +103,7 @@ where *`UUIDv4String`* is a stringified version of a UUIDv4 identifier.
 
 - **`limit`** specifies how many requests the API key can make during the window specified in the `RATELIMIT_WINDOW` env.
     - when omitted, the limit specified in `RATELIMIT_MAX` will be used.
+    - it can be also set to `"unlimited"`, in which case the API key bypasses all rate limits.
 
 - **`ips`** contains an array of allowlisted IP ranges, which can be specified both as individual ips or CIDR ranges (e.g. *`["192.168.42.69", "2001:db8::48", "10.0.0.0/8", "fe80::/10"]`*).
     - when specified, only requests from these ip ranges can use the specified api key.
@@ -122,6 +123,11 @@ an example key file could look like this:
         "limit": 10,
         "ips": ["10.0.0.0/8", "192.168.42.42"],
         "userAgents": ["*Chrome*"]
+    },
+    "b00b1234-a3e5-99b1-c6d1-dba4512ae190": {
+        "limit": "unlimited",
+        "ips": ["192.168.1.2"],
+        "userAgents": ["cobaltbot/1.0"]
     }
 }
 ```
