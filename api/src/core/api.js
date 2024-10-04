@@ -81,12 +81,7 @@ export const runAPI = (express, app, __dirname) => {
         max: env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => {
-            if (req.authorized) {
-                return generateHmac(req.header("Authorization"), ipSalt);
-            }
-            return generateHmac(getIP(req), ipSalt);
-        },
+        keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
         handler: handleRateExceeded
     })
 
@@ -147,7 +142,7 @@ export const runAPI = (express, app, __dirname) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            req.authorized = true;
+            req.rateLimitKey = generateHmac(req.header("Authorization"), ipSalt);
         } catch {
             return fail(res, "error.api.generic");
         }
