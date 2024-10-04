@@ -89,6 +89,10 @@ const formatKeys = (keyData) => {
         formatted[key] = {};
 
         if (data.limit) {
+            if (data.limit === "unlimited") {
+                data.limit = Infinity;
+            }
+
             formatted[key].limit = data.limit;
         }
 
