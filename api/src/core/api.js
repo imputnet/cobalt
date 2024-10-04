@@ -81,7 +81,7 @@ export const runAPI = (express, app, __dirname) => {
         handler: handleRateExceeded
     })
 
-    const apiLimiterStream = rateLimit({
+    const apiTunnelLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
         max: env.rateLimitMax,
         standardHeaders: true,
@@ -104,8 +104,6 @@ export const runAPI = (express, app, __dirname) => {
         ],
         ...corsConfig,
     }));
-
-    app.use('/tunnel', apiLimiterStream);
 
     app.post('/', (req, res, next) => {
         if (!acceptRegex.test(req.header('Accept'))) {
@@ -231,7 +229,7 @@ export const runAPI = (express, app, __dirname) => {
         }
     })
 
-    app.get('/tunnel', (req, res) => {
+    app.get('/tunnel', apiTunnelLimiter, (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
         const sig = String(req.query.sig);
