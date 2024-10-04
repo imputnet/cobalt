@@ -17,6 +17,7 @@ import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
 import { verifyStream, getInternalStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
+import * as APIKeys from "../security/api-keys.js";
 
 const git = {
     branch: await getBranch(),
@@ -78,7 +79,7 @@ export const runAPI = (express, app, __dirname) => {
 
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
-        max: env.rateLimitMax,
+        max: (req) => req.rateLimitMax || env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
@@ -87,10 +88,10 @@ export const runAPI = (express, app, __dirname) => {
 
     const apiTunnelLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
-        max: env.rateLimitMax,
+        max: (req) => req.rateLimitMax || env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => generateHmac(getIP(req), ipSalt),
+        keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
         handler: (req, res) => {
             return res.sendStatus(429)
         }
@@ -117,6 +118,33 @@ export const runAPI = (express, app, __dirname) => {
             return fail(res, "error.api.header.content_type");
         }
         next();
+    });
+
+    app.post('/', (req, res, next) => {
+        if (!env.apiKeyURL) {
+            return next();
+        }
+
+        const { success, error } = APIKeys.validateAuthorization(req);
+        if (!success) {
+            // We call next() here if either if:
+            // a) we have user sessions enabled, meaning the request
+            //    will still need a Bearer token to not be rejected, or
+            // b) we do not require the user to be authenticated, and
+            //    so they can just make the request with the regular
+            //    rate limit configuration;
+            // otherwise, we reject the request.
+            if (
+                (env.sessionEnabled || !env.authRequired)
+                && ['missing', 'not_api_key'].includes(error)
+            ) {
+                return next();
+            }
+
+            return fail(res, `error.api.auth.key.${error}`);
+        }
+
+        return next();
     });
 
     app.post('/', (req, res, next) => {
@@ -313,6 +341,10 @@ export const runAPI = (express, app, __dirname) => {
         }
 
         setGlobalDispatcher(new ProxyAgent(env.externalProxy))
+    }
+
+    if (env.apiKeyURL) {
+        APIKeys.setup(env.apiKeyURL);
     }
 
     app.listen(env.apiPort, env.listenAddress, () => {
