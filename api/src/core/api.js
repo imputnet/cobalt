@@ -57,6 +57,16 @@ export const runAPI = (express, app, __dirname) => {
         git,
     })
 
+    const handleRateExceeded = (_, res) => {
+        const { status, body } = createResponse("error", {
+            code: "error.api.rate_exceeded",
+            context: {
+                limit: env.rateLimitWindow
+            }
+        });
+        return res.status(status).json(body);
+    };
+
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
         max: env.rateLimitMax,
@@ -68,15 +78,7 @@ export const runAPI = (express, app, __dirname) => {
             }
             return generateHmac(getIP(req), ipSalt);
         },
-        handler: (req, res) => {
-            const { status, body } = createResponse("error", {
-                code: "error.api.rate_exceeded",
-                context: {
-                    limit: env.rateLimitWindow
-                }
-            });
-            return res.status(status).json(body);
-        }
+        handler: handleRateExceeded
     })
 
     const apiLimiterStream = rateLimit({
