@@ -67,6 +67,15 @@ export const runAPI = (express, app, __dirname) => {
         return res.status(status).json(body);
     };
 
+    const sessionLimiter = rateLimit({
+        windowMs: 60000,
+        max: 10,
+        standardHeaders: true,
+        legacyHeaders: false,
+        keyGenerator: req => generateHmac(getIP(req), ipSalt),
+        handler: handleRateExceeded
+    });
+
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
         max: env.rateLimitMax,
@@ -159,7 +168,7 @@ export const runAPI = (express, app, __dirname) => {
         next();
     });
 
-    app.post("/session", async (req, res) => {
+    app.post("/session", sessionLimiter, async (req, res) => {
         if (!env.sessionEnabled) {
             return fail(res, "error.api.auth.not_configured")
         }
