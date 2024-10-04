@@ -12,13 +12,10 @@
     import settings, { storedSettings } from "$lib/state/settings";
 
     $: sections = [
-        { title: $t("settings.advanced.debug.device"), data: device },
-        { title: $t("settings.advanced.debug.app"), data: app },
-        {
-            title: $t("settings.advanced.debug.settings"),
-            data: $storedSettings,
-        },
-        { title: $t("settings.advanced.debug.version"), data: $version },
+        { title: "device", data: device },
+        { title: "app", data: app },
+        { title: "settings", data: $storedSettings },
+        { title: "version", data: $version },
     ];
 
     let lastCopiedSection: number | null = null;
@@ -51,7 +48,7 @@
                     on:click={() => {
                         clearTimeout(lastCopiedSectionResetTimeout);
                         lastCopiedSection = i;
-                        copyURL(JSON.stringify(data, null, 2));
+                        copyURL(JSON.stringify(data));
                     }}
                 >
                     <CopyIcon regularIcon check={lastCopiedSection === i} />

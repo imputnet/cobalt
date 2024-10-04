@@ -105,10 +105,6 @@
     "advanced.debug": "debug",
     "advanced.debug.title": "enable debug features",
     "advanced.debug.description": "gives you access to a page with various info that can be useful for debugging.",
-    "advanced.debug.device": "device",
-    "advanced.debug.app": "app",
-    "advanced.debug.settings": "settings",
-    "advanced.debug.version": "version",
 
     "advanced.data": "settings data",
 
