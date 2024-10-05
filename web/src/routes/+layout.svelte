@@ -259,7 +259,7 @@
     }
 
     /* add padding for notch / dynamic island in landscape */
-    @media screen and (orientation: landscape) {
+    @media screen and (orientation: landscape) and (min-width: 535px) {
         #cobalt[data-iphone="true"] {
             grid-template-columns:
                 calc(
