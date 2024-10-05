@@ -203,7 +203,7 @@
         --input-border: #383838;
 
         --toggle-bg: var(--input-border);
-        --toggle-bg-enabled: #777777;
+        --toggle-bg-enabled: #8a8a8a;
 
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
@@ -499,6 +499,11 @@
 
     :global(.long-text-noto.about section:first-of-type .heading-container) {
         padding-top: 0;
+    }
+
+    :global(::selection) {
+        color: var(--primary);
+        background: var(--secondary);
     }
 
     @media screen and (max-width: 535px) {

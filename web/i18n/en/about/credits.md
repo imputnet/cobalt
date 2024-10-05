@@ -3,6 +3,7 @@
     import { t } from "$lib/i18n/translations";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
+    import BetaTesters from "$components/misc/BetaTesters.svelte";
 </script>
 
 <section id="testers">
@@ -13,17 +14,7 @@
 
 huge shoutout to our thing breakers for testing updates early and making sure they're stable.
 they also helped us ship cobalt 10!
-- codfish246
-- [damir](https://otomir23.me/)
-- Hunter
-- [hyperdefined](https://hyper.lol/)
-- [KwiatekMiki](https://kwiatekmiki.com/)
-- [Lao](https://lao.ooo/)
-- lostdusty
-- [noblereign](https://fursona.directory/@frost)
-- [Spax](https://spax.zone/)
-- [synzr](https://synzr.space/)
-- [vimae](https://mae.wtf/)
+<BetaTesters />
 
 all links are external and lead to their personal websites or social media.
 </section>
