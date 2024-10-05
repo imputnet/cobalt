@@ -15,7 +15,6 @@ them, you must specify them when building the frontend (or running a vite server
 | `WEB_HOST`           | `cobalt.tools`              | domain on which the frontend will be running. used for meta tags and configuring plausible.              |
 | `WEB_PLAUSIBLE_HOST` | `plausible.io`*             | enables plausible analytics with provided hostname as receiver backend.                                  |
 | `WEB_DEFAULT_API`    | `https://api.cobalt.tools/` | changes url which is used for api requests by frontend clients.                                          |
-| `WEB_TURNSTILE_KEY`  | `1x00000000000000000000AA`  | [cloudflare turnstile](https://www.cloudflare.com/products/turnstile/) public key for antibot protection |
 
 \* don't use plausible.io as receiver backend unless you paid for their cloud service.
    use your own domain when hosting community edition of plausible. refer to their [docs](https://plausible.io/docs) when needed.

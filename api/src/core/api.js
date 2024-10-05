@@ -17,6 +17,7 @@ import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
 import { verifyStream, getInternalStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
+import * as APIKeys from "../security/api-keys.js";
 
 const git = {
     branch: await getBranch(),
@@ -57,34 +58,40 @@ export const runAPI = (express, app, __dirname) => {
         git,
     })
 
-    const apiLimiter = rateLimit({
-        windowMs: env.rateLimitWindow * 1000,
-        max: env.rateLimitMax,
-        standardHeaders: true,
-        legacyHeaders: false,
-        keyGenerator: req => {
-            if (req.authorized) {
-                return generateHmac(req.header("Authorization"), ipSalt);
+    const handleRateExceeded = (_, res) => {
+        const { status, body } = createResponse("error", {
+            code: "error.api.rate_exceeded",
+            context: {
+                limit: env.rateLimitWindow
             }
-            return generateHmac(getIP(req), ipSalt);
-        },
-        handler: (req, res) => {
-            const { status, body } = createResponse("error", {
-                code: "error.api.rate_exceeded",
-                context: {
-                    limit: env.rateLimitWindow
-                }
-            });
-            return res.status(status).json(body);
-        }
-    })
+        });
+        return res.status(status).json(body);
+    };
 
-    const apiLimiterStream = rateLimit({
-        windowMs: env.rateLimitWindow * 1000,
-        max: env.rateLimitMax,
+    const sessionLimiter = rateLimit({
+        windowMs: 60000,
+        max: 10,
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: req => generateHmac(getIP(req), ipSalt),
+        handler: handleRateExceeded
+    });
+
+    const apiLimiter = rateLimit({
+        windowMs: env.rateLimitWindow * 1000,
+        max: (req) => req.rateLimitMax || env.rateLimitMax,
+        standardHeaders: true,
+        legacyHeaders: false,
+        keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
+        handler: handleRateExceeded
+    })
+
+    const apiTunnelLimiter = rateLimit({
+        windowMs: env.rateLimitWindow * 1000,
+        max: (req) => req.rateLimitMax || env.rateLimitMax,
+        standardHeaders: true,
+        legacyHeaders: false,
+        keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
         handler: (req, res) => {
             return res.sendStatus(429)
         }
@@ -103,9 +110,6 @@ export const runAPI = (express, app, __dirname) => {
         ...corsConfig,
     }));
 
-    app.post('/', apiLimiter);
-    app.use('/tunnel', apiLimiterStream);
-
     app.post('/', (req, res, next) => {
         if (!acceptRegex.test(req.header('Accept'))) {
             return fail(res, "error.api.header.accept");
@@ -117,7 +121,34 @@ export const runAPI = (express, app, __dirname) => {
     });
 
     app.post('/', (req, res, next) => {
-        if (!env.sessionEnabled) {
+        if (!env.apiKeyURL) {
+            return next();
+        }
+
+        const { success, error } = APIKeys.validateAuthorization(req);
+        if (!success) {
+            // We call next() here if either if:
+            // a) we have user sessions enabled, meaning the request
+            //    will still need a Bearer token to not be rejected, or
+            // b) we do not require the user to be authenticated, and
+            //    so they can just make the request with the regular
+            //    rate limit configuration;
+            // otherwise, we reject the request.
+            if (
+                (env.sessionEnabled || !env.authRequired)
+                && ['missing', 'not_api_key'].includes(error)
+            ) {
+                return next();
+            }
+
+            return fail(res, `error.api.auth.key.${error}`);
+        }
+
+        return next();
+    });
+
+    app.post('/', (req, res, next) => {
+        if (!env.sessionEnabled || req.rateLimitKey) {
             return next();
         }
 
@@ -139,14 +170,16 @@ export const runAPI = (express, app, __dirname) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            req.authorized = true;
+            req.rateLimitKey = generateHmac(req.header("Authorization"), ipSalt);
         } catch {
             return fail(res, "error.api.generic");
         }
         next();
     });
 
+    app.post('/', apiLimiter);
     app.use('/', express.json({ limit: 1024 }));
+
     app.use('/', (err, _, res, next) => {
         if (err) {
             const { status, body } = createResponse("error", {
@@ -158,7 +191,7 @@ export const runAPI = (express, app, __dirname) => {
         next();
     });
 
-    app.post("/session", async (req, res) => {
+    app.post("/session", sessionLimiter, async (req, res) => {
         if (!env.sessionEnabled) {
             return fail(res, "error.api.auth.not_configured")
         }
@@ -228,7 +261,7 @@ export const runAPI = (express, app, __dirname) => {
         }
     })
 
-    app.get('/tunnel', (req, res) => {
+    app.get('/tunnel', apiTunnelLimiter, (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
         const sig = String(req.query.sig);
@@ -308,6 +341,10 @@ export const runAPI = (express, app, __dirname) => {
         }
 
         setGlobalDispatcher(new ProxyAgent(env.externalProxy))
+    }
+
+    if (env.apiKeyURL) {
+        APIKeys.setup(env.apiKeyURL);
     }
 
     app.listen(env.apiPort, env.listenAddress, () => {
