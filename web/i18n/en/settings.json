@@ -50,7 +50,7 @@
 
     "audio.bitrate": "audio bitrate",
     "audio.bitrate.kbps": "kb/s",
-    "audio.bitrate.description": "bitrate applies only to audio conversion. cobalt can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
+    "audio.bitrate.description": "bitrate is applied only when converting audio to a lossy format. cobalt can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
 
     "audio.youtube.dub": "youtube",
     "audio.youtube.dub.title": "use browser language for dubbed videos",
