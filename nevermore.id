@@ -1,0 +1,11 @@
+#include <iostream>
+
+//using namespace std;
+
+int main ()
+{
+// menampilkan tulisan itz.vnynt_ ke layar
+std: :cout<<"itz.vnynt_";
+
+return 0;
+}
