@@ -19,7 +19,7 @@ let final = () => {
     }
     console.log(Bright("\nAwesome! I've created a fresh .env file for you."));
     console.log(`${Bright("Now I'll run")} ${Cyan("npm install")} ${Bright("to install all dependencies. It shouldn't take long.\n\n")}`);
-    execSync('npm install', { stdio: [0, 1, 2] });
+    execSync('pnpm install', { stdio: [0, 1, 2] });
     console.log(`\n\n${Cyan("All done!\n")}`);
     console.log(Bright("You can re-run this script at any time to update the configuration."));
     console.log(Bright("\nYou're now ready to start cobalt. Simply run ") + Cyan("npm start") + Bright('!\nHave fun :)'));
