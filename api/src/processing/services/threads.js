@@ -34,31 +34,31 @@ export default async function({ user, id, quality, dispatcher }) {
     if (cookie) updateCookie(cookie, response.headers);
 
     if (response.status !== 200) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'fetch.fail' };
     }
     const html = await response.text();
     const dataString = html.match(DATA_REGEX)?.[1];
     if (!dataString) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'fetch.fail' };
     }
 
     const data = JSON.parse(dataString);
     const post = data?.require?.[0]?.[3]?.[0]?.__bbox?.require?.[0]?.[3]?.[1]?.__bbox?.result?.data?.data?.edges[0]?.node?.thread_items[0]?.post;
     if (!post) {
-        return { error: 'ErrorCouldntFetch' };
+        return { error: 'fetch.fail' };
     }
 
     // Video
     if (post.media_type === 2) {
         if (!post.video_versions) {
-            return { error: 'ErrorEmptyDownload' };
+            return { error: 'fetch.empty' };
         }
 
         // types: 640p = 101, 480p = 102, 480p-low = 103
         const selectedQualityType = quality === 'max' ? 101 : quality && parseInt(quality) <= 480 ? 102 : 101;
         const video = post.video_versions.find((v) => v.type === selectedQualityType) || post.video_versions.sort((a, b) => a.type - b.type)[0];
         if (!video) {
-            return { error: 'ErrorEmptyDownload' };
+            return { error: 'fetch.empty' };
         }
 
         return {
@@ -71,7 +71,7 @@ export default async function({ user, id, quality, dispatcher }) {
     // Photo
     if (post.media_type === 1) {
         if (!post.image_versions2?.candidates) {
-            return { error: 'ErrorEmptyDownload' };
+            return { error: 'fetch.empty' };
         }
 
         return {
@@ -83,7 +83,7 @@ export default async function({ user, id, quality, dispatcher }) {
     // Mixed
     if (post.media_type === 8) {
         if (!post.carousel_media) {
-            return { error: 'ErrorEmptyDownload' };
+            return { error: 'fetch.empty' };
         }
 
         return {
@@ -94,13 +94,12 @@ export default async function({ user, id, quality, dispatcher }) {
                 ** set to `same-origin`, so we need to proxy them */
                 thumb: createStream({
                     service: "threads",
-                    type: "default",
-                    u: media.image_versions2.candidates[0].url,
-                    filename: "image.jpg"
+                    type: "proxy",
+                    u: media.image_versions2.candidates[0].url
                 })
             }))
         }
     }
 
-    return { error: 'ErrorUnsupported' };
+    return { error: 'fetch.fail' };
 }

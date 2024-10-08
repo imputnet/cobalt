@@ -234,7 +234,7 @@ export default async function({ host, patternMatch, params }) {
             case "threads":
                 r = await threads({
                     ...patternMatch,
-                    quality: obj.vQuality,
+                    quality: params.videoQuality,
                     dispatcher
                 });
                 break;
