@@ -235,6 +235,7 @@ export default async function({ host, patternMatch, params }) {
                 r = await threads({
                     ...patternMatch,
                     quality: params.videoQuality,
+                    alwaysProxy: params.alwaysProxy,
                     dispatcher
                 });
                 break;
