@@ -2,10 +2,30 @@
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
 
+    import CopyIcon from "$components/misc/CopyIcon.svelte";
+
+    import { t } from "$lib/i18n/translations";
+    import { copyURL } from "$lib/download";
     import { version } from "$lib/version";
     import { device, app } from "$lib/device";
     import { defaultNavPage } from "$lib/subnav";
     import settings, { storedSettings } from "$lib/state/settings";
+
+    $: sections = [
+        { title: "device", data: device },
+        { title: "app", data: app },
+        { title: "settings", data: $storedSettings },
+        { title: "version", data: $version },
+    ];
+
+    let lastCopiedSection: number | null = null;
+    let lastCopiedSectionResetTimeout: ReturnType<typeof setTimeout>;
+
+    $: if (lastCopiedSection !== null) {
+        lastCopiedSectionResetTimeout = setTimeout(() => {
+            lastCopiedSection = null;
+        }, 1500);
+    }
 
     onMount(() => {
         if (!$settings.advanced.debug) {
@@ -15,38 +35,64 @@
 </script>
 
 {#if $settings.advanced.debug}
-    <div id="advanced-page">
-        <h3>device:</h3>
-        <div class="message-container subtext">
-            {JSON.stringify(device, null, 2)}
-        </div>
+    <div id="debug-page">
+        {#each sections as { title, data }, i}
+            <div id="debug-section-title">
+                <h3>{title}</h3>
 
-        <h3>app:</h3>
-        <div class="message-container subtext">
-            {JSON.stringify(app, null, 2)}
-        </div>
+                <button
+                    id="debug-section-copy-button"
+                    aria-label={lastCopiedSection === i
+                        ? $t("button.copied")
+                        : $t("button.copy")}
+                    on:click={() => {
+                        clearTimeout(lastCopiedSectionResetTimeout);
+                        lastCopiedSection = i;
+                        copyURL(JSON.stringify(data));
+                    }}
+                >
+                    <CopyIcon regularIcon check={lastCopiedSection === i} />
+                </button>
+            </div>
 
-        <h3>settings:</h3>
-        <div class="message-container subtext">
-            {JSON.stringify($storedSettings, null, 2)}
-        </div>
-
-        <h3>version:</h3>
-        <div class="message-container subtext">
-            {JSON.stringify($version, null, 2)}
-        </div>
+            <div class="json-block subtext">
+                {JSON.stringify(data, null, 2)}
+            </div>
+        {/each}
     </div>
 {/if}
 
 <style>
-    #advanced-page {
+    #debug-page {
         display: flex;
         flex-direction: column;
         padding: var(--padding);
         gap: var(--padding);
     }
 
-    .message-container {
+    #debug-section-title {
+        display: flex;
+        flex-direction: start;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    #debug-section-copy-button {
+        background: transparent;
+        padding: 2px;
+        box-shadow: none;
+        border-radius: 5px;
+        transition: opacity 0.2s;
+        opacity: 0.7;
+    }
+
+    #debug-section-copy-button :global(.copy-animation),
+    #debug-section-copy-button :global(.copy-animation *) {
+        width: 17px;
+        height: 17px;
+    }
+
+    .json-block {
         display: flex;
         flex-direction: column;
         line-break: anywhere;
