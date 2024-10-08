@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+        <meta name="application-name" content="cobalt">
+        <meta name="og:type" content="article">
+        <meta name="twitter:card" content="summary">
+
+        %sveltekit.head%
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="cobalt">
+
+        <meta name="darkreader-lock">
+        <meta name="color-scheme" content="only light">
+
+        <link rel="icon" href="%sveltekit.assets%/favicon.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="%sveltekit.assets%/icons/apple-touch-icon.png">
+        <link type="application/activity+json" href="" />
+
+        <link crossorigin="use-credentials" rel="manifest" href="%sveltekit.assets%/manifest.json">
+
+        <noscript>
+            <style>
+                #cobalt { opacity: 1 !important }
+            </style>
+        </noscript>
+
+        <style>
+            body, #body-dark {
+                background-color: black;
+            }
+
+            #body-light {
+                background-color: white;
+            }
+
+            @media (prefers-color-scheme: light) {
+                body {
+                    background-color: white;
+                }
+            }
+
+            #cobalt {
+                opacity: 0;
+            }
+
+            #cobalt.loaded {
+                opacity: 1;
+                transition: opacity .2s ease-out;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let settings = localStorage.getItem('settings'), appearance;
+                if (settings && ({ appearance } = JSON.parse(settings)) && appearance?.theme) {
+                    document.body.id = `body-${appearance.theme}`;
+                }
+            });
+        </script>
+    </head>
+    <body data-sveltekit-preload-data="hover" data-sveltekit-preload-code="eager">
+        <div style="display: contents">
+            %sveltekit.body%
+        </div>
+    </body>
+</html>

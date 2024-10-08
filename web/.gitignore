@@ -1,0 +1,8 @@
+# builds
+/build
+/.svelte-kit
+/package
+
+# vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

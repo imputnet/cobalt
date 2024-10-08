@@ -1,21 +1,22 @@
-# os stuff
+# OS directory info files
 .DS_Store
 desktop.ini
 
-# npm
+# node
 node_modules
+
+# static build
+build
 
 # secrets
 .env
+.env.*
+!.env.example
+cookies.json
+keys.json
 
 # docker
 docker-compose.yml
 
-# vscode
+# ide
 .vscode
-
-# cookie file
-cookies.json
-
-# page build
-build

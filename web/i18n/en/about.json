@@ -1,0 +1,31 @@
+{
+    "page.general": "what's cobalt?",
+    "page.faq": "FAQ",
+
+    "page.community": "community & support",
+
+    "page.privacy": "privacy policy",
+    "page.terms": "terms and ethics",
+    "page.credits": "thanks & licenses",
+
+    "community.discord": "community discord server",
+    "community.twitter": "news account on twitter",
+    "community.github": "github repo",
+    "community.email": "support email",
+    "community.telegram": "news channel on telegram",
+
+    "heading.general": "general terms",
+    "heading.licenses": "licenses",
+    "heading.summary": "best way to save what you love",
+    "heading.privacy": "leading privacy",
+    "heading.community": "open community",
+    "heading.local": "on-device processing",
+    "heading.saving": "saving",
+    "heading.encryption": "encryption",
+    "heading.plausible": "anonymous traffic analytics",
+    "heading.cloudflare": "web privacy & security",
+    "heading.responsibility": "user responsibilities",
+    "heading.abuse": "reporting abuse",
+    "heading.motivation": "motivation",
+    "heading.testers": "beta testers"
+}
