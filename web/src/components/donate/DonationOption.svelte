@@ -1,18 +1,24 @@
 <script lang="ts">
     export let price: number;
     export let desc: string;
+    export let href: string;
 
-    const USD = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0
+    const USD = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
     });
 </script>
 
-<button class="donation-option">
+<button
+    class="donation-option"
+    on:click={() => {
+        window.open(href, "_blank");
+    }}
+>
     <div class="donate-card-title">
         <slot></slot>
-        { USD.format(price) }
+        {USD.format(price)}
     </div>
     <div class="donate-card-subtitle">{desc}</div>
 </button>

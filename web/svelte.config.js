@@ -1,8 +1,10 @@
-import adapter from '@sveltejs/adapter-static';
-import { mdsvex } from 'mdsvex';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
-import { sveltePreprocess } from 'svelte-preprocess';
+import "dotenv/config";
+import adapter from "@sveltejs/adapter-static";
+
+import { mdsvex } from "mdsvex";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+import { sveltePreprocess } from "svelte-preprocess";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -24,10 +26,16 @@ const config = {
         sveltePreprocess(),
         mdsvex({
             extensions: ['.md'],
-            layout: join(
-                dirname(fileURLToPath(import.meta.url)),
-                '/src/components/changelog/ChangelogEntryWrapper.svelte'
-            )
+            layout: {
+                about: join(
+                    dirname(fileURLToPath(import.meta.url)),
+                    '/src/components/misc/AboutPageWrapper.svelte'
+                ),
+                changelogs: join(
+                    dirname(fileURLToPath(import.meta.url)),
+                    '/src/components/changelog/ChangelogEntryWrapper.svelte'
+                )
+            }
         })
     ],
     kit: {
@@ -40,6 +48,39 @@ const config = {
             precompress: false,
             strict: true
         }),
+        csp: {
+            mode: "hash",
+            directives: {
+                "connect-src": ["*"],
+                "default-src": ["none"],
+
+                "font-src": ["self"],
+                "style-src": ["self", "unsafe-inline"],
+                "img-src": ["*", "data:"],
+                "manifest-src": ["self"],
+                "worker-src": ["self"],
+
+                "object-src": ["none"],
+                "frame-src": [
+                    "self",
+                    "challenges.cloudflare.com"
+                ],
+
+                "script-src": [
+                    "self",
+                    "wasm-unsafe-eval",
+                    "challenges.cloudflare.com",
+
+                    // eslint-disable-next-line no-undef
+                    process.env.WEB_PLAUSIBLE_HOST ? process.env.WEB_PLAUSIBLE_HOST : "",
+
+                    // hash of the theme preloader in app.html
+                    "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s=",
+                ],
+
+                "frame-ancestors": ["none"]
+            }
+        },
         env: {
             publicPrefix: 'WEB_'
         },

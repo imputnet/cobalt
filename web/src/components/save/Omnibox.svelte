@@ -4,12 +4,12 @@
     import { browser } from "$app/environment";
     import { SvelteComponent, tick } from "svelte";
 
-    import env from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
     import dialogs from "$lib/dialogs";
 
     import { link } from "$lib/state/omnibox";
+    import { cachedInfo } from "$lib/api/server-info";
     import { updateSetting } from "$lib/state/settings";
     import { turnstileLoaded } from "$lib/state/turnstile";
 
@@ -35,7 +35,10 @@
     let downloadButton: SvelteComponent;
 
     let isFocused = false;
+
     let isDisabled = false;
+    let isLoading = false;
+    let isBotCheckOngoing = false;
 
     const validLink = (url: string) => {
         try {
@@ -57,16 +60,18 @@
         goto("/", { replaceState: true });
     }
 
-    $: if (env.TURNSTILE_KEY) {
+    $: if ($cachedInfo?.info?.cobalt?.turnstileSitekey) {
         if ($turnstileLoaded) {
-            isDisabled = false;
+            isBotCheckOngoing = false;
         } else {
-            isDisabled = true;
+            isBotCheckOngoing = true;
         }
+    } else {
+        isBotCheckOngoing = false;
     }
 
     const pasteClipboard = () => {
-        if (isDisabled || $dialogs.length > 0) {
+        if ($dialogs.length > 0 || isDisabled || isLoading) {
             return;
         }
 
@@ -75,8 +80,10 @@
             if (matchLink) {
                 $link = matchLink[0];
 
-                await tick(); // wait for button to render
-                downloadButton.download($link);
+                if (!isBotCheckOngoing) {
+                    await tick(); // wait for button to render
+                    downloadButton.download($link);
+                }
             }
         });
     };
@@ -86,7 +93,7 @@
     };
 
     const handleKeydown = (e: KeyboardEvent) => {
-        if (!linkInput || $dialogs.length > 0 || isDisabled) {
+        if (!linkInput || $dialogs.length > 0 || isDisabled || isLoading) {
             return;
         }
 
@@ -133,8 +140,11 @@
         class:focused={isFocused}
         class:downloadable={validLink($link)}
     >
-        <div id="input-link-icon" class:loading={isDisabled}>
-            {#if isDisabled}
+        <div
+            id="input-link-icon"
+            class:loading={isLoading || isBotCheckOngoing}
+        >
+            {#if isLoading || isBotCheckOngoing}
                 <IconLoader2 />
             {:else}
                 <IconLink />
@@ -153,12 +163,14 @@
             autocapitalize="off"
             maxlength="512"
             placeholder={$t("save.input.placeholder")}
-            aria-label={$t("a11y.save.link_area")}
+            aria-label={isBotCheckOngoing
+                ? $t("a11y.save.link_area.turnstile")
+                : $t("a11y.save.link_area")}
             data-form-type="other"
             disabled={isDisabled}
         />
 
-        {#if $link}
+        {#if $link && !isLoading}
             <ClearButton click={() => ($link = "")} />
         {/if}
         {#if validLink($link)}
@@ -166,6 +178,7 @@
                 url={$link}
                 bind:this={downloadButton}
                 bind:disabled={isDisabled}
+                bind:loading={isLoading}
             />
         {/if}
     </div>

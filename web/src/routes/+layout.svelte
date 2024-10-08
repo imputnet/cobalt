@@ -7,6 +7,7 @@
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
+    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
 
     import "$lib/polyfills";
     import env from "$lib/env";
@@ -31,10 +32,16 @@
         $settings.appearance.reduceTransparency ||
         device.prefers.reducedTransparency;
 
-    afterNavigate(() => {
+    $: spawnTurnstile = !!$cachedInfo?.info?.cobalt?.turnstileSitekey;
+
+    afterNavigate(async() => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
+
+        if ($page.url.pathname === "/") {
+            await getServerInfo();
+        }
     });
 </script>
 
@@ -77,7 +84,7 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
-            {#if (env.TURNSTILE_KEY && $page.url.pathname === "/") || $turnstileCreated}
+            {#if (spawnTurnstile && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
             <slot></slot>
@@ -196,7 +203,7 @@
         --input-border: #383838;
 
         --toggle-bg: var(--input-border);
-        --toggle-bg-enabled: #777777;
+        --toggle-bg-enabled: #8a8a8a;
 
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
@@ -252,7 +259,7 @@
     }
 
     /* add padding for notch / dynamic island in landscape */
-    @media screen and (orientation: landscape) {
+    @media screen and (orientation: landscape) and (min-width: 535px) {
         #cobalt[data-iphone="true"] {
             grid-template-columns:
                 calc(
@@ -471,6 +478,7 @@
 
     :global(.long-text-noto ul) {
         padding-inline-start: 30px;
+        margin-block-start: 9px;
     }
 
     :global(.long-text-noto li) {
@@ -483,6 +491,19 @@
 
     :global(.long-text-noto.about section p:first-of-type) {
         margin-block-start: 0.3em;
+    }
+
+    :global(.long-text-noto.about .heading-container) {
+        padding-top: calc(var(--padding) / 2);
+    }
+
+    :global(.long-text-noto.about section:first-of-type .heading-container) {
+        padding-top: 0;
+    }
+
+    :global(::selection) {
+        color: var(--primary);
+        background: var(--secondary);
     }
 
     @media screen and (max-width: 535px) {

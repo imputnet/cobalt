@@ -26,7 +26,7 @@ const env = {
     rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
 
     durationLimit: (process.env.DURATION_LIMIT && parseInt(process.env.DURATION_LIMIT)) || 10800,
-    streamLifespan: 90,
+    streamLifespan: (process.env.TUNNEL_LIFESPAN && parseInt(process.env.TUNNEL_LIFESPAN)) || 90,
 
     processingPriority: process.platform !== 'win32'
         && process.env.PROCESSING_PRIORITY
@@ -34,9 +34,19 @@ const env = {
 
     externalProxy: process.env.API_EXTERNAL_PROXY,
 
+    turnstileSitekey: process.env.TURNSTILE_SITEKEY,
     turnstileSecret: process.env.TURNSTILE_SECRET,
     jwtSecret: process.env.JWT_SECRET,
     jwtLifetime: process.env.JWT_EXPIRY || 120,
+
+    sessionEnabled: process.env.TURNSTILE_SITEKEY
+                        && process.env.TURNSTILE_SECRET
+                        && process.env.JWT_SECRET,
+
+    apiKeyURL: process.env.API_KEY_URL && new URL(process.env.API_KEY_URL),
+    authRequired: process.env.API_AUTH_REQUIRED === '1',
+
+    keyReloadInterval: 900,
 
     enabledServices,
 }

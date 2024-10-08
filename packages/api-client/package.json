@@ -9,7 +9,7 @@
     "license": "MIT",
     "devDependencies": {
         "prettier": "3.3.3",
-        "tsup": "^8.2.4",
+        "tsup": "^8.3.0",
         "typescript": "^5.4.5"
     }
 }

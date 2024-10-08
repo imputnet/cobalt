@@ -162,6 +162,14 @@
 
     #services-disclaimer {
         padding: 0;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .expanded #services-disclaimer {
+        padding: 0;
+        user-select: text;
+        -webkit-user-select: text;
     }
 
     @media screen and (max-width: 535px) {

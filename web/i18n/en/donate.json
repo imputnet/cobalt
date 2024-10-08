@@ -2,14 +2,15 @@
     "banner.title": "Support a safe\nand open Internet",
     "banner.subtitle": "donate to imput or share the\njoy of cobalt with a friend",
 
-    "body.motivation": "cobalt helps thousands of producers, educators, and other creative people to do what they love. we created cobalt because we believe that internet doesn’t have to be scary. greed and ads have ruined the internet — we fight back with friendly and open tools that are made with love, not for profit.",
-    "body.keep_going": "you can help us stay motivated & keep creating safe alternatives to abusive tools by sharing cobalt with a friend or donating.",
+    "body.motivation": "cobalt helps producers, educators, video makers, and many others to do what they love. it's a different kind of service that is made with love, not for profit.",
+    "body.no_bullshit": "we believe that the internet doesn't have to be scary, which is why cobalt will never have ads or other kinds of malicious content. it's a promise that we firmly stand by. everything we do is built with privacy, accessibility, and ease of use in mind, making cobalt available for everyone.",
+    "body.keep_going": "if you found cobalt useful, please consider supporting our work! you can help us by making a donation or sharing cobalt with a friend. every donation is highly appreciated and helps us keep working on cobalt and other projects.",
 
     "card.once": "one-time donation",
-    "card.monthly": "monthly donation",
+    "card.recurring": "recurring donation",
     "card.custom": "custom amount (from $2)",
 
-    "card.processor": "processed by {{value}}",
+    "card.processor": "via {{value}}",
 
     "card.option.5": "cup of coffee",
     "card.option.10": "full size pizza",

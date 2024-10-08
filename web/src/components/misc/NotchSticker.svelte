@@ -11,9 +11,12 @@
     $: state = "hidden"; // "notch", "island", "notch x"
 
     const islandValues = [
+        53, // 16 pro max: larger text
         59, // regular & plus: default
         48, // regular: larger text
+        49, // 16: larger text
         51, // plus only: larger text
+        62, // 16: regular
     ];
 
     const xNotch = [44];
@@ -49,6 +52,11 @@
         if (safeAreaTop === 48 && safeAreaBottom === 34) {
             state = "notch";
         }
+
+        // exception for iPhone 16 Pro Max
+        if (safeAreaTop === 53 && safeAreaBottom === 29) {
+            state = "notch sixteen-pro-max";
+        }
     }
 </script>
 
@@ -75,6 +83,10 @@
 
     #cobalt-notch-sticker.notch {
         padding-top: 2px;
+    }
+
+    #cobalt-notch-sticker.sixteen-pro-max {
+        padding-top: 12px;
     }
 
     #cobalt-notch-sticker.notch.x :global(svg) {

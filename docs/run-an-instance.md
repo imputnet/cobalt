@@ -71,6 +71,9 @@ sudo service nscd start
 | `RATELIMIT_WINDOW`    | `60`      | `120`                   | rate limit time window in **seconds**. |
 | `RATELIMIT_MAX`       | `20`      | `30`                    | max requests per time window. requests above this amount will be blocked for the rate limit window duration. |
 | `DURATION_LIMIT`      | `10800`   | `18000`                 | max allowed video duration in **seconds**. |
+| `TUNNEL_LIFESPAN`     | `90`      | `120`                   | the duration for which tunnel info is stored in ram, **in seconds**. |
+| `API_KEY_URL`         | ➖        | `file://keys.json`      | the location of the api key database. for loading API keys, cobalt supports HTTP(S) urls, or local files by specifying a local path using the `file://` protocol. see the "api key file format" below for more details.  |
+| `API_AUTH_REQUIRED`   | ➖        | `1`                     | when set to `1`, the user always needs to be authenticated in some way before they can access the API (either via an api key or via turnstile, if enabled). |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
@@ -79,3 +82,55 @@ setting a `FREEBIND_CIDR` allows cobalt to pick a random IP for every download a
 requests it makes for that particular download. to use freebind in cobalt, you need to follow its [setup instructions](https://github.com/imputnet/freebind.js?tab=readme-ov-file#setup) first. if you configure this option while running cobalt
 in a docker container, you also need to set the `API_LISTEN_ADDRESS` env to `127.0.0.1`, and set
 `network_mode` for the container to `host`.
+
+#### api key file format
+the file is a JSON-serialized object with the following structure:
+```typescript
+
+type KeyFileContents = Record<
+    UUIDv4String,
+    {
+        name?: string,
+        limit?: number | "unlimited",
+        ips?: (CIDRString | IPString)[],
+        userAgents?: string[]
+    }
+>;
+```
+
+where *`UUIDv4String`* is a stringified version of a UUIDv4 identifier.
+- **name** is a field for your own reference, it is not used by cobalt anywhere.
+
+- **`limit`** specifies how many requests the API key can make during the window specified in the `RATELIMIT_WINDOW` env.
+    - when omitted, the limit specified in `RATELIMIT_MAX` will be used.
+    - it can be also set to `"unlimited"`, in which case the API key bypasses all rate limits.
+
+- **`ips`** contains an array of allowlisted IP ranges, which can be specified both as individual ips or CIDR ranges (e.g. *`["192.168.42.69", "2001:db8::48", "10.0.0.0/8", "fe80::/10"]`*).
+    - when specified, only requests from these ip ranges can use the specified api key.
+    - when omitted, any IP can be used to make requests with that API key.
+
+- **`userAgents`** contains an array of allowed user agents, with support for wildcards (e.g. *`["cobaltbot/1.0", "Mozilla/5.0 * Chrome/*"]`*).
+    - when specified, requests with a `user-agent` that does not appear in this array will be rejected.
+    - when omitted, any user agent can be specified to make requests with that API key.
+
+- if both `ips` and `userAgents` are set, the tokens will be limited by both parameters.
+- if cobalt detects any problem with your key file, it will be ignored and a warning will be printed to the console.
+
+an example key file could look like this:
+```json
+{
+    "b5c7160a-b655-4c7a-b500-de839f094550": {
+        "limit": 10,
+        "ips": ["10.0.0.0/8", "192.168.42.42"],
+        "userAgents": ["*Chrome*"]
+    },
+    "b00b1234-a3e5-99b1-c6d1-dba4512ae190": {
+        "limit": "unlimited",
+        "ips": ["192.168.1.2"],
+        "userAgents": ["cobaltbot/1.0"]
+    }
+}
+```
+
+if you are configuring a key file, **do not use the UUID from the example** but instead generate your own. you can do this by running the following command if you have node.js installed:
+`node -e "console.log(crypto.randomUUID())"`

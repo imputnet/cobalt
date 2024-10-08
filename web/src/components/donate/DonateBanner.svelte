@@ -5,8 +5,6 @@
 
     import Imput from "$components/icons/Imput.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
-
-    import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
 </script>
 
 <header id="banner">
@@ -116,7 +114,7 @@
         flex-direction: column;
         justify-content: center;
         color: white;
-        padding: 48px;
+        padding: 47px;
         padding-right: 0;
         gap: 14px;
         white-space: pre-wrap;

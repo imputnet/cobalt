@@ -17,7 +17,7 @@
 </script>
 
 <SettingsCategory
-    sectionId="video-quality"
+    sectionId="quality"
     title={$t("settings.video.quality")}
 >
     <Switcher big={true} description={$t("settings.video.quality.description")}>
@@ -34,7 +34,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="youtube-codec"
+    sectionId="codec"
     title={$t("settings.video.youtube.codec")}
 >
     <Switcher

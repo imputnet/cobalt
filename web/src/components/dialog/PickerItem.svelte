@@ -14,6 +14,7 @@
     export let number: number;
 
     let imageLoaded = false;
+    const isTunnel = new URL(item.url).pathname === "/tunnel";
 
     $: itemType = item.type ?? "photo";
 </script>
@@ -23,6 +24,7 @@
     on:click={() =>
         downloadFile({
             url: item.url,
+            urlType: isTunnel ? "tunnel" : "redirect",
         })}
 >
     <div class="picker-type">

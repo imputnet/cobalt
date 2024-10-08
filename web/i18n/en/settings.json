@@ -50,7 +50,7 @@
 
     "audio.bitrate": "audio bitrate",
     "audio.bitrate.kbps": "kb/s",
-    "audio.bitrate.description": "bitrate applies only to audio conversion. cobalt can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
+    "audio.bitrate.description": "bitrate is applied only when converting audio to a lossy format. cobalt can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
 
     "audio.youtube.dub": "youtube",
     "audio.youtube.dub.title": "use browser language for dubbed videos",
@@ -91,7 +91,7 @@
     "language.auto.title": "automatic selection",
     "language.auto.description": "cobalt will use your browser's default language if translation is available. if not, english will be used instead.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.",
+    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nwe use community-sourced translations for languages other than english, russian, and czech. they may be inaccurate or incomplete.",
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",

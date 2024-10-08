@@ -1,3 +1,5 @@
+import { browser } from "$app/environment";
+
 import { get, writable } from "svelte/store";
 import { currentApiURL } from "$lib/api/api-url";
 
@@ -50,6 +52,17 @@ export const getServerInfo = async () => {
             info: freshInfo,
             origin: currentApiURL(),
         });
+
+        /*
+            reload the page if turnstile sitekey changed.
+            there's no other proper way to do this, at least i couldn't find any :(
+        */
+        if (cache?.info?.cobalt?.turnstileSitekey && freshInfo?.cobalt?.turnstileSitekey) {
+            if (browser) {
+                window.location.reload();
+            }
+        }
+
         return true;
     }
 

@@ -33,6 +33,7 @@
 
         <section id="motivation" class="long-text-noto">
             <p>{$t("donate.body.motivation")}</p>
+            <p>{$t("donate.body.no_bullshit")}</p>
             <p>{$t("donate.body.keep_going")}</p>
         </section>
 
@@ -117,6 +118,10 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
+    }
+
+    #motivation p:first-child {
+        margin-block-start: 10px;
     }
 
     @media screen and (max-width: 760px) {

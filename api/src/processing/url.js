@@ -120,6 +120,11 @@ function cleanURL(url) {
                 limitQuery('p')
             }
             break;
+        case "twitter":
+            if (url.searchParams.get('post_id')) {
+                limitQuery('post_id')
+            }
+            break;
     }
 
     if (stripQuery) {
