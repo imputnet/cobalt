@@ -137,6 +137,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                     }
                     break;
 
+                case "ok":
                 case "vk":
                 case "tiktok":
                     params = { type: "proxy" };
