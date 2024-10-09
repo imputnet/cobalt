@@ -36,7 +36,7 @@ service:
 ingress:
   enabled: true
   className: ""
-  annotations: {networking.gke.io/managed-certificates: "spacex-tls"}
+  annotations: {networking.gke.io/managed-certificates: "cobalt-tls"}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
