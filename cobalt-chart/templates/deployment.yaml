@@ -41,7 +41,7 @@ spec:
               protocol: TCP
           env:
             - name: API_URL
-              value: http://api.freesavevideo.online/
+              value: https://api.freesavevideo.online/
             - name: API_PORT
               value: '80'
             - name: API_NAME
