@@ -78,6 +78,7 @@ export default async function({ user, id, quality, alwaysProxy, dispatcher }) {
 
         return {
             urls: post.image_versions2.candidates[0].url,
+            filename: `${filenameBase}.jpg`,
             isPhoto: true
         }
     }
