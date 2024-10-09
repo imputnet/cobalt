@@ -36,11 +36,11 @@ service:
 ingress:
   enabled: true
   className: ""
-  annotations: {networking.gke.io/managed-certificates: "cobalt-tls"}
+  annotations: {networking.gke.io/managed-certificates: "apifreesavevideo-tls"}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: cobalt.tianfujixing.com
+    - host: api.freesavevideo.com
       paths:
         - path: /
           pathType: Prefix
