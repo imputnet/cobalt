@@ -1493,5 +1493,34 @@
                 "status": "error"
             }
         }
+    ],
+    "threads": [
+        {
+            "name": "video",
+            "url": "https://www.threads.net/@zuck/post/CzecNnZPaxr",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "photo",
+            "url": "https://www.threads.net/@soren.iverson/post/C8PdJ59pMLr",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "redirect"
+            }
+        },
+        {
+            "name": "mixed media",
+            "url": "https://www.threads.net/@snazzahguy/post/C8Q7UZDseWz",
+            "params": {},
+            "expected": {
+                "code": 200,
+                "status": "picker"
+            }
+        }
     ]
 }

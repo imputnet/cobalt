@@ -27,6 +27,7 @@ import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
+import threads from "./services/threads.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 
@@ -227,6 +228,15 @@ export default async function({ host, patternMatch, params }) {
             case "loom":
                 r = await loom({
                     id: patternMatch.id
+                });
+                break;
+
+            case "threads":
+                r = await threads({
+                    ...patternMatch,
+                    quality: params.videoQuality,
+                    alwaysProxy: params.alwaysProxy,
+                    dispatcher
                 });
                 break;
 

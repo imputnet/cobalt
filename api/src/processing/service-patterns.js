@@ -38,6 +38,9 @@ export const testers = {
     "streamable": pattern =>
         pattern.id?.length === 6,
 
+    "threads": pattern =>
+        pattern.user?.length <= 33 && pattern.id?.length <= 32,
+
     "tiktok": pattern =>
         pattern.postId?.length <= 21 || pattern.id?.length <= 13,
 

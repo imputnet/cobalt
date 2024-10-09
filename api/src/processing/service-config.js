@@ -108,6 +108,10 @@ export const services = {
             "s/:id"
         ],
     },
+    threads: {
+        patterns: [":user/post/:id"],
+        tld: "net",
+    },
     tiktok: {
         patterns: [
             ":user/video/:postId",
