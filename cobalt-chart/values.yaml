@@ -40,7 +40,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: api.freesavevideo.com
+    - host: api.freesavevideo.online
       paths:
         - path: /
           pathType: Prefix
