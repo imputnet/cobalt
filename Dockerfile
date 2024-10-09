@@ -15,11 +15,11 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 
 RUN pnpm deploy --filter=@imput/cobalt-api --prod /prod/api
 
-# 安装 curl
-RUN apt-get update && apt-get install -y curl unzip && rm -rf /var/lib/apt/lists/*
-
 FROM base AS api
 WORKDIR /app
+
+# 安装 curl
+RUN apt-get update && apt-get install -y curl unzip
 
 COPY --from=build /prod/api /app
 COPY --from=build /app/.git /app/.git
