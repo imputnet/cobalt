@@ -46,6 +46,8 @@ spec:
               value: '80'
             - name: API_NAME
               value: cobalt
+            - name: TURNSTILE_SITEKEY
+              value: 0x4AAAAAAAw8jRb9G7cWXnbd
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
