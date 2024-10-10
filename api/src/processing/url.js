@@ -98,6 +98,15 @@ function aliasURL(url) {
             if (url.hostname === 'xhslink.com' && parts.length === 3) {
                 url = new URL(`https://www.xiaohongshu.com/a/${parts[2]}`);
             }
+            break;
+
+        case "loom":
+            const idPart = parts[parts.length - 1];
+            if(idPart.length > 32){
+                const actualIdPart = idPart.slice(-32);
+                url.pathname = `/share/${actualIdPart}`;
+            }
+            break;
     }
 
     return url;
