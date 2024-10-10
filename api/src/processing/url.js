@@ -85,6 +85,14 @@ function aliasURL(url) {
                 url.hostname = 'instagram.com';
             }
             break;
+        
+        case "loom":
+            const idPart = parts[parts.length - 1];
+            if(idPart.length > 32){
+                const actualIdPart = idPart.slice(-32);
+                url.pathname = `/share/${actualIdPart}`;
+            }
+            break;
     }
 
     return url
