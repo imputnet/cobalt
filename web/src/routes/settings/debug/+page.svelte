@@ -1,15 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
-
-    import CopyIcon from "$components/misc/CopyIcon.svelte";
-
-    import { t } from "$lib/i18n/translations";
-    import { copyURL } from "$lib/download";
     import { version } from "$lib/version";
     import { device, app } from "$lib/device";
     import { defaultNavPage } from "$lib/subnav";
     import settings, { storedSettings } from "$lib/state/settings";
+
+    import SectionHeading from "$components/misc/SectionHeading.svelte";
 
     $: sections = [
         { title: "device", data: device },
@@ -17,15 +14,6 @@
         { title: "settings", data: $storedSettings },
         { title: "version", data: $version },
     ];
-
-    let lastCopiedSection: number | null = null;
-    let lastCopiedSectionResetTimeout: ReturnType<typeof setTimeout>;
-
-    $: if (lastCopiedSection !== null) {
-        lastCopiedSectionResetTimeout = setTimeout(() => {
-            lastCopiedSection = null;
-        }, 1500);
-    }
 
     onMount(() => {
         if (!$settings.advanced.debug) {
@@ -37,26 +25,15 @@
 {#if $settings.advanced.debug}
     <div id="debug-page">
         {#each sections as { title, data }, i}
-            <div id="debug-section-title">
-                <h3>{title}</h3>
-
-                <button
-                    id="debug-section-copy-button"
-                    aria-label={lastCopiedSection === i
-                        ? $t("button.copied")
-                        : $t("button.copy")}
-                    on:click={() => {
-                        clearTimeout(lastCopiedSectionResetTimeout);
-                        lastCopiedSection = i;
-                        copyURL(JSON.stringify(data));
-                    }}
-                >
-                    <CopyIcon regularIcon check={lastCopiedSection === i} />
-                </button>
-            </div>
-
-            <div class="json-block subtext">
-                {JSON.stringify(data, null, 2)}
+            <div class="debug-section">
+                <SectionHeading
+                    sectionId={title}
+                    {title}
+                    copyData={JSON.stringify(data)}
+                />
+                <div class="json-block subtext">
+                    {JSON.stringify(data, null, 2)}
+                </div>
             </div>
         {/each}
     </div>
@@ -66,30 +43,14 @@
     #debug-page {
         display: flex;
         flex-direction: column;
-        padding: var(--padding);
+        padding: calc(var(--subnav-padding) / 2);
         gap: var(--padding);
     }
 
-    #debug-section-title {
+    .debug-section {
         display: flex;
-        flex-direction: start;
-        align-items: center;
-        gap: 0.4rem;
-    }
-
-    #debug-section-copy-button {
-        background: transparent;
-        padding: 2px;
-        box-shadow: none;
-        border-radius: 5px;
-        transition: opacity 0.2s;
-        opacity: 0.7;
-    }
-
-    #debug-section-copy-button :global(.copy-animation),
-    #debug-section-copy-button :global(.copy-animation *) {
-        width: 17px;
-        height: 17px;
+        flex-direction: column;
+        gap: var(--padding);
     }
 
     .json-block {
