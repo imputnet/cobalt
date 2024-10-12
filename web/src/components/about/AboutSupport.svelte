@@ -9,9 +9,6 @@
     import IconBrandDiscord from "@tabler/icons-svelte/IconBrandDiscord.svelte";
     import IconBrandTelegram from "@tabler/icons-svelte/IconBrandTelegram.svelte";
 
-    export let platform: "github" | "discord" | "twitter" | "telegram";
-    export let externalLink: string;
-
     const platformIcons = {
         github: {
             icon: IconBrandGithub,
@@ -30,6 +27,9 @@
             color: "#1c9efb",
         },
     };
+
+    export let platform: keyof typeof platformIcons;
+    export let externalLink: string;
 </script>
 
 <button
