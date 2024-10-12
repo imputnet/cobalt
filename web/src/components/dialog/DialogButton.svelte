@@ -23,21 +23,36 @@
         onDestroy(() => clearInterval(interval));
     }
 </script>
-
-<button
-    class="button elevated popup-button {button.color}"
-    class:color={button.color}
-    class:active={button.main}
-    {disabled}
-    on:click={async () => {
-        await button.action();
-        closeFunc();
-    }}
->
-    {button.text}{seconds ? ` (${seconds})` : ""}
-</button>
-
+{#if button.link}
+    <a
+        class="button elevated link-button"
+        class:color={button.color}
+        class:active={button.main}
+        href={button.link}
+    >
+        {button.text}
+    </a>
+{:else}
+    <button
+        class="button elevated popup-button {button.color}"
+        class:color={button.color}
+        class:active={button.main}
+        {disabled}
+        on:click={async () => {
+            await button.action();
+            closeFunc();
+        }}
+    >
+        {button.text}{seconds ? ` (${seconds})` : ""}
+    </button>
+{/if}
 <style>
+    .link-button {
+        text-decoration: none;
+        font-weight: 500;
+        width: 100%;
+    }
+
     .popup-button {
         width: 100%;
         height: 40px;
