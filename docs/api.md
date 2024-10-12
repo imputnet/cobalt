@@ -143,3 +143,18 @@ response body type: `application/json`
 | `commit`    | `string` | commit hash       |
 | `branch`    | `string` | git branch        |
 | `remote`    | `string` | git remote        |
+
+## POST: `/session`
+
+used for generating JWT tokens, if enabled. currently, cobalt only supports
+generating tokens when a [turnstile](run-an-instance.md#list-of-all-environment-variables) challenge solution
+is submitted by the client.
+
+the turnstile challenge response is submitted via the `cf-turnstile-response` header.
+### response body
+| key             | type       | description                                            |
+|:----------------|:-----------|:-------------------------------------------------------|
+| `token`         | `string`   | a `Bearer` token used for later request authentication |
+| `exp`           | `number`   | number in seconds indicating the token lifetime        |
+
+on failure, an [error response](#error-response) is returned.
