@@ -6,6 +6,17 @@
     import BetaTesters from "$components/misc/BetaTesters.svelte";
 </script>
 
+<section id="imput">
+<SectionHeading
+    title="imput"
+    sectionId="imput"
+/>
+
+cobalt is made with love and care by the [imput](https://imput.net/) research and development team.
+
+you can support us on the [donate page](/donate)!
+</section>
+
 <section id="testers">
 <SectionHeading
     title={$t("about.heading.testers")}
