@@ -111,10 +111,10 @@ export const services = {
     tiktok: {
         patterns: [
             ":user/video/:postId",
-            ":id",
-            "t/:id",
+            ":shortLink",
+            "t/:shortLink",
             ":user/photo/:postId",
-            "v/:id.html"
+            "v/:postId.html"
         ],
         subdomains: ["vt", "vm", "m"],
     },

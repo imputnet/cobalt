@@ -12,7 +12,7 @@ export default async function(obj) {
     let postId = obj.postId;
 
     if (!postId) {
-        let html = await fetch(`${shortDomain}${obj.id}`, {
+        let html = await fetch(`${shortDomain}${obj.shortLink}`, {
             redirect: "manual",
             headers: {
                 "user-agent": genericUserAgent.split(' Chrome/1')[0]
@@ -24,7 +24,7 @@ export default async function(obj) {
         if (html.startsWith('<a href="https://')) {
             const extractedURL = html.split('<a href="')[1].split('?')[0];
             const { patternMatch } = extract(extractedURL);
-            postId = patternMatch.postId
+            postId = patternMatch.postId;
         }
     }
     if (!postId) return { error: "fetch.short_link" };
