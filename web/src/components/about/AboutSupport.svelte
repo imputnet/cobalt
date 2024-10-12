@@ -12,7 +12,7 @@
     const platformIcons = {
         github: {
             icon: IconBrandGithub,
-            color: "var(--secondary)",
+            color: "#8842cd",
         },
         discord: {
             icon: IconBrandDiscord,
@@ -42,7 +42,10 @@
     <div class="support-card-header">
         <div
             class="icon-holder support-icon-{platform}"
-            style="background-color: {platformIcons[platform].color}"
+            style="
+                background-color: {platformIcons[platform].color};
+                box-shadow: 0 0 90px 10px {platformIcons[platform].color};
+            "
         >
             <svelte:component this={platformIcons[platform].icon} />
         </div>
@@ -66,6 +69,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
+        overflow: hidden;
     }
 
     .support-card-header {
@@ -108,9 +112,5 @@
 
     .support-card-description {
         padding: 0;
-    }
-
-    :global([data-theme="dark"]) .support-icon-github :global(svg) {
-        stroke: var(--primary);
     }
 </style>
