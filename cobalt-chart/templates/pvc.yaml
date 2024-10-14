@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-pvc  # 使用 Helm 释放的名称，确保唯一性
+  name: {{ .Release.Name }}-pvc
   labels:
-    app: {{ .Release.Name }}  # 为 PVC 打上标签，便于管理
+    app: {{ .Release.Name }}
 spec:
   accessModes:
-    - {{ .Values.pvc.accessModes }}  # 动态指定访问模式，例如 ReadWriteOnce 或 ReadWriteMany
+    - {{ .Values.pvc.accessModes }}
   resources:
     requests:
-      storage: {{ .Values.pvc.storage }}  # 动态指定存储大小，例如 2Gi
-  storageClassName: {{ .Values.pvc.storageClassName }}  # 动态指定存储类，例如 ssd 或 nfs
+      storage: {{ .Values.pvc.storage }}
+  storageClassName: {{ .Values.pvc.storageClassName }}
