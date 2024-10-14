@@ -40,8 +40,9 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           volumeMounts:
-            - mountPath: /mnt
+            - mountPath: /app/src/cookies.json
               name: cookies-volume
+              subPath: /cookie/cookies.json
           env:
             - name: API_URL
               value: https://api.freesavevideo.online/
