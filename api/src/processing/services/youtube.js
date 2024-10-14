@@ -71,9 +71,19 @@ const cloneInnertube = async (customFetch) => {
 
     const cookie = getCookie('youtube_oauth');
     const oauthData = transformSessionData(cookie);
-
+    
     if (!session.logged_in && oauthData) {
-        await session.oauth.init(oauthData);
+        const tokensMod = {
+            ...oauthData,  // 复制 oauthData 中的所有属性
+            client: {
+                client_id: oauthData.client_id,
+                client_secret: oauthData.client_secret
+            }
+        };
+        delete tokensMod.client_id;
+        delete tokensMod.client_secret;
+
+        await session.oauth.init(tokensMod);
         session.logged_in = true;
     }
 
