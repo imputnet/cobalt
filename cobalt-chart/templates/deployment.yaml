@@ -42,7 +42,7 @@ spec:
           volumeMounts:
             - mountPath: /app/src/cookies.json
               name: cookies-volume
-              subPath: /cookie/cookies.json
+              subPath: cookie/cookies.json
           env:
             - name: API_URL
               value: https://api.freesavevideo.online/
