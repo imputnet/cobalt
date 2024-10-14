@@ -39,10 +39,9 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-{{/*          volumeMounts:*/}}
-{{/*            - mountPath: /app/src/cookies.json*/}}
-{{/*              name: cookies-volume*/}}
-{{/*              subPath: cookies.json*/}}
+          volumeMounts:
+            - mountPath: /mnt
+              name: cookies-volume
           env:
             - name: API_URL
               value: https://api.freesavevideo.online/
@@ -54,10 +53,10 @@ spec:
               value: 0x4AAAAAAAw8jRb9G7cWXnbd
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-{{/*      volumes:*/}}
-{{/*        - name: cookies-volume*/}}
-{{/*          persistentVolumeClaim:*/}}
-{{/*            claimName: {{ .Release.Name }}-pvc*/}}
+      volumes:
+        - name: cookies-volume
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
