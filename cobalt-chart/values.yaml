@@ -15,9 +15,9 @@ nameOverride: ""
 fullnameOverride: ""
 
 pvc:
-  accessModes: ReadWriteOnce  # 或者 ReadWriteMany，依据需求修改
-  storage: 128Mi  # 存储容量，依据需求修改
-  storageClassName: ssd  # 存储类名称，可以根据需求调整
+  accessModes: ReadWriteOnce  # Or ReadWriteMany
+  storage: 1Gi
+  storageClassName: ssd
 
 
 podAnnotations: {}
