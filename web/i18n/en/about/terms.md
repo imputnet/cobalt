@@ -9,7 +9,7 @@
     sectionId="general"
 />
 
-these terms are applicable only when using the official cobalt instance.
+these terms are applicable only when using the official freesavevideo instance.
 in other cases, you may need to contact the hoster for accurate info.
 </section>
 
@@ -48,7 +48,7 @@ fair use and credits benefit everyone.
     sectionId="abuse"
 />
 
-we have no way of detecting abusive behavior automatically, as cobalt is 100% anonymous.
+we have no way of detecting abusive behavior automatically, as freesavevideo is 100% anonymous.
 however, you can report such activities to us and we will do our best to comply manually: [safety@imput.net](mailto:safety@imput.net)
 
 please note that this email is not intended for user support.

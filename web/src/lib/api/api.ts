@@ -36,7 +36,7 @@ const request = async (url: string) => {
         alwaysProxy: getSetting("privacy", "alwaysProxy"),
     }
 
-    await apiOverrideWarning();
+    /*await apiOverrideWarning();*/
 
     await getServerInfo();
 

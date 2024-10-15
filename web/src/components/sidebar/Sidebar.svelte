@@ -40,7 +40,7 @@
             <SidebarTab tabName="settings" tabLink={settingsLink}>
                 <IconSettings />
             </SidebarTab>
-            <SidebarTab tabName="donate" tabLink="/donate">
+            <!--<SidebarTab tabName="donate" tabLink="/donate">
                 <IconHeart />
             </SidebarTab>
             <SidebarTab tabName="updates" tabLink="/updates">
@@ -48,7 +48,7 @@
             </SidebarTab>
             <SidebarTab tabName="about" tabLink={aboutLink}>
                 <IconInfoCircle />
-            </SidebarTab>
+            </SidebarTab>-->
         </div>
     </div>
 </nav>
