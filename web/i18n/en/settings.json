@@ -106,7 +106,7 @@
     "advanced.debug.title": "enable debug features",
     "advanced.debug.description": "gives you access to a page with various info that can be useful for debugging.",
 
-    "advanced.data": "settings data",
+    "advanced.data": "data management",
 
     "processing.override": "default instance override",
     "processing.override.title": "use the instance-provided processing server",
