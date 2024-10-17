@@ -1,0 +1,25 @@
+{
+	"reset.title": "redefinir todas as definições?",
+	"reset.body": "tem a certeza de que deseja repor todas as definições? esta ação é imediata e irreversível.",
+
+	"picker.title": "selecione o que salvar",
+	"picker.description.desktop": "clique em um item para salvá-lo. as imagens também podem ser salvas através do menu do botão direito.",
+	"picker.description.phone": "pressione num item para salvá-lo. as imagens também podem ser salvas com um toque longo.",
+	"picker.description.ios": "pressione um item para salvá-lo com um atalho. as imagens também podem ser salvas com um toque longo.",
+
+	"saving.title": "escolha como salvar",
+	"saving.blocked": "cobalt tentou abrir o arquivo em uma nova aba, mas seu navegador o bloqueou. você pode permitir pop-ups do cobalt para evitar que isso aconteça da próxima vez.",
+	"saving.timeout": "cobalt tentou salvar o arquivo automaticamente, mas seu navegador o interrompeu. você deve selecionar um método preferido manualmente.",
+
+	"safety.title": "aviso de segurança importante",
+
+	"import.body": "importar arquivos desconhecidos ou corrompidos pode alterar ou interromper inesperadamente o funcionamento do cobalt. importe apenas arquivos que você exportou pessoalmente e não modificou. se alguém lhe pediu para importar este arquivo - não faça isso.\n\nnão nos responsabilizamos por qualquer dano causado pela importação de arquivos de configurações desconhecidas.",
+
+	"api.override.title": "substituir a instância de processamento",
+	"api.override.body": "{{ value }} agora é a instância de processamento. se você não confia, pressione \"cancelar\" e será ignorado.\n\nvocê pode alterar sua escolha posteriormente nas configurações de processamento.",
+
+	"safety.custom_instance.body": "instâncias personalizadas podem representar riscos de privacidade e segurança.\n\ninstâncias ruins podem:\n1. redirecionar você para longe do cobalt e tentar te enganar.\n2. registrar todas as informações sobre suas solicitações, armazená-las para sempre e usá-las para rastrear você.\n3. servir arquivos maliciosos (como malware).\n4. obrigar você a assistir a anúncios ou cobrar pelo download.\n\na partir deste ponto, não podemos mais protegê-lo. por favor, tenha cuidado ao escolher as instâncias e sempre confie em seu instinto. se algo parecer suspeito, volte para esta página, redefina a instância personalizada e nos reporte no GitHub.",
+
+	"processing.ongoing": "o cobalt está processando mídia nesta aba. Se você sair agora, o processo será interrompido. tem certeza de que deseja fazer isso?",
+	"processing.title.ongoing": "o processamento será cancelado"
+}
