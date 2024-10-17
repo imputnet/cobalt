@@ -21,7 +21,7 @@ for (const [path, loader] of Object.entries(locFiles)) {
     };
 }
 
-const defaultLocale = 'en';
+const defaultLocale = 'zh-cn';
 const languages: Record<string, string> = _languages;
 
 const config: Config<{
