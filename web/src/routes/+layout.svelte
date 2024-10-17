@@ -95,7 +95,7 @@
 <style>
     :global(:root) {
         --primary: #ffffff;
-        --secondary: #000000;
+        --secondary: #82b52d;
 
         --white: #ffffff;
         --gray: #75757e;
@@ -122,7 +122,7 @@
 
         --dialog-backdrop: rgba(255, 255, 255, 0.3);
 
-        --sidebar-bg: #000000;
+        --sidebar-bg: #82b52d;
         --sidebar-highlight: #ffffff;
         --sidebar-hover: rgba(255, 255, 255, 0.1);
 

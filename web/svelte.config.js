@@ -63,19 +63,24 @@ const config = {
                 "object-src": ["none"],
                 "frame-src": [
                     "self",
-                    "challenges.cloudflare.com"
+                    "challenges.cloudflare.com",
+                    "www.googletagmanager.com",
+                    "www.google-analytics.com"
                 ],
 
                 "script-src": [
                     "self",
                     "wasm-unsafe-eval",
                     "challenges.cloudflare.com",
+                    "www.googletagmanager.com",
 
                     // eslint-disable-next-line no-undef
                     process.env.WEB_PLAUSIBLE_HOST ? process.env.WEB_PLAUSIBLE_HOST : "",
 
                     // hash of the theme preloader in app.html
                     "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s=",
+                    "sha256-oQHnOU77SR8E/F28VTyS5XSYOYZVgdVbOb/tEkoMvfs="
+
                 ],
 
                 "frame-ancestors": ["none"]
