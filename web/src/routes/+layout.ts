@@ -12,12 +12,10 @@ export const load: Load = async ({ url }) => {
     const { pathname } = url;
 
     let preferredLocale = defaultLocale;
-    console.log("preferredLocale 1=========>", preferredLocale);
 
 
     if (browser) {
         preferredLocale = get((await import('$lib/i18n/locale')).default);
-        console.log("preferredLocale 2=========>", preferredLocale);
     }
 
     await loadTranslations(preferredLocale, pathname);
