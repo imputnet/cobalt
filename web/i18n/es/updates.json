@@ -1,0 +1,4 @@
+{
+    "button.next": "ir al registro de cambios más antiguo ({{ value }})",
+    "button.previous": "ir al registro de cambios más reciente ({{ value }})"
+}
