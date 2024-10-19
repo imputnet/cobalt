@@ -65,7 +65,11 @@ const config = {
                     "self",
                     "challenges.cloudflare.com",
                     "www.googletagmanager.com",
-                    "www.google-analytics.com"
+                    "www.google-analytics.com",
+                    "pagead2.googlesyndication.com",
+                    "googleads.g.doubleclick.net",
+                    "tpc.googlesyndication.com",
+                    "www.google.com"
                 ],
 
                 "script-src": [
@@ -73,14 +77,18 @@ const config = {
                     "wasm-unsafe-eval",
                     "challenges.cloudflare.com",
                     "www.googletagmanager.com",
-
+                    "www.google-analytics.com",
+                    "pagead2.googlesyndication.com",
+                    "googleads.g.doubleclick.net",
+                    "tpc.googlesyndication.com",
+                    "www.google.com",
                     // eslint-disable-next-line no-undef
                     process.env.WEB_PLAUSIBLE_HOST ? process.env.WEB_PLAUSIBLE_HOST : "",
 
                     // hash of the theme preloader in app.html
                     "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s=",
-                    "sha256-oQHnOU77SR8E/F28VTyS5XSYOYZVgdVbOb/tEkoMvfs="
-
+                    "sha256-oQHnOU77SR8E/F28VTyS5XSYOYZVgdVbOb/tEkoMvfs=",
+                    "sha256-g470uH8o3FuThko7QqgqCsn3Ue7t+nDxAGnzyiI1LnY="
                 ],
 
                 "frame-ancestors": ["none"]
