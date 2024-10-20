@@ -158,19 +158,20 @@ export const runAPI = (express, app, __dirname) => {
                 return fail(res, "error.api.auth.jwt.missing");
             }
 
-            if (!authorization.startsWith("Bearer ") || authorization.length > 256) {
+            if (authorization.length >= 256) {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            const verifyJwt = jwt.verify(
-                authorization.split("Bearer ", 2)[1]
-            );
-
-            if (!verifyJwt) {
+            const [ type, token, ...rest ] = authorization.split(" ");
+            if (!token || type.toLowerCase() !== 'bearer' || rest.length) {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            req.rateLimitKey = generateHmac(req.header("Authorization"), ipSalt);
+            if (!jwt.verify(token)) {
+                return fail(res, "error.api.auth.jwt.invalid");
+            }
+
+            req.rateLimitKey = generateHmac(token, ipSalt);
         } catch {
             return fail(res, "error.api.generic");
         }
