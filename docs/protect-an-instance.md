@@ -74,7 +74,7 @@ this tutorial assumes that you only have `API_URL` in your `environment` variabl
 if you have other variables there, just add new ones after existing ones.
 
 > [!CAUTION]
-> never use any of the values from the tutorial, especially `JWT_SECRET`!
+> never use any values from the tutorial, especially `JWT_SECRET`!
 
 1. open your `docker-compose.yml` config file in any text editor of choice.
 2. copy the turnstile sitekey & secret key and paste them to their respective variables. `TURNSTILE_SITEKEY` for the sitekey and `TURNSTILE_SECRET` for the secret key:
