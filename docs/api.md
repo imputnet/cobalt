@@ -3,7 +3,42 @@ this document provides info about methods and acceptable variables for all cobal
 
 > if you are looking for the documentation for the old (7.x) api, you can find
 > it [here](https://github.com/imputnet/cobalt/blob/7/docs/api.md)
-<!-- TODO: authorization -->
+
+## authentication
+an api instance may be configured to require you to authenticate yourself.
+if this is the case, you will typically receive an [error response](#error-response)
+with a **`api.auth.<method>.missing`** code, which tells you that a particular method
+of authentication is required.
+
+authentication is done by passing the `Authorization` header, containing
+the authentication scheme and the token:
+```
+Authorization: <scheme> <token>
+```
+
+currently, cobalt supports two ways of authentication. an instance can
+choose to configure both, or neither:
+- [`Api-Key`](#api-key-authentication)
+- [`Bearer`](#bearer-authentication)
+
+### api-key authentication
+the api key authentication is the most straightforward. the instance owner
+will assign you an api key which you can then use to authenticate like so:
+```
+Authorization: Api-Key aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+```
+
+if you are an instance owner and wish to configure api key authentication,
+see the [instance](run-an-instance.md#api-key-file-format) documentation!
+
+### bearer authentication
+the cobalt server may be configured to issue JWT bearers, which are short-lived
+tokens intended for use by regular users (e.g. after passing a challenge).
+currently, cobalt can issue tokens for successfully solved [turnstile](run-an-instance.md#list-of-all-environment-variables)
+challenge, if the instance has turnstile configured. the resulting token is passed like so:
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
 
 ## POST: `/`
 cobalt's main processing endpoint.
@@ -108,3 +143,18 @@ response body type: `application/json`
 | `commit`    | `string` | commit hash       |
 | `branch`    | `string` | git branch        |
 | `remote`    | `string` | git remote        |
+
+## POST: `/session`
+
+used for generating JWT tokens, if enabled. currently, cobalt only supports
+generating tokens when a [turnstile](run-an-instance.md#list-of-all-environment-variables) challenge solution
+is submitted by the client.
+
+the turnstile challenge response is submitted via the `cf-turnstile-response` header.
+### response body
+| key             | type       | description                                            |
+|:----------------|:-----------|:-------------------------------------------------------|
+| `token`         | `string`   | a `Bearer` token used for later request authentication |
+| `exp`           | `number`   | number in seconds indicating the token lifetime        |
+
+on failure, an [error response](#error-response) is returned.

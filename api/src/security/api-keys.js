@@ -99,7 +99,9 @@ const formatKeys = (keyData) => {
         if (data.ips) {
             formatted[key].ips = data.ips.map(addr => {
                 if (ip.isValid(addr)) {
-                    return [ ip.parse(addr), 32 ];
+                    const parsed = ip.parse(addr);
+                    const range = parsed.kind() === 'ipv6' ? 128 : 32;
+                    return [ parsed, range ];
                 }
 
                 return ip.parseCIDR(addr);

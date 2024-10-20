@@ -98,7 +98,7 @@ export const customInstanceWarning = async () => {
                 text: get(t)("button.continue"),
                 color: "red",
                 main: true,
-                timeout: 15000,
+                timeout: 5000,
                 action: () => {
                     _actions.resolve();
                     updateSetting({

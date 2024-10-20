@@ -47,6 +47,7 @@
         background: var(--button);
         box-shadow: var(--button-box-shadow);
         padding: var(--switcher-padding);
+        gap: calc(var(--switcher-padding) - 1.5px);
     }
 
     .switcher :global(.button.active) {
