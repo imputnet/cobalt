@@ -23,7 +23,7 @@ there's no other known workaround as of time of writing this document.
 3. follow instructions, use incognito mode in your browser when signing in.
 i cannot stress this enough, but again, **DO NOT USE YOUR PERSONAL GOOGLE ACCOUNT**.
 
-4. once you have the oauth token, add it to your cookies file.
+4. once you have the oauth token, add it to `youtube_oauth` in your cookies file.
 you can see an [example here](/docs/examples/cookies.example.json).
 you can have several account tokens in this file, if you like.
 
