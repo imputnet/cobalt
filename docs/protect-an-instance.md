@@ -13,32 +13,69 @@ all you need is a free cloudflare account to get started.
 
 cloudflare dashboard interface might change over time, but basics should stay the same.
 
+> [!CAUTION]
+> never share the turnstile secret key, always keep it private. if accidentally exposed, rotate it in widget settings.
+
 1. open [the cloudflare dashboard](https://dash.cloudflare.com/) and log into your account.
+
 2. once logged in, select `turnstile` in the sidebar.
-![](images/protect-an-instance/sidebar.png)
+<div align="center">
+    <p>
+        <img src="images/protect-an-instance/sidebar.png" width="250" />
+    </p>
+</div>
+
 3. press `add widget`.
-![](images/protect-an-instance/add.png)
+<div align="center">
+    <p>
+        <img src="images/protect-an-instance/add.png" width="550" />
+    </p>
+</div>
+
 4. enter the widget name (can be anything, such as "cobalt").
-![](images/protect-an-instance/name.png)
+<div align="center">
+    <p>
+        <img src="images/protect-an-instance/name.png" width="450" />
+    </p>
+</div>
+
 5. add cobalt frontend domains you want the widget to work with. you can change this list later at any time.
     - if you want to use your processing instance with [cobalt.tools](https://cobalt.tools/) frontend, then add `cobalt.tools` to the list.
-![](images/protect-an-instance/domain.png)
+<div align="center">
+    <p>
+        <img src="images/protect-an-instance/domain.png" width="450" />
+    </p>
+</div>
+
 6. select `invisible` widget mode.
-![](images/protect-an-instance/mode.png)
+<div align="center">
+    <p>
+        <img src="images/protect-an-instance/mode.png" width="450" />
+    </p>
+</div>
+
 7. press `create`.
+
 8. keep the page with sitekey and secret key open, you'll need them later.
 if you closed it, no worries!
 just open the same turnstile page and press "settings" on your freshly made turnstile widget.
-**never share your secret turnstile key with anyone.**
-![](images/protect-an-instance/created.png)
-
-you've successfully created a turnstile widget! time to add it to your processing instance.
+<div align="center">
+    <p>
+        <img src="images/protect-an-instance/created.png" width="450" />
+    </p>
+</div>
+<div align="center">
+    <p>
+        you've successfully created a turnstile widget!
+        time to add it to your processing instance.
+    </p>
+</div>
 
 ### enable turnstile on your processing instance
 this tutorial assumes that you only have `API_URL` in your `environment` variables list.
 if you have other variables there, just add new ones after existing ones.
 
-> [!IMPORTANT]
+> [!CAUTION]
 > never use any of the values from the tutorial, especially `JWT_SECRET`!
 
 1. open your `docker-compose.yml` config file in any text editor of choice.
