@@ -105,7 +105,8 @@ if you want to use your instance outside of web interface, you'll need an api ke
 > [!NOTE]
 > this tutorial assumes that you'll keep your keys file locally, on the instance server.
 > if you wish to upload your file to a remote location,
-> replace the value for `API_KEYS_URL` with a direct url to the file.
+> replace the value for `API_KEYS_URL` with a direct url to the file
+> and skip the second step.
 
 > [!WARNING]
 > when storing keys file remotely, make sure that it's not publicly accessible
