@@ -18,7 +18,7 @@ there's no other known workaround as of time of writing this document.
 
 1. if you haven't done it already, clone the cobalt repo, go to the cloned directory, and run `pnpm install`
 
-2. run `pnpm run -C api token:youtube`
+2. run `pnpm -C api token:youtube`
 
 3. follow instructions, use incognito mode in your browser when signing in.
 i cannot stress this enough, but again, **DO NOT USE YOUR PERSONAL GOOGLE ACCOUNT**.
