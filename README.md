@@ -32,9 +32,10 @@ this monorepo includes source code for api, frontend, and related packages:
 - [packages tree](/packages/)
 
 it also includes documentation in the [docs tree](/docs/):
+- [cobalt api documentation](/docs/api.md)
 - [how to run a cobalt instance](/docs/run-an-instance.md)
 - [how to protect a cobalt instance](/docs/protect-an-instance.md)
-- [cobalt api documentation](/docs/api.md)
+- [how to configure a cobalt instance for youtube](/docs/configure-for-youtube.md)
 
 ### partners
 cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt) and the main processing instance is hosted on their network. we really appreciate their kindness!
