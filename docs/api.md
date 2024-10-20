@@ -2,7 +2,7 @@
 this document provides info about methods and acceptable variables for all cobalt api requests.
 
 > [!IMPORTANT]
-> hosted api instances (such as api.cobalt.tools) use bot protection and are not intended to be used in other projects without explicit permission. if you want to access the cobalt api reliably, you should [host your own instance](/docs/run-an-instance.md).
+> hosted api instances (such as `api.cobalt.tools`) use bot protection and are **not** intended to be used in other projects without explicit permission. if you want to access the cobalt api reliably, you should [host your own instance](/docs/run-an-instance.md) or ask an instance owner for access.
 
 ## authentication
 an api instance may be configured to require you to authenticate yourself.
