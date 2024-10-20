@@ -77,14 +77,18 @@ if you have other variables there, just add new ones after existing ones.
 > never use any values from the tutorial, especially `JWT_SECRET`!
 
 1. open your `docker-compose.yml` config file in any text editor of choice.
-2. copy the turnstile sitekey & secret key and paste them to their respective variables. `TURNSTILE_SITEKEY` for the sitekey and `TURNSTILE_SECRET` for the secret key:
+2. copy the turnstile sitekey & secret key and paste them to their respective variables.
+`TURNSTILE_SITEKEY` for the sitekey and `TURNSTILE_SECRET` for the secret key:
 ```yml
 environment:
     API_URL: "https://your.instance.url.here.local/"
     TURNSTILE_SITEKEY: "2x00000000000000000000BB" # use your key
     TURNSTILE_SECRET: "2x0000000000000000000000000000000AA" # use your key
 ```
-3. generate a `JWT_SECRET`. we recommend using an alphanumeric collection with a length of at least 64 characters. this string will be used as salt for all JWT keys.
+3. generate a `JWT_SECRET`. we recommend using an alphanumeric collection with a length of at least 64 characters.
+this string will be used as salt for all JWT keys.
+
+    you can generate a random secret with `pnpm -r token:jwt` or use any other that you like.
 
 ```yml
 environment:
