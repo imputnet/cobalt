@@ -238,7 +238,7 @@
         },
         {
             "name": "private song",
-            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
             "params": {
                 "audioFormat": "mp3"
             },
@@ -249,7 +249,7 @@
         },
         {
             "name": "private song (wav, isAudioMuted)",
-            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
             "params": {
                 "downloadMode": "mute",
                 "audioFormat": "wav"
@@ -261,7 +261,7 @@
         },
         {
             "name": "private song (ogg, isAudioMuted, isAudioOnly)",
-            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
             "params": {
                 "downloadMode": "audio",
                 "audioFormat": "ogg"
