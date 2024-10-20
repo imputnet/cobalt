@@ -1,0 +1,23 @@
+{
+    "paste": "incolla",
+    "paste.long": "incolla e scarica",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "muto",
+    "input.placeholder": "copia il link qui",
+    "terms.note.agreement": "continuando, confermi che",
+    "terms.note.link": "termini ed'etica d'uso",
+    "services.title": "dispositivi supportati",
+    "services.title_show": "mostra dispositivi supportati",
+    "services.title_hide": "nascondi dispositivi supportati",
+    "services.disclaimer": "cobalt non è affiliato con nessun servizio di cui sopra.",
+
+    "tutorial.title": "come salvare su ios?",
+    "tutorial.intro": "per salvare contenuti su ios, avrai bisogno di uno shortcut siri.",
+    "tutorial.step.1": "aggiungi shortcut siri:",
+    "tutorial.step.2": "premi il tasto \"condividi\" nel dialogo di salvataggio cobalt.",
+    "tutorial.step.3": "seleziona lo shortcut rispettivo.",
+    "tutorial.outro": "questi shortcut funzioneranno solo sulla web app cobalt, condividere link da altre app non funzionerà.",
+    "tutorial.shortcut.photos": "nelle foto",
+    "tutorial.shortcut.files": "nei file"
+}

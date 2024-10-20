@@ -1,0 +1,4 @@
+{
+    "button.next": "vecchio changelong ({{ value }})",
+    "button.previous": "nuovo changelong ({{ value }})"
+}
