@@ -1,9 +1,9 @@
 # how to protect your cobalt instance
 if you keep getting a ton of unknown traffic that hurts the performance of your instance, then it might be a good idea to enable bot protection.
 
-```
-⚠️ this tutorial will work reliably on the latest official version of cobalt 10. we can't promise full compatibility with anything else.
-```
+> [!NOTE]
+> this tutorial will work reliably on the latest official version of cobalt 10.
+we can't promise full compatibility with anything else.
 
 ## configure cloudflare turnstile
 turnstile is a free, safe, and privacy-respecting alternative to captcha.
