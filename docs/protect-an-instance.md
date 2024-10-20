@@ -95,7 +95,7 @@ environment:
     API_URL: "https://your.instance.url.here.local/"
     TURNSTILE_SITEKEY: "2x00000000000000000000BB" # use your key
     TURNSTILE_SECRET: "2x0000000000000000000000000000000AA" # use your key
-    JWT_SECRET: "bgBmF4efNCKPirDqTc4FMmbX8P22I31oCj5R1zDiDi5sy8CWPnfLUct7rk5RlZUS" # create a new secret, NEVER use this one
+    JWT_SECRET: "bgBmF4efNCKPirD" # create a new secret, NEVER use this one
 ```
 4. restart the docker container.
 
