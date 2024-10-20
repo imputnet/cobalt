@@ -13,7 +13,7 @@ all you need is a free cloudflare account to get started.
 
 cloudflare dashboard interface might change over time, but basics should stay the same.
 
-> [!CAUTION]
+> [!WARNING]
 > never share the turnstile secret key, always keep it private. if accidentally exposed, rotate it in widget settings.
 
 1. open [the cloudflare dashboard](https://dash.cloudflare.com/) and log into your account
@@ -97,3 +97,53 @@ environment:
     TURNSTILE_SECRET: "2x0000000000000000000000000000000AA" # use your key
     JWT_SECRET: "bgBmF4efNCKPirDqTc4FMmbX8P22I31oCj5R1zDiDi5sy8CWPnfLUct7rk5RlZUS" # create a new secret, NEVER use this one
 ```
+4. restart the docker container.
+
+## configure api keys
+if you want to use your instance outside of web interface, you'll need an api key!
+
+> [!NOTE]
+> this tutorial assumes that you'll keep your keys file locally, on the instance server.
+> if you wish to upload your file to a remote location,
+> replace the value for `API_KEYS_URL` with a direct url to the file.
+
+> [!WARNING]
+> when storing keys file remotely, make sure that it's not publicly accessible
+> and that link to it is either authenticated (via query) or impossible to guess.
+>
+> if api keys leak, you'll have to update/remove all UUIDs to revoke them.
+
+1. create a `keys.json` file following [the schema and example here](/docs//run-an-instance.md#api-key-file-format).
+
+2. expose the `keys.json` to the docker container:
+```yml
+volumes:
+    - ./keys.json:/keys.json:ro # ro - read-only
+```
+
+3. add a path to the keys file to container environment:
+```yml
+environment:
+    # ... other variables here ...
+    API_KEY_URL: "file:///keys.json"
+```
+
+4. restart the docker container.
+
+## limit access to an instance with api keys but no turnstile
+by default, api keys are additional, meaning that they're not *required*,
+but work alongside with turnstile or no auth (regular ip hash rate limiting).
+
+to always require auth (via keys or turnstile, if configured), set `API_AUTH_REQUIRED` to 1:
+```yml
+environment:
+    # ... other variables here ...
+    API_AUTH_REQUIRED: 1
+```
+
+- if both keys and turnstile are enabled, then nothing will change.
+- if only keys are configured, then all requests without a valid api key will be refused.
+
+### why not make keys exclusive by default?
+keys may be useful for going around rate limiting,
+while keeping the rest of api rate limited, with no turnstile in place.
