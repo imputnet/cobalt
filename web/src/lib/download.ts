@@ -4,7 +4,7 @@ import settings from "$lib/state/settings";
 
 import { device } from "$lib/device";
 import { t } from "$lib/i18n/translations";
-import { createDialog } from "$lib/dialogs";
+import { createDialog } from "$lib/state/dialogs";
 
 import type { DialogInfo } from "$lib/types/dialog";
 import type { CobaltFileUrlType } from "$lib/types/api";

@@ -3,7 +3,7 @@
 
     import API from "$lib/api/api";
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/dialogs";
+    import { createDialog } from "$lib/state/dialogs";
     import { downloadFile } from "$lib/download";
 
     import type { DialogInfo } from "$lib/types/dialog";

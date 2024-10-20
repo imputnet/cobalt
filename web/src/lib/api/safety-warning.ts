@@ -4,7 +4,7 @@ import env from "$lib/env";
 import { t } from "$lib/i18n/translations";
 import settings, { updateSetting } from "$lib/state/settings";
 
-import { createDialog } from "$lib/dialogs";
+import { createDialog } from "$lib/state/dialogs";
 
 export const apiOverrideWarning = async () => {
     if (!env.DEFAULT_API || get(settings).processing.seenOverrideWarning) {
