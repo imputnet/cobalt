@@ -1,8 +1,8 @@
 # cobalt api documentation
 this document provides info about methods and acceptable variables for all cobalt api requests.
 
-> if you are looking for the documentation for the old (7.x) api, you can find
-> it [here](https://github.com/imputnet/cobalt/blob/7/docs/api.md)
+> [!IMPORTANT]
+> hosted api instances (such as api.cobalt.tools) use bot protection and are not intended to be used in other projects without explicit permission. if you want to access the cobalt api reliably, you should [host your own instance](/docs/run-an-instance.md).
 
 ## authentication
 an api instance may be configured to require you to authenticate yourself.
@@ -46,9 +46,10 @@ cobalt's main processing endpoint.
 request body type: `application/json`
 response body type: `application/json`
 
-```
-⚠️ you must include Accept and Content-Type headers with every `POST /` request.
+> [!IMPORTANT]
+> you must include `Accept` and `Content-Type` headers with every `POST /` request.
 
+```
 Accept: application/json
 Content-Type: application/json
 ```
