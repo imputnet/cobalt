@@ -1,4 +1,4 @@
-# how to host a cobalt instance yourself
+# how to run a cobalt instance
 ## using docker compose and package from github (recommended)
 to run the cobalt docker package, you need to have `docker` and `docker-compose` installed and configured.
 
