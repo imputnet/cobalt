@@ -16,60 +16,58 @@ cloudflare dashboard interface might change over time, but basics should stay th
 > [!CAUTION]
 > never share the turnstile secret key, always keep it private. if accidentally exposed, rotate it in widget settings.
 
-1. open [the cloudflare dashboard](https://dash.cloudflare.com/) and log into your account.
+1. open [the cloudflare dashboard](https://dash.cloudflare.com/) and log into your account
 
-2. once logged in, select `turnstile` in the sidebar.
-<div align="center">
+2. once logged in, select `Turnstile` in the sidebar
+<div align="left">
     <p>
         <img src="images/protect-an-instance/sidebar.png" width="250" />
     </p>
 </div>
 
-3. press `add widget`.
-<div align="center">
+3. press `Add widget`
+<div align="left">
     <p>
         <img src="images/protect-an-instance/add.png" width="550" />
     </p>
 </div>
 
-4. enter the widget name (can be anything, such as "cobalt").
-<div align="center">
+4. enter the widget name (can be anything, such as "cobalt")
+<div align="left">
     <p>
         <img src="images/protect-an-instance/name.png" width="450" />
     </p>
 </div>
 
-5. add cobalt frontend domains you want the widget to work with. you can change this list later at any time.
-    - if you want to use your processing instance with [cobalt.tools](https://cobalt.tools/) frontend, then add `cobalt.tools` to the list.
-<div align="center">
+5. add cobalt frontend domains you want the widget to work with, you can change this list later at any time
+    - if you want to use your processing instance with [cobalt.tools](https://cobalt.tools/) frontend, then add `cobalt.tools` to the list
+<div align="left">
     <p>
         <img src="images/protect-an-instance/domain.png" width="450" />
     </p>
 </div>
 
-6. select `invisible` widget mode.
-<div align="center">
+6. select `invisible` widget mode
+<div align="left">
     <p>
         <img src="images/protect-an-instance/mode.png" width="450" />
     </p>
 </div>
 
-7. press `create`.
+7. press `create`
 
 8. keep the page with sitekey and secret key open, you'll need them later.
 if you closed it, no worries!
 just open the same turnstile page and press "settings" on your freshly made turnstile widget.
-<div align="center">
+
+<div align="left">
     <p>
         <img src="images/protect-an-instance/created.png" width="450" />
     </p>
 </div>
-<div align="center">
-    <p>
-        you've successfully created a turnstile widget!
-        time to add it to your processing instance.
-    </p>
-</div>
+
+you've successfully created a turnstile widget!
+time to add it to your processing instance.
 
 ### enable turnstile on your processing instance
 this tutorial assumes that you only have `API_URL` in your `environment` variables list.
