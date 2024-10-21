@@ -4,6 +4,7 @@
     import Omnibox from "$components/save/Omnibox.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import SupportedServices from "$components/save/SupportedServices.svelte";
+    import UserGuide from "$components/misc/UseGuide.svelte"
 </script>
 
 <svelte:head>
@@ -21,6 +22,7 @@
     >
         <Meowbalt emotion="smile" />
         <Omnibox />
+        <UserGuide/>
     </main>
     <!--<div id="terms-note">
         {$t("save.terms.note.agreement")}
