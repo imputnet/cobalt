@@ -48,9 +48,10 @@ fair use and credits benefit everyone.
     sectionId="abuse"
 />
 
-we have no way of detecting abusive behavior automatically, as cobalt is 100% anonymous.
-however, you can report such activities to us and we will do our best to comply manually: [safety@imput.net](mailto:safety@imput.net)
+we have no way of detecting abusive behavior automatically because cobalt is 100% anonymous.
+however, you can report such activities to us and we will do our best to comply manually: **safety@imput.net**
 
-please note that this email is not intended for user support.
+**this email is not intended for user support, you will not get a response if your concern is not related to abuse.**
+
 if you're experiencing issues, contact us via any preferred method on [the support page](/about/community).
 </section>

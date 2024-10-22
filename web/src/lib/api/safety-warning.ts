@@ -4,7 +4,7 @@ import env from "$lib/env";
 import { t } from "$lib/i18n/translations";
 import settings, { updateSetting } from "$lib/state/settings";
 
-import { createDialog } from "$lib/dialogs";
+import { createDialog } from "$lib/state/dialogs";
 
 export const apiOverrideWarning = async () => {
     if (!env.DEFAULT_API || get(settings).processing.seenOverrideWarning) {
@@ -98,7 +98,7 @@ export const customInstanceWarning = async () => {
                 text: get(t)("button.continue"),
                 color: "red",
                 main: true,
-                timeout: 15000,
+                timeout: 5000,
                 action: () => {
                     _actions.resolve();
                     updateSetting({

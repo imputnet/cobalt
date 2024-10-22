@@ -1,5 +1,5 @@
 <script lang="ts">
-    import dialogs from "$lib/dialogs";
+    import dialogs from "$lib/state/dialogs";
 
     import SmallDialog from "$components/dialog/SmallDialog.svelte";
     import PickerDialog from "$components/dialog/PickerDialog.svelte";
