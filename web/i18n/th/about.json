@@ -1,0 +1,31 @@
+{
+    "page.general": "Cobalt คืออะไร?",
+    "page.faq": "คำถามที่พบบ่อย",
+
+    "page.community": "ชุมชนและการสนับสนุน",
+
+    "page.privacy": "นโยบายความเป็นส่วนตัว",
+    "page.terms": "ข้อกำหนดและจริยธรรม",
+    "page.credits": "ขอบคุณและใบอนุญาต",
+
+    "community.discord": "เซิร์ฟเวอร์ Discord ชุมชน",
+    "community.twitter": "บัญชีข่าวบน Twitter",
+    "community.github": "ที่เก็บ GitHub",
+    "community.email": "อีเมลสนับสนุน",
+    "community.telegram": "ช่องข่าวบน Telegram",
+
+    "heading.general": "ข้อกำหนดทั่วไป",
+    "heading.licenses": "ใบอนุญาต",
+    "heading.summary": "วิธีที่ดีที่สุดในการบันทึกสิ่งที่คุณรัก",
+    "heading.privacy": "ความเป็นส่วนตัวชั้นนำ",
+    "heading.community": "ชุมชนแบบเปิด",
+    "heading.local": "การประมวลผลบนอุปกรณ์",
+    "heading.saving": "การบันทึก",
+    "heading.encryption": "การเข้ารหัส",
+    "heading.plausible": "การวิเคราะห์การเข้าชมแบบไม่ระบุตัวตน",
+    "heading.cloudflare": "ความเป็นส่วนตัวและความปลอดภัยบนเว็บ",
+    "heading.responsibility": "ความรับผิดชอบของผู้ใช้",
+    "heading.abuse": "รายงานการละเมิด",
+    "heading.motivation": "แรงจูงใจ",
+    "heading.testers": "ผู้ทดสอบเบต้า"
+}
