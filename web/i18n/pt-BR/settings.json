@@ -1,0 +1,124 @@
+{
+    "page.appearance": "aparência",
+    "page.privacy": "privacidae",
+    "page.video": "vídeo",
+    "page.audio": "áudio",
+    "page.download": "baixando",
+    "page.advanced": "avançado",
+    "page.debug": "informações de depuração",
+    "page.instances": "instâncias",
+
+    "section.general": "geral",
+    "section.save": "salvar",
+
+    "theme": "tema",
+    "theme.auto": "auto",
+    "theme.light": "claro",
+    "theme.dark": "escuro",
+    "theme.description": "o tema automático alterna entre temas claros e escuros de acordo com o modo de visualização do seu dispositivo.",
+
+    "video.quality": "qualidade de vídeo",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "se a qualidade de vídeo preferida não estiver disponível, a próxima melhor será escolhida.",
+
+    "video.youtube.codec": "codec e contêiner de vídeo do youtube",
+    "video.youtube.codec.h264": "h264 (mp4)",
+    "video.youtube.codec.av1": "av1 (webm)",
+    "video.youtube.codec.vp9": "vp9 (webm)",
+    "video.youtube.codec.description": "h264: melhor compatibilidade, taxa de bits média. a qualidade máxima é 1080p. \nav1: melhor qualidade, eficiência e taxa de bits. suporta 8k e HDR. \nvp9: mesma qualidade e taxa de bits do av1, mas o arquivo é aproximadamente duas vezes maior. suporta 4K e HDR.\n\nav1 e vp9 não são tão amplamente suportados quanto h264.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "converter vídeos em loop para GIF",
+    "video.twitter.gif.description": "A conversão de GIF é ineficiente, o arquivo convertido pode ser terrivelmente grande e de baixa qualidade.",
+
+    "video.tiktok.h265": "tiktok",
+    "video.tiktok.h265.title": "prefira o formato HEVC/H265",
+    "video.tiktok.h265.description": "permite baixar vídeos em 1080p à custa da compatibilidade.",
+
+    "audio.format": "formato de áudio",
+    "audio.format.best": "melhor",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "todos os formatos, exceto o \"melhor\" serão convertidos, o que significa que haverá alguma perda de qualidade. o áudio não é recodificado somente quando o formato \"melhor\" é selecionado.",
+
+    "audio.bitrate": "taxa de bits do áudio",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "a taxa de bits se aplica apenas à conversão de áudio. o cobalt não pode melhorar a qualidade do áudio de origem, portanto, escolher uma taxa de bits acima de 128 kbps pode aumentar o tamanho do arquivo sem nenhuma diferença audível. a qualidade percebida pode variar de acordo com o formato.",
+
+    "audio.youtube.dub": "youtube",
+    "audio.youtube.dub.title": "use o idioma do navegador para vídeos dublados",
+    "audio.youtube.dub.description": "funciona mesmo que o cobalt não esteja traduzido para o seu idioma.",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "baixar áudio original",
+    "audio.tiktok.original.description": "cobalt irá baixar o áudio do vídeo sem nenhuma alteração por parte do autor do post.",
+
+    "metadata.filename": "estilo do nome do arquivo",
+    "metadata.filename.classic": "classico",
+    "metadata.filename.basic": "básico",
+    "metadata.filename.pretty": "bonito",
+    "metadata.filename.nerdy": "nerd",
+    "metadata.filename.description": "o estilo de nome de arquivo será usado apenas para arquivos roteados pelo cobalt. alguns serviços não suportam estilos de nome de arquivo diferentes do clássico.",
+
+    "metadata.filename.preview.video": "Título do vídeo",
+    "metadata.filename.preview.audio": "Título do áudio - Autor do áudio",
+
+    "metadata.file": "metadados de arquivo",
+    "metadata.disable.title": "desabilitar metadados de arquivos",
+    "metadata.disable.description": "título, artista e outras informações não serão adicionadas ao arquivo.",
+
+    "saving.title": "método de salvamento",
+    "saving.ask": "perguntar",
+    "saving.download": "baixar",
+    "saving.share": "compartilhar",
+    "saving.copy": "copiar",
+    "saving.description": "forma preferida de salvar o arquivo ou link do cobalt. se o método preferido não estiver disponível ou algo der errado, o cobalt perguntará o que fazer a seguir.",
+
+    "accessibility": "acessibilidade",
+    "accessibility.transparency.title": "reduzir a transparência visual",
+    "accessibility.transparency.description": "reduz a transparência das superfícies e desativa efeitos de desfoque.",
+    "accessibility.motion.title": "reduzir o movimento",
+    "accessibility.motion.description": "desativa animações e transições sempre que possível.",
+
+    "language": "idioma",
+    "language.auto.title": "usar o idioma padrão do navegador",
+    "language.auto.description": "escolhe automaticamente o melhor idioma para você. se o idioma preferido do navegador não estiver disponível, o inglês será usado.",
+    "language.preferred.title": "idioma preferido",
+    "language.preferred.description": "se algum texto não for traduzido para o idioma preferido, o texto irá ser reposto em inglês.",
+
+    "privacy.analytics": "análise de tráfego anônimo",
+    "privacy.analytics.title": "não contribuir para a análise",
+    "privacy.analytics.description": "análises de tráfego anônimas são necessárias para obter um número aproximado de usuários ativos de cobalto. nenhuma informação identificável sobre você é armazenada. todos os dados processados ​​são anonimizados e agregados.\n\nusamos uma instância plausível auto-hospedada que não usa cookies e é totalmente compatível com GDPR, CCPA e PECR.",
+    "privacy.analytics.learnmore": "saiba mais sobre a preocupação da plausible com a privacidade.",
+
+    "privacy.tunnel": "tunelamento",
+    "privacy.tunnel.title": "sempre encapsular arquivos",
+    "privacy.tunnel.description": "O cobalt esconde o seu endereço IP, as informações do browser e contorna as restrições da rede local. quando ativado, os ficheiros terão também nomes legíveis que, de outra forma, seriam uma algaraviada.",
+
+    "advanced.debug": "depuração",
+    "advanced.debug.title": "ativar funções de depuração",
+    "advanced.debug.description": "dá acesso a uma página com diversas informações que podem ser úteis para depuração.",
+
+    "advanced.data": "dados de configurações",
+
+    "processing.override": "substituição de instância padrão",
+    "processing.override.title": "use o servidor de processamento fornecido pela instância",
+    "processing.override.description": "se a instância da web fornecer seu próprio servidor de processamento padrão, você poderá optar por usá-lo no servidor de processamento principal. certifique-se de que é um servidor de alguém em quem você confia.",
+
+    "processing.community": "instâncias da comunidade",
+
+    "processing.enable_custom.title": "usar um servidor de processamento personalizado",
+    "processing.enable_custom.description": "o cobalt usará um servidor de processamento personalizado, se você desejar. embora o cobalt tenha algumas medidas de segurança em vigor, não somos responsáveis ​​por quaisquer danos causados ​​por uma instância da comunidade, pois não temos controle sobre eles.\n\nlembre-se de quais instâncias você usa e certifique-se de que elas sejam hospedadas por pessoas em quem você confia.",
+
+    "processing.custom.placeholder": "domínio de instância personalizado"
+}
