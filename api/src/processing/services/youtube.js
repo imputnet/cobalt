@@ -170,6 +170,10 @@ export default async function(o) {
         }
     }
 
+    if (playability.status === "AGE_VERIFICATION_REQUIRED") {
+        return { error: "content.video.age" }
+    }
+
     if (playability.status !== "OK") {
         return { error: "content.video.unavailable" };
     }
