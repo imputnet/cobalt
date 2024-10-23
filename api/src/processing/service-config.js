@@ -62,6 +62,9 @@ export const services = {
             "url_shortener/:shortLink"
         ],
     },
+    newgrounds: {
+        patterns: [":type/:method/:id"]
+    },
     reddit: {
         patterns: [
             "r/:sub/comments/:id/:title",

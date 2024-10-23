@@ -140,6 +140,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "ok":
                 case "vk":
                 case "tiktok":
+                case "newgrounds":
                     params = { type: "proxy" };
                     break;
 
