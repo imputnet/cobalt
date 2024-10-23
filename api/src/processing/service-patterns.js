@@ -36,7 +36,7 @@ export const testers = {
         || pattern.shortLink?.length <= 16,
 
     "streamable": pattern =>
-        pattern.id?.length === 6,
+        pattern.id?.length <= 6,
 
     "tiktok": pattern =>
         pattern.postId?.length <= 21 || pattern.shortLink?.length <= 13,
