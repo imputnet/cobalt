@@ -1,0 +1,34 @@
+{
+    "page.general": "що таке cobalt?",
+    "page.faq": "ЧаПи",
+
+    "page.community": "спільнота та підтримка",
+
+    "page.privacy": "політика конфіденційності",
+    "page.terms": "умови та етика",
+    "page.credits": "подяки та ліцензії",
+
+    "heading.general": "загальні умови",
+    "heading.licenses": "ліцензії",
+    "heading.summary": "найкращий спосіб зберегти те, що вам подобається",
+    "heading.privacy": "провідна конфіденційність",
+    "heading.community": "відкрита спільнота",
+    "heading.local": "обробка на пристрої",
+    "heading.saving": "збереження",
+    "heading.encryption": "шифрування",
+    "heading.plausible": "анонімна аналітика трафіку",
+    "heading.cloudflare": "веб конфіденційність та безпека",
+    "heading.responsibility": "відповідальність користувачів",
+    "heading.abuse": "повідомлення про зловживання",
+    "heading.motivation": "мотивація",
+    "heading.testers": "бета-тестери",
+
+    "support.github": "перегляньте вихідний код cobalt, внесіть зміни або повідомте про проблеми",
+    "support.discord": "спілкуйтесь зі спільнотою та розробниками щодо cobalt або запитуйте допомогу",
+    "support.twitter": "слідкуйте за оновленнями cobalt у вашій стрічці Twitter",
+    "support.telegram": "отримуйте останні оновлення cobalt через канал Telegram",
+
+    "support.description.issue": "якщо ви хочете повідомити про баг або іншу повторювану проблему, будь ласка, зробіть це на github.",
+    "support.description.help": "використовуйте discord для будь-яких інших запитань. опишіть проблему належним чином у #cobalt-support, інакше ніхто не зможе вам допомогти.",
+    "support.description.best-effort": "вся підтримка є на основі найкращих зусиль і не гарантована, відповідь може зайняти деякий час."
+}
