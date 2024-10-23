@@ -9,7 +9,7 @@ const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
 
 let innertube, lastRefreshedAt;
 
-const codecMatch = {
+const codecList = {
     h264: {
         videoCodec: "avc1",
         audioCodec: "mp4a",
@@ -120,12 +120,12 @@ export default async function(o) {
     let info, isDubbed,
         format = o.format || "h264";
 
-    function qual(i) {
+    const qual = (i) => {
         if (!i.quality_label) {
             return;
         }
 
-        return i.quality_label.split('p')[0].split('s')[0]
+        return i.quality_label.split('p', 2)[0].split('s', 2)[0]
     }
 
     try {
@@ -198,36 +198,31 @@ export default async function(o) {
     }
 
     const filterByCodec = (formats) =>
-        formats
-        .filter(e =>
-            e.mime_type.includes(codecMatch[format].videoCodec)
-            || e.mime_type.includes(codecMatch[format].audioCodec)
-        )
-        .sort((a, b) => Number(b.bitrate) - Number(a.bitrate));
+        formats.filter(e =>
+            e.mime_type.includes(codecList[format].videoCodec)
+            || e.mime_type.includes(codecList[format].audioCodec)
+        ).sort((a, b) =>
+            Number(b.bitrate) - Number(a.bitrate)
+        );
 
     let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
 
-    if (adaptive_formats.length === 0 && format === "vp9") {
-        format = "h264"
-        adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats)
+    if (adaptive_formats.length === 0 && ["vp9", "av1"].includes(format)) {
+        format = "h264";
+        adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
     }
-
-    let bestQuality;
 
     const bestVideo = adaptive_formats.find(i => i.has_video && i.content_length);
     const hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
 
-    if (bestVideo) bestQuality = qual(bestVideo);
-
-    if ((!bestQuality && !o.isAudioOnly) || !hasAudio) {
-        return { error: "youtube.codec" };
+    if (!bestVideo || (!hasAudio && o.isAudioOnly)) {
+        return { error: "fetch.empty" };
     }
 
+    const bestQuality = qual(bestVideo);
     const checkBestAudio = (i) => (i.has_audio && !i.has_video);
 
-    let audio = adaptive_formats.find(i =>
-        checkBestAudio(i) && i.is_original
-    );
+    let audio = adaptive_formats.find(i => checkBestAudio(i) && i.is_original);
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i =>
@@ -244,13 +239,14 @@ export default async function(o) {
         audio = adaptive_formats.find(i => checkBestAudio(i));
     }
 
-    let fileMetadata = {
+    const fileMetadata = {
         title: cleanString(basicInfo.title.trim()),
-        artist: cleanString(basicInfo.author.replace("- Topic", "").trim()),
+        artist: cleanString(basicInfo.author.replace("- Topic", "").trim())
     }
 
     if (basicInfo?.short_description?.startsWith("Provided to YouTube by")) {
-        let descItems = basicInfo.short_description.split("\n\n", 5);
+        const descItems = basicInfo.short_description.split("\n\n", 5);
+
         if (descItems.length === 5) {
             fileMetadata.album = descItems[2];
             fileMetadata.copyright = descItems[3];
@@ -260,7 +256,7 @@ export default async function(o) {
         }
     }
 
-    let filenameAttributes = {
+    const filenameAttributes = {
         service: "youtube",
         id: o.id,
         title: fileMetadata.title,
@@ -271,46 +267,29 @@ export default async function(o) {
     if (audio && o.isAudioOnly) return {
         type: "audio",
         isAudioOnly: true,
-        urls: audio.decipher(yt.session.player),
-        filenameAttributes: filenameAttributes,
-        fileMetadata: fileMetadata,
-        bestAudio: format === "h264" ? "m4a" : "opus"
+        urls: audio.url,
+        filenameAttributes,
+        fileMetadata,
+        bestAudio: format === "h264" ? "m4a" : "opus",
     }
 
-    const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality,
-        checkSingle = i =>
-            qual(i) === matchingQuality && i.mime_type.includes(codecMatch[format].videoCodec),
-        checkRender = i =>
-            qual(i) === matchingQuality && i.has_video && !i.has_audio;
+    const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality;
+    const video = adaptive_formats.find(i =>
+        qual(i) === matchingQuality && i.has_video && !i.has_audio
+    );
 
-    let match, type, urls;
-
-    // prefer good premuxed videos if available
-    if (!o.isAudioOnly && !o.isAudioMuted && format === "h264" && bestVideo.fps <= 30) {
-        match = info.streaming_data.formats.find(checkSingle);
-        type = "proxy";
-        urls = match?.decipher(yt.session.player);
-    }
-
-    const video = adaptive_formats.find(checkRender);
-
-    if (!match && video && audio) {
-        match = video;
-        type = "merge";
-        urls = [
-            video.decipher(yt.session.player),
-            audio.decipher(yt.session.player)
-        ]
-    }
-
-    if (match) {
-        filenameAttributes.qualityLabel = match.quality_label;
-        filenameAttributes.resolution = `${match.width}x${match.height}`;
-        filenameAttributes.extension = codecMatch[format].container;
+    if (video && audio) {
+        filenameAttributes.qualityLabel = video.quality_label;
+        filenameAttributes.resolution = `${video.width}x${video.height}`;
+        filenameAttributes.extension = codecList[format].container;
         filenameAttributes.youtubeFormat = format;
+
         return {
-            type,
-            urls,
+            type: "merge",
+            urls: [
+                video.url,
+                audio.url
+            ],
             filenameAttributes,
             fileMetadata
         }
