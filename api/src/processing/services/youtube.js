@@ -1,5 +1,4 @@
 import { fetch } from "undici";
-
 import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
@@ -146,39 +145,47 @@ export default async function(o) {
     const playability = info.playability_status;
     const basicInfo = info.basic_info;
 
-    if (playability.status === "LOGIN_REQUIRED") {
-        if (playability.reason.endsWith("bot")) {
-            return { error: "youtube.login" }
-        }
-        if (playability.reason.endsWith("age")) {
-            return { error: "content.video.age" }
-        }
-        if (playability?.error_screen?.reason?.text === "Private video") {
-            return { error: "content.video.private" }
-        }
+    switch(playability.status) {
+        case "OK":
+            break;
+
+        case "LOGIN_REQUIRED":
+            if (playability.reason.endsWith("bot")) {
+                return { error: "youtube.login" }
+            }
+            if (playability.reason.endsWith("age")) {
+                return { error: "content.video.age" }
+            }
+            if (playability?.error_screen?.reason?.text === "Private video") {
+                return { error: "content.video.private" }
+            }
+            break;
+
+        case "UNPLAYABLE":
+            if (playability?.reason?.endsWith("request limit.")) {
+                return { error: "fetch.rate" }
+            }
+            if (playability?.error_screen?.subreason?.text?.endsWith("in your country")) {
+                return { error: "content.video.region" }
+            }
+            if (playability?.error_screen?.reason?.text === "Private video") {
+                return { error: "content.video.private" }
+            }
+            break;
+
+        case "AGE_VERIFICATION_REQUIRED":
+            return { error: "content.video.age" };
+
+        default:
+            return { error: "content.video.unavailable" };
     }
 
-    if (playability.status === "UNPLAYABLE") {
-        if (playability?.reason?.endsWith("request limit.")) {
-            return { error: "fetch.rate" }
-        }
-        if (playability?.error_screen?.subreason?.text?.endsWith("in your country")) {
-            return { error: "content.video.region" }
-        }
-        if (playability?.error_screen?.reason?.text === "Private video") {
-            return { error: "content.video.private" }
-        }
-    }
-
-    if (playability.status === "AGE_VERIFICATION_REQUIRED") {
-        return { error: "content.video.age" }
-    }
-
-    if (playability.status !== "OK") {
-        return { error: "content.video.unavailable" };
-    }
     if (basicInfo.is_live) {
         return { error: "content.video.live" };
+    }
+
+    if (basicInfo.duration > env.durationLimit) {
+        return { error: "content.too_long" };
     }
 
     // return a critical error if returned video is "Video Not Available"
@@ -212,11 +219,9 @@ export default async function(o) {
 
     if (bestVideo) bestQuality = qual(bestVideo);
 
-    if ((!bestQuality && !o.isAudioOnly) || !hasAudio)
+    if ((!bestQuality && !o.isAudioOnly) || !hasAudio) {
         return { error: "youtube.codec" };
-
-    if (basicInfo.duration > env.durationLimit)
-        return { error: "content.too_long" };
+    }
 
     const checkBestAudio = (i) => (i.has_audio && !i.has_video);
 
@@ -226,9 +231,7 @@ export default async function(o) {
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i =>
-            checkBestAudio(i)
-            && i.language === o.dubLang
-            && i.audio_track
+            checkBestAudio(i) && i.language === o.dubLang && i.audio_track
         )
 
         if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
@@ -313,5 +316,5 @@ export default async function(o) {
         }
     }
 
-    return { error: "fetch.fail" }
+    return { error: "fetch.fail" };
 }
