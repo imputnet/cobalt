@@ -486,6 +486,17 @@
                 "code": 400,
                 "status": "error"
             }
+        },
+        {
+            "name": "broken audioOnly download",
+            "url": "https://www.youtube.com/watch?v=ink80Al5nbw",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
         }
     ],
     "vk": [
