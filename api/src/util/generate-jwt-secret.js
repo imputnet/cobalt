@@ -4,8 +4,17 @@ const makeSecureString = (length = 64) => {
     const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
     const out = [];
 
-    for (const byte of crypto.getRandomValues(new Uint8Array(length)))
-        out.push(alphabet[byte % alphabet.length]);
+    while (out.length < length) {
+        for (const byte of crypto.getRandomValues(new Uint8Array(length))) {
+            if (byte < alphabet.length) {
+                out.push(alphabet[byte]);
+            }
+
+            if (out.length === length) {
+                break;
+            }
+        }
+    }
 
     return out.join('');
 }
