@@ -91,7 +91,7 @@
     "language.auto.title": "automatic selection",
     "language.auto.description": "cobalt will use your browser's default language if translation is available. if not, english will be used instead.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nwe use community-sourced translations for languages other than english, russian, and czech. they may be inaccurate or incomplete.",
+    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nsome languages use community-sourced translations, they may be inaccurate or incomplete.",
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",
