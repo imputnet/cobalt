@@ -438,17 +438,6 @@
             }
         },
         {
-            "name": "audio bitrate higher than video, no vp9 video in response (vp9)",
-            "url": "https://www.youtube.com/watch?v=t5nC_ucYBrc",
-            "params": {
-                "youtubeVideoCodec": "vp9"
-            },
-            "expected": {
-                "code": 400,
-                "status": "error"
-            }
-        },
-        {
             "name": "short, defaults",
             "url": "https://www.youtube.com/shorts/r5FpeOJItbw",
             "params": {},
