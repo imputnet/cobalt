@@ -146,9 +146,6 @@ export default async function(o) {
     const basicInfo = info.basic_info;
 
     switch(playability.status) {
-        case "OK":
-            break;
-
         case "LOGIN_REQUIRED":
             if (playability.reason.endsWith("bot")) {
                 return { error: "youtube.login" }
@@ -175,9 +172,10 @@ export default async function(o) {
 
         case "AGE_VERIFICATION_REQUIRED":
             return { error: "content.video.age" };
+    }
 
-        default:
-            return { error: "content.video.unavailable" };
+    if (playability.status !== "OK") {
+        return { error: "content.video.unavailable" };
     }
 
     if (basicInfo.is_live) {
