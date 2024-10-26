@@ -115,19 +115,7 @@ export default async function(o) {
         } else throw e;
     }
 
-    const quality = o.quality === "max" ? "9000" : o.quality;
-
-    let info, isDubbed,
-        format = o.format || "h264";
-
-    const qual = (i) => {
-        if (!i.quality_label) {
-            return;
-        }
-
-        return i.quality_label.split('p', 2)[0].split('s', 2)[0]
-    }
-
+    let info;
     try {
         info = await yt.getBasicInfo(o.id, yt.session.logged_in ? 'ANDROID' : 'IOS');
     } catch(e) {
@@ -195,6 +183,8 @@ export default async function(o) {
         }
     }
 
+    let format = o.format || "h264";
+
     const filterByCodec = (formats) =>
         formats.filter(e =>
             e.mime_type.includes(codecList[format].videoCodec)
@@ -213,14 +203,14 @@ export default async function(o) {
     const bestVideo = adaptive_formats.find(i => i.has_video && i.content_length);
     const hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
 
-    if (!bestVideo || (!hasAudio && o.isAudioOnly)) {
+    if ((!bestVideo && !o.isAudioOnly) || (!hasAudio && o.isAudioOnly)) {
         return { error: "fetch.empty" };
     }
 
-    const bestQuality = qual(bestVideo);
     const checkBestAudio = (i) => (i.has_audio && !i.has_video);
 
     let audio = adaptive_formats.find(i => checkBestAudio(i) && i.is_original);
+    let isDubbed;
 
     if (o.dubLang) {
         let dubbedAudio = adaptive_formats.find(i =>
@@ -271,7 +261,18 @@ export default async function(o) {
         bestAudio: format === "h264" ? "m4a" : "opus",
     }
 
+    const qual = (i) => {
+        if (!i.quality_label) {
+            return;
+        }
+
+        return i.quality_label.split('p', 2)[0].split('s', 2)[0]
+    }
+
+    const quality = o.quality === "max" ? "9000" : o.quality;
+    const bestQuality = qual(bestVideo);
     const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality;
+
     const video = adaptive_formats.find(i =>
         qual(i) === matchingQuality && i.has_video && !i.has_audio
     );
