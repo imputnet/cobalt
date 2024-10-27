@@ -1,6 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/dialogs";
+    import { createDialog } from "$lib/state/dialogs";
     import {
         storedSettings,
         updateSetting,

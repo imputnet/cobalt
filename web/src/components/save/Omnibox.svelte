@@ -6,7 +6,7 @@
 
     import { t } from "$lib/i18n/translations";
 
-    import dialogs from "$lib/dialogs";
+    import dialogs from "$lib/state/dialogs";
 
     import { link } from "$lib/state/omnibox";
     import { cachedInfo } from "$lib/api/server-info";

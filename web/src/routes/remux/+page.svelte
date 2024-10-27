@@ -4,7 +4,7 @@
     import { beforeNavigate, goto } from "$app/navigation";
 
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/dialogs";
+    import { createDialog } from "$lib/state/dialogs";
     import { downloadFile } from "$lib/download";
 
     import Skeleton from "$components/misc/Skeleton.svelte";

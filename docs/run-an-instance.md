@@ -1,4 +1,4 @@
-# how to host a cobalt instance yourself
+# how to run a cobalt instance
 ## using docker compose and package from github (recommended)
 to run the cobalt docker package, you need to have `docker` and `docker-compose` installed and configured.
 
@@ -54,8 +54,7 @@ sudo apt install nscd
 sudo service nscd start
 ```
 
-## list of all environment variables
-### variables for api
+## list of environment variables for api
 | variable name         | default   | example                 | description |
 |:----------------------|:----------|:------------------------|:------------|
 | `API_PORT`            | `9000`    | `9000`                  | changes port from which api server is accessible. |
@@ -89,7 +88,7 @@ requests it makes for that particular download. to use freebind in cobalt, you n
 in a docker container, you also need to set the `API_LISTEN_ADDRESS` env to `127.0.0.1`, and set
 `network_mode` for the container to `host`.
 
-#### api key file format
+## api key file format
 the file is a JSON-serialized object with the following structure:
 ```typescript
 

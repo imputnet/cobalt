@@ -238,7 +238,7 @@
         },
         {
             "name": "private song",
-            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
             "params": {
                 "audioFormat": "mp3"
             },
@@ -249,7 +249,7 @@
         },
         {
             "name": "private song (wav, isAudioMuted)",
-            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
             "params": {
                 "downloadMode": "mute",
                 "audioFormat": "wav"
@@ -261,7 +261,7 @@
         },
         {
             "name": "private song (ogg, isAudioMuted, isAudioOnly)",
-            "url": "https://soundcloud.com/4kayy/unhappy-new-year-prod4kay/s-9bKbvwLdRWG",
+            "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
             "params": {
                 "downloadMode": "audio",
                 "audioFormat": "ogg"
@@ -438,17 +438,6 @@
             }
         },
         {
-            "name": "audio bitrate higher than video, no vp9 video in response (vp9)",
-            "url": "https://www.youtube.com/watch?v=t5nC_ucYBrc",
-            "params": {
-                "youtubeVideoCodec": "vp9"
-            },
-            "expected": {
-                "code": 400,
-                "status": "error"
-            }
-        },
-        {
             "name": "short, defaults",
             "url": "https://www.youtube.com/shorts/r5FpeOJItbw",
             "params": {},
@@ -485,6 +474,17 @@
             "expected": {
                 "code": 400,
                 "status": "error"
+            }
+        },
+        {
+            "name": "broken audioOnly download",
+            "url": "https://www.youtube.com/watch?v=ink80Al5nbw",
+            "params": {
+                "downloadMode": "audio"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
             }
         }
     ],

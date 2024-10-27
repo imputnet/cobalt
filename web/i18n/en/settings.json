@@ -30,7 +30,7 @@
     "video.quality.description": "if preferred video quality isn't available, next best is picked instead.",
 
     "video.youtube.codec": "youtube video codec and container",
-    "video.youtube.codec.description": "h264: best compatibility, average bitrate. max quality is 1080p. \nav1: best quality, efficiency, and bitrate. supports 8k & HDR. \nvp9: same quality & bitrate as av1, but file is approximately two times bigger. supports 4k & HDR.\n\nav1 and vp9 aren't as widely supported as h264.",
+    "video.youtube.codec.description": "h264: best compatibility, average quality. max quality is 1080p. \nav1: best quality and efficiency. supports 8k & HDR. \nvp9: same quality as av1, but file is ~2x bigger. supports 4k & HDR.\n\nav1 and vp9 aren't as widely supported as h264. if av1 or vp9 isn't available, h264 is used instead.",
 
     "video.twitter.gif": "twitter/x",
     "video.twitter.gif.title": "convert looping videos to GIF",
@@ -91,7 +91,7 @@
     "language.auto.title": "automatic selection",
     "language.auto.description": "cobalt will use your browser's default language if translation is available. if not, english will be used instead.",
     "language.preferred.title": "preferred language",
-    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nwe use community-sourced translations for languages other than english, russian, and czech. they may be inaccurate or incomplete.",
+    "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nsome languages use community-sourced translations, they may be inaccurate or incomplete.",
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",
