@@ -1,6 +1,7 @@
 import Cookie from './cookie.js';
 import { readFile, writeFile } from 'fs/promises';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
+import { Green, Yellow } from '../../misc/console-text.js';
 
 const WRITE_INTERVAL = 60000,
       COUNTER = Symbol('counter');
@@ -12,7 +13,11 @@ export const setup = async (cookiePath) => {
         cookies = await readFile(cookiePath, 'utf8');
         cookies = JSON.parse(cookies);
         intervalId = setInterval(writeChanges, WRITE_INTERVAL);
-    } catch { /* no cookies for you */ }
+        console.log(`${Green('[✓]')} cookies loaded successfully!`)
+    } catch(e) {
+        console.error(`${Yellow('[!]')} failed to load cookies.`);
+        console.error('error:', e);
+    }
 }
 
 function writeChanges() {
