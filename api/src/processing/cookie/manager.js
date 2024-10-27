@@ -1,25 +1,19 @@
 import Cookie from './cookie.js';
 import { readFile, writeFile } from 'fs/promises';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
-import { env } from '../../config.js';
 
 const WRITE_INTERVAL = 60000,
-      cookiePath = env.cookiePath,
       COUNTER = Symbol('counter');
 
 let cookies = {}, dirty = false, intervalId;
 
-const setup = async () => {
+export const setup = async (cookiePath) => {
     try {
-        if (!cookiePath) return;
-
         cookies = await readFile(cookiePath, 'utf8');
         cookies = JSON.parse(cookies);
-        intervalId = setInterval(writeChanges, WRITE_INTERVAL)
+        intervalId = setInterval(writeChanges, WRITE_INTERVAL);
     } catch { /* no cookies for you */ }
 }
-
-setup();
 
 function writeChanges() {
     if (!dirty) return;

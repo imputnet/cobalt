@@ -18,6 +18,7 @@ import { friendlyServiceName } from "../processing/service-alias.js";
 import { verifyStream, getInternalStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import * as APIKeys from "../security/api-keys.js";
+import * as Cookies from "../processing/cookie/manager.js";
 
 const git = {
     branch: await getBranch(),
@@ -346,6 +347,10 @@ export const runAPI = (express, app, __dirname) => {
 
     if (env.apiKeyURL) {
         APIKeys.setup(env.apiKeyURL);
+    }
+
+    if (env.cookiePath) {
+        Cookies.setup(env.cookiePath);
     }
 
     app.listen(env.apiPort, env.listenAddress, () => {
