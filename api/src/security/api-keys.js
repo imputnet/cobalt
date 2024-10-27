@@ -1,6 +1,6 @@
 import { env } from "../config.js";
 import { readFile } from "node:fs/promises";
-import { Yellow } from "../misc/console-text.js";
+import { Green, Yellow } from "../misc/console-text.js";
 import ip from "ipaddr.js";
 
 // this function is a modified variation of code
@@ -134,9 +134,13 @@ const loadKeys = async (source) => {
     keys = formatKeys(updated);
 }
 
-const wrapLoad = (url) => {
+const wrapLoad = (url, initial = false) => {
     loadKeys(url)
-    .then(() => {})
+    .then(() => {
+        if (initial) {
+            console.log(`${Green('[✓]')} api keys loaded successfully!`)
+        }
+    })
     .catch((e) => {
         console.error(`${Yellow('[!]')} Failed loading API keys at ${new Date().toISOString()}.`);
         console.error('Error:', e);
@@ -200,7 +204,7 @@ export const validateAuthorization = (req) => {
 }
 
 export const setup = (url) => {
-    wrapLoad(url);
+    wrapLoad(url, true);
     if (env.keyReloadInterval > 0) {
         setInterval(() => wrapLoad(url), env.keyReloadInterval * 1000);
     }
