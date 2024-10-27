@@ -345,14 +345,6 @@ export const runAPI = (express, app, __dirname) => {
         setGlobalDispatcher(new ProxyAgent(env.externalProxy))
     }
 
-    if (env.apiKeyURL) {
-        APIKeys.setup(env.apiKeyURL);
-    }
-
-    if (env.cookiePath) {
-        Cookies.setup(env.cookiePath);
-    }
-
     app.listen(env.apiPort, env.listenAddress, () => {
         console.log(`\n` +
             Bright(Cyan("cobalt ")) + Bright("API ^ω⁠^") + "\n" +
@@ -367,6 +359,14 @@ export const runAPI = (express, app, __dirname) => {
 
             Bright("url: ") + Bright(Cyan(env.apiURL)) + "\n" +
             Bright("port: ") + env.apiPort + "\n"
-        )
+        );
+
+        if (env.apiKeyURL) {
+            APIKeys.setup(env.apiKeyURL);
+        }
+
+        if (env.cookiePath) {
+            Cookies.setup(env.cookiePath);
+        }
     })
 }
