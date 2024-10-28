@@ -184,6 +184,7 @@ export default async function(o) {
     }
 
     let format = o.format || "h264";
+    let fallback = false;
 
     const filterByCodec = (formats) =>
         formats.filter(e =>
@@ -195,25 +196,32 @@ export default async function(o) {
 
     let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
 
-    if (adaptive_formats.length === 0 && ["vp9", "av1"].includes(format)) {
+    const checkBestVideo = (i) => (i.has_video && i.content_length);
+    const checkBestAudio = (i) => (i.has_audio && i.content_length && i.is_original);
+    const checkNoMedia = (video, audio) => (!video && !o.isAudioOnly) || (!audio && o.isAudioOnly);
+
+    const earlyBestVideo = adaptive_formats.find(i => checkBestVideo(i));
+    const earlyBestAudio = adaptive_formats.find(i => checkBestAudio(i));
+
+    // check if formats have all needed media and fall back to h264 if not
+    if (["vp9", "av1"].includes(format) && checkNoMedia(earlyBestVideo, earlyBestAudio)) {
+        fallback = true;
         format = "h264";
         adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
     }
 
-    const bestVideo = adaptive_formats.find(i => i.has_video && i.content_length);
-    const hasAudio = adaptive_formats.find(i => i.has_audio && i.content_length);
+    const bestVideo = !fallback ? earlyBestVideo : adaptive_formats.find(i => checkBestVideo(i));
+    const bestAudio = !fallback ? earlyBestAudio : adaptive_formats.find(i => checkBestAudio(i));
 
-    if ((!bestVideo && !o.isAudioOnly) || (!hasAudio && o.isAudioOnly)) {
-        return { error: "fetch.empty" };
+    if (checkNoMedia(bestVideo, bestAudio)) {
+        return { error: "youtube.codec" };
     }
 
-    const checkBestAudio = (i) => (i.has_audio && !i.has_video);
-
-    let audio = adaptive_formats.find(i => checkBestAudio(i) && i.is_original);
+    let audio = bestAudio;
     let isDubbed;
 
     if (o.dubLang) {
-        let dubbedAudio = adaptive_formats.find(i =>
+        const dubbedAudio = adaptive_formats.find(i =>
             checkBestAudio(i) && i.language === o.dubLang && i.audio_track
         )
 
@@ -221,10 +229,6 @@ export default async function(o) {
             audio = dubbedAudio;
             isDubbed = true;
         }
-    }
-
-    if (!audio) {
-        audio = adaptive_formats.find(i => checkBestAudio(i));
     }
 
     const fileMetadata = {
@@ -262,19 +266,16 @@ export default async function(o) {
     }
 
     const qual = (i) => {
-        if (!i.quality_label) {
-            return;
-        }
-
-        return i.quality_label.split('p', 2)[0].split('s', 2)[0]
+        if (!i.quality_label) return;
+        return i.quality_label.split('p', 2)[0].split('s', 2)[0];
     }
 
     const quality = o.quality === "max" ? "9000" : o.quality;
     const bestQuality = qual(bestVideo);
-    const matchingQuality = Number(quality) > Number(bestQuality) ? bestQuality : quality;
+    const useBestQuality = Number(quality) > Number(bestQuality);
 
-    const video = adaptive_formats.find(i =>
-        qual(i) === matchingQuality && i.has_video && !i.has_audio
+    const video = useBestQuality ? bestVideo : adaptive_formats.find(i =>
+        qual(i) === quality && checkBestVideo(i)
     );
 
     if (video && audio) {
