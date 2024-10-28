@@ -203,7 +203,7 @@ export default async function(o) {
         return resolution.height > resolution.width ? resolution.width : resolution.height;
     }
 
-    let video, audio, isDubbed,
+    let video, audio, dubbedLanguage,
         format = o.format || "h264";
 
     if (o.youtubeHLS) {
@@ -271,11 +271,11 @@ export default async function(o) {
 
         if (o.dubLang) {
             const dubbedAudio = selected.audio.find(i =>
-                i.language === o.dubLang
+                i.language.startsWith(o.dubLang)
             );
 
             if (dubbedAudio && !dubbedAudio.isDefault) {
-                isDubbed = true;
+                dubbedLanguage = dubbedAudio.language;
                 audio = dubbedAudio;
             }
         }
@@ -297,7 +297,7 @@ export default async function(o) {
         let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
 
         const checkBestVideo = (i) => (i.has_video && i.content_length);
-        const checkBestAudio = (i) => (i.has_audio && i.content_length && i.is_original);
+        const checkBestAudio = (i) => (i.has_audio && i.content_length);
         const checkNoMedia = (vid, aud) => (!vid && !o.isAudioOnly) || (!aud && o.isAudioOnly);
 
         const earlyBestVideo = adaptive_formats.find(i => checkBestVideo(i));
@@ -319,14 +319,20 @@ export default async function(o) {
 
         audio = bestAudio;
 
+        if (audio?.audio_track && !audio?.audio_track?.audio_is_default) {
+            audio = adaptive_formats.find(i =>
+                checkBestAudio(i) && i?.audio_track?.audio_is_default
+            );
+        }
+
         if (o.dubLang) {
             const dubbedAudio = adaptive_formats.find(i =>
-                checkBestAudio(i) && i.language === o.dubLang && i.audio_track
+                checkBestAudio(i) && i.language?.startsWith(o.dubLang) && i.audio_track
             )
 
             if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
                 audio = dubbedAudio;
-                isDubbed = true;
+                dubbedLanguage = dubbedAudio.language;
             }
         }
 
@@ -369,7 +375,7 @@ export default async function(o) {
         id: o.id,
         title: fileMetadata.title,
         author: fileMetadata.artist,
-        youtubeDubName: isDubbed ? o.dubLang : false
+        youtubeDubName: dubbedLanguage || false,
     }
 
     if (audio && o.isAudioOnly) {
