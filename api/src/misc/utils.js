@@ -26,24 +26,6 @@ export function cleanString(string) {
     }
     return string;
 }
-export function verifyLanguageCode(code) {
-    const langCode = String(code.slice(0, 2).toLowerCase());
-    if (RegExp(/[a-z]{2}/).test(code)) {
-        return langCode
-    }
-    return "en"
-}
-export function languageCode(req) {
-    if (req.header('Accept-Language')) {
-        return verifyLanguageCode(req.header('Accept-Language'))
-    }
-    return "en"
-}
-export function cleanHTML(html) {
-    let clean = html.replace(/ {4}/g, '');
-    clean = clean.replace(/\n/g, '');
-    return clean
-}
 
 export function getRedirectingURL(url) {
     return fetch(url, { redirect: 'manual' }).then((r) => {
