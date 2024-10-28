@@ -7,7 +7,7 @@
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
 </script>
 
-<SettingsCategory sectionId="tunnel" title={$t("settings.privacy.tunnel")} beta>
+<SettingsCategory sectionId="tunnel" title={$t("settings.privacy.tunnel")}>
     <SettingsToggle
         settingContext="privacy"
         settingId="alwaysProxy"
