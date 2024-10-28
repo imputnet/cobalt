@@ -114,7 +114,7 @@ async function handleGenericStream(streamInfo, res) {
 }
 
 export function internalStream(streamInfo, res) {
-    if (streamInfo.service === 'youtube') {
+    if (streamInfo.service === 'youtube' && !streamInfo.isHLS) {
         return handleYoutubeStream(streamInfo, res);
     }
 

@@ -1,3 +1,5 @@
+import HLS from "hls-parser";
+
 import { fetch } from "undici";
 import { Innertube, Session } from "youtubei.js";
 
@@ -24,6 +26,19 @@ const codecList = {
         videoCodec: "vp9",
         audioCodec: "opus",
         container: "webm"
+    }
+}
+
+const hlsCodecList = {
+    h264: {
+        videoCodec: "avc1",
+        audioCodec: "mp4a",
+        container: "mp4"
+    },
+    vp9: {
+        videoCodec: "vp09",
+        audioCodec: "mp4a",
+        container: "mp4"
     }
 }
 
@@ -117,7 +132,7 @@ export default async function(o) {
 
     let info;
     try {
-        info = await yt.getBasicInfo(o.id, yt.session.logged_in ? 'ANDROID' : 'IOS');
+        info = await yt.getBasicInfo(o.id, o.youtubeHLS ? 'IOS' : 'ANDROID');
     } catch(e) {
         if (e?.info?.reason === "This video is private") {
             return { error: "content.video.private" };
@@ -183,51 +198,139 @@ export default async function(o) {
         }
     }
 
-    let format = o.format || "h264";
-    let fallback = false;
+    const quality = o.quality === "max" ? 9000 : Number(o.quality);
+    const matchQuality = (resolution) => {
+        return resolution.height > resolution.width ? resolution.width : resolution.height;
+    }
 
-    const filterByCodec = (formats) =>
-        formats.filter(e =>
-            e.mime_type.includes(codecList[format].videoCodec)
-            || e.mime_type.includes(codecList[format].audioCodec)
-        ).sort((a, b) =>
-            Number(b.bitrate) - Number(a.bitrate)
+    let video, audio, isDubbed,
+        format = o.format || "h264";
+
+    if (o.youtubeHLS) {
+        const hlsManifest = info.streaming_data.hls_manifest_url;
+
+        if (!hlsManifest) {
+            return { error: "content.video.no_streams" };
+        }
+
+        const fetchedHlsManifest = await fetch(hlsManifest, {
+            dispatcher: o.dispatcher,
+        }).then(r => {
+            if (r.status === 200) {
+                return r.text();
+            } else {
+                throw new Error("couldn't fetch the HLS playlist");
+            }
+        }).catch(() => {});
+
+        if (!fetchedHlsManifest) {
+            return { error: "content.video.no_streams" };
+        }
+
+        const variants = HLS.parse(fetchedHlsManifest).variants.sort(
+            (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
         );
 
-    let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
+        if (!variants || variants.length === 0) {
+            return { error: "content.video.no_streams" };
+        }
 
-    const checkBestVideo = (i) => (i.has_video && i.content_length);
-    const checkBestAudio = (i) => (i.has_audio && i.content_length && i.is_original);
-    const checkNoMedia = (video, audio) => (!video && !o.isAudioOnly) || (!audio && o.isAudioOnly);
+        const matchHlsCodec = codecs => (
+            codecs.includes(hlsCodecList[format].videoCodec)
+        );
 
-    const earlyBestVideo = adaptive_formats.find(i => checkBestVideo(i));
-    const earlyBestAudio = adaptive_formats.find(i => checkBestAudio(i));
+        const best = variants.find(i => {
+            if (matchHlsCodec(i.codecs)) {
+                return i;
+            }
+        });
 
-    // check if formats have all needed media and fall back to h264 if not
-    if (["vp9", "av1"].includes(format) && checkNoMedia(earlyBestVideo, earlyBestAudio)) {
-        fallback = true;
-        format = "h264";
-        adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
-    }
+        const preferred = variants.find((i) => {
+            if (matchHlsCodec(i.codecs) && matchQuality(i.resolution) === quality) {
+                return i;
+            }
+        });
 
-    const bestVideo = !fallback ? earlyBestVideo : adaptive_formats.find(i => checkBestVideo(i));
-    const bestAudio = !fallback ? earlyBestAudio : adaptive_formats.find(i => checkBestAudio(i));
+        const selected = preferred || best;
+        const defaultAudio = selected.audio.find(i => i.isDefault);
 
-    if (checkNoMedia(bestVideo, bestAudio)) {
-        return { error: "youtube.codec" };
-    }
+        audio = defaultAudio;
 
-    let audio = bestAudio;
-    let isDubbed;
+        if (o.dubLang) {
+            const dubbedAudio = selected.audio.find(i =>
+                i.language === o.dubLang
+            )
 
-    if (o.dubLang) {
-        const dubbedAudio = adaptive_formats.find(i =>
-            checkBestAudio(i) && i.language === o.dubLang && i.audio_track
-        )
+            if (dubbedAudio && !dubbedAudio.isDefault) {
+                audio = dubbedAudio;
+            }
+        }
 
-        if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
-            audio = dubbedAudio;
-            isDubbed = true;
+        selected.audio = [];
+        selected.subtitles = [];
+        video = selected;
+    } else {
+        let fallback = false;
+
+        const filterByCodec = (formats) =>
+            formats.filter(e =>
+                e.mime_type.includes(codecList[format].videoCodec)
+                || e.mime_type.includes(codecList[format].audioCodec)
+            ).sort((a, b) =>
+                Number(b.bitrate) - Number(a.bitrate)
+            );
+
+        let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
+
+        const checkBestVideo = (i) => (i.has_video && i.content_length);
+        const checkBestAudio = (i) => (i.has_audio && i.content_length && i.is_original);
+        const checkNoMedia = (video, audio) => (!video && !o.isAudioOnly) || (!audio && o.isAudioOnly);
+
+        const earlyBestVideo = adaptive_formats.find(i => checkBestVideo(i));
+        const earlyBestAudio = adaptive_formats.find(i => checkBestAudio(i));
+
+        // check if formats have all needed media and fall back to h264 if not
+        if (["vp9", "av1"].includes(format) && checkNoMedia(earlyBestVideo, earlyBestAudio)) {
+            fallback = true;
+            format = "h264";
+            adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
+        }
+
+        const bestVideo = !fallback ? earlyBestVideo : adaptive_formats.find(i => checkBestVideo(i));
+        const bestAudio = !fallback ? earlyBestAudio : adaptive_formats.find(i => checkBestAudio(i));
+
+        if (checkNoMedia(bestVideo, bestAudio)) {
+            return { error: "youtube.codec" };
+        }
+
+        audio = bestAudio;
+
+        if (o.dubLang) {
+            const dubbedAudio = adaptive_formats.find(i =>
+                checkBestAudio(i) && i.language === o.dubLang && i.audio_track
+            )
+
+            if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
+                audio = dubbedAudio;
+                isDubbed = true;
+            }
+        }
+
+        if (!o.isAudioOnly) {
+            const qual = (i) => {
+                return matchQuality({
+                    width: i.width,
+                    height: i.height,
+                })
+            }
+
+            const quality = o.quality === "max" ? "9000" : o.quality;
+            const bestQuality = qual(bestVideo);
+            const useBestQuality = Number(quality) > Number(bestQuality);
+
+            video = useBestQuality ? bestVideo : adaptive_formats.find(i =>
+                qual(i) === quality && checkBestVideo(i)
+            );
         }
     }
 
@@ -263,35 +366,43 @@ export default async function(o) {
         filenameAttributes,
         fileMetadata,
         bestAudio: format === "h264" ? "m4a" : "opus",
+        isHLS: o.youtubeHLS,
     }
-
-    const qual = (i) => {
-        if (!i.quality_label) return;
-        return i.quality_label.split('p', 2)[0].split('s', 2)[0];
-    }
-
-    const quality = o.quality === "max" ? "9000" : o.quality;
-    const bestQuality = qual(bestVideo);
-    const useBestQuality = Number(quality) > Number(bestQuality);
-
-    const video = useBestQuality ? bestVideo : adaptive_formats.find(i =>
-        qual(i) === quality && checkBestVideo(i)
-    );
 
     if (video && audio) {
-        filenameAttributes.qualityLabel = video.quality_label;
-        filenameAttributes.resolution = `${video.width}x${video.height}`;
-        filenameAttributes.extension = codecList[format].container;
+        let resolution;
+
+        if (o.youtubeHLS) {
+            resolution = matchQuality(video.resolution);
+            filenameAttributes.resolution = `${video.resolution.width}x${video.resolution.height}`;
+            filenameAttributes.extension = hlsCodecList[format].container;
+
+            video = video.uri;
+            audio = audio.uri;
+        } else {
+            resolution = matchQuality({
+                width: video.width,
+                height: video.height,
+            });
+            filenameAttributes.resolution = `${video.width}x${video.height}`;
+            filenameAttributes.extension = codecList[format].container;
+
+            video = video.url;
+            audio = audio.url;
+        }
+
+        filenameAttributes.qualityLabel = `${resolution}p`;
         filenameAttributes.youtubeFormat = format;
 
         return {
             type: "merge",
             urls: [
-                video.url,
-                audio.url
+                video,
+                audio,
             ],
             filenameAttributes,
-            fileMetadata
+            fileMetadata,
+            isHLS: o.youtubeHLS,
         }
     }
 
