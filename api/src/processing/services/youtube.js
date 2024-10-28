@@ -370,7 +370,7 @@ export default async function(o) {
         let urls = audio.url;
 
         if (o.youtubeHLS) {
-            bestAudio = "m4a";
+            bestAudio = "mp3";
             urls = audio.uri;
         }
 
