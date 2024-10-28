@@ -122,7 +122,7 @@ const getHLS = async (configURL, obj) => {
 
     return {
         urls,
-        isM3U8: true,
+        isHLS: true,
         filenameAttributes: {
             resolution: `${bestQuality.resolution.width}x${bestQuality.resolution.height}`,
             qualityLabel: `${resolutionMatch[bestQuality.resolution.width]}p`,

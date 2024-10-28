@@ -65,7 +65,7 @@ export default async function(obj) {
 
     return {
         urls: matchingQuality.uri,
-        isM3U8: true,
+        isHLS: true,
         filenameAttributes: {
             service: "rutube",
             id: obj.id,

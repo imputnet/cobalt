@@ -34,7 +34,7 @@ export function createStream(obj) {
         streamData = {
             exp: exp,
             type: obj.type,
-            urls: obj.u,
+            urls: obj.url,
             service: obj.service,
             filename: obj.filename,
 

@@ -26,7 +26,7 @@ const extractVideo = async ({ media, filename }) => {
         urls: videoURL,
         filename: `${filename}.mp4`,
         audioFilename: `${filename}_audio`,
-        isM3U8: true,
+        isHLS: true,
     }
 }
 
