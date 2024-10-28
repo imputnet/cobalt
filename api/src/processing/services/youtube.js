@@ -368,12 +368,17 @@ export default async function(o) {
 
     if (audio && o.isAudioOnly) {
         let bestAudio = format === "h264" ? "m4a" : "opus";
-        if (o.youtubeHLS) bestAudio = "m4a";
+        let urls = audio.url;
+
+        if (o.youtubeHLS) {
+            bestAudio = "m4a";
+            urls = audio.uri;
+        }
 
         return {
             type: "audio",
             isAudioOnly: true,
-            urls: audio.url,
+            urls,
             filenameAttributes,
             fileMetadata,
             bestAudio,
