@@ -263,6 +263,12 @@ export default async function(o) {
 
         audio = selected.audio.find(i => i.isDefault);
 
+        // some videos (mainly those with AI dubs) don't have any tracks marked as default
+        // why? god knows, but we assume that a default track is marked as such in the title
+        if (!audio) {
+            audio = selected.audio.find(i => i.name.endsWith("- original"));
+        }
+
         if (o.dubLang) {
             const dubbedAudio = selected.audio.find(i =>
                 i.language === o.dubLang
