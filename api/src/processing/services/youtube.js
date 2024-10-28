@@ -275,6 +275,7 @@ export default async function(o) {
             );
 
             if (dubbedAudio && !dubbedAudio.isDefault) {
+                isDubbed = true;
                 audio = dubbedAudio;
             }
         }
