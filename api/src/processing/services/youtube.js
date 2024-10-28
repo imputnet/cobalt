@@ -210,7 +210,7 @@ export default async function(o) {
         const hlsManifest = info.streaming_data.hls_manifest_url;
 
         if (!hlsManifest) {
-            return { error: "content.video.no_streams" };
+            return { error: "youtube.no_hls_streams" };
         }
 
         const fetchedHlsManifest = await fetch(hlsManifest, {
@@ -224,7 +224,7 @@ export default async function(o) {
         }).catch(() => {});
 
         if (!fetchedHlsManifest) {
-            return { error: "content.video.no_streams" };
+            return { error: "youtube.no_hls_streams" };
         }
 
         const variants = HLS.parse(fetchedHlsManifest).variants.sort(
@@ -232,34 +232,41 @@ export default async function(o) {
         );
 
         if (!variants || variants.length === 0) {
-            return { error: "content.video.no_streams" };
+            return { error: "youtube.no_hls_streams" };
+        }
+
+        // HLS playlists don't contain AV1 format, at least with the iOS client
+        if (format === "av1") {
+            format = "vp9";
         }
 
         const matchHlsCodec = codecs => (
             codecs.includes(hlsCodecList[format].videoCodec)
         );
 
-        const best = variants.find(i => {
-            if (matchHlsCodec(i.codecs)) {
-                return i;
-            }
-        });
+        const best = variants.find(i => matchHlsCodec(i.codecs));
 
-        const preferred = variants.find((i) => {
-            if (matchHlsCodec(i.codecs) && matchQuality(i.resolution) === quality) {
-                return i;
-            }
-        });
+        const preferred = variants.find(i =>
+            matchHlsCodec(i.codecs) && matchQuality(i.resolution) === quality
+        );
 
-        const selected = preferred || best;
-        const defaultAudio = selected.audio.find(i => i.isDefault);
+        let selected = preferred || best;
 
-        audio = defaultAudio;
+        if (!selected) {
+            format = "h264";
+            selected = variants.find(i => matchHlsCodec(i.codecs));
+        }
+
+        if (!selected) {
+            return { error: "youtube.no_hls_streams" };
+        }
+
+        audio = selected.audio.find(i => i.isDefault);
 
         if (o.dubLang) {
             const dubbedAudio = selected.audio.find(i =>
                 i.language === o.dubLang
-            )
+            );
 
             if (dubbedAudio && !dubbedAudio.isDefault) {
                 audio = dubbedAudio;
@@ -359,14 +366,19 @@ export default async function(o) {
         youtubeDubName: isDubbed ? o.dubLang : false
     }
 
-    if (audio && o.isAudioOnly) return {
-        type: "audio",
-        isAudioOnly: true,
-        urls: audio.url,
-        filenameAttributes,
-        fileMetadata,
-        bestAudio: format === "h264" ? "m4a" : "opus",
-        isHLS: o.youtubeHLS,
+    if (audio && o.isAudioOnly) {
+        let bestAudio = format === "h264" ? "m4a" : "opus";
+        if (o.youtubeHLS) bestAudio = "m4a";
+
+        return {
+            type: "audio",
+            isAudioOnly: true,
+            urls: audio.url,
+            filenameAttributes,
+            fileMetadata,
+            bestAudio,
+            isHLS: o.youtubeHLS,
+        }
     }
 
     if (video && audio) {
