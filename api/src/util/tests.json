@@ -486,6 +486,53 @@
                 "code": 200,
                 "status": "tunnel"
             }
+        }, {
+            "name": "hls video (h264, 1440p)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "youtubeVideoCodec": "h264",
+                "videoQuality": "1440",
+                "youtubeHLS": true
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }, {
+            "name": "hls video (vp9, 360p)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "youtubeVideoCodec": "vp9",
+                "videoQuality": "360",
+                "youtubeHLS": true
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }, {
+            "name": "hls video (audio mode)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "downloadMode": "audio",
+                "youtubeHLS": true
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
+        }, {
+            "name": "hls video (audio mode, best format)",
+            "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+            "params": {
+                "downloadMode": "audio",
+                "youtubeHLS": true,
+                "audioFormat": "best"
+            },
+            "expected": {
+                "code": 200,
+                "status": "tunnel"
+            }
         }
     ],
     "vk": [
