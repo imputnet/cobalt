@@ -56,7 +56,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
         case "hls":
             params = {
-                type: Array.isArray(r.urls) ? "merge" : "remux"
+                type: Array.isArray(r.urls) ? "merge" : "remux",
+                isHLS: true,
             }
             break;
 

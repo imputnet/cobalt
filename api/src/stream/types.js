@@ -101,7 +101,7 @@ const merge = (streamInfo, res) => {
 
         args = args.concat(ffmpegArgs[format]);
 
-        if (hlsExceptions.includes(streamInfo.service)) {
+        if (hlsExceptions.includes(streamInfo.service) && streamInfo.isHLS) {
             args.push('-bsf:a', 'aac_adtstoasc')
         }
 

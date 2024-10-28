@@ -46,6 +46,8 @@ export function createStream(obj) {
             audioBitrate: obj.audioBitrate,
             audioCopy: !!obj.audioCopy,
             audioFormat: obj.audioFormat,
+
+            isHLS: obj.isHLS || false,
         };
 
     streamCache.set(
@@ -100,7 +102,8 @@ export function createInternalStream(url, obj = {}) {
         service: obj.service,
         headers,
         controller,
-        dispatcher
+        dispatcher,
+        isHLS: obj.isHLS,
     });
 
     let streamLink = new URL('/itunnel', `http://127.0.0.1:${env.apiPort}`);
