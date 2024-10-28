@@ -50,7 +50,7 @@
     "audio.format.ogg": "ogg",
     "audio.format.wav": "wav",
     "audio.format.opus": "opus",
-    "audio.format.description": "all formats but \"best\" are converted, meaning that there'll be some quality loss. audio is not reencoded only when \"best\" format is selected.",
+    "audio.format.description": "all formats but \"best\" are converted from the source format, there will be some quality loss. when \"best\" format is selected, the audio is kept in its original format whenever possible.",
 
     "audio.bitrate": "audio bitrate",
     "audio.bitrate.kbps": "kb/s",
