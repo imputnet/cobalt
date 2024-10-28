@@ -197,6 +197,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 audioBitrate,
                 audioCopy: copy,
                 audioFormat,
+
+                isHLS: r.isHLS,
             }
             break;
     }
