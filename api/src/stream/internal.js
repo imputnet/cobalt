@@ -96,8 +96,11 @@ async function handleGenericStream(streamInfo, res) {
         res.status(req.statusCode);
         req.body.on('error', () => {});
 
-        for (const [ name, value ] of Object.entries(req.headers))
-            res.setHeader(name, value)
+        for (const [ name, value ] of Object.entries(req.headers)) {
+            if (!isHlsRequest(req) || name.toLowerCase() !== 'content-length') {
+                res.setHeader(name, value);
+            }
+        }
 
         if (req.statusCode < 200 || req.statusCode > 299)
             return cleanup();
