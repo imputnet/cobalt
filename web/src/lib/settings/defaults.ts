@@ -25,7 +25,7 @@ const defaultSettings: CobaltSettings = {
         twitterGif: true,
         videoQuality: "1080",
         youtubeVideoCodec: "h264",
-        youtubeDubBrowserLang: false,
+        youtubeDubLang: "original",
         youtubeHLS: false,
     },
     privacy: {

@@ -22,7 +22,7 @@ const request = async (url: string) => {
         audioBitrate: getSetting("save", "audioBitrate"),
         audioFormat: getSetting("save", "audioFormat"),
         tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
-        youtubeDubBrowserLang: getSetting("save", "youtubeDubBrowserLang"),
+        youtubeDubLang: getSetting("save", "youtubeDubLang"),
 
         youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
         videoQuality: getSetting("save", "videoQuality"),

@@ -1,5 +1,6 @@
-import languages from '$i18n/languages.json';
-import type { RecursivePartial } from './generic';
+import languages from "$i18n/languages.json";
+import { youtubeLanguages } from "$lib/settings/youtube-lang";
+import type { RecursivePartial } from "$lib/types/generic";
 
 export const themeOptions = ["auto", "light", "dark"] as const;
 export const audioBitrateOptions = ["320", "256", "128", "96", "64", "8"] as const;
@@ -47,7 +48,7 @@ type CobaltSettingsSave = {
     twitterGif: boolean,
     videoQuality: typeof videoQualityOptions[number],
     youtubeVideoCodec: typeof youtubeVideoCodecOptions[number],
-    youtubeDubBrowserLang: boolean,
+    youtubeDubLang: typeof youtubeLanguages[number],
     youtubeHLS: boolean,
 };
 

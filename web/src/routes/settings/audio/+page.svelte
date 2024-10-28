@@ -1,6 +1,7 @@
 <script lang="ts">
     import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
+    import { namedYoutubeLanguages, youtubeLanguages } from "$lib/settings/youtube-lang";
 
     import { audioFormatOptions, audioBitrateOptions } from "$lib/types/settings";
 
@@ -8,6 +9,9 @@
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
+    import SettingsDropdown from "$components/settings/SettingsDropdown.svelte";
+
+    const displayLangs = namedYoutubeLanguages();
 </script>
 
 <SettingsCategory sectionId="format" title={$t("settings.audio.format")}>
@@ -42,6 +46,18 @@
     </Switcher>
 </SettingsCategory>
 
+<SettingsCategory sectionId="youtube" title={$t("settings.audio.youtube.dub")}>
+    <SettingsDropdown
+        title={$t("settings.audio.youtube.dub.title")}
+        description={$t("settings.audio.youtube.dub.description")}
+        items={displayLangs}
+        settingContext="save"
+        settingId="youtubeDubLang"
+        selectedOption={$settings.save.youtubeDubLang}
+        selectedTitle={displayLangs[$settings.save.youtubeDubLang]}
+    />
+</SettingsCategory>
+
 <SettingsCategory
     sectionId="tiktok"
     title={$t("settings.audio.tiktok.original")}
@@ -51,14 +67,5 @@
         settingId="tiktokFullAudio"
         title={$t("settings.audio.tiktok.original.title")}
         description={$t("settings.audio.tiktok.original.description")}
-    />
-</SettingsCategory>
-
-<SettingsCategory sectionId="youtube" title={$t("settings.audio.youtube.dub")}>
-    <SettingsToggle
-        settingContext="save"
-        settingId="youtubeDubBrowserLang"
-        title={$t("settings.audio.youtube.dub.title")}
-        description={$t("settings.audio.youtube.dub.description")}
     />
 </SettingsCategory>
