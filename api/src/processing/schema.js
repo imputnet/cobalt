@@ -1,7 +1,5 @@
 import { z } from "zod";
-
 import { normalizeURL } from "./url.js";
-import { verifyLanguageCode } from "../misc/utils.js";
 
 export const apiSchema = z.object({
     url: z.string()
@@ -33,9 +31,14 @@ export const apiSchema = z.object({
     ).default("1080"),
 
     youtubeDubLang: z.string()
-                     .length(2)
-                     .transform(verifyLanguageCode)
+                     .min(2)
+                     .max(8)
+                     .regex(/^[0-9a-zA-Z\-]+$/)
                      .optional(),
+
+    // TODO: remove this variable as it's no longer used
+    // and is kept for schema compatibility reasons
+    youtubeDubBrowserLang: z.boolean().default(false),
 
     alwaysProxy: z.boolean().default(false),
     disableMetadata: z.boolean().default(false),
@@ -43,7 +46,6 @@ export const apiSchema = z.object({
     tiktokH265: z.boolean().default(false),
     twitterGif: z.boolean().default(true),
 
-    youtubeDubBrowserLang: z.boolean().default(false),
     youtubeHLS: z.boolean().default(false),
 })
 .strict();

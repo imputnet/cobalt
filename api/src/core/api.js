@@ -9,7 +9,6 @@ import match from "../processing/match.js";
 
 import { env } from "../config.js";
 import { extract } from "../processing/url.js";
-import { languageCode } from "../misc/utils.js";
 import { Bright, Cyan } from "../misc/console-text.js";
 import { generateHmac, generateSalt } from "../misc/crypto.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
@@ -222,14 +221,9 @@ export const runAPI = (express, app, __dirname) => {
 
     app.post('/', async (req, res) => {
         const request = req.body;
-        const lang = languageCode(req);
 
         if (!request.url) {
             return fail(res, "error.api.link.missing");
-        }
-
-        if (request.youtubeDubBrowserLang) {
-            request.youtubeDubLang = lang;
         }
 
         const { success, data: normalizedRequest } = await normalizeRequest(request);
