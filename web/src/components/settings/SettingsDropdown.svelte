@@ -40,17 +40,20 @@
             </h4>
             <div class="right-side">
                 <span class="selector-current" aria-hidden="true">
-                    {selectedTitle}
+                    {selectedTitle.split("(", 2)[0]}
                 </span>
                 <IconSelector />
             </div>
         </div>
 
         <select on:change={e => onChange(e)} {disabled}>
-            {#each Object.keys(items) as value}
+            {#each Object.keys(items) as value, i}
                 <option {value} selected={selectedOption === value}>
                     {items[value]}
                 </option>
+                {#if i === 0}
+                    <hr>
+                {/if}
             {/each}
         </select>
     </div>
@@ -118,6 +121,7 @@
     .selector select {
         font-size: 13px;
         font-weight: 400;
+        text-transform: lowercase;
     }
 
     .right-side :global(svg) {
