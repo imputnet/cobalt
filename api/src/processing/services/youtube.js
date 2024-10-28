@@ -291,7 +291,7 @@ export default async function(o) {
 
         const checkBestVideo = (i) => (i.has_video && i.content_length);
         const checkBestAudio = (i) => (i.has_audio && i.content_length && i.is_original);
-        const checkNoMedia = (video, audio) => (!video && !o.isAudioOnly) || (!audio && o.isAudioOnly);
+        const checkNoMedia = (vid, aud) => (!vid && !o.isAudioOnly) || (!aud && o.isAudioOnly);
 
         const earlyBestVideo = adaptive_formats.find(i => checkBestVideo(i));
         const earlyBestAudio = adaptive_formats.find(i => checkBestAudio(i));
@@ -331,9 +331,8 @@ export default async function(o) {
                 })
             }
 
-            const quality = o.quality === "max" ? "9000" : o.quality;
             const bestQuality = qual(bestVideo);
-            const useBestQuality = Number(quality) > Number(bestQuality);
+            const useBestQuality = quality > bestQuality;
 
             video = useBestQuality ? bestVideo : adaptive_formats.find(i =>
                 qual(i) === quality && checkBestVideo(i)
