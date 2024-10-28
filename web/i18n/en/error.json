@@ -50,5 +50,6 @@
     "api.youtube.codec": "youtube didn't return anything with your preferred video codec. try another one in settings!",
     "api.youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video.\n\ntry again in a few seconds, but if issue sticks, contact us for support.",
     "api.youtube.login": "couldn't get this video because youtube labeled me as a bot. this is potentially caused by the processing instance not having any active account tokens. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
-    "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!"
+    "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
+    "api.youtube.no_hls_streams": "couldn't find any matching HLS streams. try different settings!"
 }
