@@ -1,32 +1,33 @@
 import Cookie from './cookie.js';
+
 import { readFile, writeFile } from 'fs/promises';
-import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 import { Green, Yellow } from '../../misc/console-text.js';
+import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 
 const WRITE_INTERVAL = 60000,
       COUNTER = Symbol('counter');
 
 let cookies = {}, dirty = false, intervalId;
 
-export const setup = async (cookiePath) => {
-    try {
-        cookies = await readFile(cookiePath, 'utf8');
-        cookies = JSON.parse(cookies);
-        intervalId = setInterval(writeChanges, WRITE_INTERVAL);
-        console.log(`${Green('[✓]')} cookies loaded successfully!`)
-    } catch(e) {
-        console.error(`${Yellow('[!]')} failed to load cookies.`);
-        console.error('error:', e);
-    }
-}
-
-function writeChanges() {
+function writeChanges(cookiePath) {
     if (!dirty) return;
     dirty = false;
 
     writeFile(cookiePath, JSON.stringify(cookies, null, 4)).catch(() => {
         clearInterval(intervalId)
     })
+}
+
+export const setup = async (cookiePath) => {
+    try {
+        cookies = await readFile(cookiePath, 'utf8');
+        cookies = JSON.parse(cookies);
+        intervalId = setInterval(() => writeChanges(cookiePath), WRITE_INTERVAL);
+        console.log(`${Green('[✓]')} cookies loaded successfully!`)
+    } catch(e) {
+        console.error(`${Yellow('[!]')} failed to load cookies.`);
+        console.error('error:', e);
+    }
 }
 
 export function getCookie(service) {
@@ -46,6 +47,11 @@ export function getCookie(service) {
     return cookies[service][n]
 }
 
+export function updateCookieValues(cookie, values) {
+    cookie.set(values);
+    if (Object.keys(values).length) dirty = true
+}
+
 export function updateCookie(cookie, headers) {
     if (!cookie) return;
 
@@ -57,9 +63,4 @@ export function updateCookie(cookie, headers) {
     cookie.unset(parsed.filter(c => c.expires < new Date()).map(c => c.name));
     parsed.filter(c => !c.expires || c.expires > new Date()).forEach(c => values[c.name] = c.value);
     updateCookieValues(cookie, values);
-}
-
-export function updateCookieValues(cookie, values) {
-    cookie.set(values);
-    if (Object.keys(values).length) dirty = true
 }
