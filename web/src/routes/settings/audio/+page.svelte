@@ -1,7 +1,7 @@
 <script lang="ts">
     import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
-    import { namedYoutubeLanguages, youtubeLanguages } from "$lib/settings/youtube-lang";
+    import { namedYoutubeLanguages } from "$lib/settings/youtube-lang";
 
     import { audioFormatOptions, audioBitrateOptions } from "$lib/types/settings";
 
@@ -46,7 +46,11 @@
     </Switcher>
 </SettingsCategory>
 
-<SettingsCategory sectionId="youtube" title={$t("settings.audio.youtube.dub")}>
+<SettingsCategory
+    sectionId="youtube-language"
+    title={$t("settings.audio.youtube.dub")}
+    beta
+>
     <SettingsDropdown
         title={$t("settings.audio.youtube.dub.title")}
         description={$t("settings.audio.youtube.dub.description")}
