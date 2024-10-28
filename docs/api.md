@@ -65,12 +65,12 @@ Content-Type: application/json
 | `downloadMode`               | `string`  | `auto / audio / mute`              | `auto`    | `audio` downloads only the audio, `mute` skips the audio track in videos.       |
 | `youtubeVideoCodec`          | `string`  | `h264 / av1 / vp9`                 | `h264`    | `h264` is recommended for phones.                                               |
 | `youtubeDubLang`             | `string`  | `en / ru / cs / ja / ...`          | --        | specifies the language of audio to download, when the youtube video is dubbed   |
-| `youtubeDubBrowserLang`      | `boolean` | `true / false`                     | `false`   | uses value from the Accept-Language header for `youtubeDubLang`.                |
 | `alwaysProxy`                | `boolean` | `true / false`                     | `false`   | tunnels all downloads through the processing server, even when not necessary.   |
 | `disableMetadata`            | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                      |
 | `tiktokFullAudio`            | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                      |
 | `tiktokH265`                 | `boolean` | `true / false`                     | `false`   | changes whether 1080p h265 videos are preferred or not.                         |
 | `twitterGif`                 | `boolean` | `true / false`                     | `true`    | changes whether twitter gifs are converted to .gif                              |
+| `youtubeHLS`                 | `boolean` | `true / false`                     | `false`   | specifies whether to use HLS for downloading video or audio from youtube.       |
 
 ### response
 the response will always be a JSON object containing the `status` key, which will be one of:
