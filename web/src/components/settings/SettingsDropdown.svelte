@@ -1,57 +1,69 @@
-<script lang="ts">
-    import languages from "$i18n/languages.json";
-
-    import { t, locales } from "$lib/i18n/translations";
-    import settings, { updateSetting } from "$lib/state/settings";
+<script
+    lang="ts"
+    generics="
+        Context extends Exclude<keyof CobaltSettings, 'schemaVersion'>,
+        Id extends keyof CobaltSettings[Context]
+    "
+>
+    import { updateSetting } from "$lib/state/settings";
+    import type { CobaltSettings } from "$lib/types/settings";
 
     import IconSelector from "@tabler/icons-svelte/IconSelector.svelte";
 
-    $: currentSetting = $settings.appearance.language;
-    $: disabled = $settings.appearance.autoLanguage;
+    export let title: string;
+    export let description: string = "";
+    export let items: Record<string, string>;
 
-    const updateLocale = (event: Event) => {
-       const target = event.target as HTMLSelectElement;
+    export let settingId: Id;
+    export let settingContext: Context;
+
+    export let selectedOption: string;
+    export let selectedTitle: string;
+    export let disabled = false;
+
+    const onChange = (event: Event) => {
+        const target = event.target as HTMLSelectElement;
 
         updateSetting({
-            appearance: {
-                language: target.value as keyof typeof languages,
+            [settingContext]: {
+                [settingId]: target.value,
             },
         });
     };
 </script>
 
-<div class="language-selector-parent" class:disabled aria-hidden={disabled}>
-    <div id="language-selector" class="selector button">
+<div class="selector-parent" class:disabled aria-hidden={disabled}>
+    <div id="selector" class="selector button">
         <div class="selector-info">
             <h4 class="selector-title">
-                {$t("settings.language.preferred.title")}
+                {title}
             </h4>
             <div class="right-side">
                 <span class="selector-current" aria-hidden="true">
-                    {$t(`languages.${currentSetting}`)}
+                    {selectedTitle}
                 </span>
                 <IconSelector />
             </div>
         </div>
-        <select
-            id="setting-dropdown-appearance-language"
-            on:change={updateLocale}
-            {disabled}
-        >
-            {#each $locales as value}
-                <option {value} selected={currentSetting === value}>
-                    {$t(`languages.${value}`)}
+
+        <select on:change={e => onChange(e)} {disabled}>
+            {#each Object.keys(items) as value}
+                <option {value} selected={selectedOption === value}>
+                    {items[value]}
                 </option>
             {/each}
         </select>
     </div>
-    <div class="subtext toggle-description">
-        {$t("settings.language.preferred.description")}
-    </div>
+
+    {#if description}
+        <div class="subtext">
+            {description}
+        </div>
+    {/if}
 </div>
 
 <style>
-    .language-selector-parent {
+    .selector-parent {
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -59,11 +71,11 @@
         transition: opacity 0.2s;
     }
 
-    .language-selector-parent.disabled {
+    .selector-parent.disabled {
         opacity: 0.5;
     }
 
-    #language-selector {
+    #selector {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -76,7 +88,7 @@
         overflow: scroll;
     }
 
-    .disabled #language-selector {
+    .disabled #selector {
         pointer-events: none;
     }
 
