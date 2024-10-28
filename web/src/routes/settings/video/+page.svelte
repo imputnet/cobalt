@@ -1,4 +1,5 @@
 <script lang="ts">
+    import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
 
     import { videoQualityOptions } from "$lib/types/settings";
@@ -51,6 +52,21 @@
             </SettingsButton>
         {/each}
     </Switcher>
+</SettingsCategory>
+
+<SettingsCategory
+    sectionId="hls"
+    title={$t("settings.video.youtube.hls")}
+    disabled={$settings.save.youtubeVideoCodec === "av1"}
+    beta
+>
+    <SettingsToggle
+        settingContext="save"
+        settingId="youtubeHLS"
+        title={$t("settings.video.youtube.hls.title")}
+        description={$t("settings.video.youtube.hls.description")}
+        disabled={$settings.save.youtubeVideoCodec === "av1"}
+    />
 </SettingsCategory>
 
 <SettingsCategory sectionId="twitter" title={$t("settings.video.twitter.gif")}>

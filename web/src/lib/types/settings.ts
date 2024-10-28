@@ -48,6 +48,7 @@ type CobaltSettingsSave = {
     videoQuality: typeof videoQualityOptions[number],
     youtubeVideoCodec: typeof youtubeVideoCodecOptions[number],
     youtubeDubBrowserLang: boolean,
+    youtubeHLS: boolean,
 };
 
 export type CurrentCobaltSettings = {

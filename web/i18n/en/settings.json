@@ -32,6 +32,10 @@
     "video.youtube.codec": "youtube video codec and container",
     "video.youtube.codec.description": "h264: best compatibility, average quality. max quality is 1080p. \nav1: best quality and efficiency. supports 8k & HDR. \nvp9: same quality as av1, but file is ~2x bigger. supports 4k & HDR.\n\nav1 and vp9 aren't as widely supported as h264. if av1 or vp9 isn't available, h264 is used instead.",
 
+    "video.youtube.hls": "youtube hls",
+    "video.youtube.hls.title": "use hls formats for videos",
+    "video.youtube.hls.description": "only h264 and vp9 codecs are supported in this mode, both are served in a mp4 container. files download faster and are less prone to errors. files may be less compatible with editing software or video players.",
+
     "video.twitter.gif": "twitter/x",
     "video.twitter.gif.title": "convert looping videos to GIF",
     "video.twitter.gif.description": "GIF conversion is inefficient, converted file may be obnoxiously big and low quality.",
