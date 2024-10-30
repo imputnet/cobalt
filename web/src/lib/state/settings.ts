@@ -4,11 +4,13 @@ import { merge } from 'ts-deepmerge';
 import type {
     PartialSettings,
     AllPartialSettingsWithSchema,
-    CobaltSettings
+    CobaltSettings,
+    CobaltSettingsV3
 } from '../types/settings';
-
+import { getBrowserLanguage } from '$lib/settings/youtube-lang';
 import { migrateOldSettings } from '../settings/migrate';
 import defaultSettings from '../settings/defaults';
+import type { RecursivePartial } from '$lib/types/generic';
 
 const updatePlausiblePreference = (settings: PartialSettings) => {
     if (settings.privacy?.disableAnalytics) {
@@ -29,7 +31,20 @@ const writeToStorage = (settings: PartialSettings) => {
 
 type Migrator = (s: AllPartialSettingsWithSchema) => AllPartialSettingsWithSchema;
 const migrations: Record<number, Migrator> = {
+    [3]: (settings: AllPartialSettingsWithSchema) => {
+        const out = settings as RecursivePartial<CobaltSettingsV3>;
+        out.schemaVersion = 3;
 
+        if (settings?.save && 'youtubeDubBrowserLang' in settings.save) {
+            if (settings.save.youtubeDubBrowserLang) {
+                out.save!.youtubeDubLang = getBrowserLanguage();
+            }
+
+            delete settings.save.youtubeDubBrowserLang;
+        }
+
+        return out as AllPartialSettingsWithSchema;
+    }
 }
 
 const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
@@ -65,7 +80,7 @@ export const loadFromString = (settings: string): PartialSettings => {
         return migrate(parsed);
     }
 
-    return parsed;
+    return parsed as PartialSettings;
 }
 
 let update: (_: Updater<PartialSettings>) => void;

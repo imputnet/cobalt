@@ -2,7 +2,7 @@ import { defaultLocale } from "$lib/i18n/translations";
 import type { CobaltSettings } from "$lib/types/settings";
 
 const defaultSettings: CobaltSettings = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     advanced: {
         debug: false,
     },
