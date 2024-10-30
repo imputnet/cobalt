@@ -47,7 +47,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="youtube-language"
+    sectionId="youtube-dub"
     title={$t("settings.audio.youtube.dub")}
     beta
 >
