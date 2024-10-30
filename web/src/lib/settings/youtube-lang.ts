@@ -78,6 +78,8 @@ export const youtubeLanguages = [
     "zu"
 ] as const;
 
+export type YoutubeLang = typeof youtubeLanguages[number];
+
 export const namedYoutubeLanguages = () => {
     return youtubeLanguages.reduce((obj, lang) => {
         const intlName = new Intl.DisplayNames([lang], { type: 'language' }).of(lang);
@@ -91,5 +93,20 @@ export const namedYoutubeLanguages = () => {
             ...obj,
             [lang]: name,
         };
-    }, {}) as Record<typeof youtubeLanguages[number], string>;
+    }, {}) as Record<YoutubeLang, string>;
+}
+
+export const getBrowserLanguage = (): YoutubeLang => {
+    if (typeof navigator === 'undefined')
+        return "original";
+
+    const browserLanguage = navigator.language as YoutubeLang;
+    if (youtubeLanguages.includes(browserLanguage))
+        return browserLanguage;
+
+    const shortened = browserLanguage.split('-')[0] as YoutubeLang;
+    if (youtubeLanguages.includes(shortened))
+        return shortened;
+
+    return "original";
 }
