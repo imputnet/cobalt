@@ -35,7 +35,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="codec"
+    sectionId="youtube-codec"
     title={$t("settings.video.youtube.codec")}
 >
     <Switcher
@@ -55,7 +55,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="hls"
+    sectionId="youtube-hls"
     title={$t("settings.video.youtube.hls")}
     disabled={$settings.save.youtubeVideoCodec === "av1"}
     beta
