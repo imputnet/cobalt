@@ -77,7 +77,7 @@ const loadFromStorage = () => {
 export const loadFromString = (settings: string): PartialSettings => {
     const parsed = JSON.parse(settings) as AllPartialSettingsWithSchema;
     if (parsed.schemaVersion < defaultSettings.schemaVersion) {
-        return migrate(parsed);
+        return writeToStorage(migrate(parsed));
     }
 
     return parsed as PartialSettings;
