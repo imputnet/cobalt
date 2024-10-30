@@ -13,6 +13,15 @@ export class Store {
         this.id = name;
     }
 
+    async _has(_key) { throw "needs implementation" }
+    has(key) {
+        if (typeof key !== 'string') {
+            key = key.toString();
+        }
+
+        return this._has(key);
+    }
+
     async _get(_key) { throw "needs implementation" }
     async get(key) {
         if (typeof key !== 'string') {

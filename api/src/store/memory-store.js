@@ -14,6 +14,10 @@ export default class MemoryStore extends Store {
         super(name);
     }
 
+    async _has(key) {
+        return this.#store.has(key);
+    }
+
     async _get(key) {
         const val = this.#store.get(key);
 
