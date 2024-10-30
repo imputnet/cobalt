@@ -1,11 +1,10 @@
 import { derived, readable, type Updater } from 'svelte/store';
 import { browser } from '$app/environment';
 import { merge } from 'ts-deepmerge';
-
 import type {
-    CobaltSettings,
     PartialSettings,
-    AllPartialSettingsWithSchema
+    AllPartialSettingsWithSchema,
+    CobaltSettings
 } from '../types/settings';
 
 import { migrateOldSettings } from '../settings/migrate';
@@ -39,7 +38,7 @@ const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
         .filter(version => version > settings.schemaVersion)
         .reduce((settings, migrationVersion) => {
             return migrations[migrationVersion](settings);
-        }, settings as AllPartialSettingsWithSchema);
+        }, settings as AllPartialSettingsWithSchema) as PartialSettings;
 }
 
 
@@ -51,7 +50,7 @@ const loadFromStorage = () => {
     if (!settings) {
         const migrated = migrateOldSettings();
         if (migrated) {
-            return writeToStorage(migrated);
+            return writeToStorage(migrate(migrated));
         }
 
         return {};
@@ -60,7 +59,7 @@ const loadFromStorage = () => {
     return loadFromString(settings);
 }
 
-export const loadFromString = (settings: string) => {
+export const loadFromString = (settings: string): PartialSettings => {
     const parsed = JSON.parse(settings) as AllPartialSettingsWithSchema;
     if (parsed.schemaVersion < defaultSettings.schemaVersion) {
         return migrate(parsed);
