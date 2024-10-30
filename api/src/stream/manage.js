@@ -15,7 +15,8 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 const streamCache = new NodeCache({
     stdTTL: env.streamLifespan,
     checkperiod: 10,
-    deleteOnExpire: true
+    deleteOnExpire: true,
+    useClones: false,
 })
 
 streamCache.on("expired", (key) => {
