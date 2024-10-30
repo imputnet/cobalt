@@ -271,7 +271,7 @@ export default async function(o) {
 
         if (o.dubLang) {
             const dubbedAudio = selected.audio.find(i =>
-                i.language.startsWith(o.dubLang)
+                i.language?.startsWith(o.dubLang)
             );
 
             if (dubbedAudio && !dubbedAudio.isDefault) {
