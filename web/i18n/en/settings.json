@@ -33,7 +33,7 @@
     "video.youtube.codec.description": "h264: best compatibility, average quality. max quality is 1080p. \nav1: best quality and efficiency. supports 8k & HDR. \nvp9: same quality as av1, but file is ~2x bigger. supports 4k & HDR.\n\nav1 and vp9 aren't as widely supported as h264. if av1 or vp9 isn't available, h264 is used instead.",
 
     "video.youtube.hls": "youtube hls",
-    "video.youtube.hls.title": "use hls formats for videos",
+    "video.youtube.hls.title": "prefer hls for video & audio",
     "video.youtube.hls.description": "files download faster and are less prone to errors or getting abruptly cut off. only h264 and vp9 codecs are available in this mode. original audio codec is aac, it's re-encoded for compatibility, audio quality may be slightly worse than the non-HLS counterpart.\n\nthis option is experimental, it may go away or change in the future.",
 
     "video.twitter.gif": "twitter/x",
