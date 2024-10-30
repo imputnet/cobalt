@@ -24,6 +24,7 @@
     },
     "homepage": "https://github.com/imputnet/cobalt#readme",
     "dependencies": {
+        "@datastructures-js/priority-queue": "^6.3.1",
         "@imput/version-info": "workspace:^",
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",

@@ -10,6 +10,9 @@ importers:
 
   api:
     dependencies:
+      '@datastructures-js/priority-queue':
+        specifier: ^6.3.1
+        version: 6.3.1
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
@@ -187,6 +190,12 @@ packages:
 
   '@bufbuild/protobuf@2.1.0':
     resolution: {integrity: sha512-+2Mx67Y3skJ4NCD/qNSdBJNWtu6x6Qr53jeNg+QcwiL6mt0wK+3jwHH2x1p7xaYH6Ve2JKOVn0OxU35WsmqI9A==}
+
+  '@datastructures-js/heap@4.3.3':
+    resolution: {integrity: sha512-UcUu/DLh/aM4W3C8zZfwxxm6/6FIZUlm3mcAXuNOCa6Aj4iizNvNXQyb8DjZQH2jKSQbMRyNlngP6TPimuGjpQ==}
+
+  '@datastructures-js/priority-queue@6.3.1':
+    resolution: {integrity: sha512-eoxkWql/j0VJ0UFMFTpnyJz4KbEEVQ6aZ/JuJUgenu0Im4tYKylAycNGsYCHGXiVNEd7OKGVwfx1Ac3oYkuu7A==}
 
   '@derhuerst/http-basic@8.2.4':
     resolution: {integrity: sha512-F9rL9k9Xjf5blCz8HsJRO4diy111cayL2vkY2XE4r4t3n0yPXVYy3KD3nJ1qbrSn9743UWSXH4IwuCa/HWlGFw==}
@@ -2354,6 +2363,12 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.25
 
   '@bufbuild/protobuf@2.1.0': {}
+
+  '@datastructures-js/heap@4.3.3': {}
+
+  '@datastructures-js/priority-queue@6.3.1':
+    dependencies:
+      '@datastructures-js/heap': 4.3.3
 
   '@derhuerst/http-basic@8.2.4':
     dependencies:
