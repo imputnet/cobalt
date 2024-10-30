@@ -18,7 +18,7 @@ test_api() {
          -X POST \
          -H "Accept: application/json" \
          -H "Content-Type: application/json" \
-         -d '{"url":"https://www.tiktok.com/@fatfatmillycat/video/7195741644585454894"}')
+         -d '{"url":"https://garfield-69.tumblr.com/post/696499862852780032","alwaysProxy":true}')
 
     echo "API_RESPONSE=$API_RESPONSE"
     STATUS=$(echo "$API_RESPONSE" | jq -r .status)
