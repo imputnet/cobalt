@@ -45,6 +45,7 @@ const env = {
 
     apiKeyURL: process.env.API_KEY_URL && new URL(process.env.API_KEY_URL),
     authRequired: process.env.API_AUTH_REQUIRED === '1',
+    redisURL: process.env.API_REDIS_URL,
 
     keyReloadInterval: 900,
 

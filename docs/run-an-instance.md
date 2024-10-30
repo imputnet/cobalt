@@ -77,6 +77,7 @@ sudo service nscd start
 | `JWT_EXPIRY`          | `120`     | `240`                  | the duration of how long a cobalt-issued JWT token will remain valid, in seconds. |
 | `API_KEY_URL`         | ➖        | `file://keys.json`      | the location of the api key database. for loading API keys, cobalt supports HTTP(S) urls, or local files by specifying a local path using the `file://` protocol. see the "api key file format" below for more details.  |
 | `API_AUTH_REQUIRED`   | ➖        | `1`                     | when set to `1`, the user always needs to be authenticated in some way before they can access the API (either via an api key or via turnstile, if enabled). |
+| `API_REDIS_URL`       | ➖        | `redis://localhost:6379` | when set, cobalt uses redis instead of internal memory for the tunnel cache. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
