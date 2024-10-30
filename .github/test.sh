@@ -46,6 +46,7 @@ setup_api() {
 }
 
 setup_web() {
+    pnpm run --prefix web check
     pnpm run --prefix web build
 }
 
