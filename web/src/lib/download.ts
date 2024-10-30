@@ -56,6 +56,10 @@ export const shareFile = async (file: File) => {
 }
 
 export const openURL = (url: string) => {
+    if (!['http:', 'https:'].includes(new URL(url).protocol)) {
+        return alert('error: invalid url!');
+    }
+
     const open = window.open(url, "_blank");
 
     /* if new tab got blocked by user agent, show a saving dialog */
