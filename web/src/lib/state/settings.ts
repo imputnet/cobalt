@@ -4,13 +4,11 @@ import { merge } from 'ts-deepmerge';
 import type {
     PartialSettings,
     AllPartialSettingsWithSchema,
-    CobaltSettings,
-    CobaltSettingsV3
+    CobaltSettings
 } from '../types/settings';
-import { getBrowserLanguage } from '$lib/settings/youtube-lang';
-import { migrateOldSettings } from '../settings/migrate';
+import { migrateOldSettings } from '../settings/migrate-v7';
 import defaultSettings from '../settings/defaults';
-import type { RecursivePartial } from '$lib/types/generic';
+import { migrate } from '$lib/settings/migrate';
 
 const updatePlausiblePreference = (settings: PartialSettings) => {
     if (settings.privacy?.disableAnalytics) {
@@ -28,34 +26,6 @@ const writeToStorage = (settings: PartialSettings) => {
 
     return settings;
 }
-
-type Migrator = (s: AllPartialSettingsWithSchema) => AllPartialSettingsWithSchema;
-const migrations: Record<number, Migrator> = {
-    [3]: (settings: AllPartialSettingsWithSchema) => {
-        const out = settings as RecursivePartial<CobaltSettingsV3>;
-        out.schemaVersion = 3;
-
-        if (settings?.save && 'youtubeDubBrowserLang' in settings.save) {
-            if (settings.save.youtubeDubBrowserLang) {
-                out.save!.youtubeDubLang = getBrowserLanguage();
-            }
-
-            delete settings.save.youtubeDubBrowserLang;
-        }
-
-        return out as AllPartialSettingsWithSchema;
-    }
-}
-
-const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
-    return Object.keys(migrations)
-        .map(Number)
-        .filter(version => version > settings.schemaVersion)
-        .reduce((settings, migrationVersion) => {
-            return migrations[migrationVersion](settings);
-        }, settings as AllPartialSettingsWithSchema) as PartialSettings;
-}
-
 
 const loadFromStorage = () => {
     if (!browser)
