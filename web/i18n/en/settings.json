@@ -34,7 +34,7 @@
 
     "video.youtube.hls": "youtube hls",
     "video.youtube.hls.title": "use hls formats for videos",
-    "video.youtube.hls.description": "only h264 and vp9 codecs are supported in this mode, both are served in a mp4 container. files download faster and are less prone to errors. files may be less compatible with editing software or video players.",
+    "video.youtube.hls.description": "files download faster and are less prone to errors or getting abruptly cut off. only h264 and vp9 codecs are available in this mode. original audio codec is aac, it's re-encoded for compatibility, audio quality may be slightly worse than the non-HLS counterpart.\n\nthis option is experimental, it may go away or change in the future.",
 
     "video.twitter.gif": "twitter/x",
     "video.twitter.gif.title": "convert looping videos to GIF",
