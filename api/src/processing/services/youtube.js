@@ -38,7 +38,7 @@ const hlsCodecList = {
     vp9: {
         videoCodec: "vp09",
         audioCodec: "mp4a",
-        container: "mp4"
+        container: "webm"
     }
 }
 
