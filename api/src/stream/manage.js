@@ -4,8 +4,9 @@ import { nanoid } from "nanoid";
 import { randomBytes } from "crypto";
 import { strict as assert } from "assert";
 import { setMaxListeners } from "node:events";
+import cluster from "node:cluster";
 
-import { env, tunnelPort } from "../config.js";
+import { env, tunnelPort, isCluster } from "../config.js";
 import { closeRequest } from "./shared.js";
 import { decryptStream, encryptStream, generateHmac, generateSalt } from "../misc/crypto.js";
 
@@ -15,7 +16,26 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 const streamCache = new Store('streams');
 
 const internalStreamCache = new Map();
-const hmacSalt = generateSalt();
+let hmacSalt = cluster.isPrimary ? generateSalt() : null;
+let _saltRead = false;
+
+export const getSalt = () => {
+    if (!isCluster) throw "salt can only be read on multi-process instances";
+    if (!cluster.isPrimary) throw "only primary cluster can read salt";
+    if (_saltRead) throw "salt was already read";
+
+    _saltRead = true;
+    return hmacSalt;
+}
+
+if (cluster.isWorker) {
+    process.send({ ready: true });
+    process.once('message', (message) => {
+        if (message.salt && !hmacSalt) {
+            hmacSalt = message.salt;
+        }
+    });
+}
 
 export function createStream(obj) {
     const streamID = nanoid(),

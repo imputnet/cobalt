@@ -1,12 +1,14 @@
 import "dotenv/config";
 
 import express from "express";
+import cluster from "node:cluster";
 
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { env } from "./config.js"
+import { env, isCluster } from "./config.js"
 import { Red } from "./misc/console-text.js";
+import { initCluster } from "./misc/cluster.js";
 
 const app = express();
 
@@ -17,7 +19,12 @@ app.disable("x-powered-by");
 
 if (env.apiURL) {
     const { runAPI } = await import("./core/api.js");
-    runAPI(express, app, __dirname)
+
+    if (cluster.isPrimary && isCluster) {
+        initCluster();
+    }
+
+    runAPI(express, app, __dirname, cluster.isPrimary);
 } else {
     console.log(
         Red("API_URL env variable is missing, cobalt api can't start.")
