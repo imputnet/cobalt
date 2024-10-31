@@ -199,8 +199,10 @@ export default async function(o) {
     }
 
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
-    const matchQuality = (resolution) => {
-        return resolution.height > resolution.width ? resolution.width : resolution.height;
+
+    const matchQuality = resolution => {
+        const quality = resolution.height > resolution.width ? resolution.width : resolution.height;
+        return Math.ceil(quality / 24) * 24;
     }
 
     let video, audio, dubbedLanguage,
