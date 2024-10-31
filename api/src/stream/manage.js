@@ -7,7 +7,7 @@ import { setMaxListeners } from "node:events";
 
 import { env, tunnelPort } from "../config.js";
 import { closeRequest } from "./shared.js";
-import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
+import { decryptStream, encryptStream, generateHmac, generateSalt } from "../misc/crypto.js";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
@@ -15,7 +15,7 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 const streamCache = new Store('streams');
 
 const internalStreamCache = new Map();
-const hmacSalt = randomBytes(64).toString('hex');
+const hmacSalt = generateSalt();
 
 export function createStream(obj) {
     const streamID = nanoid(),

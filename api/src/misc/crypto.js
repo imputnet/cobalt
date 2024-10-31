@@ -3,7 +3,7 @@ import { createHmac, createCipheriv, createDecipheriv, randomBytes } from "crypt
 const algorithm = "aes256";
 
 export function generateSalt() {
-    return randomBytes(64).toString('hex');
+    return randomBytes(64);
 }
 
 export function generateHmac(str, salt) {
