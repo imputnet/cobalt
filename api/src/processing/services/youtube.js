@@ -345,11 +345,13 @@ export default async function(o) {
             }
 
             const bestQuality = qual(bestVideo);
-            const useBestQuality = quality > bestQuality;
+            const useBestQuality = quality >= bestQuality;
 
             video = useBestQuality ? bestVideo : adaptive_formats.find(i =>
                 qual(i) === quality && checkBestVideo(i)
             );
+
+            if (!video) video = bestVideo;
         }
     }
 
