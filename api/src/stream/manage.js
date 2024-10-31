@@ -1,4 +1,4 @@
-import NodeCache from "node-cache";
+import Store from "../store/store.js";
 
 import { nanoid } from "nanoid";
 import { randomBytes } from "crypto";
@@ -12,16 +12,7 @@ import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 
-const streamCache = new NodeCache({
-    stdTTL: env.streamLifespan,
-    checkperiod: 10,
-    deleteOnExpire: true,
-    useClones: false,
-})
-
-streamCache.on("expired", (key) => {
-    streamCache.del(key);
-})
+const streamCache = new Store('streams');
 
 const internalStreamCache = new Map();
 const hmacSalt = randomBytes(64).toString('hex');
@@ -51,10 +42,14 @@ export function createStream(obj) {
             isHLS: obj.isHLS || false,
         };
 
+    // FIXME: this is now a Promise, but it is not awaited
+    //        here. it may happen that the stream is not
+    //        stored in the Store before it is requested.
     streamCache.set(
         streamID,
-        encryptStream(streamData, iv, secret)
-    )
+        encryptStream(streamData, iv, secret),
+        env.streamLifespan
+    );
 
     let streamLink = new URL('/tunnel', env.apiURL);
 
@@ -150,10 +145,10 @@ function wrapStream(streamInfo) {
     return streamInfo;
 }
 
-export function verifyStream(id, hmac, exp, secret, iv) {
+export async function verifyStream(id, hmac, exp, secret, iv) {
     try {
         const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
-        const cache = streamCache.get(id.toString());
+        const cache = await streamCache.get(id.toString());
 
         if (ghmac !== String(hmac)) return { status: 401 };
         if (!cache) return { status: 404 };

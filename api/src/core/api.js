@@ -257,7 +257,7 @@ export const runAPI = (express, app, __dirname) => {
         }
     })
 
-    app.get('/tunnel', apiTunnelLimiter, (req, res) => {
+    app.get('/tunnel', apiTunnelLimiter, async (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
         const sig = String(req.query.sig);
@@ -276,7 +276,7 @@ export const runAPI = (express, app, __dirname) => {
             return res.status(200).end();
         }
 
-        const streamInfo = verifyStream(id, sig, exp, sec, iv);
+        const streamInfo = await verifyStream(id, sig, exp, sec, iv);
         if (!streamInfo?.service) {
             return res.status(streamInfo.status).end();
         }
