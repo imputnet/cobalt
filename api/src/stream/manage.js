@@ -5,7 +5,7 @@ import { randomBytes } from "crypto";
 import { strict as assert } from "assert";
 import { setMaxListeners } from "node:events";
 
-import { env } from "../config.js";
+import { env, tunnelPort } from "../config.js";
 import { closeRequest } from "./shared.js";
 import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
 
@@ -102,7 +102,7 @@ export function createInternalStream(url, obj = {}) {
         isHLS: obj.isHLS,
     });
 
-    let streamLink = new URL('/itunnel', `http://127.0.0.1:${env.apiPort}`);
+    let streamLink = new URL('/itunnel', `http://127.0.0.1:${tunnelPort}`);
     streamLink.searchParams.set('id', streamID);
 
     const cleanup = () => {

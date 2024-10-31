@@ -55,6 +55,9 @@ const env = {
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
 const cobaltUserAgent = `cobalt/${version} (+https://github.com/imputnet/cobalt)`;
 
+export let tunnelPort = env.apiPort;
+export const setTunnelPort = (port) => tunnelPort = port;
+
 if (env.sessionEnabled && env.jwtSecret.length < 16) {
     throw new Error("JWT_SECRET env is too short (must be at least 16 characters long)");
 }
