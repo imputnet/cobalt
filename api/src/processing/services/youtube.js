@@ -200,8 +200,8 @@ export default async function(o) {
 
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
-    const matchQuality = resolution => {
-        const quality = resolution.height > resolution.width ? resolution.width : resolution.height;
+    const matchQuality = res => {
+        const quality = res.height > res.width ? res.width : res.height;
         return Math.ceil(quality / 24) * 24;
     }
 
