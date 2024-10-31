@@ -201,8 +201,8 @@ export default async function(o) {
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
     const matchQuality = res => {
-        const quality = res.height > res.width ? res.width : res.height;
-        return Math.ceil(quality / 24) * 24;
+        const qual = res.height > res.width ? res.width : res.height;
+        return Math.ceil(qual / 24) * 24;
     }
 
     let video, audio, dubbedLanguage,
