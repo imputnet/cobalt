@@ -38,3 +38,34 @@ export const broadcast = (message) => {
         worker.send(message);
     }
 }
+
+export const send = (message) => {
+    if (!isCluster) {
+        return;
+    }
+
+    if (cluster.isPrimary) {
+        return broadcast(message);
+    } else {
+        return process.send(message);
+    }
+}
+
+export const waitFor = (key) => {
+    return new Promise(resolve => {
+        const listener = (message) => {
+            if (key in message) {
+                process.off('message', listener);
+                return resolve(message);
+            }
+        }
+
+        process.on('message', listener);
+    });
+}
+
+export const mainOnMessage = (cb) => {
+    for (const worker of Object.values(cluster.workers)) {
+        worker.on('message', cb);
+    }
+}
