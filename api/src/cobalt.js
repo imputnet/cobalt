@@ -21,7 +21,7 @@ if (env.apiURL) {
     const { runAPI } = await import("./core/api.js");
 
     if (isCluster) {
-        initCluster();
+       await initCluster();
     }
 
     runAPI(express, app, __dirname, cluster.isPrimary);
