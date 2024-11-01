@@ -26,43 +26,39 @@ export default class RedisStore extends Store {
     async _get(key) {
         await this.#connected;
 
-        const data = await this.#client.hGetAll(
+        const valueType = await this.#client.get(this.#keyOf(key) + '_t');
+        const value = await this.#client.get(
             commandOptions({ returnBuffers: true }),
             this.#keyOf(key)
         );
 
-        if (!data.d) {
+        if (!value) {
             return null;
         }
 
-        const type = data.t;
-        if (type && type[0] === 'b'.charCodeAt())
-            return data.d;
+        if (valueType === 'b')
+            return value;
         else
-            return JSON.parse(data.d);
+            return JSON.parse(value);
     }
 
     async _set(key, val, exp_sec = -1) {
         await this.#connected;
 
-        const out = { d: val };
+        const options = exp_sec > 0 ? { EX: exp_sec } : undefined;
+
         if (val instanceof Buffer) {
-            out.t = 'b';
-        } else {
-            out.d = JSON.stringify(val);
-        }
-
-        await this.#client.hSet(
-            this.#keyOf(key),
-            out
-        );
-
-        if (exp_sec > 0) {
-            await this.#client.hExpire(
-                this.#keyOf(key),
-                Object.keys(out),
-                exp_sec
+            await this.#client.set(
+                this.#keyOf(key) + '_t',
+                'b',
+                options
             );
         }
+
+        await this.#client.set(
+            this.#keyOf(key),
+            val,
+            options
+        );
     }
 }
