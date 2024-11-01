@@ -1,14 +1,6 @@
-import { createHmac, createCipheriv, createDecipheriv, randomBytes } from "crypto";
+import { createCipheriv, createDecipheriv } from "crypto";
 
 const algorithm = "aes256";
-
-export function generateSalt() {
-    return randomBytes(64);
-}
-
-export function generateHmac(str, salt) {
-    return createHmac("sha256", salt).update(str).digest("base64url");
-}
 
 export function encryptStream(plaintext, iv, secret) {
     const buff = Buffer.from(JSON.stringify(plaintext));

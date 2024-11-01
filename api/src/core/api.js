@@ -11,7 +11,7 @@ import match from "../processing/match.js";
 import { env, setTunnelPort } from "../config.js";
 import { extract } from "../processing/url.js";
 import { Green, Bright, Cyan } from "../misc/console-text.js";
-import { generateHmac, generateSalt } from "../misc/crypto.js";
+import { hashHmac } from "../security/secrets.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
@@ -30,7 +30,6 @@ const version = await getVersion();
 
 const acceptRegex = /^application\/json(; charset=utf-8)?$/;
 
-const ipSalt = generateSalt();
 const corsConfig = env.corsWildcard ? {} : {
     origin: env.corsURL,
     optionsSuccessStatus: 200
@@ -74,7 +73,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         max: 10,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => generateHmac(getIP(req), ipSalt),
+        keyGenerator: req => hashHmac(getIP(req), 'rate'),
         handler: handleRateExceeded
     });
 
@@ -83,7 +82,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         max: (req) => req.rateLimitMax || env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
+        keyGenerator: req => req.rateLimitKey || hashHmac(getIP(req), 'rate'),
         handler: handleRateExceeded
     })
 
@@ -92,7 +91,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         max: (req) => req.rateLimitMax || env.rateLimitMax,
         standardHeaders: true,
         legacyHeaders: false,
-        keyGenerator: req => req.rateLimitKey || generateHmac(getIP(req), ipSalt),
+        keyGenerator: req => req.rateLimitKey || hashHmac(getIP(req), 'rate'),
         handler: (req, res) => {
             return res.sendStatus(429)
         }
@@ -172,7 +171,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            req.rateLimitKey = generateHmac(token, ipSalt);
+            req.rateLimitKey = hashHmac(token, 'rate');
         } catch {
             return fail(res, "error.api.generic");
         }

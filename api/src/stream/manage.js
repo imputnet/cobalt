@@ -4,11 +4,11 @@ import { nanoid } from "nanoid";
 import { randomBytes } from "crypto";
 import { strict as assert } from "assert";
 import { setMaxListeners } from "node:events";
-import cluster from "node:cluster";
 
-import { env, tunnelPort, isCluster } from "../config.js";
+import { env, tunnelPort } from "../config.js";
 import { closeRequest } from "./shared.js";
-import { decryptStream, encryptStream, generateHmac, generateSalt } from "../misc/crypto.js";
+import { decryptStream, encryptStream } from "../misc/crypto.js";
+import { hashHmac } from "../security/secrets.js";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
@@ -16,33 +16,13 @@ const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 const streamCache = new Store('streams');
 
 const internalStreamCache = new Map();
-let hmacSalt = cluster.isPrimary ? generateSalt() : null;
-let _saltRead = false;
-
-export const getSalt = () => {
-    if (!isCluster) throw "salt can only be read on multi-process instances";
-    if (!cluster.isPrimary) throw "only primary cluster can read salt";
-    if (_saltRead) throw "salt was already read";
-
-    _saltRead = true;
-    return hmacSalt;
-}
-
-if (cluster.isWorker) {
-    process.send({ ready: true });
-    process.once('message', (message) => {
-        if (message.salt && !hmacSalt) {
-            hmacSalt = message.salt;
-        }
-    });
-}
 
 export function createStream(obj) {
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64url'),
         secret = randomBytes(32).toString('base64url'),
         exp = new Date().getTime() + env.streamLifespan * 1000,
-        hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
+        hmac = hashHmac(`${streamID},${exp},${iv},${secret}`, 'stream').toString('base64url'),
         streamData = {
             exp: exp,
             type: obj.type,
@@ -167,7 +147,7 @@ function wrapStream(streamInfo) {
 
 export async function verifyStream(id, hmac, exp, secret, iv) {
     try {
-        const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
+        const ghmac = hashHmac(`${id},${exp},${iv},${secret}`, 'stream').toString('base64url');
         const cache = await streamCache.get(id.toString());
 
         if (ghmac !== String(hmac)) return { status: 401 };

@@ -20,7 +20,7 @@ app.disable("x-powered-by");
 if (env.apiURL) {
     const { runAPI } = await import("./core/api.js");
 
-    if (cluster.isPrimary && isCluster) {
+    if (isCluster) {
         initCluster();
     }
 

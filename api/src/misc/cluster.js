@@ -1,6 +1,7 @@
-import net from "node:net";
 import cluster from "node:cluster";
-import { isCluster } from "../config.js";
+import net from "node:net";
+import { syncSecrets } from "../security/secrets.js";
+import { env } from "../config.js";
 
 export const supportsReusePort = async () => {
     try {
@@ -17,13 +18,11 @@ export const supportsReusePort = async () => {
 }
 
 export const initCluster = async () => {
-    const { getSalt } = await import("../stream/manage.js");
-    const salt = getSalt();
-
-    for (let i = 1; i < env.instanceCount; ++i) {
-        const worker = cluster.fork();
-        worker.once('message', () => {
-            worker.send({ salt });
-        });
+    if (cluster.isPrimary) {
+        for (let i = 1; i < env.instanceCount; ++i) {
+            cluster.fork();
+        }
     }
+
+    await syncSecrets();
 }
