@@ -46,6 +46,7 @@
     },
     "optionalDependencies": {
         "freebind": "^0.2.2",
+        "rate-limit-redis": "^4.2.0",
         "redis": "^4.7.0"
     }
 }

@@ -12,6 +12,7 @@ import { env, setTunnelPort } from "../config.js";
 import { extract } from "../processing/url.js";
 import { Green, Bright, Cyan } from "../misc/console-text.js";
 import { hashHmac } from "../security/secrets.js";
+import { createStore } from "../store/redis-ratelimit.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
@@ -40,7 +41,7 @@ const fail = (res, code, context) => {
     res.status(status).json(body);
 }
 
-export const runAPI = (express, app, __dirname, isPrimary = true) => {
+export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
@@ -76,6 +77,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         standardHeaders: 'draft-6',
         legacyHeaders: false,
         keyGenerator,
+        store: await createStore('session'),
         handler: handleRateExceeded
     });
 
@@ -85,6 +87,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         standardHeaders: 'draft-6',
         legacyHeaders: false,
         keyGenerator: req => req.rateLimitKey || keyGenerator(req),
+        store: await createStore('api'),
         handler: handleRateExceeded
     })
 
@@ -94,6 +97,7 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         standardHeaders: 'draft-6',
         legacyHeaders: false,
         keyGenerator: req => req.rateLimitKey || keyGenerator(req),
+        store: await createStore('tunnel'),
         handler: (_, res) => {
             return res.sendStatus(429)
         }
