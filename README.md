@@ -27,8 +27,8 @@ paste the link, get the file, move on. that simple, just how it should be.
 
 ### cobalt monorepo
 this monorepo includes source code for api, frontend, and related packages:
-- [api tree](/api/)
-- [web tree](/web/)
+- [api tree & readme](/api/)
+- [web tree & readme](/web/)
 - [packages tree](/packages/)
 
 it also includes documentation in the [docs tree](/docs/):
@@ -37,8 +37,8 @@ it also includes documentation in the [docs tree](/docs/):
 - [how to protect a cobalt instance](/docs/protect-an-instance.md)
 - [how to configure a cobalt instance for youtube](/docs/configure-for-youtube.md)
 
-### partners
-cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt) and the main processing instance is hosted on their network. we really appreciate their kindness!
+### thank you
+cobalt is sponsored by [royalehosting.net](https://royalehosting.net/?partner=cobalt) and the main processing servers are hosted on their network. we really appreciate their kindness and support!
 
 ### ethics
 cobalt is a tool that makes downloading public content easier. it takes **zero liability**.
