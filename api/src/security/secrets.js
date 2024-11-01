@@ -15,15 +15,19 @@ export const syncSecrets = () => {
     return new Promise((resolve, reject) => {
         if (cluster.isPrimary) {
             let remaining = Object.values(cluster.workers).length;
+            const handleReady = (worker, m) => {
+                if (m.ready)
+                    worker.send({ rateSalt, streamSalt });
+
+                if (!--remaining)
+                    resolve();
+            }
 
             for (const worker of Object.values(cluster.workers)) {
-                worker.once('message', (m) => {
-                    if (m.ready)
-                        worker.send({ rateSalt, streamSalt });
-
-                    if (!--remaining)
-                        resolve();
-                });
+                worker.once(
+                    'message',
+                    (m) => handleReady(worker, m)
+                );
             }
         } else if (cluster.isWorker) {
             if (rateSalt || streamSalt)

@@ -13,7 +13,7 @@ export class Store {
         this.id = name;
     }
 
-    async _has(_key) { throw "needs implementation" }
+    async _has(_key) { await Promise.reject("needs implementation"); }
     has(key) {
         if (typeof key !== 'string') {
             key = key.toString();
@@ -22,7 +22,7 @@ export class Store {
         return this._has(key);
     }
 
-    async _get(_key) { throw "needs implementation" }
+    async _get(_key) { await Promise.reject("needs implementation"); }
     async get(key) {
         if (typeof key !== 'string') {
             key = key.toString();
@@ -35,7 +35,7 @@ export class Store {
         return val;
     }
 
-    async _set(_key, _val, _exp_sec = -1) { throw "needs implementation" }
+    async _set(_key, _val, _exp_sec = -1) { await Promise.reject("needs implementation") }
     set(key, val, exp_sec = -1) {
         if (typeof key !== 'string') {
             key = key.toString();

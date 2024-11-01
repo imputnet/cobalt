@@ -14,17 +14,17 @@ export default class MemoryStore extends Store {
         super(name);
     }
 
-    async _has(key) {
+    _has(key) {
         return this.#store.has(key);
     }
 
-    async _get(key) {
+    _get(key) {
         const val = this.#store.get(key);
 
         return val === undefined ? null : val;
     }
 
-    async _set(key, val, exp_sec = -1) {
+    _set(key, val, exp_sec = -1) {
         if (this.#store.has(key)) {
             this.#timeouts.remove(o => o.k === key);
         }

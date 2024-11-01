@@ -117,6 +117,10 @@ const formatKeys = (keyData) => {
     return formatted;
 }
 
+const updateKeys = (newKeys) => {
+    keys = formatKeys(newKeys);
+}
+
 const loadKeys = async (source) => {
     let updated;
     if (source.protocol === 'file:') {
@@ -136,10 +140,6 @@ const loadKeys = async (source) => {
     cluster.broadcast({ api_keys: updated });
 
     updateKeys(updated);
-}
-
-const updateKeys = (newKeys) => {
-    keys = formatKeys(newKeys);
 }
 
 const wrapLoad = (url, initial = false) => {
