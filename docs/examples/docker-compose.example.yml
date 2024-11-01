@@ -1,30 +1,40 @@
 services:
     cobalt-api:
         image: ghcr.io/imputnet/cobalt:10
+
+        init: true
+        read_only: true
         restart: unless-stopped
         container_name: cobalt-api
 
-        init: true
-
         ports:
             - 9000:9000/tcp
-            # if you're using a reverse proxy, uncomment the next line and remove the one above (9000:9000/tcp):
-            #- 127.0.0.1:9000:9000
+            # if you use a reverse proxy (such as nginx),
+            # uncomment the next line and remove the one above (9000:9000/tcp):
+            # - 127.0.0.1:9000:9000
 
         environment:
-            # replace https://api.cobalt.tools/ with your instance's target url in same format
-            API_URL: "https://api.cobalt.tools/"
-            # if you want to use cookies when fetching data from services, uncomment the next line and the lines under volume
+            # replace https://api.url.example/ with your instance's url
+            # or else tunneling functionality won't work properly
+            API_URL: "https://api.url.example/"
+
+            # if you want to use cookies for fetching data from services,
+            # uncomment the next line & volumes section
             # COOKIE_PATH: "/cookies.json"
-            # see docs/run-an-instance.md for more information
+
+            # it's recommended to configure bot protection or api keys if the instance is public,
+            # see /docs/protect-an-instance.md for more info
+
+            # see /docs/run-an-instance.md for more variables that you can use here
+
         labels:
             - com.centurylinklabs.watchtower.scope=cobalt
 
-        # if you want to use cookies when fetching data from services, uncomment volumes and next line
-        #volumes:
-            #- ./cookies.json:/cookies.json
+        # uncomment only if you use the COOKIE_PATH variable
+        # volumes:
+            # - ./cookies.json:/cookies.json
 
-    # update the cobalt image automatically with watchtower
+    # watchtower updates the cobalt image automatically
     watchtower:
         image: ghcr.io/containrrr/watchtower
         restart: unless-stopped
