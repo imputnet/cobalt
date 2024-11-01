@@ -1,6 +1,7 @@
-import { env } from "../config.js";
+import { env, isCluster } from "../config.js";
 import { readFile } from "node:fs/promises";
 import { Green, Yellow } from "../misc/console-text.js";
+import cluster from "node:cluster";
 import ip from "ipaddr.js";
 
 // this function is a modified variation of code
@@ -131,7 +132,18 @@ const loadKeys = async (source) => {
     }
 
     validateKeys(updated);
-    keys = formatKeys(updated);
+
+    if (isCluster && cluster.workers) {
+        for (const worker of Object.values(cluster.workers)) {
+            worker.send({ api_keys: updated });
+        }
+    }
+
+    updateKeys(updated);
+}
+
+const updateKeys = (newKeys) => {
+    keys = formatKeys(newKeys);
 }
 
 const wrapLoad = (url, initial = false) => {
@@ -204,8 +216,16 @@ export const validateAuthorization = (req) => {
 }
 
 export const setup = (url) => {
-    wrapLoad(url, true);
-    if (env.keyReloadInterval > 0) {
-        setInterval(() => wrapLoad(url), env.keyReloadInterval * 1000);
+    if (cluster.isPrimary) {
+        wrapLoad(url, true);
+        if (env.keyReloadInterval > 0) {
+            setInterval(() => wrapLoad(url), env.keyReloadInterval * 1000);
+        }
+    } else if (cluster.isWorker) {
+        process.on('message', (message) => {
+            if ('api_keys' in message) {
+                updateKeys(message.api_keys);
+            }
+        });
     }
 }
