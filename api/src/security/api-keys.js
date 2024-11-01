@@ -1,8 +1,8 @@
-import { env, isCluster } from "../config.js";
+import { env } from "../config.js";
 import { readFile } from "node:fs/promises";
 import { Green, Yellow } from "../misc/console-text.js";
-import cluster from "node:cluster";
 import ip from "ipaddr.js";
+import * as cluster from "../misc/cluster.js";
 
 // this function is a modified variation of code
 // from https://stackoverflow.com/a/32402438/14855621
@@ -133,11 +133,7 @@ const loadKeys = async (source) => {
 
     validateKeys(updated);
 
-    if (isCluster && cluster.workers) {
-        for (const worker of Object.values(cluster.workers)) {
-            worker.send({ api_keys: updated });
-        }
-    }
+    cluster.broadcast({ api_keys: updated });
 
     updateKeys(updated);
 }

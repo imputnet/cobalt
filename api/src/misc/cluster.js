@@ -1,7 +1,9 @@
 import cluster from "node:cluster";
 import net from "node:net";
 import { syncSecrets } from "../security/secrets.js";
-import { env } from "../config.js";
+import { env, isCluster } from "../config.js";
+
+export { isPrimary, isWorker } from "node:cluster";
 
 export const supportsReusePort = async () => {
     try {
@@ -25,4 +27,14 @@ export const initCluster = async () => {
     }
 
     await syncSecrets();
+}
+
+export const broadcast = (message) => {
+    if (!isCluster || !cluster.isPrimary || !cluster.workers) {
+        return;
+    }
+
+    for (const worker of Object.values(cluster.workers)) {
+        worker.send(message);
+    }
 }
