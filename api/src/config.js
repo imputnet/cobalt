@@ -14,6 +14,7 @@ const enabledServices = new Set(Object.keys(services).filter(e => {
 const env = {
     apiURL: process.env.API_URL || '',
     apiPort: process.env.API_PORT || 9000,
+    tunnelPort: process.env.API_PORT || 9000,
 
     listenAddress: process.env.API_LISTEN_ADDRESS,
     freebindCIDR: process.platform === 'linux' && process.env.FREEBIND_CIDR,
@@ -56,8 +57,7 @@ const env = {
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
 const cobaltUserAgent = `cobalt/${version} (+https://github.com/imputnet/cobalt)`;
 
-export let tunnelPort = env.apiPort;
-export const setTunnelPort = (port) => tunnelPort = port;
+export const setTunnelPort = (port) => env.tunnelPort = port;
 export const isCluster = env.instanceCount > 1;
 
 if (env.sessionEnabled && env.jwtSecret.length < 16) {
