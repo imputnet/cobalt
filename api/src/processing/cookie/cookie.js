@@ -4,13 +4,18 @@ export default class Cookie {
     constructor(input) {
         assert(typeof input === 'object');
         this._values = {};
-        this.set(input)
+
+        for (const [ k, v ] of Object.entries(input))
+            this.set(k, v);
     }
 
-    set(values) {
-        Object.entries(values).forEach(
-            ([ key, value ]) => this._values[key] = value
-        )
+    set(key, value) {
+        const old = this._values[key];
+        if (old === value)
+            return false;
+
+        this._values[key] = value;
+        return true;
     }
 
     unset(keys) {

@@ -42,8 +42,17 @@ export function getCookie(service) {
 }
 
 export function updateCookieValues(cookie, values) {
-    cookie.set(values);
-    if (Object.keys(values).length) dirty = true
+    let changed = false;
+
+    for (const [ key, value ] of Object.entries(values)) {
+        changed ||= cookie.set(key, value);
+    }
+
+    if (changed) {
+        dirty = true;
+    }
+
+    return changed;
 }
 
 export function updateCookie(cookie, headers) {
