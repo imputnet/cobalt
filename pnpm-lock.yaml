@@ -32,8 +32,8 @@ importers:
         specifier: ^4.21.0
         version: 4.21.0
       express-rate-limit:
-        specifier: ^6.3.0
-        version: 6.11.2(express@4.21.0)
+        specifier: ^7.4.1
+        version: 7.4.1(express@4.21.0)
       ffmpeg-static:
         specifier: ^5.1.0
         version: 5.2.0
@@ -1298,11 +1298,11 @@ packages:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
     engines: {node: '>=10'}
 
-  express-rate-limit@6.11.2:
-    resolution: {integrity: sha512-a7uwwfNTh1U60ssiIkuLFWHt4hAC5yxlLGU2VP0X4YNlyEDZAqF4tK3GD3NSitVBrCQmQ0++0uOyFOgC2y4DDw==}
-    engines: {node: '>= 14'}
+  express-rate-limit@7.4.1:
+    resolution: {integrity: sha512-KS3efpnpIDVIXopMc65EMbWbUht7qvTCdtCR2dD/IZmi9MIkopYESwyRqLgv8Pfu589+KqDqOdzJWW7AHoACeg==}
+    engines: {node: '>= 16'}
     peerDependencies:
-      express: ^4 || ^5
+      express: 4 || 5 || ^5.0.0-beta.1
 
   express@4.21.0:
     resolution: {integrity: sha512-VqcNGcj/Id5ZT1LZ/cfihi3ttTn+NJmkli2eZADigjq29qTlWi/hAQ43t/VLPq8+UX06FCEx3ByOYet6ZFblng==}
@@ -3341,7 +3341,7 @@ snapshots:
       signal-exit: 3.0.7
       strip-final-newline: 2.0.0
 
-  express-rate-limit@6.11.2(express@4.21.0):
+  express-rate-limit@7.4.1(express@4.21.0):
     dependencies:
       express: 4.21.0
 

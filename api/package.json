@@ -31,7 +31,7 @@
         "dotenv": "^16.0.1",
         "esbuild": "^0.14.51",
         "express": "^4.21.0",
-        "express-rate-limit": "^6.3.0",
+        "express-rate-limit": "^7.4.1",
         "ffmpeg-static": "^5.1.0",
         "hls-parser": "^0.10.7",
         "ipaddr.js": "2.2.0",

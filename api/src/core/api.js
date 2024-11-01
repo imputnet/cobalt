@@ -68,31 +68,33 @@ export const runAPI = (express, app, __dirname, isPrimary = true) => {
         return res.status(status).json(body);
     };
 
+    const keyGenerator = (req) => hashHmac(getIP(req), 'rate').toString('base64url');
+
     const sessionLimiter = rateLimit({
         windowMs: 60000,
-        max: 10,
-        standardHeaders: true,
+        limit: 10,
+        standardHeaders: 'draft-6',
         legacyHeaders: false,
-        keyGenerator: req => hashHmac(getIP(req), 'rate'),
+        keyGenerator,
         handler: handleRateExceeded
     });
 
     const apiLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
-        max: (req) => req.rateLimitMax || env.rateLimitMax,
-        standardHeaders: true,
+        limit: (req) => req.rateLimitMax || env.rateLimitMax,
+        standardHeaders: 'draft-6',
         legacyHeaders: false,
-        keyGenerator: req => req.rateLimitKey || hashHmac(getIP(req), 'rate'),
+        keyGenerator: req => req.rateLimitKey || keyGenerator(req),
         handler: handleRateExceeded
     })
 
     const apiTunnelLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
-        max: (req) => req.rateLimitMax || env.rateLimitMax,
-        standardHeaders: true,
+        limit: (req) => req.rateLimitMax || env.rateLimitMax,
+        standardHeaders: 'draft-6',
         legacyHeaders: false,
-        keyGenerator: req => req.rateLimitKey || hashHmac(getIP(req), 'rate'),
-        handler: (req, res) => {
+        keyGenerator: req => req.rateLimitKey || keyGenerator(req),
+        handler: (_, res) => {
             return res.sendStatus(429)
         }
     })
