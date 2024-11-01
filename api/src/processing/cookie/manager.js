@@ -4,9 +4,7 @@ import { readFile, writeFile } from 'fs/promises';
 import { Green, Yellow } from '../../misc/console-text.js';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 
-const WRITE_INTERVAL = 60000,
-      COUNTER = Symbol('counter');
-
+const WRITE_INTERVAL = 60000;
 let cookies = {}, dirty = false, intervalId;
 
 function writeChanges(cookiePath) {
@@ -33,18 +31,14 @@ export const setup = async (cookiePath) => {
 export function getCookie(service) {
     if (!cookies[service] || !cookies[service].length) return;
 
-    let n;
-    if (cookies[service][COUNTER] === undefined) {
-        n = cookies[service][COUNTER] = 0
-    } else {
-        ++cookies[service][COUNTER]
-        n = (cookies[service][COUNTER] %= cookies[service].length)
+    const idx = Math.floor(Math.random() * cookies[service].length);
+
+    const cookie = cookies[service][idx];
+    if (typeof cookie === 'string') {
+        cookies[service][idx] = Cookie.fromString(cookie);
     }
 
-    const cookie = cookies[service][n];
-    if (typeof cookie === 'string') cookies[service][n] = Cookie.fromString(cookie);
-
-    return cookies[service][n]
+    return cookies[service][idx];
 }
 
 export function updateCookieValues(cookie, values) {
