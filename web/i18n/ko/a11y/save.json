@@ -1,0 +1,13 @@
+{
+    "link_area": "링크 입력 영역.",
+    "link_area.turnstile": "링크 입력 영역. 로봇이 아닌지 확인 중입니다.",
+    "clear_input": "입력 지우기",
+    "download": "다운로드",
+    "download.think": "링크 다운로드 중...",
+    "download.check": "다운로드 확인 중...",
+    "download.done": "다운로드 완료",
+    "download.error": "다운로드 오류",
+
+    "tutorial.shortcut.photos": "사진에 추가 단축어",
+    "tutorial.shortcut.files": "파일에 추가 단축어"
+}

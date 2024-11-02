@@ -1,0 +1,23 @@
+{
+    "paste": "붙여넣기",
+    "paste.long": "붙여넣기 및 다운로드",
+    "auto": "자동",
+    "audio": "오디오",
+    "mute": "음소거",
+    "input.placeholder": "여기에 링크를 붙여넣으세요",
+    "terms.note.agreement": "계속하면 동의하는 것으로 간주합니다:",
+    "terms.note.link": "사용 약관 및 윤리",
+    "services.title": "지원 서비스",
+    "services.title_show": "지원 서비스 표시",
+    "services.title_hide": "지원 서비스 숨김",
+    "services.disclaimer": "cobalt는 위에 나열된 서비스와 아무런 관련이 없습니다.",
+
+    "tutorial.title": "iOS에서 어떻게 저장하나요?",
+    "tutorial.intro": "iOS에서 편리하게 저장하려면 공유 시트에서 시리 단축어를 사용해야 합니다.",
+    "tutorial.step.1": "시리 단축어 추가:",
+    "tutorial.step.2": "cobalt의 저장 대화 상자에서 \"공유\" 버튼을 누릅니다.",
+    "tutorial.step.3": "공유 시트에서 각각의 단축어를 선택합니다.",
+    "tutorial.outro": "이 단축어는 cobalt 앱에서만 작동하며, 다른 앱에서 링크를 공유해도 작동하지 않습니다.",
+    "tutorial.shortcut.photos": "사진에",
+    "tutorial.shortcut.files": "파일에"
+}

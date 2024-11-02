@@ -1,0 +1,126 @@
+{
+    "page.appearance": "모양",
+    "page.privacy": "개인 정보",
+    "page.video": "동영상",
+    "page.audio": "오디오",
+    "page.download": "다운로드",
+    "page.advanced": "고급",
+    "page.debug": "디버그 정보",
+    "page.instances": "인스턴스",
+
+    "section.general": "일반",
+    "section.save": "저장",
+
+    "theme": "테마",
+    "theme.auto": "자동",
+    "theme.light": "라이트 모드",
+    "theme.dark": "다크 모드",
+    "theme.description": "자동을 선택하면 기기의 테마를 따라갑니다.",
+
+    "video.quality": "동영상 화질",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "선택한 동영상 화질이 없으면 다음으로 좋은 화질이 선택됩니다.",
+
+    "video.youtube.codec": "youtube 코덱 및 컨테이너",
+    "video.youtube.codec.description": "h264: 최고 호환성, 평균 품질. 최대 화질 1080p. \nav1: 최고 품질 및 효율성. 8k 및 HDR 지원. \nvp9: av1과 동일한 품질, 파일 크기는 약 2배. 4k 및 HDR 지원. \nav1 및 vp9는 h264보다 널리 지원되지 않습니다. av1 또는 vp9가 없으면 h264가 사용됩니다.",
+
+    "video.youtube.hls": "youtube hls 형식",
+    "video.youtube.hls.title": "동영상 및 오디오에 hls 형식 선호",
+    "video.youtube.hls.description": "파일 다운로드 속도가 더 빠르고 오류 또는 갑자기 중단될 가능성이 적습니다. 이 모드에서는 h264 및 vp9 코덱만 사용할 수 있습니다. 원본 오디오 코덱은 aac이며, 호환성을 위해 재인코딩되었습니다. 오디오 품질은 비-HLS 대응보다 약간 낮을 수 있습니다.\n\n이 옵션은 실험적이며, 나중에 사라지거나 변경될 수 있습니다.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "반복 동영상을 gif로 변환",
+    "video.twitter.gif.description": "gif 변환은 비효율적입니다. 변환된 파일은 아주 크고 품질이 낮을 수 있습니다.",
+
+    "video.tiktok.h265": "tiktok",
+    "video.tiktok.h265.title": "hevc/h265 형식 선호",
+    "video.tiktok.h265.description": "호환성을 희생하고 1080p 동영상을 다운로드할 수 있습니다.",
+
+    "audio.format": "오디오 형식",
+    "audio.format.best": "최고",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "모든 형식(최고 제외)은 원본 형식에서 변환되므로 품질 손실이 있습니다. 원본 형식으로 저장하려면 최고를 선택하세요.",
+
+    "audio.bitrate": "오디오 비트레이트",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "비트레이트는 손실 형식으로 오디오를 변환할 때만 적용됩니다. 코덱은 원본 오디오 품질을 향상시킬 수 없으므로 128kbps 이상의 비트레이트를 선택하면 파일 크기가 증가할 수 있습니다. 형식에 따라 품질 차이가 있을 수 있습니다.",
+
+    "audio.youtube.dub": "youtube 오디오 트랙",
+    "audio.youtube.dub.title": "선호하는 오디오 트랙",
+    "audio.youtube.dub.description": "선택한 언어의 더빙 오디오 트랙이 있다면 사용합니다.",
+    "youtube.dub.original": "원본",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "원본 사운드 다운로드",
+    "audio.tiktok.original.description": "동영상 제작자의 변경 없이 원본 사운드를 다운로드합니다.",
+
+    "metadata.filename": "파일 이름 스타일",
+    "metadata.filename.classic": "클래식",
+    "metadata.filename.basic": "기본",
+    "metadata.filename.pretty": "간단",
+    "metadata.filename.nerdy": "개발자",
+    "metadata.filename.description": "파일 이름 스타일은 cobalt로 터널링된 파일에만 사용됩니다. 일부 서비스는 클래식 이외의 파일 이름 스타일을 지원하지 않습니다.",
+
+    "metadata.filename.preview.video": "동영상 제목",
+    "metadata.filename.preview.audio": "오디오 제목 - 오디오 제작자",
+
+    "metadata.file": "파일 메타데이터",
+    "metadata.disable.title": "파일 메타데이터 비활성화",
+    "metadata.disable.description": "제목, 아티스트 및 기타 정보는 파일에 추가되지 않습니다.",
+
+    "saving.title": "저장 방법",
+    "saving.ask": "매번 묻기",
+    "saving.download": "다운로드",
+    "saving.share": "공유",
+    "saving.copy": "복사",
+    "saving.description": "파일이나 링크를 저장하는 방법입니다. 방법이 사용 불가능하거나 문제가 발생하면 cobalt가 다음에 무엇을 해야 할지 물어봅니다.",
+
+    "accessibility": "접근성",
+    "accessibility.transparency.title": "투명도 줄이기",
+    "accessibility.transparency.description": "표면의 투명도를 줄이고 흐림 효과를 비활성화합니다. 저사양 기기에서 성능을 향상시킬 수 있습니다.",
+    "accessibility.motion.title": "움직임 줄이기",
+    "accessibility.motion.description": "애니메이션과 전환을 비활성화합니다.",
+
+    "language": "언어",
+    "language.auto.title": "자동",
+    "language.auto.description": "번역이 지원된다면 브라우저의 언어를 사용합니다. 번역이 지원되지 않으면 영어가 사용됩니다.",
+    "language.preferred.title": "선호하는 언어",
+    "language.preferred.description": "자동 선택이 비활성화되면 이 언어가 사용됩니다. 번역되지 않은 텍스트는 영어로 표시됩니다.\n\n일부 언어는 커뮤니티 번역을 사용하므로 부정확하거나 부족할 수 있습니다.",
+
+    "privacy.analytics": "익명 트래픽 분석",
+    "privacy.analytics.title": "익명 트래픽 분석 비활성화",
+    "privacy.analytics.description": "익명 트래픽 분석은 활동 중인 cobalt 사용자의 수를 얻는 데 사용됩니다. 식별 가능한 정보는 절대 저장되지 않습니다. 모든 처리된 데이터는 익명화되고 집계됩니다.\n\n저희는 쿠키를 사용하지 않고 GDPR, CCPA 및 PECR와 완전히 호환되는 자체 호스팅된 plausible 인스턴스를 사용합니다.",
+    "privacy.analytics.learnmore": "plausible의 개인 정보 보호에 대해 자세히 알아보기",
+
+    "privacy.tunnel": "터널링",
+    "privacy.tunnel.title": "항상 터널링 사용",
+    "privacy.tunnel.description": "cobalt는 사용자의 IP 주소, 브라우저 정보를 숨기고 로컬 네트워크 제한을 우회합니다. 활성화되면 파일에 읽기 가능한 파일 이름이 있어야 합니다.",
+
+    "advanced.debug": "디버그",
+    "advanced.debug.title": "디버그 기능 활성화",
+    "advanced.debug.description": "여러 정보에 접근할 수 있는 페이지를 제공합니다.",
+
+    "advanced.data": "데이터 관리",
+
+    "processing.override": "기본 인스턴스 덮어쓰기",
+    "processing.override.title": "인스턴스 제공 처리 서버 사용",
+    "processing.override.description": "웹 인스턴스가 기본 처리 서버를 제공하면 주 처리 서버 대신 사용할 수 있습니다. 신뢰할 수 있는 사람이 호스팅하는 서버인지 확인하세요.",
+
+    "processing.community": "커뮤니티 인스턴스",
+
+    "processing.enable_custom.title": "사용자 지정 처리 서버 사용",
+    "processing.enable_custom.description": "cobalt는 사용자가 선택하면 사용자 지정 처리 서버를 사용합니다. cobalt에는 일부 보안 조치가 있지만, 커뮤니티 인스턴스를 통해 발생하는 모든 손해에 대해 책임이 없습니다. 신뢰할 수 있는 인스턴스만 사용하세요.",
+
+    "processing.custom.placeholder": "사용자 지정 인스턴스 도메인"
+}

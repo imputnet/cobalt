@@ -1,0 +1,34 @@
+{
+    "page.general": "cobalt가 무엇인가요?",
+    "page.faq": "자주 묻는 질문",
+
+    "page.community": "커뮤니티 및 지원",
+
+    "page.privacy": "개인정보 처리 정책",
+    "page.terms": "정책과 윤리 규정",
+    "page.credits": "감사 인사 & 라이선스",
+
+    "heading.general": "기본 약관",
+    "heading.licenses": "라이선스",
+    "heading.summary": "좋아하는 것을 저장하는 가장 쉬운 방법",
+    "heading.privacy": "개인정보 보호",
+    "heading.community": "열린 커뮤니티",
+    "heading.local": "기기 내에서 처리",
+    "heading.saving": "저장",
+    "heading.encryption": "암호화",
+    "heading.plausible": "익명 트래픽 분석",
+    "heading.cloudflare": "개인 정보 및 보안",
+    "heading.responsibility": "사용자 책임",
+    "heading.abuse": "악용 사례 신고",
+    "heading.motivation": "동기",
+    "heading.testers": "베타 테스터",
+
+    "support.github": "cobalt의 소스 코드를 확인하거나, 기여하거나, 문제를 알려주세요",
+    "support.discord": "커뮤니티에서 대화를 나누거나 개발자에게 질문하세요",
+    "support.twitter": "cobalt의 개발과 새로운 기능을 트위터 타임라인에서 확인하세요",
+    "support.telegram": "텔레그램 채널에서 cobalt의 새로운 기능을 빠르게 확인하세요",
+
+    "support.description.issue": "버그나 기타 문제는 깃허브에서 보고할 수 있습니다",
+    "support.description.help": "기타 질문은 디스코드를 사용해주세요. #cobalt-support에서 문제를 명확히 설명해주세요.",
+    "support.description.best-effort": "모든 지원은 최선을 다해 제공되지만 보장되지 않으며, 답변에 시간이 걸릴 수 있습니다."
+}

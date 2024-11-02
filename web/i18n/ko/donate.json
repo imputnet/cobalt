@@ -1,0 +1,37 @@
+{
+    "banner.title": "안전하고 개방적인 인터넷을 지원하세요",
+    "banner.subtitle": "imput에 기부하거나 친구에게 cobalt를 알려주세요",
+
+    "body.motivation": "셀 수 없이 많은 아티스트, 교육자, 콘텐츠 크리에이터들이 cobalt을 사용합니다. cobalt의 목적은 금전적 이익이 아닙니다.",
+    "body.no_bullshit": "우리는 인터넷이 두렵지 않아도 된다고 믿습니다. 그래서 cobalt는 절대로 광고나 다른 종류의 악성 콘텐츠를 포함하지 않을 것입니다. 이것은 우리가 굳건히 지키는 약속입니다. 우리가 하는 모든 일은 개인정보 보호, 접근성, 사용 편의성을 고려하여 만들어져 모든 사람이 cobalt를 이용할 수 있게 합니다.",
+    "body.keep_going": "cobalt가 유용하다고 생각하신다면 저희 작업을 지원해주세요! 기부를 하거나 친구에게 cobalt를 공유하는 것으로 도움을 주실 수 있습니다. 모든 기부는 매우 감사하게 생각하며 cobalt와 다른 프로젝트를 계속 진행하는 데 도움이 됩니다.",
+
+    "card.once": "일회성 기부",
+    "card.recurring": "반복 기부",
+    "card.custom": "사용자 지정 금액 (최소 $2)",
+
+    "card.processor": "{{value}}로",
+
+    "card.option.5": "커피 한 잔",
+    "card.option.10": "피자 한 판",
+    "card.option.15": "점심 한 끼",
+    "card.option.30": "점심 2인분",
+    "card.option.50": "고양이 사료 10kg",
+    "card.option.100": "1년치 도메인 비용",
+    "card.option.200": "에어프라이기",
+    "card.option.500": "멋진 사무실 의자fancy office chair",
+    "card.option.1599": "기본 맥북 프로",
+    "card.option.4900": "사과 만 개",
+    "card.option.7398": "최고급 맥북 프로",
+    "card.option.8629": "작은 땅 한 평",
+    "card.option.9433": "럭셔리 온수탕",
+
+    "card.custom.submit": "사용자 지정 금액 기부",
+
+    "share.title": "친구에게 cobalt 공유하기",
+
+    "alternative.title": "기부 대안",
+
+    "alt.copy": "{{ value }}. 복사하기.",
+    "alt.open": "{{ value }}. 열기."
+}
