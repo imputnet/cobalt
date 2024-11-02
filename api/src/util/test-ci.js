@@ -39,7 +39,7 @@ switch (action) {
             console.error('no such service:', service);
         }
 
-        env.streamLifespan = 10000;
+        env.streamLifespan = 3;
         env.apiURL = 'http://x';
         randomizeCiphers();
 
