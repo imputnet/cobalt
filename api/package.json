@@ -30,7 +30,7 @@
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "esbuild": "^0.14.51",
-        "express": "^4.21.0",
+        "express": "^4.21.1",
         "express-rate-limit": "^7.4.1",
         "ffmpeg-static": "^5.1.0",
         "hls-parser": "^0.10.7",
@@ -41,7 +41,7 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^10.5.0",
+        "youtubei.js": "^11.0.1",
         "zod": "^3.23.8"
     },
     "optionalDependencies": {
