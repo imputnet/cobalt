@@ -65,8 +65,8 @@
     .open-file-button {
         position: relative;
         flex-direction: column;
-        gap: 8px;
-        padding: 28px 32px;
+        gap: 4px;
+        padding: 26px 28px;
         transition: box-shadow 0.2s;
     }
 
@@ -149,7 +149,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         max-width: 300px;
     }
 
