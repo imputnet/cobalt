@@ -8,7 +8,7 @@ import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
 import match from "../processing/match.js";
 
-import { env, setTunnelPort } from "../config.js";
+import { env, isCluster, setTunnelPort } from "../config.js";
 import { extract } from "../processing/url.js";
 import { Green, Bright, Cyan } from "../misc/console-text.js";
 import { hashHmac } from "../security/secrets.js";
@@ -378,7 +378,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
     });
 
-    if (!isPrimary) {
+    if (isCluster) {
         const istreamer = express();
         istreamer.get('/itunnel', itunnelHandler);
         const server = istreamer.listen({
