@@ -48,7 +48,7 @@ const extractImages = ({ getPost, filename, alwaysProxy }) => {
         let proxiedImage = createStream({
             service: "bluesky",
             type: "proxy",
-            u: url,
+            url,
             filename: `${filename}_${i + 1}.jpg`,
         });
 

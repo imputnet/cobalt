@@ -177,7 +177,7 @@ export default function(obj) {
                     if (alwaysProxy) proxyFile = createStream({
                         service: "instagram",
                         type: "proxy",
-                        u: url,
+                        url,
                         filename: `instagram_${id}_${i + 1}.${itemExt}`
                     });
 
@@ -189,7 +189,7 @@ export default function(obj) {
                         thumb: createStream({
                             service: "instagram",
                             type: "proxy",
-                            u: e.node?.display_url,
+                            url: e.node?.display_url,
                             filename: `instagram_${id}_${i + 1}.jpg`
                         })
                     }
@@ -230,7 +230,7 @@ export default function(obj) {
                     if (alwaysProxy) proxyFile = createStream({
                         service: "instagram",
                         type: "proxy",
-                        u: url,
+                        url,
                         filename: `instagram_${id}_${i + 1}.${itemExt}`
                     });
 
@@ -242,7 +242,7 @@ export default function(obj) {
                         thumb: createStream({
                             service: "instagram",
                             type: "proxy",
-                            u: imageUrl,
+                            url: imageUrl,
                             filename: `instagram_${id}_${i + 1}.jpg`
                         })
                     }

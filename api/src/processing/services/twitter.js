@@ -159,10 +159,10 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
 
     const getFileExt = (url) => new URL(url).pathname.split(".", 2)[1];
 
-    const proxyMedia = (u, filename) => createStream({
+    const proxyMedia = (url, filename) => createStream({
         service: "twitter",
         type: "proxy",
-        u, filename,
+        url, filename,
     })
 
     switch (media?.length) {
@@ -217,7 +217,7 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
                     url = createStream({
                         service: "twitter",
                         type: shouldRenderGif ? "gif" : "remux",
-                        u: url,
+                        url,
                         filename: videoFilename,
                     })
                 } else if (alwaysProxy) {

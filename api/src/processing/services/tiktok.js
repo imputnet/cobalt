@@ -102,7 +102,7 @@ export default async function(obj) {
                 if (obj.alwaysProxy) url = createStream({
                     service: "tiktok",
                     type: "proxy",
-                    u: url,
+                    url,
                     filename: `${filenameBase}_photo_${i + 1}.jpg`
                 })
 
