@@ -13,6 +13,9 @@ importers:
       '@datastructures-js/priority-queue':
         specifier: ^6.3.1
         version: 6.3.1
+      '@imput/psl':
+        specifier: ^2.0.4
+        version: 2.0.4
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
@@ -49,9 +52,6 @@ importers:
       node-cache:
         specifier: ^5.1.2
         version: 5.1.2
-      psl:
-        specifier: 1.9.0
-        version: 1.9.0
       set-cookie-parser:
         specifier: 2.6.0
         version: 2.6.0
@@ -542,6 +542,9 @@ packages:
 
   '@imput/libav.js-remux-cli@5.5.6':
     resolution: {integrity: sha512-XdAab90EZKf6ULtD/x9Y2bnlmNJodXSO6w8aWrn97+N2IRuOS8zv3tAFPRC69SWKa8Utjeu5YTYuTolnX3QprQ==}
+
+  '@imput/psl@2.0.4':
+    resolution: {integrity: sha512-vuy76JX78/DnJegLuJoLpMmw11JTA/9HvlIADg/f8dDVXyxbh0jnObL0q13h+WvlBO4Gk26Pu8sUa7/h0JGQig==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1866,9 +1869,6 @@ packages:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
 
-  psl@1.9.0:
-    resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
-
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -2580,6 +2580,10 @@ snapshots:
   '@humanwhocodes/object-schema@2.0.3': {}
 
   '@imput/libav.js-remux-cli@5.5.6': {}
+
+  '@imput/psl@2.0.4':
+    dependencies:
+      punycode: 2.3.1
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3870,8 +3874,6 @@ snapshots:
     dependencies:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
-
-  psl@1.9.0: {}
 
   punycode@2.3.1: {}
 

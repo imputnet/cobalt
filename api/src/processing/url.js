@@ -1,4 +1,4 @@
-import psl from "psl";
+import psl from "@imput/psl";
 import { strict as assert } from "node:assert";
 
 import { env } from "../config.js";

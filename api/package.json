@@ -1,7 +1,7 @@
 {
     "name": "@imput/cobalt-api",
     "description": "save what you love",
-    "version": "10.3",
+    "version": "10.3.1",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -25,6 +25,7 @@
     "homepage": "https://github.com/imputnet/cobalt#readme",
     "dependencies": {
         "@datastructures-js/priority-queue": "^6.3.1",
+        "@imput/psl": "^2.0.4",
         "@imput/version-info": "workspace:^",
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
@@ -37,7 +38,6 @@
         "ipaddr.js": "2.2.0",
         "nanoid": "^4.0.2",
         "node-cache": "^5.1.2",
-        "psl": "1.9.0",
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
