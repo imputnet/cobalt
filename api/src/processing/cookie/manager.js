@@ -88,9 +88,9 @@ export function updateCookieValues(cookie, values) {
         changed = cookie.set(key, value) || changed;
     }
 
-    if (changed) {
+    if (changed && cookie.meta) {
         dirty = true;
-        if (isCluster && cookie.meta) {
+        if (isCluster) {
             const message = { cookieUpdate: { ...cookie.meta, cookie } };
             cluster.send(message);
         }
