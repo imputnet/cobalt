@@ -60,6 +60,7 @@ export default class MemoryStore extends Store {
                 () => this.#sweepNow(),
                 Math.max(MIN_THRESHOLD_MS, time - current_time)
             );
+            sweep.id.unref();
         }
     }
 
