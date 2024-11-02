@@ -85,7 +85,7 @@ export function updateCookieValues(cookie, values) {
     let changed = false;
 
     for (const [ key, value ] of Object.entries(values)) {
-        changed ||= cookie.set(key, value);
+        changed = cookie.set(key, value) || changed;
     }
 
     if (changed) {
