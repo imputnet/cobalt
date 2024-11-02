@@ -1,4 +1,4 @@
-import { MinPriorityQueue } from '@datastructures-js/priority-queue'
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 import { Store } from './base-store.js';
 
 // minimum delay between sweeps to avoid repeatedly
