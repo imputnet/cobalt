@@ -62,7 +62,9 @@ export const isCluster = env.instanceCount > 1;
 
 if (env.sessionEnabled && env.jwtSecret.length < 16) {
     throw new Error("JWT_SECRET env is too short (must be at least 16 characters long)");
-} else if (env.instanceCount > 1 && !env.redisURL) {
+}
+
+if (env.instanceCount > 1 && !env.redisURL) {
     throw new Error("API_REDIS_URL is required when API_INSTANCE_COUNT is >= 2");
 } else if (env.instanceCount > 1 && !await supportsReusePort()) {
     console.error('API_INSTANCE_COUNT is not supported in your environment. to use this env, your node.js');
