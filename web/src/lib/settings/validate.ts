@@ -9,6 +9,7 @@ import {
     youtubeVideoCodecOptions,
     type PartialSettings,
 } from '$lib/types/settings';
+import { youtubeLanguages } from './youtube-lang';
 
 function validateTypes(input: unknown, reference = defaultSettings as unknown) {
     if (typeof input === 'undefined')
@@ -79,7 +80,8 @@ export function validateSettings(settings: PartialSettings) {
             [ settings?.save?.filenameStyle    , filenameStyleOptions ],
             [ settings?.save?.videoQuality     , videoQualityOptions ],
             [ settings?.save?.youtubeVideoCodec, youtubeVideoCodecOptions ],
-            [ settings?.save?.savingMethod     , savingMethodOptions ]
+            [ settings?.save?.savingMethod     , savingMethodOptions ],
+            [ settings?.save?.youtubeDubLang   , youtubeLanguages ]
         ])
     );
 }
