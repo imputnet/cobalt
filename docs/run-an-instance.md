@@ -79,7 +79,7 @@ sudo service nscd start
 | `API_AUTH_REQUIRED`   | ➖        | `1`                     | when set to `1`, the user always needs to be authenticated in some way before they can access the API (either via an api key or via turnstile, if enabled). |
 | `API_REDIS_URL`       | ➖        | `redis://localhost:6379` | when set, cobalt uses redis instead of internal memory for the tunnel cache. |
 | `API_INSTANCE_COUNT`  | ➖        | `2`                     | supported only on Linux and node.js `>=23.1.0`. when configured, cobalt will spawn multiple sub-instances amongst which requests will be balanced. |
-| `DISABLED_SERVICES`   | ➖        | `bilibili,youtube`       | disable certain services from being used. |
+| `DISABLED_SERVICES`   | ➖        | `bilibili,youtube`       | comma-separated list which disables certain services from being used. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
