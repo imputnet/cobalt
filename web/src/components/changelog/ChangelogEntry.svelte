@@ -142,7 +142,7 @@
         display: block;
         object-fit: cover;
         max-height: 320pt;
-        min-height: 210pt;
+        min-height: 180pt;
         width: 100%;
         aspect-ratio: 16/9;
         border-radius: var(--padding);
