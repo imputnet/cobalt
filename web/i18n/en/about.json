@@ -27,6 +27,7 @@
     "support.discord": "chat with the community and developers about cobalt or ask for help",
     "support.twitter": "follow cobalt's updates and development on your twitter timeline",
     "support.telegram": "stay up to date with latest cobalt updates via a telegram channel",
+    "support.bluesky": "follow cobalt's updates and development on your bluesky feed",
 
     "support.description.issue": "if you want to report a bug or some other recurring issue, please do it on github.",
     "support.description.help": "use discord for any other questions. describe the issue properly in #cobalt-support or else no one will be able help you.",

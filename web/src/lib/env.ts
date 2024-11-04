@@ -20,7 +20,7 @@ const contacts = {
     discord: "https://discord.gg/pQPt8HBUPu",
     twitter: "https://x.com/justusecobalt",
     github: "https://github.com/imputnet/cobalt",
-    email: "support@cobalt.tools",
+    bluesky: "https://bsky.app/profile/cobalt.tools",
     telegram_ru: "https://t.me/justusecobalt_ru",
 }
 

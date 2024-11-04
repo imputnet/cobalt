@@ -8,6 +8,7 @@
     import IconBrandTwitter from "@tabler/icons-svelte/IconBrandTwitter.svelte";
     import IconBrandDiscord from "@tabler/icons-svelte/IconBrandDiscord.svelte";
     import IconBrandTelegram from "@tabler/icons-svelte/IconBrandTelegram.svelte";
+    import IconBrandBluesky from "@tabler/icons-svelte/IconBrandBluesky.svelte";
 
     const platformIcons = {
         github: {
@@ -25,6 +26,10 @@
         telegram: {
             icon: IconBrandTelegram,
             color: "#1c9efb",
+        },
+        bluesky: {
+            icon: IconBrandBluesky,
+            color: "#0a78ff",
         },
     };
 

@@ -14,7 +14,7 @@
         id="support-buttons"
         bind:offsetWidth={buttonContainerWidth}
 
-        class:two={$locale === "ru"}
+        class="two"
         class:one={buttonContainerWidth < 500}
     >
         <AboutSupport
@@ -35,6 +35,10 @@
             <AboutSupport
                 platform="twitter"
                 externalLink={contacts.twitter}
+            />
+            <AboutSupport
+                platform="bluesky"
+                externalLink={contacts.bluesky}
             />
         {/if}
     </div>
