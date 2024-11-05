@@ -484,9 +484,9 @@
         padding-left: 3px;
     }
 
-    :global(.long-text-noto h1),
-    :global(.long-text-noto h2),
-    :global(.long-text-noto h3) {
+    :global(.long-text-noto:not(.about) h1),
+    :global(.long-text-noto:not(.about) h2),
+    :global(.long-text-noto:not(.about) h3) {
         user-select: text;
         -webkit-user-select: text;
         letter-spacing: 0;
@@ -495,10 +495,17 @@
 
     :global(.long-text-noto h3) {
         font-size: 17px;
-        margin-block-end: -0.5rem;
     }
 
     :global(.long-text-noto h2) {
+        font-size: 19px;
+    }
+
+    :global(.long-text-noto:not(.about) h3) {
+        margin-block-end: -0.5rem;
+    }
+
+    :global(.long-text-noto:not(.about) h2) {
         font-size: 19px;
         line-height: 1.3;
         margin-block-end: -0.3rem;
