@@ -9,6 +9,7 @@ we are currently accepting translations via the [i18n platform](https://i18n.imp
 thank you for showing interest in making cobalt more accessible around the world, we really appreciate it! here are some guidelines for how a cobalt translation should look:
 
 - cobalt's writing style is informal. please do not use formal language, unless there is no other way to express the same idea of the original text in your language.
+- all cobalt text is written in lowercase. this is a stylistic choice, please do not capitalize translated sentences.
 - do not translate the name "cobalt", or "imput"
 - you can translate "meowbalt" into whatever your language's equivalent of _meow_ is (e.g. _miaubalt_ in German)
 - **please don't translate cobalt into languages which you are not experienced in.** we can use google translate ourselves, but we would prefer cobalt to be translated by humans, not computers.
