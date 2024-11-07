@@ -46,7 +46,7 @@ export const services = {
         altDomains: ["ddinstagram.com"],
     },
     loom: {
-        patterns: ["share/:id"],
+        patterns: ["share/:id", "embed/:id"],
     },
     ok: {
         patterns: [
