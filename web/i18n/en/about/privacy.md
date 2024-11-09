@@ -58,7 +58,7 @@ plausible doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.
 
 [learn more about plausible's dedication to privacy.](https://plausible.io/privacy-focused-web-analytics)
 
-if you wish to opt out of anonymous analytics, you can do it in <a href="/settings/privacy#analytics">privacy settings</a>.
+if you wish to opt out of anonymous analytics, you can do it in [privacy settings](/settings/privacy#analytics).
 </section>
 {/if}
 
