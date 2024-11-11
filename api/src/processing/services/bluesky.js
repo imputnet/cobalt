@@ -2,12 +2,12 @@ import HLS from "hls-parser";
 import { cobaltUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 
-const extractVideo = async ({ media, filename }) => {
+const extractVideo = async ({ media, filename, dispatcher }) => {
     const urlMasterHLS = media?.playlist;
     if (!urlMasterHLS) return { error: "fetch.empty" };
     if (!urlMasterHLS.startsWith("https://video.bsky.app/")) return { error: "fetch.empty" };
 
-    const masterHLS = await fetch(urlMasterHLS)
+    const masterHLS = await fetch(urlMasterHLS, { dispatcher })
         .then(r => {
             if (r.status !== 200) return;
             return r.text();
@@ -64,7 +64,7 @@ const extractImages = ({ getPost, filename, alwaysProxy }) => {
     return { picker };
 }
 
-export default async function ({ user, post, alwaysProxy }) {
+export default async function ({ user, post, alwaysProxy, dispatcher }) {
     const apiEndpoint = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?depth=0&parentHeight=0");
     apiEndpoint.searchParams.set(
         "uri",
@@ -73,8 +73,9 @@ export default async function ({ user, post, alwaysProxy }) {
 
     const getPost = await fetch(apiEndpoint, {
         headers: {
-            "user-agent": cobaltUserAgent
-        }
+            "user-agent": cobaltUserAgent,
+        },
+        dispatcher
     }).then(r => r.json()).catch(() => {});
 
     if (!getPost) return { error: "fetch.empty" };
@@ -87,7 +88,7 @@ export default async function ({ user, post, alwaysProxy }) {
             case "InvalidRequest":
                 return { error: "link.unsupported" };
             default:
-                return { error: "fetch.empty" };
+                return { error: "content.post.unavailable" };
         }
     }
 

@@ -240,7 +240,8 @@ export default async function({ host, patternMatch, params }) {
             case "bsky":
                 r = await bluesky({
                     ...patternMatch,
-                    alwaysProxy: params.alwaysProxy
+                    alwaysProxy: params.alwaysProxy,
+                    dispatcher
                 });
                 break;
 
