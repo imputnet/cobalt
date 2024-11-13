@@ -132,9 +132,16 @@ export default async function(o) {
         } else throw e;
     }
 
+    let useHLS = o.youtubeHLS;
+
+    // HLS playlists don't contain the av1 video format, at least with the iOS client
+    if (useHLS && o.format === "av1") {
+        useHLS = false;
+    }
+
     let info;
     try {
-        info = await yt.getBasicInfo(o.id, o.youtubeHLS ? 'IOS' : 'ANDROID');
+        info = await yt.getBasicInfo(o.id, useHLS ? 'IOS' : 'ANDROID');
     } catch(e) {
         if (e?.info?.reason === "This video is private") {
             return { error: "content.video.private" };
@@ -210,7 +217,7 @@ export default async function(o) {
     let video, audio, dubbedLanguage,
         format = o.format || "h264";
 
-    if (o.youtubeHLS) {
+    if (useHLS) {
         const hlsManifest = info.streaming_data.hls_manifest_url;
 
         if (!hlsManifest) {
@@ -237,11 +244,6 @@ export default async function(o) {
 
         if (!variants || variants.length === 0) {
             return { error: "youtube.no_hls_streams" };
-        }
-
-        // HLS playlists don't contain AV1 format, at least with the iOS client
-        if (format === "av1") {
-            format = "vp9";
         }
 
         const matchHlsCodec = codecs => (
@@ -388,7 +390,7 @@ export default async function(o) {
         let bestAudio = format === "h264" ? "m4a" : "opus";
         let urls = audio.url;
 
-        if (o.youtubeHLS) {
+        if (useHLS) {
             bestAudio = "mp3";
             urls = audio.uri;
         }
@@ -400,14 +402,14 @@ export default async function(o) {
             filenameAttributes,
             fileMetadata,
             bestAudio,
-            isHLS: o.youtubeHLS,
+            isHLS: useHLS,
         }
     }
 
     if (video && audio) {
         let resolution;
 
-        if (o.youtubeHLS) {
+        if (useHLS) {
             resolution = normalizeQuality(video.resolution);
             filenameAttributes.resolution = `${video.resolution.width}x${video.resolution.height}`;
             filenameAttributes.extension = hlsCodecList[format].container;
@@ -437,7 +439,7 @@ export default async function(o) {
             ],
             filenameAttributes,
             fileMetadata,
-            isHLS: o.youtubeHLS,
+            isHLS: useHLS,
         }
     }
 
