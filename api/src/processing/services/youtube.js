@@ -211,7 +211,7 @@ export default async function(o) {
 
     const normalizeQuality = res => {
         const shortestSide = res.height > res.width ? res.width : res.height;
-        return videoQualities.find(quality => quality >= shortestSide);
+        return videoQualities.find(qual => qual >= shortestSide);
     }
 
     let video, audio, dubbedLanguage,
