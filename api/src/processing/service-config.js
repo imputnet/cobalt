@@ -30,7 +30,7 @@ export const services = {
             "reel/:id",
             "share/:shareType/:id"
         ],
-        subdomains: ["web"],
+        subdomains: ["web", "m"],
         altDomains: ["fb.watch"],
     },
     instagram: {
