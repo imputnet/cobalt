@@ -264,7 +264,7 @@ export default async function(o) {
         }
 
         if (!selected) {
-            return { error: "youtube.no_hls_streams" };
+            return { error: "youtube.no_matching_format" };
         }
 
         audio = selected.audio.find(i => i.isDefault);
@@ -320,7 +320,7 @@ export default async function(o) {
         const bestAudio = !fallback ? earlyBestAudio : adaptive_formats.find(i => checkBestAudio(i));
 
         if (checkNoMedia(bestVideo, bestAudio)) {
-            return { error: "youtube.codec" };
+            return { error: "youtube.no_matching_format" };
         }
 
         audio = bestAudio;
@@ -443,5 +443,5 @@ export default async function(o) {
         }
     }
 
-    return { error: "fetch.fail" };
+    return { error: "youtube.no_matching_format" };
 }
