@@ -86,14 +86,12 @@ switch (action) {
         break;
 
     case "run-tests-for":
-        const service = process.argv[3];
-
         env.streamLifespan = 10000;
         env.apiURL = 'http://x/';
         randomizeCiphers();
 
         try {
-            const { softFails } = await runTestsFor(service);
+            const { softFails } = await runTestsFor(process.argv[3]);
             process.exitCode = Number(!!softFails);
         } catch(e) {
             console.error(e);
