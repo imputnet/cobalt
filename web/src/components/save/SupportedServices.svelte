@@ -73,24 +73,29 @@
     #services-popover {
         display: flex;
         flex-direction: column;
-        transition: transform 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99);
         border-radius: 18px;
         background: var(--button);
         box-shadow:
             var(--button-box-shadow),
             0 0 10px 10px var(--button-stroke);
 
-        transform: scale(0);
-        transform-origin: top center;
         position: relative;
-
         padding: 12px;
         gap: 6px;
         top: 6px;
+
+        opacity: 0;
+        transform: scale(0);
+        transform-origin: top center;
+
+        transition:
+            transform 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99),
+            opacity 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99);
     }
 
     #services-popover.expanded {
         transform: scale(1);
+        opacity: 1;
     }
 
     #services-button {
