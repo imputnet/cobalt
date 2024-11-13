@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - id: checkServices
-        run: pnpm i --frozen-lockfile && echo "service_list=$(node api/src/util/test-ci get-services)" >> "$GITHUB_OUTPUT"
+        run: pnpm i --frozen-lockfile && echo "service_list=$(node api/src/util/test get-services)" >> "$GITHUB_OUTPUT"
 
   test-services:
     needs: check-services
@@ -30,4 +30,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - run: pnpm i --frozen-lockfile && node api/src/util/test-ci run-tests-for ${{ matrix.service }}
+      - run: pnpm i --frozen-lockfile && node api/src/util/test run-tests-for ${{ matrix.service }}
