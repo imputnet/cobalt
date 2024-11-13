@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { env } from "../config.js";
 import { runTest } from "../misc/run-test.js";
 import { loadJSON } from "../misc/load-from-fs.js";
@@ -6,7 +8,8 @@ import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 
 import { services } from "../processing/service-config.js";
 
-const tests = loadJSON('./src/util/tests.json');
+const getTestPath = service => path.join('./src/util/tests/', `./${service}.json`);
+const getTests = (service) => loadJSON(getTestPath(service));
 
 // services that are known to frequently fail due to external
 // factors (e.g. rate limiting)
@@ -18,12 +21,14 @@ switch (action) {
         const fromConfig = Object.keys(services);
 
         const missingTests = fromConfig.filter(
-            service => !tests[service] || tests[service].length === 0
+            service => {
+                const tests = getTests(service);
+                return !tests || tests.length === 0
+            }
         );
 
         if (missingTests.length) {
             console.error('services have no tests:', missingTests);
-            console.log('[]');
             process.exitCode = 1;
             break;
         }
@@ -34,16 +39,19 @@ switch (action) {
     case "run-tests-for":
         const service = process.argv[3];
         let failed = false;
+        const tests = getTests(service);
 
-        if (!tests[service]) {
+        if (!tests) {
             console.error('no such service:', service);
+            process.exitCode = 1;
+            break;
         }
 
-        env.streamLifespan = 3;
+        env.streamLifespan = 10000;
         env.apiURL = 'http://x';
         randomizeCiphers();
 
-        for (const test of tests[service]) {
+        for (const test of tests) {
             const { name, url, params, expected } = test;
             const canFail = test.canFail || finnicky.has(service);
 

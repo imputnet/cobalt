@@ -1,0 +1,51 @@
+[
+    {
+        "name": "regular video",
+        "url": "https://streamable.com/p9cln4",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "embedded link",
+        "url": "https://streamable.com/e/rsmo56",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular video (isAudioOnly)",
+        "url": "https://streamable.com/p9cln4",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "regular video (isAudioMuted)",
+        "url": "https://streamable.com/p9cln4",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "inexistent video",
+        "url": "https://streamable.com/XXXXXX",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]
