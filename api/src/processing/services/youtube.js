@@ -215,7 +215,7 @@ export default async function(o) {
     }
 
     let video, audio, dubbedLanguage,
-        format = o.format || "h264";
+        codec = o.format || "h264";
 
     if (useHLS) {
         const hlsManifest = info.streaming_data.hls_manifest_url;
@@ -247,7 +247,7 @@ export default async function(o) {
         }
 
         const matchHlsCodec = codecs => (
-            codecs.includes(hlsCodecList[format].videoCodec)
+            codecs.includes(hlsCodecList[codec].videoCodec)
         );
 
         const best = variants.find(i => matchHlsCodec(i.codecs));
@@ -259,7 +259,7 @@ export default async function(o) {
         let selected = preferred || best;
 
         if (!selected) {
-            format = "h264";
+            codec = "h264";
             selected = variants.find(i => matchHlsCodec(i.codecs));
         }
 
@@ -290,51 +290,83 @@ export default async function(o) {
         selected.subtitles = [];
         video = selected;
     } else {
-        let fallback = false;
-
-        const filterByCodec = (formats) =>
-            formats.filter(e =>
-                e.mime_type.includes(codecList[format].videoCodec)
-                || e.mime_type.includes(codecList[format].audioCodec)
-            ).sort((a, b) =>
-                Number(b.bitrate) - Number(a.bitrate)
-            );
-
-        let adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
-
-        const checkBestVideo = (i) => (i.has_video && i.content_length);
-        const checkBestAudio = (i) => (i.has_audio && i.content_length);
-        const checkNoMedia = (vid, aud) => (!vid && !o.isAudioOnly) || (!aud && o.isAudioOnly);
-
-        const earlyBestVideo = adaptive_formats.find(i => checkBestVideo(i));
-        const earlyBestAudio = adaptive_formats.find(i => checkBestAudio(i));
-
-        // check if formats have all needed media and fall back to h264 if not
-        if (["vp9", "av1"].includes(format) && checkNoMedia(earlyBestVideo, earlyBestAudio)) {
-            fallback = true;
-            format = "h264";
-            adaptive_formats = filterByCodec(info.streaming_data.adaptive_formats);
+        // i miss typescript so bad
+        const sorted_formats = {
+            h264: {
+                video: [],
+                audio: [],
+                bestVideo: undefined,
+                bestAudio: undefined,
+            },
+            vp9: {
+                video: [],
+                audio: [],
+                bestVideo: undefined,
+                bestAudio: undefined,
+            },
+            av1: {
+                video: [],
+                audio: [],
+                bestVideo: undefined,
+                bestAudio: undefined,
+            },
         }
 
-        const bestVideo = !fallback ? earlyBestVideo : adaptive_formats.find(i => checkBestVideo(i));
-        const bestAudio = !fallback ? earlyBestAudio : adaptive_formats.find(i => checkBestAudio(i));
+        const checkFormat = (format, pCodec) => format.content_length &&
+                (format.mime_type.includes(codecList[pCodec].videoCodec)
+                || format.mime_type.includes(codecList[pCodec].audioCodec));
 
-        if (checkNoMedia(bestVideo, bestAudio)) {
+        // sort formats & weed out bad ones
+        info.streaming_data.adaptive_formats.sort((a, b) =>
+            Number(b.bitrate) - Number(a.bitrate)
+        ).forEach(format => {
+            Object.keys(codecList).forEach(yCodec => {
+                const sorted = sorted_formats[yCodec];
+                const goodFormat = checkFormat(format, yCodec);
+                if (!goodFormat) return;
+
+                if (format.has_video) {
+                    sorted.video.push(format);
+                    if (!sorted.bestVideo) sorted.bestVideo = format;
+                }
+                if (format.has_audio) {
+                    sorted.audio.push(format);
+                    if (!sorted.bestAudio) sorted.bestAudio = format;
+                }
+            })
+        });
+
+        const noBestMedia = () => {
+            const vid = sorted_formats[codec]?.bestVideo;
+            const aud = sorted_formats[codec]?.bestAudio;
+            return (!vid && !o.isAudioOnly) || (!aud && o.isAudioOnly)
+        };
+
+        if (noBestMedia()) {
+            if (codec === "av1") codec = "vp9";
+            if (codec === "vp9") codec = "av1";
+
+            // if there's no higher quality fallback, then use h264
+            if (noBestMedia()) codec = "h264";
+        }
+
+        // if there's no proper combo of av1, vp9, or h264, then give up
+        if (noBestMedia()) {
             return { error: "youtube.no_matching_format" };
         }
 
-        audio = bestAudio;
+        audio = sorted_formats[codec].bestAudio;
 
         if (audio?.audio_track && !audio?.audio_track?.audio_is_default) {
-            audio = adaptive_formats.find(i =>
-                checkBestAudio(i) && i?.audio_track?.audio_is_default
+            audio = sorted_formats[codec].audio.find(i =>
+                i?.audio_track?.audio_is_default
             );
         }
 
         if (o.dubLang) {
-            const dubbedAudio = adaptive_formats.find(i =>
-                checkBestAudio(i) && i.language?.startsWith(o.dubLang) && i.audio_track
-            )
+            const dubbedAudio = sorted_formats[codec].audio.find(i =>
+                i.language?.startsWith(o.dubLang) && i.audio_track
+            );
 
             if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
                 audio = dubbedAudio;
@@ -350,14 +382,14 @@ export default async function(o) {
                 })
             }
 
-            const bestQuality = qual(bestVideo);
+            const bestQuality = qual(sorted_formats[codec].bestVideo);
             const useBestQuality = quality >= bestQuality;
 
-            video = useBestQuality ? bestVideo : adaptive_formats.find(i =>
-                qual(i) === quality && checkBestVideo(i)
-            );
+            video = useBestQuality
+                ? sorted_formats[codec].bestVideo
+                : sorted_formats[codec].video.find(i => qual(i) === quality);
 
-            if (!video) video = bestVideo;
+            if (!video) video = sorted_formats[codec].bestVideo;
         }
     }
 
@@ -387,7 +419,7 @@ export default async function(o) {
     }
 
     if (audio && o.isAudioOnly) {
-        let bestAudio = format === "h264" ? "m4a" : "opus";
+        let bestAudio = codec === "h264" ? "m4a" : "opus";
         let urls = audio.url;
 
         if (useHLS) {
@@ -412,7 +444,7 @@ export default async function(o) {
         if (useHLS) {
             resolution = normalizeQuality(video.resolution);
             filenameAttributes.resolution = `${video.resolution.width}x${video.resolution.height}`;
-            filenameAttributes.extension = hlsCodecList[format].container;
+            filenameAttributes.extension = hlsCodecList[codec].container;
 
             video = video.uri;
             audio = audio.uri;
@@ -422,14 +454,14 @@ export default async function(o) {
                 height: video.height,
             });
             filenameAttributes.resolution = `${video.width}x${video.height}`;
-            filenameAttributes.extension = codecList[format].container;
+            filenameAttributes.extension = codecList[codec].container;
 
             video = video.url;
             audio = audio.url;
         }
 
         filenameAttributes.qualityLabel = `${resolution}p`;
-        filenameAttributes.youtubeFormat = format;
+        filenameAttributes.youtubeFormat = codec;
 
         return {
             type: "merge",
