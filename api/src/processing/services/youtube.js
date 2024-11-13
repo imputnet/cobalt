@@ -344,7 +344,7 @@ export default async function(o) {
 
         if (noBestMedia()) {
             if (codec === "av1") codec = "vp9";
-            if (codec === "vp9") codec = "av1";
+            else if (codec === "vp9") codec = "av1";
 
             // if there's no higher quality fallback, then use h264
             if (noBestMedia()) codec = "h264";
