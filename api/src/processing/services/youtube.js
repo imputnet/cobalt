@@ -42,6 +42,8 @@ const hlsCodecList = {
     }
 }
 
+const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
+
 const transformSessionData = (cookie) => {
     if (!cookie)
         return;
@@ -200,9 +202,9 @@ export default async function(o) {
 
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
-    const matchQuality = res => {
-        const qual = res.height > res.width ? res.width : res.height;
-        return Math.ceil(qual / 24) * 24;
+    const normalizeQuality = res => {
+        const shortestSide = res.height > res.width ? res.width : res.height;
+        return videoQualities.find(quality => quality >= shortestSide);
     }
 
     let video, audio, dubbedLanguage,
@@ -249,7 +251,7 @@ export default async function(o) {
         const best = variants.find(i => matchHlsCodec(i.codecs));
 
         const preferred = variants.find(i =>
-            matchHlsCodec(i.codecs) && matchQuality(i.resolution) === quality
+            matchHlsCodec(i.codecs) && normalizeQuality(i.resolution) === quality
         );
 
         let selected = preferred || best;
@@ -340,7 +342,7 @@ export default async function(o) {
 
         if (!o.isAudioOnly) {
             const qual = (i) => {
-                return matchQuality({
+                return normalizeQuality({
                     width: i.width,
                     height: i.height,
                 })
@@ -406,14 +408,14 @@ export default async function(o) {
         let resolution;
 
         if (o.youtubeHLS) {
-            resolution = matchQuality(video.resolution);
+            resolution = normalizeQuality(video.resolution);
             filenameAttributes.resolution = `${video.resolution.width}x${video.resolution.height}`;
             filenameAttributes.extension = hlsCodecList[format].container;
 
             video = video.uri;
             audio = audio.uri;
         } else {
-            resolution = matchQuality({
+            resolution = normalizeQuality({
                 width: video.width,
                 height: video.height,
             });
