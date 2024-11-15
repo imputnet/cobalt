@@ -215,7 +215,7 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
 
                 if (needsFixing(content) || shouldRenderGif) {
                     url = createStream({
-                        service: "twitter",
+                        service: "twitter/x",
                         type: shouldRenderGif ? "gif" : "remux",
                         url,
                         filename: videoFilename,
