@@ -69,7 +69,7 @@
     />
 </SettingsCategory>
 
-<SettingsCategory sectionId="twitter" title={$t("settings.video.twitter.gif")}>
+<SettingsCategory sectionId="twitter/x" title={$t("settings.video.twitter.gif")}>
     <SettingsToggle
         settingContext="save"
         settingId="twitterGif"

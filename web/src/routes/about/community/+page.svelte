@@ -33,7 +33,7 @@
                 externalLink={contacts.discord}
             />
             <AboutSupport
-                platform="twitter"
+                platform="twitter/x"
                 externalLink={contacts.twitter}
             />
             <AboutSupport

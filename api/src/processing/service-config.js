@@ -131,7 +131,7 @@ export const services = {
         patterns: [":channel/clip/:clip"],
         tld: "tv",
     },
-    twitter: {
+    "twitter/x": {
         patterns: [
             ":user/status/:id",
             ":user/status/:id/video/:index",
