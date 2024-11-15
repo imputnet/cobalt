@@ -19,7 +19,6 @@ import tumblr from "./services/tumblr.js";
 import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 import instagram from "./services/instagram.js";
-import vine from "./services/vine.js";
 import pinterest from "./services/pinterest.js";
 import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
@@ -173,12 +172,6 @@ export default async function({ host, patternMatch, params }) {
                     alwaysProxy: params.alwaysProxy,
                     dispatcher
                 })
-                break;
-
-            case "vine":
-                r = await vine({
-                    id: patternMatch.id
-                });
                 break;
 
             case "pinterest":

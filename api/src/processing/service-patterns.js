@@ -55,9 +55,6 @@ export const testers = {
         pattern.id?.length <= 11
         && (!pattern.password || pattern.password.length < 16),
 
-    "vine": pattern =>
-        pattern.id?.length <= 12,
-
     "vk": pattern =>
         pattern.userId?.length <= 10 && pattern.videoId?.length <= 10,
 

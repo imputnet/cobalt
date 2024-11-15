@@ -38,7 +38,6 @@ this list is not final and keeps expanding over time. if support for a service y
 | twitch clips      | ✅            | ✅         | ✅         | ✅         | ✅              |
 | twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
-| vine              | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
 | youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
 

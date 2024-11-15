@@ -143,10 +143,6 @@ export const services = {
         subdomains: ["mobile"],
         altDomains: ["x.com", "vxtwitter.com", "fixvx.com"],
     },
-    vine: {
-        patterns: ["v/:id"],
-        tld: "co",
-    },
     vimeo: {
         patterns: [
             ":id",
