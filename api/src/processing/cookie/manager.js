@@ -27,7 +27,7 @@ const setupMain = async (cookiePath) => {
         cluster.broadcast({ cookies });
 
         console.log(`${Green('[✓]')} cookies loaded successfully!`);
-    } catch(e) {
+    } catch (e) {
         console.error(`${Yellow('[!]')} failed to load cookies.`);
         console.error('error:', e);
     }

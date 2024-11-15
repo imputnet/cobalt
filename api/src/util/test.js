@@ -31,7 +31,7 @@ const runTestsFor = async (service) => {
             await runTest(url, params, expected);
             console.log(`${service}/${name}: ok`);
 
-        } catch(e) {
+        } catch (e) {
             softFails += !canFail;
             fails++;
 
@@ -93,7 +93,7 @@ switch (action) {
         try {
             const { softFails } = await runTestsFor(process.argv[3]);
             process.exitCode = Number(!!softFails);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             process.exitCode = 1;
             break;

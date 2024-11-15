@@ -124,7 +124,7 @@ export default async function(o) {
                 dispatcher: o.dispatcher
             })
         );
-    } catch(e) {
+    } catch (e) {
         if (e.message?.endsWith("decipher algorithm")) {
             return { error: "youtube.decipher" }
         } else if (e.message?.includes("refresh access token")) {
@@ -142,7 +142,7 @@ export default async function(o) {
     let info;
     try {
         info = await yt.getBasicInfo(o.id, useHLS ? 'IOS' : 'ANDROID');
-    } catch(e) {
+    } catch (e) {
         if (e?.info?.reason === "This video is private") {
             return { error: "content.video.private" };
         } else if (e?.message === "This video is unavailable") {
