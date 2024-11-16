@@ -1,7 +1,7 @@
 import { request } from "undici";
 import { Readable } from "node:stream";
 import { closeRequest, getHeaders, pipe } from "./shared.js";
-import { handleHlsPlaylist, isHlsRequest } from "./internal-hls.js";
+import { handleHlsPlaylist, isHlsResponse } from "./internal-hls.js";
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
@@ -83,7 +83,7 @@ async function handleGenericStream(streamInfo, res) {
     const cleanup = () => res.end();
 
     try {
-        const req = await request(streamInfo.url, {
+        const fileResponse = await request(streamInfo.url, {
             headers: {
                 ...Object.fromEntries(streamInfo.headers),
                 host: undefined
@@ -93,22 +93,28 @@ async function handleGenericStream(streamInfo, res) {
             maxRedirections: 16
         });
 
-        res.status(req.statusCode);
-        req.body.on('error', () => {});
+        res.status(fileResponse.statusCode);
+        fileResponse.body.on('error', () => {});
 
-        for (const [ name, value ] of Object.entries(req.headers)) {
-            if (!isHlsRequest(req) || name.toLowerCase() !== 'content-length') {
+        // bluesky's cdn responds with wrong content-type for the hls playlist,
+        // so we enforce it here until they fix it
+        const isHls = isHlsResponse(fileResponse)
+                      || (streamInfo.service === "bsky" && streamInfo.url.endsWith('.m3u8'));
+
+        for (const [ name, value ] of Object.entries(fileResponse.headers)) {
+            if (!isHls || name.toLowerCase() !== 'content-length') {
                 res.setHeader(name, value);
             }
         }
 
-        if (req.statusCode < 200 || req.statusCode > 299)
+        if (fileResponse.statusCode < 200 || fileResponse.statusCode > 299) {
             return cleanup();
+        }
 
-        if (isHlsRequest(req)) {
-            await handleHlsPlaylist(streamInfo, req, res);
+        if (isHls) {
+            await handleHlsPlaylist(streamInfo, fileResponse, res);
         } else {
-            pipe(req.body, res, cleanup);
+            pipe(fileResponse.body, res, cleanup);
         }
     } catch {
         closeRequest(streamInfo.controller);
