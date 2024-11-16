@@ -3,9 +3,16 @@ import { cobaltUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 
 const extractVideo = async ({ media, filename, dispatcher }) => {
-    const urlMasterHLS = media?.playlist;
-    if (!urlMasterHLS) return { error: "fetch.empty" };
-    if (!urlMasterHLS.startsWith("https://video.bsky.app/")) return { error: "fetch.empty" };
+    let urlMasterHLS = media?.playlist;
+
+    if (!urlMasterHLS || !urlMasterHLS.startsWith("https://video.bsky.app/")) {
+        return { error: "fetch.empty" };
+    }
+
+    urlMasterHLS = urlMasterHLS.replace(
+        "video.bsky.app/watch/",
+        "video.cdn.bsky.app/hls/"
+    );
 
     const masterHLS = await fetch(urlMasterHLS, { dispatcher })
         .then(r => {
