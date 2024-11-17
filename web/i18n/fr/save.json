@@ -1,0 +1,23 @@
+{
+    "paste": "coller",
+    "paste.long": "coller et télécharger",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "muter",
+    "input.placeholder": "coller le lien ici",
+    "terms.note.agreement": "en continuant, vous acceptez les",
+    "terms.note.link": "termes et éthique d'utilisation",
+    "services.title": "services supportés",
+    "services.title_show": "montrer les appareil supportés",
+    "services.title_hide": "cacher les services non supportés",
+    "services.disclaimer": "cobalt n'est pas affilié avec aucun des services listés ci-dessus.",
+
+    "tutorial.title": "comment sauvegarder sur ios ?",
+    "tutorial.intro": "pour sauvegarder de manière pratique un média sur ios, vous aurez besoin d'utiliser un raccourci de siri à partir de la popup de partage.",
+    "tutorial.step.1": "ajoutez le raccourci de siri :",
+    "tutorial.step.2": "appuiez sur le bouton \"partager\" dans le dialogue de sauvegarde de cobalt",
+    "tutorial.step.3": "sélectionner le raccourci correspondant dans la popup de partage.",
+    "tutorial.outro": "ces raccourci vont fonctionner uniquement à partir de l'appli cobalt, le partage de lien à partir d'autres applis ne va pas fonctionner.",
+    "tutorial.shortcut.photos": "vers les photos",
+    "tutorial.shortcut.files": "vers les files"
+}

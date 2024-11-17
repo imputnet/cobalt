@@ -1,0 +1,13 @@
+{
+    "link_area": "zone d'entrée de liens",
+    "link_area.turnstile": "zone d'entrée de liens. vérification pour savoir si vous n'êtes pas un robot",
+    "clear_input": "effacer l'entrée",
+    "download": "télécharger",
+    "download.think": "traitement du lien...",
+    "download.check": "vérification du téléchargement...",
+    "download.done": "téléchargement terminée",
+    "download.error": "erreur lors du téléchargement",
+
+    "tutorial.shortcut.photos": "ajoutez le raccourci des photos",
+    "tutorial.shortcut.files": "ajoutez le raccourci des vidéos"
+}
