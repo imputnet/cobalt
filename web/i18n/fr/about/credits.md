@@ -41,9 +41,9 @@ meowbalt est la mascotte rapide de cobalt. il est un chat extrênement expressif
 tout les dessins étonnant de meowbalt que tu vois dans cobalt sont fait par [GlitchyPSI](https://glitchypsi.xyz/).
 il est aussi le dessinateur original du personnage.
 
-tu ne peux pas utiliser ou modifier les artworks de GlitchyPSI de meowbalt sans sa permission explicite.
+vous ne pouvez pas utiliser ou modifier les artworks de GlitchyPSI de meowbalt sans sa permission explicite.
 
-tu ne peux pas utiliser ou modifier le design du personnage meowbalt à des fins commercial ou dans aucunes formes qui ne soit pas celle d'un fan art.
+vous ne pouvez pas utiliser ou modifier le design du personnage meowbalt à des fins commercial ou dans aucunes formes qui ne soit pas celle d'un fan art.
 </section>
 
 <section id="licenses">
@@ -52,12 +52,13 @@ tu ne peux pas utiliser ou modifier le design du personnage meowbalt à des fins
     sectionId="licenses"
 />
 
-cobalt processing server is open source and licensed under [AGPL-3.0]({docs.apiLicense}).
+Le serveur de traitement cobalt est open source et sous licence [AGPL-3.0]({docs.apiLicense}).
 
-cobalt frontend is [source first](https://sourcefirst.com/) and licensed under [CC-BY-NC-SA 4.0]({docs.webLicense}).
-we decided to use this license to stop grifters from profiting off our work
-& from creating malicious clones that deceive people and hurt our public identity.
+cobalt frontend est [source first] (https://sourcefirst.com/) et sous licence [CC-BY-NC-SA 4.0] ({docs.webLicense}).
 
-we rely on many open source libraries, create & distribute our own.
-you can see the full list of dependencies on [github]({contacts.github}).
+nous avons décidé d'utiliser cette licence pour empêcher les escrocs de profiter de notre travail
+& de créer des clones malveillants qui trompent les gens et nuisent à notre identité publique.
+
+nous nous appuyons sur de nombreuses bibliothèques open source, créons et distribuons les nôtres.
+vous pouvez voir la liste complète des dépendances sur [github]({contacts.github}).
 </section>

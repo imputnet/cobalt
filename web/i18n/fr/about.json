@@ -16,20 +16,20 @@
     "heading.local": "tâches effectué sur l'appareil",
     "heading.saving": "sauvegarde",
     "heading.encryption": "cryptage",
-    "heading.plausible": "anonymous traffic analytics",
-    "heading.cloudflare": "web privacy & security",
-    "heading.responsibility": "user responsibilities",
-    "heading.abuse": "reporting abuse",
+    "heading.plausible": "analyse anonyme du trafic",
+    "heading.cloudflare": "confidentialité et sécurité sur le web",
+    "heading.responsibility": "responsabilité de l'utilisateur",
+    "heading.abuse": "reporting abuse signaler un abus",
     "heading.motivation": "motivation",
-    "heading.testers": "beta testers",
+    "heading.testers": "bêta testeurs",
 
-    "support.github": "check out cobalt's source code, contribute changes, or report issues",
-    "support.discord": "chat with the community and developers about cobalt or ask for help",
-    "support.twitter": "follow cobalt's updates and development on your twitter timeline",
-    "support.telegram": "stay up to date with latest cobalt updates via a telegram channel",
-    "support.bluesky": "follow cobalt's updates and development on your bluesky feed",
+    "support.github": "verifier le code source de cobalt, contribuer à des changements, ou signaler un problème",
+    "support.discord": "échanger avec la communauté et les développeurs à propos de cobalt ou demander de l'aide",
+    "support.twitter": "suivez les mises à jours de cobalt et son développement dans votre timeline twitter",
+    "support.telegram": "restez à jours avec les dernières mises à jours cobalt via un canal telegram",
+    "support.bluesky": "suivez les mises à jours de cobalt et son développement dans votre feed bluesky",
 
-    "support.description.issue": "if you want to report a bug or some other recurring issue, please do it on github.",
-    "support.description.help": "use discord for any other questions. describe the issue properly in #cobalt-support or else no one will be able help you.",
-    "support.description.best-effort": "all support is best effort and not guaranteed, a reply might take some time."
+    "support.description.issue": "si vous voulez signaler un bug ou un problème récurrent, merci de le faire sur github.",
+    "support.description.help": "utilisez discord pour toutes autres questions. décrivez le problème correctement dans #cobalt-support ou sinon personne ne pourras vous aidez.",
+    "support.description.best-effort": "toute l'assistance est fournie dans la mesure du possible et n'est pas garantie, une réponse peut prendre un certain temps."
 }
