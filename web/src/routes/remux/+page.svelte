@@ -360,13 +360,16 @@
 
         #remux-bullets {
             padding: var(--padding);
-            gap: var(--padding);
         }
     }
 
     @media screen and (max-width: 535px) {
         .progress-bar {
             width: 350px;
+        }
+
+        #remux-bullets {
+            gap: var(--padding);
         }
     }
 </style>
