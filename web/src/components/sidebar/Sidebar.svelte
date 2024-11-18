@@ -41,7 +41,8 @@
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
 
-            <!--<SidebarTab tabName="donate" tabLink="/donate">
+            <!--
+            <SidebarTab tabName="donate" tabLink="/donate">
                 <IconHeart />
             </SidebarTab>
             <SidebarTab tabName="updates" tabLink="/updates">

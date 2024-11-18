@@ -33,11 +33,11 @@
         <h2>如何使用我们的下载工具</h2>
         <p>使用我们的在线下载工具可以快速下载你喜欢的视频和音频文件。以下是一些常见的使用场景：</p>
         <ul>
-            <li><a href="/guide#youtube">如何下载 YouTube 视频？</a></li>
+            <!--<li><a href="/guide#youtube">如何下载 YouTube 视频？</a></li>
             <li><a href="/guide#facebook">如何从 Facebook 保存视频？</a></li>
-            <li><a href="/guide#formats">支持的平台和格式有哪些？</a></li>
+            <li><a href="/guide#formats">支持的平台和格式有哪些？</a></li>-->
         </ul>
-        <a href="/guide" class="button">查看完整教程</a>
+        <!--<a href="/guide" class="button">查看完整教程</a>-->
     </section>
 
     <section id="blog">
