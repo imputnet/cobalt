@@ -1,12 +1,9 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
+    import { downloadFile } from "$lib/download";
     import { createDialog } from "$lib/state/dialogs";
-    import {
-        storedSettings,
-        updateSetting,
-        loadFromString,
-    } from "$lib/state/settings";
     import { validateSettings } from "$lib/settings/validate";
+    import { storedSettings, updateSetting, loadFromString } from "$lib/state/settings";
 
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import ResetSettingsButton from "$components/settings/ResetSettingsButton.svelte";
@@ -87,16 +84,13 @@
         pseudoinput.click();
     };
 
-    const exportSettings = () => {
-        const blob = new Blob(
-            [JSON.stringify($storedSettings, null, 2)],
-            { type: "application/json" }
-        );
-
-        const pseudolink = document.createElement("a");
-        pseudolink.href = URL.createObjectURL(blob);
-        pseudolink.download = "settings.json";
-        pseudolink.click();
+    const exportSettings = async () => {
+        return await downloadFile({
+            file: new File(
+                [JSON.stringify($storedSettings, null, 4)],
+                "settings.json", { type: "application/json" }
+            ),
+        });
     };
 </script>
 
