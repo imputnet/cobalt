@@ -35,7 +35,7 @@ export const requestSession = async () => {
         }
     });
 
-    turnstile.update();
+    turnstile.reset();
 
     return response;
 }

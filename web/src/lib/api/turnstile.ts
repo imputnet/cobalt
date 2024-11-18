@@ -10,7 +10,7 @@ const getResponse = () => {
     return null;
 }
 
-const update = () => {
+const reset = () => {
     const turnstileElement = document.getElementById("turnstile-widget");
 
     if (turnstileElement) {
@@ -21,21 +21,7 @@ const update = () => {
     return null;
 }
 
-const refreshIfExpired = () => {
-    const turnstileElement = document.getElementById("turnstile-widget");
-
-    if (turnstileElement) {
-        const isExpired = window?.turnstile?.isExpired(turnstileElement);
-        if (isExpired) {
-            console.log("expired, refreshing the turnstile widget rn");
-            return update();
-        }
-        console.log("turnstile not expired, nothing to do");
-    }
-}
-
 export default {
     getResponse,
-    update,
-    refreshIfExpired,
+    reset,
 }

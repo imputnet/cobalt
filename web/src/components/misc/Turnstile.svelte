@@ -18,15 +18,15 @@
         const setup = () => {
             window.turnstile?.render(turnstileElement, {
                 sitekey,
+                "refresh-expired": "never",
+
                 "error-callback": (error) => {
                     console.log("error code from turnstile:", error);
                     return true;
                 },
                 "expired-callback": () => {
-                    console.log("turnstile expired. i am callback this is my message")
-                },
-                "timeout-callback": () => {
-                    console.log("turnstile timed out. i am callback this is my message")
+                    console.log("turnstile expired, refreshing neow");
+                    turnstile.reset();
                 },
                 callback: () => {
                     $turnstileSolved = true;
@@ -39,10 +39,6 @@
         } else {
             turnstileScript.addEventListener("load", setup);
         }
-
-        window.addEventListener("focus", () => {
-            turnstile.refreshIfExpired();
-        });
     });
 </script>
 
