@@ -29,13 +29,13 @@
             >
                 <IconComet />
             </PageNavTab>
-            <PageNavTab
+            <!--<PageNavTab
                 tabPath="/about/community"
                 tabTitle={$t("about.page.community")}
                 iconColor="green"
             >
                 <IconUsersGroup />
-            </PageNavTab>
+            </PageNavTab>-->
         </PageNavSection>
 
         <PageNavSection>
@@ -53,13 +53,13 @@
             >
                 <IconLock />
             </PageNavTab>
-            <PageNavTab
+            <!--<PageNavTab
                 tabPath="/about/credits"
                 tabTitle={$t("about.page.credits")}
                 iconColor="gray"
             >
                 <IconLicense />
-            </PageNavTab>
+            </PageNavTab>-->
         </PageNavSection>
     </svelte:fragment>
 

@@ -49,7 +49,7 @@ fair use and credits benefit everyone.
 />
 
 we have no way of detecting abusive behavior automatically, as freesavevideo is 100% anonymous.
-however, you can report such activities to us and we will do our best to comply manually: [safety@imput.net](mailto:safety@imput.net)
+
 
 please note that this email is not intended for user support.
 if you're experiencing issues, contact us via any preferred method on [the support page](/about/community).
