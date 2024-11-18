@@ -5,7 +5,7 @@ import lazySettingGetter from "$lib/settings/lazy-get";
 
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
-import { turnstileLoaded } from "$lib/state/turnstile";
+import { turnstileSolved } from "$lib/state/turnstile";
 import { cachedInfo, getServerInfo } from "$lib/api/server-info";
 
 import type { Optional } from "$lib/types/generic";
@@ -49,7 +49,7 @@ const request = async (url: string) => {
         } as CobaltErrorResponse;
     }
 
-    if (getCachedInfo?.info?.cobalt?.turnstileSitekey && !get(turnstileLoaded)) {
+    if (getCachedInfo?.info?.cobalt?.turnstileSitekey && !get(turnstileSolved)) {
         return {
             status: "error",
             error: {

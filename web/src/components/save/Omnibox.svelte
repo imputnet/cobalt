@@ -12,7 +12,7 @@
     import dialogs from "$lib/state/dialogs";
     import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
-    import { turnstileLoaded } from "$lib/state/turnstile";
+    import { turnstileSolved } from "$lib/state/turnstile";
 
     import type { Optional } from "$lib/types/generic";
     import type { DownloadModeOption } from "$lib/types/settings";
@@ -39,7 +39,8 @@
 
     let isDisabled = false;
     let isLoading = false;
-    let isBotCheckOngoing = false;
+    $: isBotCheckOngoing =
+        !!$cachedInfo?.info?.cobalt?.turnstileSitekey && !$turnstileSolved;
 
     const validLink = (url: string) => {
         try {
@@ -59,16 +60,6 @@
 
         // clear hash and query to prevent bookmarking unwanted links
         goto("/", { replaceState: true });
-    }
-
-    $: if ($cachedInfo?.info?.cobalt?.turnstileSitekey) {
-        if ($turnstileLoaded) {
-            isBotCheckOngoing = false;
-        } else {
-            isBotCheckOngoing = true;
-        }
-    } else {
-        isBotCheckOngoing = false;
     }
 
     const pasteClipboard = () => {

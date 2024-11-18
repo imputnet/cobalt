@@ -2,7 +2,9 @@
     import { onMount } from "svelte";
 
     import { cachedInfo } from "$lib/api/server-info";
-    import { turnstileLoaded, turnstileCreated } from "$lib/state/turnstile";
+    import { turnstileSolved, turnstileCreated } from "$lib/state/turnstile";
+
+    import turnstile from "$lib/api/turnstile";
 
     let turnstileElement: HTMLElement;
     let turnstileScript: HTMLElement;
@@ -21,7 +23,7 @@
                     return true;
                 },
                 callback: () => {
-                    $turnstileLoaded = true;
+                    $turnstileSolved = true;
                 }
             });
         }
@@ -31,6 +33,10 @@
         } else {
             turnstileScript.addEventListener("load", setup);
         }
+
+        window.addEventListener("focus", () => {
+            turnstile.refreshIfExpired();
+        });
     });
 </script>
 
