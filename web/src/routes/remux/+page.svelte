@@ -10,6 +10,11 @@
     import Skeleton from "$components/misc/Skeleton.svelte";
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
+    import BulletExplain from "$components/misc/BulletExplain.svelte";
+
+    import IconRepeat from "@tabler/icons-svelte/IconRepeat.svelte";
+    import IconDevices from "@tabler/icons-svelte/IconDevices.svelte";
+    import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
 
     let draggedOver = false;
     let file: File | undefined;
@@ -40,7 +45,7 @@
 
     let processing = false;
 
-    const ff = new LibAVWrapper(progress => {
+    const ff = new LibAVWrapper((progress) => {
         if (progress.out_time_sec) {
             processedDuration = progress.out_time_sec;
         }
@@ -62,7 +67,7 @@
             speed = undefined;
             processing = true;
 
-            const file_info = await ff.probe(file).catch(e => {
+            const file_info = await ff.probe(file).catch((e) => {
                 if (e?.message?.toLowerCase().includes("out of memory")) {
                     console.error("uh oh! out of memory");
                     console.error(e);
@@ -105,7 +110,7 @@
             totalDuration = Number(file_info.format.duration);
 
             if (file instanceof File && !file.type) {
-                file = new File([ file ], file.name, {
+                file = new File([file], file.name, {
                     type: mime.getType(file.name) ?? undefined,
                 });
             }
@@ -144,8 +149,8 @@
 
             return await downloadFile({
                 file: new File([render], filename, {
-                    type: render.type
-                })
+                    type: render.type,
+                }),
             });
         } finally {
             processing = false;
@@ -198,7 +203,7 @@
     <title>{$t("tabs.remux")} ~ {$t("general.cobalt")}</title>
     <meta
         property="og:title"
-        content="{$t("tabs.remux")} ~ {$t("general.cobalt")}"
+        content="{$t('tabs.remux')} ~ {$t('general.cobalt')}"
     />
 </svelte:head>
 
@@ -210,22 +215,41 @@
         data-first-focus
         data-focus-ring-hidden
     >
-        <FileReceiver
-            bind:draggedOver
-            bind:file
-            acceptTypes={["video/*", "audio/*"]}
-            acceptExtensions={[
-                "mp4",
-                "webm",
-                "mp3",
-                "ogg",
-                "opus",
-                "wav",
-                "m4a",
-            ]}
-        />
-        <div class="subtext remux-description">
-            {$t("remux.description")}
+        <div id="remux-receiver">
+            <FileReceiver
+                bind:draggedOver
+                bind:file
+                acceptTypes={["video/*", "audio/*"]}
+                acceptExtensions={[
+                    "mp4",
+                    "webm",
+                    "mp3",
+                    "ogg",
+                    "opus",
+                    "wav",
+                    "m4a",
+                ]}
+            />
+        </div>
+
+        <div id="remux-bullets">
+            <BulletExplain
+                title={$t("remux.bullet.purpose.title")}
+                description={$t("remux.bullet.purpose.description")}
+                icon={IconRepeat}
+            />
+
+            <BulletExplain
+                title={$t("remux.bullet.explainer.title")}
+                description={$t("remux.bullet.explainer.description")}
+                icon={IconInfoCircle}
+            />
+
+            <BulletExplain
+                title={$t("remux.bullet.privacy.title")}
+                description={$t("remux.bullet.privacy.description")}
+                icon={IconDevices}
+            />
         </div>
     </div>
 
@@ -263,13 +287,14 @@
 
     #remux-open {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
-        max-width: 450px;
         text-align: center;
-        gap: 24px;
-        transition: transform 0.2s, opacity 0.2s;
+        gap: 48px;
+        transition:
+            transform 0.2s,
+            opacity 0.2s;
     }
 
     #remux-processing {
@@ -278,7 +303,9 @@
         flex-direction: column;
         opacity: 0;
         transform: scale(0.9);
-        transition: transform 0.2s, opacity 0.2s;
+        transition:
+            transform 0.2s,
+            opacity 0.2s;
         pointer-events: none;
     }
 
@@ -314,16 +341,29 @@
         text-align: center;
     }
 
-    .remux-description {
-        font-size: 14px;
-        line-height: 1.5;
+    #remux-receiver {
+        max-width: 450px;
+    }
+
+    #remux-bullets {
+        display: flex;
+        flex-direction: column;
+        gap: var(--padding);
+        max-width: 450px;
+    }
+
+    @media screen and (max-width: 920px) {
+        #remux-open {
+            flex-direction: column;
+            gap: var(--padding);
+        }
+
+        #remux-bullets {
+            padding: var(--padding);
+        }
     }
 
     @media screen and (max-width: 535px) {
-        .remux-description {
-            font-size: 12px;
-        }
-
         .progress-bar {
             width: 350px;
         }
