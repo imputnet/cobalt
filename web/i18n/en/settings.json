@@ -113,10 +113,6 @@
 
     "advanced.data": "data management",
 
-    "processing.override": "default instance override",
-    "processing.override.title": "use the instance-provided processing server",
-    "processing.override.description": "if web instance provides its own default processing server, you can choose to use it over the main processing server. make sure it's a server by someone you trust.",
-
     "processing.community": "community instances",
 
     "processing.enable_custom.title": "use a custom processing server",

@@ -10,7 +10,7 @@ export const currentApiURL = () => {
         return new URL(customInstanceURL).origin;
     }
 
-    if (env.DEFAULT_API && processingSettings.allowDefaultOverride) {
+    if (env.DEFAULT_API) {
         return new URL(env.DEFAULT_API).origin;
     }
 
