@@ -22,6 +22,12 @@
                     console.log("error code from turnstile:", error);
                     return true;
                 },
+                "expired-callback": () => {
+                    console.log("turnstile expired. i am callback this is my message")
+                },
+                "timeout-callback": () => {
+                    console.log("turnstile timed out. i am callback this is my message")
+                },
                 callback: () => {
                     $turnstileSolved = true;
                 }
