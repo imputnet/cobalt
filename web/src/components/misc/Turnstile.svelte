@@ -19,6 +19,7 @@
             window.turnstile?.render(turnstileElement, {
                 sitekey,
                 "refresh-expired": "never",
+                "retry-interval": 800,
 
                 "error-callback": (error) => {
                     console.log("error code from turnstile:", error);
