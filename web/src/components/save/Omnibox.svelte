@@ -1,15 +1,16 @@
 <script lang="ts">
+    import env from "$lib/env";
+
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { browser } from "$app/environment";
     import { SvelteComponent, tick } from "svelte";
 
     import { t } from "$lib/i18n/translations";
+    import { cachedInfo } from "$lib/api/server-info";
 
     import dialogs from "$lib/state/dialogs";
-
     import { link } from "$lib/state/omnibox";
-    import { cachedInfo } from "$lib/api/server-info";
     import { updateSetting } from "$lib/state/settings";
     import { turnstileLoaded } from "$lib/state/turnstile";
 
@@ -133,6 +134,16 @@
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
+
+<!--
+    if you want to remove the community instance label,
+    refer to the license first https://github.com/imputnet/cobalt/tree/main/web#license
+-->
+{#if env.DEFAULT_API || $page.url.host !== "cobalt.tools" || !$page.url.host.endsWith(".cobalt.tools")}
+    <div id="instance-label">
+        {$t("save.label.community_instance")}
+    </div>
+{/if}
 
 <div id="omnibox">
     <div
@@ -329,6 +340,12 @@
 
     #paste-mobile-text {
         display: none;
+    }
+
+    #instance-label {
+        font-size: 13px;
+        color: var(--gray);
+        font-weight: 500;
     }
 
     @media screen and (max-width: 440px) {
