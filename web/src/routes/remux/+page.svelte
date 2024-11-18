@@ -348,7 +348,7 @@
     #remux-bullets {
         display: flex;
         flex-direction: column;
-        gap: var(--padding);
+        gap: 18px;
         max-width: 450px;
     }
 
@@ -360,6 +360,7 @@
 
         #remux-bullets {
             padding: var(--padding);
+            gap: var(--padding);
         }
     }
 
