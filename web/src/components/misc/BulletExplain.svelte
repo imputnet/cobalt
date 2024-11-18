@@ -44,6 +44,7 @@
     .bullet-description {
         padding: 0;
         line-height: 1.5;
+        font-size: 13.5px;
     }
 
     .bullet-icon {
@@ -62,6 +63,10 @@
 
         .bullet-title {
             font-size: 15px;
+        }
+
+        .bullet-description {
+            font-size: 13px;
         }
 
         .bullet-icon :global(svg) {
