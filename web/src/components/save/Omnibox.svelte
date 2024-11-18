@@ -17,13 +17,11 @@
     import type { Optional } from "$lib/types/generic";
     import type { DownloadModeOption } from "$lib/types/settings";
 
-    import IconLink from "@tabler/icons-svelte/IconLink.svelte";
-    import IconLoader2 from "@tabler/icons-svelte/IconLoader2.svelte";
-
     import ClearButton from "$components/save/buttons/ClearButton.svelte";
     import DownloadButton from "$components/save/buttons/DownloadButton.svelte";
 
     import Switcher from "$components/buttons/Switcher.svelte";
+    import OmniboxIcon from "$components/save/OmniboxIcon.svelte";
     import ActionButton from "$components/buttons/ActionButton.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
@@ -142,17 +140,7 @@
         class:focused={isFocused}
         class:downloadable={validLink($link)}
     >
-        <div
-            id="input-link-icon"
-            class:loading={isLoading || isBotCheckOngoing}
-        >
-            {#if isLoading || isBotCheckOngoing}
-                <IconLoader2 />
-            {:else}
-                <IconLink />
-            {/if}
-        </div>
-
+        <OmniboxIcon loading={isLoading || isBotCheckOngoing} />
         <input
             id="link-area"
             bind:value={$link}
@@ -250,35 +238,11 @@
         outline: var(--secondary) 0.5px solid;
     }
 
-    #input-link-icon {
-        display: flex;
-    }
-
-    #input-link-icon :global(svg) {
-        stroke: var(--gray);
-        width: 18px;
-        height: 18px;
-        stroke-width: 2px;
-    }
-
-    #input-link-icon.loading :global(svg) {
-        animation: spin 0.7s infinite linear;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    #input-container.focused #input-link-icon :global(svg) {
+    #input-container.focused :global(#input-icons svg) {
         stroke: var(--secondary);
     }
 
-    #input-container.downloadable #input-link-icon :global(svg) {
+    #input-container.downloadable :global(#input-icons svg) {
         stroke: var(--secondary);
     }
 
