@@ -2,6 +2,7 @@
     export let price: number;
     export let desc: string;
     export let href: string;
+    export let icon: ConstructorOfATypedSvelteComponent;
 
     const USD = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -17,7 +18,7 @@
     }}
 >
     <div class="donate-card-title">
-        <slot></slot>
+        <svelte:component this={icon} />
         {USD.format(price)}
     </div>
     <div class="donate-card-subtitle">{desc}</div>

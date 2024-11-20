@@ -176,14 +176,13 @@
                 showRightScroll = currentPos < maxPos && currentPos !== maxPos;
             }}
         >
-            {#each Object.entries(PRESET_DONATION_AMOUNTS) as [amount, component]}
+            {#each Object.entries(PRESET_DONATION_AMOUNTS) as [amount, icon]}
                 <DonationOption
                     price={+amount}
                     desc={$t(`donate.card.option.${amount}`)}
                     href={donationMethods[processor](+amount * 100)}
-                >
-                    <svelte:component this={component} />
-                </DonationOption>
+                    {icon}
+                />
             {/each}
         </div>
     </div>
