@@ -278,9 +278,15 @@
         display: flex;
         overflow: scroll;
         background-color: var(--primary);
-
         border-top-left-radius: var(--border-radius);
         border-bottom-left-radius: var(--border-radius);
+    }
+
+    #content:dir(rtl) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
     }
 
     @media screen and (max-width: 535px) {
@@ -289,10 +295,13 @@
             grid-template-columns: unset;
             grid-template-rows: 1fr var(--sidebar-height-mobile);
         }
-        #content {
+
+        #content,
+        #content:dir(rtl) {
             padding-top: env(safe-area-inset-top);
             order: -1;
             border-top-left-radius: 0;
+            border-top-right-radius: 0;
             border-bottom-left-radius: calc(var(--border-radius) * 2);
             border-bottom-right-radius: calc(var(--border-radius) * 2);
         }
