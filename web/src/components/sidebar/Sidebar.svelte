@@ -107,6 +107,16 @@
         #sidebar :global(.sidebar-inner-container:last-child) {
             padding-right: calc(var(--border-radius) * 2);
         }
+
+        #sidebar :global(.sidebar-inner-container:first-child:dir(rtl)) {
+            padding-left: 0;
+            padding-right: calc(var(--border-radius) * 2);
+        }
+
+        #sidebar :global(.sidebar-inner-container:last-child:dir(rtl)) {
+            padding-right: 0;
+            padding-left: calc(var(--border-radius) * 2);
+        }
     }
 
     /* add padding for notch / dynamic island in landscape */
