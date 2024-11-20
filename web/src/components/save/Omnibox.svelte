@@ -219,18 +219,24 @@
     }
 
     #input-container {
+        --input-padding: 10px;
         display: flex;
         box-shadow: 0 0 0 1.5px var(--input-border) inset;
         border-radius: var(--border-radius);
-        padding: 0 10px;
+        padding: 0 var(--input-padding);
         align-items: center;
-        gap: 10px;
+        gap: var(--input-padding);
         font-size: 14px;
         flex: 1;
     }
 
     #input-container.downloadable {
         padding-right: 0;
+    }
+
+    #input-container.downloadable:dir(rtl) {
+        padding-right: var(--input-padding);
+        padding-left: 0;
     }
 
     #input-container.focused {
@@ -250,7 +256,7 @@
         display: flex;
         width: 100%;
         margin: 0;
-        padding: 10px 0;
+        padding: var(--input-padding) 0;
         height: 18px;
 
         align-items: center;
