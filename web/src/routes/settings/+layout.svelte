@@ -18,7 +18,7 @@
 
     import IconBug from "@tabler/icons-svelte/IconBug.svelte";
     import IconWorld from "@tabler/icons-svelte/IconWorld.svelte";
-    import IconSettingsBolt from "@tabler/icons-svelte/IconSettingsBolt.svelte";
+    import IconAdjustmentsStar from "@tabler/icons-svelte/IconAdjustmentsStar.svelte";
 
     $: versionText = $version
         ? `v${$version.version}-${$version.commit.slice(0, 8)}`
@@ -78,7 +78,7 @@
             <PageNavTab
                 path="/settings/advanced"
                 title={$t("settings.page.advanced")}
-                icon={IconSettingsBolt}
+                icon={IconAdjustmentsStar}
                 iconColor="gray"
             />
             {#if $settings.advanced.debug}
