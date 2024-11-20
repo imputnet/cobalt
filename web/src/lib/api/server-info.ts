@@ -53,14 +53,9 @@ export const getServerInfo = async () => {
             origin: currentApiURL(),
         });
 
-        /*
-            reload the page if turnstile sitekey changed.
-            there's no other proper way to do this, at least i couldn't find any :(
-        */
-        if (cache?.info?.cobalt?.turnstileSitekey && freshInfo?.cobalt?.turnstileSitekey) {
-            if (browser) {
-                window.location.reload();
-            }
+        // reload the page if turnstile sitekey changed
+        if (cache && cache?.info?.cobalt?.turnstileSitekey !== freshInfo?.cobalt?.turnstileSitekey) {
+            if (browser) window.location.reload();
         }
 
         return true;
