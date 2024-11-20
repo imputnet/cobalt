@@ -40,7 +40,7 @@
         background-color: var(--red);
         color: var(--white);
         width: max-content;
-        text-align: left;
+        text-align: start;
     }
 
     #setting-button-reset:hover {

@@ -77,7 +77,7 @@
     }
 
     .support-note {
-        text-align: left;
+        text-align: start;
         padding: 0;
     }
 </style>

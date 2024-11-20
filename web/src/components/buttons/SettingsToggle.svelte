@@ -76,7 +76,7 @@
         align-items: center;
         gap: var(--padding);
         justify-content: space-between;
-        text-align: left;
+        text-align: start;
         transform: none;
         padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);

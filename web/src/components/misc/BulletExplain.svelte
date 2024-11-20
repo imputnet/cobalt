@@ -22,7 +22,7 @@
     .bullet-holder {
         display: flex;
         flex-direction: row;
-        text-align: left;
+        text-align: start;
         gap: var(--padding);
     }
 

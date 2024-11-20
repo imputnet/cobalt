@@ -70,7 +70,7 @@
         gap: 4px;
         height: fit-content;
 
-        text-align: left;
+        text-align: start;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;

@@ -75,7 +75,7 @@
         overflow: clip;
         justify-content: flex-start;
         align-items: center;
-        text-align: left;
+        text-align: start;
         line-break: anywhere;
         padding: 0;
         gap: 10px;
