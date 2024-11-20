@@ -44,5 +44,4 @@
     .toggle.enabled .toggle-switcher {
         transform: translateX(var(--enabled-pos));
     }
-    }
 </style>
