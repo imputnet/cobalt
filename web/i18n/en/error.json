@@ -11,7 +11,7 @@
     "captcha_ongoing": "cloudflare turnstile is still checking if you're not a bot.\n\nif it takes too long, you can try: disabling weird browser extensions, changing networks, using a different browser, or checking your device for malware.",
 
     "api.auth.jwt.missing": "couldn't authenticate with the processing instance because the access token is missing. try again in a few seconds or reload the page!",
-    "api.auth.jwt.invalid": "couldn't authenticate with the processing instance because the access token expired. try again in a few seconds or reload the page!",
+    "api.auth.jwt.invalid": "couldn't authenticate with the processing instance because the access token is invalid. try again in a few seconds or reload the page!",
     "api.auth.turnstile.missing": "couldn't authenticate with the processing instance because the captcha solution is missing. try again in a few seconds or reload the page!",
     "api.auth.turnstile.invalid": "couldn't authenticate with the processing instance because the captcha solution is invalid. try again in a few seconds or reload the page!",
 
