@@ -119,5 +119,5 @@
 
     "processing.access_key": "instance access key",
     "processing.access_key.title": "use an instance access key",
-    "processing.access_key.description": "cobalt will use this key to make requests to the api instance."
+    "processing.access_key.description": "cobalt will use this key to make requests to the processing instance instead of other authentication methods. make sure the instance supports api keys!"
 }
