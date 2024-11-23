@@ -34,7 +34,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="community"
+    sectionId="access-key"
     title={$t("settings.processing.access_key")}
 >
     <div class="category-inside-group">
