@@ -24,6 +24,7 @@
                 settingId="customInstanceURL"
                 placeholder="https://instance.url.example/"
                 showInstanceWarning
+                altText={$t("settings.processing.custom_instance.input.alt_text")}
             />
         {/if}
     </div>
@@ -47,6 +48,7 @@
                 settingContext="processing"
                 settingId="customApiKey"
                 placeholder="00000000-0000-0000-0000-000000000000"
+                altText={$t("settings.processing.access_key.input.alt_text")}
                 type="uuid"
             />
         {/if}

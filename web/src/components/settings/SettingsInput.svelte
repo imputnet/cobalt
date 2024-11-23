@@ -18,6 +18,7 @@
     export let settingId: Id;
     export let settingContext: Context;
     export let placeholder: string;
+    export let altText: string;
     export let type: "url" | "uuid" = "url";
     export let showInstanceWarning = false;
 
@@ -27,11 +28,9 @@
     };
 
     let input: HTMLInputElement;
-
     let inputValue: string = String(get(settings)[settingContext][settingId]);
     let inputFocused = false;
-
-    let validInput: boolean;
+    let validInput = false;
 
     const writeToSettings = (value: string, type: "url" | "uuid" | "text") => {
         updateSetting({
@@ -59,7 +58,7 @@
 </script>
 
 <div id="settings-input-holder">
-    <div id="input-container" class:focused={inputFocused}>
+    <div id="input-container" class:focused={inputFocused} aria-hidden="false">
         <input
             id="input-box"
             bind:this={input}
@@ -73,16 +72,22 @@
             autocapitalize="off"
             maxlength="64"
             pattern={regex[type]}
-            {placeholder}
+            aria-label={altText}
+            aria-hidden="false"
         />
+
+        {#if inputValue.length === 0}
+            <span class="input-placeholder" aria-hidden="true">
+                {placeholder}
+            </span>
+        {/if}
     </div>
 
     <div id="settings-input-buttons">
         <button
             class="settings-input-button"
             aria-label={$t("button.save")}
-            disabled={inputValue == $settings[settingContext][settingId] ||
-                !validInput}
+            disabled={inputValue == $settings[settingContext][settingId] || !validInput}
             on:click={save}
         >
             <IconCheck />
@@ -114,6 +119,8 @@
         display: flex;
         align-items: center;
         width: 100%;
+        position: relative;
+        overflow: hidden;
     }
 
     #input-container,
@@ -137,6 +144,13 @@
         color: var(--gray);
         /* fix for firefox */
         opacity: 1;
+    }
+
+    .input-placeholder {
+        position: absolute;
+        color: var(--gray);
+        pointer-events: none;
+        white-space: nowrap;
     }
 
     #input-box:focus-visible {

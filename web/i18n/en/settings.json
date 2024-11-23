@@ -115,9 +115,12 @@
 
     "processing.community": "community instances",
     "processing.enable_custom.title": "use a custom processing server",
-    "processing.enable_custom.description": "cobalt will use a custom processing server if you choose to. even though cobalt has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
+    "processing.enable_custom.description": "cobalt will use a custom processing instance if you choose to. even though cobalt has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
 
     "processing.access_key": "instance access key",
     "processing.access_key.title": "use an instance access key",
-    "processing.access_key.description": "cobalt will use this key to make requests to the processing instance instead of other authentication methods. make sure the instance supports api keys!"
+    "processing.access_key.description": "cobalt will use this key to make requests to the processing instance instead of other authentication methods. make sure the instance supports api keys!",
+
+    "processing.custom_instance.input.alt_text": "custom instance domain",
+    "processing.access_key.input.alt_text": "u-u-i-d access key"
 }
