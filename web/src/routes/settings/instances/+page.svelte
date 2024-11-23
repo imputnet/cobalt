@@ -3,15 +3,14 @@
 
     import { t } from "$lib/i18n/translations";
 
+    import SettingsInput from "$components/settings/SettingsInput.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
-    import CustomInstanceInput from "$components/settings/CustomInstanceInput.svelte";
 </script>
 
 <SettingsCategory
     sectionId="community"
     title={$t("settings.processing.community")}
-    beta
 >
     <div class="category-inside-group">
         <SettingsToggle
@@ -20,7 +19,11 @@
             title={$t("settings.processing.enable_custom.title")}
         />
         {#if $settings.processing.enableCustomInstances}
-            <CustomInstanceInput />
+            <SettingsInput
+                settingContext="processing"
+                settingId="customInstanceURL"
+                placeholder="https://instance.url.example/"
+            />
         {/if}
     </div>
     <div class="subtext">
