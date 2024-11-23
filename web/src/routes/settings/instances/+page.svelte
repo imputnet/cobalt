@@ -23,6 +23,7 @@
                 settingContext="processing"
                 settingId="customInstanceURL"
                 placeholder="https://instance.url.example/"
+                showInstanceWarning
             />
         {/if}
     </div>

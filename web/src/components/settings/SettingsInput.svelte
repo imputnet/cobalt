@@ -19,73 +19,52 @@
     export let settingContext: Context;
     export let placeholder: string;
     export let type: "url" | "uuid" = "url";
+    export let showInstanceWarning = false;
 
-    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+    const regex = {
+        url: "https?:\\/\\/[a-z0-9.\\-]+(:\\d+)?/?",
+        uuid: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+    };
+
+    let input: HTMLInputElement;
 
     let inputValue: string = String(get(settings)[settingContext][settingId]);
     let inputFocused = false;
 
     let validInput: boolean;
 
-    const checkInput = () => {
-        try {
-            if (type === "uuid") {
-                const regex = UUID_REGEX.test(inputValue);
-                if (!regex) throw new Error("invalid uuid");
-            } else {
-                new URL(inputValue).origin.toString();
-            }
-            validInput = true;
-        } catch {
-            validInput = false;
-        }
+    const writeToSettings = (value: string, type: "url" | "uuid" | "text") => {
+        updateSetting({
+            [settingContext]: {
+                [settingId]:
+                    type === "url" ? new URL(value).origin.toString() : value,
+            },
+        });
+        inputValue = String(get(settings)[settingContext][settingId]);
     };
 
-    const writeInput = () => {
-        let input;
-        try {
-            if (type === "uuid") {
-                const regex = UUID_REGEX.test(inputValue);
-                if (regex) input = inputValue.toString();
-            } else {
-                input = new URL(inputValue).origin.toString();
+    const save = async () => {
+        if (showInstanceWarning) {
+            await customInstanceWarning();
+
+            if ($settings.processing.seenCustomWarning && inputValue) {
+                return writeToSettings(inputValue, type);
             }
-        } catch {
-            validInput = false;
+
             return;
         }
 
-        updateSetting({
-            [settingContext]: {
-                [settingId]: input,
-            },
-        });
-        inputValue = String(get(settings)[settingContext][settingId]);
+        return writeToSettings(inputValue, type);
     };
-
-    const reset = () => {
-        updateSetting({
-            [settingContext]: {
-                [settingId]: "",
-            },
-        });
-        inputValue = String(get(settings)[settingContext][settingId]);
-    }
-
-    const save = async () => {
-        await customInstanceWarning();
-        if ($settings.processing.seenCustomWarning && inputValue) {
-            writeInput();
-        }
-    }
 </script>
 
 <div id="settings-input-holder">
     <div id="input-container" class:focused={inputFocused}>
         <input
             id="input-box"
+            bind:this={input}
             bind:value={inputValue}
-            on:input={() => checkInput()}
+            on:input={() => (validInput = input.checkValidity())}
             on:input={() => (inputFocused = true)}
             on:focus={() => (inputFocused = true)}
             on:blur={() => (inputFocused = false)}
@@ -93,6 +72,7 @@
             autocomplete="off"
             autocapitalize="off"
             maxlength="64"
+            pattern={regex[type]}
             {placeholder}
         />
     </div>
@@ -101,9 +81,8 @@
         <button
             class="settings-input-button"
             aria-label={$t("button.save")}
-            disabled={
-                inputValue == $settings[settingContext][settingId] || !validInput
-            }
+            disabled={inputValue == $settings[settingContext][settingId] ||
+                !validInput}
             on:click={save}
         >
             <IconCheck />
@@ -113,7 +92,7 @@
             class="settings-input-button"
             aria-label={$t("button.reset")}
             disabled={String($settings[settingContext][settingId]).length <= 0}
-            on:click={() => reset()}
+            on:click={() => writeToSettings("", "text")}
         >
             <IconX />
         </button>
