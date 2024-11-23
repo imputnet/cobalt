@@ -69,7 +69,8 @@ const config = {
                     "pagead2.googlesyndication.com",
                     "googleads.g.doubleclick.net",
                     "tpc.googlesyndication.com",
-                    "www.google.com"
+                    "www.google.com",
+                    "https://ep2.adtrafficquality.google"
                 ],
 
                 "script-src": [
@@ -82,6 +83,7 @@ const config = {
                     "googleads.g.doubleclick.net",
                     "tpc.googlesyndication.com",
                     "www.google.com",
+                    "https://ep2.adtrafficquality.google",
                     // eslint-disable-next-line no-undef
                     process.env.WEB_PLAUSIBLE_HOST ? process.env.WEB_PLAUSIBLE_HOST : "",
 
