@@ -6,7 +6,8 @@ import lazySettingGetter from "$lib/settings/lazy-get";
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
 import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
-import { cachedInfo, getServerInfo } from "$lib/api/server-info";
+import cachedInfo from "$lib/state/server-info";
+import { getServerInfo } from "$lib/api/server-info";
 
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";

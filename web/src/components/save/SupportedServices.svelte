@@ -1,6 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
+    import { getServerInfo } from "$lib/api/server-info";
+    import cachedInfo from "$lib/state/server-info";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
     import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";

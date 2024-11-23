@@ -1,17 +1,15 @@
 import { browser } from "$app/environment";
 
-import { get, writable } from "svelte/store";
+import { get } from "svelte/store";
 import { currentApiURL } from "$lib/api/api-url";
 import { turnstileCreated, turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
-
+import cachedInfo from "$lib/state/server-info";
 import type { CobaltServerInfoResponse, CobaltErrorResponse, CobaltServerInfo } from "$lib/types/api";
 
 export type CobaltServerInfoCache = {
     info: CobaltServerInfo,
     origin: string,
 }
-
-export const cachedInfo = writable<CobaltServerInfoCache | undefined>();
 
 const request = async () => {
     const apiEndpoint = `${currentApiURL()}/`;

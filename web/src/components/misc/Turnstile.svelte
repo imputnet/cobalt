@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import { cachedInfo } from "$lib/api/server-info";
+    import cachedInfo from "$lib/state/server-info";
     import { turnstileSolved, turnstileCreated } from "$lib/state/turnstile";
 
     import turnstile from "$lib/api/turnstile";
