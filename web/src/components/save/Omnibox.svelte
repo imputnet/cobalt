@@ -7,12 +7,11 @@
     import { SvelteComponent, tick } from "svelte";
 
     import { t } from "$lib/i18n/translations";
-    import { cachedInfo } from "$lib/api/server-info";
 
     import dialogs from "$lib/state/dialogs";
     import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
-    import { turnstileSolved } from "$lib/state/turnstile";
+    import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 
     import type { Optional } from "$lib/types/generic";
     import type { DownloadModeOption } from "$lib/types/settings";
@@ -37,8 +36,8 @@
 
     let isDisabled = false;
     let isLoading = false;
-    $: isBotCheckOngoing =
-        !!$cachedInfo?.info?.cobalt?.turnstileSitekey && !$turnstileSolved;
+
+    $: isBotCheckOngoing = $turnstileEnabled && !$turnstileSolved;
 
     const validLink = (url: string) => {
         try {

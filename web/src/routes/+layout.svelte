@@ -7,18 +7,18 @@
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
-    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
+    import { getServerInfo } from "$lib/api/server-info";
 
     import "$lib/polyfills";
     import env from "$lib/env";
-    import settings from "$lib/state/settings";
     import locale from "$lib/i18n/locale";
+    import settings from "$lib/state/settings";
 
     import { t } from "$lib/i18n/translations";
 
     import { device, app } from "$lib/device";
-    import { turnstileCreated } from "$lib/state/turnstile";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
+    import { turnstileCreated, turnstileEnabled } from "$lib/state/turnstile";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import Turnstile from "$components/misc/Turnstile.svelte";
@@ -28,13 +28,12 @@
 
     $: reduceMotion =
         $settings.appearance.reduceMotion || device.prefers.reducedMotion;
+
     $: reduceTransparency =
         $settings.appearance.reduceTransparency ||
         device.prefers.reducedTransparency;
 
-    $: spawnTurnstile = !!$cachedInfo?.info?.cobalt?.turnstileSitekey;
-
-    afterNavigate(async() => {
+    afterNavigate(async () => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
@@ -46,11 +45,14 @@
 </script>
 
 <svelte:head>
-    <meta name="description" content={$t("general.embed.description")}>
-    <meta property="og:description" content={$t("general.embed.description")}>
+    <meta name="description" content={$t("general.embed.description")} />
+    <meta property="og:description" content={$t("general.embed.description")} />
 
     {#if env.HOST}
-        <meta property="og:url" content="https://{env.HOST}{$page.url.pathname}">
+        <meta
+            property="og:url"
+            content="https://{env.HOST}{$page.url.pathname}"
+        />
     {/if}
 
     {#if device.is.mobile}
@@ -67,7 +69,11 @@
     {/if}
 </svelte:head>
 
-<div style="display: contents" data-theme={browser ? $currentTheme : undefined} lang={$locale}>
+<div
+    style="display: contents"
+    data-theme={browser ? $currentTheme : undefined}
+    lang={$locale}
+>
     <div
         id="cobalt"
         class:loaded={browser}
@@ -84,7 +90,7 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
-            {#if (spawnTurnstile && $page.url.pathname === "/") || $turnstileCreated}
+            {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
             <slot></slot>

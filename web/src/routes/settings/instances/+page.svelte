@@ -31,6 +31,32 @@
     </div>
 </SettingsCategory>
 
+{#if $settings.processing.enableCustomInstances}
+    <SettingsCategory
+        sectionId="community"
+        title={$t("settings.processing.access_key")}
+    >
+        <div class="category-inside-group">
+            <SettingsToggle
+                settingContext="processing"
+                settingId="enableCustomApiKey"
+                title={$t("settings.processing.access_key.title")}
+            />
+            {#if $settings.processing.enableCustomApiKey}
+                <SettingsInput
+                    settingContext="processing"
+                    settingId="customApiKey"
+                    placeholder="00000000-0000-0000-0000-000000000000"
+                    type="uuid"
+                />
+            {/if}
+        </div>
+        <div class="subtext">
+            {$t("settings.processing.access_key.description")}
+        </div>
+    </SettingsCategory>
+{/if}
+
 <style>
     .category-inside-group {
         display: flex;
