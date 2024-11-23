@@ -49,7 +49,8 @@
 
     "api.youtube.no_matching_format": "youtube didn't return a valid video + audio format combo, either video or audio is missing. formats for this video may be re-encoding on youtube's side or something went wrong when parsing them. try enabling the hls option in video settings!",
     "api.youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video. try again in a few seconds, but if this issue sticks, please report it!",
-    "api.youtube.login": "couldn't get this video because youtube asked the instance to log in. this is potentially caused by the processing instance not having any active account tokens. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
+    "api.youtube.login": "couldn't get this video because youtube asked the instance to log in. this is potentially caused by the processing instance not having any active account tokens or youtube updating something about their api. try again in a few seconds, but if it still doesn't work, please report this issue!",
     "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
-    "api.youtube.no_hls_streams": "couldn't find any matching HLS streams for this video. try downloading it without HLS!"
+    "api.youtube.no_hls_streams": "couldn't find any matching HLS streams for this video. try downloading it without HLS!",
+    "api.youtube.api_error": "youtube updated something about its api and i couldn't get any info about this video. try again in a few seconds, but if this issue sticks, please report it!"
 }
