@@ -1,4 +1,4 @@
-const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
+const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', ':', '`', '$', '"', "@", '=', '?', '|', '*'];
 
 export function metadataManager(obj) {
     const keys = Object.keys(obj);
@@ -21,7 +21,7 @@ export function metadataManager(obj) {
 
 export function cleanString(string) {
     for (const i in forbiddenCharsString) {
-        string = string.replaceAll("/", "_")
+        string = string.replaceAll("/", "_").replaceAll("\\", "_")
                        .replaceAll(forbiddenCharsString[i], '')
     }
     return string;
