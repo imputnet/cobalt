@@ -98,7 +98,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             type: audioStreamType,
                             url: r.urls,
                             headers: r.headers,
-                            filename: r.audioFilename,
+                            filename: `${r.audioFilename}.${audioFormat}`,
                             isAudioOnly: true,
                             audioFormat,
                         })
