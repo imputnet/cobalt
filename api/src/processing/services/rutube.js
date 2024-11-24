@@ -33,6 +33,10 @@ export default async function(obj) {
     const play = await requestJSON(requestURL);
     if (!play) return { error: "fetch.fail" };
 
+    if (play.detail?.type === "blocking_rule") {
+        return { error: "content.video.region" };
+    }
+
     if (play.detail || !play.video_balancer) return { error: "fetch.empty" };
     if (play.live_streams?.hls) return { error: "content.video.live" };
 
