@@ -41,8 +41,6 @@ const getAuthorization = async () => {
     if (processing.enableCustomApiKey && processing.customApiKey.length > 0) {
         return `Api-Key ${processing.customApiKey}`;
     }
-
-    return false;
 }
 
 const request = async (url: string) => {
@@ -86,7 +84,11 @@ const request = async (url: string) => {
     const api = currentApiURL();
     const authorization = await getAuthorization();
 
-    let extraHeaders = {}
+    if (authorization && typeof authorization !== "string") {
+        return authorization;
+    }
+
+    let extraHeaders = {};
 
     if (authorization) {
         extraHeaders = {
