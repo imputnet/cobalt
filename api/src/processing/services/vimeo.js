@@ -1,5 +1,6 @@
 import HLS from "hls-parser";
 import { env } from "../../config.js";
+import { merge } from '../../misc/utils.js';
 
 const resolutionMatch = {
     "3840": 2160,
