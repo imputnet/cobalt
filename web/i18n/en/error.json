@@ -8,12 +8,21 @@
 
     "tunnel.probe": "couldn't test this tunnel. your browser or network configuration may be blocking access to one of cobalt servers. are you sure you don't have any weird browser extensions?",
 
-    "captcha_ongoing": "cloudflare turnstile is still checking if you're not a bot.\n\nif it takes too long, you can try: disabling weird browser extensions, changing networks, using a different browser, or checking your device for malware.",
+    "captcha_ongoing": "cloudflare turnstile is still checking if you're not a bot. if it takes too long, you can try: disabling weird browser extensions, changing networks, using a different browser, or checking your device for malware.",
 
     "api.auth.jwt.missing": "couldn't authenticate with the processing instance because the access token is missing. try again in a few seconds or reload the page!",
     "api.auth.jwt.invalid": "couldn't authenticate with the processing instance because the access token is invalid. try again in a few seconds or reload the page!",
     "api.auth.turnstile.missing": "couldn't authenticate with the processing instance because the captcha solution is missing. try again in a few seconds or reload the page!",
     "api.auth.turnstile.invalid": "couldn't authenticate with the processing instance because the captcha solution is invalid. try again in a few seconds or reload the page!",
+
+    "api.auth.key.missing": "an access key is required to use this processing instance but it's missing. add it in instance settings!",
+    "api.auth.key.not_api_key": "an access key is required to use this processing instance but it's missing. add it in instance settings!",
+
+    "api.auth.key.invalid": "the access key is invalid. reset it in instance settings and use a proper one!",
+    "api.auth.key.not_found": "the access key you used couldn't be found. are you sure this instance has your key?",
+    "api.auth.key.invalid_ip": "your ip address couldn't be parsed. something went very wrong. report this issue!",
+    "api.auth.key.ip_not_allowed": "your ip address is not allowed to use this access key. use a different instance or network!",
+    "api.auth.key.ua_not_allowed": "your user agent is not allowed to use this access key. use a different client or device!",
 
     "api.unreachable": "couldn't connect to the processing instance. check your internet connection and try again!",
     "api.timed_out": "the processing instance took too long to respond. it may be overwhelmed at the moment, try again in a few seconds!",
