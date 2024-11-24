@@ -207,7 +207,12 @@
     />
 </svelte:head>
 
-<DropReceiver id="remux-container" bind:draggedOver bind:file>
+<DropReceiver
+    bind:file
+    bind:draggedOver
+    id="remux-container"
+    classes={processing ? "processing" : ""}
+>
     <div
         id="remux-open"
         class:processing
@@ -370,6 +375,14 @@
 
         #remux-bullets {
             gap: var(--padding);
+        }
+    }
+
+    @media screen and (max-height: 750px) and (max-width: 535px) {
+        :global(#remux-container:not(.processing)) {
+            justify-content: start;
+            align-items: start;
+            padding-top: var(--padding);
         }
     }
 </style>
