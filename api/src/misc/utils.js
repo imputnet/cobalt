@@ -1,22 +1,3 @@
-export function convertMetadataToFFmpeg(obj) {
-    const keys = Object.keys(obj);
-    const tags = [
-        "album",
-        "copyright",
-        "title",
-        "artist",
-        "track",
-        "date"
-    ]
-    let commands = []
-
-    for (const i in keys) {
-        if (tags.includes(keys[i]))
-            commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`)
-        }
-    return commands;
-}
-
 export function getRedirectingURL(url) {
     return fetch(url, { redirect: 'manual' }).then((r) => {
         if ([301, 302, 303].includes(r.status) && r.headers.has('location'))
