@@ -1,7 +1,5 @@
 import HLS from "hls-parser";
-
 import { env } from "../../config.js";
-import { cleanString, merge } from '../../misc/utils.js';
 
 const resolutionMatch = {
     "3840": 2160,
@@ -152,8 +150,8 @@ export default async function(obj) {
     }
 
     const fileMetadata = {
-        title: cleanString(info.name),
-        artist: cleanString(info.user.name),
+        title: info.name,
+        artist: info.user.name,
     };
 
     return merge(

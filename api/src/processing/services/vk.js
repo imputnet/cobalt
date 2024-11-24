@@ -1,4 +1,3 @@
-import { cleanString } from "../../misc/utils.js";
 import { genericUserAgent, env } from "../../config.js";
 
 const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240"];
@@ -43,8 +42,8 @@ export default async function(o) {
     url = js.player.params[0][`url${quality}`];
 
     let fileMetadata = {
-        title: cleanString(js.player.params[0].md_title.trim()),
-        author: cleanString(js.player.params[0].md_author.trim()),
+        title: js.player.params[0].md_title.trim(),
+        author: js.player.params[0].md_author.trim(),
     }
 
     if (url) return {

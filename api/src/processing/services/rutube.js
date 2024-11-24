@@ -1,7 +1,5 @@
 import HLS from "hls-parser";
-
 import { env } from "../../config.js";
-import { cleanString } from "../../misc/utils.js";
 
 async function requestJSON(url) {
     try {
@@ -59,8 +57,8 @@ export default async function(obj) {
     });
 
     const fileMetadata = {
-        title: cleanString(play.title.trim()),
-        artist: cleanString(play.author.name.trim()),
+        title: play.title.trim(),
+        artist: play.author.name.trim(),
     }
 
     return {

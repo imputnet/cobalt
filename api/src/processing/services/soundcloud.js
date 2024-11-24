@@ -1,5 +1,4 @@
 import { env } from "../../config.js";
-import { cleanString } from "../../misc/utils.js";
 
 const cachedID = {
     version: '',
@@ -91,8 +90,8 @@ export default async function(obj) {
     if (!file) return { error: "fetch.empty" };
 
     let fileMetadata = {
-        title: cleanString(json.title.trim()),
-        artist: cleanString(json.user.username.trim()),
+        title: json.title.trim(),
+        artist: json.user.username.trim(),
     }
 
     return {

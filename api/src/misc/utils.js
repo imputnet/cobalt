@@ -1,5 +1,3 @@
-const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', ':', '`', '$', '"', "@", '=', '?', '|', '*'];
-
 export function convertMetadataToFFmpeg(obj) {
     const keys = Object.keys(obj);
     const tags = [
@@ -17,14 +15,6 @@ export function convertMetadataToFFmpeg(obj) {
             commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`)
         }
     return commands;
-}
-
-export function cleanString(string) {
-    for (const i in forbiddenCharsString) {
-        string = string.replaceAll("/", "_").replaceAll("\\", "_")
-                       .replaceAll(forbiddenCharsString[i], '')
-    }
-    return string;
 }
 
 export function getRedirectingURL(url) {
