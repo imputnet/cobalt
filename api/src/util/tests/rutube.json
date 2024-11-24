@@ -86,5 +86,15 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "region locked video, should fail",
+        "canFail": true,
+        "url": "https://rutube.ru/video/e7ac82708cc22bd068a3bf6a7004d1b1/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
     }
 ]
