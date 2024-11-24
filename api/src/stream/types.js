@@ -4,8 +4,8 @@ import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
-import { metadataManager } from "../misc/utils.js";
 import { destroyInternalStream } from "./manage.js";
+import { convertMetadataToFFmpeg } from "../misc/utils.js";
 import { hlsExceptions } from "../processing/service-config.js";
 import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
 
@@ -110,7 +110,7 @@ const merge = (streamInfo, res) => {
         }
 
         if (streamInfo.metadata) {
-            args = args.concat(metadataManager(streamInfo.metadata))
+            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata))
         }
 
         args.push('-f', format, 'pipe:3');
@@ -242,7 +242,7 @@ const convertAudio = (streamInfo, res) => {
         }
 
         if (streamInfo.metadata) {
-            args = args.concat(metadataManager(streamInfo.metadata))
+            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata))
         }
 
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');

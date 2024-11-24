@@ -1,6 +1,6 @@
 const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', ':', '`', '$', '"', "@", '=', '?', '|', '*'];
 
-export function metadataManager(obj) {
+export function convertMetadataToFFmpeg(obj) {
     const keys = Object.keys(obj);
     const tags = [
         "album",
