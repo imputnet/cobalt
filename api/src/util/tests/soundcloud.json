@@ -83,5 +83,24 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "go+ song, should fail",
+        "url": "https://soundcloud.com/dualipa/illusion-1",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "region locked song, should fail",
+        "canFail": true,
+        "url": "https://soundcloud.com/gotye/somebody-2024-feat-kimbra",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
     }
 ]
