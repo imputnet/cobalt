@@ -34,5 +34,14 @@
             "code": 400,
             "status": "error"
         }
+    },
+    {
+        "name": "age restricted video",
+        "url": "https://www.tiktok.com/@.kyle.films/video/7415757181145877793",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
     }
 ]
