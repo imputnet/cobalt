@@ -103,8 +103,10 @@ export const setup = async (path) => {
 
 export function getCookie(service) {
     if (!VALID_SERVICES.has(service)) {
-        console.error(`${Red('[!]')} ${service} not in allowed services list for cookies.`
-            + ' if adding a new cookie type, include it there.');
+        console.error(
+            `${Red('[!]')} ${service} not in allowed services list for cookies.`
+            + ' if adding a new cookie type, include it there.'
+        );
         return;
     }
 
