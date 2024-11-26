@@ -48,9 +48,12 @@ async function getAccessToken() {
 }
 
 async function resolveShortLink(url) {
-    return fetch(url, { method: 'HEAD', redirect: 'manual' })
-        .then(r => r.headers.get('location'))
-        .catch(() => null);
+    try {
+        const response = await fetch(url, { method: 'HEAD', redirect: 'manual' });
+        return response.headers.get('location');
+    } catch {
+        return null;
+    }
 }
 
 export default async function(obj) {
