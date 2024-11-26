@@ -27,6 +27,7 @@ function writeChanges(cookiePath) {
         console.warn(`${Yellow('[!]')} failed writing updated cookies to storage`);
         console.warn(e);
         clearInterval(intervalId);
+        intervalId = null;
     })
 }
 
@@ -47,7 +48,9 @@ const setupMain = async (cookiePath) => {
             delete cookies[serviceName];
         }
 
-        intervalId = setInterval(() => writeChanges(cookiePath), WRITE_INTERVAL);
+        if (!intervalId) {
+            intervalId = setInterval(() => writeChanges(cookiePath), WRITE_INTERVAL);
+        }
 
         cluster.broadcast({ cookies });
 
