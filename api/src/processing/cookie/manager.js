@@ -23,8 +23,10 @@ function writeChanges(cookiePath) {
     dirty = false;
 
     const cookieData = JSON.stringify({ ...cookies, ...invalidCookies }, null, 4);
-    writeFile(cookiePath, cookieData).catch(() => {
-        clearInterval(intervalId)
+    writeFile(cookiePath, cookieData).catch((e) => {
+        console.warn(`${Yellow('[!]')} failed writing updated cookies to storage`);
+        console.warn(e);
+        clearInterval(intervalId);
     })
 }
 
