@@ -1,5 +1,4 @@
 import { genericUserAgent } from "../../config.js";
-import { cleanString } from "../../misc/utils.js";
 
 const qualities = ["4k", "1440p", "1080p", "720p", "480p", "360p", "240p", "144p"];
 
@@ -87,8 +86,8 @@ async function getVideo(obj) {
     }
 
     let fileMetadata = {
-        title: cleanString(decodeURIComponent(json.title)),
-        artist: cleanString(decodeURIComponent(json.author)),
+        title: decodeURIComponent(json.title),
+        artist: decodeURIComponent(json.author),
     }
 
     return {
@@ -129,8 +128,8 @@ async function getMusic(obj) {
     const artist = artistMatch[1];
     const url = urlMatch[1].replace(/\\\//g, '/');
     let fileMetadata = {
-        title: cleanString(decodeURIComponent(title.trim())),
-        artist: cleanString(decodeURIComponent(artist.trim())),
+        title: decodeURIComponent(title.trim()),
+        artist: decodeURIComponent(artist.trim()),
     }
 
     return {
