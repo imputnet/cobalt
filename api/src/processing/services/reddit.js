@@ -47,11 +47,24 @@ async function getAccessToken() {
     return access_token;
 }
 
-export default async function(obj) {
-    let url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
+async function resolveShortLink(url) {
+    return fetch(url, { method: 'HEAD', redirect: 'manual' })
+        .then(r => r.headers.get('location'))
+        .catch(() => null);
+}
 
-    if (obj.user) {
-        url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
+export default async function(obj) {
+    let url;
+
+    if (obj.shortLink) {
+        const resolvedUrl = await resolveShortLink(obj.shortLink);
+        if (!resolvedUrl) return { error: "fetch.short_link" };
+        url = new URL(resolvedUrl);
+    } else {
+        url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
+        if (obj.user) {
+            url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
+        }
     }
 
     const accessToken = await getAccessToken();
