@@ -62,12 +62,18 @@ const setupWorker = async () => {
     cookies = (await cluster.waitFor('cookies')).cookies;
 }
 
-export const setup = async (cookiePath) => {
+export const loadFromFile = async (path) => {
     if (cluster.isPrimary) {
-        await setupMain(cookiePath);
+        await setupMain(path);
     } else if (cluster.isWorker) {
         await setupWorker();
     }
+
+    dirty = false;
+}
+
+export const setup = async (path) => {
+    await loadFromFile(path);
 
     if (isCluster) {
         const messageHandler = (message) => {
