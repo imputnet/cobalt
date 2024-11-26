@@ -1,7 +1,7 @@
 import Cookie from './cookie.js';
 
 import { readFile, writeFile } from 'fs/promises';
-import { Green, Yellow } from '../../misc/console-text.js';
+import { Red, Green, Yellow } from '../../misc/console-text.js';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 import * as cluster from '../../misc/cluster.js';
 import { isCluster } from '../../config.js';
@@ -103,8 +103,9 @@ export const setup = async (path) => {
 
 export function getCookie(service) {
     if (!VALID_SERVICES.has(service)) {
-        throw `${service} not in allowed services list for cookies.`
-            + ' if adding a new cookie type, include it there.';
+        console.error(`${Red('[!]')} ${service} not in allowed services list for cookies.`
+            + ' if adding a new cookie type, include it there.');
+        return;
     }
 
     if (!cookies[service] || !cookies[service].length) return;
