@@ -159,6 +159,7 @@ export const services = {
             "clips:duplicate?z=clip:userId_:videoId"
         ],
         subdomains: ["m"],
+        altDomains: ["vkvideo.ru", "vk.ru"],
     },
     youtube: {
         patterns: [
