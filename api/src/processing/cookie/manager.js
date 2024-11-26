@@ -40,7 +40,7 @@ const setupMain = async (cookiePath) => {
             } else if (!Array.isArray(cookies[serviceName])) {
                 console.warn(`${Yellow('[!]')} ${serviceName} in cookies file is not an array, ignoring it`);
             } else if (cookies[serviceName].some(c => typeof c !== 'string')) {
-                console.warn(`${Yellow('[!]')} cookies file contains non-string value for ${serviceName}`);
+                console.warn(`${Yellow('[!]')} some cookie for ${serviceName} contains non-string value in cookies file`);
             } else continue;
 
             invalidCookies[serviceName] = cookies[serviceName];
