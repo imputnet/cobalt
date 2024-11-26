@@ -5,7 +5,7 @@
     "page.audio": "audio",
     "page.download": "downloading",
     "page.advanced": "advanced",
-    "page.debug": "debug information",
+    "page.debug": "info for nerds",
     "page.instances": "instances",
 
     "section.general": "general",
@@ -108,8 +108,8 @@
     "privacy.tunnel.description": "cobalt will hide your ip address, browser info, and bypass local network restrictions. when enabled, files will also have readable filenames that otherwise would be gibberish.",
 
     "advanced.debug": "debug",
-    "advanced.debug.title": "enable debug features",
-    "advanced.debug.description": "gives you access to a page with various info that can be useful for debugging.",
+    "advanced.debug.title": "enable features for nerds",
+    "advanced.debug.description": "gives you easy access to app info that can be useful for debugging. enabling this does not affect functionality of cobalt in any way.",
 
     "advanced.data": "data management",
 
