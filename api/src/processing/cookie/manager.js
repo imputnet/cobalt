@@ -35,9 +35,14 @@ const setupMain = async (cookiePath) => {
         for (const serviceName in cookies) {
             if (!VALID_SERVICES.has(serviceName)) {
                 console.warn(`${Yellow('[!]')} ignoring unknown service in cookie file: ${serviceName}`);
-                invalidCookies[serviceName] = cookies[serviceName];
-                delete cookies[serviceName];
-            }
+            } else if (!Array.isArray(cookies[serviceName])) {
+                console.warn(`${Yellow('[!]')} ${serviceName} in cookies file is not an array, ignoring it`);
+            } else if (cookies[serviceName].some(c => typeof c !== 'string')) {
+                console.warn(`${Yellow('[!]')} cookies file contains non-string value for ${serviceName}`);
+            } else continue;
+
+            invalidCookies[serviceName] = cookies[serviceName];
+            delete cookies[serviceName];
         }
 
         intervalId = setInterval(() => writeChanges(cookiePath), WRITE_INTERVAL);
