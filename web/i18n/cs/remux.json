@@ -1,0 +1,9 @@
+{
+    "description": "remuxování často řeší problémy s kompatibilitou se starým softwarem. je rychlé, bezeztrátové a vše se zpracovává přímo na zařízení.",
+    "bullet.explainer.title": "jak to funguje?",
+    "bullet.explainer.description": "remuxování přebírá stávající data kodeku a kopíruje je do nového kontejneru médií. je bezeztrátové, data médií se znovu nekódují.",
+    "bullet.privacy.title": "zpracování na zařízení",
+    "bullet.purpose.description": "remux opravuje případné problémy s kontejnerem souboru, například chybějící časové informace. pomáhá zvýšit kompatibilitu se starým softwarem, jako např. vegas pro a windows media player.",
+    "bullet.purpose.title": "co dělá remux?",
+    "bullet.privacy.description": "cobalt remuxuje soubory lokálně. soubory nikdy neopustí tvé zařízení, takže zpracování je téměř okamžité."
+}
