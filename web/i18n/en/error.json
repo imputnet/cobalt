@@ -34,6 +34,7 @@
 
     "api.service.unsupported": "this service is not supported yet. have you pasted the right link?",
     "api.service.disabled": "this service is generally supported by cobalt, but it's disabled on this processing instance. try a link from another service!",
+    "api.service.audio_not_supported": "this service doesn't support audio extraction. try a link from another service!",
 
     "api.link.invalid": "your link is invalid or this service is not supported yet. have you pasted the right link?",
     "api.link.unsupported": "{{ service }} is supported, but i couldn't recognize your link. have you pasted the right one?",
