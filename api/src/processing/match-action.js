@@ -160,7 +160,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         case "audio":
             if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
-                    code: "error.api.fetch.empty"
+                    code: "error.api.service.audio_not_supported"
                 })
             }
 
