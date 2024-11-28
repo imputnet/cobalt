@@ -1,62 +1,144 @@
-import { genericUserAgent, env } from "../../config.js";
+import { env } from "../../config.js";
 
-const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240"];
+const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240", "144"];
 
-export default async function(o) {
-    let html, url, quality = o.quality === "max" ? 2160 : o.quality;
+const oauthUrl = "https://oauth.vk.com/oauth/get_anonym_token";
+const apiUrl = "https://api.vk.com/method";
 
-    html = await fetch(`https://vk.com/video${o.userId}_${o.videoId}`, {
-        headers: {
-            "user-agent": genericUserAgent
-        }
-    })
-    .then(r => r.arrayBuffer())
-    .catch(() => {});
+const clientId = "51552953";
+const clientSecret = "qgr0yWwXCrsxA1jnRtRX";
 
-    if (!html) return { error: "fetch.fail" };
+// used in stream/shared.js for accessing media files
+export const vkClientAgent = "com.vk.vkvideo.prod/822 (iPhone, iOS 16.7.7, iPhone10,4, Scale/2.0) SAK/1.119";
 
-    // decode cyrillic from windows-1251 because vk still uses apis from prehistoric times
-    let decoder = new TextDecoder('windows-1251');
-    html = decoder.decode(html);
+const cachedToken = {
+    token: "",
+    expiry: 0,
+    device_id: "",
+};
 
-    if (!html.includes(`{"lang":`)) return { error: "fetch.empty" };
-
-    let js = JSON.parse('{"lang":' + html.split(`{"lang":`)[1].split(']);')[0]);
-
-    if (Number(js.mvData.is_active_live) !== 0) {
-        return { error: "content.video.live" };
+const getToken = async () => {
+    if (cachedToken.expiry - 10 > Math.floor(new Date().getTime() / 1000)) {
+        return cachedToken.token;
     }
 
-    if (js.mvData.duration > env.durationLimit) {
+    const randomDeviceId = crypto.randomUUID().toUpperCase();
+
+    const anonymOauth = new URL(oauthUrl);
+    anonymOauth.searchParams.set("client_id", clientId);
+    anonymOauth.searchParams.set("client_secret", clientSecret);
+    anonymOauth.searchParams.set("device_id", randomDeviceId);
+
+    const oauthResponse = await fetch(anonymOauth.toString(), {
+        headers: {
+            "user-agent": vkClientAgent,
+        }
+    }).then(r => {
+        if (r.status === 200) {
+            return r.json();
+        }
+    });
+
+    if (!oauthResponse) return;
+
+    if (oauthResponse?.token && oauthResponse?.expired_at && typeof oauthResponse?.expired_at === "number") {
+        cachedToken.token = oauthResponse.token;
+        cachedToken.expiry = oauthResponse.expired_at;
+        cachedToken.device_id = randomDeviceId;
+    }
+
+    if (!cachedToken.token) return;
+
+    return cachedToken.token;
+}
+
+const getVideo = async (ownerId, videoId, accessKey) => {
+    const video = await fetch(`${apiUrl}/video.get`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/x-www-form-urlencoded; charset=utf-8",
+            "user-agent": vkClientAgent,
+        },
+        body: new URLSearchParams({
+            anonymous_token: cachedToken.token,
+            device_id: cachedToken.device_id,
+            lang: "en",
+            v: "5.244",
+            videos: `${ownerId}_${videoId}${accessKey ? `_${accessKey}` : ''}`
+        }).toString()
+    })
+    .then(r => {
+        if (r.status === 200) {
+            return r.json();
+        }
+    });
+
+    return video;
+}
+
+export default async function ({ ownerId, videoId, accessKey, quality }) {
+    const token = await getToken();
+    if (!token) return { error: "fetch.fail" };
+
+    const videoGet = await getVideo(ownerId, videoId, accessKey);
+
+    if (!videoGet || !videoGet.response || videoGet.response.items.length !== 1) {
+        return { error: "fetch.empty" };
+    }
+
+    const video = videoGet.response.items[0];
+
+    if (video.restriction) {
+        const title = video.restriction.title;
+        if (title.endsWith("country") || title.endsWith("region.")) {
+            return { error: "content.video.region" };
+        }
+        if (title === "Processing video") {
+            return { error: "fetch.empty" };
+        }
+        return { error: "content.video.unavailable" };
+    }
+
+    if (!video.files || !video.duration) {
+        return { error: "fetch.fail" };
+    }
+
+    if (video.duration > env.durationLimit) {
         return { error: "content.too_long" };
     }
 
+    const userQuality = quality === "max" ? 2160 : quality;
+    let pickedQuality;
+
     for (let i in resolutions) {
-        if (js.player.params[0][`url${resolutions[i]}`]) {
-            quality = resolutions[i];
+        if (video.files[`mp4_${resolutions[i]}`]) {
+            pickedQuality = resolutions[i];
             break
         }
     }
-    if (Number(quality) > Number(o.quality)) quality = o.quality;
 
-    url = js.player.params[0][`url${quality}`];
-
-    let fileMetadata = {
-        title: js.player.params[0].md_title.trim(),
-        author: js.player.params[0].md_author.trim(),
+    if (Number(pickedQuality) > Number(userQuality)) {
+        pickedQuality = userQuality;
     }
 
-    if (url) return {
+    const url = video.files[`mp4_${pickedQuality}`];
+
+    if (!url) return { error: "fetch.fail" };
+
+    const fileMetadata = {
+        title: video.title.trim(),
+    }
+
+    return {
         urls: url,
+        fileMetadata,
         filenameAttributes: {
             service: "vk",
-            id: `${o.userId}_${o.videoId}`,
+            id: `${ownerId}_${videoId}${accessKey ? `_${accessKey}` : ''}`,
             title: fileMetadata.title,
-            author: fileMetadata.author,
-            resolution: `${quality}p`,
-            qualityLabel: `${quality}p`,
+            resolution: `${pickedQuality}p`,
+            qualityLabel: `${pickedQuality}p`,
             extension: "mp4"
         }
     }
-    return { error: "fetch.empty" }
 }

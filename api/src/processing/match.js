@@ -77,8 +77,9 @@ export default async function({ host, patternMatch, params }) {
 
             case "vk":
                 r = await vk({
-                    userId: patternMatch.userId,
+                    ownerId: patternMatch.ownerId,
                     videoId: patternMatch.videoId,
+                    accessKey: patternMatch.accessKey,
                     quality: params.videoQuality
                 });
                 break;

@@ -56,7 +56,8 @@ export const testers = {
         && (!pattern.password || pattern.password.length < 16),
 
     "vk": pattern =>
-        pattern.userId?.length <= 10 && pattern.videoId?.length <= 10,
+        (pattern.ownerId?.length <= 10 && pattern.videoId?.length <= 10) ||
+        (pattern.ownerId?.length <= 10 && pattern.videoId?.length <= 10 && pattern.videoId?.accessKey <= 18),
 
     "youtube": pattern =>
         pattern.id?.length <= 11,
