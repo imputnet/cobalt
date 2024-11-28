@@ -107,18 +107,14 @@ export default async function ({ ownerId, videoId, accessKey, quality }) {
         return { error: "content.too_long" };
     }
 
-    const userQuality = quality === "max" ? 2160 : quality;
+    const userQuality = quality === "max" ? resolutions[0] : quality;
     let pickedQuality;
 
-    for (let i in resolutions) {
-        if (video.files[`mp4_${resolutions[i]}`]) {
-            pickedQuality = resolutions[i];
+    for (const resolution of resolutions) {
+        if (video.files[`mp4_${resolution}`] && +resolution <= +userQuality) {
+            pickedQuality = resolution;
             break
         }
-    }
-
-    if (Number(pickedQuality) > Number(userQuality)) {
-        pickedQuality = userQuality;
     }
 
     const url = video.files[`mp4_${pickedQuality}`];
