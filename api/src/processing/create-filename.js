@@ -15,7 +15,11 @@ export default (f, style, isAudioOnly, isAudioMuted) => {
     let classicTags = [...infoBase];
     let basicTags = [];
 
-    const title = `${sanitizeString(f.title)} - ${sanitizeString(f.author)}`;
+    let title = sanitizeString(f.title);
+
+    if (f.author) {
+        title += ` - ${sanitizeString(f.author)}`;
+    }
 
     if (f.resolution) {
         classicTags.push(f.resolution);
