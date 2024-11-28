@@ -40,10 +40,21 @@
         }
     },
     {
-        "name": "4k video",
+        "name": "big 4k video",
         "url": "https://vk.com/video-1112285_456248465",
         "params": {
             "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "short 4k video, 480p, vkvideo.ru domain",
+        "url": "https://vkvideo.ru/video-26006257_456245538",
+        "params": {
+            "videoQuality": "480"
         },
         "expected": {
             "code": 200,
