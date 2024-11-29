@@ -88,7 +88,7 @@
 
     "accessibility": "accessibility",
     "accessibility.transparency.title": "reduce visual transparency",
-    "accessibility.transparency.description": "reduces transparency of surfaces and disables blur effects. may also improve ui performance on low-end devices.",
+    "accessibility.transparency.description": "reduces transparency of surfaces and disables blur effects. may also improve ui performance on low performance devices.",
     "accessibility.motion.title": "reduce motion",
     "accessibility.motion.description": "disables animations and transitions whenever possible.",
 
