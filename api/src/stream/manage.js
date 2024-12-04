@@ -75,7 +75,7 @@ export function getInternalStream(id) {
 export function createInternalStream(url, obj = {}) {
     assert(typeof url === 'string');
 
-    let dispatcher;
+    let dispatcher = obj.dispatcher;
     if (obj.requestIP) {
         dispatcher = freebind?.dispatcherFromIP(obj.requestIP, { strict: false })
     }
