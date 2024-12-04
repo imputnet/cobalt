@@ -123,6 +123,10 @@ async function handleGenericStream(streamInfo, res) {
 }
 
 export function internalStream(streamInfo, res) {
+    if (streamInfo.headers) {
+        streamInfo.headers.delete('icy-metadata');
+    }
+
     if (streamInfo.service === 'youtube' && !streamInfo.isHLS) {
         return handleYoutubeStream(streamInfo, res);
     }
