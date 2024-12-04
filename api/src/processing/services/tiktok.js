@@ -44,9 +44,19 @@ export default async function(obj) {
     try {
         const json = html
             .split('<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application/json">')[1]
-            .split('</script>')[0]
-        const data = JSON.parse(json)
-        detail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
+            .split('</script>')[0];
+
+        const data = JSON.parse(json);
+        const videoDetail = data["__DEFAULT_SCOPE__"]["webapp.video-detail"];
+
+        if (!videoDetail) throw "no video detail found";
+
+        // status_deleted or etc
+        if (videoDetail.statusMsg) {
+            return { error: "content.post.unavailable"};
+        }
+
+        detail = videoDetail?.itemInfo?.itemStruct;
     } catch {
         return { error: "fetch.fail" };
     }
