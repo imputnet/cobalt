@@ -1,0 +1,22 @@
+{
+    "paste.long": "vložit a stáhnout",
+    "auto": "auto",
+    "audio": "audio",
+    "terms.note.agreement": "pokračováním souhlasíš s",
+    "terms.note.link": "podmínkami a etikou používání",
+    "mute": "beze zvuku",
+    "services.title": "podporované služby",
+    "services.title_hide": "skrýt podporované služby",
+    "services.disclaimer": "cobalt není spojen s žádnou z výše uvedených služeb.",
+    "tutorial.title": "jak ukládat na systému ios?",
+    "tutorial.intro": "pro pohodlné ukládání médií v systému ios musíš použít doprovodnou siri zkratku z menu sdílení.",
+    "tutorial.step.1": "přidej pomocné siri zkratky:",
+    "tutorial.step.2": "stiskni tlačítko \"sdílet\" v cobaltím dialogu pro ukládání.",
+    "tutorial.step.3": "vyber příslušnou zkratku v menu sdílení.",
+    "tutorial.shortcut.files": "do souborů",
+    "tutorial.shortcut.photos": "do galerie",
+    "paste": "vložit",
+    "input.placeholder": "vlož odkaz sem",
+    "services.title_show": "zobrazit podporované služby",
+    "tutorial.outro": "tyto zkratky budou fungovat pouze z aplikace cobalt, sdílení odkazů z jiných aplikací nebude fungovat."
+}

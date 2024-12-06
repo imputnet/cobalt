@@ -1,0 +1,22 @@
+{
+    "paste": "pegar",
+    "paste.long": "pegar y descargar",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "silenciar",
+    "services.title_show": "mostrar servicios soportados",
+    "input.placeholder": "pega el enlace aquí",
+    "terms.note.agreement": "al continuar, aceptas los",
+    "terms.note.link": "términos y ética de uso",
+    "services.title": "servicios soportados",
+    "services.title_hide": "ocultar servicios soportados",
+    "tutorial.title": "¿cómo guardar en ios?",
+    "tutorial.intro": "para guardar archivos multimedia cómodamente en ios, tendrás que utilizar un atajo de siri complementario desde la pestaña de compartir.",
+    "tutorial.step.1": "añadir atajo de siri complementario:",
+    "tutorial.step.3": "selecciona el atajo correspondiente en la pestaña de compartir.",
+    "tutorial.outro": "estos accesos directos sólo funcionarán desde la aplicación de cobalt, compartir enlaces desde otras aplicaciones no funcionará.",
+    "tutorial.shortcut.photos": "a fotos",
+    "tutorial.shortcut.files": "a archivos",
+    "services.disclaimer": "cobalt no está afiliado a ninguno de los servicios mencionados.",
+    "tutorial.step.2": "pulsa el botón «compartir» en el cuadro de diálogo de guardado de cobalt."
+}

@@ -1,0 +1,4 @@
+{
+    "button.next": "aller au journal des modifications plus ancien ({{ value }})",
+    "button.previous": "aller au journal des modifications plus récent ({{ value }})"
+}
