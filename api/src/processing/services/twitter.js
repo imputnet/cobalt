@@ -36,6 +36,17 @@ function bestQuality(arr) {
         .url
 }
 
+function buildMediaMetadata(tweetResult, media){
+    return {
+        duration: Math.round(media.video_info.duration_millis / 1000) || 0,
+        likes: tweetResult.legacy.favorite_count || 0,
+        views: Number(tweetResult.views.count) || 0,
+        title: (tweetResult.legacy && tweetResult.legacy.full_text && Array.isArray(tweetResult.legacy.display_text_range) && tweetResult.legacy.display_text_range[0] !== undefined && tweetResult.legacy.display_text_range[1] !== undefined)
+            ? tweetResult.legacy.full_text.substr(tweetResult.legacy.display_text_range[0], tweetResult.legacy.display_text_range[1] - tweetResult.legacy.display_text_range[0])
+            : undefined
+    }
+}
+
 let _cachedToken;
 const getGuestToken = async (dispatcher, forceReload = false) => {
     if (_cachedToken && !forceReload) {
@@ -101,11 +112,11 @@ const requestTweet = async(dispatcher, tweetId, token, cookie) => {
     return result
 }
 
-export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
+export default async function({ id, index, toGif, dispatcher }) {
     const cookie = await getCookie('twitter');
 
     let guestToken = await getGuestToken(dispatcher);
-    if (!guestToken) return { error: "fetch.fail" };
+    if (!guestToken) return { error: 'ErrorCouldntFetch' };
 
     let tweet = await requestTweet(dispatcher, id, guestToken);
 
@@ -119,26 +130,22 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
 
     let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
 
-    if (!tweetTypename) {
-        return { error: "fetch.empty" }
-    }
-
     if (tweetTypename === "TweetUnavailable") {
         const reason = tweet?.data?.tweetResult?.result?.reason;
         switch(reason) {
             case "Protected":
-                return { error: "content.post.private" }
+                return { error: 'ErrorTweetProtected' }
             case "NsfwLoggedOut":
                 if (cookie) {
                     tweet = await requestTweet(dispatcher, id, guestToken, cookie);
                     tweet = await tweet.json();
                     tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
-                } else return { error: "content.post.age" }
+                } else return { error: 'ErrorTweetNSFW' }
         }
     }
 
     if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
-        return { error: "content.post.unavailable" }
+        return { error: 'ErrorTweetUnavailable' }
     }
 
     let tweetResult = tweet.data.tweetResult.result,
@@ -151,83 +158,45 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
     }
 
     let media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
+    media = media?.filter(m => m.video_info?.variants?.length);
 
     // check if there's a video at given index (/video/<index>)
     if (index >= 0 && index < media?.length) {
         media = [media[index]]
     }
 
-    const getFileExt = (url) => new URL(url).pathname.split(".", 2)[1];
-
-    const proxyMedia = (url, filename) => createStream({
-        service: "twitter",
-        type: "proxy",
-        url, filename,
-    })
-
     switch (media?.length) {
         case undefined:
         case 0:
-            return {
-                error: "fetch.empty"
-            }
+            return { error: 'ErrorNoVideosInTweet' };
         case 1:
-            if (media[0].type === "photo") {
-                return {
-                    type: "proxy",
-                    isPhoto: true,
-                    filename: `twitter_${id}.${getFileExt(media[0].media_url_https)}`,
-                    urls: `${media[0].media_url_https}?name=4096x4096`
-                }
-            }
-
             return {
-                type: needsFixing(media[0]) ? "remux" : "proxy",
+                type: needsFixing(media[0]) ? "remux" : "normal",
                 urls: bestQuality(media[0].video_info.variants),
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`,
-                isGif: media[0].type === "animated_gif"
-            }
+                isGif: media[0].type === "animated_gif",
+                mediaMetadata: buildMediaMetadata(tweetResult, media[0])
+            };
         default:
-            const proxyThumb = (url, i) =>
-                proxyMedia(url, `twitter_${id}_${i + 1}.${getFileExt(url)}`);
-
             const picker = media.map((content, i) => {
-                if (content.type === "photo") {
-                    let url = `${content.media_url_https}?name=4096x4096`;
-                    let proxiedImage = proxyThumb(url, i);
-
-                    if (alwaysProxy) url = proxiedImage;
-
-                    return {
-                        type: "photo",
-                        url,
-                        thumb: proxiedImage,
-                    }
-                }
-
                 let url = bestQuality(content.video_info.variants);
-                const shouldRenderGif = content.type === "animated_gif" && toGif;
-                const videoFilename = `twitter_${id}_${i + 1}.${shouldRenderGif ? "gif" : "mp4"}`;
-
-                let type = "video";
-                if (shouldRenderGif) type = "gif";
+                const shouldRenderGif = content.type === 'animated_gif' && toGif;
 
                 if (needsFixing(content) || shouldRenderGif) {
                     url = createStream({
-                        service: "twitter",
-                        type: shouldRenderGif ? "gif" : "remux",
-                        url,
-                        filename: videoFilename,
+                        service: 'twitter',
+                        type: shouldRenderGif ? 'gif' : 'remux',
+                        u: url,
+                        filename: `twitter_${id}_${i + 1}.mp4`
                     })
-                } else if (alwaysProxy) {
-                    url = proxyMedia(url, videoFilename);
                 }
 
                 return {
-                    type,
+                    type: 'video',
                     url,
-                    thumb: proxyThumb(content.media_url_https, i),
+                    thumb: content.media_url_https,
+                    mediaMetadata: buildMediaMetadata(tweetResult, content)
                 }
             });
             return { picker };
