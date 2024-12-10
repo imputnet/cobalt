@@ -68,7 +68,8 @@ const cloneInnertube = async (customFetch) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
     if (!innertube || shouldRefreshPlayer) {
         innertube = await Innertube.create({
-            fetch: customFetch
+            fetch: customFetch,
+            retrieve_player: false,
         });
         lastRefreshedAt = +new Date();
     }
