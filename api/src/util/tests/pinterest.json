@@ -1,0 +1,87 @@
+[
+    {
+        "name": "regular video",
+        "url": "https://www.pinterest.com/pin/70437485604616/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular video (isAudioOnly)",
+        "url": "https://www.pinterest.com/pin/70437485604616/",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "regular video (isAudioMuted)",
+        "url": "https://www.pinterest.com/pin/70437485604616/",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "regular video (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/70437485604616/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "story",
+        "url": "https://www.pinterest.com/pin/gadget-cool-products-amazon-product-technology-kitchen-gadgets--1084663891475263837/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular picture",
+        "url": "https://www.pinterest.com/pin/412994228343400946/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular picture (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/412994228343400946/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular gif",
+        "url": "https://www.pinterest.com/pin/814447913881127862/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular gif (.ca TLD)",
+        "url": "https://www.pinterest.ca/pin/814447913881127862/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }
+]

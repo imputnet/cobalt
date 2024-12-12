@@ -1,0 +1,213 @@
+[
+    {
+        "name": "regular video",
+        "url": "https://twitter.com/X/status/1697304622749086011",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video with mobile web mediaviewer",
+        "url": "https://twitter.com/X/status/1697304622749086011/mediaViewer?currentTweet=1697304622749086011&currentTweetUser=X&currentTweet=1697304622749086011&currentTweetUser=X",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "embedded twitter video",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "mixed media (image + gif)",
+        "url": "https://twitter.com/sky_mj26/status/1807756010712428565",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "picker: mixed media (3 videos)",
+        "url": "https://twitter.com/DankGameAlert/status/1584726006094794774",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "audio from embedded twitter video (mp3, isAudioOnly)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "audio from embedded twitter video (best, isAudioOnly)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "best"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "audio from embedded twitter video (ogg, isAudioOnly, isAudioMuted)",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "best"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "muted embedded twitter video",
+        "url": "https://twitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {
+            "downloadMode": "mute",
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "retweeted video",
+        "url": "https://twitter.com/uwukko/status/1696901469633421344",
+        "params": {},
+        "canFail": true,
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "age restricted video",
+        "url": "https://x.com/XSpaces/status/1526955853743546372",
+        "params": {},
+        "canFail": true,
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "twitter voice + x.com link",
+        "url": "https://x.com/eggsaladscreams/status/1693089534886506756?s=46",
+        "params": {},
+        "canFail": true,
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "vxtwitter link",
+        "url": "https://vxtwitter.com/dustbin_nie/status/1624596567188717568?s=20",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "post with 1 image",
+        "url": "https://x.com/PopCrave/status/1815960083475423235",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "post with 4 images",
+        "url": "https://x.com/PopCrave/status/1816260887147114696",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "retweeted video, isAudioOnly",
+        "url": "https://twitter.com/hugekiwinuts/status/1618671150829309953?s=46&t=gItGzgwGQQJJaJrO6qc1Pg",
+        "params": {
+            "downloadMode": "mute",
+            "audioFormat": "mp3"
+        },
+        "canFail": true,
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "inexistent post",
+        "url": "https://twitter.com/test/status/9487653",
+        "params": {
+            "audioFormat": "best"
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "post with no media content",
+        "url": "https://twitter.com/elonmusk/status/1604617643973124097?s=20",
+        "params": {
+            "audioFormat": "best"
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "bookmarked video",
+        "url": "https://twitter.com/i/bookmarks?post_id=1828099210220294314",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "bookmarked photo",
+        "url": "https://twitter.com/i/bookmarks?post_id=1837430141179289876",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }
+]

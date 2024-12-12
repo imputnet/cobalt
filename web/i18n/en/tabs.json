@@ -1,8 +1,9 @@
 {
-    "save": "save",
+    "save": "index",
     "settings": "settings",
     "updates": "updates",
     "donate": "donate",
     "about": "about",
-    "remux": "remux"
+    "remux": "remux",
+    "faq": "FAQ"
 }

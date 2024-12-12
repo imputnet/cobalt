@@ -1,0 +1,33 @@
+[
+    {
+        "name": "1080p video",
+        "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "1080p video (muted)",
+        "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "1080p video (audio only)",
+        "url": "https://www.loom.com/share/313bf71d20ca47b2a35b6634cefdb761",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

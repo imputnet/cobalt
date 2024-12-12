@@ -73,7 +73,7 @@ async function getStory(username, storyId, alwaysProxy) {
                     const proxy = createStream({
                         service: "snapchat",
                         type: "proxy",
-                        u: snapUrl,
+                        url: snapUrl,
                         filename: `snapchat_${username}_${snap.timestampInSec.value}.${snapExt}`,
                     });
 
@@ -81,7 +81,7 @@ async function getStory(username, storyId, alwaysProxy) {
                     if (snapType === "video") thumbProxy = createStream({
                         service: "snapchat",
                         type: "proxy",
-                        u: snap.snapUrls.mediaPreviewUrl.value,
+                        url: snap.snapUrls.mediaPreviewUrl.value,
                     });
 
                     if (alwaysProxy) snapUrl = proxy;

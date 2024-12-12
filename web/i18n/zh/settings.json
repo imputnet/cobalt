@@ -1,0 +1,122 @@
+{
+    "page.appearance": "外观",
+    "page.privacy": "隐私",
+    "page.video": "视频",
+    "page.audio": "音频",
+    "page.download": "下载",
+    "page.advanced": "高级",
+    "page.debug": "调试信息",
+    "page.instances": "实例",
+
+    "section.general": "常规",
+    "section.save": "保存",
+
+    "theme": "主题",
+    "theme.auto": "自动",
+    "theme.light": "亮色",
+    "theme.dark": "暗色",
+    "theme.description": "自动主题会根据设备的显示模式在亮色和暗色主题之间切换。",
+
+    "video.quality": "视频质量",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "如果首选的视频质量不可用，则选择下一个最佳选项。",
+
+    "video.youtube.codec": "YouTube 视频编解码器和容器",
+    "video.youtube.codec.description": "h264：最佳兼容性，平均比特率。最大质量为1080p。\nav1：质量、效率和比特率最佳。支持8k和HDR。\nvp9：与av1质量和比特率相同，但文件大小约为av1的两倍。支持4k和HDR。\n\nav1和vp9的兼容性不如h264。",
+
+    "video.twitter.gif": "Twitter/X",
+    "video.twitter.gif.title": "将循环视频转换为GIF",
+    "video.twitter.gif.description": "GIF转换效率低，转换后的文件可能非常大且质量较低。",
+
+    "video.tiktok.h265": "TikTok",
+    "video.tiktok.h265.title": "优先使用HEVC/H265格式",
+    "video.tiktok.h265.description": "允许以1080p下载视频，但兼容性较差。",
+
+    "audio.format": "音频格式",
+    "audio.format.best": "最佳",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "除“最佳”格式外，所有格式都会被转换，这意味着会有一些质量损失。只有选择“最佳”格式时，音频不会重新编码。",
+
+    "audio.bitrate": "音频比特率",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "比特率仅适用于音频转换。Freesavevideo无法提升源音频质量，因此选择超过128kbps的比特率可能会导致文件大小膨胀，但听觉上无差异。感知质量可能因格式而异。",
+
+    "audio.youtube.dub": "YouTube",
+    "audio.youtube.dub.title": "为配音视频使用浏览器语言",
+    "audio.youtube.dub.description": "即使Freesavevideo未翻译成您的语言，该功能仍然有效。",
+
+    "audio.tiktok.original": "TikTok",
+    "audio.tiktok.original.title": "下载原声",
+    "audio.tiktok.original.description": "Freesavevideo将下载视频中的原声，而不会进行任何更改。",
+
+    "metadata.filename": "文件名样式",
+    "metadata.filename.classic": "经典",
+    "metadata.filename.basic": "基础",
+    "metadata.filename.pretty": "美观",
+    "metadata.filename.nerdy": "技术风",
+    "metadata.filename.description": "文件名样式将仅用于Freesavevideo通过隧道传输的文件。某些服务不支持经典样式以外的文件名样式。",
+
+    "metadata.filename.preview.video": "视频标题",
+    "metadata.filename.preview.audio": "音频标题 - 音频作者",
+
+    "metadata.file": "文件元数据",
+    "metadata.disable.title": "禁用文件元数据",
+    "metadata.disable.description": "文件的标题、艺术家及其他信息将不会被添加。",
+
+    "saving.title": "保存方式",
+    "saving.ask": "询问",
+    "saving.download": "下载",
+    "saving.share": "分享",
+    "saving.copy": "复制",
+    "saving.description": "首选的文件或链接保存方式。如果首选方式不可用或出错，Freesavevideo将询问您接下来要怎么做。",
+
+    "accessibility": "辅助功能",
+    "accessibility.transparency.title": "减少视觉透明度",
+    "accessibility.transparency.description": "减少表面的透明度，并禁用模糊效果。",
+    "accessibility.motion.title": "减少运动效果",
+    "accessibility.motion.description": "尽可能禁用动画和过渡效果。",
+
+    "language": "语言",
+    "language.auto.title": "自动选择",
+    "language.auto.description": "如果有可用翻译，Freesavevideo将使用浏览器的默认语言。否则，将使用英语。",
+
+    "language.preferred.title": "首选语言",
+    "language.preferred.description": "当禁用自动选择时，将使用此语言。未翻译的文本将显示为英语。\n\n我们为英语、俄语和捷克语以外的语言使用社区翻译，它们可能不准确或不完整。",
+
+    "privacy.analytics": "匿名流量分析",
+    "privacy.analytics.title": "不参与分析",
+    "privacy.analytics.description": "匿名流量分析用于估计Freesavevideo的活跃用户数。不会存储任何关于您的可识别信息。所有处理的数据都是匿名的并经过汇总。\n\n我们使用自托管的Plausible实例，不使用Cookie，完全符合GDPR、CCPA和PECR。",
+    "privacy.analytics.learnmore": "了解更多关于Plausible的隐私承诺。",
+
+    "privacy.tunnel": "隧道",
+    "privacy.tunnel.title": "始终通过隧道传输文件",
+    "privacy.tunnel.description": "Freesavevideo将隐藏您的IP地址、浏览器信息，并绕过本地网络限制。启用后，文件名将可读，而不会是乱码。",
+
+    "advanced.debug": "调试",
+    "advanced.debug.title": "启用调试功能",
+    "advanced.debug.description": "为您提供一个包含各种信息的页面，这些信息有助于调试。",
+
+    "advanced.data": "设置数据",
+
+    "processing.override": "默认实例覆盖",
+    "processing.override.title": "使用实例提供的处理服务器",
+    "processing.override.description": "如果Web实例提供自己的默认处理服务器，您可以选择使用它而不是主处理服务器。请确保它是您信任的服务器。",
+
+    "processing.community": "社区实例",
+
+    "processing.enable_custom.title": "使用自定义处理服务器",
+    "processing.enable_custom.description": "如果您选择，Freesavevideo将使用自定义处理服务器。尽管Freesavevideo采取了一些安全措施，但我们不对通过社区实例造成的任何损害负责，因为我们无法控制它们。\n\n请谨慎选择使用哪些实例，并确保它们由您信任的人托管。",
+
+    "processing.custom.placeholder": "自定义实例域名"
+}

@@ -71,7 +71,7 @@
             </PageNavTab>
         </PageNavSection>
 
-        <PageNavSection>
+        <!--<PageNavSection>
             <PageNavTab
                 tabPath="/settings/instances"
                 tabTitle={$t("settings.page.instances")}
@@ -95,7 +95,7 @@
                     <IconBug />
                 </PageNavTab>
             {/if}
-        </PageNavSection>
+        </PageNavSection>-->
     </svelte:fragment>
 
     <slot slot="content"></slot>

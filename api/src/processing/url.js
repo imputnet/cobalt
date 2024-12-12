@@ -1,4 +1,4 @@
-import psl from "psl";
+import psl from "@imput/psl";
 import { strict as assert } from "node:assert";
 
 import { env } from "../config.js";
@@ -42,7 +42,7 @@ function aliasURL(url) {
         case "fixvx":
         case "x":
             if (services.twitter.altDomains.includes(url.hostname)) {
-                url.hostname = 'twitter.com'
+                url.hostname = 'twitter.com';
             }
             break;
 
@@ -83,6 +83,13 @@ function aliasURL(url) {
         case "ddinstagram":
             if (services.instagram.altDomains.includes(host.domain) && [null, 'd', 'g'].includes(host.subdomain)) {
                 url.hostname = 'instagram.com';
+            }
+            break;
+
+        case "vk":
+        case "vkvideo":
+            if (services.vk.altDomains.includes(url.hostname)) {
+                url.hostname = 'vk.com';
             }
             break;
     }

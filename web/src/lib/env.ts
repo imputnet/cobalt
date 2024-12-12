@@ -55,7 +55,8 @@ const docs = {
     apiLicense: "https://github.com/imputnet/cobalt/blob/main/api/LICENSE",
 };
 
-const apiURL = "https://api.cobalt.tools";
+// const apiURL = "https://api.freesavevideo.online/";
+const apiURL = "http://localhost:9000";
 
 export { donate, apiURL, contacts, partners, siriShortcuts, docs };
 export default variables;

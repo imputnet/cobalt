@@ -42,7 +42,9 @@
         <div id="services-container">
             {#if loaded}
                 {#each services as service}
-                    <div class="service-item">{service}</div>
+                    <!--{#if !service.includes("youtube")}
+                        <div class="service-item">{service}</div>
+                    {/if}-->
                 {/each}
             {:else}
                 {#each { length: 17 } as _}

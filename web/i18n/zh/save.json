@@ -1,0 +1,22 @@
+{
+    "paste": "粘贴",
+    "paste.long": "粘贴并下载",
+    "auto": "自动",
+    "audio": "音频",
+    "mute": "静音",
+    "input.placeholder": "在此粘贴链接",
+    "terms.note.agreement": "继续即表示您同意",
+    "terms.note.link": "使用条款与伦理",
+    "services.title": "支持的服务",
+    "services.title_show": "显示支持的服务",
+    "services.title_hide": "隐藏支持的服务",
+    "services.disclaimer": "Freesavevideo 不隶属于以上列出的任何服务。",
+    "tutorial.title": "如何在 iOS 上保存？",
+    "tutorial.intro": "为了便捷地在 iOS 上保存媒体，您需要在共享菜单中使用 Siri 快捷指令。",
+    "tutorial.step.1": "添加 Siri 快捷指令：",
+    "tutorial.step.2": "在 Cobalt 的保存对话框中按下“分享”按钮。",
+    "tutorial.step.3": "在共享菜单中选择相应的快捷指令。",
+    "tutorial.outro": "这些快捷指令只能在 Cobalt 应用中使用，从其他应用分享链接将不起作用。",
+    "tutorial.shortcut.photos": "保存到照片",
+    "tutorial.shortcut.files": "保存到文件"
+}

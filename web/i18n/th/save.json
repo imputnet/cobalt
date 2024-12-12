@@ -1,0 +1,23 @@
+{
+    "paste": "วาง",
+    "paste.long": "วางและดาวน์โหลด",
+    "auto": "อัตโนมัติ",
+    "audio": "เสียง",
+    "mute": "ปิดเสียง",
+    "input.placeholder": "วางลิงก์ที่นี่",
+    "terms.note.agreement": "เมื่อดำเนินการต่อ แสดงว่าคุณยอมรับ",
+    "terms.note.link": "ข้อกำหนดและจริยธรรมในการใช้งาน",
+    "services.title": "บริการที่รองรับ",
+    "services.title_show": "แสดงบริการที่รองรับ",
+    "services.title_hide": "ซ่อนบริการที่รองรับ",
+    "services.disclaimer": "freesavevideo ไม่ได้เป็นพันธมิตรกับบริการใด ๆ ที่กล่าวถึงข้างต้น",
+
+    "tutorial.title": "จะบันทึกบน iOS ได้อย่างไร?",
+    "tutorial.intro": "ในการบันทึกสื่ออย่างสะดวกบน iOS คุณจะต้องใช้ทางลัด Siri ร่วมจากเมนูแชร์",
+    "tutorial.step.1": "เพิ่มทางลัด Siri ร่วม:",
+    "tutorial.step.2": "กดปุ่ม \"แชร์\" ในกล่องโต้ตอบการบันทึกของ Cobalt",
+    "tutorial.step.3": "เลือกทางลัดที่เกี่ยวข้องในเมนูแชร์",
+    "tutorial.outro": "ทางลัดเหล่านี้จะทำงานเฉพาะจากแอป Cobalt เท่านั้น การแชร์ลิงก์จากแอปอื่นจะไม่ทำงาน",
+    "tutorial.shortcut.photos": "ไปยังรูปภาพ",
+    "tutorial.shortcut.files": "ไปยังไฟล์"
+}

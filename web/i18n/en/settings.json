@@ -50,22 +50,22 @@
 
     "audio.bitrate": "audio bitrate",
     "audio.bitrate.kbps": "kb/s",
-    "audio.bitrate.description": "bitrate applies only to audio conversion. cobalt can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
+    "audio.bitrate.description": "bitrate applies only to audio conversion. freesavevideo can't improve the source audio quality, so choosing a bitrate over 128kbps may inflate the file size with no audible difference. perceived quality may vary by format.",
 
     "audio.youtube.dub": "youtube",
     "audio.youtube.dub.title": "use browser language for dubbed videos",
-    "audio.youtube.dub.description": "works even if cobalt isn't translated to your language.",
+    "audio.youtube.dub.description": "works even if freesavevideo isn't translated to your language.",
 
     "audio.tiktok.original": "tiktok",
     "audio.tiktok.original.title": "download original sound",
-    "audio.tiktok.original.description": "cobalt will download the sound from the video without any changes by the post's author.",
+    "audio.tiktok.original.description": "freesavevideo will download the sound from the video without any changes by the post's author.",
 
     "metadata.filename": "filename style",
     "metadata.filename.classic": "classic",
     "metadata.filename.basic": "basic",
     "metadata.filename.pretty": "pretty",
     "metadata.filename.nerdy": "nerdy",
-    "metadata.filename.description": "filename style will only be used for files tunneled by cobalt. some services don't support filename styles other than classic.",
+    "metadata.filename.description": "filename style will only be used for files tunneled by freesavevideo. some services don't support filename styles other than classic.",
 
     "metadata.filename.preview.video": "Video Title",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
@@ -79,7 +79,7 @@
     "saving.download": "download",
     "saving.share": "share",
     "saving.copy": "copy",
-    "saving.description": "preferred way of saving the file or link from cobalt. if preferred method is unavailable or something goes wrong, cobalt will ask you what to do next.",
+    "saving.description": "preferred way of saving the file or link from freesavevideo. if preferred method is unavailable or something goes wrong, freesavevideo will ask you what to do next.",
 
     "accessibility": "accessibility",
     "accessibility.transparency.title": "reduce visual transparency",
@@ -89,18 +89,18 @@
 
     "language": "language",
     "language.auto.title": "automatic selection",
-    "language.auto.description": "cobalt will use your browser's default language if translation is available. if not, english will be used instead.",
+    "language.auto.description": "freesavevideo will use your browser's default language if translation is available. if not, english will be used instead.",
     "language.preferred.title": "preferred language",
     "language.preferred.description": "this language will be used when automatic selection is disabled. any text that isn't translated will be displayed in english.\n\nwe use community-sourced translations for languages other than english, russian, and czech. they may be inaccurate or incomplete.",
 
     "privacy.analytics": "anonymous traffic analytics",
     "privacy.analytics.title": "don't contribute to analytics",
-    "privacy.analytics.description": "anonymous traffic analytics are needed to get an approximate number of active cobalt users. no identifiable information about you is ever stored. all processed data is anonymized and aggregated.\n\nwe use a self-hosted plausible instance that doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.",
+    "privacy.analytics.description": "anonymous traffic analytics are needed to get an approximate number of active freesavevideo users. no identifiable information about you is ever stored. all processed data is anonymized and aggregated.\n\nwe use a self-hosted plausible instance that doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.",
     "privacy.analytics.learnmore": "learn more about plausible's dedication to privacy.",
 
     "privacy.tunnel": "tunneling",
     "privacy.tunnel.title": "always tunnel files",
-    "privacy.tunnel.description": "cobalt will hide your ip address, browser info, and bypass local network restrictions. when enabled, files will also have readable filenames that otherwise would be gibberish.",
+    "privacy.tunnel.description": "freesavevideo will hide your ip address, browser info, and bypass local network restrictions. when enabled, files will also have readable filenames that otherwise would be gibberish.",
 
     "advanced.debug": "debug",
     "advanced.debug.title": "enable debug features",
@@ -115,7 +115,7 @@
     "processing.community": "community instances",
 
     "processing.enable_custom.title": "use a custom processing server",
-    "processing.enable_custom.description": "cobalt will use a custom processing server if you choose to. even though cobalt has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
+    "processing.enable_custom.description": "freesavevideo will use a custom processing server if you choose to. even though freesavevideo has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
 
     "processing.custom.placeholder": "custom instance domain"
 }

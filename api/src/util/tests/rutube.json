@@ -1,0 +1,100 @@
+[
+    {
+        "name": "regular video",
+        "url": "https://rutube.ru/video/b2f6c27649907c2fde0af411b03825eb/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vertical video (isAudioMuted)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "russian region lock",
+        "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "vertical video",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "yappy",
+        "url": "https://rutube.ru/yappy/c8c32bf7aee04412837656ea26c2b25b/",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "shorts",
+        "url": "https://rutube.ru/shorts/935c1afafd0e7d52836d671967d53dac/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vertical video (isAudioOnly)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vertical video (isAudioMuted)",
+        "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "private video",
+        "url": "https://rutube.ru/video/private/1161415be0e686214bb2a498165cab3e/?p=_IL1G8RSnKutunnTYwhZ5A",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "region locked video, should fail",
+        "canFail": true,
+        "url": "https://rutube.ru/video/e7ac82708cc22bd068a3bf6a7004d1b1/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

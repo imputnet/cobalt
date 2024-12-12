@@ -1,0 +1,121 @@
+{
+    "page.appearance": "การแสดงผล",
+    "page.privacy": "ความเป็นส่วนตัว",
+    "page.video": "วิดีโอ",
+    "page.audio": "เสียง",
+    "page.download": "การดาวน์โหลด",
+    "page.advanced": "ขั้นสูง",
+    "page.debug": "ข้อมูลการดีบัก",
+    "page.instances": "อินสแตนซ์",
+
+    "section.general": "ทั่วไป",
+    "section.save": "บันทึก",
+
+    "theme": "ธีม",
+    "theme.auto": "อัตโนมัติ",
+    "theme.light": "สว่าง",
+    "theme.dark": "มืด",
+    "theme.description": "ธีมอัตโนมัติจะสลับระหว่างธีมสว่างและมืด ขึ้นอยู่กับโหมดการแสดงผลของอุปกรณ์ของคุณ",
+
+    "video.quality": "คุณภาพวิดีโอ",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "หากคุณภาพวิดีโอที่ต้องการไม่พร้อมใช้งาน จะเลือกคุณภาพที่ดีที่สุดถัดไปแทน",
+
+    "video.youtube.codec": "ตัวเข้ารหัสวิดีโอและคอนเทนเนอร์ของ YouTube",
+    "video.youtube.codec.description": "h264: เข้ากันได้ดีที่สุด บิตเรทปานกลาง คุณภาพสูงสุดคือ 1080p\nav1: คุณภาพดีที่สุด ประสิทธิภาพและบิตเรท รองรับ 8k และ HDR\nvp9: คุณภาพและบิตเรทเดียวกับ av1 แต่ไฟล์มีขนาดใหญ่กว่าสองเท่า รองรับ 4k และ HDR\n\nav1 และ vp9 ไม่ได้รับการสนับสนุนอย่างแพร่หลายเท่ากับ h264",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "แปลงวิดีโอวนซ้ำเป็น GIF",
+    "video.twitter.gif.description": "การแปลง GIF ไม่มีประสิทธิภาพ ไฟล์ที่แปลงอาจมีขนาดใหญ่และคุณภาพต่ำ",
+
+    "video.tiktok.h265": "tiktok",
+    "video.tiktok.h265.title": "เลือกฟอร์แมต HEVC/H265",
+    "video.tiktok.h265.description": "อนุญาตให้ดาวน์โหลดวิดีโอใน 1080p แต่ลดความเข้ากันได้ลง",
+
+    "audio.format": "ฟอร์แมตเสียง",
+    "audio.format.best": "ดีที่สุด",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "ฟอร์แมตทั้งหมดนอกเหนือจาก \"ดีที่สุด\" จะถูกแปลง ซึ่งอาจทำให้คุณภาพลดลง เสียงจะไม่ถูกเข้ารหัสใหม่เมื่อเลือกฟอร์แมต \"ดีที่สุด\"",
+
+    "audio.bitrate": "บิตเรทเสียง",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "บิตเรทจะใช้กับการแปลงเสียงเท่านั้น freesavevideo ไม่สามารถปรับปรุงคุณภาพเสียงต้นฉบับได้ ดังนั้นการเลือกบิตเรทมากกว่า 128kbps อาจทำให้ขนาดไฟล์ใหญ่ขึ้นโดยไม่มีความแตกต่างของเสียงที่ได้ยิน คุณภาพที่รับรู้ได้อาจแตกต่างกันไปตามฟอร์แมต",
+
+    "audio.youtube.dub": "youtube",
+    "audio.youtube.dub.title": "ใช้ภาษาของเบราว์เซอร์สำหรับวิดีโอที่พากย์เสียง",
+    "audio.youtube.dub.description": "ทำงานได้แม้ว่า freesavevideo จะไม่ได้แปลเป็นภาษาของคุณ",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "ดาวน์โหลดเสียงต้นฉบับ",
+    "audio.tiktok.original.description": "freesavevideo จะดาวน์โหลดเสียงจากวิดีโอโดยไม่มีการเปลี่ยนแปลงจากผู้โพสต์",
+
+    "metadata.filename": "สไตล์ชื่อไฟล์",
+    "metadata.filename.classic": "คลาสสิก",
+    "metadata.filename.basic": "พื้นฐาน",
+    "metadata.filename.pretty": "สวยงาม",
+    "metadata.filename.nerdy": "เนิร์ด",
+    "metadata.filename.description": "สไตล์ชื่อไฟล์จะใช้เฉพาะกับไฟล์ที่จัดการโดย freesavevideo บริการบางอย่างไม่รองรับสไตล์ชื่อไฟล์ที่ไม่ใช่คลาสสิก",
+
+    "metadata.filename.preview.video": "ชื่อวิดีโอ",
+    "metadata.filename.preview.audio": "ชื่อเสียง - ผู้แต่งเสียง",
+
+    "metadata.file": "ข้อมูลเมตาไฟล์",
+    "metadata.disable.title": "ปิดข้อมูลเมตาไฟล์",
+    "metadata.disable.description": "ชื่อเรื่อง ศิลปิน และข้อมูลอื่นๆ จะไม่ถูกเพิ่มลงในไฟล์",
+
+    "saving.title": "วิธีการบันทึก",
+    "saving.ask": "ถาม",
+    "saving.download": "ดาวน์โหลด",
+    "saving.share": "แชร์",
+    "saving.copy": "คัดลอก",
+    "saving.description": "วิธีที่ต้องการสำหรับการบันทึกไฟล์หรือลิงก์จาก freesavevideo หากวิธีที่ต้องการไม่พร้อมใช้งานหรือล้มเหลว freesavevideo จะถามคุณว่าต้องการทำอะไรต่อไป",
+
+    "accessibility": "การเข้าถึง",
+    "accessibility.transparency.title": "ลดความโปร่งใสของภาพ",
+    "accessibility.transparency.description": "ลดความโปร่งใสของพื้นผิวและปิดเอฟเฟ็กต์เบลอ",
+    "accessibility.motion.title": "ลดการเคลื่อนไหว",
+    "accessibility.motion.description": "ปิดการใช้งานแอนิเมชั่นและการเปลี่ยนแปลงเมื่อใดก็ตามที่ทำได้",
+
+    "language": "ภาษา",
+    "language.auto.title": "การเลือกอัตโนมัติ",
+    "language.auto.description": "freesavevideo จะใช้ภาษาของเบราว์เซอร์ของคุณหากมีการแปล หากไม่ การใช้งานจะเป็นภาษาอังกฤษแทน",
+    "language.preferred.title": "ภาษาที่ต้องการ",
+    "language.preferred.description": "ภาษานี้จะถูกใช้เมื่อการเลือกอัตโนมัติถูกปิด ข้อความใดๆ ที่ไม่ได้แปลจะถูกแสดงเป็นภาษาอังกฤษ\n\nเราใช้การแปลจากชุมชนสำหรับภาษาที่ไม่ใช่ภาษาอังกฤษ รัสเซีย และเช็ก ซึ่งอาจไม่ถูกต้องหรือไม่สมบูรณ์",
+
+    "privacy.analytics": "การวิเคราะห์การเข้าชมแบบไม่ระบุตัวตน",
+    "privacy.analytics.title": "ไม่ร่วมในการวิเคราะห์",
+    "privacy.analytics.description": "การวิเคราะห์การเข้าชมแบบไม่ระบุตัวตนเป็นสิ่งจำเป็นในการประมาณจำนวนผู้ใช้ freesavevideo ที่ใช้งานอยู่ ไม่มีข้อมูลที่ระบุตัวตนเกี่ยวกับคุณที่ถูกจัดเก็บ ข้อมูลที่ประมวลผลทั้งหมดจะไม่ระบุตัวตนและรวมเข้าด้วยกัน\n\nเราใช้แพลตฟอร์ม plausible ที่โฮสต์เองซึ่งไม่ใช้คุกกี้และสอดคล้องกับ GDPR, CCPA และ PECR อย่างเต็มที่",
+    "privacy.analytics.learnmore": "เรียนรู้เพิ่มเติมเกี่ยวกับความทุ่มเทของ plausible ต่อความเป็นส่วนตัว",
+
+    "privacy.tunnel": "การทำงานแบบอุโมงค์",
+    "privacy.tunnel.title": "ทำงานแบบอุโมงค์ไฟล์เสมอ",
+    "privacy.tunnel.description": "freesavevideo จะซ่อนที่อยู่ IP ข้อมูลเบราว์เซอร์ของคุณ และหลีกเลี่ยงข้อจำกัดของเครือข่ายท้องถิ่น เมื่อเปิดใช้งาน ไฟล์จะมีชื่อไฟล์ที่อ่านได้ ซึ่งถ้าไม่เปิดใช้งานจะเป็นตัวอักษรสุ่ม",
+
+    "advanced.debug": "ดีบัก",
+    "advanced.debug.title": "เปิดใช้งานฟีเจอร์ดีบัก",
+    "advanced.debug.description": "ให้คุณเข้าถึงหน้าที่มีข้อมูลต่างๆ ที่อาจมีประโยชน์ในการดีบัก",
+
+    "advanced.data": "ข้อมูลการตั้งค่า",
+
+    "processing.override": "การแทนที่อินสแตนซ์เริ่มต้น",
+    "processing.override.title": "ใช้เซิร์ฟเวอร์ประมวลผลที่อินสแตนซ์จัดให้",
+    "processing.override.description": "หากเว็บอินสแตนซ์ให้เซิร์ฟเวอร์ประมวลผลเริ่มต้น คุณสามารถเลือกใช้แทนเซิร์ฟเวอร์หลักได้ ตรวจสอบให้แน่ใจว่าเป็นเซิร์ฟเวอร์ของคนที่คุณไว้วางใจ",
+
+    "processing.community": "อินสแตนซ์ของชุมชน",
+
+    "processing.enable_custom.title": "ใช้เซิร์ฟเวอร์ประมวลผลที่กำหนดเอง",
+    "processing.enable_custom.description": "freesavevideo จะใช้เซิร์ฟเวอร์ประมวลผลที่กำหนดเองหากคุณเลือก แม้ว่าจะมีมาตรการรักษาความปลอดภัยบางอย่าง เราไม่รับผิดชอบต่อความเสียหายใดๆ ที่เกิดขึ้นจากอินสแตนซ์ชุมชน เนื่องจากเราไม่สามารถควบคุมได้\n\nโปรดระมัดระวังในการใช้อินสแตนซ์ที่คุณเลือกและตรวจสอบให้แน่ใจว่ามีคนที่คุณไว้วางใจเป็นผู้โฮสต์",
+
+    "processing.custom.placeholder": "โดเมนอินสแตนซ์ที่กำหนดเอง"
+}

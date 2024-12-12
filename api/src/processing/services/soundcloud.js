@@ -1,5 +1,4 @@
 import { env } from "../../config.js";
-import { cleanString } from "../../misc/utils.js";
 
 const cachedID = {
     version: '',
@@ -63,7 +62,17 @@ export default async function(obj) {
 
     if (!json) return { error: "fetch.fail" };
 
-    if (!json.media.transcodings) return { error: "fetch.empty" };
+    if (json?.policy === "BLOCK") {
+        return { error: "content.region" };
+    }
+
+    if (json?.policy === "SNIP") {
+        return { error: "content.paid" };
+    }
+
+    if (!json?.media?.transcodings || !json?.media?.transcodings.length === 0) {
+        return { error: "fetch.empty" };
+    }
 
     let bestAudio = "opus",
         selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0"),
@@ -73,6 +82,10 @@ export default async function(obj) {
     if (mp3Media && (obj.format === "mp3" || !selectedStream)) {
         selectedStream = mp3Media;
         bestAudio = "mp3"
+    }
+
+    if (!selectedStream) {
+        return { error: "fetch.empty" };
     }
 
     let fileUrlBase = selectedStream.url;
@@ -91,8 +104,8 @@ export default async function(obj) {
     if (!file) return { error: "fetch.empty" };
 
     let fileMetadata = {
-        title: cleanString(json.title.trim()),
-        artist: cleanString(json.user.username.trim()),
+        title: json.title.trim(),
+        artist: json.user.username.trim(),
     }
 
     return {

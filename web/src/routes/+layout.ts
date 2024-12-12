@@ -13,6 +13,7 @@ export const load: Load = async ({ url }) => {
 
     let preferredLocale = defaultLocale;
 
+
     if (browser) {
         preferredLocale = get((await import('$lib/i18n/locale')).default);
     }
