@@ -1,0 +1,47 @@
+[
+    {
+        "name": "long link video",
+        "url": "https://www.tiktok.com/@fatfatmillycat/video/7195741644585454894",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "images",
+        "url": "https://www.tiktok.com/@matryoshk4/video/7231234675476532526",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "long link inexistent",
+        "url": "https://www.tiktok.com/@blablabla/video/7120851458451417478",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "short link inexistent",
+        "url": "https://vt.tiktok.com/2p4ewa7/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "age restricted video",
+        "url": "https://www.tiktok.com/@.kyle.films/video/7415757181145877793",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

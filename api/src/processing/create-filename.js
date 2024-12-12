@@ -1,3 +1,13 @@
+const illegalCharacters = ['}', '{', '%', '>', '<', '^', ';', ':', '`', '$', '"', "@", '=', '?', '|', '*'];
+
+const sanitizeString = (string) => {
+    for (const i in illegalCharacters) {
+        string = string.replaceAll("/", "_").replaceAll("\\", "_")
+                       .replaceAll(illegalCharacters[i], '')
+    }
+    return string;
+}
+
 export default (f, style, isAudioOnly, isAudioMuted) => {
     let filename = '';
 
@@ -5,7 +15,11 @@ export default (f, style, isAudioOnly, isAudioMuted) => {
     let classicTags = [...infoBase];
     let basicTags = [];
 
-    const title = `${f.title} - ${f.author}`;
+    let title = sanitizeString(f.title);
+
+    if (f.author) {
+        title += ` - ${sanitizeString(f.author)}`;
+    }
 
     if (f.resolution) {
         classicTags.push(f.resolution);

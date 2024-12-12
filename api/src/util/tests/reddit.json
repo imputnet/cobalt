@@ -1,0 +1,60 @@
+[
+    {
+        "name": "video with audio",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video with audio (isAudioOnly)",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video with audio (isAudioMuted)",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/wup1fg/id_be_escaping_at_the_first_chance_i_got/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video without audio",
+        "url": "https://www.reddit.com/r/catvideos/comments/ftoeo7/luna_doesnt_want_to_be_bothered_while_shes_napping/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "actual gif, not looping video",
+        "url": "https://www.reddit.com/r/whenthe/comments/109wqy1/god_really_did_some_trolling/?utm_source=share&utm_medium=web2x&context=3",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "different audio link, live render",
+        "url": "https://www.reddit.com/r/TikTokCringe/comments/15hce91/asian_daddy_kink/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    }
+]

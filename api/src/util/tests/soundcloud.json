@@ -1,0 +1,106 @@
+[
+    {
+        "name": "public song (best)",
+        "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+        "params": {
+            "audioFormat": "best"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "public song (mp3, isAudioMuted)",
+        "url": "https://soundcloud.com/l2share77/loona-butterfly?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+        "params": {
+            "downloadMode": "mute",
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "private song",
+        "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "private song (wav, isAudioMuted)",
+        "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
+        "params": {
+            "downloadMode": "mute",
+            "audioFormat": "wav"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "private song (ogg, isAudioMuted, isAudioOnly)",
+        "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "ogg"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "on.soundcloud link",
+        "url": "https://on.soundcloud.com/wLZre",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "on.soundcloud link, different stream type",
+        "url": "https://on.soundcloud.com/AG4c",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "no opus audio, fallback to mp3",
+        "url": "https://soundcloud.com/frums/credits",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "go+ song, should fail",
+        "url": "https://soundcloud.com/dualipa/illusion-1",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "region locked song, should fail",
+        "canFail": true,
+        "url": "https://soundcloud.com/gotye/somebody-2024-feat-kimbra",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

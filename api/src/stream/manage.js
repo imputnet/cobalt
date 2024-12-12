@@ -1,4 +1,4 @@
-import NodeCache from "node-cache";
+import Store from "../store/store.js";
 
 import { nanoid } from "nanoid";
 import { randomBytes } from "crypto";
@@ -7,34 +7,26 @@ import { setMaxListeners } from "node:events";
 
 import { env } from "../config.js";
 import { closeRequest } from "./shared.js";
-import { decryptStream, encryptStream, generateHmac } from "../misc/crypto.js";
+import { decryptStream, encryptStream } from "../misc/crypto.js";
+import { hashHmac } from "../security/secrets.js";
 
 // optional dependency
 const freebind = env.freebindCIDR && await import('freebind').catch(() => {});
 
-const streamCache = new NodeCache({
-    stdTTL: env.streamLifespan,
-    checkperiod: 10,
-    deleteOnExpire: true
-})
-
-streamCache.on("expired", (key) => {
-    streamCache.del(key);
-})
+const streamCache = new Store('streams');
 
 const internalStreamCache = new Map();
-const hmacSalt = randomBytes(64).toString('hex');
 
 export function createStream(obj) {
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64url'),
         secret = randomBytes(32).toString('base64url'),
         exp = new Date().getTime() + env.streamLifespan * 1000,
-        hmac = generateHmac(`${streamID},${exp},${iv},${secret}`, hmacSalt),
+        hmac = hashHmac(`${streamID},${exp},${iv},${secret}`, 'stream').toString('base64url'),
         streamData = {
             exp: exp,
             type: obj.type,
-            urls: obj.u,
+            urls: obj.url,
             service: obj.service,
             filename: obj.filename,
 
@@ -46,12 +38,18 @@ export function createStream(obj) {
             audioBitrate: obj.audioBitrate,
             audioCopy: !!obj.audioCopy,
             audioFormat: obj.audioFormat,
+
+            isHLS: obj.isHLS || false,
         };
 
+    // FIXME: this is now a Promise, but it is not awaited
+    //        here. it may happen that the stream is not
+    //        stored in the Store before it is requested.
     streamCache.set(
         streamID,
-        encryptStream(streamData, iv, secret)
-    )
+        encryptStream(streamData, iv, secret),
+        env.streamLifespan
+    );
 
     let streamLink = new URL('/tunnel', env.apiURL);
 
@@ -77,7 +75,7 @@ export function getInternalStream(id) {
 export function createInternalStream(url, obj = {}) {
     assert(typeof url === 'string');
 
-    let dispatcher;
+    let dispatcher = obj.dispatcher;
     if (obj.requestIP) {
         dispatcher = freebind?.dispatcherFromIP(obj.requestIP, { strict: false })
     }
@@ -100,10 +98,11 @@ export function createInternalStream(url, obj = {}) {
         service: obj.service,
         headers,
         controller,
-        dispatcher
+        dispatcher,
+        isHLS: obj.isHLS,
     });
 
-    let streamLink = new URL('/itunnel', `http://127.0.0.1:${env.apiPort}`);
+    let streamLink = new URL('/itunnel', `http://127.0.0.1:${env.tunnelPort}`);
     streamLink.searchParams.set('id', streamID);
 
     const cleanup = () => {
@@ -146,10 +145,10 @@ function wrapStream(streamInfo) {
     return streamInfo;
 }
 
-export function verifyStream(id, hmac, exp, secret, iv) {
+export async function verifyStream(id, hmac, exp, secret, iv) {
     try {
-        const ghmac = generateHmac(`${id},${exp},${iv},${secret}`, hmacSalt);
-        const cache = streamCache.get(id.toString());
+        const ghmac = hashHmac(`${id},${exp},${iv},${secret}`, 'stream').toString('base64url');
+        const cache = await streamCache.get(id.toString());
 
         if (ghmac !== String(hmac)) return { status: 401 };
         if (!cache) return { status: 404 };

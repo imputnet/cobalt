@@ -1,0 +1,60 @@
+[
+    {
+        "name": "1080p video",
+        "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "1080p video muted",
+        "url": "https://www.bilibili.com/video/BV18i4y1m7xV/",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "1080p vertical video",
+        "url": "https://www.bilibili.com/video/BV1uu411z7VV/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "1080p vertical video muted",
+        "url": "https://www.bilibili.com/video/BV1uu411z7VV/",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "b23.tv shortlink",
+        "url": "https://b23.tv/lbMyOI9",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "bilibili.tv link",
+        "url": "https://www.bilibili.tv/en/video/4789599404426256",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    }
+]

@@ -1,0 +1,49 @@
+[
+    {
+        "name": "at.tumblr link",
+        "url": "https://at.tumblr.com/music/704177038274281472/n7x7pr7x4w2b",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "user subdomain link",
+        "url": "https://garfield-69.tumblr.com/post/696499862852780032",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "web app link",
+        "url": "https://www.tumblr.com/rongzhi/707729381162958848/english-added-by-me?source=share",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "tumblr audio",
+        "url": "https://www.tumblr.com/zedneon/737815079301562368/zedneon-ft-mr-sauceman-tech-n9ne-speed-of?source=share",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "tumblr video converted to audio",
+        "url": "https://garfield-69.tumblr.com/post/696499862852780032",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    }
+]

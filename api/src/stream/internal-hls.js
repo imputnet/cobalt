@@ -53,7 +53,7 @@ function transformMediaPlaylist(streamInfo, hlsPlaylist) {
 
 const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegURL"];
 
-export function isHlsRequest (req) {
+export function isHlsResponse (req) {
     return HLS_MIME_TYPES.includes(req.headers['content-type']);
 }
 

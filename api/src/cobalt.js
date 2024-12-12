@@ -1,27 +1,32 @@
 import "dotenv/config";
 
 import express from "express";
+import cluster from "node:cluster";
 
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from "url";
 
-import { env } from "./config.js"
-import { Bright, Green, Red } from "./misc/console-text.js";
+import { env, isCluster } from "./config.js"
+import { Red } from "./misc/console-text.js";
+import { initCluster } from "./misc/cluster.js";
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename).slice(0, -4);
 
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 
 if (env.apiURL) {
-    const { runAPI } = await import('./core/api.js');
-    runAPI(express, app, __dirname)
+    const { runAPI } = await import("./core/api.js");
+
+    if (isCluster) {
+       await initCluster();
+    }
+
+    runAPI(express, app, __dirname, cluster.isPrimary);
 } else {
     console.log(
-        Red(`cobalt wasn't configured yet or configuration is invalid.\n`)
-        + Bright(`please run the setup script to fix this: `)
-        + Green(`npm run setup`)
+        Red("API_URL env variable is missing, cobalt api can't start.")
     )
 }

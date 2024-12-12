@@ -1,0 +1,64 @@
+[
+    {
+        "name": "4k progressive",
+        "url": "https://vimeo.com/288386543",
+        "params": {
+            "videoQuality": "2160"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "720p progressive",
+        "url": "https://vimeo.com/288386543",
+        "params": {
+            "videoQuality": "720"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "1080p dash parcel",
+        "url": "https://vimeo.com/967252742",
+        "params": {
+            "videoQuality": "1440"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "720p dash parcel",
+        "url": "https://vimeo.com/967252742",
+        "params": {
+            "videoQuality": "360"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "private video",
+        "url": "https://vimeo.com/903115595/f14d06da38",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "mature video",
+        "url": "https://vimeo.com/973212054",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }
+]

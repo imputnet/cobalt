@@ -1,0 +1,123 @@
+[
+    {
+        "name": "single photo post",
+        "url": "https://www.instagram.com/p/CwIgW8Yu5-I/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "various picker (photos + video)",
+        "url": "https://www.instagram.com/p/CvYrSgnsKjv/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "reel",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "regular video",
+        "url": "https://www.instagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "reel (isAudioOnly)",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "reel (isAudioMuted)",
+        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "inexistent reel",
+        "url": "https://www.instagram.com/reel/XXXXXXXXXX/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "inexistent post",
+        "url": "https://www.instagram.com/p/XXXXXXXXXX/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "post info in an array (for whatever reason??)",
+        "url": "https://www.instagram.com/reel/CrVB9tatUDv/?igshid=blaBlABALALbLABULLSHIT==",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "prone to get rate limited",
+        "url": "https://www.instagram.com/reel/CrO-T7Qo6rq/?igshid=fuckYouNoTrackingIdForYou==",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "ddinstagram link",
+        "url": "https://ddinstagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "d.ddinstagram.com link",
+        "url": "https://d.ddinstagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "g.ddinstagram.com link",
+        "url": "https://g.ddinstagram.com/p/CmCVWoIr9OH/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }
+]
