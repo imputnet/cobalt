@@ -88,7 +88,17 @@ const cloneInnertube = async (customFetch) => {
     const oauthData = transformSessionData(cookie);
 
     if (!session.logged_in && oauthData) {
-        await session.oauth.init(oauthData);
+        const tokensMod = {
+            ...oauthData,  // 复制 oauthData 中的所有属性
+            client: {
+                client_id: oauthData.client_id,
+                client_secret: oauthData.client_secret
+            }
+        };
+        delete tokensMod.client_id;
+        delete tokensMod.client_secret;
+
+        await session.oauth.init(tokensMod);
         session.logged_in = true;
     }
 
@@ -140,7 +150,7 @@ export default async function(o) {
 
     let info;
     try {
-        info = await yt.getBasicInfo(o.id, useHLS ? 'IOS' : 'ANDROID');
+        info = await yt.getBasicInfo(o.id, useHLS ? 'IOS' : 'WEB');
     } catch (e) {
         if (e?.info) {
             const errorInfo = JSON.parse(e?.info);
