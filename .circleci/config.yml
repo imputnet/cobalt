@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Delete existing deployment to avoid usually stuck
           command: |
-            kubectl delete deployment cobalt-cobalt-chart || true
+            kubectl delete deployment cobalt-cobalt-chart -n infra || true
       - run:
           name: Deploy
           command: |
