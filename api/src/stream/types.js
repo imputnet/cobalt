@@ -1,4 +1,4 @@
-import { request } from "undici";
+import { Agent, request } from "undici";
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
@@ -60,6 +60,8 @@ const getCommand = (args) => {
     return [ffmpeg, args]
 }
 
+const defaultAgent = new Agent();
+
 const proxy = async (streamInfo, res) => {
     const abortController = new AbortController();
     const shutdown = () => (
@@ -78,7 +80,8 @@ const proxy = async (streamInfo, res) => {
                 Range: streamInfo.range
             },
             signal: abortController.signal,
-            maxRedirections: 16
+            maxRedirections: 16,
+            dispatcher: defaultAgent,
         });
 
         res.status(statusCode);
