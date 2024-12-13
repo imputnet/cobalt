@@ -104,6 +104,10 @@ jobs:
 #          command: |
 #            helm get values cobalt -n infra -o yaml > /tmp/values.yaml
       - run:
+          name: Delete existing deployment to avoid usually stuck
+          command: |
+            kubectl delete deployment cobalt-cobalt-chart || true
+      - run:
           name: Deploy
           command: |
             helm upgrade --install cobalt ./cobalt-chart -n infra  --set image.repository=${IMAGE},image.tag=<< parameters.tag_prefix >>-${CIRCLE_SHA1} --history-max=3 --wait --atomic --timeout 4m0s
