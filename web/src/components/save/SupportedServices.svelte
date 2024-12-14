@@ -8,8 +8,11 @@
 
     let services: string[] = [];
 
+    let popover: HTMLDivElement;
+
     $: expanded = false;
     $: loaded = false;
+    $: renderPopover = false;
 
     const loadInfo = async () => {
         await getServerInfo();
@@ -19,18 +22,28 @@
             services = $cachedInfo.info.cobalt.services;
         }
     };
-</script>
 
-<div id="supported-services">
-    <button
-        id="services-button"
-        class:expanded
-        on:click={async () => {
+    const showPopover = async () => {
+        const timeout = renderPopover ? 0 : 10;
+        renderPopover = true;
+
+        // 10ms delay to let the popover render for the first time
+        setTimeout(async () => {
             expanded = !expanded;
             if (expanded && services.length === 0) {
                 await loadInfo();
             }
-        }}
+            if (expanded) {
+                popover.focus();
+            }
+        }, timeout);
+    };
+</script>
+
+<div id="supported-services" class:expanded>
+    <button
+        id="services-button"
+        on:click={showPopover}
         aria-label={$t(`save.services.title_${expanded ? "hide" : "show"}`)}
     >
         <div class="expand-icon">
@@ -39,26 +52,33 @@
         <span class="title">{$t("save.services.title")}</span>
     </button>
 
-    <div id="services-popover" class:expanded>
-        <div id="services-container">
-            {#if loaded}
-                {#each services as service}
-                    <div class="service-item">{service}</div>
-                {/each}
-            {:else}
-                {#each { length: 17 } as _}
-                    <Skeleton
-                        class="elevated"
-                        width={Math.random() * 44 + 50 + "px"}
-                        height="24.5px"
-                    />
-                {/each}
-            {/if}
+    {#if renderPopover}
+        <div id="services-popover">
+            <div
+                id="services-container"
+                bind:this={popover}
+                tabindex="-1"
+                data-focus-ring-hidden
+            >
+                {#if loaded}
+                    {#each services as service}
+                        <div class="service-item">{service}</div>
+                    {/each}
+                {:else}
+                    {#each { length: 17 } as _}
+                        <Skeleton
+                            class="elevated"
+                            width={Math.random() * 44 + 50 + "px"}
+                            height="24.5px"
+                        />
+                    {/each}
+                {/if}
+            </div>
+            <div id="services-disclaimer" class="subtext">
+                {$t("save.services.disclaimer")}
+            </div>
         </div>
-        <div id="services-disclaimer" class="subtext">
-            {$t("save.services.disclaimer")}
-        </div>
-    </div>
+    {/if}
 </div>
 
 <style>
@@ -94,7 +114,7 @@
             opacity 0.25s cubic-bezier(0.53, 0.05, 0.23, 0.99);
     }
 
-    #services-popover.expanded {
+    .expanded #services-popover {
         transform: scale(1);
         opacity: 1;
     }
