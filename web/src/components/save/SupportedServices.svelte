@@ -90,8 +90,8 @@
         transform-origin: top center;
 
         transition:
-            transform 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99),
-            opacity 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99);
+            transform 0.3s cubic-bezier(0.53, 0.05, 0.23, 1.15),
+            opacity 0.25s cubic-bezier(0.53, 0.05, 0.23, 0.99);
     }
 
     #services-popover.expanded {
