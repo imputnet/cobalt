@@ -200,7 +200,7 @@
         --button-elevated: #282828;
         --button-elevated-hover: #323232;
 
-        --popover-glow: rgba(135, 135, 135, 0.15);
+        --popover-glow: rgba(135, 135, 135, 0.12);
 
         --popup-bg: #191919;
         --popup-stroke: rgba(255, 255, 255, 0.08);
