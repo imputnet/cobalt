@@ -51,6 +51,8 @@ async function handleYoutubeStream(streamInfo, res) {
 
         streamInfo.url = req.url;
         const size = BigInt(req.headers.get('content-length'));
+        console.log("size=========>",size)
+        console.log("req.status=========>", req.status);
 
         if (req.status !== 200 || !size) {
             return cleanup();
