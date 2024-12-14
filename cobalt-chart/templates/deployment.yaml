@@ -56,6 +56,20 @@ spec:
               value: src/cookies.json
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: additional-container
+          image: "gcr.io/ebay-mag/kubein@sha256:7faf00eb016f17e4fc1c44381c1d2325baf481ec800d63a186af5dec8b8c6664"
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "echo 'This is an additional container' && sleep 3600"]
+          env:
+            - name: EXAMPLE_ENV
+              value: example_value
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
       volumes:
         - name: cookies-volume
           persistentVolumeClaim:
