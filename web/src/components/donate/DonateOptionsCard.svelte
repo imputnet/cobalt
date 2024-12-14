@@ -138,13 +138,12 @@
 
     <div
         id="donation-options-container"
-        aria-hidden="true"
         class:mask-both={!device.is.mobile && showLeftScroll && showRightScroll}
         class:mask-left={!device.is.mobile && showLeftScroll && !showRightScroll}
         class:mask-right={!device.is.mobile && showRightScroll && !showLeftScroll}
     >
         {#if !device.is.mobile}
-            <div id="donation-options-scroll">
+            <div id="donation-options-scroll" aria-hidden="true">
                 <button
                     class="scroll-button left"
                     class:hidden={!showLeftScroll}
