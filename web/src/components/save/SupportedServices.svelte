@@ -78,7 +78,7 @@
         background: var(--button);
         box-shadow:
             var(--button-box-shadow),
-            0 0 10px 10px var(--button-stroke);
+            0 0 10px 10px var(--popover-glow);
 
         position: relative;
         padding: 12px;

@@ -123,6 +123,8 @@
         --button-elevated-hover: #dadada;
         --button-elevated-shimmer: #ededed;
 
+        --popover-glow: var(--button-stroke);
+
         --popup-bg: #f1f1f1;
         --popup-stroke: rgba(0, 0, 0, 0.08);
 
@@ -197,6 +199,8 @@
 
         --button-elevated: #282828;
         --button-elevated-hover: #323232;
+
+        --popover-glow: rgba(135, 135, 135, 0.15);
 
         --popup-bg: #191919;
         --popup-stroke: rgba(255, 255, 255, 0.08);
