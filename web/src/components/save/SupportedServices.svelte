@@ -23,20 +23,26 @@
         }
     };
 
+    const popoverAction = async () => {
+        expanded = !expanded;
+        if (expanded && services.length === 0) {
+            await loadInfo();
+        }
+        if (expanded) {
+            popover.focus();
+        }
+    }
+
     const showPopover = async () => {
-        const timeout = renderPopover ? 0 : 10;
+        const timeout = !renderPopover;
         renderPopover = true;
 
         // 10ms delay to let the popover render for the first time
-        setTimeout(async () => {
-            expanded = !expanded;
-            if (expanded && services.length === 0) {
-                await loadInfo();
-            }
-            if (expanded) {
-                popover.focus();
-            }
-        }, timeout);
+        if (timeout) {
+            setTimeout(popoverAction, 10);
+        } else {
+            await popoverAction();
+        }
     };
 </script>
 
