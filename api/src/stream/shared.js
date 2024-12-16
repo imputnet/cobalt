@@ -50,7 +50,7 @@ export function pipe(from, to, done) {
     from.pipe(to);
 }
 
-export async function estimateTunnelLength(streamInfo, multiplier = 1) {
+export async function estimateTunnelLength(streamInfo, multiplier = 1.1) {
     let urls = streamInfo.urls;
     if (!Array.isArray(urls)) {
         urls = [ urls ];
