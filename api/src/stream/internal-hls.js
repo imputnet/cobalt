@@ -55,8 +55,11 @@ function transformMediaPlaylist(streamInfo, hlsPlaylist) {
 
 const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegURL"];
 
-export function isHlsResponse (req) {
-    return HLS_MIME_TYPES.includes(req.headers['content-type']);
+export function isHlsResponse(req, streamInfo) {
+    return HLS_MIME_TYPES.includes(req.headers['content-type'])
+        // bluesky's cdn responds with wrong content-type for the hls playlist,
+        // so we enforce it here until they fix it
+        || (streamInfo.service === 'bsky' && streamInfo.url.endsWith('.m3u8'));
 }
 
 export async function handleHlsPlaylist(streamInfo, req, res) {

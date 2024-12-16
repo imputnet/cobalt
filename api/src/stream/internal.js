@@ -96,10 +96,7 @@ async function handleGenericStream(streamInfo, res) {
         res.status(fileResponse.statusCode);
         fileResponse.body.on('error', () => {});
 
-        // bluesky's cdn responds with wrong content-type for the hls playlist,
-        // so we enforce it here until they fix it
-        const isHls = isHlsResponse(fileResponse)
-                      || (streamInfo.service === "bsky" && streamInfo.url.endsWith('.m3u8'));
+        const isHls = isHlsResponse(fileResponse, streamInfo);
 
         for (const [ name, value ] of Object.entries(fileResponse.headers)) {
             if (!isHls || name.toLowerCase() !== 'content-length') {
