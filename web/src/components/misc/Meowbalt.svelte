@@ -1,6 +1,5 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-
     import type { MeowbaltEmotions } from "$lib/types/meowbalt";
 
     export let emotion: MeowbaltEmotions;

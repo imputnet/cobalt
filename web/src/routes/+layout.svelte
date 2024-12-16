@@ -25,6 +25,7 @@
     import NotchSticker from "$components/misc/NotchSticker.svelte";
     import DialogHolder from "$components/dialog/DialogHolder.svelte";
     import UpdateNotification from "$components/misc/UpdateNotification.svelte";
+    import DownloadManager from "$components/downloads/DownloadManager.svelte";
 
     $: reduceMotion =
         $settings.appearance.reduceMotion || device.prefers.reducedMotion;
@@ -81,14 +82,15 @@
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
     >
-        {#if $updated}
-            <UpdateNotification />
-        {/if}
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}
+        <DownloadManager />
         <DialogHolder />
         <Sidebar />
+        {#if $updated}
+            <UpdateNotification />
+        {/if}
         <div id="content">
             {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
