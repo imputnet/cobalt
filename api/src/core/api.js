@@ -264,6 +264,14 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
     })
 
+    app.use('/tunnel', cors({
+        methods: ['GET'],
+        exposedHeaders: [
+            'Estimated-Content-Length'
+        ],
+        ...corsConfig,
+    }));
+
     app.get('/tunnel', apiTunnelLimiter, async (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
