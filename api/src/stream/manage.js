@@ -72,6 +72,16 @@ export function getInternalTunnel(id) {
     return internalStreamCache.get(id);
 }
 
+export function getInternalTunnelFromURL(url) {
+    url = new URL(url);
+    if (url.hostname !== '127.0.0.1') {
+        return;
+    }
+
+    const id = url.searchParams.get('id');
+    return getInternalTunnel(id);
+}
+
 export function createInternalStream(url, obj = {}) {
     assert(typeof url === 'string');
 
