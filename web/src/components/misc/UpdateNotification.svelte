@@ -32,6 +32,7 @@
         pointer-events: all;
         gap: 8px;
         margin: var(--padding);
+        margin-right: 71px;
         margin-top: calc(env(safe-area-inset-top) + var(--padding));
         box-shadow:
             var(--button-box-shadow),
@@ -88,6 +89,10 @@
             bottom: var(--sidebar-height-mobile);
             justify-content: center;
             animation: slide-in-bottom 0.4s;
+        }
+
+        .update-button {
+            margin-right: var(--padding);
         }
 
         @keyframes slide-in-bottom {
