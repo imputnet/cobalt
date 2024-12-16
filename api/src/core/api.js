@@ -316,8 +316,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         return stream(res, { type: 'internal', ...streamInfo });
     };
 
-    app.get('/itunnel', itunnelHandler);
-
     app.get('/', (_, res) => {
         res.type('json');
         res.status(200).send(serverInfo);
@@ -378,17 +376,15 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
     });
 
-    if (isCluster) {
-        const istreamer = express();
-        istreamer.get('/itunnel', itunnelHandler);
-        const server = istreamer.listen({
-            port: 0,
-            host: '127.0.0.1',
-            exclusive: true
-        }, () => {
-            const { port } = server.address();
-            console.log(`${Green('[✓]')} cobalt sub-instance running on 127.0.0.1:${port}`);
-            setTunnelPort(port);
-        });
-    }
+    const istreamer = express();
+    istreamer.get('/itunnel', itunnelHandler);
+    const server = istreamer.listen({
+        port: 0,
+        host: '127.0.0.1',
+        exclusive: true
+    }, () => {
+        const { port } = server.address();
+        console.log(`${Green('[✓]')} cobalt sub-instance running on 127.0.0.1:${port}`);
+        setTunnelPort(port);
+    });
 }
