@@ -16,7 +16,7 @@ import { createStore } from "../store/redis-ratelimit.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
-import { verifyStream, getInternalStream } from "../stream/manage.js";
+import { verifyStream, getInternalTunnel } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
@@ -303,7 +303,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return res.sendStatus(400);
         }
 
-        const streamInfo = getInternalStream(req.query.id);
+        const streamInfo = getInternalTunnel(req.query.id);
         if (!streamInfo) {
             return res.sendStatus(404);
         }

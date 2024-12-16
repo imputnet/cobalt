@@ -68,7 +68,7 @@ export function createStream(obj) {
     return streamLink.toString();
 }
 
-export function getInternalStream(id) {
+export function getInternalTunnel(id) {
     return internalStreamCache.get(id);
 }
 
@@ -124,7 +124,7 @@ export function destroyInternalStream(url) {
     const id = url.searchParams.get('id');
 
     if (internalStreamCache.has(id)) {
-        closeRequest(getInternalStream(id)?.controller);
+        closeRequest(getInternalTunnel(id)?.controller);
         internalStreamCache.delete(id);
     }
 }
