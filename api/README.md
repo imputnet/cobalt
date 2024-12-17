@@ -1,4 +1,4 @@
-# cobalt api
+# cobalt apii
 this directory includes the source code for cobalt api. it's made with [express.js](https://www.npmjs.com/package/express) and love!
 
 ## running your own instance
