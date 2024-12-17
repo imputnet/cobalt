@@ -1,4 +1,4 @@
-import { Agent, request, stream } from "undici";
+import { Agent, request } from "undici";
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
