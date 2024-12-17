@@ -1,5 +1,5 @@
 <script lang="ts">
-    import IconArrowDown from "@tabler/icons-svelte/IconArrowDown.svelte";
+    import IconBlender from "@tabler/icons-svelte/IconBlender.svelte";
 
     export let indeterminate = false;
     export let progress: number = 0;
@@ -10,7 +10,7 @@
 </script>
 
 <button
-    id="downloads-status"
+    id="processing-status"
     on:click={expandAction}
     class:completed={progress >= 100}
 >
@@ -30,35 +30,35 @@
         />
     </svg>
     <div class="icon-holder">
-        <IconArrowDown />
+        <IconBlender />
     </div>
 </button>
 
 <style>
-    #downloads-status {
-        --download-status-glow: 0 0 8px 0px var(--button-elevated-hover);
+    #processing-status {
+        --processing-status-glow: 0 0 8px 0px var(--button-elevated-hover);
 
         pointer-events: all;
         padding: 7px;
         border-radius: 30px;
         box-shadow:
             var(--button-box-shadow),
-            var(--download-status-glow);
+            var(--processing-status-glow);
 
         transition: box-shadow 0.2s, background-color 0.2s;
     }
 
-    #downloads-status.completed {
+    #processing-status.completed {
         box-shadow:
             0 0 0 2px var(--blue) inset,
-            var(--download-status-glow);
+            var(--processing-status-glow);
     }
 
-    :global([data-theme="light"]) #downloads-status.completed {
+    :global([data-theme="light"]) #processing-status.completed {
         background-color: #e0eeff;
     }
 
-    :global([data-theme="dark"]) #downloads-status.completed {
+    :global([data-theme="dark"]) #processing-status.completed {
         background-color: #1f3249;
     }
 

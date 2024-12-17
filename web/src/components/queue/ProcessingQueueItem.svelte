@@ -8,10 +8,10 @@
     export let icon: ConstructorOfATypedSvelteComponent;
 </script>
 
-<div class="download-item">
-    <div class="download-info">
+<div class="processing-item">
+    <div class="processing-info">
         <div class="file-title">
-            <div class="download-type">
+            <div class="processing-type">
                 <svelte:component this={icon} />
             </div>
             <span>
@@ -37,7 +37,7 @@
 </div>
 
 <style>
-    .download-item,
+    .processing-item,
     .file-actions {
         display: flex;
         flex-direction: row;
@@ -46,24 +46,24 @@
         position: relative;
     }
 
-    .download-item {
+    .processing-item {
         width: 425px;
         padding: 8px 0;
         gap: 8px;
         border-bottom: 1.5px var(--button-elevated) solid;
     }
 
-    .download-type {
+    .processing-type {
         display: flex;
     }
 
-    .download-type :global(svg) {
+    .processing-type :global(svg) {
         width: 18px;
         height: 18px;
         stroke-width: 1.5px;
     }
 
-    .download-info {
+    .processing-info {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -122,7 +122,7 @@
             );
         }
 
-        .download-item:hover .file-actions {
+        .processing-item:hover .file-actions {
             visibility: visible;
             opacity: 1;
         }
@@ -140,11 +140,11 @@
         stroke-width: 1.5px;
     }
 
-    .download-item:first-child {
+    .processing-item:first-child {
         padding-top: 0;
     }
 
-    .download-item:last-child {
+    .processing-item:last-child {
         padding-bottom: 0;
         border: none;
     }

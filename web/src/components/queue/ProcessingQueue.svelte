@@ -4,17 +4,18 @@
     import type { QueueItem } from "$lib/types/queue";
 
     import Meowbalt from "$components/misc/Meowbalt.svelte";
-    import DownloadStatus from "$components/downloads/DownloadStatus.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
-    import DownloadItem from "$components/downloads/DownloadItem.svelte";
+    import ProcessingStatus from "$components/queue/ProcessingStatus.svelte";
+    import ProcessingQueueItem from "$components/queue/ProcessingQueueItem.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
 
     import IconGif from "@tabler/icons-svelte/IconGif.svelte";
-    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
+    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
     import IconVolume3 from "@tabler/icons-svelte/IconVolume3.svelte";
+
     let popover: SvelteComponent;
     $: expanded = false;
 
@@ -30,7 +31,7 @@
     };
 
     // dummy data for testing ui rn
-    const downloadQueue: QueueItem[] = [
+    const processingQueue: QueueItem[] = [
         {
             id: "fake id",
             type: "video",
@@ -80,8 +81,8 @@
     });
 </script>
 
-<div id="downloads-manager">
-    <DownloadStatus
+<div id="processing-manager">
+    <ProcessingStatus
         {indeterminate}
         {progress}
         expandAction={popover?.showPopover}
@@ -89,33 +90,33 @@
 
     <PopoverContainer
         bind:this={popover}
-        id="downloads-popover"
+        id="processing-popover"
         {expanded}
         {popoverAction}
         expandStart="right"
     >
-        <div id="downloads-header">
-            <div class="downloads-header-title">downloads</div>
-            {#if downloadQueue.length > 0}
-                <button class="downloads-clear-button">
+        <div id="processing-header">
+            <div class="header-title">processing queue</div>
+            {#if processingQueue.length > 0}
+                <button class="clear-button">
                     <IconX />
                     clear
                 </button>
             {/if}
         </div>
-        <div id="downloads-list">
-            {#each downloadQueue as item}
-                <DownloadItem
+        <div id="processing-list">
+            {#each processingQueue as item}
+                <ProcessingQueueItem
                     filename={item.filename}
                     status={item.status}
                     progress={item.progress}
                     icon={itemIcons[item.type]}
                 />
             {/each}
-            {#if downloadQueue.length === 0}
+            {#if processingQueue.length === 0}
                 <div class="list-stub">
                     <Meowbalt emotion="think" />
-                    <span>your downloads will appear here!</span>
+                    <span>downloads will appear here!</span>
                 </div>
             {/if}
         </div>
@@ -123,7 +124,7 @@
 </div>
 
 <style>
-    #downloads-manager {
+    #processing-manager {
         position: absolute;
         right: 0;
         display: flex;
@@ -135,24 +136,24 @@
         padding: 16px;
     }
 
-    #downloads-manager :global(#downloads-popover) {
+    #processing-manager :global(#processing-popover) {
         padding: 16px;
         max-width: 425px;
         gap: 12px;
     }
 
-    #downloads-header {
+    #processing-header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
 
-    .downloads-header-title {
+    .header-title {
         font-size: 15px;
         font-weight: 500;
     }
 
-    .downloads-clear-button {
+    .clear-button {
         font-size: 13px;
         font-weight: 500;
         color: var(--red);
@@ -162,12 +163,12 @@
         box-shadow: none;
     }
 
-    .downloads-clear-button :global(svg) {
+    .clear-button :global(svg) {
         height: 16px;
         width: 16px;
     }
 
-    #downloads-list {
+    #processing-list {
         display: flex;
         flex-direction: column;
 
@@ -193,7 +194,7 @@
     }
 
     @media screen and (max-width: 535px) {
-        #downloads-manager {
+        #processing-manager {
             top: calc(env(safe-area-inset-top) - var(--padding) + 4px);
         }
     }
