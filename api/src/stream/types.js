@@ -29,7 +29,7 @@ const convertMetadataToFFmpeg = (metadata) => {
 
     for (const [ name, value ] of Object.entries(metadata)) {
         if (metadataTags.includes(name)) {
-            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`);
+            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`); // skipcq: JS-0004
         } else {
             throw `${name} metadata tag is not supported.`;
         }
