@@ -126,7 +126,6 @@
         gap: 12px;
         padding: 16px;
         padding-bottom: 0;
-
         width: calc(100% - 16px * 2);
         max-width: 425px;
     }
@@ -135,6 +134,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
     }
 
     .header-title {
@@ -155,6 +155,7 @@
         background: none;
         box-shadow: none;
         text-align: left;
+        border-radius: 3px;
     }
 
     .header-buttons button :global(svg) {
