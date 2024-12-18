@@ -58,4 +58,13 @@ export function removeFromOngoingQueue(id: string) {
     });
 }
 
+export function nukeEntireQueue() {
+    update(() => {
+        return {};
+    });
+    updateOngoing(() => {
+        return {};
+    });
+}
+
 export { queue, ongoingQueue };
