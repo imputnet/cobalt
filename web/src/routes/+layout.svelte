@@ -85,13 +85,13 @@
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}
-        <ProcessingQueue />
         <DialogHolder />
         <Sidebar />
         {#if $updated}
             <UpdateNotification />
         {/if}
         <div id="content">
+            <ProcessingQueue />
             {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
