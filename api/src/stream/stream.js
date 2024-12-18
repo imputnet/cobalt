@@ -10,20 +10,20 @@ export default async function(res, streamInfo) {
                 return await stream.proxy(streamInfo, res);
 
             case "internal":
-                return internalStream(streamInfo, res);
+                return await internalStream(streamInfo, res);
 
             case "merge":
-                return stream.merge(streamInfo, res);
+                return await stream.merge(streamInfo, res);
 
             case "remux":
             case "mute":
-                return stream.remux(streamInfo, res);
+                return await stream.remux(streamInfo, res);
 
             case "audio":
-                return stream.convertAudio(streamInfo, res);
+                return await stream.convertAudio(streamInfo, res);
 
             case "gif":
-                return stream.convertGif(streamInfo, res);
+                return await stream.convertGif(streamInfo, res);
         }
 
         closeResponse(res);

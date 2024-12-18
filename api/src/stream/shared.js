@@ -1,5 +1,7 @@
 import { genericUserAgent } from "../config.js";
 import { vkClientAgent } from "../processing/services/vk.js";
+import { getInternalTunnelFromURL } from "./manage.js";
+import { probeInternalTunnel } from "./internal.js";
 
 const defaultHeaders = {
     'user-agent': genericUserAgent
@@ -46,4 +48,41 @@ export function pipe(from, to, done) {
       .on('close', done);
 
     from.pipe(to);
+}
+
+export async function estimateTunnelLength(streamInfo, multiplier = 1.1) {
+    let urls = streamInfo.urls;
+    if (!Array.isArray(urls)) {
+        urls = [ urls ];
+    }
+
+    const internalTunnels = urls.map(getInternalTunnelFromURL);
+    if (internalTunnels.some(t => !t))
+        return -1;
+
+    const sizes = await Promise.all(internalTunnels.map(probeInternalTunnel));
+    const estimatedSize = sizes.reduce(
+        // if one of the sizes is missing, let's just make a very
+        // bold guess that it's the same size as the existing one
+        (acc, cur) => cur <= 0 ? acc * 2 : acc + cur,
+        0
+    );
+
+    if (isNaN(estimatedSize) || estimatedSize <= 0) {
+        return -1;
+    }
+
+    return Math.floor(estimatedSize * multiplier);
+}
+
+export function estimateAudioMultiplier(streamInfo) {
+    if (streamInfo.audioFormat === 'wav') {
+        return 1411 / 128;
+    }
+
+    if (streamInfo.audioCopy) {
+        return 1;
+    }
+
+    return streamInfo.audioBitrate / 128;
 }

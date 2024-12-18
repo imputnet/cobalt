@@ -8,18 +8,19 @@ import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
 import match from "../processing/match.js";
 
-import { env, isCluster, setTunnelPort } from "../config.js";
+import { env } from "../config.js";
 import { extract } from "../processing/url.js";
-import { Green, Bright, Cyan } from "../misc/console-text.js";
+import { Bright, Cyan } from "../misc/console-text.js";
 import { hashHmac } from "../security/secrets.js";
 import { createStore } from "../store/redis-ratelimit.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
-import { verifyStream, getInternalStream } from "../stream/manage.js";
+import { verifyStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
+import { setupTunnelHandler } from "./itunnel.js";
 
 const git = {
     branch: await getBranch(),
@@ -263,6 +264,14 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
     })
 
+    app.use('/tunnel', cors({
+        methods: ['GET'],
+        exposedHeaders: [
+            'Estimated-Content-Length'
+        ],
+        ...corsConfig,
+    }));
+
     app.get('/tunnel', apiTunnelLimiter, async (req, res) => {
         const id = String(req.query.id);
         const exp = String(req.query.exp);
@@ -292,31 +301,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
 
         return stream(res, streamInfo);
-    })
-
-    const itunnelHandler = (req, res) => {
-        if (!req.ip.endsWith('127.0.0.1')) {
-            return res.sendStatus(403);
-        }
-
-        if (String(req.query.id).length !== 21) {
-            return res.sendStatus(400);
-        }
-
-        const streamInfo = getInternalStream(req.query.id);
-        if (!streamInfo) {
-            return res.sendStatus(404);
-        }
-
-        streamInfo.headers = new Map([
-            ...(streamInfo.headers || []),
-            ...Object.entries(req.headers)
-        ]);
-
-        return stream(res, { type: 'internal', ...streamInfo });
-    };
-
-    app.get('/itunnel', itunnelHandler);
+    });
 
     app.get('/', (_, res) => {
         res.type('json');
@@ -378,17 +363,5 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
     });
 
-    if (isCluster) {
-        const istreamer = express();
-        istreamer.get('/itunnel', itunnelHandler);
-        const server = istreamer.listen({
-            port: 0,
-            host: '127.0.0.1',
-            exclusive: true
-        }, () => {
-            const { port } = server.address();
-            console.log(`${Green('[✓]')} cobalt sub-instance running on 127.0.0.1:${port}`);
-            setTunnelPort(port);
-        });
-    }
+    setupTunnelHandler();
 }
