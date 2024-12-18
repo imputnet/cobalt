@@ -19,7 +19,7 @@
     };
 </script>
 
-<div {id} class="popover {expandStart}" class:expanded>
+<div {id} class="popover {expandStart}" aria-hidden={!expanded} class:expanded>
     {#if renderPopover}
         <slot></slot>
     {/if}
