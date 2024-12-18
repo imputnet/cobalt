@@ -18,7 +18,7 @@
     import IconVolume3 from "@tabler/icons-svelte/IconVolume3.svelte";
 
     import settings from "$lib/state/settings";
-    import { addToQueue, queue } from "$lib/state/queue";
+    import { addToQueue, nukeEntireQueue, queue } from "$lib/state/queue";
     import type { QueueItem } from "$lib/types/queue";
 
     let popover: SvelteComponent;
@@ -77,7 +77,7 @@
             <div class="header-title">{$t("queue.title")}</div>
             <div class="header-buttons">
                 {#if queueLength > 0}
-                    <button class="clear-button">
+                    <button class="clear-button" on:click={nukeEntireQueue}>
                         <IconX />
                         {$t("button.clear")}
                     </button>
