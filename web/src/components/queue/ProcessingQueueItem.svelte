@@ -1,7 +1,9 @@
 <script lang="ts">
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
+    import { removeFromQueue } from "$lib/state/queue";
 
+    export let id: string;
     export let filename: string;
     export let status: string;
     export let progress: number = 0;
@@ -24,13 +26,16 @@
                 style="width: {Math.min(100, progress)}%"
             ></div>
         </div>
-        <div class="file-status">{status}</div>
+        <div class="file-status">{id}: {status}</div>
     </div>
     <div class="file-actions">
         <button class="action-button">
             <IconDownload />
         </button>
-        <button class="action-button">
+        <button
+            class="action-button"
+            on:click={() => removeFromQueue(id)}
+        >
             <IconX />
         </button>
     </div>
@@ -145,7 +150,7 @@
     }
 
     .processing-item:last-child {
-        padding-bottom: 0;
+        padding-bottom: 16px;
         border: none;
     }
 </style>

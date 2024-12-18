@@ -1,14 +1,15 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
     import type { SvelteComponent } from "svelte";
-    import type { QueueItem } from "$lib/types/queue";
 
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
     import ProcessingStatus from "$components/queue/ProcessingStatus.svelte";
     import ProcessingQueueItem from "$components/queue/ProcessingQueueItem.svelte";
+    import ProcessingQueueStub from "$components/queue/ProcessingQueueStub.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
+    import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
 
     import IconGif from "@tabler/icons-svelte/IconGif.svelte";
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
@@ -16,64 +17,45 @@
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
     import IconVolume3 from "@tabler/icons-svelte/IconVolume3.svelte";
 
+    import settings from "$lib/state/settings";
+    import { addToQueue, queue } from "$lib/state/queue";
+    import type { QueueItem } from "$lib/types/queue";
+
     let popover: SvelteComponent;
     $: expanded = false;
 
-    $: progress = 0;
+    $: queueItems = Object.entries($queue) as [id: string, item: QueueItem][];
+
+    $: queueLength = Object.keys($queue).length;
     $: indeterminate = false;
 
     const itemIcons = {
         video: IconMovie,
+        video_mute: IconVolume3,
         audio: IconMusic,
-        mute: IconVolume3,
+        audio_convert: IconMusic,
         image: IconPhoto,
         gif: IconGif,
     };
 
-    // dummy data for testing ui rn
-    const processingQueue: QueueItem[] = [
-        {
-            id: "fake id",
+    const addFakeQueueItem = () => {
+        return addToQueue({
+            id: crypto.randomUUID(),
+            status: "waiting",
             type: "video",
-            filename: "placeholder.mp4",
-            status: "processing: 69%",
-            progress: 69,
-        },
-        {
-            id: "fake id",
-            type: "audio",
-            filename: "placeholder.mp3",
-            status: "processing: 3%",
-            progress: 3,
-        },
-        {
-            id: "fake id",
-            type: "mute",
-            filename: "placeholder.mp4",
-            status: "processing: 55%",
-            progress: 55,
-        },
-        {
-            id: "fake id",
-            type: "image",
-            filename: "placeholder.jpg",
-            status: "processing: 21%",
-            progress: 22,
-        },
-        {
-            id: "fake id",
-            type: "gif",
-            filename: "placeholder.gif",
-            status: "processing: 82%",
-            progress: 82,
-        },
-    ];
+            filename: "test.mp4",
+            files: [
+                {
+                    type: "video",
+                    url: "https://",
+                },
+            ],
+            processingSteps: [],
+        });
+    };
 
     const popoverAction = async () => {
         expanded = !expanded;
-        if (expanded) {
-            popover.focus();
-        }
     };
 
     onNavigate(() => {
@@ -82,11 +64,7 @@
 </script>
 
 <div id="processing-manager">
-    <ProcessingStatus
-        {indeterminate}
-        {progress}
-        expandAction={popover?.showPopover}
-    />
+    <ProcessingStatus {indeterminate} expandAction={popover?.showPopover} />
 
     <PopoverContainer
         bind:this={popover}
@@ -96,28 +74,34 @@
         expandStart="right"
     >
         <div id="processing-header">
-            <div class="header-title">processing queue</div>
-            {#if processingQueue.length > 0}
-                <button class="clear-button">
-                    <IconX />
-                    clear
-                </button>
-            {/if}
+            <div class="header-title">{$t("queue.title")}</div>
+            <div class="header-buttons">
+                {#if queueLength > 0}
+                    <button class="clear-button">
+                        <IconX />
+                        {$t("button.clear")}
+                    </button>
+                {/if}
+                <!-- button for ui debug -->
+                {#if $settings.advanced.debug}
+                    <button class="test-button" on:click={addFakeQueueItem}>
+                        <IconPlus />
+                        add item
+                    </button>
+                {/if}
+            </div>
         </div>
         <div id="processing-list">
-            {#each processingQueue as item}
+            {#each queueItems as [id, item]}
                 <ProcessingQueueItem
+                    {id}
                     filename={item.filename}
                     status={item.status}
-                    progress={item.progress}
                     icon={itemIcons[item.type]}
                 />
             {/each}
-            {#if processingQueue.length === 0}
-                <div class="list-stub">
-                    <Meowbalt emotion="think" />
-                    <span>downloads will appear here!</span>
-                </div>
+            {#if queueLength === 0}
+                <ProcessingQueueStub />
             {/if}
         </div>
     </PopoverContainer>
@@ -137,9 +121,10 @@
     }
 
     #processing-manager :global(#processing-popover) {
-        padding: 16px;
         max-width: 425px;
         gap: 12px;
+        padding: 16px;
+        padding-bottom: 0;
     }
 
     #processing-header {
@@ -153,19 +138,28 @@
         font-weight: 500;
     }
 
-    .clear-button {
+    .header-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: var(--padding);
+    }
+
+    .header-buttons button {
         font-size: 13px;
         font-weight: 500;
-        color: var(--red);
-
         padding: 0;
         background: none;
         box-shadow: none;
+        text-align: left;
     }
 
-    .clear-button :global(svg) {
+    .header-buttons button :global(svg) {
         height: 16px;
         width: 16px;
+    }
+
+    .clear-button {
+        color: var(--red);
     }
 
     #processing-list {
@@ -174,23 +168,6 @@
 
         max-height: 60vh;
         overflow: scroll;
-    }
-
-    .list-stub {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--gray);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
-        text-align: center;
-        gap: var(--padding);
-    }
-
-    .list-stub :global(.meowbalt) {
-        height: 120px;
     }
 
     @media screen and (max-width: 535px) {
