@@ -74,6 +74,7 @@
         height: 21px;
         width: 21px;
         stroke: var(--secondary);
+        stroke-width: 1.5px;
         transition: stroke 0.2s;
     }
 
