@@ -63,7 +63,7 @@
     });
 </script>
 
-<div id="processing-manager">
+<div id="processing-queue" class:expanded>
     <ProcessingStatus {indeterminate} expandAction={popover?.showPopover} />
 
     <PopoverContainer
@@ -108,7 +108,8 @@
 </div>
 
 <style>
-    #processing-manager {
+    #processing-queue {
+        --holder-padding: 16px;
         position: absolute;
         right: 0;
         display: flex;
@@ -117,14 +118,17 @@
         justify-content: end;
         z-index: 9;
         pointer-events: none;
-        padding: 16px;
+        padding: var(--holder-padding);
+        width: calc(100% - var(--holder-padding) * 2);
     }
 
-    #processing-manager :global(#processing-popover) {
-        max-width: 425px;
+    #processing-queue :global(#processing-popover) {
         gap: 12px;
         padding: 16px;
         padding-bottom: 0;
+
+        width: calc(100% - 16px * 2);
+        max-width: 425px;
     }
 
     #processing-header {
@@ -166,13 +170,15 @@
         display: flex;
         flex-direction: column;
 
-        max-height: 60vh;
+        max-height: 65vh;
         overflow: scroll;
     }
 
     @media screen and (max-width: 535px) {
-        #processing-manager {
-            top: calc(env(safe-area-inset-top) - var(--padding) + 4px);
+        #processing-queue {
+            --holder-padding: 8px;
+            padding-top: 4px;
+            top: env(safe-area-inset-top);
         }
     }
 </style>

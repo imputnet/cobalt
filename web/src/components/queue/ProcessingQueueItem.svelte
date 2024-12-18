@@ -52,7 +52,7 @@
     }
 
     .processing-item {
-        width: 425px;
+        width: 100%;
         padding: 8px 0;
         gap: 8px;
         border-bottom: 1.5px var(--button-elevated) solid;
