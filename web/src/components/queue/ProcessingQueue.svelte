@@ -1,8 +1,14 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
-    import type { SvelteComponent } from "svelte";
 
+    import settings from "$lib/state/settings";
+    import { addToQueue, nukeEntireQueue, queue } from "$lib/state/queue";
+
+    import type { SvelteComponent } from "svelte";
+    import type { QueueItem } from "$lib/types/queue";
+
+    import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
     import ProcessingStatus from "$components/queue/ProcessingStatus.svelte";
     import ProcessingQueueItem from "$components/queue/ProcessingQueueItem.svelte";
@@ -16,10 +22,6 @@
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
     import IconVolume3 from "@tabler/icons-svelte/IconVolume3.svelte";
-
-    import settings from "$lib/state/settings";
-    import { addToQueue, nukeEntireQueue, queue } from "$lib/state/queue";
-    import type { QueueItem } from "$lib/types/queue";
 
     let popover: SvelteComponent;
     $: expanded = false;
@@ -74,7 +76,12 @@
         expandStart="right"
     >
         <div id="processing-header">
-            <div class="header-title">{$t("queue.title")}</div>
+            <SectionHeading
+                title={$t("queue.title")}
+                sectionId="queue"
+                beta
+                nolink
+            />
             <div class="header-buttons">
                 {#if queueLength > 0}
                     <button class="clear-button" on:click={nukeEntireQueue}>
@@ -135,11 +142,6 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .header-title {
-        font-size: 15px;
-        font-weight: 500;
     }
 
     .header-buttons {
