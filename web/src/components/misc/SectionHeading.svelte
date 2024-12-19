@@ -8,6 +8,7 @@
     export let title: string;
     export let sectionId: string;
     export let beta = false;
+    export let nolink = false;
     export let copyData = "";
 
     const sectionURL = `${$page.url.origin}${$page.url.pathname}#${sectionId}`;
@@ -32,18 +33,20 @@
         </div>
     {/if}
 
-    <button
-        class="link-copy"
-        aria-label={copied
-            ? $t("button.copied")
-            : $t(`button.copy${copyData ? "" : ".section"}`)}
-        on:click={() => {
-            copied = true;
-            copyURL(copyData || sectionURL);
-        }}
-    >
-        <CopyIcon check={copied} regularIcon={!!copyData} />
-    </button>
+    {#if !nolink}
+        <button
+            class="link-copy"
+            aria-label={copied
+                ? $t("button.copied")
+                : $t(`button.copy${copyData ? "" : ".section"}`)}
+            on:click={() => {
+                copied = true;
+                copyURL(copyData || sectionURL);
+            }}
+        >
+            <CopyIcon check={copied} regularIcon={!!copyData} />
+        </button>
+    {/if}
 </div>
 
 <style>
