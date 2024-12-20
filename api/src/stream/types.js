@@ -73,7 +73,6 @@ const proxy = async (streamInfo, res) => {
     try {
         res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         res.setHeader('Content-disposition', contentDisposition(streamInfo.filename));
-        res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo));
 
         const { body: stream, headers, statusCode } = await request(streamInfo.urls, {
             headers: {
