@@ -68,7 +68,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             }
             params = {
                 type: muteType,
-                url: Array.isArray(r.urls) ? r.urls[0] : r.urls
+                url: Array.isArray(r.urls) ? r.urls[0] : r.urls,
+                isHLS: r.isHLS
             }
             if (host === "reddit" && r.typeId === "redirect") {
                 responseType = "redirect";
