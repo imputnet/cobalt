@@ -113,6 +113,10 @@
 
     "advanced.data": "data management",
 
+    "advanced.duck": "local processing",
+    "advanced.duck.title": "process everything on device",
+    "advanced.duck.description": "very wip, may cause critical issues or not work at all. this toggle will probably be gone by release.",
+
     "processing.community": "community instances",
     "processing.enable_custom.title": "use a custom processing server",
     "processing.enable_custom.description": "cobalt will use a custom processing instance if you choose to. even though cobalt has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
