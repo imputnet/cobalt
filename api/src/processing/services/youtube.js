@@ -68,7 +68,7 @@ const cloneInnertube = async (customFetch) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
 
     const rawCookie = getCookie('youtube');
-    const cookieValues = rawCookie?.values();
+    const rawCookieValues = rawCookie?.values();
     const cookie = rawCookie?.toString();
 
     if (!innertube || shouldRefreshPlayer) {
@@ -76,8 +76,8 @@ const cloneInnertube = async (customFetch) => {
             fetch: customFetch,
             retrieve_player: !!cookie,
             cookie,
-            po_token: cookieValues?.po_token,
-            visitor_data: cookieValues?.visitor_data,
+            po_token: rawCookieValues?.po_token,
+            visitor_data: rawCookieValues?.visitor_data,
         });
         lastRefreshedAt = +new Date();
     }
