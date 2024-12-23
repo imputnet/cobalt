@@ -11,8 +11,8 @@
     sectionId="summary"
 />
 
-cobalt helps you save anything from your favorite websites: video, audio, photos
-or gifs. just paste the link and you're ready to rock!
+кобальт помогает сохранять всё с любимых сайтов: видео, аудио, фото или гифки.
+просто вставь ссылку — и можно начинать!
 
 no ads, trackers, paywalls, or other nonsense. just a convenient web app that
 works anywhere, whenever you need it.
