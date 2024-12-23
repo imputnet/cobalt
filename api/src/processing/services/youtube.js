@@ -66,10 +66,12 @@ const transformSessionData = (cookie) => {
 
 const cloneInnertube = async (customFetch) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
+    const cookie = getCookie('youtube')?.toString();
     if (!innertube || shouldRefreshPlayer) {
         innertube = await Innertube.create({
             fetch: customFetch,
             retrieve_player: false,
+            cookie
         });
         lastRefreshedAt = +new Date();
     }
@@ -80,30 +82,30 @@ const cloneInnertube = async (customFetch) => {
         innertube.session.api_version,
         innertube.session.account_index,
         innertube.session.player,
-        undefined,
+        cookie,
         customFetch ?? innertube.session.http.fetch,
         innertube.session.cache
     );
 
-    const cookie = getCookie('youtube_oauth');
-    const oauthData = transformSessionData(cookie);
+    const oauthCookie = getCookie('youtube_oauth');
+    const oauthData = transformSessionData(oauthCookie);
 
     if (!session.logged_in && oauthData) {
         await session.oauth.init(oauthData);
         session.logged_in = true;
     }
 
-    if (session.logged_in) {
+    if (session.logged_in && oauthData) {
         if (session.oauth.shouldRefreshToken()) {
             await session.oauth.refreshAccessToken();
         }
 
-        const cookieValues = cookie.values();
+        const cookieValues = oauthCookie.values();
         const oldExpiry = new Date(cookieValues.expiry_date);
         const newExpiry = new Date(session.oauth.oauth2_tokens.expiry_date);
 
         if (oldExpiry.getTime() !== newExpiry.getTime()) {
-            updateCookieValues(cookie, {
+            updateCookieValues(oauthCookie, {
                 ...session.oauth.client_id,
                 ...session.oauth.oauth2_tokens,
                 expiry_date: newExpiry.toISOString()
