@@ -528,6 +528,12 @@
         font-size: 19px;
         line-height: 1.3;
         margin-block-end: -0.3rem;
+        padding: 6px 0;
+        border-bottom: 1.5px solid var(--button-elevated-hover);
+    }
+
+    :global(.long-text-noto img) {
+        border-radius: 6px;
     }
 
     :global(table),
