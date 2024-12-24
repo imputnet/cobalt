@@ -1,4 +1,5 @@
 import { genericUserAgent, env } from "../../config.js";
+import { getRedirectingURL } from "../../misc/utils.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 async function getAccessToken() {
@@ -48,12 +49,7 @@ async function getAccessToken() {
 }
 
 async function resolveShortLink(url) {
-    try {
-        const response = await fetch(url, { method: 'HEAD', redirect: 'manual' });
-        return response.headers.get('location');
-    } catch {
-        return null;
-    }
+    return await getRedirectingURL(url);
 }
 
 export default async function(obj) {
