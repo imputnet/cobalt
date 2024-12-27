@@ -30,7 +30,6 @@
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
-        "esbuild": "^0.14.51",
         "express": "^4.21.2",
         "express-rate-limit": "^7.4.1",
         "ffmpeg-static": "^5.1.0",

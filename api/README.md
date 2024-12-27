@@ -93,7 +93,6 @@ cobalt also depends on:
 - [content-disposition-header](https://www.npmjs.com/package/content-disposition-header) to simplify the provision of `content-disposition` headers.
 - [cors](https://www.npmjs.com/package/cors) to manage cross-origin resource sharing within expressjs.
 - [dotenv](https://www.npmjs.com/package/dotenv) to load environment variables from the `.env` file.
-- [esbuild](https://www.npmjs.com/package/esbuild) to minify the frontend files.
 - [express](https://www.npmjs.com/package/express) as the backbone of cobalt servers.
 - [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) to rate limit api endpoints.
 - [hls-parser](https://www.npmjs.com/package/hls-parser) to parse `m3u8` playlists for certain services.
