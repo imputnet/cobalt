@@ -99,7 +99,6 @@ cobalt also depends on:
 - [hls-parser](https://www.npmjs.com/package/hls-parser) to parse `m3u8` playlists for certain services.
 - [ipaddr.js](https://www.npmjs.com/package/ipaddr.js) to parse ip addresses (for rate limiting).
 - [nanoid](https://www.npmjs.com/package/nanoid) to generate unique (temporary) identifiers for each requested stream.
-- [node-cache](https://www.npmjs.com/package/node-cache) to cache stream info in server ram for a limited amount of time.
 - [psl](https://www.npmjs.com/package/psl) as the domain name parser.
 - [set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser) to parse cookies that cobalt receives from certain services.
 - [undici](https://www.npmjs.com/package/undici) for making http requests.

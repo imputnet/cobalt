@@ -37,7 +37,6 @@
         "hls-parser": "^0.10.7",
         "ipaddr.js": "2.2.0",
         "nanoid": "^5.0.9",
-        "node-cache": "^5.1.2",
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",

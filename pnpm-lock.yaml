@@ -49,9 +49,6 @@ importers:
       nanoid:
         specifier: ^5.0.9
         version: 5.0.9
-      node-cache:
-        specifier: ^5.1.2
-        version: 5.1.2
       set-cookie-parser:
         specifier: 2.6.0
         version: 2.6.0
@@ -995,10 +992,6 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  clone@2.1.2:
-    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
-    engines: {node: '>=0.8'}
-
   cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
@@ -1792,10 +1785,6 @@ packages:
   negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
-
-  node-cache@5.1.2:
-    resolution: {integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==}
-    engines: {node: '>= 8.0.0'}
 
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -3116,8 +3105,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  clone@2.1.2: {}
-
   cluster-key-slot@1.1.2:
     optional: true
 
@@ -3891,10 +3878,6 @@ snapshots:
   natural-compare@1.4.0: {}
 
   negotiator@0.6.3: {}
-
-  node-cache@5.1.2:
-    dependencies:
-      clone: 2.1.2
 
   normalize-path@3.0.0: {}
 
