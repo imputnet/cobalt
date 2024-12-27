@@ -48,15 +48,12 @@ async function getAccessToken() {
     return access_token;
 }
 
-async function resolveShortLink(url) {
-    return await getRedirectingURL(url);
-}
 
 export default async function(obj) {
     let url;
 
     if (obj.shortLink) {
-        const resolvedUrl = await resolveShortLink(obj.shortLink);
+        const resolvedUrl = await getRedirectingURL(obj.shortLink);
         if (!resolvedUrl) return { error: "fetch.short_link" };
         url = new URL(resolvedUrl);
     } else {
