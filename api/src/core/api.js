@@ -60,7 +60,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     })
 
     const handleRateExceeded = (_, res) => {
-        const { status, body } = createResponse("error", {
+        const { status, body } = createResponse("rate-limit", {
             code: "error.api.rate_exceeded",
             context: {
                 limit: env.rateLimitWindow
