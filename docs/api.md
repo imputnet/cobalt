@@ -78,6 +78,7 @@ the response will always be a JSON object containing the `status` key, which wil
 - `picker` - we have multiple items to choose from
 - `redirect` - you are being redirected to the direct service URL
 - `tunnel` - cobalt is proxying the download for you
+- `rate-limit` - you've made too many requests to cobalt, chill for a bit
 
 ### tunnel/redirect response
 | key          | type     | values                                                      |
