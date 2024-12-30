@@ -30,7 +30,7 @@ export function createResponse(responseType, responseData) {
         }
 
         switch (responseType) {
-            case "rate-limit": //Jumps to the next one
+            case "rate-limit":
             case "error":
                 response = {
                     error: {
