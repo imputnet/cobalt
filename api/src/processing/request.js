@@ -23,9 +23,7 @@ export function createResponse(responseType, responseData) {
 
         if (responseType === "error") {
             status = 400;
-        }
-
-        if (responseType === "rate-limit") {
+        } else if (responseType === "rate-limit") {
             status = 429;
         }
 
