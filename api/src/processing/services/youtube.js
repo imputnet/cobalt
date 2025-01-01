@@ -497,6 +497,9 @@ export default async function (o) {
             if (innertubeClient === "WEB" && innertube) {
                 video = video.decipher(innertube.session.player);
                 audio = audio.decipher(innertube.session.player);
+            } else if (video.url && audio.url) {
+                video = video.url;
+                audio = audio.url;
             }
         }
 
