@@ -59,6 +59,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 type: Array.isArray(r.urls) ? "merge" : "remux",
                 isHLS: true,
             }
+            responseType = "redirect";
             break;
 
         case "muteVideo":

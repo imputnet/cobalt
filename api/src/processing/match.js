@@ -295,7 +295,8 @@ export default async function({ host, patternMatch, params }) {
             audioBitrate: params.audioBitrate,
             alwaysProxy: params.alwaysProxy,
         })
-    } catch {
+    } catch (e) {
+        console.error(e);
         return createResponse("error", {
             code: "error.api.fetch.critical",
             context: {
