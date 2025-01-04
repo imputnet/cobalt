@@ -51,8 +51,11 @@
 
     </section>-->
 
-    <section id="donate">
-        <a href={donateLink} class="button">{$t("donate.banner.title")}</a>
+    <section id="donate" style="margin-top: 10px">
+
+        <!--<a href={donateLink} class="button">{$t("donate.banner.title")}</a>-->
+        <img src="/donate/zanshang_qrcode.jpg" alt="QR Code for Donations" style="max-width: 100%; height: auto;" />
+
     </section>
     <!--<div id="terms-note">
         {$t("save.terms.note.agreement")}
@@ -61,6 +64,8 @@
 </div>
 
 <style>
+
+
     #cobalt-save-container {
         padding: var(--padding);
         overflow: hidden;
