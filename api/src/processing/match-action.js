@@ -59,9 +59,6 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 type: Array.isArray(r.urls) ? "merge" : "remux",
                 isHLS: true,
             }
-            if (r.type === 'redirect') {
-                responseType = "redirect";
-            }
             break;
 
         case "muteVideo":
@@ -119,6 +116,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
                 case "youtube":
                     params = { type: r.type };
+                    responseType = "redirect";
                     break;
 
                 case "reddit":
@@ -214,6 +212,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         responseType = "tunnel";
         params.type = "proxy";
     }
+
+    //console.log(responseType, {...defaultParams, ...params});
 
     return createResponse(responseType, {...defaultParams, ...params})
 }
