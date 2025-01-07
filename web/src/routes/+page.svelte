@@ -50,11 +50,19 @@
         <a href="/guide">查看完整教程</a>
 
     </section>-->
-
-    <section id="donate" style="margin-top: 10px">
+    <section id="tutorials">
+    <div style="text-align: left; margin-bottom: 10px;">
+        请访问为您精心开发的另一个实用在线服务:YumCheck。给食品配料表拍个照，就能分析出配料成份对健康影响的风险评级，并给出专业建议。
+        如果你对食品安全很在意，对配料表有疑问，YumCheck可以免去你搜索查询的繁琐操作。用起来吧，用手机浏览器访问这个网址即可:
+        <a href="https://yumcheck.online" target="_blank" rel="noopener noreferrer" style="color: var(--blue); text-decoration: none;">
+            https://yumcheck.online
+        </a>
+    </div>
+    </section>
+    <section id="donate" style="margin-bottom: 30px">
 
         <!--<a href={donateLink} class="button">{$t("donate.banner.title")}</a>-->
-        <img src="/donate/zanshang_qrcode.jpg" alt="QR Code for Donations" style="max-width: 100%; height: auto;" />
+        <img src="/donate/zanshang_qrcode.jpg" alt="QR Code for Donations"  style="max-width: 300px; height: auto; display: block; margin: 0 auto;" />
 
     </section>
     <!--<div id="terms-note">

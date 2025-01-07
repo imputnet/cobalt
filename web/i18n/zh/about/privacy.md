@@ -11,9 +11,9 @@
     sectionId="general"
 />
 
-cobalt's privacy policy is simple: we don't collect or store anything about you. what you do is solely your business, not ours or anyone else's.
+bamboo_download's privacy policy is simple: we don't collect or store anything about you. what you do is solely your business, not ours or anyone else's.
 
-these terms are applicable only when using the official cobalt instance. in other cases, you may need to contact the hoster for accurate info.
+these terms are applicable only when using the official bamboo_download instance. in other cases, you may need to contact the hoster for accurate info.
 </section>
 
 <section id="local">
@@ -31,9 +31,9 @@ tools that use on-device processing work offline, locally, and never send any da
     sectionId="saving"
 />
 
-when using saving functionality, in some cases cobalt will encrypt & temporarily store information needed for tunneling. it's stored in processing server's RAM for 90 seconds and irreversibly purged afterwards. no one has access to it, even instance owners, as long as they don't modify the official cobalt image.
+when using saving functionality, in some cases bamboo_download will encrypt & temporarily store information needed for tunneling. it's stored in processing server's RAM for 90 seconds and irreversibly purged afterwards. no one has access to it, even instance owners, as long as they don't modify the official bamboo_download image.
 
-processed/tunneled files are never cached anywhere. everything is tunneled live. cobalt's saving functionality is essentially a fancy proxy service.
+processed/tunneled files are never cached anywhere. everything is tunneled live. bamboo_download's saving functionality is essentially a fancy proxy service.
 </section>
 
 <section id="encryption">
@@ -52,7 +52,7 @@ temporarily stored tunnel data is encrypted using the AES-256 standard. decrypti
     sectionId="plausible"
 />
 
-for sake of privacy, we use [plausible's anonymous traffic analytics](https://plausible.io/) to get an approximate number of active cobalt users. no identifiable information about you or your requests is ever stored. all data is anonymized and aggregated. the plausible instance we use is hosted & managed by us.
+for sake of privacy, we use [plausible's anonymous traffic analytics](https://plausible.io/) to get an approximate number of active bamboo_download users. no identifiable information about you or your requests is ever stored. all data is anonymized and aggregated. the plausible instance we use is hosted & managed by us.
 
 plausible doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.
 
