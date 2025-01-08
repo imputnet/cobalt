@@ -26,7 +26,7 @@ const defaultSettings: CobaltSettings = {
         videoQuality: "1080",
         youtubeVideoCodec: "h264",
         youtubeDubLang: "original",
-        youtubeHLS: false,
+        youtubeHLS: true,
     },
     privacy: {
         alwaysProxy: false,
