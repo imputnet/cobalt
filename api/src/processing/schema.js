@@ -46,6 +46,6 @@ export const apiSchema = z.object({
     tiktokH265: z.boolean().default(false),
     twitterGif: z.boolean().default(true),
 
-    youtubeHLS: z.boolean().default(true),
+    youtubeHLS: z.boolean().default(false),
 })
 .strict();
