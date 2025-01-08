@@ -39,6 +39,7 @@
         padding: var(--padding);
         gap: 6px;
         top: 6px;
+        z-index: 2;
 
         opacity: 0;
         transform: scale(0);
