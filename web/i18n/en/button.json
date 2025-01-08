@@ -16,5 +16,6 @@
     "save": "save",
     "export": "export",
     "yes": "yes",
-    "no": "no"
+    "no": "no",
+    "clear": "clear"
 }

@@ -1,7 +1,7 @@
 import { request } from "undici";
 import { Readable } from "node:stream";
 import { closeRequest, getHeaders, pipe } from "./shared.js";
-import { handleHlsPlaylist, isHlsResponse } from "./internal-hls.js";
+import { handleHlsPlaylist, isHlsResponse, probeInternalHLSTunnel } from "./internal-hls.js";
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
@@ -96,10 +96,7 @@ async function handleGenericStream(streamInfo, res) {
         res.status(fileResponse.statusCode);
         fileResponse.body.on('error', () => {});
 
-        // bluesky's cdn responds with wrong content-type for the hls playlist,
-        // so we enforce it here until they fix it
-        const isHls = isHlsResponse(fileResponse)
-                      || (streamInfo.service === "bsky" && streamInfo.url.endsWith('.m3u8'));
+        const isHls = isHlsResponse(fileResponse, streamInfo);
 
         for (const [ name, value ] of Object.entries(fileResponse.headers)) {
             if (!isHls || name.toLowerCase() !== 'content-length') {
@@ -132,4 +129,41 @@ export function internalStream(streamInfo, res) {
     }
 
     return handleGenericStream(streamInfo, res);
+}
+
+export async function probeInternalTunnel(streamInfo) {
+    try {
+        const signal = AbortSignal.timeout(3000);
+        const headers = {
+            ...Object.fromEntries(streamInfo.headers || []),
+            ...getHeaders(streamInfo.service),
+            host: undefined,
+            range: undefined
+        };
+
+        if (streamInfo.isHLS) {
+            return probeInternalHLSTunnel({
+                ...streamInfo,
+                signal,
+                headers
+            });
+        }
+
+        const response = await request(streamInfo.url, {
+            method: 'HEAD',
+            headers,
+            dispatcher: streamInfo.dispatcher,
+            signal,
+            maxRedirections: 16
+        });
+
+        if (response.statusCode !== 200)
+            throw "status is not 200 OK";
+
+        const size = +response.headers['content-length'];
+        if (isNaN(size))
+            throw "content-length is not a number";
+
+        return size;
+    } catch {}
 }

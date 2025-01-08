@@ -24,6 +24,7 @@
     import Turnstile from "$components/misc/Turnstile.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
     import DialogHolder from "$components/dialog/DialogHolder.svelte";
+    import ProcessingQueue from "$components/queue/ProcessingQueue.svelte";
     import UpdateNotification from "$components/misc/UpdateNotification.svelte";
 
     $: reduceMotion =
@@ -81,15 +82,18 @@
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
     >
-        {#if $updated}
-            <UpdateNotification />
-        {/if}
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}
         <DialogHolder />
         <Sidebar />
+        {#if $updated}
+            <UpdateNotification />
+        {/if}
         <div id="content">
+            {#if $settings.advanced.duck}
+                <ProcessingQueue />
+            {/if}
             {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
