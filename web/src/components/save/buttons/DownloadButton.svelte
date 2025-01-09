@@ -74,7 +74,7 @@
             });
         }
 
-        if (response.status === "error") {
+        if (response.status === "error" || response.status === "rate-limit") {
             changeDownloadButton("error");
 
             return createDialog({

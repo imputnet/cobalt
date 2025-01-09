@@ -23,9 +23,12 @@ export function createResponse(responseType, responseData) {
 
         if (responseType === "error") {
             status = 400;
+        } else if (responseType === "rate-limit") {
+            status = 429;
         }
 
         switch (responseType) {
+            case "rate-limit":
             case "error":
                 response = {
                     error: {
