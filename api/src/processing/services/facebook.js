@@ -29,6 +29,12 @@ export default async function({ id, shareType, shortLink }) {
     if (shareType) url = `https://web.facebook.com/share/${shareType}/${id}`;
     if (shortLink) url = await resolveUrl(`https://fb.watch/${shortLink}`);
 
+    // Handle URLs with query parameters like ?mibextid
+    if (url.includes('?')) {
+        const urlObj = new URL(url);
+        url = urlObj.origin + urlObj.pathname;
+    }
+
     const html = await fetch(url, { headers })
         .then(r => r.text())
         .catch(() => false);
