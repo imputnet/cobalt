@@ -1,4 +1,5 @@
 import { genericUserAgent, env } from "../../config.js";
+import { getRedirectingURL } from "../../misc/utils.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 async function getAccessToken() {
@@ -47,11 +48,19 @@ async function getAccessToken() {
     return access_token;
 }
 
-export default async function(obj) {
-    let url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
 
-    if (obj.user) {
-        url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
+export default async function(obj) {
+    let url;
+
+    if (obj.shortLink) {
+        const resolvedUrl = await getRedirectingURL(obj.shortLink);
+        if (!resolvedUrl) return { error: "fetch.short_link" };
+        url = new URL(resolvedUrl);
+    } else {
+        url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
+        if (obj.user) {
+            url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
+        }
     }
 
     const accessToken = await getAccessToken();
