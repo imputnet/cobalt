@@ -28,6 +28,7 @@ import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
+import newgrounds from "./services/newgrounds.js";
 
 let freebind;
 
@@ -236,6 +237,17 @@ export default async function({ host, patternMatch, params }) {
                     ...patternMatch,
                     alwaysProxy: params.alwaysProxy,
                     dispatcher
+                });
+                break;
+
+            case "newgrounds":
+                r = await newgrounds({
+                    type: patternMatch.type,
+                    method: patternMatch.method,
+                    id: patternMatch.id,
+                    quality: params.videoQuality,
+                    isAudioOnly,
+                    isAudioMuted
                 });
                 break;
 
