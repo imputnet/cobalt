@@ -1,0 +1,4 @@
+{
+    "button.next": "ir para changelog mais antiga ({{ value }})",
+    "button.previous": "ir para a changelog mais recente ({{ value }})"
+}
