@@ -1,0 +1,70 @@
+{
+    "import.no_data": "não há configurações para carregar nesse arquivo. tem certeza que é o arquivo certo?",
+    "import.invalid": "este arquivo não tem configurações válidas do cobalt para importar. tem certeza que é o arquivo certo?",
+    "import.unknown": "não foi possível carregar dados do arquivo. pode estar corrompido ou em formato errado. aqui está o erro que recebi:\n\n{{ value }}",
+
+    "remux.corrupted": "não foi possível ler os metadados deste arquivo, ele pode estar corrompido.",
+    "remux.out_of_resources": "o cobalt ficou sem recursos e não pode continuar com o processamento local. isso é causado pelas limitações do seu navegador. atualize ou reabra o app e tente novamente!",
+
+    "tunnel.probe": "não foi possível testar este túnel. seu navegador ou configuração de rede pode estar bloqueando o acesso a um dos servidores do cobalt. tem certeza que não tem nenhuma extensão estranha no navegador?",
+
+    "captcha_ongoing": "o cloudflare turnstile ainda está verificando se você não é um robô. se demorar muito, você pode tentar: desativar extensões estranhas do navegador, mudar de rede, usar um navegador diferente ou verificar seu dispositivo em busca de malware.",
+
+    "api.auth.jwt.missing": "não foi possível autenticar com a instância de processamento porque o token de acesso está faltando. tente novamente em alguns segundos ou recarregue a página!",
+    "api.auth.jwt.invalid": "não foi possível autenticar com a instância de processamento porque o token de acesso é inválido. tente novamente em alguns segundos ou recarregue a página!",
+    "api.auth.turnstile.missing": "não foi possível autenticar com a instância de processamento porque a solução do captcha está faltando. tente novamente em alguns segundos ou recarregue a página!",
+    "api.auth.turnstile.invalid": "não foi possível autenticar com a instância de processamento porque a solução do captcha é inválida. tente novamente em alguns segundos ou recarregue a página!",
+
+    "api.auth.key.missing": "uma chave de acesso é necessária para usar esta instância de processamento, mas está faltando. adicione nas configurações da instância!",
+    "api.auth.key.not_api_key": "uma chave de acesso é necessária para usar esta instância de processamento, mas está faltando. adicione nas configurações da instância!",
+
+    "api.auth.key.invalid": "a chave de acesso é inválida. redefina nas configurações da instância e use uma apropriada!",
+    "api.auth.key.not_found": "a chave de acesso que você usou não foi encontrada. tem certeza que esta instância tem sua chave?",
+    "api.auth.key.invalid_ip": "seu endereço IP não pôde ser processado. algo deu muito errado. reporte este problema!",
+    "api.auth.key.ip_not_allowed": "seu endereço IP não tem permissão para usar esta chave de acesso. use uma instância ou rede diferente!",
+    "api.auth.key.ua_not_allowed": "seu navegador não tem permissão para usar esta chave de acesso. use um cliente ou dispositivo diferente!",
+
+    "api.unreachable": "não foi possível conectar à instância de processamento. verifique sua conexão com a internet e tente novamente!",
+    "api.timed_out": "a instância de processamento demorou muito para responder. ela pode estar sobrecarregada no momento, tente novamente em alguns segundos!",
+    "api.rate_exceeded": "você está fazendo muitas requisições. tente novamente em {{ limit }} segundos.",
+    "api.capacity": "o cobalt está em capacidade máxima e não pode processar sua requisição no momento. tente novamente em alguns segundos!",
+
+    "api.generic": "algo deu errado e não consegui nada para você, tente novamente em alguns segundos. se o problema persistir, por favor reporte!",
+    "api.unknown_response": "não foi possível ler a resposta da instância de processamento. isso pode ser causado por uma incompatibilidade de versão entre as instâncias do cobalt.",
+
+    "api.service.unsupported": "este serviço ainda não é suportado. você colou o link certo?",
+    "api.service.disabled": "este serviço é geralmente suportado pelo cobalt, mas está desativado nesta instância de processamento. tente um link de outro serviço!",
+    "api.service.audio_not_supported": "este serviço não suporta extração de áudio. tente um link de outro serviço!",
+
+    "api.link.invalid": "seu link é inválido ou este serviço ainda não é suportado. você colou o link certo?",
+    "api.link.unsupported": "{{ service }} é suportado, mas não reconheci seu link. você colou o link certo?",
+
+    "api.fetch.fail": "algo deu errado ao buscar informações do {{ service }} e não consegui nada para você. se este problema persistir, por favor reporte!",
+    "api.fetch.critical": "o módulo {{ service }} retornou um erro que não reconheço. tente novamente em alguns segundos, mas se este problema persistir, por favor reporte!",
+    "api.fetch.empty": "não encontrei nenhuma mídia que eu pudesse baixar para você. tem certeza que você colou o link certo?",
+    "api.fetch.rate": "a instância de processamento foi limitada pelo {{ service }}. tente novamente em alguns segundos!",
+    "api.fetch.short_link": "não foi possível obter informações do link curto. tem certeza que funciona? se funcionar e você ainda receber este erro, por favor reporte o problema!",
+
+    "api.content.too_long": "a mídia que você solicitou é muito longa. o limite de duração nesta instância é {{ limit }} minutos. tente algo mais curto!",
+
+    "api.content.video.unavailable": "não consigo acessar este vídeo. ele pode estar restrito pelo {{ service }}. tente um link diferente!",
+    "api.content.video.live": "este vídeo está ao vivo no momento, então não posso baixá-lo ainda. espere a transmissão ao vivo terminar e tente novamente!",
+    "api.content.video.private": "este vídeo é privado, então não posso acessá-lo. mude sua visibilidade ou tente outro!",
+    "api.content.video.age": "este vídeo tem restrição de idade, então não posso acessá-lo anonimamente. tente um link diferente!",
+    "api.content.video.region": "este vídeo está bloqueado por região, e a instância de processamento está em um local diferente. tente um link diferente!",
+
+    "api.content.region": "este conteúdo está bloqueado por região, e a instância de processamento está em um local diferente. tente um link diferente!",
+    "api.content.paid": "este conteúdo requer compra. o cobalt não pode baixar conteúdo pago. tente um link diferente!",
+
+    "api.content.post.unavailable": "não encontrei nada sobre esta postagem. sua visibilidade pode estar limitada ou ela pode não existir. certifique-se que seu link funciona e tente novamente em alguns segundos!",
+    "api.content.post.private": "não consegui nada sobre esta postagem porque é de uma conta privada. tente um link diferente!",
+    "api.content.post.age": "esta postagem tem restrição de idade e não está disponível sem login. tente um link diferente!",
+
+    "api.youtube.no_matching_format": "o youtube não retornou uma combinação válida de vídeo + áudio, falta vídeo ou áudio. os formatos para este vídeo podem estar sendo recodificados pelo youtube ou algo deu errado ao processá-los. tente ativar a opção hls nas configurações de vídeo!",
+    "api.youtube.decipher": "o youtube atualizou seu algoritmo de decodificação e não consegui extrair as informações do vídeo. tente novamente em alguns segundos, mas se este problema persistir, por favor reporte!",
+    "api.youtube.login": "não foi possível obter este vídeo porque o youtube pediu para a instância fazer login. isso pode ser causado pela instância de processamento não ter tokens de conta ativos ou o youtube ter atualizado algo em sua api. tente novamente em alguns segundos, mas se ainda não funcionar, por favor reporte este problema!",
+    "api.youtube.token_expired": "não foi possível obter este vídeo porque o token do youtube expirou e não consegui renová-lo. tente novamente em alguns segundos, mas se ainda não funcionar, avise o dono da instância sobre este erro!",
+    "api.youtube.no_hls_streams": "não encontrei nenhum stream HLS compatível para este vídeo. tente baixá-lo sem HLS!",
+    "api.youtube.api_error": "o youtube atualizou algo em sua api e não consegui obter informações sobre este vídeo. tente novamente em alguns segundos, mas se este problema persistir, por favor reporte!",
+    "api.youtube.temporary_disabled": "o download do youtube está temporariamente desativado devido a restrições do youtube. já estamos procurando maneiras de contorná-las.\n\npedimos desculpas pelo inconveniente e estamos fazendo o possível para restaurar esta funcionalidade. acompanhe as redes sociais do cobalt ou github para atualizações!"
+}
