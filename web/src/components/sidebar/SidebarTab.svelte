@@ -48,7 +48,7 @@
     {/if}
 
     <svelte:component this={icon} />
-    {$t(`tabs.${name}`)}
+    <span class="tab-title">{$t(`tabs.${name}`)}</span>
 </a>
 
 <style>
@@ -106,6 +106,10 @@
         position: absolute;
         transform: translateX(16px) translateY(-6px);
         opacity: 0.7;
+    }
+
+    .tab-title {
+        white-space: nowrap;
     }
 
     @keyframes pressButton {
