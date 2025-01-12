@@ -1,4 +1,7 @@
 <script lang="ts">
+    import settings from "$lib/state/settings";
+
+    import { device } from "$lib/device";
     import { t } from "$lib/i18n/translations";
     import { defaultNavPage } from "$lib/subnav";
 
@@ -13,6 +16,8 @@
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
+
+    import IconCut from "@tabler/icons-svelte/IconCut.svelte";
 
     let screenWidth: number;
     let settingsLink = defaultNavPage("settings");
@@ -30,6 +35,9 @@
     <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
+            {#if $settings.advanced.duck && !device.is.mobile && $settings.advanced.debug}
+                <SidebarTab name="cutout" path="/cutout" icon={IconCut} beta />
+            {/if}
             <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">

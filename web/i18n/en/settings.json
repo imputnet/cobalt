@@ -113,9 +113,9 @@
 
     "advanced.data": "data management",
 
-    "advanced.duck": "local processing",
-    "advanced.duck.title": "process everything on device",
-    "advanced.duck.description": "very wip, may cause critical issues or not work at all. this toggle will probably be gone by release.",
+    "advanced.duck": "duck",
+    "advanced.duck.title": "enable new on-device features",
+    "advanced.duck.description": "very wip, WILL cause critical issues or not work at all. this toggle will be gone by release.",
 
     "processing.community": "community instances",
     "processing.enable_custom.title": "use a custom processing server",
