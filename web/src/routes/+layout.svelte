@@ -211,7 +211,7 @@
 
         --dialog-backdrop: rgba(0, 0, 0, 0.3);
 
-        --sidebar-bg: #101010;
+        --sidebar-bg: #131313;
         --sidebar-highlight: #f2f2f2;
 
         --input-border: #383838;
