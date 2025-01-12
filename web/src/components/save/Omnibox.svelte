@@ -214,7 +214,7 @@
         flex-direction: column;
         max-width: 640px;
         width: 100%;
-        gap: 8px;
+        gap: 7px;
     }
 
     #input-container {
