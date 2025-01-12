@@ -58,7 +58,7 @@
         align-items: center;
         text-align: center;
         gap: 3px;
-        padding: var(--padding) 3px;
+        padding: 10px 3px;
         color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
         opacity: 0.75;

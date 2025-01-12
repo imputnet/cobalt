@@ -149,15 +149,20 @@
         --sidebar-width: 80px;
         --sidebar-font-size: 11px;
         --sidebar-inner-padding: 4px;
+
+        /* reduce default inset by 5px if it's not 0 */
         --sidebar-height-mobile: calc(
-            50px + calc(var(--sidebar-inner-padding) * 2) +
-                env(safe-area-inset-bottom)
+            50px + calc(
+                env(safe-area-inset-bottom) - 5px * sign(
+                    env(safe-area-inset-bottom)
+                )
+            )
         );
 
         --safe-area-inset-top: env(safe-area-inset-top);
         --safe-area-inset-bottom: env(safe-area-inset-bottom);
 
-        --switcher-padding: var(--sidebar-inner-padding);
+        --switcher-padding: 4px;
 
         /* used for fading the tab bar on scroll */
         --sidebar-mobile-gradient: linear-gradient(
@@ -307,7 +312,11 @@
         #cobalt {
             display: grid;
             grid-template-columns: unset;
-            grid-template-rows: 1fr var(--sidebar-height-mobile);
+            grid-template-rows:
+                1fr
+                calc(
+                    var(--sidebar-height-mobile) + var(--sidebar-inner-padding) * 2
+                );
         }
 
         #content,
