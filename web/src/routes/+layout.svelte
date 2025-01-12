@@ -308,6 +308,12 @@
         border-bottom-right-radius: var(--border-radius);
     }
 
+    @media screen and (min-width: 536px) {
+        :global([data-theme="dark"]) #content {
+            border-radius: 0;
+        }
+    }
+
     @media screen and (max-width: 535px) {
         #cobalt {
             display: grid;
