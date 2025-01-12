@@ -41,7 +41,6 @@
         gap: calc(var(--small-padding) * 2);
         padding: var(--big-padding);
         font-weight: 500;
-        background: var(--primary);
         color: var(--button-text);
         border-radius: var(--border-radius);
         overflow: hidden;
