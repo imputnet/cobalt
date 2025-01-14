@@ -4,20 +4,10 @@ const models = {
     light: {
         id: "briaai/RMBG-1.4",
         input: "input",
-        modelConfig: {
-            device: "wasm",
-            dtype: "fp32",
-        },
-        processorConfig: {},
     },
     heavy: {
         id: "onnx-community/BiRefNet_lite",
         input: "input_image",
-        modelConfig: {
-            device: "webgpu",
-            dtype: "fp16",
-        },
-        processorConfig: {},
     }
 }
 
@@ -25,9 +15,12 @@ export const removeImageBackground = async (file: File) => {
     const image = await RawImage.fromBlob(new Blob([file]));
 
     const model_type = "light";
-    const model = await AutoModel.from_pretrained(models[model_type].id, models[model_type].modelConfig);
+    const model = await AutoModel.from_pretrained(models[model_type].id, {
+        device: "wasm",
+        dtype: "fp32",
+    });
 
-    const processor = await AutoProcessor.from_pretrained(models[model_type].id, models[model_type].processorConfig);
+    const processor = await AutoProcessor.from_pretrained(models[model_type].id, {});
 
     if (model && processor) {
         const { pixel_values } = await processor(image);
