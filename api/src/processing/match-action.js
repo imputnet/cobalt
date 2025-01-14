@@ -102,6 +102,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             filename: `${r.audioFilename}.${audioFormat}`,
                             isAudioOnly: true,
                             audioFormat,
+                            audioBitrate
                         })
                     }
                     break;
