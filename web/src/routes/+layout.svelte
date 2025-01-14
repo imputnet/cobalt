@@ -149,6 +149,7 @@
         --sidebar-width: 80px;
         --sidebar-font-size: 11px;
         --sidebar-inner-padding: 4px;
+        --sidebar-tab-padding: 10px;
 
         /* reduce default inset by 5px if it's not 0 */
         --sidebar-height-mobile: calc(
