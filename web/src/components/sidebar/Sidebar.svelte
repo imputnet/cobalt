@@ -68,7 +68,7 @@
         height: 100%;
         justify-content: space-between;
         padding: var(--sidebar-inner-padding);
-        padding-bottom: calc(var(--sidebar-inner-padding) * 2);
+        padding-bottom: var(--sidebar-tab-padding);
         overflow-y: scroll;
     }
 
