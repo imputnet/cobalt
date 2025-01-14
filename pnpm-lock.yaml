@@ -35,7 +35,7 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1(express@4.21.2)
       ffmpeg-static:
-        specifier: ^5.1.0
+        specifier: ^5.2.0
         version: 5.2.0
       hls-parser:
         specifier: ^0.10.7

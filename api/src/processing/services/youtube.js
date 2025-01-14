@@ -153,7 +153,7 @@ export default async function (o) {
 
     if (cookie) {
         useHLS = false;
-        innertubeClient = "WEB";
+        innertubeClient = "WEB_EMBEDDED";
     }
 
     if (useHLS) {
@@ -457,7 +457,7 @@ export default async function (o) {
             urls = audio.uri;
         }
 
-        if (innertubeClient === "WEB" && innertube) {
+        if (innertubeClient === "WEB_EMBEDDED" && innertube) {
             urls = audio.decipher(innertube.session.player);
         }
 
@@ -491,7 +491,7 @@ export default async function (o) {
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = codecList[codec].container;
 
-            if (innertubeClient === "WEB" && innertube) {
+            if (innertubeClient === "WEB_EMBEDDED" && innertube) {
                 video = video.decipher(innertube.session.player);
                 audio = audio.decipher(innertube.session.player);
             } else if (video.url && audio.url) {
