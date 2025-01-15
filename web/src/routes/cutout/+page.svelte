@@ -1,36 +1,49 @@
 <script lang="ts">
     import settings from "$lib/state/settings";
+    import RemoveBgWorker from '$lib/workers/removebg?worker';
 
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
 
     import { downloadFile } from "$lib/download";
-    import { removeImageBackground } from "$lib/workers/removebg";
+    import { maskImage } from "$lib/workers/removebg";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
     import Skeleton from "$components/misc/Skeleton.svelte";
 
-    let imageContainer: HTMLElement;
-
     let draggedOver = false;
     let file: File | undefined;
-
-    let thinking = false;
-    let done = false;
-
     let result: HTMLCanvasElement;
+    let imageContainer: HTMLElement;
+
+    let state: "empty" | "busy" | "done" = "empty";
+
+    const worker = new RemoveBgWorker();
 
     const processImage = async () => {
-        if (file) {
-            thinking = true;
-            const removedBackground = await removeImageBackground(file);
-            if (removedBackground) {
-                thinking = false;
-                done = true;
-                result = removedBackground;
-                imageContainer.append(removedBackground);
-            }
+        if (!file) return;
+
+        state = "busy";
+
+        worker.postMessage({ file });
+        worker.onmessage = async (event) => {
+            const maskedCanvas = await maskImage(event.data.source, event.data.mask);
+
+            if (!maskedCanvas) {
+                state = "empty";
+                return;
+            };
+
+            state = "done";
+
+            result = maskedCanvas;
+            imageContainer.append(maskedCanvas);
+        };
+
+        worker.onerror = (e) => {
+            console.error("bg removal worker exploded:", e)
+            worker.terminate();
         }
     };
 
@@ -53,7 +66,7 @@
 </script>
 
 <DropReceiver bind:file bind:draggedOver id="cutout-container">
-    {#if !thinking && !done}
+    {#if state === "empty"}
         <FileReceiver
             bind:draggedOver
             bind:file
@@ -68,27 +81,27 @@
         {/if}
     {/if}
 
-    {#if thinking}
+    {#if state === "busy"}
         <div>thinking very hard rn...</div>
     {/if}
 
-    {#if done}
+    {#if state === "done"}
         <div>thought a lot, here's what i got:</div>
     {/if}
 
-    {#if thinking || done}
+    {#if ["busy", "done"].includes(state)}
         <div id="image-preview" bind:this={imageContainer}>
-            {#if !done}
+            {#if state === "busy"}
                 <Skeleton width="100%" height="100%" class="big" />
             {/if}
         </div>
     {/if}
 
-    {#if done}
+    {#if state === "done"}
         <div id="finished-actions">
             <button
                 on:click={() => {
-                    done = false;
+                    state = "empty"
                     file = undefined;
                 }}
             >
