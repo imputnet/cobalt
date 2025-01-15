@@ -38,6 +38,9 @@ const removeImageBackground = async (file: File) => {
 
     const model_type = "light";
     const model = await AutoModel.from_pretrained(models[model_type].id, {
+        progress_callback: (progress) => {
+            console.log(progress);
+        },
         device: "wasm",
         dtype: "fp32",
     });

@@ -19,12 +19,14 @@
 
     let state: "empty" | "busy" | "done" = "empty";
 
-    const worker = new RemoveBgWorker();
+    let worker: Worker;
 
     const processImage = async () => {
         if (!file) return;
 
         state = "busy";
+
+        worker = new RemoveBgWorker();
 
         worker.postMessage({ file });
         worker.onmessage = async (event) => {
@@ -39,6 +41,8 @@
 
             result = maskedCanvas;
             imageContainer.append(maskedCanvas);
+
+            worker.terminate();
         };
 
         worker.onerror = (e) => {
@@ -73,12 +77,21 @@
             acceptTypes={["image/*"]}
             acceptExtensions={["jpg", "png", "webp"]}
         />
+        {#if file}
+            <div class="button-row">
+                <button on:click={processImage}>process files</button>
+                <button
+                    on:click={() => {
+                        file = undefined;
+                    }}
+                >
+                    clear imported files
+                </button>
+            </div>
+        {/if}
         <div class="subtext early-note">
             this is a very early & basic proof-of-concept, nothing about this feature is final or complete. please don't share or talk about it.
         </div>
-        {#if file}
-            <button on:click={processImage}>process imported stuff</button>
-        {/if}
     {/if}
 
     {#if state === "busy"}
@@ -97,8 +110,22 @@
         </div>
     {/if}
 
+    {#if state === "busy"}
+        <div class="button-row">
+            <button
+                on:click={() => {
+                    worker?.terminate();
+                    file = undefined;
+                    state = "empty";
+                }}
+            >
+                cancel
+            </button>
+        </div>
+    {/if}
+
     {#if state === "done"}
-        <div id="finished-actions">
+        <div class="button-row">
             <button
                 on:click={() => {
                     state = "empty"
@@ -140,7 +167,7 @@
         box-shadow: var(--button-box-shadow);
     }
 
-    #finished-actions {
+    .button-row {
         display: flex;
         flex-direction: row;
         gap: 6px;
