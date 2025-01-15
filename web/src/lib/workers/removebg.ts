@@ -32,7 +32,7 @@ export const maskImage = async (source: Blob, mask: RawImage) => {
     return canvas;
 }
 
-export const removeImageBackground = async (file: File) => {
+const removeImageBackground = async (file: File) => {
     const originalImageBlob = new Blob([file]);
     const image = await RawImage.fromBlob(originalImageBlob);
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import mime from "mime";
-    import LibAVWrapper from "$lib/libav";
+    import RemuxWorker from "$lib/workers/remux?worker";
+
     import { beforeNavigate, goto } from "$app/navigation";
 
     import { t } from "$lib/i18n/translations";
@@ -19,145 +19,88 @@
     let draggedOver = false;
     let file: File | undefined;
 
-    let totalDuration: number | undefined;
-    let processedDuration: number | undefined;
-
     let speed: number | undefined;
     let progress: string | undefined;
+    let currentProgress: string | undefined;
 
     let wentAway = false;
 
-    $: {
-        if (totalDuration && processedDuration) {
-            const percentage = Math.max(
-                0,
-                Math.min(100, (processedDuration / totalDuration) * 100)
-            ).toFixed(2);
-            progress = percentage;
-        } else if (processing) {
-            progress = undefined;
-            speed = undefined;
-        } else {
-            progress = undefined;
-            speed = undefined;
-        }
-    }
-
     let processing = false;
 
-    const ff = new LibAVWrapper((progress) => {
-        if (progress.out_time_sec) {
-            processedDuration = progress.out_time_sec;
-        }
+    let worker: Worker;
 
-        if (progress.speed) {
-            speed = progress.speed;
-        }
-    });
+    const remux = async () => {
+        worker = new RemuxWorker();
 
-    ff.init();
+        speed = undefined;
+        progress = undefined;
+        currentProgress = undefined;
 
-    const render = async () => {
-        if (!file || processing) return;
-        await ff.init();
+        worker.postMessage({ file });
+        processing = true;
 
-        let dialogOpened;
-        try {
-            progress = undefined;
-            speed = undefined;
-            processing = true;
+        worker.onerror = (e) => {
+            console.error("remux worker exploded:", e);
+            worker.terminate();
+        };
 
-            const file_info = await ff.probe(file).catch((e) => {
-                if (e?.message?.toLowerCase().includes("out of memory")) {
-                    console.error("uh oh! out of memory");
-                    console.error(e);
+        worker.onmessage = (event) => {
+            console.log(event.data);
 
-                    dialogOpened = true;
-                    return createDialog({
-                        id: "remux-error",
-                        type: "small",
-                        meowbalt: "error",
-                        bodyText: $t("error.remux.out_of_resources"),
-                        buttons: [
-                            {
-                                text: $t("button.gotit"),
-                                main: true,
-                                action: () => {},
-                            },
-                        ],
-                    });
+            if (event.data.progress) {
+                let eprogress = event.data.progress;
+
+                if (eprogress?.speed) {
+                    speed = eprogress.speed;
                 }
-            });
 
-            if (!file_info?.format) {
-                if (!dialogOpened)
-                    return createDialog({
-                        id: "remux-error",
-                        type: "small",
-                        meowbalt: "error",
-                        bodyText: $t("error.remux.corrupted"),
-                        buttons: [
-                            {
-                                text: $t("button.gotit"),
-                                main: true,
-                                action: () => {},
-                            },
-                        ],
-                    });
-                return;
+                if (eprogress?.durationProcessed) {
+                    currentProgress = eprogress.durationProcessed;
+                }
+
+                if (eprogress?.duration && eprogress?.durationProcessed) {
+                    progress = Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            (eprogress.durationProcessed / eprogress.duration) *
+                                100
+                        )
+                    ).toFixed(2);
+                }
+
+                console.log(eprogress, progress, speed, currentProgress);
             }
 
-            totalDuration = Number(file_info.format.duration);
-
-            if (file instanceof File && !file.type) {
-                file = new File([file], file.name, {
-                    type: mime.getType(file.name) ?? undefined,
+            if (event.data.render) {
+                processing = false;
+                worker.terminate();
+                return downloadFile({
+                    file: new File([event.data.render], event.data.filename, {
+                        type: event.data.render.type,
+                    }),
                 });
             }
 
-            const render = await ff
-                .render({
-                    blob: file,
-                    args: ["-c", "copy", "-map", "0"],
-                })
-                .catch((e) => {
-                    console.error("uh-oh! render error");
-                    console.error(e);
-                    return createDialog({
-                        id: "remux-error",
-                        type: "small",
-                        meowbalt: "error",
-                        bodyText: $t("error.remux.out_of_resources"),
-                        buttons: [
-                            {
-                                text: $t("button.gotit"),
-                                main: true,
-                                action: () => {},
-                            },
-                        ],
-                    });
+            if (event.data.error) {
+                processing = false;
+                worker.terminate();
+
+                return createDialog({
+                    id: "remux-error",
+                    type: "small",
+                    meowbalt: "error",
+                    bodyText: $t(event.data.error),
+                    buttons: [
+                        {
+                            text: $t("button.gotit"),
+                            main: true,
+                            action: () => {},
+                        },
+                    ],
                 });
-
-            if (!render) {
-                return console.log("not a valid file");
             }
-
-            const filenameParts = file.name.split(".");
-            const filenameExt = filenameParts.pop();
-
-            const filename = `${filenameParts.join(".")} (remux).${filenameExt}`;
-
-            return await downloadFile({
-                file: new File([render], filename, {
-                    type: render.type,
-                }),
-            });
-        } finally {
-            processing = false;
-            file = undefined;
-            progress = undefined;
-            speed = undefined;
-        }
+        };
     };
 
     beforeNavigate((event) => {
@@ -183,7 +126,7 @@
                             main: true,
                             color: "red",
                             action: async () => {
-                                await ff.terminate();
+                                worker.terminate();
                                 wentAway = true;
                                 goto(path);
                             },
@@ -193,10 +136,6 @@
             }
         }
     });
-
-    $: if (file) {
-        render();
-    }
 </script>
 
 <svelte:head>
@@ -235,6 +174,19 @@
                     "m4a",
                 ]}
             />
+
+            {#if file}
+                <div class="button-row">
+                    <button on:click={remux}>remux</button>
+                    <button
+                        on:click={() => {
+                            file = undefined;
+                        }}
+                    >
+                        clear imported files
+                    </button>
+                </div>
+            {/if}
         </div>
 
         <div id="remux-bullets">
@@ -272,11 +224,22 @@
                     <div class="progress-text">
                         processing ({progress}%, {speed}x)...
                     </div>
+                {:else if currentProgress && speed}
+                    <div class="progress-text">
+                        processing ({currentProgress}s, {speed}x)...
+                    </div>
                 {:else}
-                    processing...
+                    <div class="progress-text">processing...</div>
                 {/if}
-            {:else}
-                done!
+                <button
+                    on:click={() => {
+                        file = undefined;
+                        processing = false;
+                        worker?.terminate();
+                    }}
+                >
+                    cancel
+                </button>
             {/if}
         </div>
     </div>
@@ -311,7 +274,6 @@
         transition:
             transform 0.2s,
             opacity 0.2s;
-        pointer-events: none;
     }
 
     #remux-processing.processing {
@@ -331,6 +293,7 @@
         padding: var(--padding);
         gap: var(--padding);
         justify-content: center;
+        align-items: center;
     }
 
     .progress-bar {
@@ -348,6 +311,9 @@
 
     #remux-receiver {
         max-width: 450px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--padding);
     }
 
     #remux-bullets {
@@ -355,6 +321,18 @@
         flex-direction: column;
         gap: 18px;
         max-width: 450px;
+    }
+
+    .button-row {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+    }
+
+    button {
+        padding: 12px 24px;
+        border-radius: 200px;
+        width: fit-content;
     }
 
     @media screen and (max-width: 920px) {
