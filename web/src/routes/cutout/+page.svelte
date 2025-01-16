@@ -4,64 +4,69 @@
 
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
-
     import { downloadFile } from "$lib/download";
-    import { maskImage } from "$lib/workers/removebg";
 
+    import Skeleton from "$components/misc/Skeleton.svelte";
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
-    import Skeleton from "$components/misc/Skeleton.svelte";
 
     let draggedOver = false;
     let file: File | undefined;
-    let result: HTMLCanvasElement;
+    let result: ImageBitmap;
     let imageContainer: HTMLElement;
+    let canvas: HTMLCanvasElement;
 
     let state: "empty" | "busy" | "done" = "empty";
 
     let worker: Worker;
 
+    const renderImageToCanvas = () => {
+        if (canvas && result) {
+            canvas.width = result.width;
+            canvas.height = result.height;
+            canvas.getContext('bitmaprenderer')?.transferFromImageBitmap(result);
+        }
+    }
+
     const processImage = async () => {
         if (!file) return;
 
         state = "busy";
-
         worker = new RemoveBgWorker();
 
         worker.postMessage({ file });
         worker.onmessage = async (event) => {
-            const maskedCanvas = await maskImage(event.data.source, event.data.mask);
-
-            if (!maskedCanvas) {
-                state = "empty";
-                return;
-            };
-
-            state = "done";
-
-            result = maskedCanvas;
-            imageContainer.append(maskedCanvas);
-
-            worker.terminate();
+            console.log("event received by removebg page:", event)
+            const eventData = event.data.cobaltRemoveBgWorker;
+            if (eventData.result) {
+                state = "done";
+                result = eventData.result;
+                renderImageToCanvas();
+            }
         };
 
         worker.onerror = (e) => {
-            console.error("bg removal worker exploded:", e);
-
             state = "empty";
+            console.error("bg removal worker exploded:", e);
             worker.terminate();
         }
     };
 
     const exportImage = async () => {
-        result.toBlob(async (blob) => {
-            if (!blob || !file) return;
-            return await downloadFile({
-                file: new File([blob], `${file.name} (cutout).png`, {
-                    type: "image/png",
-                }),
-            });
-        }, "image/png");
+        if (!result || !file) return;
+
+        const resultBlob = await new Promise<Blob>((resolve, reject) => {
+            canvas.toBlob(blob => {
+                if (blob) resolve(blob);
+                else reject();
+            }, "image/png")
+        })
+
+        return await downloadFile({
+            file: new File([resultBlob], `${file.name} (cutout).png`, {
+                type: "image/png",
+            }),
+        });
     };
 
     onMount(() => {
@@ -109,6 +114,7 @@
             {#if state === "busy"}
                 <Skeleton width="100%" height="100%" class="big" />
             {/if}
+            <canvas bind:this={canvas}></canvas>
         </div>
     {/if}
 

@@ -11,12 +11,8 @@ const models = {
     }
 }
 
-export const maskImage = async (source: Blob, mask: RawImage) => {
-    const image = await RawImage.fromBlob(source);
-
-    const canvas = document.createElement('canvas');
-    canvas.width = image.width;
-    canvas.height = image.height;
+export const maskImage = (image: RawImage, mask: RawImage) => {
+    const canvas = new OffscreenCanvas(image.width, image.height);
     const ctx = canvas.getContext('2d');
 
     if (!ctx) return;
@@ -29,12 +25,11 @@ export const maskImage = async (source: Blob, mask: RawImage) => {
     }
     ctx.putImageData(pixelData, 0, 0);
 
-    return canvas;
+    return canvas.transferToImageBitmap();
 }
 
 const removeImageBackground = async (file: File) => {
-    const originalImageBlob = new Blob([file]);
-    const image = await RawImage.fromBlob(originalImageBlob);
+    const image = await RawImage.fromBlob(file);
 
     const model_type = "light";
     const model = await AutoModel.from_pretrained(models[model_type].id, {
@@ -52,11 +47,17 @@ const removeImageBackground = async (file: File) => {
         const { output } = await model({ [models[model_type].input]: pixel_values });
         const mask = await RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
 
-        self.postMessage({ source: originalImageBlob, mask });
+        self.postMessage({
+            cobaltRemoveBgWorker: {
+                result: maskImage(image, mask),
+            }
+         });
     }
 }
 
 self.onmessage = async (event: MessageEvent) => {
-    await removeImageBackground(event.data.file);
+    if (event.data.file) {
+        await removeImageBackground(event.data.file);
+    }
     self.close();
 }
