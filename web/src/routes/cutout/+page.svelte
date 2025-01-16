@@ -46,7 +46,9 @@
         };
 
         worker.onerror = (e) => {
-            console.error("bg removal worker exploded:", e)
+            console.error("bg removal worker exploded:", e);
+
+            state = "empty";
             worker.terminate();
         }
     };
