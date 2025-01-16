@@ -40,24 +40,31 @@ const removeImageBackground = async (file: File) => {
         dtype: "fp32",
     });
 
+    console.log("we're past model loading!");
+
     const processor = await AutoProcessor.from_pretrained(models[model_type].id, {});
+
+    console.log("now also past processor!");
 
     if (model && processor) {
         const { pixel_values } = await processor(image);
+        console.log("got pixel values");
         const { output } = await model({ [models[model_type].input]: pixel_values });
+        console.log("got output");
         const mask = await RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
+        console.log("got the mask");
 
         self.postMessage({
             cobaltRemoveBgWorker: {
                 result: maskImage(image, mask),
             }
-         });
+        });
     }
 }
 
 self.onmessage = async (event: MessageEvent) => {
-    if (event.data.file) {
-        await removeImageBackground(event.data.file);
+    if (event.data.cobaltRemoveBgWorker.file) {
+        await removeImageBackground(event.data.cobaltRemoveBgWorker.file);
+        self.close();
     }
-    self.close();
 }

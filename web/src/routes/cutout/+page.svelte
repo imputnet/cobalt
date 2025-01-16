@@ -1,6 +1,6 @@
 <script lang="ts">
     import settings from "$lib/state/settings";
-    import RemoveBgWorker from '$lib/workers/removebg?worker';
+    import RemoveBgWorker from "$lib/workers/removebg?worker";
 
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
@@ -23,9 +23,11 @@
         if (canvas && result) {
             canvas.width = result.width;
             canvas.height = result.height;
-            canvas.getContext('bitmaprenderer')?.transferFromImageBitmap(result);
+            canvas
+                .getContext("bitmaprenderer")
+                ?.transferFromImageBitmap(result);
         }
-    }
+    };
 
     const processImage = async () => {
         if (!file) return;
@@ -33,9 +35,12 @@
         state = "busy";
         worker = new RemoveBgWorker();
 
-        worker.postMessage({ file });
+        worker.postMessage({
+            cobaltRemoveBgWorker: { file },
+        });
+
         worker.onmessage = async (event) => {
-            console.log("event received by removebg page:", event)
+            console.log("event received by removebg page:", event);
             const eventData = event.data.cobaltRemoveBgWorker;
             if (eventData.result) {
                 state = "done";
@@ -47,18 +52,18 @@
             state = "empty";
             console.error("bg removal worker exploded:", e);
             worker.terminate();
-        }
+        };
     };
 
     const exportImage = async () => {
         if (!file) return;
 
         const resultBlob = await new Promise<Blob>((resolve, reject) => {
-            canvas.toBlob(blob => {
+            canvas.toBlob((blob) => {
                 if (blob) resolve(blob);
                 else reject();
-            }, "image/png")
-        })
+            }, "image/png");
+        });
 
         return await downloadFile({
             file: new File([resultBlob], `${file.name} (cutout).png`, {
@@ -134,7 +139,7 @@
         <div class="button-row">
             <button
                 on:click={() => {
-                    state = "empty"
+                    state = "empty";
                     file = undefined;
                 }}
             >
