@@ -2,16 +2,20 @@ import mime from "mime";
 import LibAVWrapper from "$lib/libav";
 
 const error = (code: string) => {
-    return {
-        error: `error.${code}`,
-    }
+    self.postMessage({
+        cobaltRemuxWorker: {
+            error: `error.${code}`,
+        }
+    })
 }
 
 const ff = new LibAVWrapper((progress) => {
     self.postMessage({
-        progress: {
-            durationProcessed: progress.out_time_sec,
-            speed: progress.speed,
+        cobaltRemuxWorker: {
+            progress: {
+                durationProcessed: progress.out_time_sec,
+                speed: progress.speed,
+            }
         }
     })
 });
@@ -29,18 +33,21 @@ const remux = async (file: File) => {
                 console.error("uh oh! out of memory");
                 console.error(e);
 
-                self.postMessage(error("remux.out_of_resources"));
+                error("remux.out_of_resources");
+                self.close();
             }
         });
 
         if (!file_info?.format) {
-            self.postMessage(error("remux.corrupted"));
+            error("remux.corrupted");
             return;
         }
 
         self.postMessage({
-            progressInfo: {
-                duration: Number(file_info.format.duration),
+            cobaltRemuxWorker: {
+                progressInfo: {
+                    duration: Number(file_info.format.duration),
+                }
             }
         });
 
@@ -59,7 +66,7 @@ const remux = async (file: File) => {
                 console.error("uh-oh! render error");
                 console.error(e);
 
-                self.postMessage(error("remux.out_of_resources"));
+                error("remux.out_of_resources");
             });
 
         if (!render) {
@@ -72,8 +79,10 @@ const remux = async (file: File) => {
         const filename = `${filenameParts.join(".")} (remux).${filenameExt}`;
 
         self.postMessage({
-            render,
-            filename
+            cobaltRemuxWorker: {
+                render,
+                filename
+            }
         });
     } catch (e) {
         console.log(e);

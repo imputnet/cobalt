@@ -45,10 +45,13 @@
         };
 
         worker.onmessage = (event) => {
-            console.log(event.data);
+            const eventData = event.data.cobaltRemuxWorker;
+            if (!eventData) return;
 
-            if (event.data.progress) {
-                let eprogress = event.data.progress;
+            console.log(eventData);
+
+            if (eventData.progress) {
+                let eprogress = eventData.progress;
 
                 if (eprogress?.speed) {
                     speed = eprogress.speed;
@@ -72,17 +75,17 @@
                 console.log(eprogress, progress, speed, currentProgress);
             }
 
-            if (event.data.render) {
+            if (eventData.render) {
                 processing = false;
                 worker.terminate();
                 return downloadFile({
-                    file: new File([event.data.render], event.data.filename, {
-                        type: event.data.render.type,
+                    file: new File([eventData.render], eventData.filename, {
+                        type: eventData.render.type,
                     }),
                 });
             }
 
-            if (event.data.error) {
+            if (eventData.error) {
                 processing = false;
                 worker.terminate();
 
@@ -90,7 +93,7 @@
                     id: "remux-error",
                     type: "small",
                     meowbalt: "error",
-                    bodyText: $t(event.data.error),
+                    bodyText: $t(eventData.error),
                     buttons: [
                         {
                             text: $t("button.gotit"),
