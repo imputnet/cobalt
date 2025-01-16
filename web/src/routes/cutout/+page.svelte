@@ -12,7 +12,6 @@
 
     let draggedOver = false;
     let file: File | undefined;
-    let result: ImageBitmap;
     let imageContainer: HTMLElement;
     let canvas: HTMLCanvasElement;
 
@@ -20,7 +19,7 @@
 
     let worker: Worker;
 
-    const renderImageToCanvas = () => {
+    const renderImageToCanvas = (result: ImageBitmap) => {
         if (canvas && result) {
             canvas.width = result.width;
             canvas.height = result.height;
@@ -40,8 +39,7 @@
             const eventData = event.data.cobaltRemoveBgWorker;
             if (eventData.result) {
                 state = "done";
-                result = eventData.result;
-                renderImageToCanvas();
+                renderImageToCanvas(eventData.result);
             }
         };
 
@@ -53,7 +51,7 @@
     };
 
     const exportImage = async () => {
-        if (!result || !file) return;
+        if (!file) return;
 
         const resultBlob = await new Promise<Blob>((resolve, reject) => {
             canvas.toBlob(blob => {
@@ -110,7 +108,7 @@
     {/if}
 
     {#if ["busy", "done"].includes(state)}
-        <div id="image-preview" bind:this={imageContainer}>
+        <div id="image-preview" bind:this={imageContainer} class={state}>
             {#if state === "busy"}
                 <Skeleton width="100%" height="100%" class="big" />
             {/if}
@@ -173,6 +171,14 @@
         overflow: hidden;
         border-radius: var(--border-radius);
         box-shadow: var(--button-box-shadow);
+    }
+
+    #image-preview canvas {
+        display: none;
+    }
+
+    #image-preview.done canvas {
+        display: block;
     }
 
     .button-row {
