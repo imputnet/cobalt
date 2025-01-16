@@ -63,7 +63,7 @@ const removeImageBackground = async (file: File) => {
 }
 
 self.onmessage = async (event: MessageEvent) => {
-    if (event.data.cobaltRemoveBgWorker.file) {
+    if (event.data.cobaltRemoveBgWorker) {
         await removeImageBackground(event.data.cobaltRemoveBgWorker.file);
         self.close();
     }
