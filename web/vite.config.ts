@@ -88,6 +88,9 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: (id) => {
+                    if (id.includes('huggingface/transformers'))
+                        return 'hf_transformers';
+
                     if (id.includes('/web/i18n') && id.endsWith('.json')) {
                         const lang = id.split('/web/i18n/')?.[1].split('/')?.[0];
                         if (lang) {
