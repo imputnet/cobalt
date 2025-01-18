@@ -2,11 +2,10 @@
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
 
-    import settings from "$lib/state/settings";
-    import { addToQueue, nukeEntireQueue, queue } from "$lib/state/queue";
+    import { clearQueue, queue } from "$lib/state/queen-bee/queue";
 
     import type { SvelteComponent } from "svelte";
-    import type { QueueItem } from "$lib/types/queue";
+    import type { CobaltQueueItem } from "$lib/types/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
@@ -15,46 +14,23 @@
     import ProcessingQueueStub from "$components/queue/ProcessingQueueStub.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
-    import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
-
-    import IconGif from "@tabler/icons-svelte/IconGif.svelte";
-    import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
-    import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
-    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
-    import IconVolume3 from "@tabler/icons-svelte/IconVolume3.svelte";
+    import { currentTasks } from "$lib/state/queen-bee/current-tasks";
 
     let popover: SvelteComponent;
     $: expanded = false;
 
-    $: queueItems = Object.entries($queue) as [id: string, item: QueueItem][];
+    $: queueItems = Object.entries($queue) as [
+        id: string,
+        item: CobaltQueueItem,
+    ][];
 
     $: queueLength = Object.keys($queue).length;
+    $: completedQueueItems = queueItems.filter(([id, item]) => {
+        return item.state === "done"
+    }).length;
+
+    // TODO: toggle this only when progress is unknown
     $: indeterminate = false;
-
-    const itemIcons = {
-        video: IconMovie,
-        video_mute: IconVolume3,
-        audio: IconMusic,
-        audio_convert: IconMusic,
-        image: IconPhoto,
-        gif: IconGif,
-    };
-
-    const addFakeQueueItem = () => {
-        return addToQueue({
-            id: crypto.randomUUID(),
-            status: "waiting",
-            type: "video",
-            filename: "test.mp4",
-            files: [
-                {
-                    type: "video",
-                    url: "https://",
-                },
-            ],
-            processingSteps: [],
-        });
-    };
 
     const popoverAction = async () => {
         expanded = !expanded;
@@ -66,7 +42,7 @@
 </script>
 
 <div id="processing-queue" class:expanded>
-    <ProcessingStatus {indeterminate} expandAction={popover?.showPopover} />
+    <ProcessingStatus progress={(completedQueueItems / queueLength) * 100} {indeterminate} expandAction={popover?.showPopover} />
 
     <PopoverContainer
         bind:this={popover}
@@ -84,16 +60,9 @@
             />
             <div class="header-buttons">
                 {#if queueLength > 0}
-                    <button class="clear-button" on:click={nukeEntireQueue}>
+                    <button class="clear-button" on:click={clearQueue}>
                         <IconX />
                         {$t("button.clear")}
-                    </button>
-                {/if}
-                <!-- button for ui debug -->
-                {#if $settings.advanced.debug}
-                    <button class="test-button" on:click={addFakeQueueItem}>
-                        <IconPlus />
-                        add item
                     </button>
                 {/if}
             </div>
@@ -102,9 +71,10 @@
             {#each queueItems as [id, item]}
                 <ProcessingQueueItem
                     {id}
+                    mediaType={item.mediaType}
                     filename={item.filename}
-                    status={item.status}
-                    icon={itemIcons[item.type]}
+                    state={item.state}
+                    resultFile={item.state === "done" ? item.resultFile : undefined}
                 />
             {/each}
             {#if queueLength === 0}

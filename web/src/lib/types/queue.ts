@@ -1,34 +1,37 @@
-type ProcessingStep = "mux" | "mux_hls" | "encode";
-type ProcessingPreset = "mp4" | "webm" | "copy";
-type ProcessingState = "completed" | "failed" | "canceled" | "waiting" | "downloading" | "muxing" | "converting";
-type ProcessingType = "video" | "video_mute" | "audio" | "audio_convert" | "image" | "gif";
-type QueueFileType = "video" | "audio" | "image" | "gif";
+import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 
-export type ProcessingStepItem = {
-    type: ProcessingStep,
-    preset?: ProcessingPreset,
-}
+export type CobaltQueueItemState = "waiting" | "running" | "done" | "error";
 
-export type QueueFile = {
-    type: QueueFileType,
-    url: string,
-}
-
-export type QueueItem = {
+export type CobaltQueueBaseItem = {
     id: string,
-    status: ProcessingState,
-    type: ProcessingType,
+    state: CobaltQueueItemState,
+    pipeline: CobaltPipelineItem[],
+    // TODO: metadata
     filename: string,
-    files: QueueFile[],
-    processingSteps: ProcessingStepItem[],
-}
+    mediaType: CobaltPipelineResultFileType,
+};
 
-export type OngoingQueueItem = {
-    id: string,
-    currentStep?: ProcessingStep,
-    size?: {
-        expected: number,
-        current: number,
-    },
-    speed?: number,
-}
+export type CobaltQueueItemWaiting = CobaltQueueBaseItem & {
+    state: "waiting",
+};
+
+export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
+    state: "running",
+    currentStep: number,
+};
+
+export type CobaltQueueItemDone = CobaltQueueBaseItem & {
+    state: "done",
+    resultFile: File,
+};
+
+export type CobaltQueueItemError = CobaltQueueBaseItem & {
+    state: "error",
+    errorCode: string,
+};
+
+export type CobaltQueueItem = CobaltQueueItemWaiting | CobaltQueueItemRunning | CobaltQueueItemDone | CobaltQueueItemError;
+
+export type CobaltQueue = {
+    [id: string]: CobaltQueueItem,
+};

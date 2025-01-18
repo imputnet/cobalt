@@ -1,41 +1,67 @@
 <script lang="ts">
+    import { queue, removeItem } from "$lib/state/queen-bee/queue";
+
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
-    import { removeFromQueue } from "$lib/state/queue";
+
+    import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
+    import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
+    import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
+    import { downloadFile } from "$lib/download";
+    import type { CobaltQueueItemState } from "$lib/types/queue";
+    import type { CobaltPipelineResultFileType } from "$lib/types/workers";
+
+    const itemIcons = {
+        video: IconMovie,
+        audio: IconMusic,
+        image: IconPhoto,
+    };
 
     export let id: string;
+    export let mediaType: CobaltPipelineResultFileType;
     export let filename: string;
-    export let status: string;
-    export let progress: number = 0;
-    export let icon: ConstructorOfATypedSvelteComponent;
+    export let state: CobaltQueueItemState;
+    export let resultFile: File | undefined;
+
+    // TODO: use a real value
+    const progress = 0;
+
+    const download = (file: File) =>
+        downloadFile({
+            file,
+        });
 </script>
 
 <div class="processing-item">
     <div class="processing-info">
         <div class="file-title">
             <div class="processing-type">
-                <svelte:component this={icon} />
+                <svelte:component this={itemIcons[mediaType]} />
             </div>
             <span>
                 {filename}
             </span>
         </div>
-        <div class="file-progress">
-            <div
-                class="progress"
-                style="width: {Math.min(100, progress)}%"
-            ></div>
-        </div>
-        <div class="file-status">{id}: {status}</div>
+        {#if state === "running"}
+            <div class="file-progress">
+                <div
+                    class="progress"
+                    style="width: {Math.min(100, progress)}%"
+                ></div>
+            </div>
+        {/if}
+        <div class="file-status">{id}: {state}</div>
     </div>
     <div class="file-actions">
-        <button class="action-button">
-            <IconDownload />
-        </button>
-        <button
-            class="action-button"
-            on:click={() => removeFromQueue(id)}
-        >
+        {#if state === "done" && resultFile}
+            <button
+                class="action-button"
+                on:click={() => download(resultFile)}
+            >
+                <IconDownload />
+            </button>
+        {/if}
+        <button class="action-button" on:click={() => removeItem(id)}>
             <IconX />
         </button>
     </div>

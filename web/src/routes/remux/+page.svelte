@@ -1,11 +1,5 @@
 <script lang="ts">
-    import RemuxWorker from "$lib/workers/remux?worker";
-
-    import { beforeNavigate, goto } from "$app/navigation";
-
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/state/dialogs";
-    import { downloadFile } from "$lib/download";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
     import DropReceiver from "$components/misc/DropReceiver.svelte";
@@ -15,130 +9,24 @@
     import IconRepeat from "@tabler/icons-svelte/IconRepeat.svelte";
     import IconDevices from "@tabler/icons-svelte/IconDevices.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
+    import { createRemuxPipeline } from "$lib/queen-bee/queue";
 
     let draggedOver = false;
-    let file: File | undefined;
+    let files: FileList | undefined;
 
     let speed: number | undefined;
     let progress: string | undefined;
     let currentProgress: string | undefined;
 
-    let wentAway = false;
-
     let processing = false;
 
-    let worker: Worker;
-
     const remux = async () => {
-        worker = new RemuxWorker();
+        if (!files) return;
 
-        speed = undefined;
-        progress = undefined;
-        currentProgress = undefined;
-
-        worker.postMessage({ file });
-        processing = true;
-
-        worker.onerror = (e) => {
-            console.error("remux worker exploded:", e);
-            worker.terminate();
-        };
-
-        worker.onmessage = (event) => {
-            const eventData = event.data.cobaltRemuxWorker;
-            if (!eventData) return;
-
-            console.log(eventData);
-
-            if (eventData.progress) {
-                let eprogress = eventData.progress;
-
-                if (eprogress?.speed) {
-                    speed = eprogress.speed;
-                }
-
-                if (eprogress?.durationProcessed) {
-                    currentProgress = eprogress.durationProcessed;
-                }
-
-                if (eprogress?.duration && eprogress?.durationProcessed) {
-                    progress = Math.max(
-                        0,
-                        Math.min(
-                            100,
-                            (eprogress.durationProcessed / eprogress.duration) *
-                                100
-                        )
-                    ).toFixed(2);
-                }
-
-                console.log(eprogress, progress, speed, currentProgress);
-            }
-
-            if (eventData.render) {
-                processing = false;
-                worker.terminate();
-                return downloadFile({
-                    file: new File([eventData.render], eventData.filename, {
-                        type: eventData.render.type,
-                    }),
-                });
-            }
-
-            if (eventData.error) {
-                processing = false;
-                worker.terminate();
-
-                return createDialog({
-                    id: "remux-error",
-                    type: "small",
-                    meowbalt: "error",
-                    bodyText: $t(eventData.error),
-                    buttons: [
-                        {
-                            text: $t("button.gotit"),
-                            main: true,
-                            action: () => {},
-                        },
-                    ],
-                });
-            }
-        };
-    };
-
-    beforeNavigate((event) => {
-        if (processing && !wentAway) {
-            event.cancel();
-            const path = event.to?.route?.id;
-
-            if (path) {
-                return createDialog({
-                    id: "remux-ongoing",
-                    type: "small",
-                    icon: "warn-red",
-                    title: $t("dialog.processing.title.ongoing"),
-                    bodyText: $t("dialog.processing.ongoing"),
-                    buttons: [
-                        {
-                            text: $t("button.no"),
-                            main: false,
-                            action: () => {},
-                        },
-                        {
-                            text: $t("button.yes"),
-                            main: true,
-                            color: "red",
-                            action: async () => {
-                                worker.terminate();
-                                wentAway = true;
-                                goto(path);
-                            },
-                        },
-                    ],
-                });
-            }
+        for (let i = 0; i < files?.length; i++) {
+            createRemuxPipeline(files[i]);
         }
-    });
+    };
 </script>
 
 <svelte:head>
@@ -150,7 +38,7 @@
 </svelte:head>
 
 <DropReceiver
-    bind:file
+    bind:files
     bind:draggedOver
     id="remux-container"
     classes={processing ? "processing" : ""}
@@ -165,7 +53,7 @@
         <div id="remux-receiver">
             <FileReceiver
                 bind:draggedOver
-                bind:file
+                bind:files
                 acceptTypes={["video/*", "audio/*"]}
                 acceptExtensions={[
                     "mp4",
@@ -178,12 +66,12 @@
                 ]}
             />
 
-            {#if file}
+            {#if files}
                 <div class="button-row">
                     <button on:click={remux}>remux</button>
                     <button
                         on:click={() => {
-                            file = undefined;
+                            files = undefined;
                         }}
                     >
                         clear imported files
@@ -236,9 +124,8 @@
                 {/if}
                 <button
                     on:click={() => {
-                        file = undefined;
+                        files = undefined;
                         processing = false;
-                        worker?.terminate();
                     }}
                 >
                     cancel
