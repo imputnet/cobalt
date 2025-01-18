@@ -11,7 +11,7 @@
     import FileReceiver from "$components/misc/FileReceiver.svelte";
 
     let draggedOver = false;
-    let file: File | undefined;
+    let files: FileList | undefined;
     let imageContainer: HTMLElement;
     let canvas: HTMLCanvasElement;
 
@@ -30,13 +30,13 @@
     };
 
     const processImage = async () => {
-        if (!file) return;
+        if (!files) return;
 
         state = "busy";
         worker = new RemoveBgWorker();
 
         worker.postMessage({
-            cobaltRemoveBgWorker: { file },
+            cobaltRemoveBgWorker: { file: files[0] },
         });
 
         worker.onmessage = async (event) => {
@@ -56,7 +56,7 @@
     };
 
     const exportImage = async () => {
-        if (!file) return;
+        if (!files) return;
 
         const resultBlob = await new Promise<Blob>((resolve, reject) => {
             canvas.toBlob((blob) => {
@@ -66,7 +66,7 @@
         });
 
         return await downloadFile({
-            file: new File([resultBlob], `${file.name} (cutout).png`, {
+            file: new File([resultBlob], `${files[0].name} (cutout).png`, {
                 type: "image/png",
             }),
         });
@@ -79,20 +79,20 @@
     });
 </script>
 
-<DropReceiver bind:file bind:draggedOver id="cutout-container">
+<DropReceiver bind:files bind:draggedOver id="cutout-container">
     {#if state === "empty"}
         <FileReceiver
             bind:draggedOver
-            bind:file
+            bind:files
             acceptTypes={["image/*"]}
             acceptExtensions={["jpg", "png", "webp"]}
         />
-        {#if file}
+        {#if files}
             <div class="button-row">
                 <button on:click={processImage}>process files</button>
                 <button
                     on:click={() => {
-                        file = undefined;
+                        files = undefined;
                     }}
                 >
                     clear imported files
@@ -126,7 +126,7 @@
             <button
                 on:click={() => {
                     worker?.terminate();
-                    file = undefined;
+                    files = undefined;
                     state = "empty";
                 }}
             >
@@ -140,7 +140,7 @@
             <button
                 on:click={() => {
                     state = "empty";
-                    file = undefined;
+                    files = undefined;
                 }}
             >
                 start over
