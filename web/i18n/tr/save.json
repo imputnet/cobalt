@@ -1,0 +1,25 @@
+{
+    "paste": "yapıştır",
+    "paste.long": "yapıştır ve indir",
+    "auto": "otomatik",
+    "audio": "ses",
+    "mute": "sustur",
+    "input.placeholder": "bağlantıyı buraya yapıştır",
+    "terms.note.agreement": "devam ederek, şunları kabul edersiniz",
+    "terms.note.link": "kullanım şartları ve etik kuralları",
+    "services.title": "desteklenen servisler",
+    "services.title_show": "desteklenen servisleri göster",
+    "services.title_hide": "desteklenen servisleri gizle",
+    "services.disclaimer": "cobalt'ın yukarıda li̇stelenen hi̇zmetlerden herhangi̇ bi̇ri̇yle bağlantısı yoktur.",
+
+    "tutorial.title": "ios'a nasıl kaydedilir?"
+    "tutorial.intro": "i̇os'ta medyayı rahatça kaydetmek i̇çi̇n paylaşım sayfasından bi̇r siri kısayolu kullanmanız gerekecek.",
+    "tutorial.step.1": "yardımcı siri kısayolları ekleyin:",
+    "tutorial.step.2": "cobalt'ın kaydetme iletişim kutusundaki \"paylaş\" düğmesine basın.",
+    "tutorial.step.3": "paylaşım sayfasındaki ilgili kısayolu seçin.",
+    "tutorial.outro": "bu kısayollar sadece cobalt uygulamasından çalışacaktır, di̇ğer uygulamalardan paylaşılan bağlantılar çalışmayacaktır.",
+    "tutorial.shortcut.photos": "fotoğraflara",
+    "tutorial.shortcut.files": "dosyalara",
+
+    "label.community_instance": "topluluk örneği"
+}

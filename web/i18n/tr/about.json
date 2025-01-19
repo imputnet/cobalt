@@ -1,0 +1,35 @@
+{
+    "page.general": "cobalt nedir?",
+    "page.faq": "SSS",
+
+    "page.community": "topluluk & yardım",
+
+    "page.privacy": "gizlilik politikası",
+    "page.terms": "şartlar ve etik kurallar",
+    "page.credits": "teşekkür & lisanslar",
+
+    "heading.general": "genel şartlar",
+    "heading.licenses": "lisanslar",
+    "heading.summary": "sevdiğiniz şeyi korumanın en iyi yolu",
+    "heading.privacy": "önde gelen mahremiyet",
+    "heading.community": "açık topluluk",
+    "heading.local": "cihaz üzerinde işlem",
+    "heading.saving": "korumak",
+    "heading.encryption": "şifreleme",
+    "heading.plausible": "anonim trafik analitiği",
+    "heading.cloudflare": "web gi̇zli̇li̇ği̇ & güvenli̇ği̇",
+    "heading.responsibility": "kullanıcı sorumlulukları",
+    "heading.abuse": "kötüye kullanım bildirmek",
+    "heading.motivation": "motivasyon",
+    "heading.testers": "beta testçileri",
+
+    "support.github": "cobalt'ın kaynak koduna göz atın, değişikliklere katkıda bulunun veya sorunları bildirin",
+    "support.discord": "topluluk ve geliştiricilerle kobalt hakkında sohbet edin veya yardım isteyin",
+    "support.twitter": "cobalt'ın güncellemeleri̇ni̇ ve geli̇şmeleri̇ni̇ twitter zaman çizelgesinden taki̇p edi̇n",
+    "support.telegram": "telegram kanalı aracılığıyla en son cobalt güncellemeleri̇nden haberdar olun",
+    "support.bluesky": "cobalt'in güncellemelerini ve gelişimini bluesky feed'inizden takip edin",
+
+    "support.description.issue": "bir hatayı veya tekrar eden başka bir sorunu bildirmek istiyorsanız, lütfen bunu github'da yapın.",
+    "support.description.help": "diğer sorularınız için discord'u kullanın. sorunu #cobalt-support'ta düzgün bir şekilde açıklayın, aksi takdirde kimse size yardımcı olamaz.",
+    "support.description.best-effort": "tüm destek en iyi çabadır ve garanti edilmez, bir yanıt biraz zaman alabilir."
+}

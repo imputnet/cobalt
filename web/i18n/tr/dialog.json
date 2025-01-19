@@ -1,0 +1,25 @@
+{
+    "reset.title": "tüm verileri sıfırlamak istiyor musunuz?",
+    "reset.body": "tüm verileri sıfırlamak istediğinizden emin misiniz? bu işlem hemen gerçekleşir ve geri alınamaz.",
+
+    "picker.title": "kaydedilecek öğeyi seçin",
+    "picker.description.desktop": "kaydetmek için bir öğeye tıklayın. resimler ayrıca sağ tıklama menüsü ile kaydedilebilir.",
+    "picker.description.phone": "kaydetmek için bir öğeye basın. resimler ayrıca uzun basma ile kaydedilebilir.",
+    "picker.description.ios": "bir öğeye basarak kısayol ile kaydedin. resimler ayrıca uzun basma ile kaydedilebilir.",
+
+    "saving.title": "nasıl kaydedileceğini seçin",
+    "saving.blocked": "cobalt, dosyayı yeni bir sekmede açmayı denedi ama tarayıcınız bunu engelledi. bu durumun bir dahaki sefere yaşanmaması için pop-up'lara cobalt için izin verebilirsiniz.",
+    "saving.timeout": "cobalt, dosyayı otomatik olarak kaydetmeye çalıştı ancak tarayıcınız bunu engelledi. tercih ettiğiniz yöntemi manuel olarak seçmeniz gerekecek.",
+
+    "safety.title": "önemli güvenlik bildirimi",
+
+    "import.body": "bilinmeyen veya bozulmuş dosyaların içe aktarılması, cobalt işlevselliğini beklenmedik şekilde değiştirebilir veya bozabilir. yalnızca kişisel olarak dışa aktardığınız ve değiştirmediğiniz dosyaları içe aktarın. bu dosyayı birisi tarafından içe aktarmanız istendiyse - yapmayın.\n\nbilinmeyen ayar dosyalarını içe aktarmanın yol açacağı herhangi bir zarardan sorumlu değiliz.",
+
+    "api.override.title": "işlem örneği geçersiz kılma",
+    "api.override.body": "{{ value }} artık işleme örneği olarak ayarlandı. buna güvenmiyorsanız, \"İptal\"e basın ve göz ardı edilecektir.\n\nSeçiminizi daha sonra işleme ayarlarından değiştirebilirsiniz.",
+
+    "safety.custom_instance.body": "özel örnekler, gizlilik & güvenlik riskleri oluşturabilir.\n\nkötü örnekler şunları yapabilir:\n1. sizi cobalt'dan uzaklaştırarak dolandırmaya çalışabilir.\n2. istekleriniz hakkında tüm bilgileri kaydedebilir, sonsuza kadar saklayabilir ve sizi takip etmek için kullanabilir.\n3. size kötü amaçlı dosyalar (kötü amaçlı yazılım gibi) sunabilir.\n4. sizi reklam izlemeye zorlayabilir veya indirme için ücret talep edebilir.\n\nbu noktadan sonra sizi koruyamayız. hangi örnekleri kullanacağınız konusunda dikkatli olun ve her zaman iç sesinizi dinleyin. eğer bir şey ters geliyorsa, bu sayfaya geri dönün, özel örneği sıfırlayın ve bunu bize github'dan bildirin.",
+
+    "processing.ongoing": "cobalt şu anda bu sekmede medya işliyor. ayrılmak işlemi iptal eder. bunu yapmak istediğinizden emin misiniz?",
+    "processing.title.ongoing": "işlem iptal edilecek"
+}
