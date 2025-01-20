@@ -15,7 +15,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
-            requestIP
+            requestIP,
+            originalRequest: r.originalRequest
         },
         params = {};
 

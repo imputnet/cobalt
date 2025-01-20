@@ -40,6 +40,7 @@ export function createStream(obj) {
             audioFormat: obj.audioFormat,
 
             isHLS: obj.isHLS || false,
+            originalRequest: obj.parameters
         };
 
     // FIXME: this is now a Promise, but it is not awaited
