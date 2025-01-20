@@ -54,9 +54,7 @@ export default async function ({ id, token, shareId, h265, isAudioOnly, dispatch
         if (!currentNote) throw "no current note in detail map";
 
         note = currentNote.note;
-    } catch {
-        return { error: "fetch.empty" };
-    }
+    } catch {}
 
     if (!note) return { error: "fetch.empty" };
 
