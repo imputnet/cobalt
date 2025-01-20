@@ -149,7 +149,7 @@ export default async function (o) {
         useHLS = false;
     }
 
-    let innertubeClient = "ANDROID";
+    let innertubeClient = o.innertubeClient || "ANDROID";
 
     if (cookie) {
         useHLS = false;
@@ -245,7 +245,7 @@ export default async function (o) {
     }
 
     let video, audio, dubbedLanguage,
-        codec = o.format || "h264";
+        codec = o.format || "h264", itag = o.itag;
 
     if (useHLS) {
         const hlsManifest = info.streaming_data.hls_manifest_url;
@@ -351,17 +351,21 @@ export default async function (o) {
             Number(b.bitrate) - Number(a.bitrate)
         ).forEach(format => {
             Object.keys(codecList).forEach(yCodec => {
+                const matchingItag = slot => !itag || itag[slot] === format.itag;
                 const sorted = sorted_formats[yCodec];
                 const goodFormat = checkFormat(format, yCodec);
                 if (!goodFormat) return;
 
-                if (format.has_video) {
+                if (format.has_video && matchingItag('video')) {
                     sorted.video.push(format);
-                    if (!sorted.bestVideo) sorted.bestVideo = format;
+                    if (!sorted.bestVideo)
+                        sorted.bestVideo = format;
                 }
-                if (format.has_audio) {
+
+                if (format.has_audio && matchingItag('audio')) {
                     sorted.audio.push(format);
-                    if (!sorted.bestAudio) sorted.bestAudio = format;
+                    if (!sorted.bestAudio)
+                        sorted.bestAudio = format;
                 }
             })
         });
