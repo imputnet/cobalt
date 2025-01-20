@@ -240,7 +240,7 @@ export default async function (o) {
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
     const normalizeQuality = res => {
-        const shortestSide = res.height > res.width ? res.width : res.height;
+        const shortestSide = Math.min(res.height, res.width);
         return videoQualities.find(qual => qual >= shortestSide);
     }
 
