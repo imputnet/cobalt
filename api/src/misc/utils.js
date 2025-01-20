@@ -37,3 +37,7 @@ export function splitFilenameExtension(filename) {
         return [ parts.join('.'), ext ]
     }
 }
+
+export function zip(a, b) {
+    return a.map((value, i) => [ value, b[i] ]);
+}
