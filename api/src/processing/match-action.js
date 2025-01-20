@@ -83,6 +83,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "twitter":
                 case "snapchat":
                 case "bsky":
+                case "xiaohongshu":
                     params = { picker: r.picker };
                     break;
 
@@ -143,6 +144,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "ok":
                 case "vk":
                 case "tiktok":
+                case "xiaohongshu":
                     params = { type: "proxy" };
                     break;
 
