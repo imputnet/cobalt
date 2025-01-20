@@ -491,12 +491,12 @@ export default async function (o) {
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = codecList[codec].container;
 
-            video = video.url;
-            audio = audio.url;
-
             if (innertubeClient === "WEB" && innertube) {
                 video = video.decipher(innertube.session.player);
                 audio = audio.decipher(innertube.session.player);
+            } else {
+                video = video.url;
+                audio = audio.url;
             }
         }
 
