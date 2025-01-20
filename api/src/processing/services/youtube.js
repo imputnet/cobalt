@@ -452,6 +452,18 @@ export default async function (o) {
         youtubeDubName: dubbedLanguage || false,
     }
 
+    itag = {
+        video: video.itag,
+        audio: audio.itag
+    };
+
+    const originalRequest = {
+        ...o,
+        dispatcher: undefined,
+        itag,
+        innertubeClient
+    };
+
     if (audio && o.isAudioOnly) {
         let bestAudio = codec === "h264" ? "m4a" : "opus";
         let urls = audio.url;
@@ -473,6 +485,7 @@ export default async function (o) {
             fileMetadata,
             bestAudio,
             isHLS: useHLS,
+            originalRequest
         }
     }
 
@@ -516,6 +529,7 @@ export default async function (o) {
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,
+            originalRequest
         }
     }
 
