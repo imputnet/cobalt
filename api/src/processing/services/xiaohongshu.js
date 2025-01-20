@@ -75,12 +75,9 @@ export default async function ({ id, token, shareId, h265, isAudioOnly, dispatch
 
         if (!videoURL) {
             const h264Streams = video.media?.stream?.h264;
-            if (!h264Streams) return { error: "fetch.empty" };
 
-            if (h264Streams.length > 1) {
+            if (h264Streams?.length) {
                 videoURL = h264Streams.reduce((a, b) => Number(a?.videoBitrate) > Number(b?.videoBitrate) ? a : b).masterUrl;
-            } else {
-                videoURL = h264Streams[0].masterUrl;
             }
         }
 
