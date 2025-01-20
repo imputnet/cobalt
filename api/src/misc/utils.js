@@ -1,8 +1,16 @@
-export function getRedirectingURL(url) {
-    return fetch(url, { redirect: 'manual' }).then((r) => {
-        if ([301, 302, 303].includes(r.status) && r.headers.has('location'))
+const redirectStatuses = [301, 302, 303, 307, 308];
+
+export async function getRedirectingURL(url, dispatcher) {
+    const location = await fetch(url, {
+        redirect: 'manual',
+        dispatcher,
+    }).then((r) => {
+        if (redirectStatuses.includes(r.status) && r.headers.has('location')) {
             return r.headers.get('location');
+        }
     }).catch(() => null);
+
+    return location;
 }
 
 export function merge(a, b) {
