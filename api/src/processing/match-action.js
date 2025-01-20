@@ -47,7 +47,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             });
 
         case "photo":
-            responseType = "redirect";
+            params = { type: "proxy" };
             break;
 
         case "gif":
