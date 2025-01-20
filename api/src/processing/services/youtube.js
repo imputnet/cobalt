@@ -351,7 +351,7 @@ export default async function (o) {
             Number(b.bitrate) - Number(a.bitrate)
         ).forEach(format => {
             Object.keys(codecList).forEach(yCodec => {
-                const matchingItag = slot => !itag || itag[slot] === format.itag;
+                const matchingItag = slot => !itag?.[slot] || itag[slot] === format.itag;
                 const sorted = sorted_formats[yCodec];
                 const goodFormat = checkFormat(format, yCodec);
                 if (!goodFormat) return;
@@ -453,8 +453,8 @@ export default async function (o) {
     }
 
     itag = {
-        video: video.itag,
-        audio: audio.itag
+        video: video?.itag,
+        audio: audio?.itag
     };
 
     const originalRequest = {
