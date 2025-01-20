@@ -43,7 +43,7 @@ export default async function ({ id, token, shareId, h265, isAudioOnly, dispatch
         const initialState = html
             .split('<script>window.__INITIAL_STATE__=')[1]
             .split('</script>')[0]
-            .replace(/:undefined/g, ":null");
+            .replace(/:\s*undefined/g, ":null");
 
         const data = JSON.parse(initialState);
 
