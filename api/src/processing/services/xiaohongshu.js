@@ -71,9 +71,7 @@ export default async function ({ id, token, shareId, h265, isAudioOnly, dispatch
 
         if (h265 && !isAudioOnly && video.consumer?.originVideoKey) {
             videoURL = `https://sns-video-bd.xhscdn.com/${video.consumer.originVideoKey}`;
-        }
-
-        if (!videoURL) {
+        } else {
             const h264Streams = video.media?.stream?.h264;
 
             if (h264Streams?.length) {
