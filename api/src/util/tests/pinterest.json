@@ -54,7 +54,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -63,7 +63,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -72,7 +72,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -81,7 +81,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     }
 ]

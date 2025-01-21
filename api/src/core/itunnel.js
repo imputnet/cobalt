@@ -35,7 +35,7 @@ const streamTunnel = (req, res) => {
         ...Object.entries(req.headers)
     ]);
 
-    return stream(res, { type: 'internal', ...streamInfo });
+    return stream(res, { type: 'internal', data: streamInfo });
 }
 
 export const setupTunnelHandler = () => {

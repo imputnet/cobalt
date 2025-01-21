@@ -30,7 +30,7 @@ export default async function(obj) {
     if (!postId) return { error: "fetch.short_link" };
 
     // should always be /video/, even for photos
-    const res = await fetch(`https://tiktok.com/@i/video/${postId}`, {
+    const res = await fetch(`https://www.tiktok.com/@i/video/${postId}`, {
         headers: {
             "user-agent": genericUserAgent,
             cookie,

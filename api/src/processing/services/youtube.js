@@ -149,7 +149,7 @@ export default async function (o) {
         useHLS = false;
     }
 
-    let innertubeClient = "ANDROID";
+    let innertubeClient = o.innertubeClient || "ANDROID";
 
     if (cookie) {
         useHLS = false;
@@ -240,12 +240,12 @@ export default async function (o) {
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
     const normalizeQuality = res => {
-        const shortestSide = res.height > res.width ? res.width : res.height;
+        const shortestSide = Math.min(res.height, res.width);
         return videoQualities.find(qual => qual >= shortestSide);
     }
 
     let video, audio, dubbedLanguage,
-        codec = o.format || "h264";
+        codec = o.format || "h264", itag = o.itag;
 
     if (useHLS) {
         const hlsManifest = info.streaming_data.hls_manifest_url;
@@ -351,17 +351,21 @@ export default async function (o) {
             Number(b.bitrate) - Number(a.bitrate)
         ).forEach(format => {
             Object.keys(codecList).forEach(yCodec => {
+                const matchingItag = slot => !itag?.[slot] || itag[slot] === format.itag;
                 const sorted = sorted_formats[yCodec];
                 const goodFormat = checkFormat(format, yCodec);
                 if (!goodFormat) return;
 
-                if (format.has_video) {
+                if (format.has_video && matchingItag('video')) {
                     sorted.video.push(format);
-                    if (!sorted.bestVideo) sorted.bestVideo = format;
+                    if (!sorted.bestVideo)
+                        sorted.bestVideo = format;
                 }
-                if (format.has_audio) {
+
+                if (format.has_audio && matchingItag('audio')) {
                     sorted.audio.push(format);
-                    if (!sorted.bestAudio) sorted.bestAudio = format;
+                    if (!sorted.bestAudio)
+                        sorted.bestAudio = format;
                 }
             })
         });
@@ -448,6 +452,18 @@ export default async function (o) {
         youtubeDubName: dubbedLanguage || false,
     }
 
+    itag = {
+        video: video?.itag,
+        audio: audio?.itag
+    };
+
+    const originalRequest = {
+        ...o,
+        dispatcher: undefined,
+        itag,
+        innertubeClient
+    };
+
     if (audio && o.isAudioOnly) {
         let bestAudio = codec === "h264" ? "m4a" : "opus";
         let urls = audio.url;
@@ -469,6 +485,7 @@ export default async function (o) {
             fileMetadata,
             bestAudio,
             isHLS: useHLS,
+            originalRequest
         }
     }
 
@@ -491,12 +508,12 @@ export default async function (o) {
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = codecList[codec].container;
 
-            video = video.url;
-            audio = audio.url;
-
             if (innertubeClient === "WEB" && innertube) {
                 video = video.decipher(innertube.session.player);
                 audio = audio.decipher(innertube.session.player);
+            } else {
+                video = video.url;
+                audio = audio.url;
             }
         }
 
@@ -512,6 +529,7 @@ export default async function (o) {
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,
+            originalRequest
         }
     }
 

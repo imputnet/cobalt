@@ -40,9 +40,9 @@
     "video.twitter.gif.title": "convert looping videos to GIF",
     "video.twitter.gif.description": "GIF conversion is inefficient, converted file may be obnoxiously big and low quality.",
 
-    "video.tiktok.h265": "tiktok",
-    "video.tiktok.h265.title": "prefer HEVC/H265 format",
-    "video.tiktok.h265.description": "allows downloading videos in 1080p at cost of compatibility.",
+    "video.h265": "high efficiency video codec",
+    "video.h265.title": "allow h265 for videos",
+    "video.h265.description": "allows downloading videos from platforms like tiktok and xiaohongshu in higher quality at cost of compatibility.",
 
     "audio.format": "audio format",
     "audio.format.best": "best",
