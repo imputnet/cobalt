@@ -58,6 +58,24 @@
         }
     },
     {
+        "name": "gif with a quoted post",
+        "url": "https://bsky.app/profile/imlunahey.com/post/3lgajpn5dtk2t",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "gif alone in a post",
+        "url": "https://bsky.app/profile/imlunahey.com/post/3lgah3ovxnc2q",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "several images",
         "url": "https://bsky.app/profile/did:plc:rai7s6su2sy22ss7skouedl7/post/3kzxuxbiul626",
         "params": {},
