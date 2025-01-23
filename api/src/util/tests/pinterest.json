@@ -68,7 +68,7 @@
     },
     {
         "name": "regular gif",
-        "url": "https://www.pinterest.com/pin/814447913881127862/",
+        "url": "https://www.pinterest.com/pin/643170390530326178/",
         "params": {},
         "expected": {
             "code": 200,
@@ -77,7 +77,7 @@
     },
     {
         "name": "regular gif (.ca TLD)",
-        "url": "https://www.pinterest.ca/pin/814447913881127862/",
+        "url": "https://www.pinterest.ca/pin/643170390530326178/",
         "params": {},
         "expected": {
             "code": 200,
