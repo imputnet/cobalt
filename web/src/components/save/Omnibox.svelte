@@ -11,6 +11,7 @@
     import dialogs from "$lib/state/dialogs";
     import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
+    import { pasteLinkFromClipboard } from "$lib/clipboard";
     import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 
     import type { Optional } from "$lib/types/generic";
@@ -41,7 +42,7 @@
 
     const validLink = (url: string) => {
         try {
-            return /^https:/i.test(new URL(url).protocol);
+            return /^https?\:/i.test(new URL(url).protocol);
         } catch {}
     };
 
@@ -59,22 +60,24 @@
         goto("/", { replaceState: true });
     }
 
-    const pasteClipboard = () => {
+    const pasteClipboard = async () => {
         if ($dialogs.length > 0 || isDisabled || isLoading) {
             return;
         }
 
-        navigator.clipboard.readText().then(async (text: string) => {
-            let matchLink = text.match(/https:\/\/[^\s]+/g);
-            if (matchLink) {
-                $link = matchLink[0];
+        const pastedData = await pasteLinkFromClipboard();
+        if (!pastedData) return;
 
-                if (!isBotCheckOngoing) {
-                    await tick(); // wait for button to render
-                    downloadButton.download($link);
-                }
+        const linkMatch = pastedData.match(/https?\:\/\/[^\s]+/g);
+
+        if (linkMatch) {
+            $link = linkMatch[0].split('，')[0];
+
+            if (!isBotCheckOngoing) {
+                await tick(); // wait for button to render
+                downloadButton.download($link);
             }
-        });
+        }
     };
 
     const changeDownloadMode = (mode: DownloadModeOption) => {

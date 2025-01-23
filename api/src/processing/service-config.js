@@ -166,6 +166,14 @@ export const services = {
         subdomains: ["m"],
         altDomains: ["vkvideo.ru", "vk.ru"],
     },
+    xiaohongshu: {
+        patterns: [
+            "explore/:id?xsec_token=:token",
+            "discovery/item/:id?xsec_token=:token",
+            "a/:shareId"
+        ],
+        altDomains: ["xhslink.com"],
+    },
     youtube: {
         patterns: [
             "watch?v=:id",

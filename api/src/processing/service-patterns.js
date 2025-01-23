@@ -71,4 +71,8 @@ export const testers = {
 
     "bsky": pattern =>
         pattern.user?.length <= 128 && pattern.post?.length <= 128,
+
+    "xiaohongshu": pattern =>
+        pattern.id?.length <= 24 && pattern.token?.length <= 64
+        || pattern.shareId?.length <= 12,
 }

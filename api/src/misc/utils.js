@@ -1,8 +1,16 @@
-export function getRedirectingURL(url) {
-    return fetch(url, { redirect: 'manual' }).then((r) => {
-        if ([301, 302, 303].includes(r.status) && r.headers.has('location'))
+const redirectStatuses = new Set([301, 302, 303, 307, 308]);
+
+export async function getRedirectingURL(url, dispatcher) {
+    const location = await fetch(url, {
+        redirect: 'manual',
+        dispatcher,
+    }).then((r) => {
+        if (redirectStatuses.has(r.status) && r.headers.has('location')) {
             return r.headers.get('location');
+        }
     }).catch(() => null);
+
+    return location;
 }
 
 export function merge(a, b) {
@@ -28,4 +36,8 @@ export function splitFilenameExtension(filename) {
     } else {
         return [ parts.join('.'), ext ]
     }
+}
+
+export function zip(a, b) {
+    return a.map((value, i) => [ value, b[i] ]);
 }
