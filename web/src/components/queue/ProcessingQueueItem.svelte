@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { formatFileSize } from "$lib/util";
     import { downloadFile } from "$lib/download";
     import { removeItem } from "$lib/state/queen-bee/queue";
 
@@ -27,6 +28,7 @@
     $: state = info.state;
 
     $: progress = runningWorker?.progress;
+    $: size = formatFileSize(runningWorker?.progress?.size);
 
     const download = (file: File) =>
         downloadFile({
@@ -58,12 +60,12 @@
         {/if}
         <div class="file-status">
             {#if info.state === "done"}
-                done: {info.resultFile?.size} bytes
+                done: {formatFileSize(info.resultFile?.size)}
             {:else if info.state === "running"}
                 {#if progress && progress.percentage}
-                    processing: {Math.ceil(progress.percentage)}%, {progress.size} bytes
-                {:else if progress && progress.size}
-                    processing: {progress.size}
+                    processing: {Math.ceil(progress.percentage)}%, {size}
+                {:else if progress && size}
+                    processing: {size}
                 {:else}
                     processing...
                 {/if}
