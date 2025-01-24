@@ -15,6 +15,9 @@ const ff = new LibAVWrapper((progress) => {
             progress: {
                 durationProcessed: progress.out_time_sec,
                 speed: progress.speed,
+                size: progress.total_size,
+                currentFrame: progress.frame,
+                fps: progress.fps,
             }
         }
     })
@@ -45,7 +48,7 @@ const remux = async (file: File) => {
 
         self.postMessage({
             cobaltRemuxWorker: {
-                progressInfo: {
+                progress: {
                     duration: Number(file_info.format.duration),
                 }
             }

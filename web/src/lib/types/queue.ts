@@ -17,7 +17,7 @@ export type CobaltQueueItemWaiting = CobaltQueueBaseItem & {
 
 export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
     state: "running",
-    currentStep: number,
+    runningWorker: string,
 };
 
 export type CobaltQueueItemDone = CobaltQueueBaseItem & {

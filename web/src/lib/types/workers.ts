@@ -4,9 +4,9 @@ export type CobaltWorkerType = "remux" | "removebg";
 export type CobaltPipelineResultFileType = typeof resultFileTypes[number];
 
 export type CobaltWorkerProgress = {
-    indeterminate: boolean,
+    percentage?: number,
     speed?: number,
-    percentage: number,
+    size: number,
 }
 
 export type CobaltWorkerArgs = {

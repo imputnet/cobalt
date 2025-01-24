@@ -51,13 +51,13 @@ export function itemDone(id: string, workerId: string, file: File) {
     checkTasks();
 }
 
-export function itemRunning(id: string, step: number) {
+export function itemRunning(id: string, workerId: string) {
     update(queueData => {
         if (queueData[id]) {
             queueData[id] = {
                 ...queueData[id],
                 state: "running",
-                currentStep: step,
+                runningWorker: workerId,
             }
         }
         return queueData;
@@ -68,6 +68,10 @@ export function itemRunning(id: string, step: number) {
 
 export function removeItem(id: string) {
     update(queueData => {
+        for (const worker in queueData[id].pipeline) {
+            removeWorkerFromQueue(queueData[id].pipeline[worker].workerId);
+        }
+
         delete queueData[id];
         return queueData;
     });

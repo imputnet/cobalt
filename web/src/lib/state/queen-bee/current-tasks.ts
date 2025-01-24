@@ -10,9 +10,9 @@ const currentTasks = readable<CobaltCurrentTasks>(
     (_, _update) => { update = _update }
 );
 
-export function addWorkerToQueue(item: CobaltCurrentTaskItem) {
+export function addWorkerToQueue(workerId: string, item: CobaltCurrentTaskItem) {
     update(tasks => {
-        tasks[item.id] = item;
+        tasks[workerId] = item;
         return tasks;
     });
 }
@@ -24,10 +24,10 @@ export function removeWorkerFromQueue(id: string) {
     });
 }
 
-export function updateWorkerProgress(id: string, progress: CobaltWorkerProgress) {
-    update(tasks => {
-        tasks[id].progress = progress;
-        return tasks;
+export function updateWorkerProgress(workerId: string, progress: CobaltWorkerProgress) {
+    update(allTasks => {
+        allTasks[workerId].progress = progress;
+        return allTasks;
     });
 }
 

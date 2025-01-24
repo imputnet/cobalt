@@ -16,7 +16,6 @@
     };
 
     const dragOverHandler = (ev: DragEvent) => {
-        console.log("dragged over omg")
         draggedOver = true;
         ev.preventDefault();
     };

@@ -23,16 +23,16 @@ export const checkTasks = () => {
                 // one parent & pipeline
                 const pipelineItem = task.pipeline[i];
 
-                startWorker(pipelineItem);
-
-                addWorkerToQueue({
-                    id: pipelineItem.workerId,
+                addWorkerToQueue(pipelineItem.workerId, {
                     parentId: task.id,
-                    step: i + 1,
-                    totalSteps: task.pipeline.length,
                 });
 
-                itemRunning(task.id, i);
+                itemRunning(
+                    task.id,
+                    pipelineItem.workerId
+                );
+
+                startWorker(pipelineItem);
                 break;
             }
             break;

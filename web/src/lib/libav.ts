@@ -38,7 +38,7 @@ export default class LibAVWrapper {
 
         try {
             await libav.ffprobe([
-                //'-v', 'quiet',
+                '-v', 'quiet',
                 '-print_format', 'json',
                 '-show_format',
                 '-show_streams',

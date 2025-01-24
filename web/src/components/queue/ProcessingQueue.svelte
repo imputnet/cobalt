@@ -26,7 +26,7 @@
 
     $: queueLength = Object.keys($queue).length;
     $: completedQueueItems = queueItems.filter(([id, item]) => {
-        return item.state === "done"
+        return item.state === "done";
     }).length;
 
     // TODO: toggle this only when progress is unknown
@@ -42,7 +42,11 @@
 </script>
 
 <div id="processing-queue" class:expanded>
-    <ProcessingStatus progress={(completedQueueItems / queueLength) * 100} {indeterminate} expandAction={popover?.showPopover} />
+    <ProcessingStatus
+        progress={(completedQueueItems / queueLength) * 100}
+        {indeterminate}
+        expandAction={popover?.showPopover}
+    />
 
     <PopoverContainer
         bind:this={popover}
@@ -71,10 +75,10 @@
             {#each queueItems as [id, item]}
                 <ProcessingQueueItem
                     {id}
-                    mediaType={item.mediaType}
-                    filename={item.filename}
-                    state={item.state}
-                    resultFile={item.state === "done" ? item.resultFile : undefined}
+                    info={item}
+                    runningWorker={
+                        item.state === "running" ? $currentTasks[item.runningWorker] : undefined
+                    }
                 />
             {/each}
             {#if queueLength === 0}

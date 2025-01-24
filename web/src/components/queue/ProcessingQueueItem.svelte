@@ -1,5 +1,11 @@
 <script lang="ts">
-    import { queue, removeItem } from "$lib/state/queen-bee/queue";
+    import { downloadFile } from "$lib/download";
+    import { removeItem } from "$lib/state/queen-bee/queue";
+
+    import type { CobaltQueueItem } from "$lib/types/queue";
+    import type { CobaltCurrentTaskItem } from "$lib/types/queen-bee";
+
+    import Skeleton from "$components/misc/Skeleton.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
@@ -7,9 +13,6 @@
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
-    import { downloadFile } from "$lib/download";
-    import type { CobaltQueueItemState } from "$lib/types/queue";
-    import type { CobaltPipelineResultFileType } from "$lib/types/workers";
 
     const itemIcons = {
         video: IconMovie,
@@ -18,13 +21,12 @@
     };
 
     export let id: string;
-    export let mediaType: CobaltPipelineResultFileType;
-    export let filename: string;
-    export let state: CobaltQueueItemState;
-    export let resultFile: File | undefined;
+    export let info: CobaltQueueItem;
+    export let runningWorker: CobaltCurrentTaskItem | undefined;
 
-    // TODO: use a real value
-    const progress = 0;
+    $: state = info.state;
+
+    $: progress = runningWorker?.progress;
 
     const download = (file: File) =>
         downloadFile({
@@ -36,27 +38,47 @@
     <div class="processing-info">
         <div class="file-title">
             <div class="processing-type">
-                <svelte:component this={itemIcons[mediaType]} />
+                <svelte:component this={itemIcons[info.mediaType]} />
             </div>
             <span>
-                {filename}
+                {info.filename}
             </span>
         </div>
         {#if state === "running"}
             <div class="file-progress">
-                <div
-                    class="progress"
-                    style="width: {Math.min(100, progress)}%"
-                ></div>
+                {#if progress?.percentage}
+                    <div
+                        class="progress"
+                        style="width: {Math.min(100, progress?.percentage || 0)}%"
+                    ></div>
+                {:else}
+                    <Skeleton height="6px" width="100%" class="elevated indeterminate-progress" />
+                {/if}
             </div>
         {/if}
-        <div class="file-status">{id}: {state}</div>
+        <div class="file-status">
+            {#if info.state === "done"}
+                done: {info.resultFile?.size} bytes
+            {:else if info.state === "running"}
+                {#if progress && progress.percentage}
+                    processing: {Math.ceil(progress.percentage)}%, {progress.size} bytes
+                {:else if progress && progress.size}
+                    processing: {progress.size}
+                {:else}
+                    processing...
+                {/if}
+            {:else if info.state === "error"}
+                error: {info.errorCode}
+            {:else}
+                queued
+            {/if}
+        </div>
     </div>
     <div class="file-actions">
-        {#if state === "done" && resultFile}
+        {#if info.state === "done" && info.resultFile}
             <button
                 class="action-button"
-                on:click={() => download(resultFile)}
+                on:click={() => download(info.resultFile)}
             >
                 <IconDownload />
             </button>
@@ -112,6 +134,11 @@
     .file-progress .progress {
         height: 6px;
         border-radius: 10px;
+        transition: width 0.1s;
+    }
+
+    .file-progress :global(.indeterminate-progress) {
+        display: block;
     }
 
     .file-progress .progress {

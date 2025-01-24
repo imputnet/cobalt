@@ -1,8 +1,8 @@
 import RemuxWorker from "$lib/workers/remux?worker";
-//import RemoveBgWorker from "$lib/workers/removebg?worker";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 import { itemDone, itemError } from "$lib/state/queen-bee/queue";
+import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
 
 const workerError = (parentId: string, workerId: string, worker: Worker, error: string) => {
     itemError(parentId, workerId, error);
@@ -26,13 +26,43 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
         workerError(parentId, workerId, worker, "internal error");
     };
 
+    // sometimes chrome refuses to start libav wasm,
+    // so we check the health and kill self if it doesn't spawn
+
+    let bumpAttempts = 0;
+    const startCheck = setInterval(() => {
+        bumpAttempts++;
+
+        if (bumpAttempts === 8) {
+            worker.terminate();
+            console.error("worker didn't start after 4 seconds, so it was killed");
+
+            // TODO: proper error code
+            return workerError(parentId, workerId, worker, "worker didn't start");
+        }
+    }, 500);
+
+    let totalDuration: number | null = null;
+
     worker.onmessage = (event) => {
         const eventData = event.data.cobaltRemuxWorker;
         if (!eventData) return;
 
-        console.log(eventData);
+        // temporary debug logging
+        console.log(JSON.stringify(eventData, null, 2));
 
-        // TODO: calculate & use progress again
+        clearInterval(startCheck);
+
+        if (eventData.progress) {
+            if (eventData.progress.duration) {
+                totalDuration = eventData.progress.duration;
+            }
+
+            updateWorkerProgress(workerId, {
+                percentage: totalDuration ? (eventData.progress.durationProcessed / totalDuration) * 100 : 0,
+                size: eventData.progress.size,
+            })
+        }
 
         if (eventData.render) {
             return workerSuccess(
