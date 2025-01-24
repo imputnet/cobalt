@@ -151,6 +151,7 @@
         display: flex;
         flex-direction: row;
         gap: 4px;
+        line-break: anywhere;
     }
 
     .file-status {
