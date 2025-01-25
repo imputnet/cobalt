@@ -7,7 +7,7 @@ export type FileInfo = {
 }
 
 export type RenderParams = {
-    blob: Blob,
+    blob: Blob | File,
     output?: FileInfo,
     args: string[],
 }

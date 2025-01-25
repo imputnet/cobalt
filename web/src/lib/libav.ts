@@ -56,9 +56,14 @@ export default class LibAVWrapper {
         }
     }
 
-    static getExtensionFromType(blob: Blob) {
+    static getExtensionFromType(blob: Blob | File) {
+        const canonicalExtension = blob instanceof File && blob.name.split('.').pop()?.toLowerCase();
         const extensions = mime.getAllExtensions(blob.type);
-        const overrides = ['mp3', 'mov'];
+
+        if (canonicalExtension && extensions?.has(canonicalExtension))
+            return canonicalExtension;
+
+        const overrides = ['mp3', 'mov', 'opus'];
 
         if (!extensions)
             return;
