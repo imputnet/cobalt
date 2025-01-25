@@ -3,6 +3,7 @@
     import { onNavigate } from "$app/navigation";
     import type { SvelteComponent } from "svelte";
 
+    import { currentTasks } from "$lib/state/queen-bee/current-tasks";
     import { clearQueue, queue as readableQueue } from "$lib/state/queen-bee/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
@@ -12,7 +13,6 @@
     import ProcessingQueueStub from "$components/queue/ProcessingQueueStub.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
-    import { currentTasks } from "$lib/state/queen-bee/current-tasks";
 
     let popover: SvelteComponent;
     $: expanded = false;
@@ -27,8 +27,7 @@
         return 0;
     }).reduce((a, b) => a + b) / (100 * queue.length) : 0;
 
-    // TODO: toggle this only when progress is unknown
-    $: indeterminate = false;
+    $: indeterminate = queue.length > 0 && totalProgress === 0;
 
     const popoverAction = async () => {
         expanded = !expanded;
