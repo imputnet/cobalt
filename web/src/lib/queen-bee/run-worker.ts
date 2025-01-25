@@ -1,30 +1,19 @@
 import RemuxWorker from "$lib/workers/remux?worker";
 
-import type { CobaltPipelineItem } from "$lib/types/workers";
-import { itemDone, itemError } from "$lib/state/queen-bee/queue";
+import { itemDone, itemError, queue } from "$lib/state/queen-bee/queue";
 import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
 
-const workerError = (parentId: string, workerId: string, worker: Worker, error: string) => {
-    itemError(parentId, workerId, error);
-    worker.terminate();
-}
+import type { CobaltQueue } from "$lib/types/queue";
+import type { CobaltPipelineItem } from "$lib/types/workers";
 
-const workerSuccess = (parentId: string, workerId: string, worker: Worker, file: File) => {
-    itemDone(parentId, workerId, file);
+const killWorker = (worker: Worker, unsubscribe: () => void, interval: NodeJS.Timeout) => {
+    unsubscribe();
     worker.terminate();
+    clearInterval(interval);
 }
 
 export const runRemuxWorker = async (workerId: string, parentId: string, file: File) => {
     const worker = new RemuxWorker();
-
-    worker.postMessage({ file });
-
-    worker.onerror = (e) => {
-        console.error("remux worker exploded:", e);
-
-        // TODO: proper error code
-        workerError(parentId, workerId, worker, "internal error");
-    };
 
     // sometimes chrome refuses to start libav wasm,
     // so we check the health and kill self if it doesn't spawn
@@ -34,13 +23,31 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
         bumpAttempts++;
 
         if (bumpAttempts === 8) {
-            worker.terminate();
+            killWorker(worker, unsubscribe, startCheck);
             console.error("worker didn't start after 4 seconds, so it was killed");
 
             // TODO: proper error code
-            return workerError(parentId, workerId, worker, "worker didn't start");
+            return itemError(parentId, workerId, "worker didn't start");
         }
     }, 500);
+
+    const unsubscribe = queue.subscribe((queue: CobaltQueue) => {
+        if (!queue[parentId]) {
+            // TODO: remove logging
+            console.log("worker's parent is gone, so it killed itself");
+            killWorker(worker, unsubscribe, startCheck);
+        }
+    });
+
+    worker.postMessage({ file });
+
+    worker.onerror = (e) => {
+        console.error("remux worker exploded:", e);
+        killWorker(worker, unsubscribe, startCheck);
+
+        // TODO: proper error code
+        return itemError(parentId, workerId, "internal error");
+    };
 
     let totalDuration: number | null = null;
 
@@ -48,10 +55,10 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
         const eventData = event.data.cobaltRemuxWorker;
         if (!eventData) return;
 
+        clearInterval(startCheck);
+
         // temporary debug logging
         console.log(JSON.stringify(eventData, null, 2));
-
-        clearInterval(startCheck);
 
         if (eventData.progress) {
             if (eventData.progress.duration) {
@@ -65,10 +72,10 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
         }
 
         if (eventData.render) {
-            return workerSuccess(
+            killWorker(worker, unsubscribe, startCheck);
+            return itemDone(
                 parentId,
                 workerId,
-                worker,
                 new File([eventData.render], eventData.filename, {
                     type: eventData.render.type,
                 })
@@ -76,7 +83,8 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
         }
 
         if (eventData.error) {
-            return workerError(parentId, workerId, worker, eventData.error);
+            killWorker(worker, unsubscribe, startCheck);
+            return itemError(parentId, workerId, eventData.error);
         }
     };
 }
