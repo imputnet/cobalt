@@ -14,7 +14,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -24,6 +24,15 @@
         "expected": {
             "code": 200,
             "status": "picker"
+        }
+    },
+    {
+        "name": "giphy gif",
+        "url": "https://www.threads.net/@zjy4fun/post/DDvzVsgpZNQ",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
         }
     }
 ]

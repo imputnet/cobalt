@@ -13,7 +13,8 @@ const VALID_SERVICES = new Set([
     'reddit',
     'twitter',
     'youtube',
-    'youtube_oauth'
+    'youtube_oauth',
+    'threads'
 ]);
 
 const invalidCookies = {};

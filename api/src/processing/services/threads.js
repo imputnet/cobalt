@@ -1,5 +1,6 @@
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
+import { genericUserAgent } from "../../config.js";
 
 const commonHeaders = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -17,10 +18,10 @@ const commonHeaders = {
     "Sec-Fetch-Site": "same-origin",
     "Sec-Gpc": "1",
     "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    "User-Agent": genericUserAgent,
 };
 
-const DATA_REGEX = /<script type="application\/json" {2}data-content-len="\d+" data-sjs>({"require":\[\["ScheduledServerJS","handle",null,\[{"__bbox":{"require":\[\["RelayPrefetchedStreamCache(?:(?:@|\\u0040)[0-9a-f]{32})?","next",\[],\["adp_BarcelonaPostPageQueryRelayPreloader_[0-9a-f]{23}",[^\n]+})<\/script>\n/;
+const DATA_REGEX = /<script type="application\/json" {2}data-content-len="\d+" data-sjs>({"require":\[\["ScheduledServerJS","handle",null,\[{"__bbox":{"require":\[\["RelayPrefetchedStreamCache(?:(?:@|\\u0040)[0-9a-f]{32})?","next",\[],\["adp_BarcelonaPostPage(?:Direct)?QueryRelayPreloader_[0-9a-f]{23}",[^\n]+})<\/script>\n/;
 
 export default async function({ user, id, quality, alwaysProxy, dispatcher }) {
     const cookie = getCookie("threads");
@@ -114,6 +115,26 @@ export default async function({ user, id, quality, alwaysProxy, dispatcher }) {
                     thumb: thumbProxy
                 }
             })
+        }
+    }
+
+    // GIPHY GIF
+    if (post.media_type === 19) {
+        if (!post.giphy_media_info?.images?.fixed_height?.webp) {
+            return { error: "fetch.empty" };
+        }
+
+        let giphyUrl = post.giphy_media_info.images.fixed_height.webp;
+
+        // In a regular browser (probably through the Accept header), the GIPHY link shows an HTML page with an ad that shows the GIF
+        // I'd rather have the GIF directly to save bandwidth and avoid ads.
+        let giphyId = giphyUrl.split("/")?.[5];
+        if (giphyId && !giphyId.includes(".")) giphyUrl = `https://i.giphy.com/${giphyId}.webp`;
+
+        return {
+            urls: giphyUrl,
+            filename: `${filenameBase}.webp`,
+            isPhoto: true
         }
     }
 
