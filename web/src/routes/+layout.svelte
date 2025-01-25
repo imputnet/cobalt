@@ -111,6 +111,7 @@
         --gray: #75757e;
 
         --red: #ed2236;
+        --medium-red: #ce3030;
         --dark-red: #d61c2e;
         --green: #51cf5e;
         --blue: #2f8af9;

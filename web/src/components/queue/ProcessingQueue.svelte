@@ -1,11 +1,9 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
+    import type { SvelteComponent } from "svelte";
 
     import { clearQueue, queue } from "$lib/state/queen-bee/queue";
-
-    import type { SvelteComponent } from "svelte";
-    import type { CobaltQueueItem } from "$lib/types/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
@@ -19,15 +17,11 @@
     let popover: SvelteComponent;
     $: expanded = false;
 
-    $: queueItems = Object.entries($queue) as [
-        id: string,
-        item: CobaltQueueItem,
-    ][];
-
+    $: queueItems = Object.entries($queue);
     $: queueLength = Object.keys($queue).length;
-    $: completedQueueItems = queueItems.filter(([id, item]) => {
-        return item.state === "done";
-    }).length;
+
+    $: cleanQueueLength = queueItems.filter(([id, item]) => item.state !== "error").length;
+    $: completedQueueItems = queueItems.filter(([id, item]) => item.state === "done").length;
 
     // TODO: toggle this only when progress is unknown
     $: indeterminate = false;
@@ -43,7 +37,7 @@
 
 <div id="processing-queue" class:expanded>
     <ProcessingStatus
-        progress={(completedQueueItems / queueLength) * 100}
+        progress={(completedQueueItems / cleanQueueLength) * 100}
         {indeterminate}
         expandAction={popover?.showPopover}
     />
@@ -140,7 +134,7 @@
     }
 
     .clear-button {
-        color: var(--red);
+        color: var(--medium-red);
     }
 
     #processing-list {

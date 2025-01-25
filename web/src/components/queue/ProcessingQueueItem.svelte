@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
     import { formatFileSize } from "$lib/util";
     import { downloadFile } from "$lib/download";
     import { removeItem } from "$lib/state/queen-bee/queue";
@@ -9,7 +10,9 @@
     import Skeleton from "$components/misc/Skeleton.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
+    import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
+    import IconExclamationCircle from "@tabler/icons-svelte/IconExclamationCircle.svelte";
 
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
@@ -25,8 +28,6 @@
     export let info: CobaltQueueItem;
     export let runningWorker: CobaltCurrentTaskItem | undefined;
 
-    $: state = info.state;
-
     $: progress = runningWorker?.progress;
     $: size = formatFileSize(runningWorker?.progress?.size);
 
@@ -38,44 +39,63 @@
 
 <div class="processing-item">
     <div class="processing-info">
+
         <div class="file-title">
             <div class="processing-type">
                 <svelte:component this={itemIcons[info.mediaType]} />
             </div>
-            <span>
+            <span class="filename">
                 {info.filename}
             </span>
         </div>
-        {#if state === "running"}
+
+        {#if info.state === "running"}
             <div class="file-progress">
                 {#if progress?.percentage}
                     <div
                         class="progress"
-                        style="width: {Math.min(100, progress?.percentage || 0)}%"
+                        style="width: {Math.min(
+                            100,
+                            progress?.percentage || 0
+                        )}%"
                     ></div>
                 {:else}
-                    <Skeleton height="6px" width="100%" class="elevated indeterminate-progress" />
+                    <Skeleton
+                        height="6px"
+                        width="100%"
+                        class="elevated indeterminate-progress"
+                    />
                 {/if}
             </div>
         {/if}
-        <div class="file-status">
+
+        <div class="file-status {info.state}">
             {#if info.state === "done"}
-                done: {formatFileSize(info.resultFile?.size)}
-            {:else if info.state === "running"}
-                {#if progress && progress.percentage}
-                    processing: {Math.ceil(progress.percentage)}%, {size}
-                {:else if progress && size}
-                    processing: {size}
+                <IconCheck /> {formatFileSize(info.resultFile?.size)}
+            {/if}
+
+            {#if info.state === "running"}
+                {#if runningWorker && progress && progress.percentage}
+                    {$t(`queue.state.running.${runningWorker.type}`)}: {Math.ceil(
+                        progress.percentage
+                    )}%, {size}
+                {:else if runningWorker && progress && size}
+                    {$t(`queue.state.running.${runningWorker.type}`)}: {size}
                 {:else}
-                    processing...
+                    {$t("queue.state.starting")}
                 {/if}
-            {:else if info.state === "error"}
-                error: {info.errorCode}
-            {:else}
-                queued
+            {/if}
+
+            {#if info.state === "error"}
+                <IconExclamationCircle /> {info.errorCode}
+            {/if}
+
+            {#if info.state === "waiting"}
+                {$t("queue.state.waiting")}
             {/if}
         </div>
     </div>
+
     <div class="file-actions">
         {#if info.state === "done" && info.resultFile}
             <button
@@ -154,10 +174,29 @@
         line-break: anywhere;
     }
 
+    .filename {
+        overflow: hidden;
+        white-space: pre;
+        text-overflow: ellipsis;
+    }
+
     .file-status {
         font-size: 12px;
         color: var(--gray);
         line-break: anywhere;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .file-status.error {
+        color: var(--medium-red);
+    }
+
+    .file-status :global(svg) {
+        width: 16px;
+        height: 16px;
+        stroke-width: 2px;
     }
 
     .file-actions {

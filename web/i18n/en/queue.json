@@ -2,5 +2,9 @@
     "title": "processing queue",
     "stub": "nothing in the queue yet, only two of us.\ntry {{ value }} something!",
     "stub.download": "downloading",
-    "stub.remux": "remuxing"
+    "stub.remux": "remuxing",
+
+    "state.waiting": "queued",
+    "state.starting": "starting...",
+    "state.running.remux": "remuxing"
 }

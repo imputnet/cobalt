@@ -1,6 +1,7 @@
-import type { CobaltWorkerProgress } from "$lib/types/workers";
+import type { CobaltWorkerProgress, CobaltWorkerType } from "$lib/types/workers";
 
 export type CobaltCurrentTaskItem = {
+    type: CobaltWorkerType,
     parentId: string,
     progress?: CobaltWorkerProgress,
 }

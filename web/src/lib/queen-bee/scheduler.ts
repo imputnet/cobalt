@@ -24,6 +24,7 @@ export const checkTasks = () => {
                 const pipelineItem = task.pipeline[i];
 
                 addWorkerToQueue(pipelineItem.workerId, {
+                    type: pipelineItem.worker,
                     parentId: task.id,
                 });
 
