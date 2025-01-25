@@ -48,6 +48,10 @@
         transition: box-shadow 0.2s, background-color 0.2s, transform 0.2s;
     }
 
+    #processing-status:focus-visible {
+        box-shadow: 0 0 0 2px var(--white) !important;
+    }
+
     #processing-status:active {
         transform: scale(0.9);
     }
