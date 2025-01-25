@@ -3,7 +3,7 @@
     import { onNavigate } from "$app/navigation";
     import type { SvelteComponent } from "svelte";
 
-    import { clearQueue, queue } from "$lib/state/queen-bee/queue";
+    import { clearQueue, queue as readableQueue } from "$lib/state/queen-bee/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
@@ -17,11 +17,15 @@
     let popover: SvelteComponent;
     $: expanded = false;
 
-    $: queueItems = Object.entries($queue);
-    $: queueLength = Object.keys($queue).length;
+    $: queue = Object.entries($readableQueue);
 
-    $: cleanQueueLength = queueItems.filter(([id, item]) => item.state !== "error").length;
-    $: completedQueueItems = queueItems.filter(([id, item]) => item.state === "done").length;
+    $: totalProgress = queue.length ? queue.map(([, item]) => {
+        if (item.state === "done" || item.state === "error")
+            return 100;
+        else if (item.state === "running")
+            return $currentTasks[item.runningWorker]?.progress?.percentage || 0;
+        return 0;
+    }).reduce((a, b) => a + b) / (100 * queue.length) : 0;
 
     // TODO: toggle this only when progress is unknown
     $: indeterminate = false;
@@ -37,7 +41,7 @@
 
 <div id="processing-queue" class:expanded>
     <ProcessingStatus
-        progress={(completedQueueItems / cleanQueueLength) * 100}
+        progress={totalProgress * 100}
         {indeterminate}
         expandAction={popover?.showPopover}
     />
@@ -57,7 +61,7 @@
                 nolink
             />
             <div class="header-buttons">
-                {#if queueLength > 0}
+                {#if queue.length}
                     <button class="clear-button" on:click={clearQueue}>
                         <IconX />
                         {$t("button.clear")}
@@ -66,7 +70,7 @@
             </div>
         </div>
         <div id="processing-list">
-            {#each queueItems as [id, item]}
+            {#each queue as [id, item]}
                 <ProcessingQueueItem
                     {id}
                     info={item}
@@ -75,7 +79,7 @@
                     }
                 />
             {/each}
-            {#if queueLength === 0}
+            {#if queue.length === 0}
                 <ProcessingQueueStub />
             {/if}
         </div>
