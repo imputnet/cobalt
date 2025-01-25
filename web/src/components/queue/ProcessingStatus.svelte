@@ -45,7 +45,11 @@
             var(--button-box-shadow),
             var(--processing-status-glow);
 
-        transition: box-shadow 0.2s, background-color 0.2s;
+        transition: box-shadow 0.2s, background-color 0.2s, transform 0.2s;
+    }
+
+    #processing-status:active {
+        transform: scale(0.9);
     }
 
     #processing-status.completed {
