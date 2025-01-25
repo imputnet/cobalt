@@ -3,6 +3,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import basicSSL from "@vitejs/plugin-basic-ssl";
 import { glob } from "glob";
 import mime from "mime";
+import { createSitemap } from 'svelte-sitemap/src/index'
 
 import { cp, readdir, mkdir } from "node:fs/promises";
 import { createReadStream } from "node:fs";
@@ -60,12 +61,28 @@ const enableCOEP: PluginOption = {
     }
 };
 
+const generateSitemap: PluginOption = {
+    name: "generate-sitemap",
+    async writeBundle(bundle) {
+        if (!process.env.WEB_HOST || !bundle.dir?.endsWith('server')) {
+            return;
+        }
+
+        await createSitemap(`https://${process.env.WEB_HOST}`, {
+            changeFreq: 'monthly',
+            outDir: '.svelte-kit/output/prerendered/pages',
+            resetTime: true
+        });
+    }
+}
+
 export default defineConfig({
     plugins: [
         basicSSL(),
         sveltekit(),
         enableCOEP,
-        exposeLibAV
+        exposeLibAV,
+        generateSitemap
     ],
     build: {
         rollupOptions: {

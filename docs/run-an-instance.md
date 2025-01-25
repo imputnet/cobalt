@@ -1,4 +1,4 @@
-# how to host a cobalt instance yourself
+# how to run a cobalt instance
 ## using docker compose and package from github (recommended)
 to run the cobalt docker package, you need to have `docker` and `docker-compose` installed and configured.
 
@@ -54,8 +54,7 @@ sudo apt install nscd
 sudo service nscd start
 ```
 
-## list of all environment variables
-### variables for api
+## list of environment variables for api
 | variable name         | default   | example                 | description |
 |:----------------------|:----------|:------------------------|:------------|
 | `API_PORT`            | `9000`    | `9000`                  | changes port from which api server is accessible. |
@@ -72,10 +71,19 @@ sudo service nscd start
 | `RATELIMIT_MAX`       | `20`      | `30`                    | max requests per time window. requests above this amount will be blocked for the rate limit window duration. |
 | `DURATION_LIMIT`      | `10800`   | `18000`                 | max allowed video duration in **seconds**. |
 | `TUNNEL_LIFESPAN`     | `90`      | `120`                   | the duration for which tunnel info is stored in ram, **in seconds**. |
+| `TURNSTILE_SITEKEY`   | ➖        | `1x00000000000000000000BB` | [cloudflare turnstile](https://www.cloudflare.com/products/turnstile/) sitekey used by browser clients to request a challenge.\*\* |
+| `TURNSTILE_SECRET`    | ➖        | `1x0000000000000000000000000000000AA` | [cloudflare turnstile](https://www.cloudflare.com/products/turnstile/) secret used by cobalt to verify the client successfully solved the challenge.\*\* |
+| `JWT_SECRET`          | ➖        | ➖                      | the secret used for issuing JWT tokens for request authentication. to choose a value, generate a random, secure, long string (ideally >=16 characters).\*\* |
+| `JWT_EXPIRY`          | `120`     | `240`                  | the duration of how long a cobalt-issued JWT token will remain valid, in seconds. |
 | `API_KEY_URL`         | ➖        | `file://keys.json`      | the location of the api key database. for loading API keys, cobalt supports HTTP(S) urls, or local files by specifying a local path using the `file://` protocol. see the "api key file format" below for more details.  |
 | `API_AUTH_REQUIRED`   | ➖        | `1`                     | when set to `1`, the user always needs to be authenticated in some way before they can access the API (either via an api key or via turnstile, if enabled). |
+| `API_REDIS_URL`       | ➖        | `redis://localhost:6379` | when set, cobalt uses redis instead of internal memory for the tunnel cache. |
+| `API_INSTANCE_COUNT`  | ➖        | `2`                     | supported only on Linux and node.js `>=23.1.0`. when configured, cobalt will spawn multiple sub-instances amongst which requests will be balanced. |
+| `DISABLED_SERVICES`   | ➖        | `bilibili,youtube`       | comma-separated list which disables certain services from being used. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
+
+\*\* in order to enable turnstile bot protection, all three **`TURNSTILE_SITEKEY`, `TURNSTILE_SECRET` and `JWT_SECRET`** need to be set.
 
 #### FREEBIND_CIDR
 setting a `FREEBIND_CIDR` allows cobalt to pick a random IP for every download and use it for all
@@ -83,7 +91,7 @@ requests it makes for that particular download. to use freebind in cobalt, you n
 in a docker container, you also need to set the `API_LISTEN_ADDRESS` env to `127.0.0.1`, and set
 `network_mode` for the container to `host`.
 
-#### api key file format
+## api key file format
 the file is a JSON-serialized object with the following structure:
 ```typescript
 

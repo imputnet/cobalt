@@ -6,7 +6,8 @@ export type DialogButton = {
     color?: "red",
     main: boolean,
     timeout?: number, // milliseconds
-    action: () => unknown | Promise<unknown>
+    action: () => unknown | Promise<unknown>,
+    link?: string
 }
 
 export type SmallDialogIcons = "warn-red";

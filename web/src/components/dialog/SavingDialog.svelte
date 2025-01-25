@@ -144,6 +144,10 @@
         gap: var(--padding);
     }
 
+    .dialog-inner-container:focus-visible {
+        box-shadow: none;
+    }
+
     .dialog-inner-container {
         overflow-y: scroll;
         gap: 8px;

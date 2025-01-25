@@ -3,8 +3,10 @@
 
     import { t } from "$lib/i18n/translations";
 
-    export let tabName: string;
-    export let tabLink: string;
+    export let name: string;
+    export let path: string;
+    export let icon: ConstructorOfATypedSvelteComponent;
+
     export let beta = false;
 
     const firstTabPage = ["save", "remux", "settings"];
@@ -12,14 +14,14 @@
     let tab: HTMLElement;
 
     $: currentTab = $page.url.pathname.split("/")[1];
-    $: baseTabPath = tabLink.split("/")[1];
+    $: baseTabPath = path.split("/")[1];
 
     $: isTabActive = currentTab === baseTabPath;
 
     const showTab = (e: HTMLElement) => {
         if (e) {
             e.scrollIntoView({
-                inline: firstTabPage.includes(tabName) ? "end" : "start",
+                inline: firstTabPage.includes(name) ? "end" : "start",
                 block: "nearest",
                 behavior: "smooth",
             });
@@ -32,10 +34,10 @@
 </script>
 
 <a
-    id="sidebar-tab-{tabName}"
+    id="sidebar-tab-{name}"
     class="sidebar-tab"
     class:active={isTabActive}
-    href={tabLink}
+    href={path}
     bind:this={tab}
     on:focus={() => showTab(tab)}
     role="tab"
@@ -44,8 +46,9 @@
     {#if beta}
         <div class="beta-sign" aria-label={$t("general.beta")}>β</div>
     {/if}
-    <slot></slot>
-    {$t(`tabs.${tabName}`)}
+
+    <svelte:component this={icon} />
+    {$t(`tabs.${name}`)}
 </a>
 
 <style>

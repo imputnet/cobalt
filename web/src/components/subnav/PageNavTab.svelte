@@ -3,25 +3,26 @@
 
     import IconChevronRight from "@tabler/icons-svelte/IconChevronRight.svelte";
 
-    export let tabPath: string;
-    export let tabTitle: string;
+    export let path: string;
+    export let title: string;
+    export let icon: ConstructorOfATypedSvelteComponent;
     export let iconColor: "gray" | "blue" | "green" = "gray";
 
-    $: isActive = $page.url.pathname === tabPath;
+    $: isActive = $page.url.pathname === path;
 </script>
 
 <a
     class="subnav-tab"
-    href={tabPath}
+    href={path}
     class:active={isActive}
     role="button"
 >
     <div class="subnav-tab-left">
         <div class="tab-icon" style="background: var(--{iconColor})">
-            <slot></slot>
+            <svelte:component this={icon} />
         </div>
         <div class="subnav-tab-text">
-            {tabTitle}
+            {title}
         </div>
     </div>
     <div class="subnav-tab-chevron">
@@ -80,6 +81,10 @@
         stroke: var(--gray);
         height: 18px;
         width: 18px;
+    }
+
+    .subnav-tab-chevron:dir(rtl) {
+        transform: scale(-1, 1);
     }
 
     @media (hover: hover) {

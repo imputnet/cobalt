@@ -1,9 +1,44 @@
 # cobalt api documentation
 this document provides info about methods and acceptable variables for all cobalt api requests.
 
-> if you are looking for the documentation for the old (7.x) api, you can find
-> it [here](https://github.com/imputnet/cobalt/blob/7/docs/api.md)
-<!-- TODO: authorization -->
+> [!IMPORTANT]
+> hosted api instances (such as `api.cobalt.tools`) use bot protection and are **not** intended to be used in other projects without explicit permission. if you want to access the cobalt api reliably, you should [host your own instance](/docs/run-an-instance.md) or ask an instance owner for access.
+
+## authentication
+an api instance may be configured to require you to authenticate yourself.
+if this is the case, you will typically receive an [error response](#error-response)
+with a **`api.auth.<method>.missing`** code, which tells you that a particular method
+of authentication is required.
+
+authentication is done by passing the `Authorization` header, containing
+the authentication scheme and the token:
+```
+Authorization: <scheme> <token>
+```
+
+currently, cobalt supports two ways of authentication. an instance can
+choose to configure both, or neither:
+- [`Api-Key`](#api-key-authentication)
+- [`Bearer`](#bearer-authentication)
+
+### api-key authentication
+the api key authentication is the most straightforward. the instance owner
+will assign you an api key which you can then use to authenticate like so:
+```
+Authorization: Api-Key aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+```
+
+if you are an instance owner and wish to configure api key authentication,
+see the [instance](run-an-instance.md#api-key-file-format) documentation!
+
+### bearer authentication
+the cobalt server may be configured to issue JWT bearers, which are short-lived
+tokens intended for use by regular users (e.g. after passing a challenge).
+currently, cobalt can issue tokens for successfully solved [turnstile](run-an-instance.md#list-of-all-environment-variables)
+challenge, if the instance has turnstile configured. the resulting token is passed like so:
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
 
 ## POST: `/`
 cobalt's main processing endpoint.
@@ -11,9 +46,10 @@ cobalt's main processing endpoint.
 request body type: `application/json`
 response body type: `application/json`
 
-```
-⚠️ you must include Accept and Content-Type headers with every `POST /` request.
+> [!IMPORTANT]
+> you must include `Accept` and `Content-Type` headers with every `POST /` request.
 
+```
 Accept: application/json
 Content-Type: application/json
 ```
@@ -28,13 +64,13 @@ Content-Type: application/json
 | `filenameStyle`              | `string`  | `classic / pretty / basic / nerdy` | `classic` | changes the way files are named. previews can be seen in the web app.           |
 | `downloadMode`               | `string`  | `auto / audio / mute`              | `auto`    | `audio` downloads only the audio, `mute` skips the audio track in videos.       |
 | `youtubeVideoCodec`          | `string`  | `h264 / av1 / vp9`                 | `h264`    | `h264` is recommended for phones.                                               |
-| `youtubeDubLang`             | `string`  | `en / ru / cs / ja / ...`          | --        | specifies the language of audio to download, when the youtube video is dubbed   |
-| `youtubeDubBrowserLang`      | `boolean` | `true / false`                     | `false`   | uses value from the Accept-Language header for `youtubeDubLang`.                |
+| `youtubeDubLang`             | `string`  | `en / ru / cs / ja / es-US / ...`  | --        | specifies the language of audio to download when a youtube video is dubbed.     |
 | `alwaysProxy`                | `boolean` | `true / false`                     | `false`   | tunnels all downloads through the processing server, even when not necessary.   |
 | `disableMetadata`            | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                      |
 | `tiktokFullAudio`            | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                      |
-| `tiktokH265`                 | `boolean` | `true / false`                     | `false`   | changes whether 1080p h265 videos are preferred or not.                         |
+| `tiktokH265`                 | `boolean` | `true / false`                     | `false`   | allows h265 videos when enabled. applies to tiktok & xiaohongshu.               |
 | `twitterGif`                 | `boolean` | `true / false`                     | `true`    | changes whether twitter gifs are converted to .gif                              |
+| `youtubeHLS`                 | `boolean` | `true / false`                     | `false`   | specifies whether to use HLS for downloading video or audio from youtube.       |
 
 ### response
 the response will always be a JSON object containing the `status` key, which will be one of:
@@ -108,3 +144,18 @@ response body type: `application/json`
 | `commit`    | `string` | commit hash       |
 | `branch`    | `string` | git branch        |
 | `remote`    | `string` | git remote        |
+
+## POST: `/session`
+
+used for generating JWT tokens, if enabled. currently, cobalt only supports
+generating tokens when a [turnstile](run-an-instance.md#list-of-all-environment-variables) challenge solution
+is submitted by the client.
+
+the turnstile challenge response is submitted via the `cf-turnstile-response` header.
+### response body
+| key             | type       | description                                            |
+|:----------------|:-----------|:-------------------------------------------------------|
+| `token`         | `string`   | a `Bearer` token used for later request authentication |
+| `exp`           | `number`   | number in seconds indicating the token lifetime        |
+
+on failure, an [error response](#error-response) is returned.

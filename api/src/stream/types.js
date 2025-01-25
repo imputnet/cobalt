@@ -1,10 +1,9 @@
-import { request } from "undici";
+import { Agent, request } from "undici";
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
-import { metadataManager } from "../misc/utils.js";
 import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
 import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
@@ -14,6 +13,29 @@ const ffmpegArgs = {
     mp4: ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
     m4a: ["-movflags", "frag_keyframe+empty_moov"],
     gif: ["-vf", "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse", "-loop", "0"]
+}
+
+const metadataTags = [
+    "album",
+    "copyright",
+    "title",
+    "artist",
+    "track",
+    "date",
+];
+
+const convertMetadataToFFmpeg = (metadata) => {
+    let args = [];
+
+    for (const [ name, value ] of Object.entries(metadata)) {
+        if (metadataTags.includes(name)) {
+            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`);
+        } else {
+            throw `${name} metadata tag is not supported.`;
+        }
+    }
+
+    return args;
 }
 
 const toRawHeaders = (headers) => {
@@ -38,6 +60,8 @@ const getCommand = (args) => {
     return [ffmpeg, args]
 }
 
+const defaultAgent = new Agent();
+
 const proxy = async (streamInfo, res) => {
     const abortController = new AbortController();
     const shutdown = () => (
@@ -56,7 +80,8 @@ const proxy = async (streamInfo, res) => {
                 Range: streamInfo.range
             },
             signal: abortController.signal,
-            maxRedirections: 16
+            maxRedirections: 16,
+            dispatcher: defaultAgent,
         });
 
         res.status(statusCode);
@@ -101,12 +126,16 @@ const merge = (streamInfo, res) => {
 
         args = args.concat(ffmpegArgs[format]);
 
-        if (hlsExceptions.includes(streamInfo.service)) {
-            args.push('-bsf:a', 'aac_adtstoasc')
+        if (hlsExceptions.includes(streamInfo.service) && streamInfo.isHLS) {
+            if (streamInfo.service === "youtube" && format === "webm") {
+                args.push('-c:a', 'libopus');
+            } else {
+                args.push('-c:a', 'aac', '-bsf:a', 'aac_adtstoasc');
+            }
         }
 
         if (streamInfo.metadata) {
-            args = args.concat(metadataManager(streamInfo.metadata))
+            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata))
         }
 
         args.push('-f', format, 'pipe:3');
@@ -238,7 +267,7 @@ const convertAudio = (streamInfo, res) => {
         }
 
         if (streamInfo.metadata) {
-            args = args.concat(metadataManager(streamInfo.metadata))
+            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata))
         }
 
         args.push('-f', streamInfo.audioFormat === "m4a" ? "ipod" : streamInfo.audioFormat, 'pipe:3');

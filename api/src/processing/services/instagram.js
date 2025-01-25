@@ -177,7 +177,7 @@ export default function(obj) {
                     if (alwaysProxy) proxyFile = createStream({
                         service: "instagram",
                         type: "proxy",
-                        u: url,
+                        url,
                         filename: `instagram_${id}_${i + 1}.${itemExt}`
                     });
 
@@ -189,7 +189,7 @@ export default function(obj) {
                         thumb: createStream({
                             service: "instagram",
                             type: "proxy",
-                            u: e.node?.display_url,
+                            url: e.node?.display_url,
                             filename: `instagram_${id}_${i + 1}.jpg`
                         })
                     }
@@ -230,7 +230,7 @@ export default function(obj) {
                     if (alwaysProxy) proxyFile = createStream({
                         service: "instagram",
                         type: "proxy",
-                        u: url,
+                        url,
                         filename: `instagram_${id}_${i + 1}.${itemExt}`
                     });
 
@@ -242,7 +242,7 @@ export default function(obj) {
                         thumb: createStream({
                             service: "instagram",
                             type: "proxy",
-                            u: imageUrl,
+                            url: imageUrl,
                             filename: `instagram_${id}_${i + 1}.jpg`
                         })
                     }
@@ -266,6 +266,7 @@ export default function(obj) {
     }
 
     async function getPost(id, alwaysProxy) {
+        const hasData = (data) => data && data.gql_data !== null;
         let data, result;
         try {
             const cookie = getCookie('instagram');
@@ -282,16 +283,16 @@ export default function(obj) {
             if (media_id && token) data = await requestMobileApi(media_id, { token });
 
             // mobile api (no cookie, cookie)
-            if (media_id && !data) data = await requestMobileApi(media_id);
-            if (media_id && cookie && !data) data = await requestMobileApi(media_id, { cookie });
+            if (media_id && !hasData(data)) data = await requestMobileApi(media_id);
+            if (media_id && cookie && !hasData(data)) data = await requestMobileApi(media_id, { cookie });
 
             // html embed (no cookie, cookie)
-            if (!data) data = await requestHTML(id);
-            if (!data && cookie) data = await requestHTML(id, cookie);
+            if (!hasData(data)) data = await requestHTML(id);
+            if (!hasData(data) && cookie) data = await requestHTML(id, cookie);
 
             // web app graphql api (no cookie, cookie)
-            if (!data) data = await requestGQL(id);
-            if (!data && cookie) data = await requestGQL(id, cookie);
+            if (!hasData(data)) data = await requestGQL(id);
+            if (!hasData(data) && cookie) data = await requestGQL(id, cookie);
         } catch {}
 
         if (!data) return { error: "fetch.fail" };

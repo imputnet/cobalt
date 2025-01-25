@@ -1,14 +1,18 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
+    import { getServerInfo } from "$lib/api/server-info";
+    import cachedInfo from "$lib/state/server-info";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
     import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
 
     let services: string[] = [];
 
+    let popover: HTMLDivElement;
+
     $: expanded = false;
     $: loaded = false;
+    $: renderPopover = false;
 
     const loadInfo = async () => {
         await getServerInfo();
@@ -18,18 +22,34 @@
             services = $cachedInfo.info.cobalt.services;
         }
     };
+
+    const popoverAction = async () => {
+        expanded = !expanded;
+        if (expanded && services.length === 0) {
+            await loadInfo();
+        }
+        if (expanded) {
+            popover.focus();
+        }
+    }
+
+    const showPopover = async () => {
+        const timeout = !renderPopover;
+        renderPopover = true;
+
+        // 10ms delay to let the popover render for the first time
+        if (timeout) {
+            setTimeout(popoverAction, 10);
+        } else {
+            await popoverAction();
+        }
+    };
 </script>
 
-<div id="supported-services">
+<div id="supported-services" class:expanded>
     <button
         id="services-button"
-        class:expanded
-        on:click={async () => {
-            expanded = !expanded;
-            if (expanded && services.length === 0) {
-                await loadInfo();
-            }
-        }}
+        on:click={showPopover}
         aria-label={$t(`save.services.title_${expanded ? "hide" : "show"}`)}
     >
         <div class="expand-icon">
@@ -38,26 +58,33 @@
         <span class="title">{$t("save.services.title")}</span>
     </button>
 
-    <div id="services-popover" class:expanded>
-        <div id="services-container">
-            {#if loaded}
-                {#each services as service}
-                    <div class="service-item">{service}</div>
-                {/each}
-            {:else}
-                {#each { length: 17 } as _}
-                    <Skeleton
-                        class="elevated"
-                        width={Math.random() * 44 + 50 + "px"}
-                        height="24.5px"
-                    />
-                {/each}
-            {/if}
+    {#if renderPopover}
+        <div id="services-popover">
+            <div
+                id="services-container"
+                bind:this={popover}
+                tabindex="-1"
+                data-focus-ring-hidden
+            >
+                {#if loaded}
+                    {#each services as service}
+                        <div class="service-item">{service}</div>
+                    {/each}
+                {:else}
+                    {#each { length: 17 } as _}
+                        <Skeleton
+                            class="elevated"
+                            width={Math.random() * 44 + 50 + "px"}
+                            height="24.5px"
+                        />
+                    {/each}
+                {/if}
+            </div>
+            <div id="services-disclaimer" class="subtext">
+                {$t("save.services.disclaimer")}
+            </div>
         </div>
-        <div id="services-disclaimer" class="subtext">
-            {$t("save.services.disclaimer")}
-        </div>
-    </div>
+    {/if}
 </div>
 
 <style>
@@ -73,24 +100,29 @@
     #services-popover {
         display: flex;
         flex-direction: column;
-        transition: transform 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99);
         border-radius: 18px;
         background: var(--button);
         box-shadow:
             var(--button-box-shadow),
-            0 0 10px 10px var(--button-stroke);
+            0 0 10px 10px var(--popover-glow);
 
-        transform: scale(0);
-        transform-origin: top center;
         position: relative;
-
         padding: 12px;
         gap: 6px;
         top: 6px;
+
+        opacity: 0;
+        transform: scale(0);
+        transform-origin: top center;
+
+        transition:
+            transform 0.3s cubic-bezier(0.53, 0.05, 0.23, 1.15),
+            opacity 0.25s cubic-bezier(0.53, 0.05, 0.23, 0.99);
     }
 
-    #services-popover.expanded {
+    .expanded #services-popover {
         transform: scale(1);
+        opacity: 1;
     }
 
     #services-button {

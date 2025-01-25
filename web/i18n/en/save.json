@@ -19,5 +19,7 @@
     "tutorial.step.3": "select the respective shortcut in the share sheet.",
     "tutorial.outro": "these shortcuts will work only from the cobalt app, sharing links from other apps will not work.",
     "tutorial.shortcut.photos": "to photos",
-    "tutorial.shortcut.files": "to files"
+    "tutorial.shortcut.files": "to files",
+
+    "label.community_instance": "community instance"
 }

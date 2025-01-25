@@ -23,43 +23,38 @@
     <svelte:fragment slot="navigation">
         <PageNavSection>
             <PageNavTab
-                tabPath="/about/general"
-                tabTitle={$t("about.page.general")}
+                path="/about/general"
+                title={$t("about.page.general")}
+                icon={IconComet}
                 iconColor="blue"
-            >
-                <IconComet />
-            </PageNavTab>
+            />
             <PageNavTab
-                tabPath="/about/community"
-                tabTitle={$t("about.page.community")}
+                path="/about/community"
+                title={$t("about.page.community")}
+                icon={IconUsersGroup}
                 iconColor="green"
-            >
-                <IconUsersGroup />
-            </PageNavTab>
+            />
         </PageNavSection>
 
         <PageNavSection>
             <PageNavTab
-                tabPath="/about/terms"
-                tabTitle={$t("about.page.terms")}
+                path="/about/terms"
+                title={$t("about.page.terms")}
+                icon={IconChecklist}
                 iconColor="gray"
-            >
-                <IconChecklist />
-            </PageNavTab>
+            />
             <PageNavTab
-                tabPath="/about/privacy"
-                tabTitle={$t("about.page.privacy")}
+                path="/about/privacy"
+                title={$t("about.page.privacy")}
+                icon={IconLock}
                 iconColor="gray"
-            >
-                <IconLock />
-            </PageNavTab>
+            />
             <PageNavTab
-                tabPath="/about/credits"
-                tabTitle={$t("about.page.credits")}
+                path="/about/credits"
+                title={$t("about.page.credits")}
+                icon={IconLicense}
                 iconColor="gray"
-            >
-                <IconLicense />
-            </PageNavTab>
+            />
         </PageNavSection>
     </svelte:fragment>
 

@@ -1,7 +1,8 @@
 import { env } from "../config.js";
 import { readFile } from "node:fs/promises";
-import { Yellow } from "../misc/console-text.js";
+import { Green, Yellow } from "../misc/console-text.js";
 import ip from "ipaddr.js";
+import * as cluster from "../misc/cluster.js";
 
 // this function is a modified variation of code
 // from https://stackoverflow.com/a/32402438/14855621
@@ -99,7 +100,9 @@ const formatKeys = (keyData) => {
         if (data.ips) {
             formatted[key].ips = data.ips.map(addr => {
                 if (ip.isValid(addr)) {
-                    return [ ip.parse(addr), 32 ];
+                    const parsed = ip.parse(addr);
+                    const range = parsed.kind() === 'ipv6' ? 128 : 32;
+                    return [ parsed, range ];
                 }
 
                 return ip.parseCIDR(addr);
@@ -112,6 +115,10 @@ const formatKeys = (keyData) => {
     }
 
     return formatted;
+}
+
+const updateKeys = (newKeys) => {
+    keys = formatKeys(newKeys);
 }
 
 const loadKeys = async (source) => {
@@ -129,12 +136,19 @@ const loadKeys = async (source) => {
     }
 
     validateKeys(updated);
-    keys = formatKeys(updated);
+
+    cluster.broadcast({ api_keys: updated });
+
+    updateKeys(updated);
 }
 
-const wrapLoad = (url) => {
+const wrapLoad = (url, initial = false) => {
     loadKeys(url)
-    .then(() => {})
+    .then(() => {
+        if (initial) {
+            console.log(`${Green('[✓]')} api keys loaded successfully!`)
+        }
+    })
     .catch((e) => {
         console.error(`${Yellow('[!]')} Failed loading API keys at ${new Date().toISOString()}.`);
         console.error('Error:', e);
@@ -198,8 +212,16 @@ export const validateAuthorization = (req) => {
 }
 
 export const setup = (url) => {
-    wrapLoad(url);
-    if (env.keyReloadInterval > 0) {
-        setInterval(() => wrapLoad(url), env.keyReloadInterval * 1000);
+    if (cluster.isPrimary) {
+        wrapLoad(url, true);
+        if (env.keyReloadInterval > 0) {
+            setInterval(() => wrapLoad(url), env.keyReloadInterval * 1000);
+        }
+    } else if (cluster.isWorker) {
+        process.on('message', (message) => {
+            if ('api_keys' in message) {
+                updateKeys(message.api_keys);
+            }
+        });
     }
 }

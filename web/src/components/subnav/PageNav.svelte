@@ -129,6 +129,11 @@
         padding-left: var(--subnav-padding);
     }
 
+    .subnav-page:dir(rtl) {
+        padding-left: 0;
+        padding-right: var(--subnav-padding);
+    }
+
     .subnav-page-content {
         display: flex;
         flex-direction: column;
@@ -211,7 +216,8 @@
     }
 
     @media screen and (max-width: 750px) {
-        .subnav-page {
+        .subnav-page,
+        .subnav-page:dir(rtl) {
             --subnav-nav-width: 100%;
             display: flex;
             flex-direction: column;

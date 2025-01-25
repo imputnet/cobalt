@@ -1,6 +1,6 @@
 <script lang="ts">
     import { tick } from "svelte";
-    import { killDialog } from "$lib/dialogs";
+    import { killDialog } from "$lib/state/dialogs";
 
     import DialogBackdropClose from "$components/dialog/DialogBackdropClose.svelte";
 

@@ -1,3 +1,5 @@
+import { turnstileSolved } from "$lib/state/turnstile";
+
 const getResponse = () => {
     const turnstileElement = document.getElementById("turnstile-widget");
 
@@ -8,10 +10,11 @@ const getResponse = () => {
     return null;
 }
 
-const update = () => {
+const reset = () => {
     const turnstileElement = document.getElementById("turnstile-widget");
 
     if (turnstileElement) {
+        turnstileSolved.set(false);
         return window?.turnstile?.reset(turnstileElement);
     }
 
@@ -20,5 +23,5 @@ const update = () => {
 
 export default {
     getResponse,
-    update,
+    reset,
 }

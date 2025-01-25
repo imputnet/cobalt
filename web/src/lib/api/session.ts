@@ -1,12 +1,11 @@
 import turnstile from "$lib/api/turnstile";
-import { writable, get } from "svelte/store";
 import { currentApiURL } from "$lib/api/api-url";
 
 import type { CobaltSession, CobaltErrorResponse, CobaltSessionResponse } from "$lib/types/api";
 
-const cachedSession = writable<CobaltSession | undefined>();
+let cache: CobaltSession | undefined;
 
-export const requestSession = async() => {
+export const requestSession = async () => {
     const apiEndpoint = `${currentApiURL()}/session`;
 
     let requestHeaders = {};
@@ -36,14 +35,13 @@ export const requestSession = async() => {
         }
     });
 
-    turnstile.update();
+    turnstile.reset();
 
     return response;
 }
 
 export const getSession = async () => {
     const currentTime = () => Math.floor(new Date().getTime() / 1000);
-    const cache = get(cachedSession);
 
     if (cache?.token && cache?.exp - 2 > currentTime()) {
         return cache;
@@ -60,7 +58,7 @@ export const getSession = async () => {
 
     if (!("status" in newSession)) {
         newSession.exp = currentTime() + newSession.exp;
-        cachedSession.set(newSession);
+        cache = newSession;
     }
     return newSession;
 }

@@ -39,16 +39,14 @@
             updateSetting({
                 [settingContext]: {
                     [settingId]: !isEnabled,
-                },
-            })}
+                }
+            })
+        }
     >
         <h4 class="toggle-title">{title}</h4>
         <Toggle enabled={isEnabled} />
     </button>
-    <!--
-        description is repeated here because there may be several toggles per settings category,
-        and each of them needs its own description. this is intended. don't "clean it up".
-    -->
+
     {#if description}
         <div class="subtext toggle-description">{description}</div>
     {/if}
@@ -78,7 +76,7 @@
         align-items: center;
         gap: var(--padding);
         justify-content: space-between;
-        text-align: left;
+        text-align: start;
         transform: none;
         padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);

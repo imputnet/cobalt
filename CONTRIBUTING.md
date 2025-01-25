@@ -4,7 +4,23 @@ if you're reading this, you are probably interested in contributing to cobalt, w
 this document serves as a guide to help you make contributions that we can merge into the cobalt codebase.
 
 ## translations
-currently, we are **not accepting** translations of cobalt. this is because we are making significant changes to the frontend, and the currently used localization structure is being completely reworked. if this changes, this document will be updated.
+we are currently accepting translations via the [i18n platform](https://i18n.imput.net).
+
+thank you for showing interest in making cobalt more accessible around the world, we really appreciate it! here are some guidelines for how a cobalt translation should look:
+
+- cobalt's writing style is informal. please do not use formal language, unless there is no other way to express the same idea of the original text in your language.
+- all cobalt text is written in lowercase. this is a stylistic choice, please do not capitalize translated sentences.
+- do not translate the name "cobalt", or "imput"
+- you can translate "meowbalt" into whatever your language's equivalent of _meow_ is (e.g. _miaubalt_ in German)
+- **please don't translate cobalt into languages which you are not experienced in.** we can use google translate ourselves, but we would prefer cobalt to be translated by humans, not computers.
+
+if your language does not exist on the translation platform yet, you can request to add it by adding it to any of cobalt's components (e.g. [here](https://i18n.imput.net/projects/cobalt/about/)).
+
+before translating a piece of text, check that no one has made a translation yet. pending translations are displayed in the **Suggestions** tab on the translate page. if someone already made a suggestion, and you think it's correct, you can upvote it! this helps us distinguish that a translation is correct.
+
+if no one has submitted a translation, or the submitted translation seems wrong to you, you can submit your translation by clicking the **Suggest** button for each individual string, which sends it off for human review. we will then check it to to ensure no malicious translations are submitted, and add it to cobalt.
+
+if any translation string's meaning seems unclear to you, please leave a comment on the *Comments* tab, and we will either add an explanation or a screenshot.
 
 ## adding features or support for services
 before putting in the effort to implement a feature, it's worth considering whether it would be appropriate to add it to cobalt. the cobalt api is built to assist people **only with downloading freely accessible content**. other functionality, such as:
@@ -22,9 +38,9 @@ when contributing code to cobalt, there are a few guidelines in place to ensure 
 ### clean commit messages
 internally, we use a format similar to [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) - the first part signifies which part of the code you are changing (the *scope*), and the second part explains the change. for inspiration on how to write appropriate commit titles, you can take a look at the [commit history](https://github.com/imputnet/cobalt/commits/).
 
-the scope is not strictly defined, you can write whatever you find most fitting for the particular change. suppose you are changing a small part of a more significant part of the codebase. in that case, you can specify both the larger and smaller scopes in the commit message for clarity (e.g., if you were changing something in internal streams, the commit could be something like `stream/internal: fix object not being handled properly`).
+the scope is not strictly defined, you can write whatever you find most fitting for the particular change. suppose you are changing a small part of a more significant part of the codebase. in that case, you can specify both the larger and smaller scopes in the commit message for clarity (e.g., if you were changing something in internal streams, the commit could be something like `api/stream: fix object not being handled properly`).
 
-if you think a change deserves further explanation, we encourage you to write a short explanation in the commit message ([example](https://github.com/imputnet/cobalt/commit/d2e5b6542f71f3809ba94d56c26f382b5cb62762)), which will save both you and us time having to enquire about the change, and you explaining the reason behind it.
+if you think a change deserves further explanation, we encourage you to write a short explanation in the commit message ([example](https://github.com/imputnet/cobalt/commit/31be60484de8eaf63bba8a4f508e16438aa7ba6e)), which will save both you and us time having to enquire about the change, and you explaining the reason behind it.
 
 if your contribution has uninformative commit titles, you may be asked to interactively rebase your branch and amend each commit to include a meaningful title.
 

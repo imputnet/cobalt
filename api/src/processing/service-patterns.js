@@ -36,13 +36,13 @@ export const testers = {
         || pattern.shortLink?.length <= 16,
 
     "streamable": pattern =>
-        pattern.id?.length === 6,
+        pattern.id?.length <= 6,
 
     "threads": pattern =>
         pattern.user?.length <= 33 && pattern.id?.length <= 32,
 
     "tiktok": pattern =>
-        pattern.postId?.length <= 21 || pattern.id?.length <= 13,
+        pattern.postId?.length <= 21 || pattern.shortLink?.length <= 13,
 
     "tumblr": pattern =>
         pattern.id?.length < 21
@@ -58,11 +58,9 @@ export const testers = {
         pattern.id?.length <= 11
         && (!pattern.password || pattern.password.length < 16),
 
-    "vine": pattern =>
-        pattern.id?.length <= 12,
-
     "vk": pattern =>
-        pattern.userId?.length <= 10 && pattern.videoId?.length <= 10,
+        (pattern.ownerId?.length <= 10 && pattern.videoId?.length <= 10) ||
+        (pattern.ownerId?.length <= 10 && pattern.videoId?.length <= 10 && pattern.videoId?.accessKey <= 18),
 
     "youtube": pattern =>
         pattern.id?.length <= 11,
@@ -76,4 +74,8 @@ export const testers = {
 
     "bsky": pattern =>
         pattern.user?.length <= 128 && pattern.post?.length <= 128,
+
+    "xiaohongshu": pattern =>
+        pattern.id?.length <= 24 && pattern.token?.length <= 64
+        || pattern.shareId?.length <= 12,
 }

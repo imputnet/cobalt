@@ -1,0 +1,82 @@
+[
+    {
+        "name": "clip, defaults",
+        "url": "https://vk.com/clip-57274055_456239788",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "clip, 360",
+        "url": "https://vk.com/clip-57274055_456239788",
+        "params": {
+            "videoQuality": "360"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "clip different link, max",
+        "url": "https://vk.com/clips-57274055?z=clip-57274055_456239788",
+        "params": {
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video, defaults",
+        "url": "https://vk.com/video-57274055_456239399",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "big 4k video",
+        "url": "https://vk.com/video-1112285_456248465",
+        "params": {
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "short 4k video, 480p, vkvideo.ru domain",
+        "url": "https://vkvideo.ru/video-26006257_456245538",
+        "params": {
+            "videoQuality": "480"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "ancient video (fallback to 240p)",
+        "url": "https://vk.com/video-1959_28496479",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "inexistent video",
+        "url": "https://vk.com/video-53333333_456233333",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

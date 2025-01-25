@@ -3,7 +3,7 @@
 
     import API from "$lib/api/api";
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/dialogs";
+    import { createDialog } from "$lib/state/dialogs";
     import { downloadFile } from "$lib/download";
 
     import type { DialogInfo } from "$lib/types/dialog";
@@ -183,6 +183,16 @@
         border-bottom-right-radius: var(--border-radius);
     }
 
+    #download-button:dir(rtl) {
+        border-left: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        border-right: 1.5px var(--input-border) solid;
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+    }
+
     #download-button:focus-visible {
         box-shadow: 0 0 0 2px var(--blue) inset;
     }
@@ -207,6 +217,11 @@
 
     :global(#input-container.focused) #download-button {
         border-left: 2px var(--secondary) solid;
+    }
+
+    :global(#input-container.focused) #download-button:dir(rtl) {
+        border-left: 0;
+        border-right: 2px var(--secondary) solid;
     }
 
     @media (hover: hover) {

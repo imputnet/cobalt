@@ -7,18 +7,18 @@
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
-    import { getServerInfo, cachedInfo } from "$lib/api/server-info";
+    import { getServerInfo } from "$lib/api/server-info";
 
     import "$lib/polyfills";
     import env from "$lib/env";
-    import settings from "$lib/state/settings";
     import locale from "$lib/i18n/locale";
+    import settings from "$lib/state/settings";
 
     import { t } from "$lib/i18n/translations";
 
     import { device, app } from "$lib/device";
-    import { turnstileCreated } from "$lib/state/turnstile";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
+    import { turnstileCreated, turnstileEnabled } from "$lib/state/turnstile";
 
     import Sidebar from "$components/sidebar/Sidebar.svelte";
     import Turnstile from "$components/misc/Turnstile.svelte";
@@ -28,13 +28,12 @@
 
     $: reduceMotion =
         $settings.appearance.reduceMotion || device.prefers.reducedMotion;
+
     $: reduceTransparency =
         $settings.appearance.reduceTransparency ||
         device.prefers.reducedTransparency;
 
-    $: spawnTurnstile = !!$cachedInfo?.info?.cobalt?.turnstileSitekey;
-
-    afterNavigate(async() => {
+    afterNavigate(async () => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
         to_focus?.focus();
@@ -46,11 +45,14 @@
 </script>
 
 <svelte:head>
-    <meta name="description" content={$t("general.embed.description")}>
-    <meta property="og:description" content={$t("general.embed.description")}>
+    <meta name="description" content={$t("general.embed.description")} />
+    <meta property="og:description" content={$t("general.embed.description")} />
 
     {#if env.HOST}
-        <meta property="og:url" content="https://{env.HOST}{$page.url.pathname}">
+        <meta
+            property="og:url"
+            content="https://{env.HOST}{$page.url.pathname}"
+        />
     {/if}
 
     {#if device.is.mobile}
@@ -67,7 +69,11 @@
     {/if}
 </svelte:head>
 
-<div style="display: contents" data-theme={browser ? $currentTheme : undefined} lang={$locale}>
+<div
+    style="display: contents"
+    data-theme={browser ? $currentTheme : undefined}
+    lang={$locale}
+>
     <div
         id="cobalt"
         class:loaded={browser}
@@ -84,7 +90,7 @@
         <DialogHolder />
         <Sidebar />
         <div id="content">
-            {#if (spawnTurnstile && $page.url.pathname === "/") || $turnstileCreated}
+            {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
             <slot></slot>
@@ -116,6 +122,8 @@
         --button-elevated: #e3e3e3;
         --button-elevated-hover: #dadada;
         --button-elevated-shimmer: #ededed;
+
+        --popover-glow: var(--button-stroke);
 
         --popup-bg: #f1f1f1;
         --popup-stroke: rgba(0, 0, 0, 0.08);
@@ -191,6 +199,8 @@
 
         --button-elevated: #282828;
         --button-elevated-hover: #323232;
+
+        --popover-glow: rgba(135, 135, 135, 0.12);
 
         --popup-bg: #191919;
         --popup-stroke: rgba(255, 255, 255, 0.08);
@@ -278,9 +288,15 @@
         display: flex;
         overflow: scroll;
         background-color: var(--primary);
-
         border-top-left-radius: var(--border-radius);
         border-bottom-left-radius: var(--border-radius);
+    }
+
+    #content:dir(rtl) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
     }
 
     @media screen and (max-width: 535px) {
@@ -289,10 +305,13 @@
             grid-template-columns: unset;
             grid-template-rows: 1fr var(--sidebar-height-mobile);
         }
-        #content {
+
+        #content,
+        #content:dir(rtl) {
             padding-top: env(safe-area-inset-top);
             order: -1;
             border-top-left-radius: 0;
+            border-top-right-radius: 0;
             border-bottom-left-radius: calc(var(--border-radius) * 2);
             border-bottom-right-radius: calc(var(--border-radius) * 2);
         }
@@ -464,7 +483,7 @@
 
     :global(.long-text-noto),
     :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
-        line-height: 1.7;
+        line-height: 1.8;
         font-size: 14.5px;
         font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
         user-select: text;
@@ -478,15 +497,59 @@
 
     :global(.long-text-noto ul) {
         padding-inline-start: 30px;
-        margin-block-start: 9px;
     }
 
     :global(.long-text-noto li) {
         padding-left: 3px;
     }
 
+    :global(.long-text-noto:not(.about) h1),
+    :global(.long-text-noto:not(.about) h2),
+    :global(.long-text-noto:not(.about) h3) {
+        user-select: text;
+        -webkit-user-select: text;
+        letter-spacing: 0;
+        margin-block-start: 1rem;
+    }
+
     :global(.long-text-noto h3) {
         font-size: 17px;
+    }
+
+    :global(.long-text-noto h2) {
+        font-size: 19px;
+    }
+
+    :global(.long-text-noto:not(.about) h3) {
+        margin-block-end: -0.5rem;
+    }
+
+    :global(.long-text-noto:not(.about) h2) {
+        font-size: 19px;
+        line-height: 1.3;
+        margin-block-end: -0.3rem;
+        padding: 6px 0;
+        border-bottom: 1.5px solid var(--button-elevated-hover);
+    }
+
+    :global(.long-text-noto img) {
+        border-radius: 6px;
+    }
+
+    :global(table),
+    :global(td),
+    :global(th) {
+        border-spacing: 0;
+        border-style: solid;
+        border-width: 1px;
+        border-collapse: collapse;
+        text-align: center;
+        padding: 3px 8px;
+    }
+
+    :global(tr td:first-child),
+    :global(tr th:first-child) {
+        text-align: right;
     }
 
     :global(.long-text-noto.about section p:first-of-type) {

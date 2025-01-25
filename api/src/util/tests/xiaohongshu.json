@@ -1,0 +1,58 @@
+[
+    {
+        "name": "long link video",
+        "url": "https://www.xiaohongshu.com/discovery/item/6789065900000000210035fc?source=webshare&xhsshare=pc_web&xsec_token=CBustnz_Twf1BSybpe5-D-BzUb-Bx28DPLb418TN9S9Kk&xsec_source=pc_share",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "picker with multiple live photos",
+        "url": "https://www.xiaohongshu.com/explore/67847fa1000000000203e6ed?xsec_token=CBzyP7Y44PPpsM20lgxqrIIJMHqOLemusDsRcmsX0cTpk",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "one photo",
+        "url": "https://www.xiaohongshu.com/explore/676e132d000000000b016f68?xsec_token=ABRv6LKzizOFeSaf2HnnBkdBqniB5Ak1fI8tMAHzO31jA",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "short link, might expire eventually",
+        "url": "https://xhslink.com/a/czn4z6c1tic4",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "wrong note id",
+        "url": "https://www.xiaohongshu.com/discovery/item/6789065911100000210035fc?source=webshare&xhsshare=pc_web&xsec_token=CBustnz_Twf1BSybpe5-D-BzUb-Bx28DPLb418TN9S9Kk&xsec_source=pc_share",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "short link, wrong id",
+        "url": "https://xhslink.com/a/aaaaaa",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

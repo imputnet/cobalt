@@ -1,9 +1,10 @@
 <script lang="ts">
-    import dialogs from "$lib/dialogs";
+    import dialogs from "$lib/state/dialogs";
 
     import SmallDialog from "$components/dialog/SmallDialog.svelte";
     import PickerDialog from "$components/dialog/PickerDialog.svelte";
     import SavingDialog from "$components/dialog/SavingDialog.svelte";
+    import NoScriptDialog from "$components/dialog/NoScriptDialog.svelte";
 
     $: backdropVisible = $dialogs.length > 0;
 </script>
@@ -13,6 +14,7 @@
     more info here: https://github.com/microsoft/TypeScript/issues/46680
 -->
 <div id="dialog-holder">
+    <NoScriptDialog />
     {#each $dialogs as dialog}
         {#if dialog.type === "small"}
             <SmallDialog {...dialog} />
@@ -71,7 +73,7 @@
         pointer-events: none;
     }
 
-    #dialog-backdrop {
+    #dialog-backdrop, :global(#nojs-dialog-backdrop) {
         position: absolute;
         height: 100%;
         width: 100%;

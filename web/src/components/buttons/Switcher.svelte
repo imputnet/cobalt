@@ -43,10 +43,25 @@
         border-bottom-left-radius: 0;
     }
 
+    .switcher:not(.big):dir(rtl) :global(.button:first-child) {
+        border-top-right-radius: inherit;
+        border-bottom-right-radius: inherit;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .switcher:not(.big):dir(rtl) :global(.button:last-child) {
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
     .switcher.big {
         background: var(--button);
         box-shadow: var(--button-box-shadow);
         padding: var(--switcher-padding);
+        gap: calc(var(--switcher-padding) - 1.5px);
     }
 
     .switcher :global(.button.active) {

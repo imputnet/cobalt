@@ -1,4 +1,4 @@
-import psl from "psl";
+import psl from "@imput/psl";
 import { strict as assert } from "node:assert";
 
 import { env } from "../config.js";
@@ -42,7 +42,7 @@ function aliasURL(url) {
         case "fixvx":
         case "x":
             if (services.twitter.altDomains.includes(url.hostname)) {
-                url.hostname = 'twitter.com'
+                url.hostname = 'twitter.com';
             }
             break;
 
@@ -85,9 +85,21 @@ function aliasURL(url) {
                 url.hostname = 'instagram.com';
             }
             break;
+
+        case "vk":
+        case "vkvideo":
+            if (services.vk.altDomains.includes(url.hostname)) {
+                url.hostname = 'vk.com';
+            }
+            break;
+
+        case "xhslink":
+            if (url.hostname === 'xhslink.com' && parts.length === 3) {
+                url = new URL(`https://www.xiaohongshu.com/a/${parts[2]}`);
+            }
     }
 
-    return url
+    return url;
 }
 
 function cleanURL(url) {
@@ -107,36 +119,41 @@ function cleanURL(url) {
             break;
         case "vk":
             if (url.pathname.includes('/clip') && url.searchParams.get('z')) {
-                limitQuery('z')
+                limitQuery('z');
             }
             break;
         case "youtube":
             if (url.searchParams.get('v')) {
-                limitQuery('v')
+                limitQuery('v');
             }
             break;
         case "rutube":
             if (url.searchParams.get('p')) {
-                limitQuery('p')
+                limitQuery('p');
             }
             break;
         case "twitter":
             if (url.searchParams.get('post_id')) {
-                limitQuery('post_id')
+                limitQuery('post_id');
+            }
+            break;
+        case "xiaohongshu":
+            if (url.searchParams.get('xsec_token')) {
+                limitQuery('xsec_token');
             }
             break;
     }
 
     if (stripQuery) {
-        url.search = ''
+        url.search = '';
     }
 
-    url.username = url.password = url.port = url.hash = ''
+    url.username = url.password = url.port = url.hash = '';
 
     if (url.pathname.endsWith('/'))
         url.pathname = url.pathname.slice(0, -1);
 
-    return url
+    return url;
 }
 
 function getHostIfValid(url) {
@@ -174,6 +191,11 @@ export function extract(url) {
     }
 
     if (!env.enabledServices.has(host)) {
+        // show a different message when youtube is disabled on official instances
+        // as it only happens when shit hits the fan
+        if (new URL(env.apiURL).hostname.endsWith(".imput.net") && host === "youtube") {
+            return { error: "youtube.temporary_disabled" };
+        }
         return { error: "service.disabled" };
     }
 

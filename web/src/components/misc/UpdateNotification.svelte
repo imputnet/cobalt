@@ -59,7 +59,7 @@
     .update-text {
         display: flex;
         flex-direction: column;
-        text-align: left;
+        text-align: start;
         font-size: 13px;
     }
 

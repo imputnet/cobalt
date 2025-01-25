@@ -9,13 +9,14 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
     let action,
         responseType = "tunnel",
         defaultParams = {
-            u: r.urls,
+            url: r.urls,
             headers: r.headers,
             service: host,
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
-            requestIP
+            requestIP,
+            originalRequest: r.originalRequest
         },
         params = {};
 
@@ -24,7 +25,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
     else if (r.isGif && twitterGif) action = "gif";
     else if (isAudioOnly) action = "audio";
     else if (isAudioMuted) action = "muteVideo";
-    else if (r.isM3U8) action = "m3u8";
+    else if (r.isHLS) action = "hls";
     else action = "video";
 
     if (action === "picker" || action === "audio") {
@@ -47,27 +48,29 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             });
 
         case "photo":
-            responseType = "redirect";
+            params = { type: "proxy" };
             break;
 
         case "gif":
             params = { type: "gif" };
             break;
 
-        case "m3u8":
+        case "hls":
             params = {
-                type: Array.isArray(r.urls) ? "merge" : "remux"
+                type: Array.isArray(r.urls) ? "merge" : "remux",
+                isHLS: true,
             }
             break;
 
         case "muteVideo":
             let muteType = "mute";
-            if (Array.isArray(r.urls) && !r.isM3U8) {
+            if (Array.isArray(r.urls) && !r.isHLS) {
                 muteType = "proxy";
             }
             params = {
                 type: muteType,
-                u: Array.isArray(r.urls) ? r.urls[0] : r.urls
+                url: Array.isArray(r.urls) ? r.urls[0] : r.urls,
+                isHLS: r.isHLS
             }
             if (host === "reddit" && r.typeId === "redirect") {
                 responseType = "redirect";
@@ -82,6 +85,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "threads":
                 case "snapchat":
                 case "bsky":
+                case "xiaohongshu":
                     params = { picker: r.picker };
                     break;
 
@@ -93,14 +97,15 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                     }
                     params = {
                         picker: r.picker,
-                        u: createStream({
+                        url: createStream({
                             service: "tiktok",
                             type: audioStreamType,
-                            u: r.urls,
+                            url: r.urls,
                             headers: r.headers,
-                            filename: r.audioFilename,
+                            filename: `${r.audioFilename}.${audioFormat}`,
                             isAudioOnly: true,
                             audioFormat,
+                            audioBitrate
                         })
                     }
                     break;
@@ -141,11 +146,11 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "ok":
                 case "vk":
                 case "tiktok":
+                case "xiaohongshu":
                     params = { type: "proxy" };
                     break;
 
                 case "facebook":
-                case "vine":
                 case "instagram":
                 case "tumblr":
                 case "pinterest":
@@ -162,7 +167,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         case "audio":
             if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
-                    code: "error.api.fetch.empty"
+                    code: "error.api.service.audio_not_supported"
                 })
             }
 
@@ -186,18 +191,20 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 }
             }
 
-            if (r.isM3U8 || host === "vimeo") {
+            if (r.isHLS || host === "vimeo") {
                 copy = false;
                 processType = "audio";
             }
 
             params = {
                 type: processType,
-                u: Array.isArray(r.urls) ? r.urls[1] : r.urls,
+                url: Array.isArray(r.urls) ? r.urls[1] : r.urls,
 
                 audioBitrate,
                 audioCopy: copy,
                 audioFormat,
+
+                isHLS: r.isHLS,
             }
             break;
     }

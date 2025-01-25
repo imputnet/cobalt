@@ -1,4 +1,5 @@
 import { genericUserAgent } from "../config.js";
+import { vkClientAgent } from "../processing/services/vk.js";
 
 const defaultHeaders = {
     'user-agent': genericUserAgent
@@ -13,6 +14,9 @@ const serviceHeaders = {
         origin: 'https://www.youtube.com',
         referer: 'https://www.youtube.com',
         DNT: '?1'
+    },
+    vk: {
+        'user-agent': vkClientAgent
     }
 }
 

@@ -1,0 +1,240 @@
+[
+    {
+        "name": "4k video (h264, 1440)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "youtubeVideoCodec": "h264",
+            "videoQuality": "1440"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (vp9, 720)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "youtubeVideoCodec": "vp9",
+            "videoQuality": "720"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (av1, max)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "youtubeVideoCodec": "av1",
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (h264, 720)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "youtubeVideoCodec": "h264",
+            "videoQuality": "720"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (vp9, max, isAudioMuted)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "downloadMode": "mute",
+            "youtubeVideoCodec": "vp9",
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (h264, max, isAudioMuted)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "downloadMode": "mute",
+            "youtubeVideoCodec": "h264",
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (av1, max, isAudioMuted, isAudioOnly, mp3)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "mp3",
+            "youtubeVideoCodec": "av1",
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "4k video (av1, max, isAudioMuted, isAudioOnly, best)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "best",
+            "youtubeVideoCodec": "av1",
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "music (mp3, isAudioOnly, isAudioMuted)",
+        "url": "https://music.youtube.com/watch?v=5rGTsvZCEdk&feature=share",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "music (mp3)",
+        "url": "https://music.youtube.com/watch?v=5rGTsvZCEdk&feature=share",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "audio bitrate higher than video, no vp9 video in response (mp3, isAudioOnly)",
+        "url": "https://www.youtube.com/watch?v=t5nC_ucYBrc",
+        "params": {
+            "downloadMode": "audio",
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "short, defaults",
+        "url": "https://www.youtube.com/shorts/r5FpeOJItbw",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vr 360, av1, max",
+        "url": "https://www.youtube.com/watch?v=hEdzv7D4CbQ",
+        "params": {
+            "youtubeVideoCodec": "vp9",
+            "videoQuality": "max"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "live link, defaults",
+        "url": "https://www.youtube.com/live/ENxZS6PUDuI?feature=shared",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "inexistent video",
+        "url": "https://youtube.com/watch?v=gnjuHYWGEW",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "broken audioOnly download",
+        "url": "https://www.youtube.com/watch?v=ink80Al5nbw",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "hls video (h264, 1440p)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "youtubeVideoCodec": "h264",
+            "videoQuality": "1440",
+            "youtubeHLS": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "hls video (vp9, 360p)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "youtubeVideoCodec": "vp9",
+            "videoQuality": "360",
+            "youtubeHLS": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "hls video (audio mode)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "downloadMode": "audio",
+            "youtubeHLS": true
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "hls video (audio mode, best format)",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "params": {
+            "downloadMode": "audio",
+            "youtubeHLS": true,
+            "audioFormat": "best"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    }
+]

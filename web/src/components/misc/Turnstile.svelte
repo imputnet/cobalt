@@ -1,8 +1,10 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import { cachedInfo } from "$lib/api/server-info";
-    import { turnstileLoaded, turnstileCreated } from "$lib/state/turnstile";
+    import cachedInfo from "$lib/state/server-info";
+    import { turnstileSolved, turnstileCreated } from "$lib/state/turnstile";
+
+    import turnstile from "$lib/api/turnstile";
 
     let turnstileElement: HTMLElement;
     let turnstileScript: HTMLElement;
@@ -16,12 +18,19 @@
         const setup = () => {
             window.turnstile?.render(turnstileElement, {
                 sitekey,
+                "refresh-expired": "never",
+                "retry-interval": 800,
+
                 "error-callback": (error) => {
                     console.log("error code from turnstile:", error);
                     return true;
                 },
+                "expired-callback": () => {
+                    console.log("turnstile expired, refreshing neow");
+                    turnstile.reset();
+                },
                 callback: () => {
-                    $turnstileLoaded = true;
+                    $turnstileSolved = true;
                 }
             });
         }

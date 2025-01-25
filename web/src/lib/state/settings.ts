@@ -1,15 +1,14 @@
 import { derived, readable, type Updater } from 'svelte/store';
 import { browser } from '$app/environment';
 import { merge } from 'ts-deepmerge';
-
 import type {
-    CobaltSettings,
     PartialSettings,
-    AllPartialSettingsWithSchema
+    AllPartialSettingsWithSchema,
+    CobaltSettings
 } from '../types/settings';
-
-import { migrateOldSettings } from '../settings/migrate';
+import { migrateOldSettings } from '../settings/migrate-v7';
 import defaultSettings from '../settings/defaults';
+import { migrate } from '$lib/settings/migrate';
 
 const updatePlausiblePreference = (settings: PartialSettings) => {
     if (settings.privacy?.disableAnalytics) {
@@ -28,21 +27,6 @@ const writeToStorage = (settings: PartialSettings) => {
     return settings;
 }
 
-type Migrator = (s: AllPartialSettingsWithSchema) => AllPartialSettingsWithSchema;
-const migrations: Record<number, Migrator> = {
-
-}
-
-const migrate = (settings: AllPartialSettingsWithSchema): PartialSettings => {
-    return Object.keys(migrations)
-        .map(Number)
-        .filter(version => version > settings.schemaVersion)
-        .reduce((settings, migrationVersion) => {
-            return migrations[migrationVersion](settings);
-        }, settings as AllPartialSettingsWithSchema);
-}
-
-
 const loadFromStorage = () => {
     if (!browser)
         return {};
@@ -51,7 +35,7 @@ const loadFromStorage = () => {
     if (!settings) {
         const migrated = migrateOldSettings();
         if (migrated) {
-            return writeToStorage(migrated);
+            return writeToStorage(migrate(migrated));
         }
 
         return {};
@@ -60,13 +44,13 @@ const loadFromStorage = () => {
     return loadFromString(settings);
 }
 
-export const loadFromString = (settings: string) => {
+export const loadFromString = (settings: string): PartialSettings => {
     const parsed = JSON.parse(settings) as AllPartialSettingsWithSchema;
     if (parsed.schemaVersion < defaultSettings.schemaVersion) {
-        return migrate(parsed);
+        return writeToStorage(migrate(parsed));
     }
 
-    return parsed;
+    return parsed as PartialSettings;
 }
 
 let update: (_: Updater<PartialSettings>) => void;

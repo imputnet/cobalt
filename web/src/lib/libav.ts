@@ -114,7 +114,7 @@ export default class LibAVWrapper {
                 if (name === 'progress.txt') {
                     try {
                         return this.#emitProgress(data);
-                    } catch(e) {
+                    } catch (e) {
                         console.error(e);
                     }
                 } else if (name !== outputName) return;

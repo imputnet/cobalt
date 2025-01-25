@@ -1,4 +1,5 @@
 <script lang="ts">
+    import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
 
     import { videoQualityOptions } from "$lib/types/settings";
@@ -34,7 +35,7 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="codec"
+    sectionId="youtube-codec"
     title={$t("settings.video.youtube.codec")}
 >
     <Switcher
@@ -53,6 +54,30 @@
     </Switcher>
 </SettingsCategory>
 
+<SettingsCategory
+    sectionId="youtube-hls"
+    title={$t("settings.video.youtube.hls")}
+    disabled={$settings.save.youtubeVideoCodec === "av1"}
+    beta
+>
+    <SettingsToggle
+        settingContext="save"
+        settingId="youtubeHLS"
+        title={$t("settings.video.youtube.hls.title")}
+        description={$t("settings.video.youtube.hls.description")}
+        disabled={$settings.save.youtubeVideoCodec === "av1"}
+    />
+</SettingsCategory>
+
+<SettingsCategory sectionId="h265" title={$t("settings.video.h265")}>
+    <SettingsToggle
+        settingContext="save"
+        settingId="tiktokH265"
+        title={$t("settings.video.h265.title")}
+        description={$t("settings.video.h265.description")}
+    />
+</SettingsCategory>
+
 <SettingsCategory sectionId="twitter" title={$t("settings.video.twitter.gif")}>
     <SettingsToggle
         settingContext="save"
@@ -62,11 +87,3 @@
     />
 </SettingsCategory>
 
-<SettingsCategory sectionId="tiktok" title={$t("settings.video.tiktok.h265")}>
-    <SettingsToggle
-        settingContext="save"
-        settingId="tiktokH265"
-        title={$t("settings.video.tiktok.h265.title")}
-        description={$t("settings.video.tiktok.h265.description")}
-    />
-</SettingsCategory>

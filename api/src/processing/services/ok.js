@@ -1,5 +1,4 @@
 import { genericUserAgent, env } from "../../config.js";
-import { cleanString } from "../../misc/utils.js";
 
 const resolutions = {
     "ultra": "2160",
@@ -44,8 +43,8 @@ export default async function(o) {
     let bestVideo = videos.find(v => resolutions[v.name] === quality) || videos[videos.length - 1];
 
     let fileMetadata = {
-        title: cleanString(videoData.movie.title.trim()),
-        author: cleanString((videoData.author?.name || videoData.compilationTitle).trim()),
+        title: videoData.movie.title.trim(),
+        author: (videoData.author?.name || videoData.compilationTitle).trim(),
     }
 
     if (bestVideo) return {

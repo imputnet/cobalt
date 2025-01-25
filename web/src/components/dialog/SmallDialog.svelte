@@ -134,7 +134,7 @@
     }
 
     .align-left .body-text {
-        text-align: left;
+        text-align: start;
     }
 
     .align-left .popup-header {

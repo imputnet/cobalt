@@ -1,55 +1,16 @@
-const forbiddenCharsString = ['}', '{', '%', '>', '<', '^', ';', '`', '$', '"', "@", '='];
+const redirectStatuses = new Set([301, 302, 303, 307, 308]);
 
-export function metadataManager(obj) {
-    const keys = Object.keys(obj);
-    const tags = [
-        "album",
-        "copyright",
-        "title",
-        "artist",
-        "track",
-        "date"
-    ]
-    let commands = []
-
-    for (const i in keys) {
-        if (tags.includes(keys[i]))
-            commands.push('-metadata', `${keys[i]}=${obj[keys[i]]}`)
-        }
-    return commands;
-}
-
-export function cleanString(string) {
-    for (const i in forbiddenCharsString) {
-        string = string.replaceAll("/", "_")
-                       .replaceAll(forbiddenCharsString[i], '')
-    }
-    return string;
-}
-export function verifyLanguageCode(code) {
-    const langCode = String(code.slice(0, 2).toLowerCase());
-    if (RegExp(/[a-z]{2}/).test(code)) {
-        return langCode
-    }
-    return "en"
-}
-export function languageCode(req) {
-    if (req.header('Accept-Language')) {
-        return verifyLanguageCode(req.header('Accept-Language'))
-    }
-    return "en"
-}
-export function cleanHTML(html) {
-    let clean = html.replace(/ {4}/g, '');
-    clean = clean.replace(/\n/g, '');
-    return clean
-}
-
-export function getRedirectingURL(url) {
-    return fetch(url, { redirect: 'manual' }).then((r) => {
-        if ([301, 302, 303].includes(r.status) && r.headers.has('location'))
+export async function getRedirectingURL(url, dispatcher) {
+    const location = await fetch(url, {
+        redirect: 'manual',
+        dispatcher,
+    }).then((r) => {
+        if (redirectStatuses.has(r.status) && r.headers.has('location')) {
             return r.headers.get('location');
+        }
     }).catch(() => null);
+
+    return location;
 }
 
 export function merge(a, b) {
@@ -75,4 +36,8 @@ export function splitFilenameExtension(filename) {
     } else {
         return [ parts.join('.'), ext ]
     }
+}
+
+export function zip(a, b) {
+    return a.map((value, i) => [ value, b[i] ]);
 }

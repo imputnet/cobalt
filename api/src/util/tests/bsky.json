@@ -1,0 +1,96 @@
+[
+    {
+        "name": "horizontal video",
+        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3giwtwp222m",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "horizontal video, recordWithMedia",
+        "url": "https://bsky.app/profile/did:plc:ywbm3iywnhzep3ckt6efhoh7/post/3l3wonhk23g2i",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vertical video",
+        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vertical video (muted)",
+        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "vertical video (audio)",
+        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "single image",
+        "url": "https://bsky.app/profile/did:plc:k4a7d65fcyevbrnntjxh57go/post/3l33flpoygt26",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "gif with a quoted post",
+        "url": "https://bsky.app/profile/imlunahey.com/post/3lgajpn5dtk2t",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "gif alone in a post",
+        "url": "https://bsky.app/profile/imlunahey.com/post/3lgah3ovxnc2q",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "several images",
+        "url": "https://bsky.app/profile/did:plc:rai7s6su2sy22ss7skouedl7/post/3kzxuxbiul626",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "deleted post/invalid user",
+        "url": "https://bsky.app/profile/notreal.bsky.team/post/3l2udah76ch2c",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

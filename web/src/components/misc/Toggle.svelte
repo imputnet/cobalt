@@ -1,8 +1,8 @@
 <script lang="ts">
-    export let enabled;
+    export let enabled: boolean;
 </script>
 
-<div class="toggle" class:enabled={enabled}>
+<div class="toggle" class:enabled>
     <div class="toggle-switcher"></div>
 </div>
 
@@ -10,6 +10,7 @@
     .toggle {
         --base-size: 22px;
         --ratio-factor: 0.9;
+        --enabled-pos: calc(100% * var(--ratio-factor));
 
         display: flex;
         justify-content: start;
@@ -23,13 +24,17 @@
         transition: background 0.2s;
     }
 
+    .toggle:dir(rtl) {
+        --enabled-pos: calc(-100% * var(--ratio-factor));
+    }
+
     .toggle-switcher {
         height: var(--base-size);
         width: var(--base-size);
         background: var(--white);
         border-radius: 100px;
         transform: translateX(0%);
-        transition: transform 0.2s;
+        transition: transform 0.2s, width 0.2s;
     }
 
     .toggle.enabled {
@@ -37,6 +42,10 @@
     }
 
     .toggle.enabled .toggle-switcher {
-        transform: translateX(calc(100% * var(--ratio-factor)));
+        transform: translateX(var(--enabled-pos));
+    }
+
+    :global(.toggle-container:active .toggle:not(.enabled) .toggle-switcher) {
+        width: calc(var(--base-size) * 1.3);
     }
 </style>

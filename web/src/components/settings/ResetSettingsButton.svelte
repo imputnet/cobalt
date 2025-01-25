@@ -1,6 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/dialogs";
+    import { createDialog } from "$lib/state/dialogs";
     import { resetSettings } from "$lib/state/settings";
 
     import IconTrash from "@tabler/icons-svelte/IconTrash.svelte";
@@ -40,7 +40,7 @@
         background-color: var(--red);
         color: var(--white);
         width: max-content;
-        text-align: left;
+        text-align: start;
     }
 
     #setting-button-reset:hover {

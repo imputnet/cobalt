@@ -1,0 +1,67 @@
+[
+    {
+        "name": "direct video with username and id",
+        "url": "https://web.facebook.com/100048111287134/videos/1157798148685638/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "direct video with id as query param",
+        "url": "https://web.facebook.com/watch/?v=883839773514682&ref=sharing",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "direct video with caption",
+        "url": "https://web.facebook.com/wood57/videos/𝐒𝐞𝐛𝐚𝐬𝐤𝐨𝐦-𝐟𝐮𝐥𝐥/883839773514682",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "shortlink video",
+        "url": "https://fb.watch/r1K6XHMfGT/",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "reel video",
+        "url": "https://web.facebook.com/reel/730293269054758",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "shared video link",
+        "url": "https://www.facebook.com/share/v/NEf87jbPTvFE8LsL/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "shared video link v2",
+        "url": "https://web.facebook.com/share/r/JFZfPVgLkiJQmWrr/",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }
+]

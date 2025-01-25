@@ -5,12 +5,43 @@ import lazySettingGetter from "$lib/settings/lazy-get";
 
 import { getSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
-import { turnstileLoaded } from "$lib/state/turnstile";
-import { apiOverrideWarning } from "$lib/api/safety-warning";
-import { cachedInfo, getServerInfo } from "$lib/api/server-info";
+import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
+import cachedInfo from "$lib/state/server-info";
+import { getServerInfo } from "$lib/api/server-info";
 
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
+
+const getAuthorization = async () => {
+    const processing = get(settings).processing;
+
+    if (get(turnstileEnabled)) {
+        if (!get(turnstileSolved)) {
+            return {
+                status: "error",
+                error: {
+                    code: "error.captcha_ongoing"
+                }
+            } as CobaltErrorResponse;
+        }
+
+        const session = await getSession();
+
+        if (session) {
+            if ("error" in session) {
+                if (session.error.code !== "error.api.auth.not_configured") {
+                    return session;
+                }
+            } else {
+                return `Bearer ${session.token}`;
+            }
+        }
+    }
+
+    if (processing.enableCustomApiKey && processing.customApiKey.length > 0) {
+        return `Api-Key ${processing.customApiKey}`;
+    }
+}
 
 const request = async (url: string) => {
     const getSetting = lazySettingGetter(get(settings));
@@ -22,10 +53,11 @@ const request = async (url: string) => {
         audioBitrate: getSetting("save", "audioBitrate"),
         audioFormat: getSetting("save", "audioFormat"),
         tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
-        youtubeDubBrowserLang: getSetting("save", "youtubeDubBrowserLang"),
+        youtubeDubLang: getSetting("save", "youtubeDubLang"),
 
         youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
         videoQuality: getSetting("save", "videoQuality"),
+        youtubeHLS: getSetting("save", "youtubeHLS"),
 
         filenameStyle: getSetting("save", "filenameStyle"),
         disableMetadata: getSetting("save", "disableMetadata"),
@@ -35,8 +67,6 @@ const request = async (url: string) => {
 
         alwaysProxy: getSetting("privacy", "alwaysProxy"),
     }
-
-    await apiOverrideWarning();
 
     await getServerInfo();
 
@@ -51,38 +81,25 @@ const request = async (url: string) => {
         } as CobaltErrorResponse;
     }
 
-    if (getCachedInfo?.info?.cobalt?.turnstileSitekey && !get(turnstileLoaded)) {
-        return {
-            status: "error",
-            error: {
-                code: "error.captcha_ongoing"
-            }
-        } as CobaltErrorResponse;
+    const api = currentApiURL();
+    const authorization = await getAuthorization();
+
+    if (authorization && typeof authorization !== "string") {
+        return authorization;
     }
 
-    const api = currentApiURL();
+    let extraHeaders = {};
 
-    const session = getCachedInfo?.info?.cobalt?.turnstileSitekey
-                    ? await getSession() : undefined;
-
-    let extraHeaders = {}
-
-    if (session) {
-        if ("error" in session) {
-            if (session.error.code !== "error.api.auth.not_configured") {
-                return session;
-            }
-        } else {
-            extraHeaders = {
-                "Authorization": `Bearer ${session.token}`,
-            };
+    if (authorization) {
+        extraHeaders = {
+            "Authorization": authorization
         }
     }
 
     const response: Optional<CobaltAPIResponse> = await fetch(api, {
         method: "POST",
         redirect: "manual",
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(20000),
         body: JSON.stringify(request),
         headers: {
             "Accept": "application/json",

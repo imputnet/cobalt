@@ -19,7 +19,6 @@ import tumblr from "./services/tumblr.js";
 import vimeo from "./services/vimeo.js";
 import soundcloud from "./services/soundcloud.js";
 import instagram from "./services/instagram.js";
-import vine from "./services/vine.js";
 import pinterest from "./services/pinterest.js";
 import streamable from "./services/streamable.js";
 import twitch from "./services/twitch.js";
@@ -30,6 +29,7 @@ import loom from "./services/loom.js";
 import threads from "./services/threads.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
+import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
 
@@ -79,8 +79,9 @@ export default async function({ host, patternMatch, params }) {
 
             case "vk":
                 r = await vk({
-                    userId: patternMatch.userId,
+                    ownerId: patternMatch.ownerId,
                     videoId: patternMatch.videoId,
+                    accessKey: patternMatch.accessKey,
                     quality: params.videoQuality
                 });
                 break;
@@ -98,13 +99,14 @@ export default async function({ host, patternMatch, params }) {
 
             case "youtube":
                 let fetchInfo = {
+                    dispatcher,
                     id: patternMatch.id.slice(0, 11),
                     quality: params.videoQuality,
                     format: params.youtubeVideoCodec,
                     isAudioOnly,
                     isAudioMuted,
                     dubLang: params.youtubeDubLang,
-                    dispatcher
+                    youtubeHLS: params.youtubeHLS,
                 }
 
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {
@@ -128,7 +130,7 @@ export default async function({ host, patternMatch, params }) {
             case "tiktok":
                 r = await tiktok({
                     postId: patternMatch.postId,
-                    id: patternMatch.id,
+                    shortLink: patternMatch.shortLink,
                     fullAudio: params.tiktokFullAudio,
                     isAudioOnly,
                     h265: params.tiktokH265,
@@ -173,12 +175,6 @@ export default async function({ host, patternMatch, params }) {
                     alwaysProxy: params.alwaysProxy,
                     dispatcher
                 })
-                break;
-
-            case "vine":
-                r = await vine({
-                    id: patternMatch.id
-                });
                 break;
 
             case "pinterest":
@@ -249,7 +245,17 @@ export default async function({ host, patternMatch, params }) {
             case "bsky":
                 r = await bluesky({
                     ...patternMatch,
-                    alwaysProxy: params.alwaysProxy
+                    alwaysProxy: params.alwaysProxy,
+                    dispatcher
+                });
+                break;
+
+            case "xiaohongshu":
+                r = await xiaohongshu({
+                    ...patternMatch,
+                    h265: params.tiktokH265,
+                    isAudioOnly,
+                    dispatcher,
                 });
                 break;
 

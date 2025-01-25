@@ -2,7 +2,7 @@ import { defaultLocale } from "$lib/i18n/translations";
 import type { CobaltSettings } from "$lib/types/settings";
 
 const defaultSettings: CobaltSettings = {
-    schemaVersion: 2,
+    schemaVersion: 4,
     advanced: {
         debug: false,
     },
@@ -25,17 +25,18 @@ const defaultSettings: CobaltSettings = {
         twitterGif: true,
         videoQuality: "1080",
         youtubeVideoCodec: "h264",
-        youtubeDubBrowserLang: false,
+        youtubeDubLang: "original",
+        youtubeHLS: false,
     },
     privacy: {
         alwaysProxy: false,
         disableAnalytics: false,
     },
     processing: {
-        allowDefaultOverride: false,
         customInstanceURL: "",
+        customApiKey: "",
         enableCustomInstances: false,
-        seenOverrideWarning: false,
+        enableCustomApiKey: false,
         seenCustomWarning: false,
     }
 }

@@ -34,7 +34,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        text-align: left;
+        text-align: start;
         border-radius: var(--donate-card-padding);
         background: rgba(255, 255, 255, 0.05);
         padding: 12px 16px;
