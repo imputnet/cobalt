@@ -18,5 +18,6 @@
     "paste": "vložit",
     "input.placeholder": "vlož odkaz sem",
     "services.title_show": "zobrazit podporované služby",
-    "tutorial.outro": "tyto zkratky budou fungovat pouze z aplikace cobalt, sdílení odkazů z jiných aplikací nebude fungovat."
+    "tutorial.outro": "tyto zkratky budou fungovat pouze z aplikace cobalt, sdílení odkazů z jiných aplikací nebude fungovat.",
+    "label.community_instance": "komunitní instance"
 }
