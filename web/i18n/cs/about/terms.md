@@ -52,9 +52,9 @@ spravedlivé použití a zásluha jsou přínosem pro všechny.
     sectionId="abuse"
 />
 
-we have no way of detecting abusive behavior automatically because cobalt is
-100% anonymous. however, you can report such activities to us via email and
-we'll do our best to comply manually: abuse[at]imput.net
+nemáme žádný způsob, jak automaticky odhalit zneužití, protože cobalt je 100%
+anonymní. můžeš nám však takové aktivity nahlásit e-mailem a my se budeme snažit
+vyhovět ručně: abuse[zavináč]imput.net
 
 **tento e-mail není určen pro uživatelskou podporu, pokud se tvůj problém netýká
 zneužití, nedostaneš odpověď.**
