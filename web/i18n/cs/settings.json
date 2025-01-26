@@ -71,7 +71,7 @@
     "privacy.tunnel": "tunelování",
     "privacy.tunnel.title": "vždy tunelovat soubory",
     "advanced.debug": "ladění",
-    "advanced.debug.title": "povolit funkce ladění",
+    "advanced.debug.title": "povolit funkce pro šprty",
     "advanced.debug.description": "zpřístupní ti stránku s různými informacemi, které mohou být užitečné při ladění.",
     "processing.community": "instance komunity",
     "processing.enable_custom.title": "použít vlastní server pro zpracování",
@@ -82,7 +82,7 @@
     "theme": "motiv",
     "video.tiktok.h265.description": "umožňuje stahovat videa v rozlišení 1080p na úkor kompatibility.",
     "accessibility.motion.description": "vypne animace a přechody, kdykoli je to možné.",
-    "processing.enable_custom.description": "cobalt použije jiný server pro zpracování, pokud se tak rozhodneš. i když má cobalt zavedena určitá bezpečnostní opatření, nejsme zodpovědní za žádné škody způsobené prostřednictvím cizí instance, protože nad nimi nemáme kontrolu.\n\ndbej prosím na to, jaké instance používáš, a ujisti se, že je hostují lidé, kterým důvěřuješ.",
+    "processing.enable_custom.description": "cobalt použije jinou instanci pro zpracování, pokud se tak rozhodneš. i když má cobalt zavedena určitá bezpečnostní opatření, nejsme zodpovědní za žádné škody způsobené prostřednictvím cizí instance, protože nad nimi nemáme kontrolu.\n\ndbej prosím na to, jaké instance používáš, a ujisti se, že je hostují lidé, kterým důvěřuješ.",
     "theme.auto": "auto",
     "processing.override.description": "pokud webová instance poskytuje svůj vlastní výchozí server pro zpracování, můžeš jej použít místo hlavního serveru pro zpracování. ujisti se, že se jedná o server někoho, komu důvěřuješ.",
     "theme.description": "automatický motiv přepíná mezi světlým a tmavým motivem v závislosti na režimu zobrazení tvého zařízení.",
@@ -100,5 +100,8 @@
     "video.youtube.hls": "formáty hls na youtube",
     "video.youtube.hls.title": "preferovat hls pro video a audio",
     "video.youtube.hls.description": "soubory se stahují rychleji a jsou méně náchylné k chybám nebo náhlému přerušení. v tomto režimu jsou k dispozici pouze kodeky h264 a vp9. původní zvukový kodek je aac, který je překódován kvůli kompatibilitě, kvalita zvuku může být o něco horší než u protějšku bez HLS.\n\ntato volba je experimentální, v budoucnu může zmizet nebo se změnit.",
-    "youtube.dub.original": "původní"
+    "youtube.dub.original": "původní",
+    "processing.access_key": "přístupový klíč instance",
+    "processing.access_key.title": "použít přístupový klíč instance",
+    "processing.access_key.description": "cobalt použije tento klíč k provádění požadavků na instanci zpracování namísto jiných metod ověřování. ujistěte se, že instance podporuje api klíče!"
 }
