@@ -1,0 +1,18 @@
+{
+    "reset.title": "¿restablecer todos los datos?",
+    "reset.body": "¿estás seguro de que quieres restablecer todos los datos? esta acción es inmediata e irreversible.",
+    "picker.title": "selecciona qué guardar",
+    "picker.description.desktop": "haz clic en un elemento para guardarlo. las imágenes también se pueden guardar mediante el menú del clic derecho del ratón.",
+    "picker.description.phone": "pulsa un elemento para guardarlo. las imágenes también se pueden guardar con una pulsación larga.",
+    "picker.description.ios": "pulsa un elemento para guardarlo con un atajo. las imágenes también se pueden guardar con una pulsación larga.",
+    "saving.title": "elige cómo guardar",
+    "saving.blocked": "cobalt intentó abrir el archivo en una nueva pestaña, pero tu navegador lo bloqueó. puedes permitir las ventanas emergentes de cobalt para evitar que esto ocurra la próxima vez.",
+    "saving.timeout": "cobalt intentó guardar el archivo automáticamente, pero tu navegador lo impidió. tienes que seleccionar el método preferido manualmente.",
+    "safety.title": "aviso importante de seguridad",
+    "api.override.title": "anulación de la instancia de procesamiento",
+    "api.override.body": "{{ value }} es ahora la instancia de procesamiento. si no confías en ella, pulsa «cancelar» y será ignorada.\n\npuedes cambiar tu elección más tarde en la configuración de procesamiento.",
+    "processing.ongoing": "cobalt está procesando un archivo en esta pestaña. salir abortará el procesamiento. ¿estás seguro de que quieres hacerlo?",
+    "processing.title.ongoing": "el procesamiento será cancelado",
+    "import.body": "importar archivos desconocidos o dañados puede alterar o romper inesperadamente la funcionalidad de cobalt. solamente importa archivos que hayas exportado personalmente y que no hayas modificado. si alguien te pidió que importes este archivo, no lo hagas.\n\nno nos hacemos responsables de ningún daño causado por la importación de archivos de configuración desconocidos.",
+    "safety.custom_instance.body": "las instancias personalizadas pueden plantear riesgos potenciales para la privacidad y la seguridad.\n\nlas malas instancias pueden:\n1. redirigirte fuera de cobalt e intentar estafarte.\n2. registrar toda la información sobre sus solicitudes, almacenarla para siempre y utilizarla para rastrearte.\n3. servirte archivos maliciosos (como malware).\n4. obligarte a ver anuncios o hacerte pagar por las descargas.\n\nde aquí en adelante, no podemos protegerte. por favor, ten cuidado con las instancias que utilizas y confía siempre en tu instinto. si algo no te cuadra, vuelve a esta página, reinicia la instancia personalizada e infórmanos en github."
+}
