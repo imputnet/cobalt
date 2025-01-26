@@ -36,9 +36,11 @@
     "api.fetch.short_link": "nepodařilo se mi získat informace o odkazu z krátkého odkazu. můžeš ověřit, že funguje? pokud ano a stále se ti zobrazuje tato chyba, dej nám vědět a my se ti pokusíme pomoci!",
     "api.content.video.live": "toto video je právě v přímém přenosu, takže ho zatím nemohu stáhnout. počkej, až skončí živý přenos, a pak to zkus znovu!",
     "api.youtube.decipher": "youtube aktualizoval svůj dešifrovací algoritmus a nepodařilo se mi získat informace o videu.\n\nzkus to znovu za několik sekund, ale pokud tento problém přetrvává, nahlaste ho!",
-    "api.youtube.login": "nepodařilo se mi získat toto video, protože youtube požádal instanci o přihlášení. je to potenciálně způsobeno tím, že zpracovávací instance nemá žádné aktivní účtové tokeny nebo youtube změnil něco o svém api. zkus to za pár sekund znovu, ale pokud to stále nefunguje, chybu prosím nahlaste!",
+    "api.youtube.login": "nepodařilo se mi získat toto video, protože youtube požádal instanci o přihlášení. je to potenciálně způsobeno tím, že zpracovávací instance nemá žádné aktivní účtové tokeny nebo youtube změnil něco o svém api. zkus to za pár sekund znovu, ale pokud to stále nefunguje, nahlaste tento problém!",
     "captcha_ongoing": "stále kontrolujeme, zda nejsi bot. počkej, až spinner zmizí, a zkus to znovu.\n\npokud to trvá příliš dlouho, dej nám prosím vědět! používáme cloudflare turnstile pro ochranu před boty a někdy to lidi bezdůvodně blokuje.",
-    "api.youtube.no_hls_streams": "nepodařilo se najít žádné odpovídající streamy HLS. zkus jiná nastavení!",
+    "api.youtube.no_hls_streams": "pro toto video se nepodařilo najít žádné odpovídající streamy HLS. zkus ho stáhnout bez HLS!",
     "api.content.paid": "tento obsah vyžaduje zakoupení. cobalt nemůže stahovat placený obsah. zkus jiný odkaz!",
-    "api.youtube.no_matching_format": "youtube nevrátil platný formát videa a audia, chybí video nebo zvuk. formáty pro toto video mohou být překódována na straně youtubu, nebo se něco pokazilo při jejich analýze. zkus povolit možnost hls v nastavení videa!"
+    "api.youtube.no_matching_format": "youtube nevrátil platný formát videa a audia, chybí video nebo zvuk. formáty pro toto video mohou být překódována na straně youtubu, nebo se něco pokazilo při jejich analýze. zkus povolit možnost hls v nastavení videa!",
+    "api.auth.key.missing": "na použití této instance je vyžadován přístupový klíč, ale chybí. přidejte jej do nastavení instance!",
+    "api.youtube.api_error": "youtube aktualizoval něco o svém API a nemohl jsem získat žádné informace o tomto videu. zkus to znovu za pár sekund, ale pokud tento problém přetrvává, prosím nahlaste ho!"
 }
