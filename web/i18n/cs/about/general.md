@@ -28,7 +28,7 @@ cobalt byl vytvořen pro veřejný prospěch, aby chránil lidi před reklamami 
 škodlivým softwarem, který prosazují jeho alternativy. věříme, že nejlepší
 software je bezpečný, otevřený a přístupný všem.
 
-a part of our infrastructure is provided by our long-standing partner,
+část naší infrastruktury zajišťuje náš dlouholetý partner,
 [royalehosting.net]({partners.royalehosting})!
 </section>
 
