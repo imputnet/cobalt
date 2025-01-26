@@ -19,7 +19,7 @@
     "api.content.video.private": "toto video je soukromé, takže k němu nemám přístup. změň jeho viditelnost nebo zkus jiné!",
     "api.content.video.age": "toto video je věkově omezené, takže k němu nemám anonymní přístup. zkus jiné!",
     "api.content.video.region": "toto video je geograficky omezené a zpracovávací server je v jiné krajině. zkus nějaké jiné!",
-    "api.content.post.private": "nemohl dostat nic o tomto příspěvku, protože je ze soukromého účtu. zkus jiný odkaz!",
+    "api.content.post.private": "nemohl jsem zjistit nic o tomto příspěvku, protože je ze soukromého účtu. zkus jiný odkaz!",
     "api.content.post.age": "tento příspěvek je věkově omezený, proto není k dispozici bez přihlášení. zkus jiný odkaz!",
     "api.youtube.codec": "youtube nevrátil nic s tvým preferovaným kodekem videa. zkus jiný v nastavení!",
     "api.youtube.token_expired": "toto video se mi nepodařilo získat, protože vypršel token youtube a nemohl jsem ho obnovit. zkus to znovu za pár sekund, ale pokud to stále nefunguje, řekni o této chybě majiteli instance!",
@@ -40,5 +40,5 @@
     "captcha_ongoing": "stále kontrolujeme, zda nejsi bot. počkej, až spinner zmizí, a zkus to znovu.\n\npokud to trvá příliš dlouho, dej nám prosím vědět! používáme cloudflare turnstile pro ochranu před boty a někdy to lidi bezdůvodně blokuje.",
     "api.youtube.no_hls_streams": "nepodařilo se najít žádné odpovídající streamy HLS. zkus jiná nastavení!",
     "api.content.paid": "tento obsah vyžaduje zakoupení. cobalt nemůže stahovat placený obsah. zkus jiný odkaz!",
-    "api.youtube.no_matching_format": "youtube nevrátil platný formát videa a audia, chybí video nebo zvuk. formáty pro toto video mohou být překódována na straně youtubu, nebo se něco pokazilo při jejich analýze. zkuste povolit možnost hls v nastavení videa!"
+    "api.youtube.no_matching_format": "youtube nevrátil platný formát videa a audia, chybí video nebo zvuk. formáty pro toto video mohou být překódována na straně youtubu, nebo se něco pokazilo při jejich analýze. zkus povolit možnost hls v nastavení videa!"
 }
