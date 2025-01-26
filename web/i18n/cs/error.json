@@ -38,5 +38,6 @@
     "api.youtube.decipher": "youtube aktualizoval svůj dešifrovací algoritmus a nepodařilo se mi získat informace o videu.\n\nzkus to znovu za několik sekund, ale pokud problém přetrvává, kontaktuj nás pro podporu.",
     "api.youtube.login": "nepodařilo se mi získat toto video, protože mě youtube označilo za bota. je to potenciálně způsobeno tím, že zpracovávací instance nemá žádné aktivní účtové tokeny. zkus to za pár sekund znovu, ale pokud to stále nefunguje, řekni o této chybě majiteli instance!",
     "captcha_ongoing": "stále kontrolujeme, zda nejsi bot. počkej, až spinner zmizí, a zkus to znovu.\n\npokud to trvá příliš dlouho, dej nám prosím vědět! používáme cloudflare turnstile pro ochranu před boty a někdy to lidi bezdůvodně blokuje.",
-    "api.youtube.no_hls_streams": "nepodařilo se najít žádné odpovídající streamy HLS. zkus jiná nastavení!"
+    "api.youtube.no_hls_streams": "nepodařilo se najít žádné odpovídající streamy HLS. zkus jiná nastavení!",
+    "api.content.paid": "tento obsah vyžaduje nákup. cobalt nemůže stahovat placený obsah. zkuste jiný odkaz!"
 }
