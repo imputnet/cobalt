@@ -71,7 +71,7 @@ as long as you:
 
 ## open source acknowledgements
 ### ffmpeg
-cobalt relies on ffmpeg for muxing and encoding media files. ffmpeg is absolutely spectacular and we're privileged to have an ability to use it for free, just like anyone else. we believe it should be way more recognized.
+cobalt relies on ffmpeg for muxing and encoding media files. ffmpeg is absolutely spectacular and we're privileged to have the ability to use it for free, just like anyone else. we believe it should be way more recognized.
 
 you can [support ffmpeg here](https://ffmpeg.org/donations.html)!
 
