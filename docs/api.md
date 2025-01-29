@@ -68,8 +68,8 @@ Content-Type: application/json
 | `alwaysProxy`                | `boolean` | `true / false`                     | `false`   | tunnels all downloads through the processing server, even when not necessary.   |
 | `disableMetadata`            | `boolean` | `true / false`                     | `false`   | disables file metadata when set to `true`.                                      |
 | `tiktokFullAudio`            | `boolean` | `true / false`                     | `false`   | enables download of original sound used in a tiktok video.                      |
-| `tiktokH265`                 | `boolean` | `true / false`                     | `false`   | allows h265 videos when enabled. applies to tiktok & xiaohongshu.               |
-| `twitterGif`                 | `boolean` | `true / false`                     | `true`    | changes whether twitter gifs are converted to .gif                              |
+| `allowH265`                  | `boolean` | `true / false`                     | `false`   | allows h265 videos when enabled. applies to tiktok & xiaohongshu.               |
+| `convertGif`                 | `boolean` | `true / false`                     | `true`    | changes whether mute looping videos are converted to .gif                       |
 | `youtubeHLS`                 | `boolean` | `true / false`                     | `false`   | specifies whether to use HLS for downloading video or audio from youtube.       |
 
 ### response
