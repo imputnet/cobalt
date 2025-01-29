@@ -19,7 +19,7 @@
     },
     {
         "name": "one photo",
-        "url": "https://www.xiaohongshu.com/explore/6788b56200000000210008c8?xsec_token=CBSDiWU4N-DgirHrOVbIWrlKfUNFHKwm-Wsjqz7dIMc_k",
+        "url": "https://www.xiaohongshu.com/explore/676e132d000000000b016f68?xsec_token=ABRv6LKzizOFeSaf2HnnBkdBqniB5Ak1fI8tMAHzO31jA",
         "params": {},
         "expected": {
             "code": 200,

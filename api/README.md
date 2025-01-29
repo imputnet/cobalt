@@ -11,12 +11,9 @@ we recommend [deploying your own instance](/docs/run-an-instance.md) if you wish
 
 you can read [the api documentation here](/docs/api.md).
 
-> [!WARNING]
-> the v7 public api (/api/json) will be shut down on **november 11th, 2024**.
-> you can access documentation for it [here](https://github.com/imputnet/cobalt/blob/7/docs/api.md).
-
 ## supported services
-this list is not final and keeps expanding over time. if support for a service you want is missing, create an issue (or a pull request 👀).
+this list is not final and keeps expanding over time!
+if the desired service isn't supported yet, feel free to create an appropriate issue (or a pull request 👀).
 
 | service           | video + audio | only audio | only video | metadata | rich file names |
 | :--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
@@ -39,12 +36,13 @@ this list is not final and keeps expanding over time. if support for a service y
 | twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
 | vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
+| xiaohongshu       | ✅            | ✅         | ✅         | ➖         | ➖              |
 | youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
 | ✅      | supported               |
-| ➖      | impossible/unreasonable |
+| ➖      | unreasonable/impossible |
 | ❌      | not supported           |
 
 ### additional notes or features (per service)
@@ -71,36 +69,35 @@ as long as you:
 - provide a link to the license and indicate if changes to the code were made, and
 - release the code under the **same license**
 
-## acknowledgements
+## open source acknowledgements
 ### ffmpeg
-cobalt heavily relies on ffmpeg for converting and merging media files. it's an absolutely amazing piece of software offered for anyone for free, yet doesn't receive as much credit as it should.
+cobalt relies on ffmpeg for muxing and encoding media files. ffmpeg is absolutely spectacular and we're privileged to have an ability to use it for free, just like anyone else. we believe it should be way more recognized.
 
 you can [support ffmpeg here](https://ffmpeg.org/donations.html)!
 
-#### ffmpeg-static
-we use [ffmpeg-static](https://github.com/eugeneware/ffmpeg-static) to get binaries for ffmpeg depending on the platform.
-
-you can support the developer via various methods listed on their github page! (linked above)
-
 ### youtube.js
-cobalt relies on [youtube.js](https://github.com/LuanRT/YouTube.js) for interacting with the innertube api, it wouldn't have been possible without it.
+cobalt relies on **[youtube.js](https://github.com/LuanRT/YouTube.js)** for interacting with youtube's innertube api, it wouldn't have been possible without this package.
 
-you can support the developer via various methods listed on their github page! (linked above)
+you can support the developer via various methods listed on their github page!
+(linked above)
 
 ### many others
-cobalt also depends on:
+cobalt-api also depends on:
 
-- [content-disposition-header](https://www.npmjs.com/package/content-disposition-header) to simplify the provision of `content-disposition` headers.
-- [cors](https://www.npmjs.com/package/cors) to manage cross-origin resource sharing within expressjs.
-- [dotenv](https://www.npmjs.com/package/dotenv) to load environment variables from the `.env` file.
-- [express](https://www.npmjs.com/package/express) as the backbone of cobalt servers.
-- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) to rate limit api endpoints.
-- [hls-parser](https://www.npmjs.com/package/hls-parser) to parse `m3u8` playlists for certain services.
-- [ipaddr.js](https://www.npmjs.com/package/ipaddr.js) to parse ip addresses (for rate limiting).
-- [nanoid](https://www.npmjs.com/package/nanoid) to generate unique (temporary) identifiers for each requested stream.
-- [psl](https://www.npmjs.com/package/psl) as the domain name parser.
-- [set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser) to parse cookies that cobalt receives from certain services.
-- [undici](https://www.npmjs.com/package/undici) for making http requests.
-- [url-pattern](https://www.npmjs.com/package/url-pattern) to match provided links with supported patterns.
+- **[content-disposition-header](https://www.npmjs.com/package/content-disposition-header)** to simplify the provision of `content-disposition` headers.
+- **[cors](https://www.npmjs.com/package/cors)** to manage cross-origin resource sharing within expressjs.
+- **[dotenv](https://www.npmjs.com/package/dotenv)** to load environment variables from the `.env` file.
+- **[express](https://www.npmjs.com/package/express)** as the backbone of cobalt servers.
+- **[express-rate-limit](https://www.npmjs.com/package/express-rate-limit)** to rate limit api endpoints.
+- **[ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static)** to get binaries for ffmpeg depending on the platform.
+- **[hls-parser](https://www.npmjs.com/package/hls-parser)** to parse HLS playlists according to spec (very impressive stuff).
+- **[ipaddr.js](https://www.npmjs.com/package/ipaddr.js)** to parse ip addresses (used for rate limiting).
+- **[nanoid](https://www.npmjs.com/package/nanoid)** to generate unique identifiers for each requested tunnel.
+- **[set-cookie-parser](https://www.npmjs.com/package/set-cookie-parser)** to parse cookies that cobalt receives from certain services.
+- **[undici](https://www.npmjs.com/package/undici)** for making http requests.
+- **[url-pattern](https://www.npmjs.com/package/url-pattern)** to match provided links with supported patterns.
+- **[zod](https://www.npmjs.com/package/zod)** to lock down the api request schema.
+- **[@datastructures-js/priority-queue](https://www.npmjs.com/package/@datastructures-js/priority-queue)** for sorting stream caches for future clean up (without redis).
+- **[@imput/psl](https://www.npmjs.com/package/@imput/psl)** as the domain name parser, our fork of [psl](https://www.npmjs.com/package/psl).
 
 ...and many other packages that these packages rely on.
