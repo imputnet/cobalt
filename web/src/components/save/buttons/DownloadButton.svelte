@@ -1,12 +1,12 @@
 <script lang="ts">
     import "@fontsource-variable/noto-sans-mono";
 
-    import API from "$lib/api/api";
+    import { onDestroy } from "svelte";
     import { t } from "$lib/i18n/translations";
-    import { createDialog } from "$lib/state/dialogs";
-    import { downloadFile } from "$lib/download";
+    import { savingHandler } from "$lib/api/saving-handler";
+    import { downloadButtonState } from "$lib/state/omnibox";
 
-    import type { DialogInfo } from "$lib/types/dialog";
+    import type { CobaltDownloadButtonState } from "$lib/types/omnibox";
 
     export let url: string;
     export let disabled = false;
@@ -15,22 +15,9 @@
     $: buttonText = ">>";
     $: buttonAltText = $t("a11y.save.download");
 
-    let defaultErrorPopup: DialogInfo = {
-        id: "save-error",
-        type: "small",
-        meowbalt: "error",
-        buttons: [
-            {
-                text: $t("button.gotit"),
-                main: true,
-                action: () => {},
-            },
-        ],
-    };
-
     type DownloadButtonState = "idle" | "think" | "check" | "done" | "error";
 
-    const changeDownloadButton = (state: DownloadButtonState) => {
+    const unsubscribe = downloadButtonState.subscribe((state: CobaltDownloadButtonState) => {
         disabled = state !== "idle";
         loading = state === "think" || state === "check";
 
@@ -56,107 +43,17 @@
         // transition back to idle after some period of time.
         const final: DownloadButtonState[] = ["done", "error"];
         if (final.includes(state)) {
-            setTimeout(() => changeDownloadButton("idle"), 1500);
+            setTimeout(() => downloadButtonState.set("idle"), 1500);
         }
-    };
+    });
 
-    export const download = async (link: string) => {
-        changeDownloadButton("think");
-
-        const response = await API.request(link);
-
-        if (!response) {
-            changeDownloadButton("error");
-
-            return createDialog({
-                ...defaultErrorPopup,
-                bodyText: $t("error.api.unreachable"),
-            });
-        }
-
-        if (response.status === "error") {
-            changeDownloadButton("error");
-
-            return createDialog({
-                ...defaultErrorPopup,
-                bodyText: $t(response.error.code, response?.error?.context),
-            });
-        }
-
-        if (response.status === "redirect") {
-            changeDownloadButton("done");
-
-            return downloadFile({
-                url: response.url,
-                urlType: "redirect",
-            });
-        }
-
-        if (response.status === "tunnel") {
-            changeDownloadButton("check");
-
-            const probeResult = await API.probeCobaltTunnel(response.url);
-
-            if (probeResult === 200) {
-                changeDownloadButton("done");
-
-                return downloadFile({
-                    url: response.url,
-                });
-            } else {
-                changeDownloadButton("error");
-
-                return createDialog({
-                    ...defaultErrorPopup,
-                    bodyText: $t("error.tunnel.probe"),
-                });
-            }
-        }
-
-        if (response.status === "picker") {
-            changeDownloadButton("done");
-            const buttons = [
-                {
-                    text: $t("button.done"),
-                    main: true,
-                    action: () => {},
-                },
-            ];
-
-            if (response.audio) {
-                const pickerAudio = response.audio;
-                buttons.unshift({
-                    text: $t("button.download.audio"),
-                    main: false,
-                    action: () => {
-                        downloadFile({
-                            url: pickerAudio,
-                        });
-                    },
-                });
-            }
-
-            return createDialog({
-                id: "download-picker",
-                type: "picker",
-                items: response.picker,
-                buttons,
-            });
-        }
-
-        changeDownloadButton("error");
-
-        return createDialog({
-            ...defaultErrorPopup,
-            bodyText: $t("error.api.unknown_response"),
-        });
-    };
+    onDestroy(() => unsubscribe());
 </script>
 
 <button
     id="download-button"
     {disabled}
-    on:click={() => download(url)}
+    on:click={() => savingHandler(url)}
     aria-label={buttonAltText}
 >
     <span id="download-state">{buttonText}</span>

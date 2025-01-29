@@ -11,6 +11,7 @@
     import dialogs from "$lib/state/dialogs";
     import { link } from "$lib/state/omnibox";
     import { updateSetting } from "$lib/state/settings";
+    import { savingHandler } from "$lib/api/saving-handler";
     import { pasteLinkFromClipboard } from "$lib/clipboard";
     import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 
@@ -75,7 +76,7 @@
 
             if (!isBotCheckOngoing) {
                 await tick(); // wait for button to render
-                downloadButton.download($link);
+                savingHandler($link);
             }
         }
     };
@@ -94,7 +95,7 @@
         }
 
         if (e.key === "Enter" && validLink($link) && isFocused) {
-            downloadButton.download($link);
+            savingHandler($link);
         }
 
         if (["Escape", "Clear"].includes(e.key) && isFocused) {
