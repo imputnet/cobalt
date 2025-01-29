@@ -70,7 +70,7 @@ export default async function({ host, patternMatch, params }) {
                 r = await twitter({
                     id: patternMatch.id,
                     index: patternMatch.index - 1,
-                    toGif: !!params.twitterGif,
+                    toGif: !!params.convertGif,
                     alwaysProxy: params.alwaysProxy,
                     dispatcher
                 });
@@ -132,7 +132,7 @@ export default async function({ host, patternMatch, params }) {
                     shortLink: patternMatch.shortLink,
                     fullAudio: params.tiktokFullAudio,
                     isAudioOnly,
-                    h265: params.tiktokH265,
+                    h265: params.allowH265,
                     alwaysProxy: params.alwaysProxy,
                 });
                 break;
@@ -243,7 +243,7 @@ export default async function({ host, patternMatch, params }) {
             case "xiaohongshu":
                 r = await xiaohongshu({
                     ...patternMatch,
-                    h265: params.tiktokH265,
+                    h265: params.allowH265,
                     isAudioOnly,
                     dispatcher,
                 });
@@ -300,7 +300,7 @@ export default async function({ host, patternMatch, params }) {
             isAudioMuted,
             disableMetadata: params.disableMetadata,
             filenameStyle: params.filenameStyle,
-            twitterGif: params.twitterGif,
+            convertGif: params.convertGif,
             requestIP,
             audioBitrate: params.audioBitrate,
             alwaysProxy: params.alwaysProxy,

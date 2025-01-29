@@ -37,9 +37,10 @@ export const apiSchema = z.object({
                      .optional(),
 
     disableMetadata: z.boolean().default(false),
+
+    allowH265: z.boolean().default(false),
+    convertGif: z.boolean().default(true),
     tiktokFullAudio: z.boolean().default(false),
-    tiktokH265: z.boolean().default(false),
-    twitterGif: z.boolean().default(true),
 
     alwaysProxy: z.boolean().default(false),
     localProcessing: z.boolean().default(false),

@@ -15,7 +15,7 @@ export default function({
     isAudioMuted,
     disableMetadata,
     filenameStyle,
-    twitterGif,
+    convertGif,
     requestIP,
     audioBitrate,
     alwaysProxy,
@@ -37,7 +37,7 @@ export default function({
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
-    else if (r.isGif && twitterGif) action = "gif";
+    else if (r.isGif && convertGif) action = "gif";
     else if (isAudioOnly) action = "audio";
     else if (isAudioMuted) action = "muteVideo";
     else if (r.isHLS) action = "hls";
