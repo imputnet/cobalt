@@ -15,15 +15,6 @@
     />
 </SettingsCategory>
 
-<SettingsCategory sectionId="local-processing" title={$t("settings.advanced.duck")} beta>
-    <SettingsToggle
-        settingContext="advanced"
-        settingId="duck"
-        title={$t("settings.advanced.duck.title")}
-        description={$t("settings.advanced.duck.description")}
-    />
-</SettingsCategory>
-
 <SettingsCategory sectionId="data" title={$t("settings.advanced.data")}>
     <ManageSettings />
 </SettingsCategory>

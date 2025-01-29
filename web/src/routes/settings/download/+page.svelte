@@ -56,6 +56,15 @@
     />
 </SettingsCategory>
 
+<SettingsCategory sectionId="local-processing" title={$t("settings.advanced.local-processing")} beta>
+    <SettingsToggle
+        settingContext="advanced"
+        settingId="localProcessing"
+        title={$t("settings.advanced.local-processing.title")}
+        description={$t("settings.advanced.local-processing.description")}
+    />
+</SettingsCategory>
+
 <style>
     .category-inside-group {
         display: flex;

@@ -5,7 +5,7 @@ const defaultSettings: CobaltSettings = {
     schemaVersion: 5,
     advanced: {
         debug: false,
-        duck: false,
+        localProcessing: false,
     },
     appearance: {
         theme: "auto",

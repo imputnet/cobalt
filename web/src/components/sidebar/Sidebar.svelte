@@ -35,10 +35,10 @@
     <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
-            {#if $settings.advanced.duck && !device.is.mobile && $settings.advanced.debug}
+            <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
+            {#if $settings.advanced.localProcessing && !device.is.mobile && $settings.advanced.debug}
                 <SidebarTab name="cutout" path="/cutout" icon={IconCut} beta />
             {/if}
-            <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab name="settings" path={settingsLink} icon={IconSettings} />

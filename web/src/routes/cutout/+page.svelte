@@ -73,7 +73,7 @@
     };
 
     onMount(() => {
-        if (!($settings.advanced.duck && $settings.advanced.debug)) {
+        if (!($settings.advanced.localProcessing && $settings.advanced.debug)) {
             goto("/", { replaceState: true });
         }
     });

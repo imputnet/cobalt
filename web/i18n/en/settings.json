@@ -113,9 +113,9 @@
 
     "advanced.data": "data management",
 
-    "advanced.duck": "duck",
-    "advanced.duck.title": "enable new on-device features",
-    "advanced.duck.description": "very wip, WILL cause critical issues or not work at all. this toggle will be gone by release.",
+    "advanced.local-processing": "local processing",
+    "advanced.local-processing.title": "mux and convert media on device",
+    "advanced.local-processing.description": "when downloading media, cobalt will use on-device processing to mux or convert it. exclusive local features such as remux or convert are not affected, they always run locally.",
 
     "processing.community": "community instances",
     "processing.enable_custom.title": "use a custom processing server",

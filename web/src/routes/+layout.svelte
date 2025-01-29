@@ -91,7 +91,7 @@
             <UpdateNotification />
         {/if}
         <div id="content">
-            {#if $settings.advanced.duck}
+            {#if $settings.advanced.localProcessing}
                 <ProcessingQueue />
             {/if}
             {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}

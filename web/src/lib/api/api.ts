@@ -66,6 +66,7 @@ const request = async (url: string) => {
         tiktokH265: getSetting("save", "tiktokH265"),
 
         alwaysProxy: getSetting("privacy", "alwaysProxy"),
+        localProcessing: getSetting("advanced", "localProcessing"),
     }
 
     await getServerInfo();

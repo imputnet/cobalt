@@ -3,6 +3,7 @@ enum CobaltResponseType {
     Picker = 'picker',
     Redirect = 'redirect',
     Tunnel = 'tunnel',
+    LocalProcessing = 'local-processing',
 }
 
 export type CobaltErrorResponse = {
@@ -40,6 +41,33 @@ type CobaltTunnelResponse = {
     status: CobaltResponseType.Tunnel,
 } & CobaltPartialURLResponse;
 
+type CobaltLocalProcessingResponse = {
+    status: CobaltResponseType.LocalProcessing,
+    tunnel: string[],
+
+    // TODO: proper type for processing types
+    type: string,
+    service: string,
+    filename?: string,
+
+    metadata?: {
+        album?: string,
+        copyright?: string,
+        title?: string,
+        artist?: string,
+        track?: string,
+        date?: string
+    },
+
+    audio?: {
+        copy: boolean,
+        format: string,
+        bitrate: string,
+    },
+
+    isHLS?: boolean,
+}
+
 export type CobaltFileUrlType = "redirect" | "tunnel";
 
 export type CobaltSession = {
@@ -69,4 +97,5 @@ export type CobaltServerInfoResponse = CobaltServerInfo | CobaltErrorResponse;
 export type CobaltAPIResponse = CobaltErrorResponse
                               | CobaltPickerResponse
                               | CobaltRedirectResponse
-                              | CobaltTunnelResponse;
+                              | CobaltTunnelResponse
+                              | CobaltLocalProcessingResponse;
