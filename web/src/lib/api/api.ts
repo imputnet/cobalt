@@ -62,8 +62,8 @@ const request = async (url: string) => {
         filenameStyle: getSetting("save", "filenameStyle"),
         disableMetadata: getSetting("save", "disableMetadata"),
 
-        twitterGif: getSetting("save", "twitterGif"),
-        tiktokH265: getSetting("save", "tiktokH265"),
+        convertGif: getSetting("save", "convertGif"),
+        allowH265: getSetting("save", "allowH265"),
 
         alwaysProxy: getSetting("privacy", "alwaysProxy"),
         localProcessing: getSetting("advanced", "localProcessing"),

@@ -1,9 +1,10 @@
 import type { RecursivePartial } from "$lib/types/generic";
 import type {
+    PartialSettings,
     AllPartialSettingsWithSchema,
     CobaltSettingsV3,
     CobaltSettingsV4,
-    PartialSettings,
+    CobaltSettingsV5,
 } from "$lib/types/settings";
 import { getBrowserLanguage } from "$lib/settings/youtube-lang";
 
@@ -35,6 +36,24 @@ const migrations: Record<number, Migrator> = {
             }
             if ("seenOverrideWarning" in settings.processing) {
                 delete settings.processing.seenOverrideWarning;
+            }
+        }
+
+        return out as AllPartialSettingsWithSchema;
+    },
+
+    [5]: (settings: AllPartialSettingsWithSchema) => {
+        const out = settings as RecursivePartial<CobaltSettingsV5>;
+        out.schemaVersion = 5;
+
+        if (settings?.save) {
+            if ("tiktokH265" in settings.save) {
+                out.save!.allowH265 = settings.save.tiktokH265;
+                delete settings.save.tiktokH265;
+            }
+            if ("twitterGif" in settings.save) {
+                out.save!.convertGif = settings.save.twitterGif;
+                delete settings.save.twitterGif;
             }
         }
 
