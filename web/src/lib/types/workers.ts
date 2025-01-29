@@ -1,6 +1,6 @@
 export const resultFileTypes = ["video", "audio", "image"] as const;
 
-export type CobaltWorkerType = "remux" | "removebg";
+export type CobaltWorkerType = "remux" | "fetch";
 export type CobaltPipelineResultFileType = typeof resultFileTypes[number];
 
 export type CobaltWorkerProgress = {
@@ -10,7 +10,8 @@ export type CobaltWorkerProgress = {
 }
 
 export type CobaltWorkerArgs = {
-    files: File[],
+    files?: File[],
+    url?: string,
     //TODO: args for libav & etc with unique types
 }
 

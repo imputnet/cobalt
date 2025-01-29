@@ -1,4 +1,5 @@
 import RemuxWorker from "$lib/workers/remux?worker";
+import FetchWorker from "$lib/workers/fetch?worker";
 
 import { itemDone, itemError, queue } from "$lib/state/queen-bee/queue";
 import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
@@ -6,10 +7,10 @@ import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
 import type { CobaltQueue } from "$lib/types/queue";
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
-const killWorker = (worker: Worker, unsubscribe: () => void, interval: NodeJS.Timeout) => {
+const killWorker = (worker: Worker, unsubscribe: () => void, interval?: NodeJS.Timeout) => {
     unsubscribe();
     worker.terminate();
-    clearInterval(interval);
+    if (interval) clearInterval(interval);
 }
 
 export const runRemuxWorker = async (workerId: string, parentId: string, file: File) => {
@@ -89,10 +90,61 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
     };
 }
 
+export const runFetchWorker = async (workerId: string, parentId: string, url: string) => {
+    const worker = new FetchWorker();
+
+    const unsubscribe = queue.subscribe((queue: CobaltQueue) => {
+        if (!queue[parentId]) {
+            // TODO: remove logging
+            console.log("worker's parent is gone, so it killed itself");
+            killWorker(worker, unsubscribe);
+        }
+    });
+
+    worker.postMessage({
+        cobaltFetchWorker: {
+            url
+        }
+    });
+
+    worker.onmessage = (event) => {
+        const eventData = event.data.cobaltFetchWorker;
+        if (!eventData) return;
+
+        if (eventData.progress) {
+            updateWorkerProgress(workerId, {
+                percentage: eventData.progress,
+                size: eventData.size,
+            })
+        }
+
+        if (eventData.file) {
+            killWorker(worker, unsubscribe);
+            return itemDone(
+                parentId,
+                workerId,
+                eventData.file,
+            );
+        }
+
+        if (eventData.error) {
+            killWorker(worker, unsubscribe);
+            return itemError(parentId, workerId, eventData.error);
+        }
+    }
+}
+
 export const startWorker = async ({ worker, workerId, parentId, workerArgs }: CobaltPipelineItem) => {
     switch (worker) {
         case "remux":
-            await runRemuxWorker(workerId, parentId, workerArgs.files[0]);
+            if (workerArgs?.files) {
+                await runRemuxWorker(workerId, parentId, workerArgs.files[0]);
+            }
+            break;
+        case "fetch":
+            if (workerArgs?.url) {
+                await runFetchWorker(workerId, parentId, workerArgs.url)
+            }
             break;
     }
 }

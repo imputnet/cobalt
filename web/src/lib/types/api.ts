@@ -41,14 +41,14 @@ type CobaltTunnelResponse = {
     status: CobaltResponseType.Tunnel,
 } & CobaltPartialURLResponse;
 
-type CobaltLocalProcessingResponse = {
+export type CobaltLocalProcessingResponse = {
     status: CobaltResponseType.LocalProcessing,
     tunnel: string[],
 
     // TODO: proper type for processing types
     type: string,
     service: string,
-    filename?: string,
+    filename: string,
 
     metadata?: {
         album?: string,

@@ -6,5 +6,6 @@
 
     "state.waiting": "queued",
     "state.starting": "starting...",
-    "state.running.remux": "remuxing"
+    "state.running.remux": "remuxing",
+    "state.running.fetch": "downloading"
 }
