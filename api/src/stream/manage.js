@@ -70,6 +70,33 @@ export function createStream(obj) {
     return streamLink.toString();
 }
 
+export function createProxyTunnels(info) {
+    const proxyTunnels = [];
+
+    let urls = info.url;
+
+    if (typeof urls === "string") {
+        urls = [urls];
+    }
+
+    for (const url of urls) {
+        proxyTunnels.push(
+            createStream({
+                url,
+                type: "proxy",
+
+                service: info?.service,
+                headers: info?.headers,
+                requestIP: info?.requestIP,
+
+                originalRequest: info?.originalRequest
+            })
+        );
+    }
+
+    return proxyTunnels;
+}
+
 export function getInternalTunnel(id) {
     return internalStreamCache.get(id);
 }

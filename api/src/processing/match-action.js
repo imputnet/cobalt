@@ -5,7 +5,22 @@ import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
 
-export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate, alwaysProxy }) {
+const extraProcessingTypes = ["merge", "remux", "mute", "audio", "gif"];
+
+export default function({
+    r,
+    host,
+    audioFormat,
+    isAudioOnly,
+    isAudioMuted,
+    disableMetadata,
+    filenameStyle,
+    twitterGif,
+    requestIP,
+    audioBitrate,
+    alwaysProxy,
+    localProcessing
+}) {
     let action,
         responseType = "tunnel",
         defaultParams = {
@@ -216,5 +231,14 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         params.type = "proxy";
     }
 
-    return createResponse(responseType, {...defaultParams, ...params})
+    // TODO: add support for HLS
+    // (very painful)
+    if (localProcessing && !params.isHLS && extraProcessingTypes.includes(params.type)) {
+        responseType = "local-processing";
+    }
+
+    return createResponse(
+        responseType,
+        { ...defaultParams, ...params }
+    );
 }

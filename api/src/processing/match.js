@@ -304,6 +304,7 @@ export default async function({ host, patternMatch, params }) {
             requestIP,
             audioBitrate: params.audioBitrate,
             alwaysProxy: params.alwaysProxy,
+            localProcessing: params.localProcessing,
         })
     } catch {
         return createResponse("error", {

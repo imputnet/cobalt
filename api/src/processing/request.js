@@ -1,7 +1,7 @@
 import ipaddr from "ipaddr.js";
 
-import { createStream } from "../stream/manage.js";
 import { apiSchema } from "./schema.js";
+import { createProxyTunnels, createStream } from "../stream/manage.js";
 
 export function createResponse(responseType, responseData) {
     const internalError = (code) => {
@@ -46,6 +46,25 @@ export function createResponse(responseType, responseData) {
                 response = {
                     url: createStream(responseData),
                     filename: responseData?.filename
+                }
+                break;
+
+            case "local-processing":
+                response = {
+                    tunnel: createProxyTunnels(responseData),
+
+                    type: responseData?.type,
+                    service: responseData?.service,
+                    filename: responseData?.filename,
+                    metadata: responseData?.fileMetadata,
+
+                    audio: {
+                        copy: responseData?.audioCopy,
+                        format: responseData?.audioFormat,
+                        bitrate: responseData?.audioBitrate,
+                    },
+
+                    isHLS: responseData?.isHLS,
                 }
                 break;
 

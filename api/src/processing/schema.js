@@ -36,15 +36,13 @@ export const apiSchema = z.object({
                      .regex(/^[0-9a-zA-Z\-]+$/)
                      .optional(),
 
-    // TODO: remove this variable as it's no longer used
-    // and is kept for schema compatibility reasons
-    youtubeDubBrowserLang: z.boolean().default(false),
-
-    alwaysProxy: z.boolean().default(false),
     disableMetadata: z.boolean().default(false),
     tiktokFullAudio: z.boolean().default(false),
     tiktokH265: z.boolean().default(false),
     twitterGif: z.boolean().default(true),
+
+    alwaysProxy: z.boolean().default(false),
+    localProcessing: z.boolean().default(false),
 
     youtubeHLS: z.boolean().default(false),
 })
