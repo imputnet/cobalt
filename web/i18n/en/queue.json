@@ -1,6 +1,6 @@
 {
     "title": "processing queue",
-    "stub": "nothing in the queue yet, only two of us.\ntry {{ value }} something!",
+    "stub": "nothing in the queue yet, just the two of us.\ntry {{ value }} something!",
     "stub.download": "downloading",
     "stub.remux": "remuxing",
 
