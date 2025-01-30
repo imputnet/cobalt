@@ -97,7 +97,7 @@ const remux = async (file: File) => {
 self.onmessage = async (event: MessageEvent) => {
     console.log(event.data);
 
-    if (event.data.file) {
-        await remux(event.data.file);
+    if (event.data.cobaltRemuxWorker.file) {
+        await remux(event.data.cobaltRemuxWorker.file);
     }
 }

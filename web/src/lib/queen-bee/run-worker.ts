@@ -40,7 +40,11 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
         }
     });
 
-    worker.postMessage({ file });
+    worker.postMessage({
+        cobaltRemuxWorker: {
+            file
+        }
+    });
 
     worker.onerror = (e) => {
         console.error("remux worker exploded:", e);
