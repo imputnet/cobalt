@@ -1,17 +1,13 @@
-export type InputFileKind = "video" | "audio";
-
 export type FileInfo = {
-    type?: string | null,
-    kind: InputFileKind,
-    extension: string,
+    type?: string,
+    extension?: string,
 }
 
 export type RenderParams = {
-    blob: Blob | File,
-    output?: FileInfo,
+    files: File[],
+    output: FileInfo,
     args: string[],
 }
-
 
 export type FFmpegProgressStatus = "continue" | "end" | "unknown";
 export type FFmpegProgressEvent = {

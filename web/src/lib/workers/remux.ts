@@ -1,4 +1,3 @@
-import mime from "mime";
 import LibAVWrapper from "$lib/libav";
 
 const error = (code: string) => {
@@ -54,15 +53,18 @@ const remux = async (file: File) => {
             }
         });
 
-        if (file instanceof File && !file.type) {
-            file = new File([file], file.name, {
-                type: mime.getType(file.name) ?? undefined,
-            });
+        if (!file.type) {
+            // TODO: better & more appropriate error code
+            error("remux.corrupted");
         }
 
         const render = await ff
             .render({
-                blob: file,
+                files: [file],
+                output: {
+                    type: file.type,
+                    extension: file.name.split(".").pop(),
+                },
                 args: ["-c", "copy", "-map", "0"],
             })
             .catch((e) => {

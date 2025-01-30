@@ -1,7 +1,7 @@
-import mime from "mime";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
-import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, FileInfo, RenderParams } from "./types/libav";
+
 import type { FfprobeData } from "fluent-ffmpeg";
+import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, RenderParams } from "$lib/types/libav";
 
 export default class LibAVWrapper {
     libav: Promise<LibAVInstance> | null;
@@ -56,60 +56,35 @@ export default class LibAVWrapper {
         }
     }
 
-    static getExtensionFromType(blob: Blob | File) {
-        const canonicalExtension = blob instanceof File && blob.name.split('.').pop()?.toLowerCase();
-        const extensions = mime.getAllExtensions(blob.type);
-
-        if (canonicalExtension && extensions?.has(canonicalExtension))
-            return canonicalExtension;
-
-        const overrides = ['mp3', 'mov', 'opus'];
-
-        if (!extensions)
-            return;
-
-        for (const override of overrides)
-            if (extensions?.has(override))
-                return override;
-
-        return [...extensions][0];
-    }
-
-    async render({ blob, output, args }: RenderParams) {
+    async render({ files, output, args }: RenderParams) {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
-        const inputKind = blob.type.split("/")[0];
-        const inputExtension = LibAVWrapper.getExtensionFromType(blob);
 
-        if (inputKind !== "video" && inputKind !== "audio") return;
-        if (!inputExtension) return;
-
-        const input: FileInfo = {
-            kind: inputKind,
-            extension: inputExtension,
+        if (!(output.extension && output.type)) {
+            throw new Error("output's extension or type is missing");
         }
 
-        if (!output) output = input;
-
-        output.type = mime.getType(output.extension);
-        if (!output.type) return;
-
         const outputName = `output.${output.extension}`;
+        const ffInputs = [];
 
         try {
-            await libav.mkreadaheadfile("input", blob);
+            for (let i = 0; i < files.length; i++) {
+                await libav.mkreadaheadfile(`input${i}`, files[i]);
+                ffInputs.push('-i', `input${i}`);
+            }
 
-            // https://github.com/Yahweasel/libav.js/blob/7d359f69/docs/IO.md#block-writer-devices
             await libav.mkwriterdev(outputName);
             await libav.mkwriterdev('progress.txt');
 
+            const totalInputSize = files.reduce((a, b) => a + b.size, 0);
+
             const MB = 1024 * 1024;
             const chunks: Uint8Array[] = [];
-            const chunkSize = Math.min(512 * MB, blob.size);
+            const chunkSize = Math.min(512 * MB, totalInputSize);
 
             // since we expect the output file to be roughly the same size
-            // as the original, preallocate its size for the output
-            for (let toAllocate = blob.size; toAllocate > 0; toAllocate -= chunkSize) {
+            // as inputs, preallocate its size for the output
+            for (let toAllocate = totalInputSize; toAllocate > 0; toAllocate -= chunkSize) {
                 chunks.push(new Uint8Array(chunkSize));
             }
 
@@ -150,7 +125,7 @@ export default class LibAVWrapper {
                 '-loglevel', 'error',
                 '-progress', 'progress.txt',
                 '-threads', this.concurrency.toString(),
-                '-i', 'input',
+                ...ffInputs,
                 ...args,
                 outputName
             ]);
@@ -183,7 +158,11 @@ export default class LibAVWrapper {
             try {
                 await libav.unlink(outputName);
                 await libav.unlink('progress.txt');
-                await libav.unlinkreadaheadfile("input");
+
+                await Promise.allSettled(
+                    files.map((_, i) =>
+                        libav.unlinkreadaheadfile(`input${i}`)
+                    ));
             } catch { /* catch & ignore */ }
         }
     }
@@ -196,7 +175,7 @@ export default class LibAVWrapper {
         const entries = Object.fromEntries(
             text.split('\n')
                 .filter(a => a)
-                .map(a => a.split('=', ))
+                .map(a => a.split('='))
         );
 
         const status: FFmpegProgressStatus = (() => {
