@@ -19,7 +19,8 @@ async function* readChunks(streamInfo, size) {
                 Range: `bytes=${read}-${read + CHUNK_SIZE}`
             },
             dispatcher: streamInfo.dispatcher,
-            signal: streamInfo.controller.signal
+            signal: streamInfo.controller.signal,
+            maxRedirections: 4
         });
 
         if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.transplant) {
