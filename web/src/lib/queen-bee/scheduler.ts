@@ -55,6 +55,8 @@ export const checkTasks = () => {
                     break;
                 }
             }
+
+            break;
         }
 
         // start the nearest waiting task and wait to be called again
