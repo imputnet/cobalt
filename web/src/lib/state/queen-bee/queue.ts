@@ -35,14 +35,30 @@ export function itemError(id: string, workerId: string, error: string) {
     checkTasks();
 }
 
-export function itemDone(id: string, workerId: string, file: File) {
+export function itemDone(id: string, file: File) {
     update(queueData => {
         if (queueData[id]) {
+            if (queueData[id].state === "running" && queueData[id].pipelineResults) {
+                delete queueData[id].pipelineResults;
+            }
+
             queueData[id] = {
                 ...queueData[id],
                 state: "done",
                 resultFile: file,
             }
+        }
+        return queueData;
+    });
+
+    checkTasks();
+}
+
+export function pipelineTaskDone(id: string, workerId: string, file: File) {
+    update(queueData => {
+        if (queueData[id] && queueData[id].state === "running") {
+            queueData[id].pipelineResults = [...queueData[id].pipelineResults || [], file];
+            queueData[id].completedWorkers = [...queueData[id].completedWorkers || [], workerId];
         }
         return queueData;
     });

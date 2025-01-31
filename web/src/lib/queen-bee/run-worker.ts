@@ -1,8 +1,8 @@
 import RemuxWorker from "$lib/workers/remux?worker";
 import FetchWorker from "$lib/workers/fetch?worker";
 
-import { itemDone, itemError, queue } from "$lib/state/queen-bee/queue";
 import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
+import { pipelineTaskDone, itemError, queue } from "$lib/state/queen-bee/queue";
 
 import type { CobaltQueue } from "$lib/types/queue";
 import type { CobaltPipelineItem } from "$lib/types/workers";
@@ -78,7 +78,7 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
 
         if (eventData.render) {
             killWorker(worker, unsubscribe, startCheck);
-            return itemDone(
+            return pipelineTaskDone(
                 parentId,
                 workerId,
                 new File([eventData.render], eventData.filename, {
@@ -124,7 +124,7 @@ export const runFetchWorker = async (workerId: string, parentId: string, url: st
 
         if (eventData.file) {
             killWorker(worker, unsubscribe);
-            return itemDone(
+            return pipelineTaskDone(
                 parentId,
                 workerId,
                 eventData.file,

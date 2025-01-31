@@ -18,6 +18,8 @@ export type CobaltQueueItemWaiting = CobaltQueueBaseItem & {
 export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
     state: "running",
     runningWorker: string,
+    completedWorkers?: string[],
+    pipelineResults?: File[],
 };
 
 export type CobaltQueueItemDone = CobaltQueueBaseItem & {
