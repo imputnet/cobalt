@@ -29,7 +29,7 @@
         "@fontsource/ibm-plex-mono": "^5.0.13",
         "@fontsource/redaction-10": "^5.0.2",
         "@huggingface/transformers": "^3.2.4",
-        "@imput/libav.js-remux-cli": "^5.5.6",
+        "@imput/libav.js-remux-cli": "^6.5.7",
         "@imput/version-info": "workspace:^",
         "@sveltejs/adapter-static": "^3.0.6",
         "@sveltejs/kit": "^2.9.1",
