@@ -31,7 +31,7 @@ export function updateWorkerProgress(workerId: string, progress: CobaltWorkerPro
     });
 }
 
-export function clearQueue() {
+export function clearCurrentTasks() {
     update(() => {
         return {};
     });

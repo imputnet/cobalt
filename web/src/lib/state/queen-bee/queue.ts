@@ -1,7 +1,7 @@
 import { readable, type Updater } from "svelte/store";
-import type { CobaltQueue, CobaltQueueItem } from "$lib/types/queue";
 import { checkTasks } from "$lib/queen-bee/scheduler";
-import { removeWorkerFromQueue } from "./current-tasks";
+import type { CobaltQueue, CobaltQueueItem } from "$lib/types/queue";
+import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/queen-bee/current-tasks";
 
 let update: (_: Updater<CobaltQueue>) => void;
 
@@ -103,6 +103,8 @@ export function clearQueue() {
     update(() => {
         return {};
     });
+
+    clearCurrentTasks();
 }
 
 export { queue };
