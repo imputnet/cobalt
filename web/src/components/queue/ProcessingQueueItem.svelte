@@ -7,7 +7,7 @@
     import type { CobaltQueueItem } from "$lib/types/queue";
     import type { CobaltCurrentTaskItem } from "$lib/types/queen-bee";
 
-    import Skeleton from "$components/misc/Skeleton.svelte";
+    import ProgressBar from "$components/queue/ProgressBar.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
@@ -27,6 +27,7 @@
     export let id: string;
     export let info: CobaltQueueItem;
     export let runningWorker: CobaltCurrentTaskItem | undefined;
+    export let runningWorkerId: string | undefined;
 
     $: progress = runningWorker?.progress;
     $: size = formatFileSize(runningWorker?.progress?.size);
@@ -50,22 +51,15 @@
         </div>
 
         {#if info.state === "running"}
-            <div class="file-progress">
-                {#if progress?.percentage}
-                    <div
-                        class="progress"
-                        style="width: {Math.min(
-                            100,
-                            progress?.percentage || 0
-                        )}%"
-                    ></div>
-                {:else}
-                    <Skeleton
-                        height="6px"
-                        width="100%"
-                        class="elevated indeterminate-progress"
+            <div class="progress-holder">
+                {#each info.pipeline as pipeline}
+                    <ProgressBar
+                        percentage={progress?.percentage}
+                        workerId={pipeline.workerId}
+                        runningWorkerId={runningWorkerId}
+                        completedWorkers={info.completedWorkers}
                     />
-                {/if}
+                {/each}
             </div>
         {/if}
 
@@ -75,6 +69,7 @@
             {/if}
 
             {#if info.state === "running"}
+                {(info.completedWorkers?.length || 0) + 1}/{info.pipeline.length}
                 {#if runningWorker && progress && progress.percentage}
                     {$t(`queue.state.running.${runningWorker.type}`)}: {Math.ceil(
                         progress.percentage
@@ -147,24 +142,10 @@
         font-weight: 500;
     }
 
-    .file-progress {
-        width: 100%;
-        background-color: var(--button-elevated);
-    }
-
-    .file-progress,
-    .file-progress .progress {
-        height: 6px;
-        border-radius: 10px;
-        transition: width 0.1s;
-    }
-
-    .file-progress :global(.indeterminate-progress) {
-        display: block;
-    }
-
-    .file-progress .progress {
-        background-color: var(--blue);
+    .progress-holder {
+        display: flex;
+        flex-direction: row;
+        gap: 2px;
     }
 
     .file-title {

@@ -76,6 +76,9 @@
                     runningWorker={
                         item.state === "running" ? $currentTasks[item.runningWorker] : undefined
                     }
+                    runningWorkerId={
+                        item.state === "running" ? item.runningWorker : undefined
+                    }
                 />
             {/each}
             {#if queue.length === 0}
