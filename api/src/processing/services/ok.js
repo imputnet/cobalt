@@ -44,7 +44,7 @@ export default async function(o) {
 
     let fileMetadata = {
         title: videoData.movie.title.trim(),
-        author: (videoData.author?.name || videoData.compilationTitle).trim(),
+        author: (videoData.author?.name || videoData.compilationTitle)?.trim(),
     }
 
     if (bestVideo) return {
