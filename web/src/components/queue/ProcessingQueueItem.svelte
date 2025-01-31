@@ -210,10 +210,10 @@
         }
     }
 
-    /* TODO: fix this shitty workaround */
     @media(hover: none) {
         .processing-info {
-            width: calc(100% - 80px);
+            overflow: hidden;
+            flex: 1;
         }
     }
 
