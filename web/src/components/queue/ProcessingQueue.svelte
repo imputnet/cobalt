@@ -19,11 +19,20 @@
 
     $: queue = Object.entries($readableQueue);
 
+    const totalItemProgress = (completed: number, current: number, total: number) => {
+        return (completed * 100 + current) / total
+    }
+
     $: totalProgress = queue.length ? queue.map(([, item]) => {
-        if (item.state === "done" || item.state === "error")
+        if (item.state === "done" || item.state === "error") {
             return 100;
-        else if (item.state === "running")
-            return $currentTasks[item.runningWorker]?.progress?.percentage || 0;
+        } else if (item.state === "running") {
+            return totalItemProgress(
+                item.completedWorkers?.length || 0,
+                $currentTasks[item.runningWorker]?.progress?.percentage || 0,
+                item.pipeline.length || 0
+            );
+        }
         return 0;
     }).reduce((a, b) => a + b) / (100 * queue.length) : 0;
 
