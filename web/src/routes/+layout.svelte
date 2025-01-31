@@ -91,9 +91,7 @@
             <UpdateNotification />
         {/if}
         <div id="content">
-            {#if $settings.advanced.localProcessing}
-                <ProcessingQueue />
-            {/if}
+            <ProcessingQueue />
             {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
             {/if}
