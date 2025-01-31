@@ -111,9 +111,10 @@
     .file-actions {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         position: relative;
+        overflow: hidden;
     }
 
     .processing-item {
@@ -206,6 +207,13 @@
         .processing-item:hover .file-actions {
             visibility: visible;
             opacity: 1;
+        }
+    }
+
+    /* TODO: fix this shitty workaround */
+    @media(hover: none) {
+        .processing-info {
+            width: calc(100% - 80px);
         }
     }
 

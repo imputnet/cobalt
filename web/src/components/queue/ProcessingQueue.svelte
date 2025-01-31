@@ -125,6 +125,8 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
     }
 
     .header-buttons {
@@ -157,7 +159,7 @@
         flex-direction: column;
 
         max-height: 65vh;
-        overflow: scroll;
+        overflow-y: scroll;
     }
 
     @media screen and (max-width: 535px) {
