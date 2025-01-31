@@ -1,6 +1,7 @@
 import RemuxWorker from "$lib/workers/remux?worker";
 import FetchWorker from "$lib/workers/fetch?worker";
 
+import { get } from "svelte/store";
 import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
 import { pipelineTaskDone, itemError, queue } from "$lib/state/queen-bee/queue";
 
@@ -149,6 +150,13 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
         case "remux":
             if (workerArgs?.files) {
                 files = workerArgs.files;
+            }
+
+            if (files?.length === 0) {
+                const parent = get(queue)[parentId];
+                if (parent.state === "running" && parent.pipelineResults) {
+                    files = parent.pipelineResults;
+                }
             }
 
             if (files.length > 0 && workerArgs.ffargs && workerArgs.output && workerArgs.filename) {

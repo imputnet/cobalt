@@ -31,6 +31,7 @@ const remux = async (files: File[], args: string[], output: FileInfo, filename: 
     await ff.init();
 
     try {
+        // probing just the first file in files array (usually audio) for duration progress
         const file_info = await ff.probe(files[0]).catch((e) => {
             if (e?.message?.toLowerCase().includes("out of memory")) {
                 console.error("uh oh! out of memory");

@@ -1,3 +1,5 @@
+import mime from "mime";
+
 import { addItem } from "$lib/state/queen-bee/queue";
 import type { CobaltPipelineItem } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse } from "$lib/types/api";
@@ -49,7 +51,10 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
     const parentId = crypto.randomUUID();
     const pipeline: CobaltPipelineItem[] = [];
 
-    for (const tunnel of info.tunnel) {
+    // reverse is needed for audio (second item) to be downloaded first
+    const tunnels = info.tunnel.reverse();
+
+    for (const tunnel of tunnels) {
         pipeline.push({
             worker: "fetch",
             workerId: crypto.randomUUID(),
@@ -59,6 +64,24 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
             },
         })
     }
+
+    pipeline.push({
+        worker: "remux",
+        workerId: crypto.randomUUID(),
+        parentId,
+        workerArgs: {
+            ffargs: [
+                "-c:v", "copy",
+                "-c:a", "copy"
+            ],
+            output: {
+                // TODO: return mime type from api to avoid dragging a big ass package into web build
+                type: mime.getType(info.filename) || undefined,
+                extension: info.filename.split(".").pop(),
+            },
+            filename: info.filename,
+        },
+    })
 
     addItem({
         id: parentId,
