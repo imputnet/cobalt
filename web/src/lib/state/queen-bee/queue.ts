@@ -22,6 +22,10 @@ export function addItem(item: CobaltQueueItem) {
 export function itemError(id: string, workerId: string, error: string) {
     update(queueData => {
         if (queueData[id]) {
+            if (queueData[id].state === "running" && queueData[id].pipelineResults) {
+                delete queueData[id].pipelineResults;
+            }
+
             queueData[id] = {
                 ...queueData[id],
                 state: "error",
