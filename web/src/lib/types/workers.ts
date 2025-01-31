@@ -1,3 +1,5 @@
+import type { FileInfo } from "$lib/types/libav";
+
 export const resultFileTypes = ["video", "audio", "image"] as const;
 
 export type CobaltWorkerType = "remux" | "fetch";
@@ -12,7 +14,9 @@ export type CobaltWorkerProgress = {
 export type CobaltWorkerArgs = {
     files?: File[],
     url?: string,
-    //TODO: args for libav & etc with unique types
+    ffargs?: string[],
+    output?: FileInfo,
+    filename?: string,
 }
 
 export type CobaltPipelineItem = {

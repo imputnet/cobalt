@@ -1,4 +1,5 @@
 import LibAVWrapper from "$lib/libav";
+import type { FileInfo } from "$lib/types/libav";
 
 const error = (code: string) => {
     self.postMessage({
@@ -24,13 +25,13 @@ const ff = new LibAVWrapper((progress) => {
 
 ff.init();
 
-const remux = async (file: File) => {
-    if (!file) return;
+const remux = async (files: File[], args: string[], output: FileInfo, filename: string) => {
+    if (!(files && output && args)) return;
 
     await ff.init();
 
     try {
-        const file_info = await ff.probe(file).catch((e) => {
+        const file_info = await ff.probe(files[0]).catch((e) => {
             if (e?.message?.toLowerCase().includes("out of memory")) {
                 console.error("uh oh! out of memory");
                 console.error(e);
@@ -41,8 +42,7 @@ const remux = async (file: File) => {
         });
 
         if (!file_info?.format) {
-            error("remux.corrupted");
-            return;
+            return error("remux.corrupted");
         }
 
         self.postMessage({
@@ -53,35 +53,30 @@ const remux = async (file: File) => {
             }
         });
 
-        if (!file.type) {
-            // TODO: better & more appropriate error code
-            error("remux.corrupted");
+        for (const file of files) {
+            if (!file.type) {
+                // TODO: better & more appropriate error code
+                return error("remux.corrupted");
+            }
         }
 
         const render = await ff
             .render({
-                files: [file],
-                output: {
-                    type: file.type,
-                    extension: file.name.split(".").pop(),
-                },
-                args: ["-c", "copy", "-map", "0"],
+                files,
+                output,
+                args,
             })
             .catch((e) => {
                 console.error("uh-oh! render error");
                 console.error(e);
-
+                // TODO: better error codes, there are more reasons for a crash
                 error("remux.out_of_resources");
             });
 
         if (!render) {
-            return console.log("not a valid file");
+            console.log("not a valid file");
+            return error("incorrect input or output");
         }
-
-        const filenameParts = file.name.split(".");
-        const filenameExt = filenameParts.pop();
-
-        const filename = `${filenameParts.join(".")} (remux).${filenameExt}`;
 
         self.postMessage({
             cobaltRemuxWorker: {
@@ -95,9 +90,10 @@ const remux = async (file: File) => {
 }
 
 self.onmessage = async (event: MessageEvent) => {
-    console.log(event.data);
-
-    if (event.data.cobaltRemuxWorker.file) {
-        await remux(event.data.cobaltRemuxWorker.file);
+    const ed = event.data.cobaltRemuxWorker;
+    if (ed) {
+        if (ed.files && ed.args && ed.output && ed.filename) {
+            await remux(ed.files, ed.args, ed.output, ed.filename);
+        }
     }
 }

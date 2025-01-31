@@ -22,6 +22,15 @@ export const createRemuxPipeline = (file: File) => {
         parentId,
         workerArgs: {
             files: [file],
+            ffargs: [
+                "-c", "copy",
+                "-map", "0"
+            ],
+            output: {
+                type: file.type,
+                extension: file.name.split(".").pop(),
+            },
+            filename: file.name,
         },
     }];
 

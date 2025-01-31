@@ -4,6 +4,7 @@ import FetchWorker from "$lib/workers/fetch?worker";
 import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
 import { pipelineTaskDone, itemError, queue } from "$lib/state/queen-bee/queue";
 
+import type { FileInfo } from "$lib/types/libav";
 import type { CobaltQueue } from "$lib/types/queue";
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
@@ -13,7 +14,7 @@ const killWorker = (worker: Worker, unsubscribe: () => void, interval?: NodeJS.T
     if (interval) clearInterval(interval);
 }
 
-export const runRemuxWorker = async (workerId: string, parentId: string, file: File) => {
+export const runRemuxWorker = async (workerId: string, parentId: string, files: File[], args: string[], output: FileInfo, filename: string) => {
     const worker = new RemuxWorker();
 
     // sometimes chrome refuses to start libav wasm,
@@ -42,7 +43,10 @@ export const runRemuxWorker = async (workerId: string, parentId: string, file: F
 
     worker.postMessage({
         cobaltRemuxWorker: {
-            file
+            files,
+            args,
+            output,
+            filename,
         }
     });
 
@@ -139,12 +143,26 @@ export const runFetchWorker = async (workerId: string, parentId: string, url: st
 }
 
 export const startWorker = async ({ worker, workerId, parentId, workerArgs }: CobaltPipelineItem) => {
+    let files: File[] = [];
+
     switch (worker) {
         case "remux":
             if (workerArgs?.files) {
-                await runRemuxWorker(workerId, parentId, workerArgs.files[0]);
+                files = workerArgs.files;
+            }
+
+            if (files.length > 0 && workerArgs.ffargs && workerArgs.output && workerArgs.filename) {
+                await runRemuxWorker(
+                    workerId,
+                    parentId,
+                    files,
+                    workerArgs.ffargs,
+                    workerArgs.output,
+                    workerArgs.filename
+                );
             }
             break;
+
         case "fetch":
             if (workerArgs?.url) {
                 await runFetchWorker(workerId, parentId, workerArgs.url)
