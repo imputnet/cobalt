@@ -1,3 +1,4 @@
+import { OPFSStorage } from "$lib/storage";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 
 import type { FfprobeData } from "fluent-ffmpeg";
@@ -69,27 +70,18 @@ export default class LibAVWrapper {
 
         try {
             for (let i = 0; i < files.length; i++) {
-                await libav.mkreadaheadfile(`input${i}`, files[i]);
+                const file = files[i].file;
+
+                await libav.mkreadaheadfile(`input${i}`, file);
                 ffInputs.push('-i', `input${i}`);
             }
 
             await libav.mkwriterdev(outputName);
             await libav.mkwriterdev('progress.txt');
 
-            const totalInputSize = files.reduce((a, b) => a + b.size, 0);
+            const storage = await OPFSStorage.init();
 
-            const MB = 1024 * 1024;
-            const chunks: Uint8Array[] = [];
-            const chunkSize = Math.min(512 * MB, totalInputSize);
-
-            // since we expect the output file to be roughly the same size
-            // as inputs, preallocate its size for the output
-            for (let toAllocate = totalInputSize; toAllocate > 0; toAllocate -= chunkSize) {
-                chunks.push(new Uint8Array(chunkSize));
-            }
-
-            let actualSize = 0;
-            libav.onwrite = (name, pos, data) => {
+            libav.onwrite = async (name, pos, data) => {
                 if (name === 'progress.txt') {
                     try {
                         return this.#emitProgress(data);
@@ -98,26 +90,7 @@ export default class LibAVWrapper {
                     }
                 } else if (name !== outputName) return;
 
-                const writeEnd = pos + data.length;
-                if (writeEnd > chunkSize * chunks.length) {
-                    chunks.push(new Uint8Array(chunkSize));
-                }
-
-                const chunkIndex = pos / chunkSize | 0;
-                const offset = pos - (chunkSize * chunkIndex);
-
-                if (offset + data.length > chunkSize) {
-                    chunks[chunkIndex].set(
-                        data.subarray(0, chunkSize - offset), offset
-                    );
-                    chunks[chunkIndex + 1].set(
-                        data.subarray(chunkSize - offset), 0
-                    );
-                } else {
-                    chunks[chunkIndex].set(data, offset);
-                }
-
-                actualSize = Math.max(writeEnd, actualSize);
+                await storage.write(data, pos);
             };
 
             await libav.ffmpeg([
@@ -130,30 +103,14 @@ export default class LibAVWrapper {
                 outputName
             ]);
 
-            // if we didn't need as much space as we allocated for some reason,
-            // shrink the buffers so that we don't inflate the file with zeroes
-            const outputView: Uint8Array[] = [];
+            const file = await storage.res();
 
-            for (let i = 0; i < chunks.length; ++i) {
-                outputView.push(
-                    chunks[i].subarray(
-                        0, Math.min(chunkSize, actualSize)
-                    )
-                );
+            if (file.size === 0) return;
 
-                actualSize -= chunkSize;
-                if (actualSize <= 0) {
-                    break;
-                }
+            return {
+                file,
+                type: output.type,
             }
-
-            const renderBlob = new Blob(
-                outputView,
-                { type: output.type }
-            );
-
-            if (renderBlob.size === 0) return;
-            return renderBlob;
         } finally {
             try {
                 await libav.unlink(outputName);

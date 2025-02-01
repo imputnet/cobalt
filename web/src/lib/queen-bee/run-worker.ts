@@ -8,6 +8,7 @@ import { pipelineTaskDone, itemError, queue } from "$lib/state/queen-bee/queue";
 import type { FileInfo } from "$lib/types/libav";
 import type { CobaltQueue } from "$lib/types/queue";
 import type { CobaltPipelineItem } from "$lib/types/workers";
+import type { CobaltFileReference } from "$lib/types/storage";
 
 const killWorker = (worker: Worker, unsubscribe: () => void, interval?: NodeJS.Timeout) => {
     unsubscribe();
@@ -15,7 +16,14 @@ const killWorker = (worker: Worker, unsubscribe: () => void, interval?: NodeJS.T
     if (interval) clearInterval(interval);
 }
 
-export const runRemuxWorker = async (workerId: string, parentId: string, files: File[], args: string[], output: FileInfo, filename: string) => {
+export const runRemuxWorker = async (
+    workerId: string,
+    parentId: string,
+    files: CobaltFileReference[],
+    args: string[],
+    output: FileInfo,
+    filename: string
+) => {
     const worker = new RemuxWorker();
 
     // sometimes chrome refuses to start libav wasm,
@@ -86,9 +94,7 @@ export const runRemuxWorker = async (workerId: string, parentId: string, files: 
             return pipelineTaskDone(
                 parentId,
                 workerId,
-                new File([eventData.render], eventData.filename, {
-                    type: eventData.render.type,
-                })
+                eventData.render,
             );
         }
 
@@ -127,12 +133,12 @@ export const runFetchWorker = async (workerId: string, parentId: string, url: st
             })
         }
 
-        if (eventData.file) {
+        if (eventData.result) {
             killWorker(worker, unsubscribe);
             return pipelineTaskDone(
                 parentId,
                 workerId,
-                eventData.file,
+                eventData.result,
             );
         }
 
@@ -144,7 +150,7 @@ export const runFetchWorker = async (workerId: string, parentId: string, url: st
 }
 
 export const startWorker = async ({ worker, workerId, parentId, workerArgs }: CobaltPipelineItem) => {
-    let files: File[] = [];
+    let files: CobaltFileReference[] = [];
 
     switch (worker) {
         case "remux":

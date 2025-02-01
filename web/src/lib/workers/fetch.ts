@@ -1,3 +1,5 @@
+import { OPFSStorage } from "$lib/storage";
+
 const error = (code: string) => {
     // TODO: return proper errors and code here
     self.postMessage({
@@ -22,20 +24,21 @@ const fetchFile = async (url: string) => {
         const totalBytes = contentLength ? parseInt(contentLength, 10) : null;
         const reader = response.body?.getReader();
 
+        const storage = await OPFSStorage.init();
+
         if (!reader) {
             error("no reader");
             return self.close();
         }
 
         let receivedBytes = 0;
-        const chunks = [];
 
         while (true) {
             const { done, value } = await reader.read();
             if (done) break;
 
+            await storage.write(value, receivedBytes);
             receivedBytes += value.length;
-            chunks.push(value);
 
             if (totalBytes) {
                 self.postMessage({
@@ -52,15 +55,22 @@ const fetchFile = async (url: string) => {
             return self.close();
         }
 
-        const file = new File(chunks, "file", { type: contentType });
+        const file = await storage.res();
+
+        if (Number(contentLength) !== file.size) {
+            error("file is not downloaded fully");
+        }
 
         self.postMessage({
             cobaltFetchWorker: {
-                file
+                result: {
+                    file,
+                    type: contentType,
+                }
             }
         });
     } catch (e) {
-        console.log(e)
+        console.log(e);
         error("error when downloading the file");
         return self.close();
     }

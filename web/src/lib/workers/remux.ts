@@ -1,5 +1,7 @@
 import LibAVWrapper from "$lib/libav";
+
 import type { FileInfo } from "$lib/types/libav";
+import type { CobaltFileReference } from "$lib/types/storage";
 
 const error = (code: string) => {
     self.postMessage({
@@ -25,14 +27,17 @@ const ff = new LibAVWrapper((progress) => {
 
 ff.init();
 
-const remux = async (files: File[], args: string[], output: FileInfo, filename: string) => {
+const remux = async (files: CobaltFileReference[], args: string[], output: FileInfo, filename: string) => {
     if (!(files && output && args)) return;
 
     await ff.init();
 
     try {
         // probing just the first file in files array (usually audio) for duration progress
-        const file_info = await ff.probe(files[0]).catch((e) => {
+        const probeFile = files[0]?.file;
+        if (!probeFile) return error("couldn't probe one of files");
+
+        const file_info = await ff.probe(probeFile).catch((e) => {
             if (e?.message?.toLowerCase().includes("out of memory")) {
                 console.error("uh oh! out of memory");
                 console.error(e);
@@ -87,6 +92,7 @@ const remux = async (files: File[], args: string[], output: FileInfo, filename: 
         });
     } catch (e) {
         console.log(e);
+        return error("remux.crashed");
     }
 }
 

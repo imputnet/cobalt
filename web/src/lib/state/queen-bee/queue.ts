@@ -1,7 +1,9 @@
 import { readable, type Updater } from "svelte/store";
 import { checkTasks } from "$lib/queen-bee/scheduler";
-import type { CobaltQueue, CobaltQueueItem } from "$lib/types/queue";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/queen-bee/current-tasks";
+
+import type { CobaltFileReference } from "$lib/types/storage";
+import type { CobaltQueue, CobaltQueueItem } from "$lib/types/queue";
 
 let update: (_: Updater<CobaltQueue>) => void;
 
@@ -39,7 +41,7 @@ export function itemError(id: string, workerId: string, error: string) {
     checkTasks();
 }
 
-export function itemDone(id: string, file: File) {
+export function itemDone(id: string, file: CobaltFileReference) {
     update(queueData => {
         if (queueData[id]) {
             if (queueData[id].state === "running" && queueData[id].pipelineResults) {
@@ -58,7 +60,7 @@ export function itemDone(id: string, file: File) {
     checkTasks();
 }
 
-export function pipelineTaskDone(id: string, workerId: string, file: File) {
+export function pipelineTaskDone(id: string, workerId: string, file: CobaltFileReference) {
     update(queueData => {
         if (queueData[id] && queueData[id].state === "running") {
             queueData[id].pipelineResults = [...queueData[id].pipelineResults || [], file];

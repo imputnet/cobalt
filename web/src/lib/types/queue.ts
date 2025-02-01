@@ -1,3 +1,4 @@
+import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 
 export type CobaltQueueItemState = "waiting" | "running" | "done" | "error";
@@ -19,12 +20,12 @@ export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
     state: "running",
     runningWorker: string,
     completedWorkers?: string[],
-    pipelineResults?: File[],
+    pipelineResults?: CobaltFileReference[],
 };
 
 export type CobaltQueueItemDone = CobaltQueueBaseItem & {
     state: "done",
-    resultFile: File,
+    resultFile: CobaltFileReference,
 };
 
 export type CobaltQueueItemError = CobaltQueueBaseItem & {

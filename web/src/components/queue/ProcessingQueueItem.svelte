@@ -65,7 +65,7 @@
 
         <div class="file-status {info.state}">
             {#if info.state === "done"}
-                <IconCheck /> {formatFileSize(info.resultFile?.size)}
+                <IconCheck /> {formatFileSize(info.resultFile?.file?.size)}
             {/if}
 
             {#if info.state === "running"}
@@ -95,7 +95,7 @@
         {#if info.state === "done" && info.resultFile}
             <button
                 class="action-button"
-                on:click={() => download(info.resultFile)}
+                on:click={() => download(info.resultFile.file)}
             >
                 <IconDownload />
             </button>
