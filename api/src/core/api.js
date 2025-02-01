@@ -67,7 +67,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 limit: env.rateLimitWindow
             }
         });
-        return res.status(status).json(body);
+        return res.status(429).json(body);
     };
 
     const keyGenerator = (req) => hashHmac(getIP(req), 'rate').toString('base64url');
