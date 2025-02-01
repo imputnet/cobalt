@@ -1,9 +1,22 @@
 import { readable, type Updater } from "svelte/store";
+
 import { checkTasks } from "$lib/queen-bee/scheduler";
+import { clearFileStorage, removeFromFileStorage } from "$lib/storage";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/queen-bee/current-tasks";
 
 import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltQueue, CobaltQueueItem } from "$lib/types/queue";
+
+const clearPipelineCache = (queueItem: CobaltQueueItem) => {
+    if (queueItem.state === "running" && queueItem.pipelineResults) {
+        for (const item of queueItem.pipelineResults) {
+            removeFromFileStorage(item.file.name);
+        }
+        delete queueItem.pipelineResults;
+    }
+
+    return queueItem;
+}
 
 let update: (_: Updater<CobaltQueue>) => void;
 
@@ -24,9 +37,7 @@ export function addItem(item: CobaltQueueItem) {
 export function itemError(id: string, workerId: string, error: string) {
     update(queueData => {
         if (queueData[id]) {
-            if (queueData[id].state === "running" && queueData[id].pipelineResults) {
-                delete queueData[id].pipelineResults;
-            }
+            queueData[id] = clearPipelineCache(queueData[id]);
 
             queueData[id] = {
                 ...queueData[id],
@@ -44,9 +55,7 @@ export function itemError(id: string, workerId: string, error: string) {
 export function itemDone(id: string, file: CobaltFileReference) {
     update(queueData => {
         if (queueData[id]) {
-            if (queueData[id].state === "running" && queueData[id].pipelineResults) {
-                delete queueData[id].pipelineResults;
-            }
+            queueData[id] = clearPipelineCache(queueData[id]);
 
             queueData[id] = {
                 ...queueData[id],
@@ -93,6 +102,7 @@ export function removeItem(id: string) {
         for (const worker in queueData[id].pipeline) {
             removeWorkerFromQueue(queueData[id].pipeline[worker].workerId);
         }
+        clearPipelineCache(queueData[id]);
 
         delete queueData[id];
         return queueData;
@@ -107,6 +117,7 @@ export function clearQueue() {
     });
 
     clearCurrentTasks();
+    clearFileStorage();
 }
 
 export { queue };

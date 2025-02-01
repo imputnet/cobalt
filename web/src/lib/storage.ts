@@ -1,3 +1,5 @@
+const cobaltProcessingDir = "cobalt-processing-data";
+
 export class OPFSStorage {
     #root;
     #handle;
@@ -11,7 +13,7 @@ export class OPFSStorage {
 
     static async init() {
         const root = await navigator.storage.getDirectory();
-        const cobaltDir = await root.getDirectoryHandle('cobalt-processing-data', { create: true });
+        const cobaltDir = await root.getDirectoryHandle(cobaltProcessingDir, { create: true });
         const handle = await cobaltDir.getFileHandle(crypto.randomUUID(), { create: true });
         const reader = await handle.createSyncAccessHandle();
 
@@ -33,13 +35,7 @@ export class OPFSStorage {
     }
 
     async write(data: Uint8Array | Int8Array, offset: number) {
-        const writ = this.#io.write(data, { at: offset });
-
-        if (data.length !== writ) {
-            console.log(data.length, writ);
-        }
-
-        return writ;
+        return this.#io.write(data, { at: offset })
     }
 
     async destroy() {
@@ -49,5 +45,16 @@ export class OPFSStorage {
     static isAvailable() {
         return !!navigator.storage?.getDirectory;
     }
+}
+
+export const removeFromFileStorage = async (filename: string) => {
+    const root = await navigator.storage.getDirectory();
+    const cobaltDir = await root.getDirectoryHandle(cobaltProcessingDir);
+    return await cobaltDir.removeEntry(filename);
+}
+
+export const clearFileStorage = async () => {
+    const root = await navigator.storage.getDirectory();
+    return await root.removeEntry(cobaltProcessingDir, { recursive: true });
 }
 
