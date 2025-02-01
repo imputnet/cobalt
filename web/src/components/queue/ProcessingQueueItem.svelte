@@ -69,6 +69,10 @@
                 <IconCheck /> {formatFileSize(info.resultFile?.file?.size)}
             {/if}
 
+            {#if info.state === "error"}
+                <IconExclamationCircle /> {info.errorCode}
+            {/if}
+
             {#if info.state === "running"}
                 {#if info.pipeline.length > 1}
                     {(info.completedWorkers?.length || 0) + 1}/{info.pipeline.length}
@@ -82,10 +86,6 @@
                 {:else}
                     {$t("queue.state.starting")}
                 {/if}
-            {/if}
-
-            {#if info.state === "error"}
-                <IconExclamationCircle /> {info.errorCode}
             {/if}
 
             {#if info.state === "waiting"}
