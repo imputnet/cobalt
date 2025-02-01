@@ -54,7 +54,13 @@ export const removeFromFileStorage = async (filename: string) => {
 }
 
 export const clearFileStorage = async () => {
-    const root = await navigator.storage.getDirectory();
-    return await root.removeEntry(cobaltProcessingDir, { recursive: true });
+    if (navigator.storage.getDirectory) {
+        const root = await navigator.storage.getDirectory();
+        try {
+            await root.removeEntry(cobaltProcessingDir, { recursive: true });
+        } catch {
+            // ignore the error because the dir might be missing and that's okay!
+        }
+    }
 }
 
