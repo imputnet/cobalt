@@ -15,10 +15,14 @@ export default class LibAVWrapper {
         this.onProgress = onProgress;
     }
 
-    init() {
+    init(options?: LibAV.LibAVOpts) {
+        if (!options) options = {
+            yesthreads: true,
+        }
+
         if (this.concurrency && !this.libav) {
             this.libav = LibAV.LibAV({
-                yesthreads: true,
+                ...options,
                 base: '/_libav'
             });
         }
