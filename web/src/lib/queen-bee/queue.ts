@@ -35,7 +35,6 @@ export const createRemuxPipeline = (file: File) => {
                 type: file.type,
                 extension: file.name.split(".").pop(),
             },
-            filename: file.name,
         },
     }];
 
@@ -45,6 +44,7 @@ export const createRemuxPipeline = (file: File) => {
             state: "waiting",
             pipeline,
             filename: file.name,
+            mimeType: file.type,
             mediaType,
         })
     }
@@ -82,7 +82,6 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
                 type: mime.getType(info.filename) || undefined,
                 extension: info.filename.split(".").pop(),
             },
-            filename: info.filename,
         },
     })
 
@@ -91,6 +90,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
         state: "waiting",
         pipeline,
         filename: info.filename,
+        mimeType: mime.getType(info.filename) || undefined,
         mediaType: "video",
     })
 }

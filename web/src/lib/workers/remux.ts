@@ -27,7 +27,7 @@ const ff = new LibAVWrapper((progress) => {
 
 ff.init();
 
-const remux = async (files: CobaltFileReference[], args: string[], output: FileInfo, filename: string) => {
+const remux = async (files: CobaltFileReference[], args: string[], output: FileInfo) => {
     if (!(files && output && args)) return;
 
     await ff.init();
@@ -86,8 +86,7 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
 
         self.postMessage({
             cobaltRemuxWorker: {
-                render,
-                filename
+                render
             }
         });
     } catch (e) {
@@ -99,8 +98,8 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
 self.onmessage = async (event: MessageEvent) => {
     const ed = event.data.cobaltRemuxWorker;
     if (ed) {
-        if (ed.files && ed.args && ed.output && ed.filename) {
-            await remux(ed.files, ed.args, ed.output, ed.filename);
+        if (ed.files && ed.args && ed.output) {
+            await remux(ed.files, ed.args, ed.output);
         }
     }
 }

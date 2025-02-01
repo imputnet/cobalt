@@ -17,7 +17,6 @@ export type CobaltWorkerArgs = {
     url?: string,
     ffargs?: string[],
     output?: FileInfo,
-    filename?: string,
 }
 
 export type CobaltPipelineItem = {

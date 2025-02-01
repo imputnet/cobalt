@@ -9,6 +9,7 @@ export type CobaltQueueBaseItem = {
     pipeline: CobaltPipelineItem[],
     // TODO: metadata
     filename: string,
+    mimeType?: string,
     mediaType: CobaltPipelineResultFileType,
 };
 

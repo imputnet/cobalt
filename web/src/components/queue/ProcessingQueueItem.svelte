@@ -34,13 +34,14 @@
 
     const download = (file: File) =>
         downloadFile({
-            file,
+            file: new File([file], info.filename, {
+                type: info.mimeType,
+            }),
         });
 </script>
 
 <div class="processing-item">
     <div class="processing-info">
-
         <div class="file-title">
             <div class="processing-type">
                 <svelte:component this={itemIcons[info.mediaType]} />
@@ -56,7 +57,7 @@
                     <ProgressBar
                         percentage={progress?.percentage}
                         workerId={pipeline.workerId}
-                        runningWorkerId={runningWorkerId}
+                        {runningWorkerId}
                         completedWorkers={info.completedWorkers}
                     />
                 {/each}
@@ -69,7 +70,9 @@
             {/if}
 
             {#if info.state === "running"}
-                {(info.completedWorkers?.length || 0) + 1}/{info.pipeline.length}
+                {#if info.pipeline.length > 1}
+                    {(info.completedWorkers?.length || 0) + 1}/{info.pipeline.length}
+                {/if}
                 {#if runningWorker && progress && progress.percentage}
                     {$t(`queue.state.running.${runningWorker.type}`)}: {Math.ceil(
                         progress.percentage
@@ -210,7 +213,7 @@
         }
     }
 
-    @media(hover: none) {
+    @media (hover: none) {
         .processing-info {
             overflow: hidden;
             flex: 1;

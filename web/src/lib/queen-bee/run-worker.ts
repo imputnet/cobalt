@@ -21,8 +21,7 @@ export const runRemuxWorker = async (
     parentId: string,
     files: CobaltFileReference[],
     args: string[],
-    output: FileInfo,
-    filename: string
+    output: FileInfo
 ) => {
     const worker = new RemuxWorker();
 
@@ -55,7 +54,6 @@ export const runRemuxWorker = async (
             files,
             args,
             output,
-            filename,
         }
     });
 
@@ -165,14 +163,13 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
                 }
             }
 
-            if (files.length > 0 && workerArgs.ffargs && workerArgs.output && workerArgs.filename) {
+            if (files.length > 0 && workerArgs.ffargs && workerArgs.output) {
                 await runRemuxWorker(
                     workerId,
                     parentId,
                     files,
                     workerArgs.ffargs,
                     workerArgs.output,
-                    workerArgs.filename
                 );
             }
             break;
