@@ -82,6 +82,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             switch (host) {
                 case "instagram":
                 case "twitter":
+                case "threads":
                 case "snapchat":
                 case "bsky":
                 case "xiaohongshu":
@@ -156,6 +157,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "streamable":
                 case "snapchat":
                 case "loom":
+                case "threads":
                 case "twitch":
                     responseType = "redirect";
                     break;
