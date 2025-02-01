@@ -14,6 +14,9 @@ const clearPipelineCache = (queueItem: CobaltQueueItem) => {
         }
         delete queueItem.pipelineResults;
     }
+    if (queueItem.state === "done") {
+        removeFromFileStorage(queueItem.resultFile.file.name);
+    }
 
     return queueItem;
 }
