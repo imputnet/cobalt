@@ -117,7 +117,6 @@
         justify-content: flex-start;
         align-items: center;
         position: relative;
-        overflow: hidden;
     }
 
     .processing-item {
