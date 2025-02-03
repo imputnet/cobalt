@@ -102,10 +102,12 @@ export function itemRunning(id: string, workerId: string) {
 
 export function removeItem(id: string) {
     update(queueData => {
-        for (const worker in queueData[id].pipeline) {
-            removeWorkerFromQueue(queueData[id].pipeline[worker].workerId);
+        if (queueData[id].pipeline) {
+            for (const worker in queueData[id].pipeline) {
+                removeWorkerFromQueue(queueData[id].pipeline[worker].workerId);
+            }
+            clearPipelineCache(queueData[id]);
         }
-        clearPipelineCache(queueData[id]);
 
         delete queueData[id];
         return queueData;
