@@ -1,0 +1,6 @@
+{
+    "reset.body": "您确定要重置所有数据吗？此操作是立即且不可逆的。",
+    "picker.title": "选择保存内容",
+    "reset.title": "重置所有数据？",
+    "picker.description.desktop": "单击一个项目即可保存它。也可以通过右键菜单保存图像。"
+}
