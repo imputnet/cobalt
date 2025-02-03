@@ -13,7 +13,7 @@
             class="progress"
             style="width: {Math.min(100, percentage || 0)}%"
         ></div>
-    {:else if completedWorkers.includes(workerId)}
+    {:else if completedWorkers?.includes(workerId)}
         <div
             class="progress"
             style="width: 100%"
