@@ -198,12 +198,6 @@
         padding: 12px 0;
     }
 
-    #input-box::placeholder {
-        color: var(--gray);
-        /* fix for firefox */
-        opacity: 1;
-    }
-
     .input-placeholder {
         position: absolute;
         color: var(--gray);
@@ -249,6 +243,7 @@
         box-shadow: none;
         /* 4px is padding outside of the button */
         border-radius: calc(var(--border-radius) - 4px);
+        z-index: 1;
     }
 
     .input-inner-button :global(svg) {
