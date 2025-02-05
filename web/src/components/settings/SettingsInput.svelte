@@ -15,16 +15,17 @@
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
 
+    import IconEye from "@tabler/icons-svelte/IconEye.svelte";
+    import IconEyeClosed from "@tabler/icons-svelte/IconEyeClosed.svelte";
+
     export let settingId: Id;
     export let settingContext: Context;
     export let placeholder: string;
     export let altText: string;
     export let type: "url" | "uuid" = "url";
 
-    export let isPassword = false;
+    export let sensitive = false;
     export let showInstanceWarning = false;
-
-    let inputType = isPassword ? "password" : "text";
 
     const regex = {
         url: "https?:\\/\\/[a-z0-9.\\-]+(:\\d+)?/?",
@@ -35,6 +36,10 @@
     let inputValue: string = String(get(settings)[settingContext][settingId]);
     let inputFocused = false;
     let validInput = false;
+
+    let inputHidden = true;
+
+    $: inputType = sensitive && inputHidden ? "password" : "text";
 
     const writeToSettings = (value: string, type: "url" | "uuid" | "text") => {
         updateSetting({
@@ -62,13 +67,20 @@
 </script>
 
 <div id="settings-input-holder">
-    <div id="input-container" class:focused={inputFocused} aria-hidden="false">
+    <div
+        id="input-container"
+        class:focused={inputFocused}
+        class:extra-button={sensitive && inputValue.length > 0}
+        aria-hidden="false"
+    >
         <input
             id="input-box"
             bind:this={input}
             bind:value={inputValue}
-            on:input={() => (validInput = input.checkValidity())}
-            on:input={() => (inputFocused = true)}
+            on:input={() => {
+                validInput = input.checkValidity();
+                inputFocused = true;
+            }}
             on:focus={() => (inputFocused = true)}
             on:blur={() => (inputFocused = false)}
             spellcheck="false"
@@ -78,14 +90,29 @@
             pattern={regex[type]}
             aria-label={altText}
             aria-hidden="false"
-
-            { ...{ type: inputType } }
+            {...{ type: inputType }}
         />
 
         {#if inputValue.length === 0}
             <span class="input-placeholder" aria-hidden="true">
                 {placeholder}
             </span>
+        {/if}
+
+        {#if sensitive && inputValue.length > 0}
+            <button
+                class="input-inner-button"
+                on:click={() => (inputHidden = !inputHidden)}
+                aria-label={$t(
+                    inputHidden ? "button.show_input" : "button.hide_input"
+                )}
+            >
+                {#if inputHidden}
+                    <IconEye />
+                {:else}
+                    <IconEyeClosed />
+                {/if}
+            </button>
         {/if}
     </div>
 
@@ -117,7 +144,7 @@
     }
 
     #input-container {
-        padding: 0 18px;
+        padding: 0 16px;
         border-radius: var(--border-radius);
         color: var(--secondary);
         background-color: var(--button);
@@ -127,6 +154,10 @@
         width: 100%;
         position: relative;
         overflow: hidden;
+    }
+
+    #input-container.extra-button {
+        padding-right: 4px;
     }
 
     #input-container,
@@ -182,11 +213,30 @@
     .settings-input-button :global(svg) {
         height: 21px;
         width: 21px;
-        stroke-width: 1.5px;
+        stroke-width: 1.8px;
     }
 
     .settings-input-button[disabled] {
         opacity: 0.5;
         pointer-events: none;
+    }
+
+    .input-inner-button {
+        height: 34px;
+        width: 34px;
+        padding: 0;
+        box-shadow: none;
+        /* 4px is padding outside of the button */
+        border-radius: calc(var(--border-radius) - 4px);
+    }
+
+    .input-inner-button :global(svg) {
+        height: 18px;
+        width: 18px;
+        stroke-width: 1.8px;
+    }
+
+    :global(svg) {
+        will-change: transform;
     }
 </style>

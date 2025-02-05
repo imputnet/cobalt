@@ -50,7 +50,7 @@
                 placeholder="00000000-0000-0000-0000-000000000000"
                 altText={$t("settings.processing.access_key.input.alt_text")}
                 type="uuid"
-                isPassword
+                sensitive
             />
         {/if}
     </div>

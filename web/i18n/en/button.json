@@ -17,5 +17,7 @@
     "export": "export",
     "yes": "yes",
     "no": "no",
-    "clear": "clear"
+    "clear": "clear",
+    "show_input": "show input",
+    "hide_input": "hide input"
 }
