@@ -14,9 +14,12 @@
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
+    import IconArrowBack from "@tabler/icons-svelte/IconArrowBack.svelte";
 
     import IconEye from "@tabler/icons-svelte/IconEye.svelte";
     import IconEyeClosed from "@tabler/icons-svelte/IconEyeClosed.svelte";
+
+    type SettingsInputType = "url" | "uuid";
 
     export let settingId: Id;
     export let settingContext: Context;
@@ -41,7 +44,11 @@
 
     $: inputType = sensitive && inputHidden ? "password" : "text";
 
-    const writeToSettings = (value: string, type: "url" | "uuid" | "text") => {
+    const checkInput = () => {
+        validInput = input.checkValidity() || inputValue === "";
+    }
+
+    const writeToSettings = (value: string, type: SettingsInputType) => {
         updateSetting({
             [settingContext]: {
                 [settingId]:
@@ -55,8 +62,9 @@
         if (showInstanceWarning) {
             await customInstanceWarning();
 
-            if ($settings.processing.seenCustomWarning && inputValue) {
-                return writeToSettings(inputValue, type);
+            if ($settings.processing.seenCustomWarning) {
+                // allow writing empty strings
+                return writeToSettings(inputValue, inputValue ? type : "uuid");
             }
 
             return;
@@ -70,7 +78,6 @@
     <div
         id="input-container"
         class:focused={inputFocused}
-        class:extra-button={sensitive && inputValue.length > 0}
         aria-hidden="false"
     >
         <input
@@ -78,8 +85,8 @@
             bind:this={input}
             bind:value={inputValue}
             on:input={() => {
-                validInput = input.checkValidity();
                 inputFocused = true;
+                checkInput();
             }}
             on:focus={() => (inputFocused = true)}
             on:blur={() => (inputFocused = false)}
@@ -93,26 +100,52 @@
             {...{ type: inputType }}
         />
 
+        {#if inputValue.length > 0}
+            <button
+                class="input-inner-button"
+                on:click={() => {
+                    inputValue = "";
+                    checkInput();
+                }}
+                aria-label={$t("button.clear_input")}
+            >
+                <IconX />
+            </button>
+
+            {#if sensitive}
+                <button
+                    class="input-inner-button"
+                    on:click={() => (inputHidden = !inputHidden)}
+                    aria-label={$t(
+                        inputHidden ? "button.show_input" : "button.hide_input"
+                    )}
+                >
+                    {#if inputHidden}
+                        <IconEye />
+                    {:else}
+                        <IconEyeClosed />
+                    {/if}
+                </button>
+            {/if}
+        {/if}
+
         {#if inputValue.length === 0}
             <span class="input-placeholder" aria-hidden="true">
                 {placeholder}
             </span>
-        {/if}
 
-        {#if sensitive && inputValue.length > 0}
-            <button
-                class="input-inner-button"
-                on:click={() => (inputHidden = !inputHidden)}
-                aria-label={$t(
-                    inputHidden ? "button.show_input" : "button.hide_input"
-                )}
-            >
-                {#if inputHidden}
-                    <IconEye />
-                {:else}
-                    <IconEyeClosed />
-                {/if}
-            </button>
+            {#if String($settings[settingContext][settingId]).length > 0}
+                <button
+                    class="input-inner-button"
+                    on:click={() => {
+                        inputValue = String($settings[settingContext][settingId]);
+                        checkInput();
+                    }}
+                    aria-label={$t("button.restore_input")}
+                >
+                    <IconArrowBack />
+                </button>
+            {/if}
         {/if}
     </div>
 
@@ -120,19 +153,10 @@
         <button
             class="settings-input-button"
             aria-label={$t("button.save")}
-            disabled={inputValue == $settings[settingContext][settingId] || !validInput}
+            disabled={inputValue === $settings[settingContext][settingId] || !validInput}
             on:click={save}
         >
             <IconCheck />
-        </button>
-
-        <button
-            class="settings-input-button"
-            aria-label={$t("button.reset")}
-            disabled={String($settings[settingContext][settingId]).length <= 0}
-            on:click={() => writeToSettings("", "text")}
-        >
-            <IconX />
         </button>
     </div>
 </div>
@@ -145,6 +169,7 @@
 
     #input-container {
         padding: 0 16px;
+        padding-right: 4px;
         border-radius: var(--border-radius);
         color: var(--secondary);
         background-color: var(--button);
@@ -154,10 +179,6 @@
         width: 100%;
         position: relative;
         overflow: hidden;
-    }
-
-    #input-container.extra-button {
-        padding-right: 4px;
     }
 
     #input-container,
