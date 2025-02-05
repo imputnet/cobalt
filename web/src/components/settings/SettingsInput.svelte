@@ -20,7 +20,11 @@
     export let placeholder: string;
     export let altText: string;
     export let type: "url" | "uuid" = "url";
+
+    export let isPassword = false;
     export let showInstanceWarning = false;
+
+    let inputType = isPassword ? "password" : "text";
 
     const regex = {
         url: "https?:\\/\\/[a-z0-9.\\-]+(:\\d+)?/?",
@@ -74,6 +78,8 @@
             pattern={regex[type]}
             aria-label={altText}
             aria-hidden="false"
+
+            { ...{ type: inputType } }
         />
 
         {#if inputValue.length === 0}
