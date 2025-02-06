@@ -121,7 +121,15 @@ export async function probeInternalHLSTunnel(streamInfo) {
             if (!randomSegment.uri)
                 throw "segment is missing URI";
 
-            const segmentSize = await getSegmentSize(randomSegment.uri, config) / randomSegment.duration;
+            let segmentUrl;
+
+            if (getURL(randomSegment.uri)) {
+                segmentUrl = new URL(randomSegment.uri);
+            } else {
+                segmentUrl = new URL(randomSegment.uri, streamInfo.url);
+            }
+
+            const segmentSize = await getSegmentSize(segmentUrl, config) / randomSegment.duration;
             return segmentSize;
         })
     );
