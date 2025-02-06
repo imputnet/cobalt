@@ -20,6 +20,7 @@ import { verifyStream, getInternalStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
+import { randomizeName } from "../misc/randomize-name.js";
 
 const git = {
     branch: await getBranch(),
@@ -45,8 +46,9 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
+    randomizeName();
     const serverInfo = JSON.stringify({
-        cobalt: {
+        nickelZincGallium: {
             version: version,
             url: env.apiURL,
             startTime: `${startTimestamp}`,
@@ -354,7 +356,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     }, () => {
         if (isPrimary) {
             console.log(`\n` +
-                Bright(Cyan("cobalt ")) + Bright("API ^ω⁠^") + "\n" +
+                Bright(Cyan("nickelZincGallium ")) + Bright("API ^ω⁠^") + "\n" +
 
                 "~~~~~~\n" +
                 Bright("version: ") + version + "\n" +
@@ -387,7 +389,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             exclusive: true
         }, () => {
             const { port } = server.address();
-            console.log(`${Green('[✓]')} cobalt sub-instance running on 127.0.0.1:${port}`);
+            console.log(`${Green('[✓]')} nickelZincGallium sub-instance running on 127.0.0.1:${port}`);
             setTunnelPort(port);
         });
     }

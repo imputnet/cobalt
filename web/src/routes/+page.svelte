@@ -7,14 +7,14 @@
 </script>
 
 <svelte:head>
-    <title>{$t("general.cobalt")}</title>
-    <meta property="og:title" content={$t("general.cobalt")} />
+    <title>{$t("general.nickelZincGallium")}</title>
+    <meta property="og:title" content={$t("general.nickelZincGallium")} />
 </svelte:head>
 
-<div id="cobalt-save-container" class="center-column-container">
+<div id="nickelZincGallium-save-container" class="center-column-container">
     <SupportedServices />
     <main
-        id="cobalt-save"
+        id="nickelZincGallium-save"
         tabindex="-1"
         data-first-focus
         data-focus-ring-hidden
@@ -29,12 +29,12 @@
 </div>
 
 <style>
-    #cobalt-save-container {
+    #nickelZincGallium-save-container {
         padding: var(--padding);
         overflow: hidden;
     }
 
-    #cobalt-save {
+    #nickelZincGallium-save {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -54,7 +54,7 @@
     }
 
     @media screen and (max-width: 535px) {
-        #cobalt-save-container {
+        #nickelZincGallium-save-container {
             padding-top: calc(var(--padding) / 2);
         }
 

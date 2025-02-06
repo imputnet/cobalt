@@ -9,12 +9,14 @@ import { fileURLToPath } from "url";
 import { env, isCluster } from "./config.js"
 import { Red } from "./misc/console-text.js";
 import { initCluster } from "./misc/cluster.js";
+import { randomizeName } from "./misc/randomize-name.js";
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename).slice(0, -4);
 
+randomizeName();
 app.disable("x-powered-by");
 
 if (env.apiURL) {

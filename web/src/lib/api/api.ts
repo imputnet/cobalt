@@ -10,7 +10,7 @@ import cachedInfo from "$lib/state/server-info";
 import { getServerInfo } from "$lib/api/server-info";
 
 import type { Optional } from "$lib/types/generic";
-import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
+import type { NickelZincGalliumAPIResponse, NickelZincGalliumErrorResponse } from "$lib/types/api";
 
 const getAuthorization = async () => {
     const processing = get(settings).processing;
@@ -22,7 +22,7 @@ const getAuthorization = async () => {
                 error: {
                     code: "error.captcha_ongoing"
                 }
-            } as CobaltErrorResponse;
+            } as NickelZincGalliumErrorResponse;
         }
 
         const session = await getSession();
@@ -78,7 +78,7 @@ const request = async (url: string) => {
             error: {
                 code: "error.api.unreachable"
             }
-        } as CobaltErrorResponse;
+        } as NickelZincGalliumErrorResponse;
     }
 
     const api = currentApiURL();
@@ -96,7 +96,7 @@ const request = async (url: string) => {
         }
     }
 
-    const response: Optional<CobaltAPIResponse> = await fetch(api, {
+    const response: Optional<NickelZincGalliumAPIResponse> = await fetch(api, {
         method: "POST",
         redirect: "manual",
         signal: AbortSignal.timeout(20000),
@@ -115,14 +115,14 @@ const request = async (url: string) => {
                 error: {
                     code: "error.api.timed_out"
                 }
-            } as CobaltErrorResponse;
+            } as NickelZincGalliumErrorResponse;
         }
     });
 
     return response;
 }
 
-const probeCobaltTunnel = async (url: string) => {
+const probeNickelZincGalliumTunnel = async (url: string) => {
     const request = await fetch(`${url}&p=1`).catch(() => {});
     if (request?.status === 200) {
         return request?.status;
@@ -132,5 +132,5 @@ const probeCobaltTunnel = async (url: string) => {
 
 export default {
     request,
-    probeCobaltTunnel,
+    probeNickelZincGalliumTunnel,
 }

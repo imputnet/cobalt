@@ -18,14 +18,14 @@ const variables = {
 
 const contacts = {
     discord: "https://discord.gg/pQPt8HBUPu",
-    twitter: "https://x.com/justusecobalt",
-    github: "https://github.com/imputnet/cobalt",
-    bluesky: "https://bsky.app/profile/cobalt.tools",
-    telegram_ru: "https://t.me/justusecobalt_ru",
+    twitter: "https://x.com/justusenickelZincGallium",
+    github: "https://github.com/imputnet/nickelZincGallium",
+    bluesky: "https://bsky.app/profile/nickelZincGallium.tools",
+    telegram_ru: "https://t.me/justusenickelZincGallium_ru",
 }
 
 const partners = {
-    royalehosting: "https://royalehosting.net/?partner=cobalt",
+    royalehosting: "https://royalehosting.net/?partner=nickelZincGallium",
 }
 
 const donate = {
@@ -50,12 +50,12 @@ const siriShortcuts = {
 };
 
 const docs = {
-    instanceHosting: "https://github.com/imputnet/cobalt/blob/main/docs/run-an-instance.md",
-    webLicense: "https://github.com/imputnet/cobalt/blob/main/web/LICENSE",
-    apiLicense: "https://github.com/imputnet/cobalt/blob/main/api/LICENSE",
+    instanceHosting: "https://github.com/imputnet/nickelZincGallium/blob/main/docs/run-an-instance.md",
+    webLicense: "https://github.com/imputnet/nickelZincGallium/blob/main/web/LICENSE",
+    apiLicense: "https://github.com/imputnet/nickelZincGallium/blob/main/api/LICENSE",
 };
 
-const defaultApiURL = "https://api.cobalt.tools";
+const defaultApiURL = "https://api.nickelZincGallium.tools";
 
 export { donate, defaultApiURL, contacts, partners, siriShortcuts, docs };
 export default variables;

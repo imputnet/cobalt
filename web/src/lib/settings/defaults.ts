@@ -1,7 +1,7 @@
 import { defaultLocale } from "$lib/i18n/translations";
-import type { CobaltSettings } from "$lib/types/settings";
+import type { NickelZincGalliumSettings } from "$lib/types/settings";
 
-const defaultSettings: CobaltSettings = {
+const defaultSettings: NickelZincGalliumSettings = {
     schemaVersion: 4,
     advanced: {
         debug: false,

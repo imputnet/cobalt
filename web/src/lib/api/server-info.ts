@@ -4,17 +4,17 @@ import { get } from "svelte/store";
 import { currentApiURL } from "$lib/api/api-url";
 import { turnstileCreated, turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 import cachedInfo from "$lib/state/server-info";
-import type { CobaltServerInfoResponse, CobaltErrorResponse, CobaltServerInfo } from "$lib/types/api";
+import type { NickelZincGalliumServerInfoResponse, NickelZincGalliumErrorResponse, NickelZincGalliumServerInfo } from "$lib/types/api";
 
-export type CobaltServerInfoCache = {
-    info: CobaltServerInfo,
+export type NickelZincGalliumServerInfoCache = {
+    info: NickelZincGalliumServerInfo,
     origin: string,
 }
 
 const request = async () => {
     const apiEndpoint = `${currentApiURL()}/`;
 
-    const response: CobaltServerInfoResponse = await fetch(apiEndpoint, {
+    const response: NickelZincGalliumServerInfoResponse = await fetch(apiEndpoint, {
         redirect: "manual",
         signal: AbortSignal.timeout(10000),
     })
@@ -26,7 +26,7 @@ const request = async () => {
                 error: {
                     code: "error.api.timed_out"
                 }
-            } as CobaltErrorResponse
+            } as NickelZincGalliumErrorResponse
         }
     });
 
@@ -50,7 +50,7 @@ export const getServerInfo = async () => {
 
     const freshInfo = await request();
 
-    if (!freshInfo || !("cobalt" in freshInfo)) {
+    if (!freshInfo || !("nickelZincGallium" in freshInfo)) {
         return false;
     }
 
@@ -61,7 +61,7 @@ export const getServerInfo = async () => {
         });
 
         // reload the page if turnstile sitekey changed
-        if (browser && get(turnstileEnabled) && cache && cache?.info?.cobalt?.turnstileSitekey !== freshInfo?.cobalt?.turnstileSitekey) {
+        if (browser && get(turnstileEnabled) && cache && cache?.info?.nickelZincGallium?.turnstileSitekey !== freshInfo?.nickelZincGallium?.turnstileSitekey) {
             window.location.reload();
         }
 
