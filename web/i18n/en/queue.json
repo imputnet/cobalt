@@ -7,5 +7,6 @@
     "state.waiting": "queued",
     "state.starting": "starting...",
     "state.running.remux": "remuxing",
-    "state.running.fetch": "downloading"
+    "state.running.fetch": "downloading",
+    "estimated_storage_usage": "estimated storage usage:"
 }

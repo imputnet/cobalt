@@ -3,7 +3,8 @@
     import { onNavigate } from "$app/navigation";
     import { onMount, type SvelteComponent } from "svelte";
 
-    import { clearFileStorage } from "$lib/storage";
+    import { formatFileSize } from "$lib/util";
+    import { clearFileStorage, getStorageQuota } from "$lib/storage";
     import { currentTasks } from "$lib/state/queen-bee/current-tasks";
     import { clearQueue, queue as readableQueue } from "$lib/state/queen-bee/queue";
 
@@ -19,6 +20,13 @@
     $: expanded = false;
 
     $: queue = Object.entries($readableQueue);
+
+    let quotaUsage = 0;
+
+    const updateQuota = async () => {
+        const storageInfo = await getStorageQuota();
+        quotaUsage = storageInfo?.usage || 0;
+    }
 
     const totalItemProgress = (completed: number, current: number, total: number) => {
         return (completed * 100 + current) / total
@@ -41,6 +49,7 @@
 
     const popoverAction = async () => {
         expanded = !expanded;
+        if (expanded) updateQuota();
     };
 
     onNavigate(() => {
@@ -68,20 +77,31 @@
         expandStart="right"
     >
         <div id="processing-header">
-            <SectionHeading
-                title={$t("queue.title")}
-                sectionId="queue"
-                beta
-                nolink
-            />
-            <div class="header-buttons">
-                {#if queue.length}
-                    <button class="clear-button" on:click={clearQueue}>
-                        <IconX />
-                        {$t("button.clear")}
-                    </button>
-                {/if}
+            <div class="header-top">
+                <SectionHeading
+                    title={$t("queue.title")}
+                    sectionId="queue"
+                    beta
+                    nolink
+                />
+                <div class="header-buttons">
+                    {#if queue.length}
+                        <button class="clear-button" on:click={() => {
+                            clearQueue();
+                            updateQuota();
+                        }}>
+                            <IconX />
+                            {$t("button.clear")}
+                        </button>
+                    {/if}
+                </div>
             </div>
+
+            {#if quotaUsage}
+                <div class="storage-info">
+                    {$t("queue.estimated_storage_usage")} {formatFileSize(quotaUsage)}
+                </div>
+            {/if}
         </div>
         <div id="processing-list">
             {#each queue as [id, item]}
@@ -128,11 +148,23 @@
 
     #processing-header {
         display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .header-top {
+        display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
         gap: 6px;
+    }
+
+    .storage-info {
+        font-size: 12px;
+        color: var(--gray);
     }
 
     .header-buttons {
