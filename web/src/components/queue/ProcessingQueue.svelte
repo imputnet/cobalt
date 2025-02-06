@@ -1,8 +1,9 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
-    import type { SvelteComponent } from "svelte";
+    import { onMount, type SvelteComponent } from "svelte";
 
+    import { clearFileStorage } from "$lib/storage";
     import { currentTasks } from "$lib/state/queen-bee/current-tasks";
     import { clearQueue, queue as readableQueue } from "$lib/state/queen-bee/queue";
 
@@ -45,6 +46,11 @@
     onNavigate(() => {
         expanded = false;
     });
+
+    onMount(() => {
+        // clear old files from storage on first page load
+        clearFileStorage();
+    })
 </script>
 
 <div id="processing-queue" class:expanded>
