@@ -111,8 +111,6 @@
     "advanced.debug.title": "enable features for nerds",
     "advanced.debug.description": "gives you easy access to app info that can be useful for debugging. enabling this does not affect functionality of cobalt in any way.",
 
-    "advanced.data": "data management",
-
     "advanced.local-processing": "local processing",
     "advanced.local-processing.title": "mux and convert media on device",
     "advanced.local-processing.description": "when downloading media, cobalt will use on-device processing to mux or convert it. exclusive local features such as remux or convert are not affected, they always run locally.",
@@ -126,5 +124,8 @@
     "processing.access_key.description": "cobalt will use this key to make requests to the processing instance instead of other authentication methods. make sure the instance supports api keys!",
 
     "processing.custom_instance.input.alt_text": "custom instance domain",
-    "processing.access_key.input.alt_text": "u-u-i-d access key"
+    "processing.access_key.input.alt_text": "u-u-i-d access key",
+
+    "advanced.settings_data": "settings data",
+    "advanced.local_storage": "local storage"
 }
