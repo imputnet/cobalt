@@ -14,8 +14,6 @@
     import IconHeart from "@tabler/icons-svelte/IconHeart.svelte";
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
 
-    import IconCut from "@tabler/icons-svelte/IconCut.svelte";
-
     let screenWidth: number;
     let settingsLink = defaultNavPage("settings");
     let aboutLink = defaultNavPage("about");
@@ -33,7 +31,6 @@
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
             <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
-            <SidebarTab name="cutout" path="/cutout" icon={IconCut} beta />
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab name="settings" path={settingsLink} icon={IconSettings} />
