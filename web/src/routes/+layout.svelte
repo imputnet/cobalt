@@ -168,9 +168,9 @@
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
             rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0) 4%,
+            rgba(0, 0, 0, 0) 5%,
             rgba(0, 0, 0, 0) 50%,
-            rgba(0, 0, 0, 0) 96%,
+            rgba(0, 0, 0, 0) 95%,
             rgba(0, 0, 0, 0.9) 100%
         );
 
@@ -226,11 +226,11 @@
 
         --sidebar-mobile-gradient: linear-gradient(
             90deg,
-            rgba(16, 16, 16, 0.9) 0%,
-            rgba(16, 16, 16, 0) 4%,
-            rgba(16, 16, 16, 0) 50%,
-            rgba(16, 16, 16, 0) 96%,
-            rgba(16, 16, 16, 0.9) 100%
+            rgba(19, 19, 19, 0.9) 0%,
+            rgba(19, 19, 19, 0) 5%,
+            rgba(19, 19, 19, 0) 50%,
+            rgba(19, 19, 19, 0) 95%,
+            rgba(19, 19, 19, 0.9) 100%
         );
 
         --skeleton-gradient: linear-gradient(
