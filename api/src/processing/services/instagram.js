@@ -1,6 +1,7 @@
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
+import { randomBytes } from "node:crypto";
 
 const commonHeaders = {
     "user-agent": genericUserAgent,
@@ -8,6 +9,7 @@ const commonHeaders = {
     "sec-fetch-site": "same-origin",
     "x-ig-app-id": "936619743392459"
 }
+
 const mobileHeaders = {
     "x-ig-app-locale": "en_US",
     "x-ig-device-locale": "en_US",
@@ -19,6 +21,7 @@ const mobileHeaders = {
     "x-fb-server-cluster": "True",
     "content-length": "0",
 }
+
 const embedHeaders = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
     "Accept-Language": "en-GB,en;q=0.9",
@@ -39,6 +42,16 @@ const embedHeaders = {
 const cachedDtsg = {
     value: '',
     expiry: 0
+}
+
+const getNumberFromQuery = (name, data) => {
+    const s = data?.match(new RegExp(name + '=(\\d+)'))?.[1];
+    if (+s) return +s;
+}
+
+const getObjectFromEntries = (name, data) => {
+    const obj = data?.match(new RegExp('\\["' + name + '",.*?,({.*?}),\\d+\\]'))?.[1];
+    return obj && JSON.parse(obj);
 }
 
 export default function(obj) {
@@ -91,6 +104,7 @@ export default function(obj) {
         updateCookie(cookie, data.headers);
         return data.json();
     }
+
     async function getMediaId(id, { cookie, token } = {}) {
         const oembedURL = new URL('https://i.instagram.com/api/v1/oembed/');
         oembedURL.searchParams.set('url', `https://www.instagram.com/p/${id}/`);
@@ -119,6 +133,7 @@ export default function(obj) {
 
         return mediaInfo?.items?.[0];
     }
+
     async function requestHTML(id, cookie) {
         const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
             headers: {
@@ -136,35 +151,98 @@ export default function(obj) {
 
         return embedData;
     }
-    async function requestGQL(id, cookie) {
-        let dtsgId;
 
-        if (cookie) {
-            dtsgId = await findDtsgId(cookie);
-        }
-        const url = new URL('https://www.instagram.com/api/graphql/');
+    async function getGQLParams(id, cookie) {
+        const req = await fetch(`https://www.instagram.com/p/${id}/`, {
+            headers: {
+                ...embedHeaders,
+                cookie
+            }
+        });
 
-        const requestData = {
-            jazoest: '26406',
-            variables: JSON.stringify({
-            shortcode: id,
-            __relay_internal__pv__PolarisShareMenurelayprovider: false
-            }),
-            doc_id: '7153618348081770'
+        const html = await req.text();
+        const siteData = getObjectFromEntries('SiteData', html);
+        const polarisSiteData = getObjectFromEntries('PolarisSiteData', html);
+        const webConfig = getObjectFromEntries('DGWWebConfig', html);
+        const pushInfo = getObjectFromEntries('InstagramWebPushInfo', html);
+        const lsd = getObjectFromEntries('LSD', html)?.token || randomBytes(8).toString('base64url');
+        const csrf = getObjectFromEntries('InstagramSecurityConfig', html)?.csrf_token;
+
+        const anon_cookie = [
+            csrf && "csrftoken=" + csrf,
+            polarisSiteData?.device_id && "ig_did=" + polarisSiteData?.device_id,
+            "wd=1280x720",
+            "dpr=2",
+            polarisSiteData?.machine_id && "mid=" + polarisSiteData.machine_id,
+            "ig_nrcb=1"
+        ].filter(a => a).join('; ');
+
+        return {
+            headers: {
+                'X-IG-App-Id': webConfig?.appId || '936619743392459',
+                'X-FB-LSD': lsd,
+                'X-CSRFToken': csrf,
+                'X-Bloks-Version-Id': getObjectFromEntries('WebBloksVersioningID', html)?.versioningID,
+                'x-asbd-id': 129477,
+                cookie: anon_cookie
+            },
+            body: {
+                __hs: siteData?.haste_session || '20126.HYP:instagram_web_pkg.2.1...0',
+                __rev: pushInfo?.rollout_hash || '1019933358',
+                __s: '::' + Math.random().toString(36).substring(2).replace(/\d/g, '').slice(0, 6),
+                __hsi: siteData?.hsi || '7436540909012459023',
+                __dyn: randomBytes(154).toString('base64url'),
+                __csr: randomBytes(154).toString('base64url'),
+                __comet_req: getNumberFromQuery('__comet_req', html) || '7',
+                lsd,
+                jazoest: getNumberFromQuery('jazoest', html) || Math.floor(Math.random() * 10000),
+                __spin_r: siteData?.__spin_r || '1019933358',
+                __spin_b: siteData?.__spin_b || 'trunk',
+                __spin_t: siteData?.__spin_t || Math.floor(new Date().getTime() / 1000),
+            }
         };
-        if (dtsgId) {
-            requestData.fb_dtsg = dtsgId;
-        }
+    }
 
-        return (await request(url, cookie, 'POST', requestData))
-                .data
-                ?.xdt_api__v1__media__shortcode__web_info
-                ?.items
-                ?.[0];
+    async function requestGQL(id, cookie) {
+        const { headers, body } = await getGQLParams(id, cookie);
+
+        const req = await fetch('https://www.instagram.com/graphql/query', {
+            method: 'POST',
+            headers: {
+                ...embedHeaders,
+                ...headers,
+                cookie,
+                'content-type': 'application/x-www-form-urlencoded',
+                'X-FB-Friendly-Name': 'PolarisPostActionLoadPostQueryQuery',
+            },
+            body: new URLSearchParams({
+                av: '0',
+                __d: 'www',
+                __user: '0',
+                __a: '1',
+                __req: 'b',
+                dpr: '2',
+                __ccg: 'EXCELLENT',
+                ...body,
+                fb_api_caller_class: 'RelayModern',
+                fb_api_req_friendly_name: 'PolarisPostActionLoadPostQueryQuery',
+                variables: JSON.stringify({
+                    shortcode: id,
+                    fetch_tagged_user_count: null,
+                    hoisted_comment_id: null,
+                    hoisted_reply_id: null
+                }),
+                server_timestamps: true,
+                doc_id: '8845758582119845'
+            }).toString()
+        });
+
+        return { gql_data: (await req.json()).data }
     }
 
     function extractOldPost(data, id, alwaysProxy) {
-        const sidecar = data?.gql_data?.shortcode_media?.edge_sidecar_to_children;
+        const shortcodeMedia = data?.gql_data?.shortcode_media || data?.gql_data?.xdt_shortcode_media;
+        const sidecar = shortcodeMedia?.edge_sidecar_to_children;
         if (sidecar) {
             const picker = sidecar.edges.filter(e => e.node?.display_url)
                 .map((e, i) => {
@@ -196,15 +274,15 @@ export default function(obj) {
                 });
 
             if (picker.length) return { picker }
-        } else if (data?.gql_data?.shortcode_media?.video_url) {
+        } else if (shortcodeMedia?.video_url) {
             return {
-                urls: data.gql_data.shortcode_media.video_url,
+                urls: shortcodeMedia.video_url,
                 filename: `instagram_${id}.mp4`,
                 audioFilename: `instagram_${id}_audio`
             }
-        } else if (data?.gql_data?.shortcode_media?.display_url) {
+        } else if (shortcodeMedia?.display_url) {
             return {
-                urls: data.gql_data?.shortcode_media.display_url,
+                urls: shortcodeMedia.display_url,
                 isPhoto: true
             }
         }
