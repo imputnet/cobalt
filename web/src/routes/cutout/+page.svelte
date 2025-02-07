@@ -1,9 +1,6 @@
 <script lang="ts">
-    import settings from "$lib/state/settings";
     import RemoveBgWorker from "$lib/workers/removebg?worker";
 
-    import { onMount } from "svelte";
-    import { goto } from "$app/navigation";
     import { downloadFile } from "$lib/download";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
@@ -71,12 +68,6 @@
             }),
         });
     };
-
-    onMount(() => {
-        if (!($settings.advanced.localProcessing && $settings.advanced.debug)) {
-            goto("/", { replaceState: true });
-        }
-    });
 </script>
 
 <DropReceiver bind:files bind:draggedOver id="cutout-container">
