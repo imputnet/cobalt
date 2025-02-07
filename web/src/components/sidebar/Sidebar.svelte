@@ -1,7 +1,4 @@
 <script lang="ts">
-    import settings from "$lib/state/settings";
-
-    import { device } from "$lib/device";
     import { t } from "$lib/i18n/translations";
     import { defaultNavPage } from "$lib/subnav";
 
@@ -36,9 +33,7 @@
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
             <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
-            {#if $settings.advanced.localProcessing && !device.is.mobile && $settings.advanced.debug}
-                <SidebarTab name="cutout" path="/cutout" icon={IconCut} beta />
-            {/if}
+            <SidebarTab name="cutout" path="/cutout" icon={IconCut} beta />
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab name="settings" path={settingsLink} icon={IconSettings} />
