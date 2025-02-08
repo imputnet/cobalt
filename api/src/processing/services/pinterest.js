@@ -11,6 +11,7 @@ export default async function(o) {
                    .then(r => r.headers.get("location").split('pin/')[1].split('/')[0])
                    .catch(() => {});
     }
+
     if (id.includes("--")) id = id.split("--")[1];
     if (!id) return { error: "fetch.fail" };
 
@@ -26,8 +27,8 @@ export default async function(o) {
 
     if (videoLink) return {
         urls: videoLink,
-        filename: `pinterest_${o.id}.mp4`,
-        audioFilename: `pinterest_${o.id}_audio`
+        filename: `pinterest_${id}.mp4`,
+        audioFilename: `pinterest_${id}_audio`
     }
 
     const imageLink = [...html.matchAll(imageRegex)]
@@ -39,7 +40,7 @@ export default async function(o) {
     if (imageLink) return {
         urls: imageLink,
         isPhoto: true,
-        filename: `pinterest_${o.id}.${imageType}`
+        filename: `pinterest_${id}.${imageType}`
     }
 
     return { error: "fetch.empty" };
