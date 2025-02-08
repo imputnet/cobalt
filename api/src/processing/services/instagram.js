@@ -2,6 +2,7 @@ import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
 import { randomBytes } from "node:crypto";
+import { resolveRedirectingURL } from "../url.js";
 
 const commonHeaders = {
     "user-agent": genericUserAgent,
@@ -54,7 +55,7 @@ const getObjectFromEntries = (name, data) => {
     return obj && JSON.parse(obj);
 }
 
-export default function(obj) {
+export default function instagram(obj) {
     const dispatcher = obj.dispatcher;
 
     async function findDtsgId(cookie) {
@@ -300,11 +301,18 @@ export default function(obj) {
     function extractOldPost(data, id, alwaysProxy) {
         const shortcodeMedia = data?.gql_data?.shortcode_media || data?.gql_data?.xdt_shortcode_media;
         const sidecar = shortcodeMedia?.edge_sidecar_to_children;
+
         if (sidecar) {
             const picker = sidecar.edges.filter(e => e.node?.display_url)
                 .map((e, i) => {
                     const type = e.node?.is_video ? "video" : "photo";
-                    const url = type === "video" ? e.node?.video_url : e.node?.display_url;
+
+                    let url;
+                    if (type === 'video') {
+                        url = e.node?.video_url;
+                    } else if (type === 'photo') {
+                        url = e.node?.display_url;
+                    }
 
                     let itemExt = type === "video" ? "mp4" : "jpg";
 
@@ -331,13 +339,17 @@ export default function(obj) {
                 });
 
             if (picker.length) return { picker }
-        } else if (shortcodeMedia?.video_url) {
+        }
+
+        if (shortcodeMedia?.video_url) {
             return {
                 urls: shortcodeMedia.video_url,
                 filename: `instagram_${id}.mp4`,
                 audioFilename: `instagram_${id}_audio`
             }
-        } else if (shortcodeMedia?.display_url) {
+        }
+
+        if (shortcodeMedia?.display_url) {
             return {
                 urls: shortcodeMedia.display_url,
                 isPhoto: true
@@ -504,7 +516,19 @@ export default function(obj) {
         return { error: "link.unsupported" };
     }
 
-    const { postId, storyId, username, alwaysProxy } = obj;
+    const { postId, shareId, storyId, username, alwaysProxy } = obj;
+
+    if (shareId) {
+        return resolveRedirectingURL(
+            `https://www.instagram.com/share/${shareId}/`,
+            dispatcher,
+            'curl/7.88.1'
+        ).then(match => instagram({
+            ...obj, ...match,
+            shareId: undefined
+        }));
+    }
+
     if (postId) return getPost(postId, alwaysProxy);
     if (username && storyId) return getStory(username, storyId);
 
