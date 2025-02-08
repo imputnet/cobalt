@@ -36,7 +36,7 @@ const embedHeaders = {
     "Sec-Fetch-Site": "none",
     "Sec-Fetch-User": "?1",
     "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "User-Agent": genericUserAgent,
 }
 
 const cachedDtsg = {
@@ -157,7 +157,8 @@ export default function(obj) {
             headers: {
                 ...embedHeaders,
                 cookie
-            }
+            },
+            dispatcher
         });
 
         const html = await req.text();
@@ -179,7 +180,7 @@ export default function(obj) {
 
         return {
             headers: {
-                'X-IG-App-Id': webConfig?.appId || '936619743392459',
+                'x-ig-app-id': webConfig?.appId || '936619743392459',
                 'X-FB-LSD': lsd,
                 'X-CSRFToken': csrf,
                 'X-Bloks-Version-Id': getObjectFromEntries('WebBloksVersioningID', html)?.versioningID,
@@ -187,13 +188,20 @@ export default function(obj) {
                 cookie: anon_cookie
             },
             body: {
-                __hs: siteData?.haste_session || '20126.HYP:instagram_web_pkg.2.1...0',
-                __rev: pushInfo?.rollout_hash || '1019933358',
+                __d: 'www',
+                __a: '1',
                 __s: '::' + Math.random().toString(36).substring(2).replace(/\d/g, '').slice(0, 6),
+                __hs: siteData?.haste_session || '20126.HYP:instagram_web_pkg.2.1...0',
+                __req: 'b',
+                __ccg: 'EXCELLENT',
+                __rev: pushInfo?.rollout_hash || '1019933358',
                 __hsi: siteData?.hsi || '7436540909012459023',
                 __dyn: randomBytes(154).toString('base64url'),
                 __csr: randomBytes(154).toString('base64url'),
+                __user: '0',
                 __comet_req: getNumberFromQuery('__comet_req', html) || '7',
+                av: '0',
+                dpr: '2',
                 lsd,
                 jazoest: getNumberFromQuery('jazoest', html) || Math.floor(Math.random() * 10000),
                 __spin_r: siteData?.__spin_r || '1019933358',
@@ -208,6 +216,7 @@ export default function(obj) {
 
         const req = await fetch('https://www.instagram.com/graphql/query', {
             method: 'POST',
+            dispatcher,
             headers: {
                 ...embedHeaders,
                 ...headers,
@@ -216,13 +225,6 @@ export default function(obj) {
                 'X-FB-Friendly-Name': 'PolarisPostActionLoadPostQueryQuery',
             },
             body: new URLSearchParams({
-                av: '0',
-                __d: 'www',
-                __user: '0',
-                __a: '1',
-                __req: 'b',
-                dpr: '2',
-                __ccg: 'EXCELLENT',
                 ...body,
                 fb_api_caller_class: 'RelayModern',
                 fb_api_req_friendly_name: 'PolarisPostActionLoadPostQueryQuery',
@@ -237,7 +239,62 @@ export default function(obj) {
             }).toString()
         });
 
-        return { gql_data: (await req.json()).data }
+        return {
+            gql_data: await req.json()
+                        .then(r => r.data)
+                        .catch(() => null)
+        };
+    }
+
+    async function getErrorContext(id) {
+        try {
+            const { headers, body } = await getGQLParams(id);
+
+            const req = await fetch('https://www.instagram.com/ajax/bulk-route-definitions/', {
+                method: 'POST',
+                dispatcher,
+                headers: {
+                    ...embedHeaders,
+                    ...headers,
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'X-Ig-D': 'www',
+                },
+                body: new URLSearchParams({
+                    'route_urls[0]': `/p/${id}/`,
+                    routing_namespace: 'igx_www',
+                    ...body
+                }).toString()
+            });
+
+            const response = await req.text();
+            if (response.includes('"tracePolicy":"polaris.privatePostPage"'))
+                return { error: 'content.post.private' };
+
+            const [, mediaId, mediaOwnerId] = response.match(
+                /"media_id":\s*?"(\d+)","media_owner_id":\s*?"(\d+)"/
+            ) || [];
+
+            if (mediaId && mediaOwnerId) {
+                const rulingURL = new URL('https://www.instagram.com/api/v1/web/get_ruling_for_media_content_logged_out');
+                rulingURL.searchParams.set('media_id', mediaId);
+                rulingURL.searchParams.set('owner_id', mediaOwnerId);
+
+                const rulingResponse = await fetch(rulingURL, {
+                    headers: {
+                        ...headers,
+                        ...commonHeaders
+                    },
+                    dispatcher,
+                }).then(a => a.json()).catch(() => ({}));
+
+                if (rulingResponse?.title?.includes('Restricted'))
+                    return { error: "content.post.age" };
+            }
+        } catch {
+            return { error: "fetch.fail" };
+        }
+
+        return { error: "fetch.empty" };
     }
 
     function extractOldPost(data, id, alwaysProxy) {
@@ -344,7 +401,9 @@ export default function(obj) {
     }
 
     async function getPost(id, alwaysProxy) {
-        const hasData = (data) => data && data.gql_data !== null;
+        const hasData = (data) => data
+                                    && data.gql_data !== null
+                                    && data?.gql_data?.xdt_shortcode_media !== null;
         let data, result;
         try {
             const cookie = getCookie('instagram');
@@ -373,7 +432,9 @@ export default function(obj) {
             if (!hasData(data) && cookie) data = await requestGQL(id, cookie);
         } catch {}
 
-        if (!data) return { error: "fetch.fail" };
+        if (!hasData(data)) {
+            return getErrorContext(id);
+        }
 
         if (data?.gql_data) {
             result = extractOldPost(data, id, alwaysProxy)
