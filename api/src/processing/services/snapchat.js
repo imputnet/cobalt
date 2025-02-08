@@ -1,7 +1,6 @@
-import { extract, normalizeURL } from "../url.js";
+import { resolveRedirectingURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
-import { getRedirectingURL } from "../../misc/utils.js";
 
 const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="([^"]+)" as="video"\/>/;
 const NEXT_DATA_REGEX = /<script id="__NEXT_DATA__" type="application\/json">({.+})<\/script><\/body><\/html>$/;
@@ -100,18 +99,7 @@ async function getStory(username, storyId, alwaysProxy) {
 export default async function (obj) {
     let params = obj;
     if (obj.shortLink) {
-        const link = await getRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
-
-        if (!link?.startsWith('https://www.snapchat.com/')) {
-            return { error: "fetch.short_link" };
-        }
-
-        const extractResult = extract(normalizeURL(link));
-        if (extractResult?.host !== 'snapchat') {
-            return { error: "fetch.short_link" };
-        }
-
-        params = extractResult.patternMatch;
+        params = await resolveRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
     }
 
     if (params.spotlightId) {
