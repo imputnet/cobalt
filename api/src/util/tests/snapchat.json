@@ -19,7 +19,8 @@
     },
     {
         "name": "story",
-        "url": "https://www.snapchat.com/add/bazerkmakane",
+        "url": "https://www.snapchat.com/add/taylorred_music",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
