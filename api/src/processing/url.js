@@ -4,6 +4,7 @@ import { strict as assert } from "node:assert";
 import { env } from "../config.js";
 import { services } from "./service-config.js";
 import { friendlyServiceName } from "./service-alias.js";
+import { getRedirectingURL } from "../misc/utils.js";
 
 function aliasURL(url) {
     assert(url instanceof URL);
@@ -220,4 +221,18 @@ export function extract(url) {
     }
 
     return { host, patternMatch };
+}
+
+export async function resolveRedirectingURL(url, dispatcher, userAgent) {
+    const originalService = getHostIfValid(normalizeURL(url));
+    if (!originalService) return;
+
+    const canonicalURL = await getRedirectingURL(url, dispatcher, userAgent);
+    if (!canonicalURL) return;
+
+    const { host, patternMatch } = extract(normalizeURL(canonicalURL));
+
+    if (host === originalService) {
+        return patternMatch;
+    }
 }
