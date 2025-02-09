@@ -3,7 +3,8 @@ const redirectStatuses = new Set([301, 302, 303, 307, 308]);
 
 export async function getRedirectingURL(url, dispatcher, userAgent) {
     const location = await request(url, {
-        dispatcher, method: 'HEAD',
+        dispatcher,
+        method: 'HEAD',
         headers: { 'user-agent': userAgent }
     }).then(r => {
         if (redirectStatuses.has(r.statusCode) && r.headers['location']) {
