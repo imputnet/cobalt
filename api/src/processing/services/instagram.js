@@ -522,6 +522,9 @@ export default function instagram(obj) {
         return resolveRedirectingURL(
             `https://www.instagram.com/share/${shareId}/`,
             dispatcher,
+            // for some reason instagram decides to return HTML
+            // instead of a redirect when requesting with a normal
+            // browser user-agent
             'curl/7.88.1'
         ).then(match => instagram({
             ...obj, ...match,
