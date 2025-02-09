@@ -352,7 +352,8 @@ export default function instagram(obj) {
         if (shortcodeMedia?.display_url) {
             return {
                 urls: shortcodeMedia.display_url,
-                isPhoto: true
+                isPhoto: true,
+                filename: `instagram_${id}.jpg`,
             }
         }
     }
@@ -509,7 +510,8 @@ export default function instagram(obj) {
         if (item.image_versions2?.candidates) {
             return {
                 urls: item.image_versions2.candidates[0].url,
-                isPhoto: true
+                isPhoto: true,
+                filename: `instagram_${id}.jpg`,
             }
         }
 
