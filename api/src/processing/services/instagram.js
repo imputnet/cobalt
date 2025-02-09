@@ -1,8 +1,8 @@
+import { randomBytes } from "node:crypto";
+import { resolveRedirectingURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
-import { randomBytes } from "node:crypto";
-import { resolveRedirectingURL } from "../url.js";
 
 const commonHeaders = {
     "user-agent": genericUserAgent,
