@@ -119,5 +119,15 @@
             "code": 200,
             "status": "redirect"
         }
+    },
+    {
+        "name": "private instagram post",
+        "url": "https://www.instagram.com/p/C5_A1TQNPrYw4c2g9KAUTPUl8RVHqiAdAcOOSY0",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.content.post.private"
+        }
     }
 ]
