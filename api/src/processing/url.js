@@ -3,8 +3,8 @@ import { strict as assert } from "node:assert";
 
 import { env } from "../config.js";
 import { services } from "./service-config.js";
-import { friendlyServiceName } from "./service-alias.js";
 import { getRedirectingURL } from "../misc/utils.js";
+import { friendlyServiceName } from "./service-alias.js";
 
 function aliasURL(url) {
     assert(url instanceof URL);
