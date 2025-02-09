@@ -20,9 +20,10 @@ export const testers = {
         pattern.id?.length <= 128 || pattern.shortLink?.length <= 32,
 
     "reddit": pattern =>
-        (pattern.sub?.length <= 22 && pattern.id?.length <= 10)
-        || (pattern.user?.length <= 22 && pattern.id?.length <= 10)
-        || (pattern.sub?.length <= 22 && pattern.shareId?.length <= 12),
+        pattern.id?.length <= 16
+        || (pattern.sub?.length <= 22 && pattern.id?.length <= 16)
+        || (pattern.user?.length <= 22 && pattern.id?.length <= 16)
+        || (pattern.sub?.length <= 22 && pattern.shareId?.length <= 16),
 
     "rutube": pattern =>
         (pattern.id?.length === 32 && pattern.key?.length <= 32) ||

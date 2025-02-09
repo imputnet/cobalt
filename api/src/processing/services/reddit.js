@@ -61,9 +61,7 @@ export default async function(obj) {
 
     if (!params?.id) return { error: "fetch.short_link" };
 
-    const url = new URL(
-        `https://www.reddit.com/r/${params.sub || params.user}/comments/${params.id}.json`
-    );
+    const url = new URL(`https://www.reddit.com/comments/${params.id}.json`);
 
     const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';
@@ -84,12 +82,17 @@ export default async function(obj) {
 
     data = data[0]?.data?.children[0]?.data;
 
-    const id = `${String(params.sub).toLowerCase()}_${params.id}`;
+    let sourceId;
+    if (params.sub || params.user) {
+        sourceId = `${String(params.sub || params.user).toLowerCase()}_${params.id}`;
+    } else {
+        sourceId = params.id;
+    }
 
     if (data?.url?.endsWith('.gif')) return {
         typeId: "redirect",
         urls: data.url,
-        filename: `reddit_${id}.gif`,
+        filename: `reddit_${sourceId}.gif`,
     }
 
     if (!data.secure_media?.reddit_video)
@@ -133,7 +136,7 @@ export default async function(obj) {
         typeId: "tunnel",
         type: "merge",
         urls: [video, audioFileLink],
-        audioFilename: `reddit_${id}_audio`,
-        filename: `reddit_${id}.mp4`
+        audioFilename: `reddit_${sourceId}_audio`,
+        filename: `reddit_${sourceId}.mp4`
     }
 }
