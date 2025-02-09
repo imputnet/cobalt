@@ -165,7 +165,8 @@ export default async function (o) {
         info = await yt.getBasicInfo(o.id, innertubeClient);
     } catch (e) {
         if (e?.info) {
-            const errorInfo = JSON.parse(e?.info);
+            let errorInfo;
+            try { errorInfo = JSON.parse(e?.info); } catch {}
 
             if (errorInfo?.reason === "This video is private") {
                 return { error: "content.video.private" };

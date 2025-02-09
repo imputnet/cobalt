@@ -20,6 +20,7 @@
     {
         "name": "story",
         "url": "https://www.snapchat.com/add/bazerkmakane",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,

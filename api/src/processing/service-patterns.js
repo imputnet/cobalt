@@ -6,7 +6,8 @@ export const testers = {
     "dailymotion": pattern => pattern.id?.length <= 32,
 
     "instagram": pattern =>
-        pattern.postId?.length <= 12
+        pattern.postId?.length <= 48
+        || pattern.shareId?.length <= 16
         || (pattern.username?.length <= 30 && pattern.storyId?.length <= 24),
 
     "loom": pattern =>

@@ -41,7 +41,8 @@ export const services = {
             "p/:postId",
             ":username/p/:postId",
             "tv/:postId",
-            "stories/:username/:storyId"
+            "stories/:username/:storyId",
+            "share/:shareId"
         ],
         altDomains: ["ddinstagram.com"],
     },

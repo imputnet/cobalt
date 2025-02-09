@@ -1,7 +1,6 @@
-import { extract, normalizeURL } from "../url.js";
+import { resolveRedirectingURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
-import { getRedirectingURL } from "../../misc/utils.js";
 
 const https = (url) => {
     return url.replace(/^http:/i, 'https:');
@@ -12,19 +11,13 @@ export default async function ({ id, token, shareId, h265, isAudioOnly, dispatch
     let xsecToken = token;
 
     if (!noteId) {
-        const extractedURL = await getRedirectingURL(
+        const patternMatch = await resolveRedirectingURL(
             `https://xhslink.com/a/${shareId}`,
             dispatcher
         );
 
-        if (extractedURL) {
-            const { patternMatch } = extract(normalizeURL(extractedURL));
-
-            if (patternMatch) {
-                noteId = patternMatch.id;
-                xsecToken = patternMatch.token;
-            }
-        }
+        noteId = patternMatch?.id;
+        xsecToken = patternMatch?.token;
     }
 
     if (!noteId || !xsecToken) return { error: "fetch.short_link" };
