@@ -66,7 +66,8 @@ export const services = {
     reddit: {
         patterns: [
             "r/:sub/comments/:id/:title",
-            "user/:user/comments/:id/:title"
+            "user/:user/comments/:id/:title",
+            "r/:sub/s/:shareId"
         ],
         subdomains: "*",
     },
