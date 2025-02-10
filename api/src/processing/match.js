@@ -29,6 +29,7 @@ import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import newgrounds from "./services/newgrounds.js";
+import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
 
@@ -78,8 +79,9 @@ export default async function({ host, patternMatch, params }) {
 
             case "vk":
                 r = await vk({
-                    userId: patternMatch.userId,
+                    ownerId: patternMatch.ownerId,
                     videoId: patternMatch.videoId,
+                    accessKey: patternMatch.accessKey,
                     quality: params.videoQuality
                 });
                 break;
@@ -119,9 +121,8 @@ export default async function({ host, patternMatch, params }) {
 
             case "reddit":
                 r = await reddit({
-                    sub: patternMatch.sub,
-                    id: patternMatch.id,
-                    user: patternMatch.user
+                    ...patternMatch,
+                    dispatcher,
                 });
                 break;
 
@@ -247,6 +248,15 @@ export default async function({ host, patternMatch, params }) {
                     quality: params.videoQuality,
                     isAudioOnly,
                     isAudioMuted
+                });
+                break;
+
+             case "xiaohongshu":
+                r = await xiaohongshu({
+                    ...patternMatch,
+                    h265: params.tiktokH265,
+                    isAudioOnly,
+                    dispatcher,
                 });
                 break;
 

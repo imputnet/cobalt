@@ -1,3 +1,4 @@
+import { resolveRedirectingURL } from "../url.js";
 import { genericUserAgent, env } from "../../config.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
@@ -48,11 +49,19 @@ async function getAccessToken() {
 }
 
 export default async function(obj) {
-    let url = new URL(`https://www.reddit.com/r/${obj.sub}/comments/${obj.id}.json`);
+    let params = obj;
 
-    if (obj.user) {
-        url.pathname = `/user/${obj.user}/comments/${obj.id}.json`;
+    if (!params.id && params.shareId) {
+        params = await resolveRedirectingURL(
+            `https://www.reddit.com/r/${params.sub}/s/${params.shareId}`,
+            obj.dispatcher,
+            genericUserAgent
+        );
     }
+
+    if (!params?.id) return { error: "fetch.short_link" };
+
+    const url = new URL(`https://www.reddit.com/comments/${params.id}.json`);
 
     const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';
@@ -73,12 +82,17 @@ export default async function(obj) {
 
     data = data[0]?.data?.children[0]?.data;
 
-    const id = `${String(obj.sub).toLowerCase()}_${obj.id}`;
+    let sourceId;
+    if (params.sub || params.user) {
+        sourceId = `${String(params.sub || params.user).toLowerCase()}_${params.id}`;
+    } else {
+        sourceId = params.id;
+    }
 
     if (data?.url?.endsWith('.gif')) return {
         typeId: "redirect",
         urls: data.url,
-        filename: `reddit_${id}.gif`,
+        filename: `reddit_${sourceId}.gif`,
     }
 
     if (!data.secure_media?.reddit_video)
@@ -87,8 +101,9 @@ export default async function(obj) {
     if (data.secure_media?.reddit_video?.duration > env.durationLimit)
         return { error: "content.too_long" };
 
+    const video = data.secure_media?.reddit_video?.fallback_url?.split('?')[0];
+
     let audio = false,
-        video = data.secure_media?.reddit_video?.fallback_url?.split('?')[0],
         audioFileLink = `${data.secure_media?.reddit_video?.fallback_url?.split('DASH')[0]}audio`;
 
     if (video.match('.mp4')) {
@@ -121,7 +136,7 @@ export default async function(obj) {
         typeId: "tunnel",
         type: "merge",
         urls: [video, audioFileLink],
-        audioFilename: `reddit_${id}_audio`,
-        filename: `reddit_${id}.mp4`
+        audioFilename: `reddit_${sourceId}_audio`,
+        filename: `reddit_${sourceId}.mp4`
     }
 }

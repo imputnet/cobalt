@@ -54,7 +54,25 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "gif with a quoted post",
+        "url": "https://bsky.app/profile/imlunahey.com/post/3lgajpn5dtk2t",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "gif alone in a post",
+        "url": "https://bsky.app/profile/imlunahey.com/post/3lgah3ovxnc2q",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
         }
     },
     {

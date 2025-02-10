@@ -123,6 +123,8 @@
         --button-elevated-hover: #dadada;
         --button-elevated-shimmer: #ededed;
 
+        --popover-glow: var(--button-stroke);
+
         --popup-bg: #f1f1f1;
         --popup-stroke: rgba(0, 0, 0, 0.08);
 
@@ -197,6 +199,8 @@
 
         --button-elevated: #282828;
         --button-elevated-hover: #323232;
+
+        --popover-glow: rgba(135, 135, 135, 0.12);
 
         --popup-bg: #191919;
         --popup-stroke: rgba(255, 255, 255, 0.08);
@@ -524,6 +528,12 @@
         font-size: 19px;
         line-height: 1.3;
         margin-block-end: -0.3rem;
+        padding: 6px 0;
+        border-bottom: 1.5px solid var(--button-elevated-hover);
+    }
+
+    :global(.long-text-noto img) {
+        border-radius: 6px;
     }
 
     :global(table),

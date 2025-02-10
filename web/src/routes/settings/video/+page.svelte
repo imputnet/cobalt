@@ -69,6 +69,15 @@
     />
 </SettingsCategory>
 
+<SettingsCategory sectionId="h265" title={$t("settings.video.h265")}>
+    <SettingsToggle
+        settingContext="save"
+        settingId="tiktokH265"
+        title={$t("settings.video.h265.title")}
+        description={$t("settings.video.h265.description")}
+    />
+</SettingsCategory>
+
 <SettingsCategory sectionId="twitter" title={$t("settings.video.twitter.gif")}>
     <SettingsToggle
         settingContext="save"
@@ -78,11 +87,3 @@
     />
 </SettingsCategory>
 
-<SettingsCategory sectionId="tiktok" title={$t("settings.video.tiktok.h265")}>
-    <SettingsToggle
-        settingContext="save"
-        settingId="tiktokH265"
-        title={$t("settings.video.tiktok.h265.title")}
-        description={$t("settings.video.tiktok.h265.description")}
-    />
-</SettingsCategory>

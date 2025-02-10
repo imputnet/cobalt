@@ -6,7 +6,8 @@ export const testers = {
     "dailymotion": pattern => pattern.id?.length <= 32,
 
     "instagram": pattern =>
-        pattern.postId?.length <= 12
+        pattern.postId?.length <= 48
+        || pattern.shareId?.length <= 16
         || (pattern.username?.length <= 30 && pattern.storyId?.length <= 24),
 
     "loom": pattern =>
@@ -19,8 +20,10 @@ export const testers = {
         pattern.id?.length <= 128 || pattern.shortLink?.length <= 32,
 
     "reddit": pattern =>
-        (pattern.sub?.length <= 22 && pattern.id?.length <= 10)
-        || (pattern.user?.length <= 22 && pattern.id?.length <= 10),
+        pattern.id?.length <= 16 && !pattern.sub && !pattern.user
+        || (pattern.sub?.length <= 22 && pattern.id?.length <= 16)
+        || (pattern.user?.length <= 22 && pattern.id?.length <= 16)
+        || (pattern.sub?.length <= 22 && pattern.shareId?.length <= 16),
 
     "rutube": pattern =>
         (pattern.id?.length === 32 && pattern.key?.length <= 32) ||
@@ -56,7 +59,8 @@ export const testers = {
         && (!pattern.password || pattern.password.length < 16),
 
     "vk": pattern =>
-        pattern.userId?.length <= 10 && pattern.videoId?.length <= 10,
+        (pattern.ownerId?.length <= 10 && pattern.videoId?.length <= 10) ||
+        (pattern.ownerId?.length <= 10 && pattern.videoId?.length <= 10 && pattern.videoId?.accessKey <= 18),
 
     "youtube": pattern =>
         pattern.id?.length <= 11,
@@ -75,4 +79,8 @@ export const testers = {
         (patternMatch.type == 'portal' && patternMatch.method == 'view')
         || (patternMatch.type == 'audio' && patternMatch.method == 'listen')
         && patternMatch.id?.length >= 1,
+
+    "xiaohongshu": pattern =>
+        pattern.id?.length <= 24 && pattern.token?.length <= 64
+        || pattern.shareId?.length <= 12,
 }

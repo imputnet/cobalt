@@ -1,20 +1,34 @@
 import Cookie from './cookie.js';
 
 import { readFile, writeFile } from 'fs/promises';
-import { Green, Yellow } from '../../misc/console-text.js';
+import { Red, Green, Yellow } from '../../misc/console-text.js';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 import * as cluster from '../../misc/cluster.js';
 import { isCluster } from '../../config.js';
 
 const WRITE_INTERVAL = 60000;
+const VALID_SERVICES = new Set([
+    'instagram',
+    'instagram_bearer',
+    'reddit',
+    'twitter',
+    'youtube',
+    'youtube_oauth'
+]);
+
+const invalidCookies = {};
 let cookies = {}, dirty = false, intervalId;
 
 function writeChanges(cookiePath) {
     if (!dirty) return;
     dirty = false;
 
-    writeFile(cookiePath, JSON.stringify(cookies, null, 4)).catch(() => {
-        clearInterval(intervalId)
+    const cookieData = JSON.stringify({ ...cookies, ...invalidCookies }, null, 4);
+    writeFile(cookiePath, cookieData).catch((e) => {
+        console.warn(`${Yellow('[!]')} failed writing updated cookies to storage`);
+        console.warn(e);
+        clearInterval(intervalId);
+        intervalId = null;
     })
 }
 
@@ -22,7 +36,22 @@ const setupMain = async (cookiePath) => {
     try {
         cookies = await readFile(cookiePath, 'utf8');
         cookies = JSON.parse(cookies);
-        intervalId = setInterval(() => writeChanges(cookiePath), WRITE_INTERVAL);
+        for (const serviceName in cookies) {
+            if (!VALID_SERVICES.has(serviceName)) {
+                console.warn(`${Yellow('[!]')} ignoring unknown service in cookie file: ${serviceName}`);
+            } else if (!Array.isArray(cookies[serviceName])) {
+                console.warn(`${Yellow('[!]')} ${serviceName} in cookies file is not an array, ignoring it`);
+            } else if (cookies[serviceName].some(c => typeof c !== 'string')) {
+                console.warn(`${Yellow('[!]')} some cookie for ${serviceName} contains non-string value in cookies file`);
+            } else continue;
+
+            invalidCookies[serviceName] = cookies[serviceName];
+            delete cookies[serviceName];
+        }
+
+        if (!intervalId) {
+            intervalId = setInterval(() => writeChanges(cookiePath), WRITE_INTERVAL);
+        }
 
         cluster.broadcast({ cookies });
 
@@ -37,12 +66,18 @@ const setupWorker = async () => {
     cookies = (await cluster.waitFor('cookies')).cookies;
 }
 
-export const setup = async (cookiePath) => {
+export const loadFromFile = async (path) => {
     if (cluster.isPrimary) {
-        await setupMain(cookiePath);
+        await setupMain(path);
     } else if (cluster.isWorker) {
         await setupWorker();
     }
+
+    dirty = false;
+}
+
+export const setup = async (path) => {
+    await loadFromFile(path);
 
     if (isCluster) {
         const messageHandler = (message) => {
@@ -68,6 +103,14 @@ export const setup = async (cookiePath) => {
 }
 
 export function getCookie(service) {
+    if (!VALID_SERVICES.has(service)) {
+        console.error(
+            `${Red('[!]')} ${service} not in allowed services list for cookies.`
+            + ' if adding a new cookie type, include it there.'
+        );
+        return;
+    }
+
     if (!cookies[service] || !cookies[service].length) return;
 
     const idx = Math.floor(Math.random() * cookies[service].length);

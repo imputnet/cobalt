@@ -10,7 +10,7 @@ export default async function(res, streamInfo) {
                 return await stream.proxy(streamInfo, res);
 
             case "internal":
-                return internalStream(streamInfo, res);
+                return internalStream(streamInfo.data, res);
 
             case "merge":
                 return stream.merge(streamInfo, res);

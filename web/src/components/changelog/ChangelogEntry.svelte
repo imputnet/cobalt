@@ -141,7 +141,7 @@
     :global(.changelog-banner) {
         display: block;
         object-fit: cover;
-        max-height: 320pt;
+        max-height: 350pt;
         min-height: 180pt;
         width: 100%;
         aspect-ratio: 16/9;

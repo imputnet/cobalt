@@ -15,7 +15,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
-            requestIP
+            requestIP,
+            originalRequest: r.originalRequest
         },
         params = {};
 
@@ -47,7 +48,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             });
 
         case "photo":
-            responseType = "redirect";
+            params = { type: "proxy" };
             break;
 
         case "gif":
@@ -68,7 +69,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             }
             params = {
                 type: muteType,
-                url: Array.isArray(r.urls) ? r.urls[0] : r.urls
+                url: Array.isArray(r.urls) ? r.urls[0] : r.urls,
+                isHLS: r.isHLS
             }
             if (host === "reddit" && r.typeId === "redirect") {
                 responseType = "redirect";
@@ -82,6 +84,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "twitter":
                 case "snapchat":
                 case "bsky":
+                case "xiaohongshu":
                     params = { picker: r.picker };
                     break;
 
@@ -101,6 +104,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             filename: `${r.audioFilename}.${audioFormat}`,
                             isAudioOnly: true,
                             audioFormat,
+                            audioBitrate
                         })
                     }
                     break;
@@ -142,6 +146,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "vk":
                 case "tiktok":
                 case "newgrounds":
+                case "xiaohongshu":
                     params = { type: "proxy" };
                     break;
 
@@ -161,7 +166,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         case "audio":
             if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
-                    code: "error.api.fetch.empty"
+                    code: "error.api.service.audio_not_supported"
                 })
             }
 

@@ -71,6 +71,24 @@ const extractImages = ({ getPost, filename, alwaysProxy }) => {
     return { picker };
 }
 
+const extractGif = ({ url, filename }) => {
+    const gifUrl = new URL(url);
+
+    if (!gifUrl || gifUrl.hostname !== "media.tenor.com") {
+        return { error: "fetch.empty" };
+    }
+
+    // remove downscaling params from gif url
+    // such as "?hh=498&ww=498"
+    gifUrl.search = "";
+
+    return {
+        urls: gifUrl,
+        isPhoto: true,
+        filename: `${filename}.gif`,
+    }
+}
+
 export default async function ({ user, post, alwaysProxy, dispatcher }) {
     const apiEndpoint = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?depth=0&parentHeight=0");
     apiEndpoint.searchParams.set(
@@ -102,22 +120,37 @@ export default async function ({ user, post, alwaysProxy, dispatcher }) {
     const embedType = getPost?.thread?.post?.embed?.$type;
     const filename = `bluesky_${user}_${post}`;
 
-    if (embedType === "app.bsky.embed.video#view") {
-        return extractVideo({
-            media: getPost.thread?.post?.embed,
-            filename,
-        })
-    }
+    switch (embedType) {
+        case "app.bsky.embed.video#view":
+            return extractVideo({
+                media: getPost.thread?.post?.embed,
+                filename,
+            });
 
-    if (embedType === "app.bsky.embed.recordWithMedia#view") {
-        return extractVideo({
-            media: getPost.thread?.post?.embed?.media,
-            filename,
-        })
-    }
+        case "app.bsky.embed.images#view":
+            return extractImages({
+                getPost,
+                filename,
+                alwaysProxy
+            });
 
-    if (embedType === "app.bsky.embed.images#view") {
-        return extractImages({ getPost, filename, alwaysProxy });
+        case "app.bsky.embed.external#view":
+            return extractGif({
+                url: getPost?.thread?.post?.embed?.external?.uri,
+                filename,
+            });
+
+        case "app.bsky.embed.recordWithMedia#view":
+            if (getPost?.thread?.post?.embed?.media?.$type === "app.bsky.embed.external#view") {
+                return extractGif({
+                    url: getPost?.thread?.post?.embed?.media?.external?.uri,
+                    filename,
+                });
+            }
+            return extractVideo({
+                media: getPost.thread?.post?.embed?.media,
+                filename,
+            });
     }
 
     return { error: "fetch.empty" };

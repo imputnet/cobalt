@@ -1,3 +1,5 @@
+import { randomBytes } from "node:crypto";
+import { resolveRedirectingURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
@@ -8,6 +10,7 @@ const commonHeaders = {
     "sec-fetch-site": "same-origin",
     "x-ig-app-id": "936619743392459"
 }
+
 const mobileHeaders = {
     "x-ig-app-locale": "en_US",
     "x-ig-device-locale": "en_US",
@@ -19,6 +22,7 @@ const mobileHeaders = {
     "x-fb-server-cluster": "True",
     "content-length": "0",
 }
+
 const embedHeaders = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
     "Accept-Language": "en-GB,en;q=0.9",
@@ -33,7 +37,7 @@ const embedHeaders = {
     "Sec-Fetch-Site": "none",
     "Sec-Fetch-User": "?1",
     "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "User-Agent": genericUserAgent,
 }
 
 const cachedDtsg = {
@@ -41,7 +45,17 @@ const cachedDtsg = {
     expiry: 0
 }
 
-export default function(obj) {
+const getNumberFromQuery = (name, data) => {
+    const s = data?.match(new RegExp(name + '=(\\d+)'))?.[1];
+    if (+s) return +s;
+}
+
+const getObjectFromEntries = (name, data) => {
+    const obj = data?.match(new RegExp('\\["' + name + '",.*?,({.*?}),\\d+\\]'))?.[1];
+    return obj && JSON.parse(obj);
+}
+
+export default function instagram(obj) {
     const dispatcher = obj.dispatcher;
 
     async function findDtsgId(cookie) {
@@ -91,6 +105,7 @@ export default function(obj) {
         updateCookie(cookie, data.headers);
         return data.json();
     }
+
     async function getMediaId(id, { cookie, token } = {}) {
         const oembedURL = new URL('https://i.instagram.com/api/v1/oembed/');
         oembedURL.searchParams.set('url', `https://www.instagram.com/p/${id}/`);
@@ -119,6 +134,7 @@ export default function(obj) {
 
         return mediaInfo?.items?.[0];
     }
+
     async function requestHTML(id, cookie) {
         const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
             headers: {
@@ -136,40 +152,167 @@ export default function(obj) {
 
         return embedData;
     }
-    async function requestGQL(id, cookie) {
-        let dtsgId;
 
-        if (cookie) {
-            dtsgId = await findDtsgId(cookie);
-        }
-        const url = new URL('https://www.instagram.com/api/graphql/');
+    async function getGQLParams(id, cookie) {
+        const req = await fetch(`https://www.instagram.com/p/${id}/`, {
+            headers: {
+                ...embedHeaders,
+                cookie
+            },
+            dispatcher
+        });
 
-        const requestData = {
-            jazoest: '26406',
-            variables: JSON.stringify({
-            shortcode: id,
-            __relay_internal__pv__PolarisShareMenurelayprovider: false
-            }),
-            doc_id: '7153618348081770'
+        const html = await req.text();
+        const siteData = getObjectFromEntries('SiteData', html);
+        const polarisSiteData = getObjectFromEntries('PolarisSiteData', html);
+        const webConfig = getObjectFromEntries('DGWWebConfig', html);
+        const pushInfo = getObjectFromEntries('InstagramWebPushInfo', html);
+        const lsd = getObjectFromEntries('LSD', html)?.token || randomBytes(8).toString('base64url');
+        const csrf = getObjectFromEntries('InstagramSecurityConfig', html)?.csrf_token;
+
+        const anon_cookie = [
+            csrf && "csrftoken=" + csrf,
+            polarisSiteData?.device_id && "ig_did=" + polarisSiteData?.device_id,
+            "wd=1280x720",
+            "dpr=2",
+            polarisSiteData?.machine_id && "mid=" + polarisSiteData.machine_id,
+            "ig_nrcb=1"
+        ].filter(a => a).join('; ');
+
+        return {
+            headers: {
+                'x-ig-app-id': webConfig?.appId || '936619743392459',
+                'X-FB-LSD': lsd,
+                'X-CSRFToken': csrf,
+                'X-Bloks-Version-Id': getObjectFromEntries('WebBloksVersioningID', html)?.versioningID,
+                'x-asbd-id': 129477,
+                cookie: anon_cookie
+            },
+            body: {
+                __d: 'www',
+                __a: '1',
+                __s: '::' + Math.random().toString(36).substring(2).replace(/\d/g, '').slice(0, 6),
+                __hs: siteData?.haste_session || '20126.HYP:instagram_web_pkg.2.1...0',
+                __req: 'b',
+                __ccg: 'EXCELLENT',
+                __rev: pushInfo?.rollout_hash || '1019933358',
+                __hsi: siteData?.hsi || '7436540909012459023',
+                __dyn: randomBytes(154).toString('base64url'),
+                __csr: randomBytes(154).toString('base64url'),
+                __user: '0',
+                __comet_req: getNumberFromQuery('__comet_req', html) || '7',
+                av: '0',
+                dpr: '2',
+                lsd,
+                jazoest: getNumberFromQuery('jazoest', html) || Math.floor(Math.random() * 10000),
+                __spin_r: siteData?.__spin_r || '1019933358',
+                __spin_b: siteData?.__spin_b || 'trunk',
+                __spin_t: siteData?.__spin_t || Math.floor(new Date().getTime() / 1000),
+            }
         };
-        if (dtsgId) {
-            requestData.fb_dtsg = dtsgId;
+    }
+
+    async function requestGQL(id, cookie) {
+        const { headers, body } = await getGQLParams(id, cookie);
+
+        const req = await fetch('https://www.instagram.com/graphql/query', {
+            method: 'POST',
+            dispatcher,
+            headers: {
+                ...embedHeaders,
+                ...headers,
+                cookie,
+                'content-type': 'application/x-www-form-urlencoded',
+                'X-FB-Friendly-Name': 'PolarisPostActionLoadPostQueryQuery',
+            },
+            body: new URLSearchParams({
+                ...body,
+                fb_api_caller_class: 'RelayModern',
+                fb_api_req_friendly_name: 'PolarisPostActionLoadPostQueryQuery',
+                variables: JSON.stringify({
+                    shortcode: id,
+                    fetch_tagged_user_count: null,
+                    hoisted_comment_id: null,
+                    hoisted_reply_id: null
+                }),
+                server_timestamps: true,
+                doc_id: '8845758582119845'
+            }).toString()
+        });
+
+        return {
+            gql_data: await req.json()
+                        .then(r => r.data)
+                        .catch(() => null)
+        };
+    }
+
+    async function getErrorContext(id) {
+        try {
+            const { headers, body } = await getGQLParams(id);
+
+            const req = await fetch('https://www.instagram.com/ajax/bulk-route-definitions/', {
+                method: 'POST',
+                dispatcher,
+                headers: {
+                    ...embedHeaders,
+                    ...headers,
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'X-Ig-D': 'www',
+                },
+                body: new URLSearchParams({
+                    'route_urls[0]': `/p/${id}/`,
+                    routing_namespace: 'igx_www',
+                    ...body
+                }).toString()
+            });
+
+            const response = await req.text();
+            if (response.includes('"tracePolicy":"polaris.privatePostPage"'))
+                return { error: 'content.post.private' };
+
+            const [, mediaId, mediaOwnerId] = response.match(
+                /"media_id":\s*?"(\d+)","media_owner_id":\s*?"(\d+)"/
+            ) || [];
+
+            if (mediaId && mediaOwnerId) {
+                const rulingURL = new URL('https://www.instagram.com/api/v1/web/get_ruling_for_media_content_logged_out');
+                rulingURL.searchParams.set('media_id', mediaId);
+                rulingURL.searchParams.set('owner_id', mediaOwnerId);
+
+                const rulingResponse = await fetch(rulingURL, {
+                    headers: {
+                        ...headers,
+                        ...commonHeaders
+                    },
+                    dispatcher,
+                }).then(a => a.json()).catch(() => ({}));
+
+                if (rulingResponse?.title?.includes('Restricted'))
+                    return { error: "content.post.age" };
+            }
+        } catch {
+            return { error: "fetch.fail" };
         }
 
-        return (await request(url, cookie, 'POST', requestData))
-                .data
-                ?.xdt_api__v1__media__shortcode__web_info
-                ?.items
-                ?.[0];
+        return { error: "fetch.empty" };
     }
 
     function extractOldPost(data, id, alwaysProxy) {
-        const sidecar = data?.gql_data?.shortcode_media?.edge_sidecar_to_children;
+        const shortcodeMedia = data?.gql_data?.shortcode_media || data?.gql_data?.xdt_shortcode_media;
+        const sidecar = shortcodeMedia?.edge_sidecar_to_children;
+
         if (sidecar) {
             const picker = sidecar.edges.filter(e => e.node?.display_url)
                 .map((e, i) => {
                     const type = e.node?.is_video ? "video" : "photo";
-                    const url = type === "video" ? e.node?.video_url : e.node?.display_url;
+
+                    let url;
+                    if (type === 'video') {
+                        url = e.node?.video_url;
+                    } else if (type === 'photo') {
+                        url = e.node?.display_url;
+                    }
 
                     let itemExt = type === "video" ? "mp4" : "jpg";
 
@@ -196,16 +339,21 @@ export default function(obj) {
                 });
 
             if (picker.length) return { picker }
-        } else if (data?.gql_data?.shortcode_media?.video_url) {
+        }
+
+        if (shortcodeMedia?.video_url) {
             return {
-                urls: data.gql_data.shortcode_media.video_url,
+                urls: shortcodeMedia.video_url,
                 filename: `instagram_${id}.mp4`,
                 audioFilename: `instagram_${id}_audio`
             }
-        } else if (data?.gql_data?.shortcode_media?.display_url) {
+        }
+
+        if (shortcodeMedia?.display_url) {
             return {
-                urls: data.gql_data?.shortcode_media.display_url,
-                isPhoto: true
+                urls: shortcodeMedia.display_url,
+                isPhoto: true,
+                filename: `instagram_${id}.jpg`,
             }
         }
     }
@@ -266,7 +414,9 @@ export default function(obj) {
     }
 
     async function getPost(id, alwaysProxy) {
-        const hasData = (data) => data && data.gql_data !== null;
+        const hasData = (data) => data
+                                    && data.gql_data !== null
+                                    && data?.gql_data?.xdt_shortcode_media !== null;
         let data, result;
         try {
             const cookie = getCookie('instagram');
@@ -295,7 +445,9 @@ export default function(obj) {
             if (!hasData(data) && cookie) data = await requestGQL(id, cookie);
         } catch {}
 
-        if (!data) return { error: "fetch.fail" };
+        if (!hasData(data)) {
+            return getErrorContext(id);
+        }
 
         if (data?.gql_data) {
             result = extractOldPost(data, id, alwaysProxy)
@@ -358,14 +510,30 @@ export default function(obj) {
         if (item.image_versions2?.candidates) {
             return {
                 urls: item.image_versions2.candidates[0].url,
-                isPhoto: true
+                isPhoto: true,
+                filename: `instagram_${id}.jpg`,
             }
         }
 
         return { error: "link.unsupported" };
     }
 
-    const { postId, storyId, username, alwaysProxy } = obj;
+    const { postId, shareId, storyId, username, alwaysProxy } = obj;
+
+    if (shareId) {
+        return resolveRedirectingURL(
+            `https://www.instagram.com/share/${shareId}/`,
+            dispatcher,
+            // for some reason instagram decides to return HTML
+            // instead of a redirect when requesting with a normal
+            // browser user-agent
+            'curl/7.88.1'
+        ).then(match => instagram({
+            ...obj, ...match,
+            shareId: undefined
+        }));
+    }
+
     if (postId) return getPost(postId, alwaysProxy);
     if (username && storyId) return getStory(username, storyId);
 

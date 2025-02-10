@@ -25,7 +25,7 @@ no ads, trackers, paywalls, or other nonsense. just a convenient web app that wo
 cobalt was created for public benefit, to protect people from ads and malware pushed by its alternatives.
 we believe that the best software is safe, open, and accessible.
 
-it's possible to keep the main instances up thanks to our long-standing infrastructure partner, [royalehosting.net]({partners.royalehosting})!
+a part of our infrastructure is provided by our long-standing partner, [royalehosting.net]({partners.royalehosting})!
 </section>
 
 <section id="privacy">

@@ -35,13 +35,25 @@ export const services = {
     },
     instagram: {
         patterns: [
-            "reels/:postId",
-            ":username/reel/:postId",
-            "reel/:postId",
             "p/:postId",
-            ":username/p/:postId",
             "tv/:postId",
-            "stories/:username/:storyId"
+            "reel/:postId",
+            "reels/:postId",
+            "stories/:username/:storyId",
+
+            /*
+                share & username links use the same url pattern,
+                so we test the share pattern first, cuz id type is different.
+                however, if someone has the "share" username and the user
+                somehow gets a link of this ancient style, it's joever.
+            */
+
+            "share/:shareId",
+            "share/p/:shareId",
+            "share/reel/:shareId",
+
+            ":username/p/:postId",
+            ":username/reel/:postId",
         ],
         altDomains: ["ddinstagram.com"],
     },
@@ -67,8 +79,21 @@ export const services = {
     },
     reddit: {
         patterns: [
+            "comments/:id",
+
+            "r/:sub/comments/:id",
             "r/:sub/comments/:id/:title",
-            "user/:user/comments/:id/:title"
+            "r/:sub/comments/:id/comment/:commentId",
+
+            "user/:user/comments/:id",
+            "user/:user/comments/:id/:title",
+            "user/:user/comments/:id/comment/:commentId",
+
+            "r/u_:user/comments/:id",
+            "r/u_:user/comments/:id/:title",
+            "r/u_:user/comments/:id/comment/:commentId",
+
+            "r/:sub/s/:shareId"
         ],
         subdomains: "*",
     },
@@ -157,11 +182,25 @@ export const services = {
     },
     vk: {
         patterns: [
-            "video:userId_:videoId",
-            "clip:userId_:videoId",
-            "clips:duplicate?z=clip:userId_:videoId"
+            "video:ownerId_:videoId",
+            "clip:ownerId_:videoId",
+            "clips:duplicate?z=clip:ownerId_:videoId",
+            "videos:duplicate?z=video:ownerId_:videoId",
+            "video:ownerId_:videoId_:accessKey",
+            "clip:ownerId_:videoId_:accessKey",
+            "clips:duplicate?z=clip:ownerId_:videoId_:accessKey",
+            "videos:duplicate?z=video:ownerId_:videoId_:accessKey"
         ],
         subdomains: ["m"],
+        altDomains: ["vkvideo.ru", "vk.ru"],
+    },
+    xiaohongshu: {
+        patterns: [
+            "explore/:id?xsec_token=:token",
+            "discovery/item/:id?xsec_token=:token",
+            "a/:shareId"
+        ],
+        altDomains: ["xhslink.com"],
     },
     youtube: {
         patterns: [

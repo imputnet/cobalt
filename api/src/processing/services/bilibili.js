@@ -1,18 +1,7 @@
 import { genericUserAgent, env } from "../../config.js";
+import { resolveRedirectingURL } from "../url.js";
 
 // TO-DO: higher quality downloads (currently requires an account)
-
-function com_resolveShortlink(shortId) {
-    return fetch(`https://b23.tv/${shortId}`, { redirect: 'manual' })
-            .then(r => r.status > 300 && r.status < 400 && r.headers.get('location'))
-            .then(url => {
-                if (!url) return;
-                const path = new URL(url).pathname;
-                if (path.startsWith('/video/'))
-                    return path.split('/')[2];
-            })
-            .catch(() => {})
-}
 
 function getBest(content) {
     return content?.filter(v => v.baseUrl || v.url)
@@ -99,7 +88,8 @@ async function tv_download(id) {
 
 export default async function({ comId, tvId, comShortLink }) {
     if (comShortLink) {
-        comId = await com_resolveShortlink(comShortLink);
+        const patternMatch = await resolveRedirectingURL(`https://b23.tv/${comShortLink}`);
+        comId = patternMatch?.comId;
     }
 
     if (comId) {

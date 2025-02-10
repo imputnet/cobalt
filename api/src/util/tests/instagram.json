@@ -1,11 +1,11 @@
 [
     {
         "name": "single photo post",
-        "url": "https://www.instagram.com/p/CwIgW8Yu5-I/",
+        "url": "https://www.instagram.com/p/DFx6KVduFWy/",
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -19,7 +19,7 @@
     },
     {
         "name": "reel",
-        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "url": "https://www.instagram.com/reel/DFQe23tOWKz/",
         "params": {},
         "expected": {
             "code": 200,
@@ -37,7 +37,7 @@
     },
     {
         "name": "reel (isAudioOnly)",
-        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "url": "https://www.instagram.com/reel/DFQe23tOWKz/",
         "params": {
             "downloadMode": "audio"
         },
@@ -48,7 +48,7 @@
     },
     {
         "name": "reel (isAudioMuted)",
-        "url": "https://www.instagram.com/reel/CoEBV3eM4QR/",
+        "url": "https://www.instagram.com/reel/DFQe23tOWKz/",
         "params": {
             "downloadMode": "mute"
         },
@@ -118,6 +118,16 @@
         "expected": {
             "code": 200,
             "status": "redirect"
+        }
+    },
+    {
+        "name": "private instagram post",
+        "url": "https://www.instagram.com/p/C5_A1TQNPrYw4c2g9KAUTPUl8RVHqiAdAcOOSY0",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.content.post.private"
         }
     }
 ]

@@ -13,7 +13,7 @@ const getTests = (service) => loadJSON(getTestPath(service));
 
 // services that are known to frequently fail due to external
 // factors (e.g. rate limiting)
-const finnicky = new Set(['bilibili', 'instagram', 'facebook', 'youtube', 'vk', 'twitter']);
+const finnicky = new Set(['bilibili', 'instagram', 'facebook', 'youtube', 'vk', 'twitter', 'reddit']);
 
 const runTestsFor = async (service) => {
     const tests = getTests(service);

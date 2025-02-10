@@ -313,7 +313,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             ...Object.entries(req.headers)
         ]);
 
-        return stream(res, { type: 'internal', ...streamInfo });
+        return stream(res, { type: 'internal', data: streamInfo });
     };
 
     app.get('/itunnel', itunnelHandler);
