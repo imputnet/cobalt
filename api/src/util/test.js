@@ -4,6 +4,7 @@ import { env } from "../config.js";
 import { runTest } from "../misc/run-test.js";
 import { loadJSON } from "../misc/load-from-fs.js";
 import { Red, Bright } from "../misc/console-text.js";
+import { setGlobalDispatcher, ProxyAgent } from "undici";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 
 import { services } from "../processing/service-config.js";
@@ -62,6 +63,10 @@ const printHeader = (service, padLen) => {
     const padding = padLen - service.length;
     service = service.padEnd(1 + service.length + padding, ' ');
     console.log(service + '='.repeat(50));
+}
+
+if (env.externalProxy) {
+    setGlobalDispatcher(new ProxyAgent(env.externalProxy));
 }
 
 const action = process.argv[2];
