@@ -35,14 +35,25 @@ export const services = {
     },
     instagram: {
         patterns: [
-            "reels/:postId",
-            ":username/reel/:postId",
-            "reel/:postId",
             "p/:postId",
-            ":username/p/:postId",
             "tv/:postId",
+            "reel/:postId",
+            "reels/:postId",
             "stories/:username/:storyId",
-            "share/:shareId"
+
+            /*
+                share & username links use the same url pattern,
+                so we test the share pattern first, cuz id type is different.
+                however, if someone has the "share" username and the user
+                somehow gets a link of this ancient style, it's joever.
+            */
+
+            "share/:shareId",
+            "share/p/:shareId",
+            "share/reel/:shareId",
+
+            ":username/p/:postId",
+            ":username/reel/:postId",
         ],
         altDomains: ["ddinstagram.com"],
     },
