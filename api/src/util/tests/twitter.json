@@ -102,9 +102,8 @@
     },
     {
         "name": "retweeted video",
-        "url": "https://twitter.com/uwukko/status/1696901469633421344",
+        "url": "https://twitter.com/schlizzawg/status/1869017025055793405",
         "params": {},
-        "canFail": true,
         "expected": {
             "code": 200,
             "status": "redirect"
@@ -145,7 +144,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -207,7 +206,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     }
 ]
