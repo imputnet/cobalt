@@ -203,7 +203,7 @@
     },
     {
         "name": "bookmarked photo",
-        "url": "https://twitter.com/i/bookmarks?post_id=1837430141179289876",
+        "url": "https://twitter.com/i/bookmarks?post_id=1887450602164396149",
         "params": {},
         "expected": {
             "code": 200,
