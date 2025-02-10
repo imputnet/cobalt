@@ -73,6 +73,10 @@ if (env.externalProxy) {
     setGlobalDispatcher(new ProxyAgent(env.externalProxy));
 }
 
+env.streamLifespan = 10000;
+env.apiURL = 'http://x/';
+randomizeCiphers();
+
 const action = process.argv[2];
 switch (action) {
     case "get-services":
@@ -95,9 +99,6 @@ switch (action) {
         break;
 
     case "run-tests-for":
-        env.streamLifespan = 10000;
-        env.apiURL = 'http://x/';
-        randomizeCiphers();
 
         try {
             const { softFails } = await runTestsFor(process.argv[3]);
@@ -112,10 +113,6 @@ switch (action) {
     default:
         const maxHeaderLen = Object.keys(services).reduce((n, v) => v.length > n ? v.length : n, 0);
         const failCounters = {};
-
-        env.streamLifespan = 10000;
-        env.apiURL = 'http://x/';
-        randomizeCiphers();
 
         for (const service in services) {
             printHeader(service, maxHeaderLen);
