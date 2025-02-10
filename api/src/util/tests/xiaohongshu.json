@@ -48,7 +48,6 @@
     {
         "name": "short link, wrong id",
         "url": "https://xhslink.com/a/aaaaaa",
-        "canFail": true,
         "params": {},
         "expected": {
             "code": 400,
