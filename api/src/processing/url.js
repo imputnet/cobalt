@@ -102,9 +102,8 @@ function aliasURL(url) {
 
         case "loom":
             const idPart = parts[parts.length - 1];
-            if(idPart.length > 32){
-                const actualIdPart = idPart.slice(-32);
-                url.pathname = `/share/${actualIdPart}`;
+            if (idPart.length > 32) {
+                url.pathname = `/share/${idPart.slice(-32)}`;
             }
             break;
     }
