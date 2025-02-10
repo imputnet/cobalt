@@ -40,9 +40,9 @@ async function getStory(username, storyId, alwaysProxy) {
     const nextDataString = html.match(NEXT_DATA_REGEX)?.[1];
     if (nextDataString) {
         const data = JSON.parse(nextDataString);
-        const storyIdParam = data.query.profileParams[1];
+        const storyIdParam = data?.query?.profileParams?.[1];
 
-        if (storyIdParam && data.props.pageProps.story) {
+        if (storyIdParam && data?.props?.pageProps?.story) {
             const story = data.props.pageProps.story.snapList.find((snap) => snap.snapId.value === storyIdParam);
             if (story) {
                 if (story.snapMediaType === 0) {
@@ -61,7 +61,7 @@ async function getStory(username, storyId, alwaysProxy) {
             }
         }
 
-        const defaultStory = data.props.pageProps.curatedHighlights[0];
+        const defaultStory = data?.props?.pageProps?.curatedHighlights?.[0];
         if (defaultStory) {
             return {
                 picker: defaultStory.snapList.map(snap => {
