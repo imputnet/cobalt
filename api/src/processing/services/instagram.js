@@ -305,12 +305,12 @@ export default function instagram(obj) {
         if (sidecar) {
             const picker = sidecar.edges.filter(e => e.node?.display_url)
                 .map((e, i) => {
-                    const type = e.node?.is_video ? "video" : "photo";
+                    const type = e.node?.is_video && e.node?.video_url ? "video" : "photo";
 
                     let url;
-                    if (type === 'video') {
+                    if (type === "video") {
                         url = e.node?.video_url;
-                    } else if (type === 'photo') {
+                    } else if (type === "photo") {
                         url = e.node?.display_url;
                     }
 
