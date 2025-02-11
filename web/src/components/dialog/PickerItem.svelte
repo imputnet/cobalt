@@ -14,18 +14,28 @@
     export let number: number;
 
     let imageLoaded = false;
-    const isTunnel = new URL(item.url).pathname === "/tunnel";
+
+    let validUrl = false;
+    try {
+        new URL(item.url);
+        validUrl = true;
+    } catch {}
+
+    const isTunnel = validUrl && new URL(item.url).pathname === "/tunnel";
 
     $: itemType = item.type ?? "photo";
 </script>
 
 <button
     class="picker-item"
-    on:click={() =>
-        downloadFile({
-            url: item.url,
-            urlType: isTunnel ? "tunnel" : "redirect",
-        })}
+    on:click={() => {
+        if (validUrl) {
+            downloadFile({
+                url: item.url,
+                urlType: isTunnel ? "tunnel" : "redirect",
+            });
+        }
+    }}
 >
     <div class="picker-type">
         {#if itemType === "video"}
