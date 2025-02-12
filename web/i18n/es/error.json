@@ -20,7 +20,7 @@
     "api.unreachable": "no se pudo conectar a la instancia de procesamiento. ¡comprueba tu conexión a internet e inténtalo de nuevo!",
     "api.rate_exceeded": "estás haciendo demasiadas peticiones. ¡inténtalo de nuevo en {{ limit }} segundos!",
     "api.generic": "algo ha ido mal y no pude conseguirte nada. inténtalo de nuevo en unos segundos, pero si el problema persiste, ¡déjanos saber e intentaremos ayudarte!",
-    "api.unknown_response": "no se pudo analizar la respuesta del servidor. esto podría deberse a un desajuste de versión. ¿estás seguro de que estás en la última versión de cobalt?",
+    "api.unknown_response": "no se pudo leer la respuesta de la instancia de procesamiento. esto podría deberse a un desajuste de versión entre instancias de cobalt.",
     "api.service.unsupported": "este servicio aún no está soportado. ¿has pegado el enlace correcto?",
     "api.auth.jwt.invalid": "no se ha podido confirmar si no eres un robot porque tu token de acceso humano caducó y no fue renovado. ¡inténtalo de nuevo en unos segundos o recarga la página!",
     "api.capacity": "cobalt está al límite de su capacidad y no puede procesar tu solicitud en este momento. inténtalo de nuevo en unos segundos. si sigue sin funcionar, ¡déjanos saber e intentaremos ayudarte!",
@@ -43,5 +43,6 @@
     "api.youtube.temporary_disabled": "las descargas de youtube están deshabilitadas temporalmente debido a restricciones del lado de youtube. ya estamos buscando formas de esquivarlas.\n\npedimos disculpas por los inconvenientes y estamos haciendo lo mejor que podemos para restaurar esta funcionalidad. ¡revisa las redes sociales o el github de cobalt para estar al tanto!",
     "api.auth.key.missing": "se requiere una clave de acceso para usar esta instancia de procesamiento, pero falta. ¡agrégala en la configuración de instancia!",
     "api.auth.key.not_api_key": "se requiere una clave de acceso para usar esta instancia de procesamiento, pero falta. ¡agrégala en la configuración de instancia!",
-    "api.service.audio_not_supported": "este servicio no soporta extracción de audio. ¡intenta con un enlace de otro servicio!"
+    "api.service.audio_not_supported": "este servicio no soporta extracción de audio. ¡intenta con un enlace de otro servicio!",
+    "api.auth.key.invalid": "la clave de acceso es inválida. ¡restablecela en los ajustes de instancia y usa una adecuada!"
 }
