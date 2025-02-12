@@ -18,5 +18,6 @@
     "tutorial.shortcut.photos": "a fotos",
     "tutorial.shortcut.files": "a archivos",
     "services.disclaimer": "cobalt no está afiliado a ninguno de los servicios mencionados.",
-    "tutorial.step.2": "pulsa el botón «compartir» en el cuadro de diálogo de guardado de cobalt."
+    "tutorial.step.2": "pulsa el botón «compartir» en el cuadro de diálogo de guardado de cobalt.",
+    "label.community_instance": "instancia de la comunidad"
 }
