@@ -68,7 +68,7 @@
     "saving.copy": "copiar",
     "accessibility": "accesibilidad",
     "accessibility.transparency.title": "reducir la transparencia visual",
-    "accessibility.transparency.description": "reduce la transparencia de las superficies y desactiva los efectos de desenfoque. también puede mejorar el rendimiento de la interfaz de usuario en dispositivos de bajo rendimiento.",
+    "accessibility.transparency.description": "reduce la transparencia de las superficies y desactiva los efectos de desenfoque. también puede mejorar el rendimiento de la interfaz en dispositivos de gama baja.",
     "accessibility.motion.title": "movimiento reducido",
     "accessibility.motion.description": "desactiva las animaciones y transiciones siempre que sea posible.",
     "language": "idioma",
