@@ -153,15 +153,9 @@
         }
     }
 
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 398px) {
         .picker-dialog {
             --picker-item-size: 115px;
-        }
-    }
-
-    @media screen and (max-width: 395px) {
-        .picker-dialog {
-            --picker-item-size: 113px;
         }
     }
 
