@@ -11,26 +11,24 @@ const error = (code: string) => {
     })
 }
 
-const ff = new LibAVWrapper((progress) => {
-    self.postMessage({
-        cobaltRemuxWorker: {
-            progress: {
-                durationProcessed: progress.out_time_sec,
-                speed: progress.speed,
-                size: progress.total_size,
-                currentFrame: progress.frame,
-                fps: progress.fps,
-            }
-        }
-    })
-});
-
-ff.init();
-
 const remux = async (files: CobaltFileReference[], args: string[], output: FileInfo) => {
     if (!(files && output && args)) return;
 
-    await ff.init();
+    const ff = new LibAVWrapper((progress) => {
+        self.postMessage({
+            cobaltRemuxWorker: {
+                progress: {
+                    durationProcessed: progress.out_time_sec,
+                    speed: progress.speed,
+                    size: progress.total_size,
+                    currentFrame: progress.frame,
+                    fps: progress.fps,
+                }
+            }
+        })
+    });
+
+    ff.init();
 
     try {
         // probing just the first file in files array (usually audio) for duration progress
@@ -83,6 +81,8 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
             console.log("not a valid file");
             return error("incorrect input or output");
         }
+
+        await ff.terminate();
 
         self.postMessage({
             cobaltRemuxWorker: {
