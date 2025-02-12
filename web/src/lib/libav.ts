@@ -39,6 +39,8 @@ export default class LibAVWrapper {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
 
+        console.log('yay loaded libav :3');
+
         await libav.mkreadaheadfile('input', blob);
 
         try {
@@ -65,11 +67,11 @@ export default class LibAVWrapper {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
 
-        if (!(output.extension && output.type)) {
-            throw new Error("output's extension or type is missing");
+        if (!(output.format && output.type)) {
+            throw new Error("output's format or type is missing");
         }
 
-        const outputName = `output.${output.extension}`;
+        const outputName = `output.${output.format}`;
         const ffInputs = [];
 
         try {

@@ -2,7 +2,7 @@ import type { CobaltFileReference } from "$lib/types/storage";
 
 export type FileInfo = {
     type?: string,
-    extension?: string,
+    format?: string,
 }
 
 export type RenderParams = {

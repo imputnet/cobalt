@@ -33,7 +33,7 @@ export const createRemuxPipeline = (file: File) => {
             ],
             output: {
                 type: file.type,
-                extension: file.name.split(".").pop(),
+                format: file.name.split(".").pop(),
             },
         },
     }];
@@ -80,7 +80,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
             output: {
                 // TODO: return mime type from api to avoid dragging a big ass package into web build
                 type: mime.getType(info.filename) || undefined,
-                extension: info.filename.split(".").pop(),
+                format: info.filename.split(".").pop(),
             },
         },
     })
