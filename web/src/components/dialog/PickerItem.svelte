@@ -67,6 +67,15 @@
         border-radius: calc(var(--border-radius) / 2 + 2px);
     }
 
+    .picker-item:focus-visible::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        box-shadow: 0 0 0 2px var(--blue) inset;
+        border-radius: inherit;
+    }
+
     :global(.picker-image) {
         display: block;
         width: 100%;
@@ -76,7 +85,7 @@
         pointer-events: all;
 
         object-fit: cover;
-        border-radius: calc(var(--border-radius) / 2);
+        border-radius: inherit;
     }
 
     .picker-image.loading {
