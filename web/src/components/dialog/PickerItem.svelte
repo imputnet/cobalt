@@ -62,7 +62,7 @@
     .picker-item {
         position: relative;
         background: none;
-        padding: 2px;
+        padding: 0;
         box-shadow: none;
         border-radius: calc(var(--border-radius) / 2 + 2px);
     }
