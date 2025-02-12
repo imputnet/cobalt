@@ -28,6 +28,7 @@ import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
+import newgrounds from "./services/newgrounds.js";
 import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
@@ -239,7 +240,18 @@ export default async function({ host, patternMatch, params }) {
                 });
                 break;
 
-            case "xiaohongshu":
+            case "newgrounds":
+                r = await newgrounds({
+                    type: patternMatch.type,
+                    method: patternMatch.method,
+                    id: patternMatch.id,
+                    quality: params.videoQuality,
+                    isAudioOnly,
+                    isAudioMuted
+                });
+                break;
+
+             case "xiaohongshu":
                 r = await xiaohongshu({
                     ...patternMatch,
                     h265: params.tiktokH265,
