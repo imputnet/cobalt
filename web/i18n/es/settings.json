@@ -103,5 +103,7 @@
     "video.h265.description": "permite descargar vídeos de plataformas como tiktok y xiaohongshu en mayor calidad al coste de compatibilidad.",
     "processing.access_key": "clave de acceso de la instancia",
     "processing.access_key.title": "usar una clave de acceso de instancia",
-    "processing.access_key.description": "Cobalt usará esta clave para realizar solicitudes a la instancia de procesamiento en lugar de otros métodos de autenticación. ¡Asegúrate de que la instancia sea compatible con claves API!"
+    "processing.access_key.description": "cobalt usará esta clave para realizar solicitudes a la instancia de procesamiento en lugar de otros métodos de autenticación. ¡asegúrate de que la instancia sea compatible con claves de api!",
+    "processing.custom_instance.input.alt_text": "dominio de instancia personalizada",
+    "processing.access_key.input.alt_text": "clave de acceso u-u-i-d"
 }
