@@ -58,7 +58,7 @@
 
     #processing-status.completed {
         box-shadow:
-            0 0 0 2px var(--blue) inset,
+            var(--focus-ring),
             var(--processing-status-glow);
     }
 

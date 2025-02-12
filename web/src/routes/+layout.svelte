@@ -114,6 +114,8 @@
         --green: #51cf5e;
         --blue: #2f8af9;
 
+        --focus-ring: 0 0 0 2px var(--blue) inset;
+
         --button: #f4f4f4;
         --button-hover: #e8e8e8;
         --button-active-hover: #2a2a2a;
@@ -364,7 +366,7 @@
     }
 
     :global(:focus-visible) {
-        box-shadow: 0 0 0 2px var(--blue) inset !important;
+        box-shadow: var(--focus-ring) !important;
         outline: none;
         z-index: 1;
     }

@@ -72,7 +72,7 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        box-shadow: 0 0 0 2px var(--blue) inset;
+        box-shadow: var(--focus-ring);
         border-radius: inherit;
     }
 
