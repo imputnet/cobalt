@@ -1,3 +1,7 @@
 {
-    "description": "la remezcla suele solucionar problemas de compatibilidad con programas antiguos. es rápida, sin pérdidas y todo se procesa en el dispositivo."
+    "description": "la remezcla suele solucionar problemas de compatibilidad con programas antiguos. es rápida, sin pérdidas y todo se procesa en el dispositivo.",
+    "bullet.purpose.title": "¿qué hace remux?",
+    "bullet.purpose.description": "remux arregla cualquier problema con el contenedor del archivo, como la falta de información de la duración. ayuda a mejorar la compatibildad con software más antiguo, como vegas pro y windows media player.",
+    "bullet.explainer.title": "¿cómo funciona?",
+    "bullet.explainer.description": "Remixar toma datos del códec y los copia a un nuevo contenedor multimedia. No tiene pérdida de calidad, y los datos no vuelven a ser recodificados."
 }
