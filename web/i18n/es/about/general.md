@@ -29,8 +29,8 @@ cobalt fue creado para beneficio público, para proteger a la gente de los
 anuncios y malware impulsados por sus alternativas. creemos que el mejor
 software es seguro, abierto y accesible.
 
-a part of our infrastructure is provided by our long-standing partner,
-[royalehosting.net]({partners.royalehosting})!
+una parte de nuestra infraestructura la proporciona nuestro socio desde hace un
+tiempo, [royalehosting.net]({partners.royalehosting})!
 </section>
 
 <section id="privacy">
