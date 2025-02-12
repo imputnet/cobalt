@@ -18,7 +18,7 @@
     "api.auth.jwt.missing": "no se ha podido confirmar si no eres un robot porque el servidor de procesamiento no ha recibido el token de acceso humano. ¡inténtalo de nuevo en unos segundos o recarga la página!",
     "api.auth.turnstile.missing": "no se ha podido confirmar si no eres un robot porque el servidor de procesamiento no ha recibido el token de acceso humano. ¡inténtalo de nuevo en unos segundos o recarga la página!",
     "api.unreachable": "no se pudo conectar a la instancia de procesamiento. ¡comprueba tu conexión a internet e inténtalo de nuevo!",
-    "api.rate_exceeded": "estás haciendo demasiadas peticiones. ¡inténtalo de nuevo en {{ limit }} segundos!",
+    "api.rate_exceeded": "estás haciendo demasiadas peticiones. inténtalo de nuevo en {{ limit }} segundos.",
     "api.generic": "algo ha ido mal y no pude conseguirte nada. inténtalo de nuevo en unos segundos, pero si el problema persiste, ¡déjanos saber e intentaremos ayudarte!",
     "api.unknown_response": "no se pudo leer la respuesta de la instancia de procesamiento. esto podría deberse a un desajuste de versión entre instancias de cobalt.",
     "api.service.unsupported": "este servicio aún no está soportado. ¿has pegado el enlace correcto?",
