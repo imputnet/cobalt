@@ -54,12 +54,12 @@ el uso justo y los créditos benefician a todos.
     sectionId="abuse"
 />
 
-we have no way of detecting abusive behavior automatically because cobalt is
-100% anonymous. however, you can report such activities to us via email and
-we'll do our best to comply manually: abuse[at]imput.net
+no tenemos forma de detectar comportamientos abusivos automáticamente porque
+cobalt es 100% anónimo. sin embargo, puedes reportar esas actividades por correo
+y haremos lo posible por manejarlas manualmente: abuse[at]imput.net
 
-**este correo electrónico no está destinado a la asistencia al usuario, no
-obtendrá respuesta si su preocupación no está relacionada con el abuso.**
+**este correo electrónico no es destinado para el soporte al usuario, no
+obtendrás una respuesta si tu asunto no esta relacionado con abuso**
 
 si experimentas problemas, contáctanos a través de cualquier método preferido en
 [la página de soporte](/about/community).
