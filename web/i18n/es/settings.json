@@ -10,7 +10,7 @@
     "video.twitter.gif.description": "la conversión de GIF es ineficaz, el archivo convertido puede ser odiosamente grande y de baja calidad.",
     "page.download": "descargas",
     "page.advanced": "avanzado",
-    "page.debug": "información de depuración",
+    "page.debug": "información para nerds",
     "page.instances": "instancias",
     "section.general": "general",
     "section.save": "guardar",
@@ -80,7 +80,7 @@
     "privacy.tunnel.title": "siempre usar la tunelización para archivos",
     "privacy.tunnel.description": "cobalt ocultará tu dirección ip, la información del navegador y eludirá las restricciones de la red local. cuando esté activado, los archivos también tendrán nombres legibles que, de otro modo, serían ilegibles.",
     "advanced.debug": "depuración",
-    "advanced.debug.title": "activar funciones de depuración",
+    "advanced.debug.title": "activar funciones para nerds",
     "advanced.data": "gestión de datos",
     "processing.override": "anulación de instancia predeterminada",
     "processing.override.title": "utilizar el servidor de procesamiento proporcionado por la instancia",
@@ -92,10 +92,13 @@
     "language.auto.description": "cobalt utilizará el idioma por defecto de tu navegador si la traducción está disponible. si no, se utilizará el inglés en su lugar.",
     "language.preferred.description": "este idioma se utilizará cuando se desactive la selección automática. cualquier texto que no esté traducido se mostrará en inglés.\n\nalgunos idiomas utilizan traducciones de fuentes comunitarias, que pueden ser inexactas o incompletas.",
     "privacy.analytics.description": "los análisis de tráfico anónimos son necesarios para obtener un número aproximado de usuarios activos de cobalt. nunca se almacena información identificable sobre ti. todos los datos procesados son anónimos y agregados.\n\nutilizamos una instancia de plausible autoalojada que no utiliza cookies y cumple plenamente con GDPR, CCPA y PECR.",
-    "advanced.debug.description": "te da acceso a una página con diversa información que puede ser útil para depurar.",
+    "advanced.debug.description": "te da fácil acceso a una página con información de la aplicación que puede ser útil para depurar. habilitar esto no afecta la funcionalidad de cobalt de ninguna forma.",
     "processing.enable_custom.description": "aunque cobalt cuenta con algunas medidas de seguridad, no nos hacemos responsables de los daños que se produzcan a través de una instancia comunitaria, ya que no tenemos control sobre ellas.\n\npor favor, ten cuidado con las instancias que utilizas y asegúrate de que están alojadas por personas en las que confías.",
     "video.youtube.hls.title": "preferir hls para audio y vídeo",
     "youtube.dub.original": "original",
     "video.youtube.hls.description": "los archivos se descargan más rápido y son menos propensos a errores o a cortarse bruscamente. en este modo sólo están disponibles los códecs h264 y vp9. el códec de audio original es aac, está recodificado por compatibilidad, la calidad del audio puede ser ligeramente peor que la de su homólogo no HLS.\n\nesta opción es experimental, puede desaparecer o cambiar en el futuro.",
-    "video.youtube.hls": "formatos hls en youtube"
+    "video.youtube.hls": "formatos hls en youtube",
+    "video.h265.title": "permitir h265 para vídeos",
+    "video.h265": "códec de vídeo de alta eficiencia",
+    "video.h265.description": "permite descargar vídeos de plataformas como tiktok y xiaohongshu en mayor calidad al coste de compatibilidad."
 }
