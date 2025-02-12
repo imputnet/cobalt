@@ -44,5 +44,6 @@
     "api.auth.key.missing": "se requiere una clave de acceso para usar esta instancia de procesamiento, pero falta. ¡agrégala en la configuración de instancia!",
     "api.auth.key.not_api_key": "se requiere una clave de acceso para usar esta instancia de procesamiento, pero falta. ¡agrégala en la configuración de instancia!",
     "api.service.audio_not_supported": "este servicio no soporta extracción de audio. ¡intenta con un enlace de otro servicio!",
-    "api.auth.key.invalid": "la clave de acceso es inválida. ¡restablecela en los ajustes de instancia y usa una adecuada!"
+    "api.auth.key.invalid": "la clave de acceso es inválida. ¡restablécela en los ajustes de instancia y usa una adecuada!",
+    "api.auth.key.invalid_ip": "tu dirección ip no pudo ser analizada. algo salió muy mal. ¡reporta este problema!"
 }
