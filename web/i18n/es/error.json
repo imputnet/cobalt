@@ -50,5 +50,6 @@
     "api.auth.key.ip_not_allowed": "tu dirección IP tiene prohibido usar esta clave de acceso. ¡usa una instancia o red diferente!",
     "api.auth.key.ua_not_allowed": "tu agente de usuario no tiene permiso para usar esta clave de acceso. ¡usa un cliente o dispositivo diferente!",
     "api.content.region": "este contenido está bloqueado por región, y la instancia de procesamiento está en una ubicación distinta. ¡intenta con otro enlace!",
-    "api.content.paid": "Este contenido requiere compra. Cobalt no puede descargar contenido de pago. ¡Intenta con otro enlace!"
+    "api.content.paid": "este contenido requiere compra. cobalt no puede descargar contenido de pago. ¡intenta con otro enlace!",
+    "api.youtube.api_error": "youtube actualizó algo en su api y no pude obtener ninguna información sobre este vídeo. intenta de nuevo en unos segundos, pero si el problema persiste, por favor, ¡repórtalo!"
 }
