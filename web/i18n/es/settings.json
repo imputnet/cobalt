@@ -90,15 +90,17 @@
     "processing.enable_custom.title": "utilizar un servidor de procesamiento personalizado",
     "processing.custom.placeholder": "dominio de la instancia personalizada",
     "language.auto.description": "cobalt utilizará el idioma por defecto de tu navegador si la traducción está disponible. si no, se utilizará el inglés en su lugar.",
-    "language.preferred.description": "este idioma se utilizará cuando la selección automática esté desactivada. cualquier texto que no esté traducido se mostrará en inglés.\n\nalgunos idiomas usan traducciones de la comunidad, podrán ser inexactas o estar incompletas.",
+    "language.preferred.description": "este idioma se usara cuando la selección automática esté desactivada. cualquier texto que no esté traducido se mostrará en inglés.\n\nalgunos idiomas usan traducciones de la comunidad, estas podrían ser inexactas o estar incompletas.",
     "privacy.analytics.description": "los análisis de tráfico anónimos son necesarios para obtener un número aproximado de usuarios activos de cobalt. nunca se almacena información identificable sobre ti. todos los datos procesados son anónimos y agregados.\n\nutilizamos una instancia de plausible autoalojada que no utiliza cookies y cumple plenamente con GDPR, CCPA y PECR.",
     "advanced.debug.description": "te da fácil acceso a una página con información de la aplicación que puede ser útil para depurar. habilitar esto no afecta la funcionalidad de cobalt de ninguna forma.",
-    "processing.enable_custom.description": "aunque cobalt cuenta con algunas medidas de seguridad, no nos hacemos responsables de los daños que se produzcan a través de una instancia comunitaria, ya que no tenemos control sobre ellas.\n\npor favor, ten cuidado con las instancias que utilizas y asegúrate de que están alojadas por personas en las que confías.",
+    "processing.enable_custom.description": "cobalt usará una instancia de procesamiento personalizada si así lo deseas. aunque cobalt cuenta con algunas medidas de seguridad, no nos hacemos responsables de los daños que se produzcan a través de una instancia comunitaria, ya que no tenemos control sobre ellas.\n\npor favor, ten cuidado con las instancias que usas y asegúrate de que están alojadas por personas en las que confías.",
     "video.youtube.hls.title": "preferir hls para audio y vídeo",
     "youtube.dub.original": "original",
     "video.youtube.hls.description": "los archivos se descargarán más rápido y serán menos propensos a errores o cortes bruscos. sólo los códecs h264 y vp9 están disponibles en este modo. el códec original es aac, es recodificado por compatibilidad y la calidad de audio puede ser peor que su contraparte sin HLS.\n\nesta opción es experimental, y puede desaparecer o cambiar en el futuro.",
     "video.youtube.hls": "formatos hls en youtube",
     "video.h265.title": "permitir h265 para vídeos",
     "video.h265": "códec de vídeo de alta eficiencia",
-    "video.h265.description": "permite descargar vídeos de plataformas como tiktok y xiaohongshu en mayor calidad al coste de compatibilidad."
+    "video.h265.description": "permite descargar vídeos de plataformas como tiktok y xiaohongshu en mayor calidad al coste de compatibilidad.",
+    "processing.access_key": "clave de acceso de la instancia",
+    "processing.access_key.title": "usar una clave de acceso de instancia"
 }
