@@ -1,0 +1,35 @@
+{
+    "page.general": "o que é cobalt?",
+    "page.faq": "FAQ",
+
+    "page.community": "Comunidade & suporte",
+
+    "page.privacy": "Politicas de privacidade",
+    "page.terms": "Termos e ética",
+    "page.credits": "Agradecimentos & licensas",
+
+    "heading.general": "Termos gerais",
+    "heading.licenses": "Licensas",
+    "heading.summary": "Melhor maneira de salvar o que você ama",
+    "heading.privacy": "Privacidade total",
+    "heading.community": "Comunidade aberta",
+    "heading.local": "Processamento on-device",
+    "heading.saving": "Salvamento",
+    "heading.encryption": "Criptografia",
+    "heading.plausible": "Análise de tráfego anônimo",
+    "heading.cloudflare": "Privacidade na web & segurança",
+    "heading.responsibility": "Responsabilidades do usuário",
+    "heading.abuse": "Denúncias de abuso",
+    "heading.motivation": "Motivação",
+    "heading.testers": "Beta testers",
+
+    "support.github": "Confira o código-fonte do cobalt, contribua com alterações ou relate problemas",
+    "support.discord": "Converse com a comunidade e desenvolvedores sobre o cobalt ou pergunte caso precise de ajuda",
+    "support.twitter": "Siga as atualizações e desenvolvimento do na sua timeline do twitter",
+    "support.telegram": "Esteja atualizado com as últimas atualizações do cobalt no canal do telegram",
+    "support.bluesky": "Siga as atualizações e desenvolvimento do cobalt no seu feed do bluesky",
+
+    "support.description.issue": "Se você precisa reportar um bug ou algum outro problema, por favor, faça isso no github.",
+    "support.description.help": "Use o discord para qualquer outras questões. descreva o problema de forma apropiada in #cobalt-support ou não poderemos ajudar você.",
+    "support.description.best-effort": "Todo o suporte é o melhor esforço e não é garantido, uma resposta pode levar algum tempo"
+}
