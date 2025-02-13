@@ -1,0 +1,25 @@
+{
+    "reset.title": "resetar todos os dados?",
+    "reset.body": "você tem certeza que você quer resetar todos os dados? essa ação é imediata e inrreversível.",
+
+    "picker.title": "selecionar o que salvar",
+    "picker.description.desktop": "clique em um item para salva-lo. imagens só podem ser salvar clicando com o botão direito no menu.",
+    "picker.description.phone": "precione qualquer item para salva-lo. imagens só podem ser salvas com um click longo.",
+    "picker.description.ios": "precione qualquer item para salva-lo como atalho. imagens só podem ser salvas com um click longo.",
+
+    "saving.title": "escolha como salvar",
+    "saving.blocked": "cobalt está tentando abrir um aqruivo em uma nova aba, porém seu navegador não permitiu. você precisa habilitar os pop-ups para previnir que isso aconteça na próxima vez.",
+    "saving.timeout": "cobalt está tentando salvar um arquivo automaticamente, porém seu navegador parou o salvamento. você tem que selecionar o método preferido manualmente.",
+
+    "safety.title": "aviso de segurança importante",
+
+    "import.body": "importar arquivos desconhecidos ou corrompidos pode alterar ou interromper inesperadamente a funcionalidade do cobalt. importe apenas arquivos que você exportou pessoalmente e não modificou. se alguém lhe pediu para importar este arquivo - não faça isso.\n\nnão somos responsáveis ​​por qualquer dano causado pela importação de arquivos de configurações desconhecidas",
+
+    "api.override.title": "substituição de instância de processamento",
+    "api.override.body": "{{ value }} agora é a instância de processamento. se você não confia, pressione \"cancelar\" e será ignorado.\n\nvocê pode mudar sua decisão mais tarde nas configurações. .",
+
+    "safety.custom_instance.body": "instâncias personalziadas podem representar um risco a privacidade e segurança.\n\ninstâncias má intencionadas podem:\n1. te redirecionar para outro site fora do cobalt e roubar suas informações.\n2. salvar logs de todas suas informações requisitadas, e usar isso para rastrear você.\n3. fornecer arquivos maliciosos (como malware).\n4. te forçar a assistir anúncios, ou te fazer fazer pagamentos por downloads.\n\ndepois desse ponto, nós não poderemos te progeter. por favor fique atento, use apenas instâncias confiaveis e confie nos seus ínstintos. se alguma coisa parecer errada, volte para essa página, reinicie a instância, e nos reporte essa caso no github.",
+
+    "processing.ongoing": "cobalt está atualmente processando a mídia nessa aba. sair fará parar o processamento. você tem certeza disso",
+    "processing.title.ongoing": "o processamento será cancelado"
+}
