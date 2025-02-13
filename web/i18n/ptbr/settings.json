@@ -1,0 +1,126 @@
+{
+    "page.appearance": "aparência",
+    "page.privacy": "privacidade",
+    "page.video": "vídeo",
+    "page.audio": "áudio",
+    "page.download": "download",
+    "page.advanced": "avançado",
+    "page.debug": "informações para nerds",
+    "page.instances": "instâncias",
+
+    "section.general": "geral",
+    "section.save": "salvar",
+
+    "theme": "tema",
+    "theme.auto": "automático",
+    "theme.light": "claro",
+    "theme.dark": "escuro",
+    "theme.description": "o tema automático alterna entre os temas claro e escuro, dependendo do modo de exibição do seu dispositivo.",
+
+    "video.quality": "qualidade do vídeo",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "se a qualidade de vídeo preferida não estiver disponível, a próxima melhor será escolhida.",
+
+    "video.youtube.codec": "codec e contêiner do YouTube",
+    "video.youtube.codec.description": "h264: melhor compatibilidade, qualidade média. Qualidade máxima é 1080p. \nav1: melhor qualidade e eficiência. Suporta 8k e HDR. \nvp9: mesma qualidade que av1, mas o arquivo é ~2x maior. Suporta 4k e HDR.\n\nav1 e vp9 não são tão amplamente suportados quanto h264. Se av1 ou vp9 não estiverem disponíveis, h264 será usado.",
+
+    "video.youtube.hls": "formatos HLS do YouTube",
+    "video.youtube.hls.title": "preferir HLS para vídeo e áudio",
+    "video.youtube.hls.description": "os arquivos são baixados mais rapidamente e são menos propensos a erros ou cortes abruptos. Apenas os codecs h264 e vp9 estão disponíveis neste modo. O codec de áudio original é aac, ele é recodificado para compatibilidade, a qualidade do áudio pode ser um pouco pior que a versão não-HLS.\n\nesta opção é experimental e pode ser removida ou alterada no futuro.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "converter vídeos em loop para GIF",
+    "video.twitter.gif.description": "a conversão para GIF é ineficiente, o arquivo convertido pode ser absurdamente grande e de baixa qualidade.",
+
+    "video.h265": "codec de vídeo de alta eficiência",
+    "video.h265.title": "permitir h265 para vídeos",
+    "video.h265.description": "permite baixar vídeos de plataformas como TikTok e Xiaohongshu em maior qualidade, mas com menor compatibilidade.",
+
+    "audio.format": "formato de áudio",
+    "audio.format.best": "melhor",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "todos os formatos, exceto \"melhor\", são convertidos do formato original, o que pode resultar em perda de qualidade. Quando \"melhor\" é selecionado, o áudio é mantido em seu formato original sempre que possível.",
+
+    "audio.bitrate": "taxa de bits do áudio",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "a taxa de bits é aplicada apenas ao converter áudio para um formato com perda. O Cobalt não pode melhorar a qualidade do áudio original, então escolher uma taxa de bits acima de 128kbps pode aumentar o tamanho do arquivo sem diferença audível. A qualidade percebida pode variar dependendo do formato.",
+
+    "audio.youtube.dub": "trilha de áudio do YouTube",
+    "audio.youtube.dub.title": "idioma de dublagem preferido",
+    "audio.youtube.dub.description": "o Cobalt usará uma trilha de áudio dublada no idioma selecionado, se disponível. Caso contrário, o áudio original será usado.",
+    "youtube.dub.original": "original",
+
+    "audio.tiktok.original": "TikTok",
+    "audio.tiktok.original.title": "baixar som original",
+    "audio.tiktok.original.description": "o Cobalt baixará o som do vídeo sem alterações feitas pelo autor da postagem.",
+
+    "metadata.filename": "estilo do nome do arquivo",
+    "metadata.filename.classic": "clássico",
+    "metadata.filename.basic": "básico",
+    "metadata.filename.pretty": "bonito",
+    "metadata.filename.nerdy": "nerdy",
+    "metadata.filename.description": "o estilo do nome do arquivo será usado apenas para arquivos tunelados pelo Cobalt. Alguns serviços não suportam estilos de nome de arquivo além do clássico.",
+
+    "metadata.filename.preview.video": "Título do Vídeo",
+    "metadata.filename.preview.audio": "Título do Áudio - Autor do Áudio",
+
+    "metadata.file": "metadados do arquivo",
+    "metadata.disable.title": "desativar metadados do arquivo",
+    "metadata.disable.description": "título, artista e outras informações não serão adicionadas ao arquivo.",
+
+    "saving.title": "método de salvamento",
+    "saving.ask": "perguntar",
+    "saving.download": "baixar",
+    "saving.share": "compartilhar",
+    "saving.copy": "copiar",
+    "saving.description": "método preferido de salvar o arquivo ou link do Cobalt. Se o método preferido não estiver disponível ou algo der errado, o Cobalt perguntará o que fazer a seguir.",
+
+    "accessibility": "acessibilidade",
+    "accessibility.transparency.title": "reduzir transparência visual",
+    "accessibility.transparency.description": "reduz a transparência das superfícies e desativa efeitos de desfoque. Também pode melhorar o desempenho da interface em dispositivos de baixo desempenho.",
+    "accessibility.motion.title": "reduzir movimento",
+    "accessibility.motion.description": "desativa animações e transições sempre que possível.",
+
+    "language": "idioma",
+    "language.auto.title": "seleção automática",
+    "language.auto.description": "o Cobalt usará o idioma padrão do seu navegador se a tradução estiver disponível. Caso contrário, o inglês será usado.",
+    "language.preferred.title": "idioma preferido",
+    "language.preferred.description": "este idioma será usado quando a seleção automática estiver desativada. Qualquer texto não traduzido será exibido em inglês.\n\nalguns idiomas usam traduções da comunidade, que podem ser imprecisas ou incompletas.",
+
+    "privacy.analytics": "análise de tráfego anônima",
+    "privacy.analytics.title": "não contribuir para análises",
+    "privacy.analytics.description": "análises de tráfego anônimas são necessárias para obter um número aproximado de usuários ativos do Cobalt. Nenhuma informação identificável sobre você é armazenada. Todos os dados processados são anonimizados e agregados.\n\nusamos uma instância auto-hospedada do Plausible, que não usa cookies e é totalmente compatível com GDPR, CCPA e PECR.",
+    "privacy.analytics.learnmore": "saiba mais sobre o compromisso do Plausible com a privacidade.",
+
+    "privacy.tunnel": "tunelamento",
+    "privacy.tunnel.title": "sempre tunelar arquivos",
+    "privacy.tunnel.description": "o Cobalt ocultará seu endereço IP, informações do navegador e contornará restrições de rede local. Quando ativado, os arquivos também terão nomes legíveis que, de outra forma, seriam incompreensíveis.",
+
+    "advanced.debug": "depuração",
+    "advanced.debug.title": "ativar recursos para nerds",
+    "advanced.debug.description": "dá acesso fácil a informações do aplicativo que podem ser úteis para depuração. Ativar isso não afeta a funcionalidade do Cobalt de forma alguma.",
+
+    "advanced.data": "gerenciamento de dados",
+
+    "processing.community": "instâncias da comunidade",
+    "processing.enable_custom.title": "usar um servidor de processamento personalizado",
+    "processing.enable_custom.description": "o Cobalt usará uma instância de processamento personalizada, se você escolher. Embora o Cobalt tenha algumas medidas de segurança, não nos responsabilizamos por quaisquer danos causados por uma instância da comunidade, pois não temos controle sobre elas.\n\npor favor, seja consciente sobre quais instâncias você usa e certifique-se de que são hospedadas por pessoas em quem você confia.",
+
+    "processing.access_key": "chave de acesso da instância",
+    "processing.access_key.title": "usar uma chave de acesso da instância",
+    "processing.access_key.description": "o Cobalt usará esta chave para fazer solicitações à instância de processamento em vez de outros métodos de autenticação. Certifique-se de que a instância suporta chaves de API!",
+
+    "processing.custom_instance.input.alt_text": "domínio da instância personalizada",
+    "processing.access_key.input.alt_text": "chave de acesso u-u-i-d"
+}
