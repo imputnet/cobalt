@@ -193,7 +193,7 @@ export default async function (o) {
             if (playability.reason.endsWith("bot")) {
                 return { error: "youtube.login" }
             }
-            if (playability.reason.endsWith("age")) {
+            if (playability.reason.endsWith("age") || playability.reason.endsWith("inappropriate for some users.")) {
                 return { error: "content.video.age" }
             }
             if (playability?.error_screen?.reason?.text === "Private video") {
