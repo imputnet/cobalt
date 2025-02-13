@@ -2,23 +2,19 @@
     "import.no_data": "não há configurações para carregar deste arquivo. você tem certeza que esse é o arquivo correto?",
     "import.invalid": "esse arquivo não tem configurações válidas do cobalt para serem importadas. você tem certeza que esse é o arquivo correto?",
     "import.unknown": "não foi possível carregar dadps desse arquivo. ele pode estar corrompido ou em um formato diferente. aqui está o erro que está acontecendo:\n\n{{ value }}",
-
     "remux.corrupted": "não foi possível ler a metade desse arquivo, ele pode estar corrompido.",
     "remux.out_of_resources": "o cobalt ficou sem recursoss e não ode continuar com  o processamento no dispositivo. isso é causado por limitações do navegador, recarregue a página, abra o aplicativo e tente novamente!",
 
-    "tunnel.probe": "não foi possível testar o tunnel.
-    suas configurações do navegador ou de rede podem estar bloqueando o acesso a um dos servidores do cobalt. você tem certeza que não há nenhuma extensão estanha no seu navegador?",
+    
+    "tunnel.probe": "não foi possível testar o tunnel. suas configurações do navegador ou de rede podem estar bloqueando o acesso a um dos servidores do cobalt. você tem certeza que não há nenhuma extensão estanha no seu navegador?",
 
     "captcha_ongoing": "o cloudflare está verificando se você não é um robo. isso pode demorar um pouco, você pode tentar: desabilitar extensões estanhas no seu navegado, trocar de rede, usar um navegador diferente ou chegar se seu dispositivo tem algum malware.",
-
     "api.auth.jwt.missing": "não foi possível autenticar o processamento da instância porque o token de acesso não foi encontrado, tente novamente em alguns segundos ou recarregue a página!",
     "api.auth.jwt.invalid": "não foi possível autenticar o processamento da instância porque o token de acesso é inválido, tente novamente em alguns segundos ou recarregue a página!",
     "api.auth.turnstile.missing": "não foi possível autenticar o processamento da instância porque o captcha não foi solucionado, tente novamente em alguns segundos ou recarregue a página!",
     "api.auth.turnstile.invalid": "não foi possível autenticar o processamento da instância porque o captcha é inválido, tente novamente em alguns segundos ou recarregue a página!",
-
     "api.auth.key.missing": "uma chave de acesso é solicitada para processar esta instância mas não foi encontrada. adicione-a nas configurações da instância!",
     "api.auth.key.not_api_key": "uma chave de acesso é solicitada para processar esta instância mas não foi encontrada. adicione-a nas configurações da instância!",
-
     "api.auth.key.invalid": "a chave de acesso é inválida, reinicie a instância nas configurações e a use de forma adequada!",
     "api.auth.key.not_found": "a chave de aceso informada não foi encontrada, você tem certeza que a instância tem sua chave?",
     "api.auth.key.invalid_ip": "seu endereço de ip não pode ser analisado. algums coisa está muito errada. reporte este problema!",
@@ -28,38 +24,29 @@
     "api.timed_out": "a instância de processamento demorou muito para responder. Ela pode estar sobrecarregada no momento. Tente novamente em alguns segundos!",
     "api.rate_exceeded": "você está fazendo muitas solicitações. Tente novamente em {{ limit }} segundos.",
     "api.capacity": "o Cobalt está na capacidade máxima e não pode processar sua solicitação no momento. Tente novamente em alguns segundos!",
-
     "api.generic": "algo deu errado e não consegui obter nada para você. Tente novamente em alguns segundos. Se o problema persistir, por favor, reporte-o!",
     "api.unknown_response": "não foi possível ler a resposta da instância de processamento. Isso pode ser causado por uma incompatibilidade de versão entre as instâncias do Cobalt.",
-
     "api.service.unsupported": "este serviço ainda não é suportado. Você colou o link correto?",
     "api.service.disabled": "este serviço é geralmente suportado pelo Cobalt, mas está desativado nesta instância de processamento. Tente um link de outro serviço!",
     "api.service.audio_not_supported": "este serviço não suporta extração de áudio. Tente um link de outro serviço!",
-
     "api.link.invalid": "seu link é inválido ou este serviço ainda não é suportado. Você colou o link correto?",
     "api.link.unsupported": "{{ service }} é suportado, mas não consegui reconhecer seu link. Você colou o correto?",
-
     "api.fetch.fail": "algo deu errado ao buscar informações de {{ service }} e não consegui obter nada para você. Se o problema persistir, por favor, reporte-o!",
     "api.fetch.critical": "o módulo {{ service }} retornou um erro que não reconheço. Tente novamente em alguns segundos, mas se o problema persistir, por favor, reporte-o!",
     "api.fetch.empty": "não consegui encontrar nenhuma mídia que eu pudesse baixar para você. Tem certeza de que colou o link correto?",
     "api.fetch.rate": "a instância de processamento foi limitada por {{ service }}. Tente novamente em alguns segundos!",
     "api.fetch.short_link": "não consegui obter informações do link encurtado. Tem certeza de que ele funciona? Se funcionar e você ainda receber este erro, por favor, reporte o problema!",
-
     "api.content.too_long": "a mídia que você solicitou é muito longa. O limite de duração nesta instância é de {{ limit }} minutos. Tente algo mais curto!",
-
     "api.content.video.unavailable": "não consigo acessar este vídeo. Ele pode estar restrito no lado do {{ service }}. Tente um link diferente!",
     "api.content.video.live": "este vídeo está ao vivo no momento, então não posso baixá-lo ainda. Espere a transmissão ao vivo terminar e tente novamente!",
     "api.content.video.private": "este vídeo é privado, então não consigo acessá-lo. Altere sua visibilidade ou tente outro!",
     "api.content.video.age": "este vídeo é restrito por idade, então não consigo acessá-lo anonimamente. Tente um link diferente!",
     "api.content.video.region": "este vídeo está bloqueado por região, e a instância de processamento está em um local diferente. Tente um link diferente!",
-
     "api.content.region": "este conteúdo está bloqueado por região, e a instância de processamento está em um local diferente. Tente um link diferente!",
     "api.content.paid": "este conteúdo requer compra. O Cobalt não pode baixar conteúdo pago. Tente um link diferente!",
-
     "api.content.post.unavailable": "não consegui encontrar nada sobre esta postagem. Sua visibilidade pode estar limitada ou ela pode não existir. Certifique-se de que seu link funciona e tente novamente em alguns segundos!",
     "api.content.post.private": "não consegui obter nada sobre esta postagem porque ela é de uma conta privada. Tente um link diferente!",
     "api.content.post.age": "esta postagem é restrita por idade e não está disponível sem login. Tente um link diferente!",
-
     "api.youtube.no_matching_format": "o YouTube não retornou um formato válido de vídeo + áudio, ou o vídeo ou o áudio está faltando. Os formatos para este vídeo podem estar sendo recodificados no lado do YouTube ou algo deu errado ao analisá-los. Tente ativar a opção HLS nas configurações de vídeo!",
     "api.youtube.decipher": "o YouTube atualizou seu algoritmo de decifração e não consegui extrair as informações sobre o vídeo. Tente novamente em alguns segundos, mas se o problema persistir, por favor, reporte-o!",
     "api.youtube.login": "não consegui obter este vídeo porque o YouTube pediu que a instância fizesse login. Isso pode ser causado pela instância de processamento não ter tokens de conta ativos ou o YouTube ter atualizado algo em sua API. Tente novamente em alguns segundos, mas se ainda não funcionar, por favor, reporte este problema!",
