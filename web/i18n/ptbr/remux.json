@@ -1,0 +1,8 @@
+{
+    "bullet.purpose.title": "o que o remux faz?",
+    "bullet.purpose.description": "remux corrige quaisquer problemas com o contêiner de arquivos, como falta de informações de tempo. ajuda a aumentar a compatibilidade com softwares antigos, como vegas pro e windows media player.",
+    "bullet.explainer.title": "como funciona?",
+    "bullet.explainer.description": "o remuxing pega os dados do codec existente e os copia para um novo contêiner de mídia. não tem perdas, os dados de mídia não são recodificados.",
+    "bullet.privacy.title": "processamento no dispositivo",
+    "bullet.privacy.description": "cobalt remuxa arquivos localmente. os arquivos nunca saem do seu dispositivo, portanto o processamento é quase instantâneo."
+}

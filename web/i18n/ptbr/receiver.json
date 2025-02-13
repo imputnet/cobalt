@@ -1,0 +1,5 @@
+{
+    "title": "solte ou selecione um arquivo",
+    "title.drop": "solte o arquivo aqui!",
+    "accept": "formatos suportados: {{ formats }}."
+}
