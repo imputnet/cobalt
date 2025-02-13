@@ -1,0 +1,37 @@
+{
+    "banner.title": "Apoie para que a internet \nsegura para todos",
+    "banner.subtitle": "doe para o imput ou compartilhe\no cobalt com seus amigos",
+
+    "body.motivation": "cobalt está ajudando produtores, esducatodres, vídeo makers, e muitas outras pessoas que fazem o que amam. essa é a diferença de um serviço feito por amor, sem fins lucrativos.",
+    "body.no_bullshit": "nós acreditamos que a internet não tem que assustadora, com o cobalt nós nunca iremos colocar propagandas ou conteúdos maliciosos. essa é uma promessa que cumprimos firmemente. tudo o que construimos é pensando na privacidade, acessibilidade e facilidade de uso, com isso em mente, nós queremos fazer que o cobalt seja acessível para todos.",
+    "body.keep_going": "se você acha o cobalt útil. por favor, considere apoiar nosso trabalho! você pode nos ajudar fazendo doações ou compartilhando o cobalt com seus amigos. toda doação é bem-vinda e nos ajuda a manter todos os projetos do cobalt.",
+
+    "card.once": "doação única",
+    "card.recurring": "doação recorrente",
+    "card.custom": "valor personalizado (a partir de $2)",
+
+    "card.processor": "via {{value}}",
+
+    "card.option.5": "xícara de café",
+    "card.option.10": "pizza grande",
+    "card.option.15": "almoço completo",
+    "card.option.30": "almoço para dois",
+    "card.option.50": "10kg de comida para gato",
+    "card.option.100": "um ano do domínio desse site pago",
+    "card.option.200": "air fryer",
+    "card.option.500": "cadeira de escritório top",
+    "card.option.1599": "macbook pro básico",
+    "card.option.4900": "10 mil maçãs",
+    "card.option.7398": "macbook pro bolado",
+    "card.option.8629": "um terreno pequeno",
+    "card.option.9433": "uma banheira de hidromassagem de luxo",
+
+    "card.custom.submit": "doar valor personalizado",
+
+    "share.title": "compartilhe cobalt com seus amigos",
+
+    "alternative.title": "maneiras alternativas de doação",
+
+    "alt.copy": "{{ value }}. endereço dacarteira crypto. click para copiar.",
+    "alt.open": "{{ value }}. clique para abrir."
+}
