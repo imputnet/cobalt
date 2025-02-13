@@ -1,0 +1,18 @@
+{
+    "reset.title": "réinitialiser toutes les données ?",
+    "picker.title": "sélectionnez ce que vous voulez enregistrer",
+    "picker.description.desktop": "cliquez sur un élément pour l'enregistrer. les images peuvent également être enregistrées via le menu clic droit.",
+    "picker.description.phone": "appuyez sur un élément pour l'enregistrer. les images peuvent également être enregistrées avec un appui long.",
+    "saving.title": "choisissez comment enregistrer",
+    "saving.blocked": "cobalt a essayé d'ouvrir le fichier dans un nouvel onglet, mais votre navigateur l'a bloqué. vous pouvez autoriser les pop-ups pour cobalt pour éviter que cela ne se reproduise la prochaine fois.",
+    "picker.description.ios": "appuyez sur un élément pour l'enregistrer avec un raccourci. les images peuvent également être enregistrées avec un appui long.",
+    "saving.timeout": "cobalt a essayé d'enregistrer le fichier automatiquement, mais votre navigateur l'a arrêté. vous devez sélectionner une méthode préférée manuellement.",
+    "safety.title": "avis de sécurité important",
+    "api.override.title": "remplacement de l'instance de traitement",
+    "processing.ongoing": "cobalt traite actuellement des médias dans cet onglet. partir l'interrompra. êtes-vous sûr de vouloir faire cela ?",
+    "processing.title.ongoing": "le traitement sera annulé",
+    "reset.body": "êtes-vous sûr de vouloir réinitialiser tous les données ? cette action est immédiate et irréversible.",
+    "api.override.body": "{{ value }} est maintenant l'instance de traitement. si vous ne lui faites pas confiance, appuyez sur \"annuler\" et elle sera ignorée.\n\nvous pouvez changer votre choix plus tard dans les paramètres de traitement.",
+    "safety.custom_instance.body": "les instances personnalisées peuvent potentiellement poser des risques de confidentialité et de sécurité.\n\nles mauvaises instances peuvent:\n1. vous rediriger loin de cobalt et essayer de vous arnaquer.\n2. enregistrer toutes les informations sur vos requêtes, les stocker pour toujours et les utiliser pour vous traquer.\n3. vous servir des fichiers malveillants (tels que des malwares).\n4. vous forcer à regarder des publicités, ou vous faire payer pour le téléchargement.\n\naprès cette action, nous ne pouvons plus vous protéger. veuillez être attentif aux instances à utiliser et toujours faire confiance à votre instinct. si quelque chose ne va pas, revenez sur cette page, réinitialisez l'instance personnalisée et signalez-le nous sur github.",
+    "import.body": "l'importation de fichiers inconnus ou corrompus peut altérer ou casser de manière inattendue la fonctionnalité de cobalt. n'importe importez que des fichiers que vous avez personnellement exportés et que vous n'avez pas modifiés. si quelqu'un vous a demandé d'importer ce fichier - ne le faites pas.\n\nnous ne sommes pas responsables des dommages causés par l'importation de fichiers de paramètres inconnus."
+}

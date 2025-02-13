@@ -1,0 +1,23 @@
+{
+    "page.general": "čo je cobalt?",
+    "page.faq": "FAQ",
+    "page.community": "komunita & podpora",
+    "page.privacy": "zásady ochrany osobných údajov",
+    "page.terms": "podmienky a etika",
+    "page.credits": "poďakovanie & licencie",
+    "heading.general": "všeobecné podmienky",
+    "heading.licenses": "licencie",
+    "heading.summary": "najlepší spôsob ako si uložiť to, čo sa ti páči",
+    "heading.community": "otvorená komunita",
+    "heading.local": "spracovanie na vlastnom zariadení",
+    "heading.saving": "ukladanie",
+    "heading.motivation": "motivácia",
+    "heading.testers": "beta testeri",
+    "support.github": "pozri si zdrojový kód cobaltu, pomôž s vývojom, alebo nahlás chyby",
+    "support.discord": "porozprávaj sa s komunitou a vývojármi o cobaltu alebo si požiadaj o pomoc",
+    "support.twitter": "sleduj aktualizácie a rozvoj cobaltu na svojej timeline na twittri",
+    "support.telegram": "ostaň v obraze s najnovšími aktualizáciami cobaltu cez kanál na telegrame",
+    "support.bluesky": "sleduj aktualizácie a rozvoj cobaltu na bluesky",
+    "support.description.issue": "ak chceš nahlásiť chybu alebo akýkoľvek iný problém, nahlás to prosím na github.",
+    "support.description.help": "použi discord pre akékoľvek ďalšie otázky. detailne popíš problém v kanále #cobalt-support, ináč ti nebude nikto môcť pomôcť."
+}
