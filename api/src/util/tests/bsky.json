@@ -1,7 +1,7 @@
 [
     {
         "name": "horizontal video",
-        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3giwtwp222m",
+        "url": "https://bsky.app/profile/did:plc:ywbm3iywnhzep3ckt6efhoh7/post/3l3uhihxd5g2r",
         "params": {},
         "expected": {
             "code": 200,
@@ -19,7 +19,7 @@
     },
     {
         "name": "vertical video",
-        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
+        "url": "https://bsky.app/profile/did:plc:kqbbf4ln3yekk7vn5stjz3ys/post/3ldd44mc5uc2t",
         "params": {},
         "expected": {
             "code": 200,
@@ -28,7 +28,7 @@
     },
     {
         "name": "vertical video (muted)",
-        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
+        "url": "https://bsky.app/profile/did:plc:kqbbf4ln3yekk7vn5stjz3ys/post/3ldd44mc5uc2t",
         "params": {
             "downloadMode": "mute"
         },
@@ -39,7 +39,7 @@
     },
     {
         "name": "vertical video (audio)",
-        "url": "https://bsky.app/profile/did:plc:oisofpd7lj26yvgiivf3lxsi/post/3l3jhpomhjk2m",
+        "url": "https://bsky.app/profile/did:plc:kqbbf4ln3yekk7vn5stjz3ys/post/3ldd44mc5uc2t",
         "params": {
             "downloadMode": "audio"
         },
