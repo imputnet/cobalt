@@ -1,0 +1,477 @@
+openapi: "3.0.3"
+info:
+  title: "Imputnet Cobalt API"
+  description: >
+    OpenAPI specification for the Imputnet Cobalt API. This API provides endpoints 
+    for retrieving content (such as videos or images) from various services and for 
+    obtaining authentication tokens. Note: Official hosted instances (e.g. 
+    "api.cobalt.tools") may enforce bot protection; self-hosting or obtaining 
+    explicit access is recommended.
+  version: "1.0.0"
+servers:
+  - url: "https://api.cobalt.tools"
+    description: "Example public API instance (may require permission)"
+  - url: "http://localhost:9000"
+    description: "Local instance for self-hosting (default port 9000)"
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "API Key authentication via 'Authorization: Api-Key <API_TOKEN>'"
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Bearer JWT authentication via 'Authorization: Bearer <JWT_TOKEN>' (obtained from the /session endpoint)"
+  schemas:
+    DownloadRequest:
+      type: object
+      required:
+        - url
+      description: "Request payload for content download. Must include a target URL and can specify optional parameters (quality, format, etc.)."
+      properties:
+        url:
+          type: string
+          format: uri
+          description: "The URL of the content to download (required)."
+        videoQuality:
+          type: string
+          enum: ["144", "240", "360", "480", "720", "1080", "1440", "2160", "4320", "max"]
+          default: "1080"
+          description: "Video resolution quality (e.g., '144', '720', '1080', up to '4320' or 'max')."
+        audioFormat:
+          type: string
+          enum: ["best", "mp3", "ogg", "wav", "opus"]
+          default: "mp3"
+          description: "Audio format for extraction or conversion."
+        audioBitrate:
+          type: string
+          enum: ["320", "256", "128", "96", "64", "8"]
+          default: "128"
+          description: "Audio bitrate in kbps for conversion; applies only when converting to audio."
+        filenameStyle:
+          type: string
+          enum: ["classic", "pretty", "basic", "nerdy"]
+          default: "classic"
+          description: "File naming style for the output file."
+        downloadMode:
+          type: string
+          enum: ["auto", "audio", "mute"]
+          default: "auto"
+          description: "Download mode: 'auto' (video with audio), 'audio' (audio-only), or 'mute' (video without audio)."
+        youtubeVideoCodec:
+          type: string
+          enum: ["h264", "av1", "vp9"]
+          default: "h264"
+          description: "Preferred video codec for YouTube downloads."
+        youtubeDubLang:
+          type: string
+          description: "Language code for dubbed audio on YouTube (if applicable), e.g. 'en', 'ru', 'ja', 'es-US'."
+        alwaysProxy:
+          type: boolean
+          default: false
+          description: "If true, forces all downloads to proxy through the server."
+        disableMetadata:
+          type: boolean
+          default: false
+          description: "If true, do not embed metadata (like title or artist tags) in the output file."
+        tiktokFullAudio:
+          type: boolean
+          default: false
+          description: "If true, download the original sound for a TikTok video when available."
+        tiktokH265:
+          type: boolean
+          default: false
+          description: "If true, allow H.265/HEVC video for TikTok (and Xiaohongshu) if available."
+        twitterGif:
+          type: boolean
+          default: true
+          description: "If true, convert Twitter 'GIFs' (video format) into actual .gif files."
+        youtubeHLS:
+          type: boolean
+          default: false
+          description: "If true, use HLS streaming for YouTube video/audio downloads when available."
+    RedirectResponse:
+      type: object
+      required:
+        - status
+        - url
+        - filename
+      description: "Response indicating the client should be redirected to an external URL for the content."
+      properties:
+        status:
+          type: string
+          enum: ["redirect"]
+          description: "Redirect status indicator."
+        url:
+          type: string
+          format: uri
+          description: "External URL to download the content directly."
+        filename:
+          type: string
+          description: "Suggested filename for the downloaded content."
+    TunnelResponse:
+      type: object
+      required:
+        - status
+        - url
+        - filename
+      description: "Response indicating the content is being proxied (tunneled) through the Cobalt server."
+      properties:
+        status:
+          type: string
+          enum: ["tunnel"]
+          description: "Tunnel status indicator."
+        url:
+          type: string
+          format: uri
+          description: "Cobalt tunnel URL to fetch the content via the server proxy."
+        filename:
+          type: string
+          description: "Suggested filename for the downloaded content."
+    PickerItem:
+      type: object
+      required:
+        - type
+        - url
+      description: "An individual media entry available for selection (in a picker response)."
+      properties:
+        type:
+          type: string
+          enum: ["photo", "video", "gif"]
+          description: "Type of media item (photo, video, or gif)."
+        url:
+          type: string
+          format: uri
+          description: "Direct URL of the media item."
+        thumb:
+          type: string
+          format: uri
+          description: "Thumbnail URL for the media (optional)."
+    PickerResponse:
+      type: object
+      required:
+        - status
+        - picker
+      description: "Response indicating multiple media items to choose from (e.g., an image slideshow)."
+      properties:
+        status:
+          type: string
+          enum: ["picker"]
+          description: "Picker status indicator."
+        audio:
+          type: string
+          format: uri
+          description: "URL to a background audio track (if the content has separate audio)."
+        audioFilename:
+          type: string
+          description: "Filename for the audio track, if provided."
+        picker:
+          type: array
+          description: "Array of media items available for selection."
+          items:
+            $ref: "#/components/schemas/PickerItem"
+    ErrorContext:
+      type: object
+      description: "Optional additional context for an error, providing extra details."
+      properties:
+        service:
+          type: string
+          description: "Service/source involved in the error (e.g., 'youtube')."
+        limit:
+          type: number
+          description: "Numeric limit related to the error (e.g., rate limit or duration limit)."
+    ErrorDetail:
+      type: object
+      required:
+        - code
+      description: "Error details object containing a code and optional context information."
+      properties:
+        code:
+          type: string
+          description: "Machine-readable error code explaining the reason."
+        context:
+          $ref: "#/components/schemas/ErrorContext"
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - error
+      description: "Response indicating an error occurred during the request."
+      properties:
+        status:
+          type: string
+          enum: ["error"]
+          description: "Error status indicator."
+        error:
+          $ref: "#/components/schemas/ErrorDetail"
+    ServerInfoResponse:
+      type: object
+      required:
+        - cobalt
+        - git
+      description: "Server status information, including Cobalt instance details and git info."
+      properties:
+        cobalt:
+          type: object
+          description: "Information about the Cobalt instance."
+          properties:
+            version:
+              type: string
+              description: "Current version of the Cobalt server instance."
+            url:
+              type: string
+              description: "Base URL of the server instance."
+            startTime:
+              type: number
+              description: "Server start time (Unix timestamp in milliseconds)."
+            durationLimit:
+              type: number
+              description: "Maximum allowed video duration for downloads (in seconds)."
+            services:
+              type: array
+              items:
+                type: string
+              description: "List of supported service names for this instance."
+          required:
+            - version
+            - url
+            - startTime
+            - durationLimit
+            - services
+        git:
+          type: object
+          description: "Git repository information for the running codebase."
+          properties:
+            commit:
+              type: string
+              description: "Git commit hash of the currently running code."
+            branch:
+              type: string
+              description: "Git branch name of the currently running code."
+            remote:
+              type: string
+              description: "Git remote URL of the repository."
+          required:
+            - commit
+            - branch
+            - remote
+    SessionResponse:
+      type: object
+      required:
+        - token
+        - exp
+      description: "Response containing a newly issued JWT token and its expiration time."
+      properties:
+        token:
+          type: string
+          description: "JWT token to use for Bearer authentication in subsequent requests."
+        exp:
+          type: number
+          description: "Token lifetime (expiration time in seconds from issuance)."
+paths:
+  "/":
+    get:
+      summary: "Get Server Information"
+      description: "Retrieve basic information about the Cobalt server instance (version, uptime, supported services, etc.)."
+      responses:
+        "200":
+          description: "Server info retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerInfoResponse"
+              examples:
+                example:
+                  summary: "Example server info"
+                  value:
+                    cobalt:
+                      version: "1.0.0"
+                      url: "https://api.cobalt.tools"
+                      startTime: 1700000000000
+                      durationLimit: 600
+                      services:
+                        - "youtube"
+                        - "tiktok"
+                        - "twitter"
+                    git:
+                      commit: "abcdef1234567890"
+                      branch: "main"
+                      remote: "https://github.com/imputnet/cobalt.git"
+        "401":
+          description: "Unauthorized – missing or invalid API key/Bearer token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                authRequired:
+                  summary: "Authentication required error"
+                  value:
+                    status: "error"
+                    error:
+                      code: "api.auth.api-key.missing"
+                      context: {}
+        default:
+          description: "Unexpected error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                errorExample:
+                  summary: "General error example"
+                  value:
+                    status: "error"
+                    error:
+                      code: "error.api.fetch.critical"
+                      context:
+                        service: "youtube"
+    post:
+      summary: "Process Download Request"
+      description: >
+        Submit a URL to download content. The server will process the request and respond with 
+        either a direct link, a proxy tunnel, a picker for multiple items, or an error.
+        **Headers**: This endpoint requires 'Accept: application/json' and 'Content-Type: application/json'.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DownloadRequest"
+            example:
+              url: "https://youtu.be/dQw4w9WgXcQ"
+              videoQuality: "720"
+              audioFormat: "mp3"
+              downloadMode: "audio"
+      responses:
+        "200":
+          description: "Request processed successfully (see 'status' field for result type)"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/RedirectResponse"
+                  - $ref: "#/components/schemas/TunnelResponse"
+                  - $ref: "#/components/schemas/PickerResponse"
+              examples:
+                redirect:
+                  summary: "Redirect response example"
+                  value:
+                    status: "redirect"
+                    url: "https://example.com/path/to/content.mp4"
+                    filename: "video.mp4"
+                tunnel:
+                  summary: "Tunnel response example"
+                  value:
+                    status: "tunnel"
+                    url: "https://api.cobalt.tools/tunnel/123e4567-e89b-12d3-a456-426614174000"
+                    filename: "video.mp4"
+                picker:
+                  summary: "Picker response example"
+                  value:
+                    status: "picker"
+                    audio: "https://api.cobalt.tools/tunnel/audio/abc12345.mp3"
+                    audioFilename: "background_audio.mp3"
+                    picker:
+                      - type: "photo"
+                        url: "https://api.cobalt.tools/tunnel/image1.jpg"
+                        thumb: "https://api.cobalt.tools/tunnel/image1_thumb.jpg"
+                      - type: "photo"
+                        url: "https://api.cobalt.tools/tunnel/image2.jpg"
+                        thumb: "https://api.cobalt.tools/tunnel/image2_thumb.jpg"
+        "400":
+          description: "Bad request or processing error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                processingError:
+                  summary: "Processing error example"
+                  value:
+                    status: "error"
+                    error:
+                      code: "error.api.fetch.critical"
+                      context:
+                        service: "youtube"
+        "401":
+          description: "Unauthorized – missing or invalid API key/Bearer token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                authError:
+                  summary: "Authentication error example"
+                  value:
+                    status: "error"
+                    error:
+                      code: "api.auth.bearer.missing"
+                      context: {}
+        default:
+          description: "Unexpected server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/session":
+    post:
+      summary: "Create Session Token"
+      description: >
+        Generate a short-lived JWT token (Bearer) by proving a successful Turnstile challenge solution.
+        The client must provide the Turnstile response token in the 'cf-turnstile-response' header.
+      security: []
+      parameters:
+        - name: "cf-turnstile-response"
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Turnstile challenge response token provided by the client."
+      requestBody:
+        description: "No request body is required (the challenge token is provided via header)."
+        content: {}
+      responses:
+        "200":
+          description: "A new JWT token has been issued."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...<snip>"
+                exp: 1800
+        "400":
+          description: "Invalid or missing challenge response (token not provided or verification failed)."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                challengeError:
+                  summary: "Challenge failure example"
+                  value:
+                    status: "error"
+                    error:
+                      code: "api.auth.turnstile.missing"
+                      context: {}
+        default:
+          description: "Unexpected error during token generation."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                errorExample:
+                  summary: "General error example"
+                  value:
+                    status: "error"
+                    error:
+                      code: "error.unknown"
+                      context: {}
