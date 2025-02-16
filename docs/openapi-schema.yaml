@@ -434,9 +434,6 @@ paths:
           schema:
             type: string
           description: "Turnstile challenge response token provided by the client."
-      requestBody:
-        description: "No request body is required (the challenge token is provided via header)."
-        content: {}
       responses:
         "200":
           description: "A new JWT token has been issued."
