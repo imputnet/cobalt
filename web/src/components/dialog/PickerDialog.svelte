@@ -50,7 +50,9 @@
         <div class="picker-body">
             {#if items}
                 {#each items as item, i}
-                    <PickerItem {item} number={i + 1} />
+                    {#if item?.url}
+                        <PickerItem {item} number={i + 1} />
+                    {/if}
                 {/each}
             {/if}
         </div>
