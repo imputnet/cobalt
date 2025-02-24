@@ -7,6 +7,7 @@
     "page.advanced": "advanced",
     "page.debug": "info for nerds",
     "page.instances": "instances",
+    "page.local": "local processing",
 
     "section.general": "general",
     "section.save": "save",
@@ -111,10 +112,6 @@
     "advanced.debug.title": "enable features for nerds",
     "advanced.debug.description": "gives you easy access to app info that can be useful for debugging. enabling this does not affect functionality of cobalt in any way.",
 
-    "advanced.local-processing": "local processing",
-    "advanced.local-processing.title": "mux and convert media on device",
-    "advanced.local-processing.description": "when downloading media, cobalt will use on-device processing to mux or convert it. exclusive local features such as remux or convert are not affected, they always run locally.",
-
     "processing.community": "community instances",
     "processing.enable_custom.title": "use a custom processing server",
     "processing.enable_custom.description": "cobalt will use a custom processing instance if you choose to. even though cobalt has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
@@ -127,5 +124,13 @@
     "processing.access_key.input.alt_text": "u-u-i-d access key",
 
     "advanced.settings_data": "settings data",
-    "advanced.local_storage": "local storage"
+    "advanced.local_storage": "local storage",
+
+    "local.saving": "saving",
+    "local.saving.title": "mux and convert media on device",
+    "local.saving.description": "when downloading media, cobalt will do needed processing on-device instead of using cloud compute. files will download faster and more reliably.\n\nexclusive local features are not affected by this toggle, they always run locally.",
+
+    "local.webcodecs": "webcodecs",
+    "local.webcodecs.title": "use webcodecs for on-device processing",
+    "local.webcodecs.description": "when decoding or encoding files, cobalt will try to use webcodecs. this feature allows for GPU-accelerated processing of media files, meaning that all decoding & encoding will be way faster.\n\navailability and stability of this feature depends on your device's and browser's capabilities. stuff might break or not work properly."
 }

@@ -16,8 +16,10 @@
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconFileDownload from "@tabler/icons-svelte/IconFileDownload.svelte";
 
-    import IconBug from "@tabler/icons-svelte/IconBug.svelte";
+    import IconCpu from "@tabler/icons-svelte/IconCpu.svelte";
     import IconWorld from "@tabler/icons-svelte/IconWorld.svelte";
+
+    import IconBug from "@tabler/icons-svelte/IconBug.svelte";
     import IconAdjustmentsStar from "@tabler/icons-svelte/IconAdjustmentsStar.svelte";
 
     $: versionText = $version
@@ -70,11 +72,20 @@
 
         <PageNavSection>
             <PageNavTab
+                path="/settings/local"
+                title={$t("settings.page.local")}
+                icon={IconCpu}
+                iconColor="gray"
+            />
+            <PageNavTab
                 path="/settings/instances"
                 title={$t("settings.page.instances")}
                 icon={IconWorld}
                 iconColor="gray"
             />
+        </PageNavSection>
+
+        <PageNavSection>
             <PageNavTab
                 path="/settings/advanced"
                 title={$t("settings.page.advanced")}
