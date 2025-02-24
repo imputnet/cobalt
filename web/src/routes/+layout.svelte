@@ -78,6 +78,7 @@
     <div
         id="cobalt"
         class:loaded={browser}
+        data-chrome={device.browser.chrome}
         data-iphone={device.is.iPhone}
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
@@ -251,6 +252,11 @@
             var(--button-elevated-hover),
             var(--button-elevated)
         );
+    }
+
+    /* fall back to less pretty value cuz chrome doesn't support sign() */
+    :global([data-chrome]) {
+        --sidebar-height-mobile: calc(50px + env(safe-area-inset-bottom));
     }
 
     :global([data-theme="light"] [data-reduce-transparency="true"]) {
