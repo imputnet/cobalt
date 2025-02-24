@@ -49,7 +49,13 @@ const request = async (url: string) => {
     const request = {
         url,
 
+        alwaysProxy: getSetting("save", "alwaysProxy"),
+        localProcessing: getSetting("save", "localProcessing"),
         downloadMode: getSetting("save", "downloadMode"),
+
+        filenameStyle: getSetting("save", "filenameStyle"),
+        disableMetadata: getSetting("save", "disableMetadata"),
+
         audioBitrate: getSetting("save", "audioBitrate"),
         audioFormat: getSetting("save", "audioFormat"),
         tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
@@ -59,14 +65,8 @@ const request = async (url: string) => {
         videoQuality: getSetting("save", "videoQuality"),
         youtubeHLS: getSetting("save", "youtubeHLS"),
 
-        filenameStyle: getSetting("save", "filenameStyle"),
-        disableMetadata: getSetting("save", "disableMetadata"),
-
         convertGif: getSetting("save", "convertGif"),
         allowH265: getSetting("save", "allowH265"),
-
-        alwaysProxy: getSetting("privacy", "alwaysProxy"),
-        localProcessing: getSetting("advanced", "localProcessing"),
     }
 
     await getServerInfo();

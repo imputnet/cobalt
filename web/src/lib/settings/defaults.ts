@@ -5,7 +5,7 @@ const defaultSettings: CobaltSettings = {
     schemaVersion: 5,
     advanced: {
         debug: false,
-        localProcessing: false,
+        useWebCodecs: false,
     },
     appearance: {
         theme: "auto",
@@ -15,6 +15,8 @@ const defaultSettings: CobaltSettings = {
         reduceTransparency: false,
     },
     save: {
+        alwaysProxy: false,
+        localProcessing: false,
         audioBitrate: "128",
         audioFormat: "mp3",
         disableMetadata: false,
@@ -30,7 +32,6 @@ const defaultSettings: CobaltSettings = {
         youtubeHLS: false,
     },
     privacy: {
-        alwaysProxy: false,
         disableAnalytics: false,
     },
     processing: {
