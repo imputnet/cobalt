@@ -17,6 +17,10 @@
         padding-bottom: calc(var(--sidebar-tab-padding) * 2 - var(--sidebar-inner-padding));
     }
 
+    #cobalt-logo :global(path) {
+        fill: var(--sidebar-highlight);
+    }
+
     @media screen and (max-width: 535px) {
         #cobalt-logo {
             display: none;
