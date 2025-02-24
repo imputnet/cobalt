@@ -122,14 +122,18 @@
 
         --button: #f4f4f4;
         --button-hover: #e8e8e8;
+        --button-press: #e2e2e2;
         --button-active-hover: #2a2a2a;
+
         --button-hover-transparent: rgba(0, 0, 0, 0.06);
+        --button-press-transparent: rgba(0, 0, 0, 0.09);
         --button-stroke: rgba(0, 0, 0, 0.06);
         --button-text: #282828;
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
         --button-elevated: #e3e3e3;
         --button-elevated-hover: #dadada;
+        --button-elevated-press: #d3d3d3;
         --button-elevated-shimmer: #ededed;
 
         --popover-glow: var(--button-stroke);
@@ -205,15 +209,21 @@
         --green: #37aa42;
 
         --button: #191919;
-        --button-hover: #2a2a2a;
+        --button-hover: #242424;
+        --button-press: #2a2a2a;
+
         --button-active-hover: #f9f9f9;
+
         --button-hover-transparent: rgba(225, 225, 225, 0.1);
+        --button-press-transparent: rgba(225, 225, 225, 0.15);
         --button-stroke: rgba(255, 255, 255, 0.05);
         --button-text: #e1e1e1;
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
         --button-elevated: #282828;
         --button-elevated-hover: #323232;
+        --button-elevated-hover: #2f2f2f;
+        --button-elevated-press: #343434;
 
         --popover-glow: rgba(135, 135, 135, 0.12);
 
@@ -224,6 +234,7 @@
 
         --sidebar-bg: #131313;
         --sidebar-highlight: #f2f2f2;
+        --sidebar-hover: rgba(255, 255, 255, 0.1);
 
         --input-border: #383838;
 
@@ -384,25 +395,39 @@
         box-shadow: none !important;
     }
 
-    :global(button:active, .button:active) {
-        background-color: var(--button-hover);
-    }
-
     :global(.button.elevated) {
         background-color: var(--button-elevated);
-    }
-
-    :global(.button.elevated:not(.color):active) {
-        background-color: var(--button-elevated-hover);
-    }
-
-    :global(.button.elevated:not(:focus-visible)) {
-        box-shadow: none;
     }
 
     :global(.button.active) {
         color: var(--primary);
         background-color: var(--secondary);
+    }
+
+    @media (hover: hover) {
+        :global(.button:hover) {
+            background-color: var(--button-hover);
+        }
+
+        :global(.button.elevated:not(.color):hover) {
+            background-color: var(--button-elevated-hover);
+        }
+
+        :global(.button.active:not(.color):hover) {
+            background-color: var(--button-active-hover);
+        }
+    }
+
+    :global(.button:active) {
+        background-color: var(--button-press);
+    }
+
+    :global(.button.elevated:not(.color):active) {
+        background-color: var(--button-elevated-press);
+    }
+
+    :global(.button.elevated:not(:focus-visible)) {
+        box-shadow: none;
     }
 
     :global(.button.active:not(.color):active) {
@@ -424,20 +449,6 @@
     :global(input) {
         user-select: text;
         -webkit-user-select: text;
-    }
-
-    @media (hover: hover) {
-        :global(button:hover) {
-            background-color: var(--button-hover);
-        }
-
-        :global(.button.elevated:not(.color):hover) {
-            background-color: var(--button-elevated-hover);
-        }
-
-        :global(.button.active:not(.color):hover) {
-            background-color: var(--button-active-hover);
-        }
     }
 
     :global(.center-column-container) {
