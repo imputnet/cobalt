@@ -102,7 +102,7 @@
 
         {#if inputValue.length > 0}
             <button
-                class="input-inner-button"
+                class="button input-inner-button"
                 on:click={() => {
                     inputValue = "";
                     checkInput();
@@ -114,7 +114,7 @@
 
             {#if sensitive}
                 <button
-                    class="input-inner-button"
+                    class="button input-inner-button"
                     on:click={() => (inputHidden = !inputHidden)}
                     aria-label={$t(
                         inputHidden ? "button.show_input" : "button.hide_input"
@@ -136,7 +136,7 @@
 
             {#if String($settings[settingContext][settingId]).length > 0}
                 <button
-                    class="input-inner-button"
+                    class="button input-inner-button"
                     on:click={() => {
                         inputValue = String($settings[settingContext][settingId]);
                         checkInput();
@@ -151,7 +151,7 @@
 
     <div id="settings-input-buttons">
         <button
-            class="settings-input-button"
+            class="button settings-input-button"
             aria-label={$t("button.save")}
             disabled={inputValue === $settings[settingContext][settingId] || !validInput}
             on:click={save}
