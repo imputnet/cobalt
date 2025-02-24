@@ -14,6 +14,9 @@ const device = {
         android: false,
         mobile: false,
     },
+    browser: {
+        chrome: false,
+    },
     prefers: {
         language: "en",
         reducedMotion: false,
@@ -47,6 +50,10 @@ if (browser) {
         iOS,
         android,
         mobile: iOS || android,
+    };
+
+    device.browser = {
+        chrome: ua.includes("chrome/"),
     };
 
     device.prefers = {
