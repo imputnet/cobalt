@@ -126,7 +126,7 @@
     "advanced.settings_data": "settings data",
     "advanced.local_storage": "local storage",
 
-    "local.saving": "saving",
+    "local.saving": "media processing",
     "local.saving.title": "mux and convert media on device",
     "local.saving.description": "when downloading media, cobalt will do needed processing on-device instead of using cloud compute. files will download faster and more reliably.\n\nexclusive local features are not affected by this toggle, they always run locally.",
 

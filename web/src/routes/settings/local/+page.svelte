@@ -5,7 +5,7 @@
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
 </script>
 
-<SettingsCategory sectionId="mux-convert" title={$t("settings.local.saving")} beta>
+<SettingsCategory sectionId="media-processing" title={$t("settings.local.saving")} beta>
     <SettingsToggle
         settingContext="save"
         settingId="localProcessing"
