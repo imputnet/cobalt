@@ -17,8 +17,8 @@
     class:active={isActive}
     role="button"
 >
-    <div class="subnav-tab-left">
-        <div class="tab-icon" style="background: var(--{iconColor})">
+    <div class="subnav-tab-left" style="--icon-color: var(--{iconColor})">
+        <div class="tab-icon">
             <svelte:component this={icon} />
         </div>
         <div class="subnav-tab-text">
@@ -65,6 +65,7 @@
         align-items: center;
         padding: var(--small-padding);
         border-radius: 5px;
+        background: var(--icon-color);
     }
 
     .subnav-tab .tab-icon :global(svg) {
@@ -72,6 +73,18 @@
         stroke: var(--white);
         height: 20px;
         width: 20px;
+    }
+
+    .subnav-tab:not(.active) .tab-icon {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    :global([data-theme="dark"]) .subnav-tab:not(.active) .tab-icon {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .subnav-tab:not(.active) .tab-icon :global(svg) {
+        stroke: var(--icon-color);
     }
 
     .subnav-tab-chevron :global(svg) {
