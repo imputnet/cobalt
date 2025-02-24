@@ -38,7 +38,7 @@
 </script>
 
 <button
-    class="support-card"
+    class="button support-card"
     role="link"
     on:click={() => {
         openURL(externalLink);
