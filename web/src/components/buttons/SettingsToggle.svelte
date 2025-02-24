@@ -31,7 +31,7 @@
     aria-hidden={disabled}
 >
     <button
-        class="toggle-container"
+        class="button toggle-container"
         role="switch"
         aria-checked={isEnabled}
         disabled={disabled}
