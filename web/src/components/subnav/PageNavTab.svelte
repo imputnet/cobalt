@@ -106,7 +106,8 @@
         }
     }
 
-    .subnav-tab:active {
+    .subnav-tab:active,
+    .subnav-tab:focus:hover:not(.active) {
         background: var(--button-press-transparent);
         box-shadow: var(--button-box-shadow);
     }

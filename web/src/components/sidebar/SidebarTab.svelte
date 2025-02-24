@@ -129,12 +129,14 @@
             background-color: var(--button-hover-transparent);
         }
 
-        .sidebar-tab:active:not(.active) {
+        .sidebar-tab:active:not(.active),
+        .sidebar-tab:focus:hover:not(.active) {
             background-color: var(--button-press-transparent);
         }
 
         .sidebar-tab:hover:not(.active),
-        .sidebar-tab:active:not(.active) {
+        .sidebar-tab:active:not(.active),
+        .sidebar-tab:focus:hover:not(.active) {
             opacity: 1;
             box-shadow: 0 0 0 1.5px var(--sidebar-stroke) inset;
         }
