@@ -30,7 +30,8 @@
     "api.capacity": "cobalt is at capacity and can't process your request at the moment. try again in a few seconds!",
 
     "api.generic": "something went wrong and i couldn't get anything for you, try again in a few seconds. if the issue sticks, please report it!",
-    "api.unknown_response": "couldn't read the response from the processing instance. this could be caused by a version mismatch between cobalt instances.",
+    "api.unknown_response": "couldn't read the response from the processing instance. this is probably caused by the web app being out of date. reload the app and try again!",
+    "api.invalid_body": "couldn't send the request to the processing instance. this is probably caused by the web app being out of date. reload the app and try again!",
 
     "api.service.unsupported": "this service is not supported yet. have you pasted the right link?",
     "api.service.disabled": "this service is generally supported by cobalt, but it's disabled on this processing instance. try a link from another service!",
