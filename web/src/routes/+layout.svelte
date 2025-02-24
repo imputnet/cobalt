@@ -143,9 +143,11 @@
 
         --dialog-backdrop: rgba(255, 255, 255, 0.3);
 
-        --sidebar-bg: #000000;
-        --sidebar-highlight: #ffffff;
-        --sidebar-hover: rgba(255, 255, 255, 0.1);
+        --sidebar-bg: var(--button);
+        --sidebar-highlight: var(--secondary);
+        --sidebar-stroke: rgba(0, 0, 0, 0.04);
+
+        --content-border: rgba(0, 0, 0, 0.03);
 
         --input-border: #adadb7;
 
@@ -168,6 +170,9 @@
                 )
             )
         );
+
+        --content-border-thickness: 1.5px;
+        --content-margin: calc(var(--sidebar-inner-padding) + var(--content-border-thickness));
 
         --safe-area-inset-top: env(safe-area-inset-top);
         --safe-area-inset-bottom: env(safe-area-inset-bottom);
@@ -221,7 +226,6 @@
         --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
 
         --button-elevated: #282828;
-        --button-elevated-hover: #323232;
         --button-elevated-hover: #2f2f2f;
         --button-elevated-press: #343434;
 
@@ -233,8 +237,10 @@
         --dialog-backdrop: rgba(0, 0, 0, 0.3);
 
         --sidebar-bg: #131313;
-        --sidebar-highlight: #f2f2f2;
-        --sidebar-hover: rgba(255, 255, 255, 0.1);
+        --sidebar-highlight: var(--secondary);
+        --sidebar-stroke: rgba(255, 255, 255, 0.04);
+
+        --content-border: rgba(255, 255, 255, 0.045);
 
         --input-border: #383838;
 
@@ -312,6 +318,10 @@
 
         #cobalt[data-iphone="true"] #content {
             padding-right: env(safe-area-inset-right);
+            /* disable the desktop frame */
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
         }
     }
 
@@ -319,9 +329,25 @@
         display: flex;
         overflow: scroll;
         background-color: var(--primary);
+        box-shadow: 0 0 0 var(--content-border-thickness) var(--content-border);
+
+        border-radius: 8px;
+        margin: var(--content-margin);
+        margin-left: var(--content-border-thickness);
+    }
+
+    #content:dir(rtl) {
+        margin-left: var(--content-margin);
+        margin-right: var(--content-border-thickness);
     }
 
     @media screen and (max-width: 535px) {
+        /* dark navbar cuz it looks better on mobile */
+        :global([data-theme="light"]) {
+            --sidebar-bg: #000000;
+            --sidebar-highlight: var(--primary);
+        }
+
         #cobalt {
             display: grid;
             grid-template-columns: unset;
@@ -336,6 +362,11 @@
         #content:dir(rtl) {
             padding-top: env(safe-area-inset-top);
             order: -1;
+
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
+
             border-bottom-left-radius: calc(var(--border-radius) * 2);
             border-bottom-right-radius: calc(var(--border-radius) * 2);
         }

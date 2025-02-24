@@ -125,14 +125,18 @@
     }
 
     @media (hover: hover) {
-        .sidebar-tab:active:not(.active) {
-            opacity: 1;
-            background-color: var(--sidebar-hover);
+        .sidebar-tab:hover:not(.active) {
+            background-color: var(--button-hover-transparent);
         }
 
-        .sidebar-tab:hover:not(.active) {
+        .sidebar-tab:active:not(.active) {
+            background-color: var(--button-press-transparent);
+        }
+
+        .sidebar-tab:hover:not(.active),
+        .sidebar-tab:active:not(.active) {
             opacity: 1;
-            background-color: var(--sidebar-hover);
+            box-shadow: 0 0 0 1.5px var(--sidebar-stroke) inset;
         }
     }
 
