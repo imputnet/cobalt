@@ -86,7 +86,7 @@
 
     @media screen and (max-width: 535px) {
         #update-notification {
-            bottom: var(--sidebar-height-mobile);
+            bottom: calc(var(--sidebar-height-mobile) + 5px);
             justify-content: center;
             animation: slide-in-bottom 0.4s;
         }
