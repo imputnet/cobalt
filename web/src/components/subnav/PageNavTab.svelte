@@ -6,7 +6,7 @@
     export let path: string;
     export let title: string;
     export let icon: ConstructorOfATypedSvelteComponent;
-    export let iconColor: "gray" | "blue" | "green" = "gray";
+    export let iconColor: "gray" | "blue" | "green" | "magenta" | "purple" | "orange" = "gray";
 
     $: isActive = $page.url.pathname === path;
 </script>

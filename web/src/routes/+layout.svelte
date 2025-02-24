@@ -113,6 +113,9 @@
         --dark-red: #d61c2e;
         --green: #30bd1b;
         --blue: #2f8af9;
+        --magenta: #eb445a;
+        --purple: #5857d4;
+        --orange: #f19a38;
 
         --focus-ring: 0 0 0 2px var(--blue) inset;
 
