@@ -57,6 +57,13 @@ const migrations: Record<number, Migrator> = {
             }
         }
 
+        if (settings?.privacy) {
+            if ("alwaysProxy" in settings.privacy) {
+                out.save!.alwaysProxy = settings.privacy.alwaysProxy;
+                delete settings.privacy.alwaysProxy;
+            }
+        }
+
         return out as AllPartialSettingsWithSchema;
     },
 };
