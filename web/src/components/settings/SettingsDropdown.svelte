@@ -157,10 +157,4 @@
         background: initial;
         border: initial;
     }
-
-    @media (hover: hover) {
-        .selector:hover {
-            background-color: var(--button-hover);
-        }
-    }
 </style>
