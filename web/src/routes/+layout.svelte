@@ -255,7 +255,7 @@
     }
 
     /* fall back to less pretty value cuz chrome doesn't support sign() */
-    :global([data-chrome]) {
+    :global([data-chrome="true"]) {
         --sidebar-height-mobile: calc(50px + env(safe-area-inset-bottom));
     }
 
