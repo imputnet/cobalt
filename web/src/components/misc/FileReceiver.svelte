@@ -40,7 +40,7 @@
 <div class="open-file-container" class:dragged-over={draggedOver}>
     <Meowbalt emotion="question" />
 
-    <button class="open-file-button" on:click={openFile}>
+    <button class="button open-file-button" on:click={openFile}>
         <div class="dashed-stroke">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="none" rx="24" ry="24" />

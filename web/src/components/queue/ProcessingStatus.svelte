@@ -12,6 +12,7 @@
 <button
     id="processing-status"
     on:click={expandAction}
+    class="button"
     class:completed={progress >= 100}
 >
     <svg
