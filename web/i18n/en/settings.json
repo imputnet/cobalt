@@ -73,7 +73,7 @@
     "metadata.filename.nerdy": "nerdy",
     "metadata.filename.description": "filename style will only be used for files tunneled by cobalt. some services don't support filename styles other than classic.",
 
-    "metadata.filename.preview.video": "Video Title",
+    "metadata.filename.preview.video": "Video Title - Video Author",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
 
     "metadata.file": "file metadata",
