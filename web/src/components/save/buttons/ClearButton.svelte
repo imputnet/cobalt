@@ -7,6 +7,7 @@
 
 <button
     id="clear-button"
+    class="button"
     on:click={click}
     aria-label={$t("a11y.save.clear_input")}
 >
