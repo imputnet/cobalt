@@ -121,8 +121,8 @@
         --focus-ring: 0 0 0 2px var(--blue) inset;
 
         --button: #f4f4f4;
-        --button-hover: #e8e8e8;
-        --button-press: #e2e2e2;
+        --button-hover: #ededed;
+        --button-press: #e8e8e8;
         --button-active-hover: #2a2a2a;
 
         --button-hover-transparent: rgba(0, 0, 0, 0.06);
