@@ -31,24 +31,42 @@
     export let showInstanceWarning = false;
 
     const regex = {
-        url: "https?:\\/\\/[a-z0-9.\\-]+(:\\d+)?/?",
         uuid: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
     };
 
     let input: HTMLInputElement;
     let inputValue: string = String(get(settings)[settingContext][settingId]);
     let inputFocused = false;
-    let validInput = false;
+    let validInput = true;
 
     let inputHidden = true;
 
     $: inputType = sensitive && inputHidden ? "password" : "text";
 
     const checkInput = () => {
-        validInput = input.checkValidity() || inputValue === "";
+        // mark input as valid if it's empty to allow wiping
+        if (inputValue.length === 0) {
+            validInput = true;
+            return;
+        }
+
+        if (type === "url") {
+            try {
+                new URL(inputValue)?.origin?.toString();
+                validInput = true;
+                return;
+            } catch {
+                validInput = false;
+                return;
+            }
+        } else {
+            validInput = new RegExp(regex[type]).test(inputValue);
+        }
     }
 
     const writeToSettings = (value: string, type: SettingsInputType) => {
+        // we assume that the url is valid and error can't be thrown here
+        // since it was tested before by checkInput()
         updateSetting({
             [settingContext]: {
                 [settingId]:
@@ -63,7 +81,7 @@
             await customInstanceWarning();
 
             if ($settings.processing.seenCustomWarning) {
-                // allow writing empty strings
+                // fall back to uuid to allow writing empty strings
                 return writeToSettings(inputValue, inputValue ? type : "uuid");
             }
 
@@ -81,7 +99,7 @@
         aria-hidden="false"
     >
         <input
-            id="input-box"
+            class="input-box"
             bind:this={input}
             bind:value={inputValue}
             on:input={() => {
@@ -94,9 +112,9 @@
             autocomplete="off"
             autocapitalize="off"
             maxlength="64"
-            pattern={regex[type]}
             aria-label={altText}
             aria-hidden="false"
+            aria-invalid={!validInput}
             {...{ type: inputType }}
         />
 
@@ -182,20 +200,20 @@
     }
 
     #input-container,
-    #input-box {
-        font-size: 13.5px;
+    .input-box {
+        font-size: 13px;
         font-weight: 500;
         min-width: 0;
     }
 
-    #input-box {
+    .input-box {
         flex: 1;
         background-color: transparent;
         color: var(--secondary);
         border: none;
         padding-block: 0;
         padding-inline: 0;
-        padding: 12px 0;
+        padding: 11.5px 0;
     }
 
     .input-placeholder {
@@ -205,7 +223,7 @@
         white-space: nowrap;
     }
 
-    #input-box:focus-visible {
+    .input-box:focus-visible {
         box-shadow: unset !important;
     }
 
@@ -220,8 +238,7 @@
     }
 
     .settings-input-button {
-        height: 42px;
-        width: 42px;
+        width: 40px;
         padding: 0;
     }
 
