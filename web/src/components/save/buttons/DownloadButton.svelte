@@ -69,7 +69,9 @@
         min-width: 48px;
 
         border-radius: 0;
-        padding: 0 12px;
+
+        /* visually align the button, +1.5px because of inset box-shadow on parent */
+        padding: 0 13.5px 0 12px;
 
         background: none;
         box-shadow: none;
@@ -109,7 +111,7 @@
 
     #download-button:disabled {
         cursor: unset;
-        opacity: 0.7;
+        color: var(--gray);
     }
 
     :global(#input-container.focused) #download-button {
@@ -122,11 +124,12 @@
     }
 
     @media (hover: hover) {
-        #download-button:hover {
+        #download-button:hover:not(:disabled) {
             background: var(--button-hover-transparent);
         }
-        #download-button:disabled:hover {
-            background: none;
-        }
+    }
+
+    #download-button:active:not(:disabled) {
+        background: var(--button-press-transparent);
     }
 </style>
