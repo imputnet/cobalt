@@ -3,10 +3,39 @@
     import IconLoader2 from "@tabler/icons-svelte/IconLoader2.svelte";
 
     export let loading: boolean;
+    export let animated = !!loading;
+
+    /*
+        initial spinner state is equal to loading state,
+        just so it's animated on init (or not).
+        on transition start, it overrides the value
+        to start spinning (to prevent zooming in with no spinning).
+
+        then, on transition end, when the spinner is hidden,
+        and if loading state is false, the class is removed
+        and the spinner doesn't spin in background while being invisible.
+
+        if loading state is true, then it will just stay spinning
+        (aka when it's visible and should be spinning).
+
+        the spin on transition start is needed for the whirlpool effect
+        of the link icon being sucked into the spinner.
+
+        this may be unnecessarily complicated but i think it looks neat.
+    */
 </script>
 
 <div id="input-icons" class:loading>
-    <div class="input-icon spinner-icon">
+    <div
+        class="input-icon spinner-icon"
+        class:animated
+        on:transitionstart={() => {
+            animated = true;
+        }}
+        on:transitionend={() => {
+            animated = !!loading;
+        }}
+    >
         <IconLoader2 />
     </div>
     <div class="input-icon link-icon">
@@ -49,12 +78,12 @@
         opacity: 0;
     }
 
-    .spinner-icon :global(svg) {
+    .spinner-icon.animated :global(svg) {
         animation: spin 0.7s infinite linear;
     }
 
     .loading .link-icon :global(svg) {
-        animation: spin 0.7s infinite linear;
+        animation: spin 0.7s linear;
     }
 
     .loading .link-icon {
