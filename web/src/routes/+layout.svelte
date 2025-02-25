@@ -177,7 +177,7 @@
         --safe-area-inset-top: env(safe-area-inset-top);
         --safe-area-inset-bottom: env(safe-area-inset-bottom);
 
-        --switcher-padding: 4px;
+        --switcher-padding: 3.5px;
 
         /* used for fading the tab bar on scroll */
         --sidebar-mobile-gradient: linear-gradient(
