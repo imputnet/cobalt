@@ -129,7 +129,7 @@
         --button-press-transparent: rgba(0, 0, 0, 0.09);
         --button-stroke: rgba(0, 0, 0, 0.06);
         --button-text: #282828;
-        --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+        --button-box-shadow: 0 0 0 1px var(--button-stroke) inset;
 
         --button-elevated: #e3e3e3;
         --button-elevated-hover: #dadada;
@@ -171,7 +171,7 @@
             )
         );
 
-        --content-border-thickness: 1.5px;
+        --content-border-thickness: 1px;
         --content-margin: calc(var(--sidebar-inner-padding) + var(--content-border-thickness));
 
         --safe-area-inset-top: env(safe-area-inset-top);
@@ -223,7 +223,7 @@
         --button-press-transparent: rgba(225, 225, 225, 0.15);
         --button-stroke: rgba(255, 255, 255, 0.05);
         --button-text: #e1e1e1;
-        --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
+        --button-box-shadow: 0 0 0 1px var(--button-stroke) inset;
 
         --button-elevated: #282828;
         --button-elevated-hover: #2f2f2f;

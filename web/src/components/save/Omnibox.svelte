@@ -243,8 +243,8 @@
     }
 
     #input-container.focused {
-        box-shadow: 0 0 0 1.5px var(--secondary) inset;
-        outline: var(--secondary) 0.5px solid;
+        box-shadow: 0 0 0 1px var(--secondary) inset;
+        outline: var(--secondary) 1px solid;
     }
 
     #input-container.focused :global(#input-icons svg) {

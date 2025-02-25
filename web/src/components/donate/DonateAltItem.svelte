@@ -88,7 +88,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border-right: 1.5px var(--button-stroke) solid;
+        border-right: 1px var(--button-stroke) solid;
         margin-left: 3px;
     }
 

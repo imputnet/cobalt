@@ -133,7 +133,7 @@
         .subnav-tab:not(:last-child) {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
-            box-shadow: 48px 3px 0px -1.8px var(--button-stroke);
+            box-shadow: 48px 3px 0px -2px var(--button-stroke);
         }
 
         .subnav-tab:not(:first-child) {

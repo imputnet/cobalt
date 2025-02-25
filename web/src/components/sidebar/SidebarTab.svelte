@@ -138,7 +138,7 @@
         .sidebar-tab:active:not(.active),
         .sidebar-tab:focus:hover:not(.active) {
             opacity: 1;
-            box-shadow: 0 0 0 1.5px var(--sidebar-stroke) inset;
+            box-shadow: 0 0 0 1px var(--sidebar-stroke) inset;
         }
     }
 
