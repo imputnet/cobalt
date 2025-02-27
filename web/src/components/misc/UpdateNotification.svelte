@@ -1,11 +1,19 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
+
+    let dismissed = false;
 </script>
 
 <div id="update-notification" role="alert" aria-atomic="true">
-    <button class="button update-button" on:click={() => window.location.reload()}>
+    <button
+        class="button update-button"
+        class:visible={!dismissed}
+        on:click={() => {
+            dismissed = true;
+            window.location.reload()
+        }}
+    >
         <div class="update-icon">
             <IconComet />
         </div>
@@ -38,7 +46,13 @@
             var(--button-box-shadow),
             0 0 10px 0px var(--button-elevated-hover);
         border-radius: 14px;
-        animation: slide-in-top 0.4s;
+
+        transform: translateY(-150px);
+        transition: transform 0.4s cubic-bezier(0.53, 0.05, 0.23, 1.15);
+    }
+
+    .update-button.visible {
+        transform: none;
     }
 
     .update-icon {
@@ -75,33 +89,15 @@
         line-height: 1.2;
     }
 
-    @keyframes slide-in-top {
-        from {
-            transform: translateY(-150px);
-        }
-        100% {
-            transform: none;
-        }
-    }
-
     @media screen and (max-width: 535px) {
         #update-notification {
             bottom: calc(var(--sidebar-height-mobile) + 5px);
             justify-content: center;
-            animation: slide-in-bottom 0.4s;
         }
 
         .update-button {
+            transform: translateY(300px);
             margin-right: var(--padding);
-        }
-
-        @keyframes slide-in-bottom {
-            from {
-                transform: translateY(300px);
-            }
-            100% {
-                transform: none;
-            }
         }
     }
 </style>
