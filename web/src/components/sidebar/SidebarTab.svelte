@@ -112,6 +112,10 @@
         white-space: nowrap;
     }
 
+    .sidebar-tab:active:not(.active) {
+        opacity: 1;
+    }
+
     @keyframes pressButton {
         0% {
             transform: scale(0.9);
@@ -134,7 +138,10 @@
             background-color: var(--button-press-transparent);
         }
 
-        .sidebar-tab:hover:not(.active),
+        .sidebar-tab:hover:not(.active) {
+            opacity: 1;
+        }
+
         .sidebar-tab:active:not(.active),
         .sidebar-tab:focus:hover:not(.active) {
             opacity: 1;
