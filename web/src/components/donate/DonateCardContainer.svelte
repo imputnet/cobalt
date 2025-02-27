@@ -57,6 +57,10 @@
         }
     }
 
+    :global(.donate-card button:active) {
+        background: rgba(255, 255, 255, 0.125);
+    }
+
     :global(.donate-card button.selected) {
         background: rgba(255, 255, 255, 0.15);
     }
