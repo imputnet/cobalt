@@ -85,7 +85,7 @@
     const scroll = (direction: "left" | "right") => {
         const currentPos = donateList.scrollLeft;
         const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width;
-        const newPos = direction === "left" ? currentPos - 150 : currentPos + 150;
+        const newPos = direction === "left" ? currentPos - 250 : currentPos + 250;
 
         donateList.scroll({
             left: newPos,
@@ -285,10 +285,17 @@
         width: 100%;
         border-radius: 12px;
         color: var(--white);
-        background-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
         align-items: center;
         gap: 4px;
+
+    }
+
+    @media (hover: hover) {
+        #input-container:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
     }
 
     #input-dollar-sign {
@@ -336,7 +343,6 @@
 
     #donation-custom-submit {
         color: var(--white);
-        background-color: rgba(255, 255, 255, 0.1);
         aspect-ratio: 1/1;
         padding: 0px 10px;
     }
