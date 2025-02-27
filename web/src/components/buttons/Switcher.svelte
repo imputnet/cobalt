@@ -87,6 +87,10 @@
         background-color: transparent;
     }
 
+    .switcher.big :global(.button:active:not(.active)) {
+        box-shadow: var(--button-box-shadow);
+    }
+
     .switcher:not(.big) :global(.button:not(:first-child, :last-child)) {
         border-radius: 0;
     }
