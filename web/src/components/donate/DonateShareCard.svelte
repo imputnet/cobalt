@@ -176,7 +176,7 @@
     .action-button {
         align-items: center;
         width: 100%;
-        padding: 0 10px;
+        padding: 0 6px;
         font-size: 13px;
         gap: 2px;
     }
