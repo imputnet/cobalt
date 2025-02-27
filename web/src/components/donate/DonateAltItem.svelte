@@ -21,7 +21,7 @@
 
 <div class="wallet-holder">
     <button
-        class="wallet"
+        class="button wallet"
         aria-label={$t(`donate.alt.${type}`, {
             value: name,
         })}
