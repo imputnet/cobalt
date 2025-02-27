@@ -47,22 +47,20 @@
         box-shadow: none;
     }
 
-    :global(.donate-card button:active) {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
     @media (hover: hover) {
-        :global(.donate-card button:hover) {
+        :global(.donate-card button:hover:not(.selected)) {
             background: rgba(255, 255, 255, 0.1);
         }
     }
 
-    :global(.donate-card button:active) {
+    :global(.donate-card button:active:not(.selected)),
+    :global(.donate-card button:hover:active:not(.selected)) {
         background: rgba(255, 255, 255, 0.125);
     }
 
     :global(.donate-card button.selected) {
         background: rgba(255, 255, 255, 0.15);
+        cursor: default;
     }
 
     :global(.donate-card button.selected:not(:focus-visible)) {
