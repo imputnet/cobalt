@@ -48,13 +48,12 @@
     }
 
     @media (hover: hover) {
-        :global(.donate-card button:hover:not(.selected)) {
+        :global(.donate-card button:hover:not(.selected):not(.scroll-button)) {
             background: rgba(255, 255, 255, 0.1);
         }
     }
 
-    :global(.donate-card button:active:not(.selected)),
-    :global(.donate-card button:hover:active:not(.selected)) {
+    :global(.donate-card button:active:not(.selected):not(.scroll-button)) {
         background: rgba(255, 255, 255, 0.125);
     }
 
