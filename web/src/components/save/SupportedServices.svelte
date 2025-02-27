@@ -40,6 +40,7 @@
 <div id="supported-services" class:expanded>
     <button
         id="services-button"
+        class="button"
         on:click={popover?.showPopover}
         aria-label={$t(`save.services.title_${expanded ? "hide" : "show"}`)}
     >
@@ -101,9 +102,10 @@
         font-size: 13px;
         font-weight: 500;
         background: none;
+        transition: background 0.2s, box-shadow 0.1s;
     }
 
-    #services-button:not(:focus-visible) {
+    #services-button:not(:focus-visible):not(:active) {
         box-shadow: none;
     }
 
@@ -117,17 +119,35 @@
         background: var(--button-elevated);
         padding: 0;
         box-shadow: none;
-        transition: transform 0.2s;
+        transition: background 0.2s, transform 0.2s;
     }
 
-    #services-button:active .expand-icon {
-        background: var(--button-elevated-hover);
+    #services-button:active {
+        background: var(--button-hover-transparent);
     }
 
     @media (hover: hover) {
+        #services-button:hover {
+            background: var(--button-hover-transparent);
+        }
+
+        #services-button:active {
+            background: var(--button-press-transparent);
+        }
+
         #services-button:hover .expand-icon {
             background: var(--button-elevated-hover);
         }
+    }
+
+    @media (hover: none) {
+        #services-button:active {
+            box-shadow: none;
+        }
+    }
+
+    #services-button:active .expand-icon {
+        background: var(--button-elevated-press);
     }
 
     .expand-icon :global(svg) {
