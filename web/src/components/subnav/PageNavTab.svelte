@@ -102,7 +102,6 @@
     @media (hover: hover) {
         .subnav-tab:hover {
             background: var(--button-hover-transparent);
-            box-shadow: var(--button-box-shadow);
         }
     }
 
