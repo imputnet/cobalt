@@ -81,5 +81,11 @@
         padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);
         overflow: scroll;
+
+        transition: background 0.1s, box-shadow 0.1s;
+    }
+
+    .toggle-container:active {
+        box-shadow: var(--button-box-shadow), 0 0 0 1.5px var(--button-stroke) inset;
     }
 </style>
