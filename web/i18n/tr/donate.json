@@ -1,0 +1,37 @@
+{
+    "banner.title": "güvenli ve açık bir\ninternet'i destekleyin",
+    "banner.subtitle": "imput'a bağış yapın veya\ncobalt'ın keyfini bir arkadaşınızla paylaşın",
+
+    "body.motivation": "cobalt, içerik üreticilere, eğitmenlere, video yapımcılarına ve daha birçok kişiye sevdikleri işi yapmaları için yardımcı olur. bu, kâr amacı gütmeyen, sevgiyle yapılmış farklı bir hizmettir.",
+    "body.no_bullshit": "internetin korkutucu olması gerekmediğine inanıyoruz, bu yüzden cobalt asla reklam veya zararlı içerikler barındırmayacak. bu, sıkı sıkıya bağlı olduğumuz bir söz. yaptığımız her şey gizlilik, erişilebilirlik ve kullanım kolaylığı düşünülerek inşa edilir, böylece cobalt herkes için ulaşılabilir olur.",
+    "body.keep_going": "cobalt'ı faydalı bulduysanız, çalışmamızı desteklemeyi düşünün! bize bağış yaparak veya cobalt'ı bir arkadaşınızla paylaşarak yardımcı olabilirsiniz. her bağış büyük bir minnettarlıkla karşılanır ve cobalt ile diğer projeler üzerinde çalışmaya devam etmemizi sağlar.",
+
+    "card.once": "tek seferlik bağış",
+    "card.recurring": "tekrarlayan bağış",
+    "card.custom": "özel tutar (2$'dan itibaren)",
+
+    "card.processor": "{{value}} üzerinden",
+
+    "card.option.5": "bir fincan kahve",
+    "card.option.10": "tam boy pizza",
+    "card.option.15": "tam öğün yemek",
+    "card.option.30": "iki kişilik yemek",
+    "card.option.50": "10 kg kedi maması",
+    "card.option.100": "bir yıllık alan adı",
+    "card.option.200": "hava fritözü",
+    "card.option.500": "lüks ofis sandalyesi",
+    "card.option.1599": "temel macbook pro",
+    "card.option.4900": "10.000 elma",
+    "card.option.7398": "maksimum özellikli macbook pro",
+    "card.option.8629": "küçük bir arsa",
+    "card.option.9433": "lüks jakuzi",
+
+    "card.custom.submit": "özel tutarda bağış yap",
+
+    "share.title": "cobalt'ı bir arkadaşınızla paylaşın",
+
+    "alternative.title": "bağış yapmanın alternatif yolları",
+
+    "alt.copy": "{{ value }}. kripto cüzdan adresi. kopyalamak için dokunun.",
+    "alt.open": "{{ value }}. açmak için dokunun."
+}

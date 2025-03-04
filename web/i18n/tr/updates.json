@@ -1,0 +1,4 @@
+{
+    "button.next": "daha eski değişiklik günlüğüne git ({{ value }})",
+    "button.previous": "daha yeni değişiklik günlüğüne git ({{ value }})"
+}

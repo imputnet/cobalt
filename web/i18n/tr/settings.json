@@ -1,0 +1,126 @@
+{
+    "page.appearance": "görünüm",
+    "page.privacy": "gizlilik",
+    "page.video": "video",
+    "page.audio": "ses",
+    "page.download": "indirme",
+    "page.advanced": "gelişmiş",
+    "page.debug": "geliştirici bilgisi",
+    "page.instances": "örnekler",
+
+    "section.general": "genel",
+    "section.save": "kaydet",
+
+    "theme": "tema",
+    "theme.auto": "otomatik",
+    "theme.light": "açık",
+    "theme.dark": "karanlık",
+    "theme.description": "otomatik tema, cihazınızın ekran moduna bağlı olarak açık ve karanlık temalar arasında geçiş yapar.",
+
+    "video.quality": "video kalitesi",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "tercih edilen video kalitesi mevcut değilse, bir sonraki en iyi seçenek seçilir.",
+
+    "video.youtube.codec": "youtube codec ve konteyneri",
+    "video.youtube.codec.description": "h264: en iyi uyumluluk, ortalama kalite. maksimum kalite 1080p. \nav1: en iyi kalite ve verimlilik. 8k ve HDR destekler. \nvp9: av1 ile aynı kalite, ancak dosya yaklaşık 2 kat daha büyük. 4k ve HDR destekler.\n\nav1 ve vp9, h264 kadar yaygın olarak desteklenmez. av1 veya vp9 mevcut değilse, h264 kullanılır.",
+
+    "video.youtube.hls": "youtube hls formatları",
+    "video.youtube.hls.title": "video ve ses için hls tercih et",
+    "video.youtube.hls.description": "dosyalar daha hızlı indirilir ve hatalara veya aniden kesilmeye karşı daha dayanıklıdır. bu modda yalnızca h264 ve vp9 codec'leri mevcuttur. orijinal ses codec'i aac olup, uyumluluk için yeniden kodlanır, ses kalitesi hls olmayan karşılığından biraz daha düşük olabilir.\n\nbu seçenek deneyseldir, gelecekte kaldırılabilir veya değişebilir.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "dönüşümlü videoları GIF'e çevir",
+    "video.twitter.gif.description": "GIF dönüşümü verimsizdir, dönüştürülmüş dosya çok büyük ve düşük kaliteli olabilir.",
+
+    "video.h265": "yüksek verimli video codec'i",
+    "video.h265.title": "videolar için h265'i etkinleştir",
+    "video.h265.description": "TikTok ve Xiaohongshu gibi platformlardan videoların daha yüksek kalitede indirilmesine olanak tanır, ancak uyumluluk açısından maliyeti vardır.",
+
+    "audio.format": "ses formatı",
+    "audio.format.best": "en iyi",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "\"en iyi\" dışındaki tüm formatlar, kaynak formattan dönüştürülür, kalite kaybı olabilir. \"en iyi\" formatı seçildiğinde, ses mümkün olduğunca orijinal formatında korunur.",
+
+    "audio.bitrate": "ses bit hızı",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "bit hızı yalnızca sesin kayıplı formata dönüştürülmesi sırasında uygulanır. cobalt, kaynak ses kalitesini iyileştiremez, bu nedenle 128kbps üzerindeki bit hızı seçimi, işitsel fark olmaksızın dosya boyutunu şişirebilir. algılanan kalite formatlara göre değişebilir.",
+
+    "audio.youtube.dub": "youtube ses parçası",
+    "audio.youtube.dub.title": "tercih edilen dublaj dili",
+    "audio.youtube.dub.description": "cobalt, seçilen dilde bir dublajlı ses parçası kullanacaktır, eğer mevcutsa. mevcut değilse, orijinal ses kullanılacaktır.",
+    "youtube.dub.original": "orijinal",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "orijinal sesi indir",
+    "audio.tiktok.original.description": "cobalt, video içeriğinden herhangi bir değişiklik yapmadan ses dosyasını indirecektir.",
+
+    "metadata.filename": "dosya adı stili",
+    "metadata.filename.classic": "klasik",
+    "metadata.filename.basic": "temel",
+    "metadata.filename.pretty": "güzel",
+    "metadata.filename.nerdy": "nerd",
+    "metadata.filename.description": "dosya adı stili yalnızca cobalt tarafından tünellenmiş dosyalar için kullanılacaktır. bazı hizmetler, klasik dışında dosya adı stilini desteklemez.",
+
+    "metadata.filename.preview.video": "Video Başlığı",
+    "metadata.filename.preview.audio": "Ses Başlığı - Ses Yazar",
+
+    "metadata.file": "dosya meta verisi",
+    "metadata.disable.title": "dosya meta verisini devre dışı bırak",
+    "metadata.disable.description": "başlık, sanatçı ve diğer bilgiler dosyaya eklenmeyecektir.",
+
+    "saving.title": "kaydetme yöntemi",
+    "saving.ask": "sor",
+    "saving.download": "indir",
+    "saving.share": "paylaş",
+    "saving.copy": "kopyala",
+    "saving.description": "cobalt'tan dosya veya bağlantı kaydetmenin tercih edilen yolu. tercihler mevcut değilse veya bir şey ters giderse, cobalt size ne yapmanız gerektiğini soracaktır.",
+
+    "accessibility": "erişilebilirlik",
+    "accessibility.transparency.title": "görsel saydamlığı azalt",
+    "accessibility.transparency.description": "yüzeylerin saydamlığını azaltır ve bulanıklık efektlerini devre dışı bırakır. düşük performanslı cihazlarda kullanıcı arabirimi performansını da artırabilir.",
+    "accessibility.motion.title": "hareketi azalt",
+    "accessibility.motion.description": "mümkün olduğunda animasyonları ve geçişleri devre dışı bırakır.",
+
+    "language": "dil",
+    "language.auto.title": "otomatik seçim",
+    "language.auto.description": "cobalt, eğer çeviri mevcutsa, tarayıcınızın varsayılan dilini kullanacaktır. eğer değilse, ingilizce kullanılacaktır.",
+    "language.preferred.title": "tercih edilen dil",
+    "language.preferred.description": "otomatik seçim devre dışı bırakıldığında bu dil kullanılacaktır. çevrilmemiş herhangi bir metin ingilizce olarak görüntülenecektir.\n\nbazı diller, topluluk tarafından sağlanan çevirileri kullanır, bu çeviriler yanlış veya eksik olabilir.",
+
+    "privacy.analytics": "anonim trafik analizleri",
+    "privacy.analytics.title": "analizlere katkıda bulunma",
+    "privacy.analytics.description": "anonim trafik analizleri, aktif cobalt kullanıcılarının yaklaşık sayısını almak için gereklidir. sizinle ilgili herhangi bir kimlik bilgisi asla saklanmaz. işlenen veriler anonimleştirilmiş ve toplanmış halde olur.\n\nkendi barındırdığımız plausible örneğini kullanıyoruz, bu sistem çerez kullanmaz ve GDPR, CCPA, PECR ile tamamen uyumludur.",
+    "privacy.analytics.learnmore": "plausible'ın gizliliğe olan bağlılığı hakkında daha fazla bilgi edinin.",
+
+    "privacy.tunnel": "tünelleme",
+    "privacy.tunnel.title": "dosyaları her zaman tünelle",
+    "privacy.tunnel.description": "cobalt, ip adresinizi, tarayıcı bilgilerinizi gizler ve yerel ağ kısıtlamalarını aşar. etkinleştirildiğinde, dosyalar da başka türlü anlamsız olacak dosya adlarına sahip olur.",
+
+    "advanced.debug": "hata ayıklama",
+    "advanced.debug.title": "geliştirici özelliklerini etkinleştir",
+    "advanced.debug.description": "hata ayıklama için faydalı olabilecek uygulama bilgilerine kolay erişim sağlar. bunu etkinleştirmek cobalt'ın işlevselliğini hiçbir şekilde etkilemez.",
+
+    "advanced.data": "veri yönetimi",
+
+    "processing.community": "topluluk örnekleri",
+    "processing.enable_custom.title": "özel bir işleme sunucusu kullan",
+    "processing.enable_custom.description": "cobalt, seçmeniz durumunda özel bir işleme örneği kullanacaktır. cobalt bazı güvenlik önlemleri almış olsa da, topluluk örnekleri üzerinde herhangi bir kontrolümüz olmadığından bu tür bir örnek üzerinden oluşabilecek hasarlardan sorumlu değiliz.\n\nkullandığınız örnekler konusunda dikkatli olun ve bunların güvendiğiniz kişiler tarafından barındırıldığından emin olun.",
+
+    "processing.access_key": "örnek erişim anahtarı",
+    "processing.access_key.title": "örnek erişim anahtarını kullan",
+    "processing.access_key.description": "cobalt, bu anahtarı kullanarak işleme örneğine isteklerde bulunacaktır. örneğin api anahtarlarını desteklediğinden emin olun!",
+
+    "processing.custom_instance.input.alt_text": "özel örnek alan adı",
+    "processing.access_key.input.alt_text": "u-u-i-d erişim anahtarı"
+}
