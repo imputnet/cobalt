@@ -1,7 +1,10 @@
 import { type CobaltSettingsV4 } from "$lib/types/settings/v4";
 
-export type CobaltSettingsV5 = Omit<CobaltSettingsV4, 'schemaVersion' | 'advanced' | 'save' | 'privacy'> & {
+export type CobaltSettingsV5 = Omit<CobaltSettingsV4, 'schemaVersion' | 'advanced' | 'save' | 'privacy' | 'appearance'> & {
     schemaVersion: 5,
+    appearance: CobaltSettingsV4['appearance'] & {
+        disableHaptics: boolean;
+    },
     advanced: CobaltSettingsV4['advanced'] & {
         useWebCodecs: boolean;
     },

@@ -13,6 +13,7 @@ const defaultSettings: CobaltSettings = {
         autoLanguage: true,
         reduceMotion: false,
         reduceTransparency: false,
+        disableHaptics: false,
     },
     save: {
         alwaysProxy: false,
