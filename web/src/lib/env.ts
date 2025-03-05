@@ -14,6 +14,8 @@ const variables = {
     PLAUSIBLE_HOST: getEnv('PLAUSIBLE_HOST'),
     PLAUSIBLE_ENABLED: getEnv('HOST') && getEnv('PLAUSIBLE_HOST'),
     DEFAULT_API: getEnv('DEFAULT_API'),
+    // temporary variable until webcodecs features are ready for testing
+    ENABLE_WEBCODECS: !!getEnv('ENABLE_WEBCODECS'),
 }
 
 const contacts = {
