@@ -3,6 +3,7 @@
 
     import { onDestroy } from "svelte";
     import { t } from "$lib/i18n/translations";
+    import { hapticSwitch } from "$lib/haptics";
     import { savingHandler } from "$lib/api/saving-handler";
     import { downloadButtonState } from "$lib/state/omnibox";
 
@@ -17,35 +18,37 @@
 
     type DownloadButtonState = "idle" | "think" | "check" | "done" | "error";
 
-    const unsubscribe = downloadButtonState.subscribe((state: CobaltDownloadButtonState) => {
-        disabled = state !== "idle";
-        loading = state === "think" || state === "check";
+    const unsubscribe = downloadButtonState.subscribe(
+        (state: CobaltDownloadButtonState) => {
+            disabled = state !== "idle";
+            loading = state === "think" || state === "check";
 
-        buttonText = {
-            idle: ">>",
-            think: "...",
-            check: "..?",
-            done: ">>>",
-            error: "!!",
-        }[state];
+            buttonText = {
+                idle: ">>",
+                think: "...",
+                check: "..?",
+                done: ">>>",
+                error: "!!",
+            }[state];
 
-        buttonAltText = $t(
-            {
-                idle: "a11y.save.download",
-                think: "a11y.save.download.think",
-                check: "a11y.save.download.check",
-                done: "a11y.save.download.done",
-                error: "a11y.save.download.error",
-            }[state]
-        );
+            buttonAltText = $t(
+                {
+                    idle: "a11y.save.download",
+                    think: "a11y.save.download.think",
+                    check: "a11y.save.download.check",
+                    done: "a11y.save.download.done",
+                    error: "a11y.save.download.error",
+                }[state]
+            );
 
-        // states that don't wait for anything, and thus can
-        // transition back to idle after some period of time.
-        const final: DownloadButtonState[] = ["done", "error"];
-        if (final.includes(state)) {
-            setTimeout(() => downloadButtonState.set("idle"), 1500);
+            // states that don't wait for anything, and thus can
+            // transition back to idle after some period of time.
+            const final: DownloadButtonState[] = ["done", "error"];
+            if (final.includes(state)) {
+                setTimeout(() => downloadButtonState.set("idle"), 1500);
+            }
         }
-    });
+    );
 
     onDestroy(() => unsubscribe());
 </script>
@@ -53,7 +56,10 @@
 <button
     id="download-button"
     {disabled}
-    on:click={() => savingHandler(url)}
+    on:click={() => {
+        hapticSwitch();
+        savingHandler(url);
+    }}
     aria-label={buttonAltText}
 >
     <span id="download-state">{buttonText}</span>
