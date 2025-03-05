@@ -33,3 +33,11 @@ export const hapticConfirm = () => {
     hapticSwitch();
     setTimeout(() => hapticSwitch(), 120);
 }
+
+export const hapticError = () => {
+    if (!canUseHaptics()) return;
+
+    hapticSwitch();
+    setTimeout(() => hapticSwitch(), 120);
+    setTimeout(() => hapticSwitch(), 240);
+}
