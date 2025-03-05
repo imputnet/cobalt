@@ -1,5 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
+    import { hapticConfirm } from "$lib/haptics";
     import { copyURL, openURL } from "$lib/download";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
@@ -27,8 +28,11 @@
         })}
         on:click={() => {
             if (type === "copy") {
-                copied = true;
-                copyURL(address);
+                if (!copied) {
+                    copyURL(address);
+                    hapticConfirm();
+                    copied = true;
+                }
             } else {
                 openURL(address);
             }

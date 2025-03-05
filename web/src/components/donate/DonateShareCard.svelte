@@ -3,6 +3,7 @@
     import { device } from "$lib/device";
     import locale from "$lib/i18n/locale";
     import { t } from "$lib/i18n/translations";
+    import { hapticConfirm } from "$lib/haptics";
 
     import { openURL, copyURL, shareURL } from "$lib/download";
 
@@ -51,8 +52,11 @@
                 id="action-button-copy"
                 class="action-button"
                 on:click={async () => {
-                    copyURL(cobaltUrl);
-                    copied = true;
+                    if (!copied) {
+                        copyURL(cobaltUrl);
+                        hapticConfirm();
+                        copied = true;
+                    }
                 }}
                 aria-label={copied ? $t("button.copied") : ""}
             >

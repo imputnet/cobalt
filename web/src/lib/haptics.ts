@@ -2,10 +2,10 @@ import { device } from "$lib/device";
 
 // not sure if vibrations feel the same on android,
 // so they're enabled only on ios 18+ for now
-const shouldVibrate = device.is.modernIOS;
+const useHaptics = device.is.modernIOS;
 
 export const hapticSwitch = () => {
-    if (!shouldVibrate) return;
+    if (!useHaptics) return;
 
     try {
         const label = document.createElement("label");
@@ -23,4 +23,11 @@ export const hapticSwitch = () => {
     } catch {
         // ignore
     }
+}
+
+export const hapticConfirm = () => {
+    if (!useHaptics) return;
+
+    hapticSwitch();
+    setTimeout(() => hapticSwitch(), 120);
 }

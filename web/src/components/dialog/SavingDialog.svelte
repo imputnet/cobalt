@@ -2,6 +2,7 @@
     import { t } from "$lib/i18n/translations";
 
     import { device } from "$lib/device";
+    import { hapticConfirm } from "$lib/haptics";
     import {
         copyURL,
         openURL,
@@ -101,8 +102,11 @@
                         fill
                         elevated
                         click={async () => {
-                            copyURL(url);
-                            copied = true;
+                            if (!copied) {
+                                copyURL(url);
+                                hapticConfirm();
+                                copied = true;
+                            }
                         }}
                         ariaLabel={copied ? $t("button.copied") : ""}
                     >

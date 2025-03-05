@@ -1,7 +1,5 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import { copyURL as _copyURL } from "$lib/download";
-
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 
     export let title: string;

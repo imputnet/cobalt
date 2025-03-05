@@ -1,7 +1,8 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import { t } from "$lib/i18n/translations";
     import { copyURL } from "$lib/download";
+    import { t } from "$lib/i18n/translations";
+    import { hapticConfirm } from "$lib/haptics";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
 
@@ -40,8 +41,11 @@
                 ? $t("button.copied")
                 : $t(`button.copy${copyData ? "" : ".section"}`)}
             on:click={() => {
-                copied = true;
-                copyURL(copyData || sectionURL);
+                if (!copied) {
+                    copyURL(copyData || sectionURL);
+                    hapticConfirm();
+                    copied = true;
+                }
             }}
         >
             <CopyIcon check={copied} regularIcon={!!copyData} />
