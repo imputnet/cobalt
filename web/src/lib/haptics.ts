@@ -1,11 +1,13 @@
+import { get } from "svelte/store";
 import { device } from "$lib/device";
+import settings from "$lib/state/settings";
 
-// not sure if vibrations feel the same on android,
-// so they're enabled only on ios 18+ for now
-const useHaptics = device.is.modernIOS;
+const canUseHaptics = () => {
+    return device.supports.haptics && !get(settings).appearance.disableHaptics;
+}
 
 export const hapticSwitch = () => {
-    if (!useHaptics) return;
+    if (!canUseHaptics()) return;
 
     try {
         const label = document.createElement("label");
@@ -26,7 +28,7 @@ export const hapticSwitch = () => {
 }
 
 export const hapticConfirm = () => {
-    if (!useHaptics) return;
+    if (!canUseHaptics()) return;
 
     hapticSwitch();
     setTimeout(() => hapticSwitch(), 120);

@@ -11,7 +11,6 @@ const device = {
         iPhone: false,
         iPad: false,
         iOS: false,
-        modernIOS: false,
         android: false,
         mobile: false,
     },
@@ -26,6 +25,7 @@ const device = {
     supports: {
         share: false,
         directDownload: false,
+        haptics: false,
     },
     userAgent: "sveltekit server",
 }
@@ -55,7 +55,6 @@ if (browser) {
         iPhone,
         iPad,
         iOS,
-        modernIOS,
     };
 
     device.browser = {
@@ -71,6 +70,10 @@ if (browser) {
     device.supports = {
         share: navigator.share !== undefined,
         directDownload: !(installed && iOS),
+
+        // not sure if vibrations feel the same on android,
+        // so they're enabled only on ios 18+ for now
+        haptics: modernIOS,
     };
 
     device.userAgent = navigator.userAgent;
