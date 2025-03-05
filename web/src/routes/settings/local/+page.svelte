@@ -1,4 +1,5 @@
 <script lang="ts">
+    import env from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
@@ -14,11 +15,13 @@
     />
 </SettingsCategory>
 
-<SettingsCategory sectionId="webcodecs" title={$t("settings.local.webcodecs")} beta>
-    <SettingsToggle
-        settingContext="advanced"
-        settingId="useWebCodecs"
-        title={$t("settings.local.webcodecs.title")}
-        description={$t("settings.local.webcodecs.description")}
-    />
-</SettingsCategory>
+{#if env.ENABLE_WEBCODECS}
+    <SettingsCategory sectionId="webcodecs" title={$t("settings.local.webcodecs")} beta>
+        <SettingsToggle
+            settingContext="advanced"
+            settingId="useWebCodecs"
+            title={$t("settings.local.webcodecs.title")}
+            description={$t("settings.local.webcodecs.description")}
+        />
+    </SettingsCategory>
+{/if}
