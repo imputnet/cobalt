@@ -10,6 +10,7 @@
 
     import dialogs from "$lib/state/dialogs";
     import { link } from "$lib/state/omnibox";
+    import { hapticSwitch } from "$lib/haptics";
     import { updateSetting } from "$lib/state/settings";
     import { savingHandler } from "$lib/api/saving-handler";
     import { pasteLinkFromClipboard } from "$lib/clipboard";
@@ -65,6 +66,8 @@
         if ($dialogs.length > 0 || isDisabled || isLoading) {
             return;
         }
+
+        hapticSwitch();
 
         const pastedData = await pasteLinkFromClipboard();
         if (!pastedData) return;
