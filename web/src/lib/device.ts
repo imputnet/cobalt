@@ -11,6 +11,7 @@ const device = {
         iPhone: false,
         iPad: false,
         iOS: false,
+        modernIOS: false,
         android: false,
         mobile: false,
     },
@@ -35,6 +36,9 @@ if (browser) {
     const iPhone = ua.includes("iphone os");
     const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
 
+    const iosVersion = Number(ua.match(/iphone os (\d+)_/)?.[1]);
+    const modernIOS = iPhone && iosVersion >= 18;
+
     const iOS = iPhone || iPad;
     const android = ua.includes("android") || ua.includes("diordna");
 
@@ -45,11 +49,13 @@ if (browser) {
     };
 
     device.is = {
+        mobile: iOS || android,
+        android,
+
         iPhone,
         iPad,
         iOS,
-        android,
-        mobile: iOS || android,
+        modernIOS,
     };
 
     device.browser = {
