@@ -89,9 +89,11 @@
 
     "accessibility": "accessibility",
     "accessibility.transparency.title": "reduce visual transparency",
-    "accessibility.transparency.description": "reduces transparency of surfaces and disables blur effects. may also improve ui performance on low performance devices.",
+    "accessibility.transparency.description": "transparency of surfaces will be reduced and all blur effects will be disabled. may also improve ui performance on less powerful devices.",
     "accessibility.motion.title": "reduce motion",
-    "accessibility.motion.description": "disables animations and transitions whenever possible.",
+    "accessibility.motion.description": "animations and transitions will be disabled whenever possible.",
+    "accessibility.haptics.title": "disable haptics",
+    "accessibility.haptics.description": "all haptic effects will be disabled.",
 
     "language": "language",
     "language.auto.title": "automatic selection",
