@@ -83,10 +83,7 @@
         padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);
         overflow: scroll;
-
-        transition:
-            background 0.1s,
-            box-shadow 0.1s;
+        transition: box-shadow 0.1s;
     }
 
     .toggle-container:active {
