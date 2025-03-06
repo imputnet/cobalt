@@ -53,14 +53,25 @@ async function handleYoutubeStream(streamInfo, res) {
     const cleanup = () => (res.end(), closeRequest(streamInfo.controller));
 
     try {
-        const req = await fetch(streamInfo.url, {
-            headers: getHeaders('youtube'),
-            method: 'HEAD',
-            dispatcher: streamInfo.dispatcher,
-            signal
-        });
+        let req, attempts = 3;
+        while (attempts--) {
+            req = await fetch(streamInfo.url, {
+                headers: getHeaders('youtube'),
+                method: 'HEAD',
+                dispatcher: streamInfo.dispatcher,
+                signal
+            });
 
-        streamInfo.url = req.url;
+            streamInfo.url = req.url;
+            if (req.status === 403 && streamInfo.transplant) {
+                try {
+                    await streamInfo.transplant(streamInfo.dispatcher);
+                } catch {
+                    break;
+                }
+            } else break;
+        }
+
         const size = BigInt(req.headers.get('content-length'));
 
         if (req.status !== 200 || !size) {
