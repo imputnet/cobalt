@@ -3,14 +3,18 @@
     import { formatFileSize } from "$lib/util";
     import { downloadFile } from "$lib/download";
     import { removeItem } from "$lib/state/queen-bee/queue";
+    import { savingHandler } from "$lib/api/saving-handler";
 
     import type { CobaltQueueItem } from "$lib/types/queue";
+    import type { CobaltWorkerProgress } from "$lib/types/workers";
     import type { CobaltCurrentTaskItem } from "$lib/types/queen-bee";
 
     import ProgressBar from "$components/queue/ProgressBar.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
     import IconCheck from "@tabler/icons-svelte/IconCheck.svelte";
+    import IconReload from "@tabler/icons-svelte/IconReload.svelte";
+    import IconLoader2 from "@tabler/icons-svelte/IconLoader2.svelte";
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
     import IconExclamationCircle from "@tabler/icons-svelte/IconExclamationCircle.svelte";
 
@@ -29,8 +33,17 @@
     export let runningWorker: CobaltCurrentTaskItem | undefined;
     export let runningWorkerId: string | undefined;
 
-    $: progress = runningWorker?.progress;
-    $: size = formatFileSize(runningWorker?.progress?.size);
+    let retrying = false;
+
+    const retry = async (info: CobaltQueueItem) => {
+        if (info.canRetry && info.originalRequest) {
+            retrying = true;
+            await savingHandler({
+                request: info.originalRequest,
+            });
+            retrying = false;
+        }
+    };
 
     const download = (file: File) =>
         downloadFile({
@@ -38,6 +51,64 @@
                 type: info.mimeType,
             }),
         });
+
+    $: progress = runningWorker?.progress;
+    $: size = formatFileSize(runningWorker?.progress?.size);
+
+    type StatusText = {
+        info: CobaltQueueItem;
+        runningWorker: CobaltCurrentTaskItem | undefined;
+        progress: CobaltWorkerProgress | undefined;
+        size: string;
+        retrying: boolean;
+    };
+
+    const generateStatusText = ({ info, runningWorker, progress, retrying, size }: StatusText) => {
+        switch (info.state) {
+        case "running":
+            if (runningWorker) {
+                const running = $t(`queue.state.running.${runningWorker.type}`);
+                if (progress && progress.percentage) {
+                    return `${running}: ${Math.ceil(progress.percentage)}%, ${size}`;
+                }
+                else if (runningWorker && progress && size) {
+                    return `${running}: ${size}`;
+                }
+                else if (runningWorker?.type) {
+                    const starting = $t(`queue.state.starting.${runningWorker.type}`);
+
+                    if (info.pipeline.length > 1) {
+                        const currentPipeline = (info.completedWorkers?.length || 0) + 1;
+                        return `${starting} (${currentPipeline}/${info.pipeline.length})`;
+                    }
+                    return starting;
+                }
+            }
+            return $t("queue.state.starting");
+
+        case "done":
+            return formatFileSize(info.resultFile?.file?.size);
+
+        case "error":
+            return !retrying ? info.errorCode : $t("queue.state.retrying");
+
+        case "waiting":
+            return $t("queue.state.waiting");
+        }
+    };
+
+    /*
+        params are passed here because svelte will re-run
+        the function every time either of them is changed,
+        which is what we want in this case :3
+    */
+    $: statusText = generateStatusText({
+        info,
+        runningWorker,
+        progress,
+        retrying,
+        size,
+    });
 </script>
 
 <div class="processing-item">
@@ -64,48 +135,53 @@
             </div>
         {/if}
 
-        <div class="file-status {info.state}">
-            {#if info.state === "done"}
-                <IconCheck /> {formatFileSize(info.resultFile?.file?.size)}
-            {/if}
-
-            {#if info.state === "error"}
-                <IconExclamationCircle /> {info.errorCode}
-            {/if}
-
-            {#if info.state === "running"}
-                {#if info.pipeline.length > 1}
-                    {(info.completedWorkers?.length || 0) + 1}/{info.pipeline.length}
+        <div class="file-status {info.state}" class:retrying>
+            <div class="status-icon">
+                {#if info.state === "done"}
+                    <IconCheck />
                 {/if}
-                {#if runningWorker && progress && progress.percentage}
-                    {$t(`queue.state.running.${runningWorker.type}`)}: {Math.ceil(
-                        progress.percentage
-                    )}%, {size}
-                {:else if runningWorker && progress && size}
-                    {$t(`queue.state.running.${runningWorker.type}`)}: {size}
-                {:else}
-                    {$t("queue.state.starting")}
+                {#if info.state === "error" && !retrying}
+                    <IconExclamationCircle />
                 {/if}
-            {/if}
+                {#if info.state === "running" || retrying}
+                    <div class="status-spinner">
+                        <IconLoader2 />
+                    </div>
+                {/if}
+            </div>
 
-            {#if info.state === "waiting"}
-                {$t("queue.state.waiting")}
-            {/if}
+            <div class="status-text">
+                {statusText}
+            </div>
         </div>
     </div>
 
     <div class="file-actions">
         {#if info.state === "done" && info.resultFile}
             <button
-                class="action-button"
+                class="button action-button"
                 on:click={() => download(info.resultFile.file)}
             >
                 <IconDownload />
             </button>
         {/if}
-        <button class="action-button" on:click={() => removeItem(id)}>
-            <IconX />
-        </button>
+
+        {#if !retrying}
+            {#if info.state === "error" && info?.canRetry}
+                <button
+                    class="button action-button"
+                    on:click={() => retry(info)}
+                >
+                    <IconReload />
+                </button>
+            {/if}
+            <button
+                class="button action-button"
+                on:click={() => removeItem(id)}
+            >
+                <IconX />
+            </button>
+        {/if}
     </div>
 </div>
 
@@ -170,10 +246,9 @@
         line-break: anywhere;
         display: flex;
         align-items: center;
-        gap: 6px;
     }
 
-    .file-status.error {
+    .file-status.error:not(.retrying) {
         color: var(--medium-red);
     }
 
@@ -181,6 +256,29 @@
         width: 16px;
         height: 16px;
         stroke-width: 2px;
+    }
+
+    .status-icon,
+    .status-spinner,
+    .status-text {
+        display: flex;
+    }
+
+    /*
+        margin is used instead of gap cuz queued state doesn't have an icon.
+        margin is applied only to the visible icon, so there's no awkward gap.
+    */
+    .status-icon :global(svg) {
+        margin-right: 6px;
+    }
+
+    :global([dir="rtl"]) .status-icon :global(svg) {
+        margin-left: 6px;
+        margin-right: 0;
+    }
+
+    .status-spinner :global(svg) {
+        animation: spinner 0.7s infinite linear;
     }
 
     .file-actions {
@@ -201,6 +299,18 @@
 
             mask-image: linear-gradient(
                 90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(0, 0, 0, 1) 20%
+            );
+        }
+
+        :global([dir="rtl"]) .file-actions {
+            left: 0;
+            right: unset;
+            padding-left: 0;
+            padding-right: 18px;
+            mask-image: linear-gradient(
+                -90deg,
                 rgba(255, 255, 255, 0) 0%,
                 rgba(0, 0, 0, 1) 20%
             );

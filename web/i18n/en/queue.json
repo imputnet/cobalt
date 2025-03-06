@@ -5,7 +5,12 @@
     "stub.remux": "remuxing",
 
     "state.waiting": "queued",
-    "state.starting": "starting...",
+    "state.retrying": "retrying",
+
+    "state.starting": "starting",
+    "state.starting.fetch": "starting downloading",
+    "state.starting.remux": "starting muxing",
+
     "state.running.remux": "remuxing",
     "state.running.fetch": "downloading",
     "estimated_storage_usage": "estimated storage usage:"
