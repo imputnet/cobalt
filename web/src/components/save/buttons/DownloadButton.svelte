@@ -73,6 +73,7 @@
 
         height: 100%;
         min-width: 48px;
+        width: 48px;
 
         border-radius: 0;
 
