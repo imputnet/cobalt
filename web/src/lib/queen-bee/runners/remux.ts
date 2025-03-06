@@ -8,28 +8,41 @@ import type { FileInfo } from "$lib/types/libav";
 import type { CobaltQueue } from "$lib/types/queue";
 import type { CobaltFileReference } from "$lib/types/storage";
 
+let startAttempts = 0;
+
 export const runRemuxWorker = async (
     workerId: string,
     parentId: string,
     files: CobaltFileReference[],
     args: string[],
-    output: FileInfo
+    output: FileInfo,
+    resetStartCounter?: boolean
 ) => {
     const worker = new RemuxWorker();
 
     // sometimes chrome refuses to start libav wasm,
-    // so we check the health and kill self if it doesn't spawn
+    // so we check if it started, try 10 more times if not, and kill self if it still doesn't work
+    // TODO: fix the underlying issue because this is ridiculous
+
+    if (resetStartCounter) startAttempts = 0;
 
     let bumpAttempts = 0;
-    const startCheck = setInterval(() => {
+    const startCheck = setInterval(async () => {
         bumpAttempts++;
 
-        if (bumpAttempts === 8) {
-            killWorker(worker, unsubscribe, startCheck);
-            console.error("worker didn't start after 4 seconds, so it was killed");
+        if (bumpAttempts === 10) {
+            startAttempts++;
+            if (startAttempts <= 10) {
+                killWorker(worker, unsubscribe, startCheck);
+                console.error("worker didn't start after 5 seconds, so it was killed and started again");
+                return await runRemuxWorker(workerId, parentId, files, args, output);
+            } else {
+                killWorker(worker, unsubscribe, startCheck);
+                console.error("worker didn't start after 10 attempts, so we're giving up");
 
-            // TODO: proper error code
-            return itemError(parentId, workerId, "worker didn't start");
+                // TODO: proper error code
+                return itemError(parentId, workerId, "worker didn't start");
+            }
         }
     }, 500);
 
