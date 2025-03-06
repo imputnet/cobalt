@@ -1,4 +1,6 @@
 import API from "$lib/api/api";
+import settings from "$lib/state/settings";
+import lazySettingGetter from "$lib/settings/lazy-get";
 
 import { get } from "svelte/store";
 import { t } from "$lib/i18n/translations";
@@ -26,7 +28,32 @@ export const savingHandler = async (link: string) => {
         },
     ];
 
-    const response = await API.request(link);
+    const getSetting = lazySettingGetter(get(settings));
+
+    const request = {
+        url: link,
+
+        alwaysProxy: getSetting("save", "alwaysProxy"),
+        localProcessing: getSetting("save", "localProcessing"),
+        downloadMode: getSetting("save", "downloadMode"),
+
+        filenameStyle: getSetting("save", "filenameStyle"),
+        disableMetadata: getSetting("save", "disableMetadata"),
+
+        audioBitrate: getSetting("save", "audioBitrate"),
+        audioFormat: getSetting("save", "audioFormat"),
+        tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
+        youtubeDubLang: getSetting("save", "youtubeDubLang"),
+
+        youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
+        videoQuality: getSetting("save", "videoQuality"),
+        youtubeHLS: getSetting("save", "youtubeHLS"),
+
+        convertGif: getSetting("save", "convertGif"),
+        allowH265: getSetting("save", "allowH265"),
+    }
+
+    const response = await API.request(request);
 
     if (!response) {
         downloadButtonState.set("error");
