@@ -1,3 +1,4 @@
+import type { CobaltSaveRequestBody } from "$lib/types/api";
 import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 
@@ -7,6 +8,8 @@ export type CobaltQueueBaseItem = {
     id: string,
     state: CobaltQueueItemState,
     pipeline: CobaltPipelineItem[],
+    canRetry?: boolean,
+    originalRequest?: CobaltSaveRequestBody,
     // TODO: metadata
     filename: string,
     mimeType?: string,
