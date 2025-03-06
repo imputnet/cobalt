@@ -2,7 +2,7 @@ import mime from "mime";
 
 import { addItem } from "$lib/state/queen-bee/queue";
 import type { CobaltPipelineItem } from "$lib/types/workers";
-import type { CobaltLocalProcessingResponse } from "$lib/types/api";
+import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
 export const getMediaType = (type: string) => {
     const kind = type.split('/')[0];
@@ -50,7 +50,7 @@ export const createRemuxPipeline = (file: File) => {
     }
 }
 
-export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
+export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
     const parentId = crypto.randomUUID();
     const pipeline: CobaltPipelineItem[] = [];
 
@@ -89,6 +89,8 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse) => {
         id: parentId,
         state: "waiting",
         pipeline,
+        canRetry: true,
+        originalRequest: request,
         filename: info.filename,
         mimeType: mime.getType(info.filename) || undefined,
         mediaType: "video",

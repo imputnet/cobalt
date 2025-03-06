@@ -117,7 +117,7 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
         console.log(response);
 
         downloadButtonState.set("done");
-        return createSavePipeline(response);
+        return createSavePipeline(response, selectedRequest);
     }
 
     if (response.status === "picker") {
