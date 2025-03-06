@@ -8,7 +8,7 @@ export const formatFileSize = (size: number | undefined) => {
         units.pop();
     }
 
-    const roundedSize = parseFloat(size.toFixed(2));
+    const roundedSize = size.toFixed(2);
     const unit = units[units.length - 1] + "B";
     return `${roundedSize} ${unit}`;
 }
