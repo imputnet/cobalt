@@ -1,0 +1,13 @@
+{
+    "link_area": "bağlantı giriş alanı",
+    "link_area.turnstile": "bağlantı giriş alanı. robot olmadığınızı kontrol ediyoruz.",
+    "clear_input": "girişi temizle",
+    "download": "indir",
+    "download.think": "bağlantı işleniyor...",
+    "download.check": "indirme doğrulanıyor...",
+    "download.done": "indirme tamamlandı",
+    "download.error": "indirme hatası",
+
+    "tutorial.shortcut.photos": "fotoğraf ekleme kısayolu",
+    "tutorial.shortcut.files": "dosya ekleme kısayolu"
+}
