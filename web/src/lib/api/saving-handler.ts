@@ -10,6 +10,7 @@ import { downloadButtonState } from "$lib/state/omnibox";
 import { createSavePipeline } from "$lib/queen-bee/queue";
 
 import type { DialogInfo } from "$lib/types/dialog";
+import type { CobaltSaveRequestBody } from "$lib/types/api";
 
 const defaultErrorPopup: DialogInfo = {
     id: "save-error",
@@ -17,7 +18,7 @@ const defaultErrorPopup: DialogInfo = {
     meowbalt: "error",
 };
 
-export const savingHandler = async (link: string) => {
+export const savingHandler = async ({ url, request }: { url?: string, request?: CobaltSaveRequestBody }) => {
     downloadButtonState.set("think");
 
     const errorButtons = [
@@ -30,8 +31,13 @@ export const savingHandler = async (link: string) => {
 
     const getSetting = lazySettingGetter(get(settings));
 
-    const request = {
-        url: link,
+    if (!request && !url) return;
+
+    const selectedRequest = request || {
+        // pointing typescript to the fact that
+        // url is either present or not used at all,
+        // aka in cases when request is present
+        url: url!,
 
         alwaysProxy: getSetting("save", "alwaysProxy"),
         localProcessing: getSetting("save", "localProcessing"),
@@ -53,7 +59,7 @@ export const savingHandler = async (link: string) => {
         allowH265: getSetting("save", "allowH265"),
     }
 
-    const response = await API.request(request);
+    const response = await API.request(selectedRequest);
 
     if (!response) {
         downloadButtonState.set("error");

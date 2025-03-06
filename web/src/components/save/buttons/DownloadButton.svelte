@@ -58,7 +58,7 @@
     {disabled}
     on:click={() => {
         hapticSwitch();
-        savingHandler(url);
+        savingHandler({ url });
     }}
     aria-label={buttonAltText}
 >
