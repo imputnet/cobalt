@@ -56,12 +56,20 @@
         transform-origin: top left;
     }
 
+    :global([dir="rtl"]) .popover.left {
+        transform-origin: top right;
+    }
+
     .popover.center {
         transform-origin: top center;
     }
 
     .popover.right {
         transform-origin: top right;
+    }
+
+    :global([dir="rtl"]) .popover.right {
+        transform-origin: top left;
     }
 
     .popover.expanded {
