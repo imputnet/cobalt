@@ -120,7 +120,7 @@
     }
 
     #progress-ring.indeterminate {
-        animation: spin 3s linear infinite;
+        animation: spinner 3s linear infinite;
     }
 
     #progress-ring.indeterminate circle {
@@ -129,14 +129,5 @@
 
     .completed #progress-ring {
         opacity: 0;
-    }
-
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
     }
 </style>

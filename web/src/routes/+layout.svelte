@@ -635,4 +635,13 @@
         animation: none !important;
         transition: none !important;
     }
+
+    @keyframes -global-spinner {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>

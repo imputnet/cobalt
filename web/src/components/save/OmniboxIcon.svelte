@@ -79,11 +79,11 @@
     }
 
     .spinner-icon.animated :global(svg) {
-        animation: spin 0.7s infinite linear;
+        animation: spinner 0.7s infinite linear;
     }
 
     .loading .link-icon :global(svg) {
-        animation: spin 0.7s linear;
+        animation: spinner 0.7s linear;
     }
 
     .loading .link-icon {
@@ -94,14 +94,5 @@
     .loading .spinner-icon {
         transform: none;
         opacity: 1;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
     }
 </style>
