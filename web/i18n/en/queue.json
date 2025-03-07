@@ -11,7 +11,7 @@
     "state.starting.fetch": "starting downloading",
     "state.starting.remux": "starting muxing",
 
-    "state.running.remux": "remuxing",
+    "state.running.remux": "muxing",
     "state.running.fetch": "downloading",
     "estimated_storage_usage": "estimated storage usage:"
 }
