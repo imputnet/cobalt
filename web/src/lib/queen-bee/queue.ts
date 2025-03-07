@@ -1,6 +1,8 @@
 import mime from "mime";
 
 import { addItem } from "$lib/state/queen-bee/queue";
+import { showQueuePopover } from "$lib/state/queue-visibility";
+
 import type { CobaltPipelineItem } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
@@ -46,7 +48,9 @@ export const createRemuxPipeline = (file: File) => {
             filename: file.name,
             mimeType: file.type,
             mediaType,
-        })
+        });
+
+        showQueuePopover();
     }
 }
 
@@ -65,7 +69,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
             workerArgs: {
                 url: tunnel,
             },
-        })
+        });
     }
 
     pipeline.push({
@@ -83,7 +87,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
                 format: info.filename.split(".").pop(),
             },
         },
-    })
+    });
 
     addItem({
         id: parentId,
@@ -94,5 +98,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         filename: info.filename,
         mimeType: mime.getType(info.filename) || undefined,
         mediaType: "video",
-    })
+    });
+
+    showQueuePopover();
 }

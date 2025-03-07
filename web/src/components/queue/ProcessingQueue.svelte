@@ -5,6 +5,8 @@
 
     import { formatFileSize } from "$lib/util";
     import { clearFileStorage, getStorageQuota } from "$lib/storage";
+
+    import { queueVisible } from "$lib/state/queue-visibility";
     import { currentTasks } from "$lib/state/queen-bee/current-tasks";
     import { clearQueue, queue as readableQueue } from "$lib/state/queen-bee/queue";
 
@@ -17,10 +19,6 @@
     import IconX from "@tabler/icons-svelte/IconX.svelte";
 
     let popover: SvelteComponent;
-    $: expanded = false;
-
-    $: queue = Object.entries($readableQueue);
-
     let quotaUsage = 0;
 
     const updateQuota = async () => {
@@ -28,9 +26,15 @@
         quotaUsage = storageInfo?.usage || 0;
     }
 
+    const popoverAction = () => {
+        $queueVisible = !$queueVisible;
+    };
+
     const totalItemProgress = (completed: number, current: number, total: number) => {
         return (completed * 100 + current) / total
     }
+
+    $: queue = Object.entries($readableQueue);
 
     $: totalProgress = queue.length ? queue.map(([, item]) => {
         if (item.state === "done" || item.state === "error") {
@@ -47,16 +51,12 @@
 
     $: indeterminate = queue.length > 0 && totalProgress === 0;
 
-    const popoverAction = () => {
-        expanded = !expanded;
-    };
-
-    $: if (expanded) {
+    $: if ($queueVisible) {
         updateQuota();
     }
 
     onNavigate(() => {
-        expanded = false;
+        $queueVisible = false;
     });
 
     onMount(() => {
@@ -65,7 +65,7 @@
     });
 </script>
 
-<div id="processing-queue" class:expanded>
+<div id="processing-queue" class:expanded={$queueVisible}>
     <ProcessingStatus
         progress={totalProgress * 100}
         {indeterminate}
@@ -75,7 +75,7 @@
     <PopoverContainer
         bind:this={popover}
         id="processing-popover"
-        {expanded}
+        expanded={$queueVisible}
         expandStart="right"
     >
         <div id="processing-header">
