@@ -3,7 +3,7 @@ import { device } from "$lib/device";
 import settings from "$lib/state/settings";
 
 const canUseHaptics = () => {
-    return device.supports.haptics && !get(settings).appearance.disableHaptics;
+    return device.supports.haptics && !get(settings).accessibility.disableHaptics;
 }
 
 export const hapticSwitch = () => {
