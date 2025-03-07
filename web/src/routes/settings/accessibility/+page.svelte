@@ -24,6 +24,18 @@
     />
 </SettingsCategory>
 
+<SettingsCategory
+    sectionId="behavior"
+    title={$t("settings.accessibility.behavior")}
+>
+    <SettingsToggle
+        settingContext="accessibility"
+        settingId="dontAutoOpenQueue"
+        title={$t("settings.accessibility.auto_queue.title")}
+        description={$t("settings.accessibility.auto_queue.description")}
+    />
+</SettingsCategory>
+
 {#if device.supports.haptics}
     <SettingsCategory
         sectionId="haptics"

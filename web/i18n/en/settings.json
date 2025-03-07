@@ -90,12 +90,16 @@
 
     "accessibility.visual": "visual",
     "accessibility.haptics": "haptics",
+    "accessibility.behavior": "behavior",
+
     "accessibility.transparency.title": "reduce visual transparency",
     "accessibility.transparency.description": "transparency of surfaces will be reduced and all blur effects will be disabled. may also improve ui performance on less powerful devices.",
     "accessibility.motion.title": "reduce motion",
     "accessibility.motion.description": "animations and transitions will be disabled whenever possible.",
     "accessibility.haptics.title": "disable haptics",
     "accessibility.haptics.description": "all haptic effects will be disabled.",
+    "accessibility.auto_queue.title": "don't open the queue automatically",
+    "accessibility.auto_queue.description": "the processing queue will not be opened automatically whenever a new item is added to it. progress will still be displayed and you will still be able to open it manually.",
 
     "language": "language",
     "language.auto.title": "automatic selection",
