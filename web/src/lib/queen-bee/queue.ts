@@ -1,7 +1,7 @@
 import mime from "mime";
 
 import { addItem } from "$lib/state/queen-bee/queue";
-import { showQueuePopover } from "$lib/state/queue-visibility";
+import { openQueuePopover } from "$lib/state/queue-visibility";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
@@ -50,7 +50,7 @@ export const createRemuxPipeline = (file: File) => {
             mediaType,
         });
 
-        showQueuePopover();
+        openQueuePopover();
     }
 }
 
@@ -100,5 +100,5 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         mediaType: "video",
     });
 
-    showQueuePopover();
+    openQueuePopover();
 }
