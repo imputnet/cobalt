@@ -1,5 +1,5 @@
 <script lang="ts">
-    import IconRun from "@tabler/icons-svelte/IconRun.svelte";
+    import IconArrowDown from "@tabler/icons-svelte/IconArrowDown.svelte";
 
     export let indeterminate = false;
     export let progress: number = 0;
@@ -31,7 +31,7 @@
         />
     </svg>
     <div class="icon-holder">
-        <IconRun />
+        <IconArrowDown />
     </div>
 </button>
 
