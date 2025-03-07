@@ -1,5 +1,5 @@
 {
-    "title": "local processing",
+    "title": "processing queue",
     "stub": "nothing here yet, just the two of us.\ntry {{ value }} something!",
     "stub.download": "downloading",
     "stub.remux": "remuxing",
