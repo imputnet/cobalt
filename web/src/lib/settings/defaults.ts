@@ -11,9 +11,12 @@ const defaultSettings: CobaltSettings = {
         theme: "auto",
         language: defaultLocale,
         autoLanguage: true,
+    },
+    accessibility: {
         reduceMotion: false,
         reduceTransparency: false,
         disableHaptics: false,
+        dontAutoOpenQueue: false,
     },
     save: {
         alwaysProxy: false,

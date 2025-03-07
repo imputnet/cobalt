@@ -64,6 +64,17 @@ const migrations: Record<number, Migrator> = {
             }
         }
 
+        if (settings?.appearance) {
+            if ("reduceMotion" in settings.appearance) {
+                out.accessibility!.reduceMotion = settings.appearance.reduceMotion;
+                delete settings.appearance.reduceMotion;
+            }
+            if ("reduceTransparency" in settings.appearance) {
+                out.accessibility!.reduceTransparency = settings.appearance.reduceTransparency;
+                delete settings.appearance.reduceTransparency;
+            }
+        }
+
         return out as AllPartialSettingsWithSchema;
     },
 };
