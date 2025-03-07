@@ -53,29 +53,3 @@
         disabled={$settings.appearance.autoLanguage}
     />
 </SettingsCategory>
-
-<SettingsCategory
-    sectionId="accessibility"
-    title={$t("settings.accessibility")}
->
-    <SettingsToggle
-        settingContext="appearance"
-        settingId="reduceMotion"
-        title={$t("settings.accessibility.motion.title")}
-        description={$t("settings.accessibility.motion.description")}
-    />
-    <SettingsToggle
-        settingContext="appearance"
-        settingId="reduceTransparency"
-        title={$t("settings.accessibility.transparency.title")}
-        description={$t("settings.accessibility.transparency.description")}
-    />
-    {#if device.supports.haptics}
-        <SettingsToggle
-            settingContext="appearance"
-            settingId="disableHaptics"
-            title={$t("settings.accessibility.haptics.title")}
-            description={$t("settings.accessibility.haptics.description")}
-        />
-    {/if}
-</SettingsCategory>

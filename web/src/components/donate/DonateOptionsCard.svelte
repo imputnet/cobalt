@@ -75,7 +75,7 @@
         return window.open(donationMethods[processor](amount), "_blank");
     };
 
-    const scrollBehavior = $settings.appearance.reduceMotion
+    const scrollBehavior = $settings.accessibility.reduceMotion
         ? "instant"
         : "smooth";
 

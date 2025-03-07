@@ -8,6 +8,7 @@
     "page.debug": "info for nerds",
     "page.instances": "instances",
     "page.local": "local processing",
+    "page.accessibility": "accessibility",
 
     "section.general": "general",
     "section.save": "save",
@@ -87,7 +88,8 @@
     "saving.copy": "copy",
     "saving.description": "preferred way of saving the file or link from cobalt. if preferred method is unavailable or something goes wrong, cobalt will ask you what to do next.",
 
-    "accessibility": "accessibility",
+    "accessibility.visual": "visual",
+    "accessibility.haptics": "haptics",
     "accessibility.transparency.title": "reduce visual transparency",
     "accessibility.transparency.description": "transparency of surfaces will be reduced and all blur effects will be disabled. may also improve ui performance on less powerful devices.",
     "accessibility.motion.title": "reduce motion",

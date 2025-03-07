@@ -28,10 +28,10 @@
     import UpdateNotification from "$components/misc/UpdateNotification.svelte";
 
     $: reduceMotion =
-        $settings.appearance.reduceMotion || device.prefers.reducedMotion;
+        $settings.accessibility.reduceMotion || device.prefers.reducedMotion;
 
     $: reduceTransparency =
-        $settings.appearance.reduceTransparency ||
+        $settings.accessibility.reduceTransparency ||
         device.prefers.reducedTransparency;
 
     afterNavigate(async () => {
