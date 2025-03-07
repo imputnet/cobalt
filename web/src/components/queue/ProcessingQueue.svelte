@@ -47,10 +47,13 @@
 
     $: indeterminate = queue.length > 0 && totalProgress === 0;
 
-    const popoverAction = async () => {
+    const popoverAction = () => {
         expanded = !expanded;
-        if (expanded) updateQuota();
     };
+
+    $: if (expanded) {
+        updateQuota();
+    }
 
     onNavigate(() => {
         expanded = false;
@@ -59,21 +62,20 @@
     onMount(() => {
         // clear old files from storage on first page load
         clearFileStorage();
-    })
+    });
 </script>
 
 <div id="processing-queue" class:expanded>
     <ProcessingStatus
         progress={totalProgress * 100}
         {indeterminate}
-        expandAction={popover?.showPopover}
+        expandAction={popoverAction}
     />
 
     <PopoverContainer
         bind:this={popover}
         id="processing-popover"
         {expanded}
-        {popoverAction}
         expandStart="right"
     >
         <div id="processing-header">

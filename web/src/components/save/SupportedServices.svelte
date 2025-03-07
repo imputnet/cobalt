@@ -41,7 +41,7 @@
     <button
         id="services-button"
         class="button"
-        on:click={popover?.showPopover}
+        on:click={popoverAction}
         aria-label={$t(`save.services.title_${expanded ? "hide" : "show"}`)}
     >
         <div class="expand-icon">
@@ -54,7 +54,6 @@
         bind:this={popover}
         id="services-popover"
         {expanded}
-        {popoverAction}
     >
         <div
             id="services-container"

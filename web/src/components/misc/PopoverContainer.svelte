@@ -1,22 +1,15 @@
 <script lang="ts">
     export let id = "";
     export let expanded = false;
-    export let popoverAction: () => void;
     export let expandStart: "left" | "center" | "right" = "center";
 
+    /*
+        a popover isn't pre-rendered by default, because the user might never open it.
+        but if they do, we render only once, and then keep it the dom :3
+    */
+
     $: renderPopover = false;
-
-    export const showPopover = async () => {
-        const timeout = !renderPopover;
-        renderPopover = true;
-
-        // 10ms delay to let the popover render for the first time
-        if (timeout) {
-            setTimeout(popoverAction, 10);
-        } else {
-            popoverAction();
-        }
-    };
+    $: if (expanded && !renderPopover) renderPopover = true;
 </script>
 
 <div {id} class="popover {expandStart}" aria-hidden={!expanded} class:expanded>
