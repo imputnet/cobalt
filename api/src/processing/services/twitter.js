@@ -115,6 +115,11 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
         tweet = await requestTweet(dispatcher, id, guestToken)
     }
 
+    // if the tweet reached the rate limit, we need to retry with the cookie
+    if ([404].includes(tweet.status))  {
+        tweet = await requestTweet(dispatcher, id, guestToken, cookie);
+    }
+
     tweet = await tweet.json();
 
     let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
