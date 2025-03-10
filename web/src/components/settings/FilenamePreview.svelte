@@ -148,7 +148,7 @@
 
     .item-text .description {
         padding: 0;
-        line-height: 1.4;
+        line-height: 1.3;
     }
 
     @media screen and (max-width: 750px) {
