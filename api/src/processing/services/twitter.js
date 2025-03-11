@@ -162,7 +162,7 @@ const extractGraphqlMedia = async (tweet, dispatcher, id, guestToken, cookie) =>
         repostedTweet = baseTweet?.retweeted_status_result?.result.tweet.legacy.extended_entities;
     }
 
-    media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
+    return (repostedTweet?.media || baseTweet?.extended_entities?.media);
 }
 
 const testResponse = (result) => {
