@@ -154,33 +154,33 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     });
 
     app.post('/', (req, res, next) => {
-        // if (!env.sessionEnabled || req.rateLimitKey) {
-        //     return next();
-        // }
+        if (!env.sessionEnabled || req.rateLimitKey) {
+            return next();
+        }
 
-        // try {
-        //     const authorization = req.header("Authorization");
-        //     if (!authorization) {
-        //         return fail(res, "error.api.auth.jwt.missing");
-        //     }
+        try {
+            const authorization = req.header("Authorization");
+            if (!authorization) {
+                return fail(res, "error.api.auth.jwt.missing");
+            }
 
-        //     if (authorization.length >= 256) {
-        //         return fail(res, "error.api.auth.jwt.invalid");
-        //     }
+            if (authorization.length >= 256) {
+                return fail(res, "error.api.auth.jwt.invalid");
+            }
 
-        //     const [ type, token, ...rest ] = authorization.split(" ");
-        //     if (!token || type.toLowerCase() !== 'bearer' || rest.length) {
-        //         return fail(res, "error.api.auth.jwt.invalid");
-        //     }
+            const [ type, token, ...rest ] = authorization.split(" ");
+            if (!token || type.toLowerCase() !== 'bearer' || rest.length) {
+                return fail(res, "error.api.auth.jwt.invalid");
+            }
 
-        //     if (!jwt.verify(token)) {
-        //         return fail(res, "error.api.auth.jwt.invalid");
-        //     }
+            if (!jwt.verify(token)) {
+                return fail(res, "error.api.auth.jwt.invalid");
+            }
 
-        //     req.rateLimitKey = hashHmac(token, 'rate');
-        // } catch {
-        //     return fail(res, "error.api.generic");
-        // }
+            req.rateLimitKey = hashHmac(token, 'rate');
+        } catch {
+            return fail(res, "error.api.generic");
+        }
         next();
     });
 
