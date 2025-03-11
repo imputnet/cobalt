@@ -170,6 +170,15 @@
         }
     },
     {
+        "name": "gif",
+        "url": "https://x.com/thelastromances/status/1897839691212202479",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "inexistent post",
         "url": "https://twitter.com/test/status/9487653",
         "params": {
