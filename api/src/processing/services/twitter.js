@@ -128,6 +128,43 @@ const requestTweet = async(dispatcher, tweetId, token, cookie) => {
     return result
 }
 
+const extractGraphqlMedia = async (tweet, dispatcher, id, guestToken, cookie) => {
+    let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
+
+    if (!tweetTypename) {
+        return { error: "fetch.empty" }
+    }
+
+    if (tweetTypename === "TweetUnavailable") {
+        const reason = tweet?.data?.tweetResult?.result?.reason;
+        switch(reason) {
+            case "Protected":
+                return { error: "content.post.private" };
+            case "NsfwLoggedOut":
+                if (cookie) {
+                    tweet = await requestTweet(dispatcher, id, guestToken, cookie);
+                    tweet = await tweet.json();
+                    tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
+                } else return { error: "content.post.age" };
+        }
+    }
+
+    if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
+        return { error: "content.post.unavailable" }
+    }
+
+    let tweetResult = tweet.data.tweetResult.result,
+        baseTweet = tweetResult.legacy,
+        repostedTweet = baseTweet?.retweeted_status_result?.result.legacy.extended_entities;
+
+    if (tweetTypename === "TweetWithVisibilityResults") {
+        baseTweet = tweetResult.tweet.legacy;
+        repostedTweet = baseTweet?.retweeted_status_result?.result.tweet.legacy.extended_entities;
+    }
+
+    media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
+}
+
 const testResponse = (result) => {
     const contentLength = result.headers.get("content-length");
 
@@ -182,48 +219,12 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
 
     tweet = await tweet.json();
 
-    let media;
+    const media =
+        syndication
+            ? tweet.mediaDetails
+            : await extractGraphqlMedia(tweet, dispatcher, id, guestToken, cookie);
 
-    if (!syndication) {
-        let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
-
-        if (!tweetTypename) {
-            return { error: "fetch.empty" }
-        }
-
-        if (tweetTypename === "TweetUnavailable") {
-            const reason = tweet?.data?.tweetResult?.result?.reason;
-            switch(reason) {
-                case "Protected":
-                    return { error: "content.post.private" }
-                case "NsfwLoggedOut":
-                    if (cookie) {
-                        tweet = await requestTweet(dispatcher, id, guestToken, cookie);
-                        tweet = await tweet.json();
-                        tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
-                    } else return { error: "content.post.age" }
-            }
-        }
-
-        if (!["Tweet", "TweetWithVisibilityResults"].includes(tweetTypename)) {
-            return { error: "content.post.unavailable" }
-        }
-
-        let tweetResult = tweet.data.tweetResult.result,
-            baseTweet = tweetResult.legacy,
-            repostedTweet = baseTweet?.retweeted_status_result?.result.legacy.extended_entities;
-
-        if (tweetTypename === "TweetWithVisibilityResults") {
-            baseTweet = tweetResult.tweet.legacy;
-            repostedTweet = baseTweet?.retweeted_status_result?.result.tweet.legacy.extended_entities;
-        }
-
-        media = (repostedTweet?.media || baseTweet?.extended_entities?.media);
-    } else {
-        media = tweet.mediaDetails;
-    }
-
-    if (!media) return { error: "fetch.empty" }
+    if (!media) return { error: "fetch.empty" };
 
     // check if there's a video at given index (/video/<index>)
     if (index >= 0 && index < media?.length) {
@@ -236,7 +237,7 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
         service: "twitter",
         type: "proxy",
         url, filename,
-    })
+    });
 
     switch (media?.length) {
         case undefined:
