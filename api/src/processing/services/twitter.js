@@ -89,13 +89,16 @@ const requestTweet = async(dispatcher, tweetId, token, cookie) => {
 
     // we might have been missing the `ct0` cookie, retry
     if (result.status === 403 && result.headers.get('set-cookie')) {
-        result = await fetch(graphqlTweetURL, {
-            headers: {
-                ...headers,
-                'x-csrf-token': cookie.values().ct0
-            },
-            dispatcher
-        });
+        const cookieValues = cookie?.values();
+        if (cookieValues?.ct0) {
+            result = await fetch(graphqlTweetURL, {
+                headers: {
+                    ...headers,
+                    'x-csrf-token': cookieValues.ct0
+                },
+                dispatcher
+            });
+        }
     }
 
     return result
