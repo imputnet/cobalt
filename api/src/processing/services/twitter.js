@@ -112,7 +112,17 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
     // get new token & retry if old one expired
     if ([403, 429].includes(tweet.status)) {
         guestToken = await getGuestToken(dispatcher, true);
-        tweet = await requestTweet(dispatcher, id, guestToken)
+        if (cookie) {
+            tweet = await requestTweet(dispatcher, id, guestToken, cookie);
+        } else {
+            tweet = await requestTweet(dispatcher, id, guestToken);
+        }
+    }
+
+    const contentLength = tweet.headers.get("content-length");
+
+    if (!contentLength || tweet.headers.get("content-length") === '0') {
+        return { error: "content.post.unavailable" }
     }
 
     tweet = await tweet.json();
