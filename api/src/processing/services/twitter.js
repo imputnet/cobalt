@@ -219,7 +219,7 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
 
     tweet = await tweet.json();
 
-    const media =
+    let media =
         syndication
             ? tweet.mediaDetails
             : await extractGraphqlMedia(tweet, dispatcher, id, guestToken, cookie);
