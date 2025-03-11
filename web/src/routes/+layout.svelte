@@ -75,6 +75,7 @@
     data-theme={browser ? $currentTheme : undefined}
     lang={$locale}
 >
+    <div id="preload-meowbalt" aria-hidden="true"></div>
     <div
         id="cobalt"
         class:loaded={browser}
@@ -643,5 +644,18 @@
         100% {
             transform: rotate(360deg);
         }
+    }
+
+    /* preload meowbalt assets to prevent flickering in dialogs */
+    #preload-meowbalt {
+        width: 0;
+        height: 0;
+        position: absolute;
+        z-index: -10;
+        content:
+            url(/meowbalt/smile.png)
+            url(/meowbalt/error.png)
+            url(/meowbalt/question.png)
+            url(/meowbalt/think.png);
     }
 </style>
