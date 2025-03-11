@@ -77,9 +77,10 @@ export function createResponse(responseType, responseData) {
 }
 
 export function normalizeRequest(request) {
-    return apiSchema.safeParseAsync(request).catch(() => (
-        { success: false }
-    ));
+    return apiSchema.safeParseAsync(request).catch((err) => {
+        console.log('Zod validation error:', JSON.stringify(err, null, 2));
+        return { success: false };
+    });
 }
 
 export function getIP(req) {

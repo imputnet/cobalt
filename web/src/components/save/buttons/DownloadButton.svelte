@@ -77,6 +77,50 @@
         if (response.status === "error") {
             changeDownloadButton("error");
 
+            console.log(response.error.code);
+
+            if (response.error.code == "error.api.content.post.age") {
+                return createDialog({
+                    id: "save-error",
+                    type: "small",
+                    meowbalt: "error",
+                    buttons: [
+                        {
+                            text: $t("button.signin"),
+                            main: true,
+                            action: () => {
+                                // opens a new tab for the user and redirects them to the login page
+
+                                const website = URL.parse(link);
+
+                                if (!website)
+                                    throw new Error("Invalid URL");
+
+                                console.log(website);
+
+                                switch (website.hostname) {
+                                    case "www.tiktok.com":
+                                        website.pathname = "/login/qrcode";
+                                        break;
+                                    default:
+                                        website.pathname = "/login";
+                                        break;
+                                }
+                                
+                                window.open(website.href, "_blank");
+                            },
+                        },
+                        {
+                            text: $t("button.cancel"),
+                            main: false,
+                            action: () => {},
+                        },
+                    ],
+                    bodyText: $t(response.error.code, response?.error?.context),
+                });
+            }
+                
+
             return createDialog({
                 ...defaultErrorPopup,
                 bodyText: $t(response.error.code, response?.error?.context),

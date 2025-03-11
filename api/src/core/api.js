@@ -154,41 +154,43 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     });
 
     app.post('/', (req, res, next) => {
-        if (!env.sessionEnabled || req.rateLimitKey) {
-            return next();
-        }
+        // if (!env.sessionEnabled || req.rateLimitKey) {
+        //     return next();
+        // }
 
-        try {
-            const authorization = req.header("Authorization");
-            if (!authorization) {
-                return fail(res, "error.api.auth.jwt.missing");
-            }
+        // try {
+        //     const authorization = req.header("Authorization");
+        //     if (!authorization) {
+        //         return fail(res, "error.api.auth.jwt.missing");
+        //     }
 
-            if (authorization.length >= 256) {
-                return fail(res, "error.api.auth.jwt.invalid");
-            }
+        //     if (authorization.length >= 256) {
+        //         return fail(res, "error.api.auth.jwt.invalid");
+        //     }
 
-            const [ type, token, ...rest ] = authorization.split(" ");
-            if (!token || type.toLowerCase() !== 'bearer' || rest.length) {
-                return fail(res, "error.api.auth.jwt.invalid");
-            }
+        //     const [ type, token, ...rest ] = authorization.split(" ");
+        //     if (!token || type.toLowerCase() !== 'bearer' || rest.length) {
+        //         return fail(res, "error.api.auth.jwt.invalid");
+        //     }
 
-            if (!jwt.verify(token)) {
-                return fail(res, "error.api.auth.jwt.invalid");
-            }
+        //     if (!jwt.verify(token)) {
+        //         return fail(res, "error.api.auth.jwt.invalid");
+        //     }
 
-            req.rateLimitKey = hashHmac(token, 'rate');
-        } catch {
-            return fail(res, "error.api.generic");
-        }
+        //     req.rateLimitKey = hashHmac(token, 'rate');
+        // } catch {
+        //     return fail(res, "error.api.generic");
+        // }
         next();
     });
 
     app.post('/', apiLimiter);
-    app.use('/', express.json({ limit: 1024 }));
+    app.use('/', express.json({ limit: 8192 }));
 
-    app.use('/', (err, _, res, next) => {
+    app.use('/', (err, req, res, next) => {
         if (err) {
+            // console.error('Failed to normalize request:', req);
+            console.error('error:', err);
             const { status, body } = createResponse("error", {
                 code: "error.api.invalid_body",
             });
@@ -234,6 +236,8 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
         const { success, data: normalizedRequest } = await normalizeRequest(request);
         if (!success) {
+            console.error('Failed to normalize request:', request);
+            console.log('data:', normalizedRequest);
             return fail(res, "error.api.invalid_body");
         }
 
@@ -250,15 +254,20 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, `error.api.${parsed.error}`, context);
         }
 
+        if (!request.cookies)
+            request.cookies = {"X-nocookies" : "included"};
+
         try {
             const result = await match({
                 host: parsed.host,
                 patternMatch: parsed.patternMatch,
                 params: normalizedRequest,
+                inputCookies: request.cookies,
             });
 
             res.status(result.status).json(result.body);
-        } catch {
+        } catch (e) {
+            console.error("Failed to match request", request, e);
             fail(res, "error.api.generic");
         }
     })

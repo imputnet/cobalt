@@ -38,7 +38,8 @@
     let isDisabled = false;
     let isLoading = false;
 
-    $: isBotCheckOngoing = $turnstileEnabled && !$turnstileSolved;
+    // $: isBotCheckOngoing = $turnstileEnabled && !$turnstileSolved;
+    $: isBotCheckOngoing = false;
 
     const validLink = (url: string) => {
         try {
@@ -132,7 +133,8 @@
 -->
 {#if env.DEFAULT_API || (!$page.url.host.endsWith(".cobalt.tools") && $page.url.host !== "cobalt.tools")}
     <div id="instance-label">
-        {$t("save.label.community_instance")}
+        KDDResearch Instance
+        <!-- {$t("save.label.community_instance")} -->
     </div>
 {/if}
 
@@ -155,12 +157,13 @@
             autocapitalize="off"
             maxlength="512"
             placeholder={$t("save.input.placeholder")}
-            aria-label={isBotCheckOngoing
-                ? $t("a11y.save.link_area.turnstile")
-                : $t("a11y.save.link_area")}
             data-form-type="other"
             disabled={isDisabled}
         />
+
+        <!-- aria-label={isBotCheckOngoing
+            ? $t("a11y.save.link_area.turnstile")
+            : $t("a11y.save.link_area")} -->
 
         {#if $link && !isLoading}
             <ClearButton click={() => ($link = "")} />

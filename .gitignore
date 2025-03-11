@@ -4,6 +4,7 @@ desktop.ini
 
 # node
 node_modules
+.pnpm-store
 
 # static build
 build

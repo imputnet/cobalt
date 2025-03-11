@@ -59,7 +59,7 @@
 
     "api.content.post.unavailable": "couldn't find anything about this post. its visibility may be limited or it may not exist. make sure your link works and try again in a few seconds!",
     "api.content.post.private": "couldn't get anything about this post because it's from a private account. try a different link!",
-    "api.content.post.age": "this post is age-restricted and isn't available without logging in. try a different link!",
+    "api.content.post.age": "this post is age-restricted and isn't available without logging in. Sign in to your account.",
 
     "api.youtube.no_matching_format": "youtube didn't return a valid video + audio format combo, either video or audio is missing. formats for this video may be re-encoding on youtube's side or something went wrong when parsing them. try enabling the hls option in video settings!",
     "api.youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video. try again in a few seconds, but if this issue sticks, please report it!",

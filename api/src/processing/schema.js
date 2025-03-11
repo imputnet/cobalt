@@ -47,5 +47,7 @@ export const apiSchema = z.object({
     twitterGif: z.boolean().default(true),
 
     youtubeHLS: z.boolean().default(false),
+
+    cookies: z.record(z.string()).default({}),
 })
 .strict();

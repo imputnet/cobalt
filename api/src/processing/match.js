@@ -29,13 +29,23 @@ import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import xiaohongshu from "./services/xiaohongshu.js";
+import Cookie from "./cookie/cookie.js";
 
 let freebind;
 
-export default async function({ host, patternMatch, params }) {
+export default async function({ host, patternMatch, params, inputCookies }) {
     const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
+
+    console.log('Calling with cookies:', inputCookies);
+
+    let cookies = new Cookie({});
+    for (const [k, v] of Object.entries(inputCookies)) {
+        cookies.set(k, v);
+    }
+
+    console.log('Calling with cookies:', cookies);
 
     if (env.freebindCIDR) {
         if (!freebind) {
@@ -133,6 +143,7 @@ export default async function({ host, patternMatch, params }) {
                     isAudioOnly,
                     h265: params.tiktokH265,
                     alwaysProxy: params.alwaysProxy,
+                    cookies: cookies,
                 });
                 break;
 

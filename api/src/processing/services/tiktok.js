@@ -8,8 +8,11 @@ import { createStream } from "../../stream/manage.js";
 const shortDomain = "https://vt.tiktok.com/";
 
 export default async function(obj) {
-    const cookie = new Cookie({});
+    // const cookie = new Cookie({});
+    const cookie = obj.cookies;
     let postId = obj.postId;
+
+    console.log("With TikTok using cookies", cookie);
 
     if (!postId) {
         let html = await fetch(`${shortDomain}${obj.shortLink}`, {
