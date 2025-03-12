@@ -23,7 +23,7 @@ export default async function(o) {
 
     const videoLink = [...html.matchAll(videoRegex)]
                     .map(([, link]) => link)
-                    .find(a => a.endsWith('.mp4') && a.includes('720p'));
+                    .find(a => a.endsWith('.mp4'));
 
     if (videoLink) return {
         urls: videoLink,
