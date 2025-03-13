@@ -77,6 +77,7 @@
 
     .subnav-tab:not(.active) .tab-icon {
         background: rgba(0, 0, 0, 0.05);
+        box-shadow: var(--button-box-shadow);
     }
 
     :global([data-theme="dark"]) .subnav-tab:not(.active) .tab-icon {
