@@ -428,6 +428,10 @@ export default async function (o) {
         }
     }
 
+    if (video?.drm_families || audio?.drm_families) {
+        return { error: "youtube.drm" };
+    }
+
     const fileMetadata = {
         title: basicInfo.title.trim(),
         artist: basicInfo.author.replace("- Topic", "").trim()
