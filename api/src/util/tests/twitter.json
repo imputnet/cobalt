@@ -102,9 +102,8 @@
     },
     {
         "name": "retweeted video",
-        "url": "https://twitter.com/uwukko/status/1696901469633421344",
+        "url": "https://twitter.com/schlizzawg/status/1869017025055793405",
         "params": {},
-        "canFail": true,
         "expected": {
             "code": 200,
             "status": "redirect"
@@ -145,7 +144,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     },
     {
@@ -165,6 +164,15 @@
             "audioFormat": "mp3"
         },
         "canFail": true,
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "gif",
+        "url": "https://x.com/thelastromances/status/1897839691212202479",
+        "params": {},
         "expected": {
             "code": 200,
             "status": "tunnel"
@@ -203,11 +211,11 @@
     },
     {
         "name": "bookmarked photo",
-        "url": "https://twitter.com/i/bookmarks?post_id=1837430141179289876",
+        "url": "https://twitter.com/i/bookmarks?post_id=1887450602164396149",
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "tunnel"
         }
     }
 ]

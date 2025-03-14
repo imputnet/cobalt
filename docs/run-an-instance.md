@@ -18,7 +18,7 @@ if you need help with installing docker, follow *only the first step* of these t
     ```
     i'm using `nano` in this example, it may not be available in your distro. you can use any other text editor.
 
-3. copy and paste the [sample config from here](examples/docker-compose.example.yml) for either web or api instance (or both, if you wish) and edit it to your needs.
+3. copy and paste the [sample config from here](examples/docker-compose.example.yml) and edit it to your needs.
     make sure to replace default URLs with your own or cobalt won't work correctly.
 
 4. finally, start the cobalt container (from cobalt directory):
@@ -80,6 +80,7 @@ sudo service nscd start
 | `API_REDIS_URL`       | ➖        | `redis://localhost:6379` | when set, cobalt uses redis instead of internal memory for the tunnel cache. |
 | `API_INSTANCE_COUNT`  | ➖        | `2`                     | supported only on Linux and node.js `>=23.1.0`. when configured, cobalt will spawn multiple sub-instances amongst which requests will be balanced. |
 | `DISABLED_SERVICES`   | ➖        | `bilibili,youtube`       | comma-separated list which disables certain services from being used. |
+| `CUSTOM_INNERTUBE_CLIENT` | ➖    | `IOS`                    | innertube client that will be used instead of the default one. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 

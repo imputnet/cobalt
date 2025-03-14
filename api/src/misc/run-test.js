@@ -23,6 +23,10 @@ export async function runTest(url, params, expect) {
     if (expect.status !== result.body.status) {
         const detail = `${expect.status} (expected) != ${result.body.status} (actual)`;
         error.push(`status mismatch: ${detail}`);
+
+        if (result.body.status === 'error') {
+            error.push(`error code: ${result.body?.error?.code}`);
+        }
     }
 
     if (expect.errorCode && expect.errorCode !== result.body?.error?.code) {

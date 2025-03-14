@@ -1,7 +1,7 @@
 {
     "name": "@imput/cobalt-api",
     "description": "save what you love",
-    "version": "10.7.2",
+    "version": "10.7.10",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -39,7 +39,7 @@
         "set-cookie-parser": "2.6.0",
         "undici": "^7.3.0",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^13.0.0",
+        "youtubei.js": "^13.1.0",
         "zod": "^3.23.8"
     },
     "optionalDependencies": {

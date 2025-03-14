@@ -30,7 +30,8 @@
     "api.capacity": "cobalt is at capacity and can't process your request at the moment. try again in a few seconds!",
 
     "api.generic": "something went wrong and i couldn't get anything for you, try again in a few seconds. if the issue sticks, please report it!",
-    "api.unknown_response": "couldn't read the response from the processing instance. this could be caused by a version mismatch between cobalt instances.",
+    "api.unknown_response": "couldn't read the response from the processing instance. this is probably caused by the web app being out of date. reload the app and try again!",
+    "api.invalid_body": "couldn't send the request to the processing instance. this is probably caused by the web app being out of date. reload the app and try again!",
 
     "api.service.unsupported": "this service is not supported yet. have you pasted the right link?",
     "api.service.disabled": "this service is generally supported by cobalt, but it's disabled on this processing instance. try a link from another service!",
@@ -66,5 +67,6 @@
     "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
     "api.youtube.no_hls_streams": "couldn't find any matching HLS streams for this video. try downloading it without HLS!",
     "api.youtube.api_error": "youtube updated something about its api and i couldn't get any info about this video. try again in a few seconds, but if this issue sticks, please report it!",
-    "api.youtube.temporary_disabled": "youtube downloading is temporarily disabled due to restrictions from youtube's side. we're already looking for ways to go around them.\n\nwe apologize for the inconvenience and are doing our best to restore this functionality. check cobalt's socials or github for timely updates!"
+    "api.youtube.temporary_disabled": "youtube downloading is temporarily disabled due to restrictions from youtube's side. we're already looking for ways to go around them.\n\nwe apologize for the inconvenience and are doing our best to restore this functionality. check cobalt's socials or github for timely updates!",
+    "api.youtube.drm": "this youtube video is protected by widevine DRM, so i can't download it. try a different link!"
 }
