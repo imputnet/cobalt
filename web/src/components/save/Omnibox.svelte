@@ -165,7 +165,7 @@
         {#if $link && !isLoading}
             <ClearButton click={() => ($link = "")} />
         {/if}
-        {#if validLink($link)}
+        {#if validLink($link) && !isBotCheckOngoing}
             <DownloadButton
                 url={$link}
                 bind:this={downloadButton}
