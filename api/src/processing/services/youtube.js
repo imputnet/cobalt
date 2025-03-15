@@ -41,6 +41,8 @@ const hlsCodecList = {
     }
 }
 
+const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDROID'];
+
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
 const transformSessionData = (cookie) => {
@@ -149,7 +151,7 @@ export default async function (o) {
         useHLS = false;
     }
 
-    let innertubeClient = o.innertubeClient || "ANDROID";
+    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "ANDROID";
 
     if (cookie) {
         useHLS = false;
@@ -478,7 +480,7 @@ export default async function (o) {
             urls = audio.uri;
         }
 
-        if (innertubeClient === "WEB" && innertube) {
+        if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
             urls = audio.decipher(innertube.session.player);
         }
 
@@ -513,7 +515,7 @@ export default async function (o) {
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = codecList[codec].container;
 
-            if (innertubeClient === "WEB" && innertube) {
+            if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
                 video = video.decipher(innertube.session.player);
                 audio = audio.decipher(innertube.session.player);
             } else {
