@@ -1,3 +1,4 @@
+import { Constants } from "youtubei.js";
 import { getVersion } from "@imput/version-info";
 import { services } from "./processing/service-config.js";
 import { supportsReusePort } from "./misc/cluster.js";
@@ -52,6 +53,7 @@ const env = {
     keyReloadInterval: 900,
 
     enabledServices,
+    customInnertubeClient: process.env.CUSTOM_INNERTUBE_CLIENT,
 }
 
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
@@ -72,6 +74,12 @@ if (env.instanceCount > 1 && !env.redisURL) {
     console.error('(or other OS that supports it). for more info, see `reusePort` option on');
     console.error('https://nodejs.org/api/net.html#serverlistenoptions-callback');
     throw new Error('SO_REUSEPORT is not supported');
+}
+
+if (env.customInnertubeClient && !Constants.SUPPORTED_CLIENTS.includes(env.customInnertubeClient)) {
+    console.error("CUSTOM_INNERTUBE_CLIENT is invalid. Provided client is not supported.");
+    console.error(`Supported clients are: ${Constants.SUPPORTED_CLIENTS.join(', ')}\n`);
+    throw new Error("Invalid CUSTOM_INNERTUBE_CLIENT");
 }
 
 export {
