@@ -1,0 +1,16 @@
+{
+    "captcha_ongoing": "ainda verificando se você não é um robô. espere o spinner desaparecer e tente novamente.\n\nse demorar muito, por favor nos avise! usamos o turnstile da cloudflare para proteção de bots e às vezes ele bloqueia as pessoas sem motivo.",
+    "api.auth.turnstile.missing": "não foi possível confirmar se você não é um robô porque o servidor não recebeu seu token de acesso humano. tente novamente em alguns segundos ou recarregue a página!",
+    "api.timed_out": "o servidor demorou muito para responder. talvez ele esteja sobrecarregado no momento, tente de novo mais tarde!",
+    "remux.out_of_resources": "cobalt ficou sem recursos e não pode continuar com o processamento no dispositivo. isso está relacionado a limitações no seu navegador. tente atualizar ou reabrir o aplicativo e tente novamente. alguns dispositivos só conseguem processar arquivos pequenos.",
+    "import.no_data": "não tem nada nesse arquivo. tem certeza que este é o certo?",
+    "import.invalid": "seu arquivo não parece ter configurações válidas para ser importado. tem certeza que é esse mesmo?",
+    "import.unknown": "não consegui carregar os dados do arquivo. ele pode estar corrompido ou está num formato inválido. mensagem de erro:\n\n{{ value }}",
+    "remux.corrupted": "não foi possível ler os metadados do arquivo, talvez ele esteja corrompido.",
+    "tunnel.probe": "não consegui ver se você pode baixar esse arquivo. tente novamente em alguns segundos!",
+    "api.auth.jwt.missing": "não foi possível confirmar se você não é um robô porque o servidor de processamento não recebeu o token de acesso humano. tente novamente em alguns segundos ou recarregue a página!",
+    "api.auth.jwt.invalid": "não foi possível confirmar se você não é um robô porque seu token de acesso humano expirou e não foi renovado. tente novamente em alguns segundos ou recarregue a página!",
+    "api.auth.turnstile.invalid": "não foi possível confirmar se você não é um robô porque seu token de acesso humano expirou e não foi renovado. tente novamente em alguns segundos ou recarregue a página!",
+    "api.unreachable": "não consegui conectar ao servidor de processamento. verifique sua conexão a internet e tenta de novo.",
+    "api.rate_exceeded": "você fez muitas requisições. tente novamente em {{ limit }} segundos!"
+}
