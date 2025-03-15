@@ -1,0 +1,25 @@
+{
+    "paste": "colar",
+    "paste.long": "colar e baixar",
+    "auto": "automático",
+    "audio": "áudio",
+    "mute": "mudo",
+    "input.placeholder": "cole o link aqui",
+    "terms.note.agreement": "ao continuar, você concorda com os",
+    "terms.note.link": "termos e ética de uso",
+    "services.title": "serviços suportados",
+    "services.title_show": "mostrar serviços suportados",
+    "services.title_hide": "esconder serviços suportados",
+    "services.disclaimer": "o Cobalt não é afiliado a nenhum dos serviços listados acima.",
+
+    "tutorial.title": "como salvar no iOS?",
+    "tutorial.intro": "para salvar mídia de forma conveniente no iOS, você precisará usar um atalho do Siri a partir da tela de compartilhamento.",
+    "tutorial.step.1": "adicione os atalhos do Siri:",
+    "tutorial.step.2": "pressione o botão \"compartilhar\" na caixa de diálogo de salvamento do Cobalt.",
+    "tutorial.step.3": "selecione o atalho respectivo na tela de compartilhamento.",
+    "tutorial.outro": "esses atalhos funcionarão apenas no aplicativo do Cobalt; compartilhar links de outros aplicativos não funcionará.",
+    "tutorial.shortcut.photos": "para fotos",
+    "tutorial.shortcut.files": "para arquivos",
+
+    "label.community_instance": "instância da comunidade"
+}
