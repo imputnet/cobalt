@@ -67,7 +67,7 @@
         <meta name="theme-color" content={statusBarColors[$currentTheme]} />
     {/if}
 
-    {#if env.PLAUSIBLE_ENABLED}
+    {#if browser && env.PLAUSIBLE_ENABLED && !$settings.privacy.disableAnalytics}
         <script
             defer
             data-domain={env.HOST}
