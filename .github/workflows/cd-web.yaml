@@ -2,6 +2,8 @@ name: Deploy Frontend
 
 on:
   push:
+    branches:
+      - rrr
 
 jobs:
   build:
