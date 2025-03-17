@@ -36,6 +36,7 @@
         device.prefers.reducedTransparency;
 
     $: preloadMeowbalt = false;
+    $: plausibleLoaded = false;
 
     afterNavigate(async () => {
         const to_focus: HTMLElement | null =
@@ -67,10 +68,13 @@
         <meta name="theme-color" content={statusBarColors[$currentTheme]} />
     {/if}
 
-    {#if browser && env.PLAUSIBLE_ENABLED && !$settings.privacy.disableAnalytics}
+    {#if plausibleLoaded || (browser && env.PLAUSIBLE_ENABLED && !$settings.privacy.disableAnalytics)}
         <script
             defer
             data-domain={env.HOST}
+            on:load={() => {
+                plausibleLoaded = true;
+            }}
             src="https://{env.PLAUSIBLE_HOST}/js/script.js"
         >
         </script>
