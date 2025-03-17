@@ -3,6 +3,7 @@
     import "@fontsource/ibm-plex-mono/400-italic.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import { onMount } from "svelte";
     import { page } from "$app/stores";
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
@@ -34,6 +35,8 @@
         $settings.accessibility.reduceTransparency ||
         device.prefers.reducedTransparency;
 
+    $: preloadMeowbalt = false;
+
     afterNavigate(async () => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
@@ -42,6 +45,10 @@
         if ($page.url.pathname === "/") {
             await getServerInfo();
         }
+    });
+
+    onMount(() => {
+        preloadMeowbalt = true;
     });
 </script>
 
@@ -75,7 +82,9 @@
     data-theme={browser ? $currentTheme : undefined}
     lang={$locale}
 >
-    <div id="preload-meowbalt" aria-hidden="true"></div>
+    {#if preloadMeowbalt}
+        <div id="preload-meowbalt" aria-hidden="true"></div>
+    {/if}
     <div
         id="cobalt"
         class:loaded={browser}
