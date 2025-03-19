@@ -10,8 +10,5 @@
     ],
     "twitter": [
         "auth_token=<replace_this>; ct0=<replace_this>"
-    ],
-    "youtube_oauth": [
-        "<output from running `pnpm run token:youtube` in `api` folder goes here>"
     ]
 }

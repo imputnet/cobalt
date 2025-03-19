@@ -11,7 +11,6 @@
     "scripts": {
         "start": "node src/cobalt",
         "test": "node src/util/test",
-        "token:youtube": "node src/util/generate-youtube-tokens",
         "token:jwt": "node src/util/generate-jwt-secret"
     },
     "repository": {

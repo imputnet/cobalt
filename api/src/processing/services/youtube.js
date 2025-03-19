@@ -4,8 +4,8 @@ import { fetch } from "undici";
 import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
+import { getCookie } from "../cookie/manager.js";
 import { getYouTubeSession } from "../helpers/youtube-session.js";
-import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
 
@@ -46,27 +46,6 @@ const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDR
 
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
-const transformSessionData = (cookie) => {
-    if (!cookie)
-        return;
-
-    const values = { ...cookie.values() };
-    const REQUIRED_VALUES = ['access_token', 'refresh_token'];
-
-    if (REQUIRED_VALUES.some(x => typeof values[x] !== 'string')) {
-        return;
-    }
-
-    if (values.expires) {
-        values.expiry_date = values.expires;
-        delete values.expires;
-    } else if (!values.expiry_date) {
-        return;
-    }
-
-    return values;
-}
-
 const cloneInnertube = async (customFetch) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
 
@@ -101,32 +80,6 @@ const cloneInnertube = async (customFetch) => {
         customFetch ?? innertube.session.http.fetch,
         innertube.session.cache
     );
-
-    const oauthCookie = getCookie('youtube_oauth');
-    const oauthData = transformSessionData(oauthCookie);
-
-    if (!session.logged_in && oauthData) {
-        await session.oauth.init(oauthData);
-        session.logged_in = true;
-    }
-
-    if (session.logged_in && oauthData) {
-        if (session.oauth.shouldRefreshToken()) {
-            await session.oauth.refreshAccessToken();
-        }
-
-        const cookieValues = oauthCookie.values();
-        const oldExpiry = new Date(cookieValues.expiry_date);
-        const newExpiry = new Date(session.oauth.oauth2_tokens.expiry_date);
-
-        if (oldExpiry.getTime() !== newExpiry.getTime()) {
-            updateCookieValues(oauthCookie, {
-                ...session.oauth.client_id,
-                ...session.oauth.oauth2_tokens,
-                expiry_date: newExpiry.toISOString()
-            });
-        }
-    }
 
     const yt = new Innertube(session);
     return yt;
