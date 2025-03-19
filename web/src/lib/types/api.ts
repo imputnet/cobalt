@@ -51,9 +51,9 @@ export type CobaltLocalProcessingResponse = {
     service: string,
     tunnel: string[],
 
-    output?: {
-        type?: string, // mimetype
-        filename?: string,
+    output: {
+        type: string, // mimetype
+        filename: string,
         metadata?: {
             album?: string,
             copyright?: string,
