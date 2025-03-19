@@ -4,6 +4,7 @@ import { fetch } from "undici";
 import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
+import { getYouTubeSession } from "../helpers/youtube-session.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
@@ -70,16 +71,22 @@ const cloneInnertube = async (customFetch) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
 
     const rawCookie = getCookie('youtube');
-    const rawCookieValues = rawCookie?.values();
     const cookie = rawCookie?.toString();
+
+    const sessionTokens = getYouTubeSession();
+    const retrieve_player = Boolean(sessionTokens || cookie);
+
+    if (env.ytSessionServer && !sessionTokens?.potoken) {
+        throw "no_session_tokens";
+    }
 
     if (!innertube || shouldRefreshPlayer) {
         innertube = await Innertube.create({
             fetch: customFetch,
-            retrieve_player: !!cookie,
+            retrieve_player,
             cookie,
-            po_token: rawCookieValues?.po_token,
-            visitor_data: rawCookieValues?.visitor_data,
+            po_token: sessionTokens?.potoken,
+            visitor_data: sessionTokens?.visitor_data,
         });
         lastRefreshedAt = +new Date();
     }
@@ -135,7 +142,9 @@ export default async function (o) {
             })
         );
     } catch (e) {
-        if (e.message?.endsWith("decipher algorithm")) {
+        if (e === "no_session_tokens") {
+            return { error: "youtube.no_session_tokens" };
+        } else if (e.message?.endsWith("decipher algorithm")) {
             return { error: "youtube.decipher" }
         } else if (e.message?.includes("refresh access token")) {
             return { error: "youtube.token_expired" }
