@@ -151,21 +151,15 @@ export default async function (o) {
         } else throw e;
     }
 
-    const cookie = getCookie('youtube')?.toString();
-
     let useHLS = o.youtubeHLS;
 
-    // HLS playlists don't contain the av1 video format, at least with the iOS client
-    if (useHLS && o.format === "av1") {
+    // HLS playlists don't contain the av1 video format.
+    // if the session server is used, then iOS client will not work, at least currently.
+    if (useHLS && (o.format === "av1" || env.ytSessionServer)) {
         useHLS = false;
     }
 
     let innertubeClient = o.innertubeClient || env.customInnertubeClient || "ANDROID";
-
-    if (cookie) {
-        useHLS = false;
-        innertubeClient = "WEB";
-    }
 
     if (useHLS) {
         innertubeClient = "IOS";
