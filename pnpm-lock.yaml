@@ -43,6 +43,9 @@ importers:
       ipaddr.js:
         specifier: 2.2.0
         version: 2.2.0
+      mime:
+        specifier: ^4.0.4
+        version: 4.0.4
       nanoid:
         specifier: ^5.0.9
         version: 5.0.9

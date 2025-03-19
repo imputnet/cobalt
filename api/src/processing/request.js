@@ -1,3 +1,4 @@
+import mime from "mime";
 import ipaddr from "ipaddr.js";
 
 import { apiSchema } from "./schema.js";
@@ -51,12 +52,15 @@ export function createResponse(responseType, responseData) {
 
             case "local-processing":
                 response = {
-                    tunnel: createProxyTunnels(responseData),
-
                     type: responseData?.type,
                     service: responseData?.service,
-                    filename: responseData?.filename,
-                    metadata: responseData?.fileMetadata,
+                    tunnel: createProxyTunnels(responseData),
+
+                    output: {
+                        type: mime.getType(responseData?.filename) || undefined,
+                        filename: responseData?.filename,
+                        metadata: responseData?.fileMetadata || undefined,
+                    },
 
                     audio: {
                         copy: responseData?.audioCopy,
