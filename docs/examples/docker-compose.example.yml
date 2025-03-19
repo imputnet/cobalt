@@ -41,3 +41,14 @@ services:
         command: --cleanup --scope cobalt --interval 900 --include-restarting
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
+
+    # if needed, use this image for automatically generating poToken & visitor_data
+    # yt-session-generator:
+    #     image: ghcr.io/imputnet/yt-session-generator:webserver
+
+    #     init: true
+    #     restart: unless-stopped
+    #     container_name: yt-session-generator
+
+    #     ports:
+    #         - 127.0.0.1:1280:8080
