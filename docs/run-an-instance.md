@@ -81,6 +81,7 @@ sudo service nscd start
 | `API_INSTANCE_COUNT`  | ➖        | `2`                     | supported only on Linux and node.js `>=23.1.0`. when configured, cobalt will spawn multiple sub-instances amongst which requests will be balanced. |
 | `DISABLED_SERVICES`   | ➖        | `bilibili,youtube`       | comma-separated list which disables certain services from being used. |
 | `CUSTOM_INNERTUBE_CLIENT` | ➖    | `IOS`                    | innertube client that will be used instead of the default one. |
+| `YOUTUBE_SESSION_SERVER` | ➖    | `http://localhost:8080/`  | url to an instance of [invidious' youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) or its fork/counterpart. used for automatically pulling poToken & visitor_data for youtube. can be local or remote. |
 
 \* the higher the nice value, the lower the priority. [read more here](https://en.wikipedia.org/wiki/Nice_(Unix)).
 
