@@ -45,20 +45,23 @@ type CobaltTunnelResponse = {
 
 export type CobaltLocalProcessingResponse = {
     status: CobaltResponseType.LocalProcessing,
-    tunnel: string[],
 
     // TODO: proper type for processing types
     type: string,
     service: string,
-    filename: string,
+    tunnel: string[],
 
-    metadata?: {
-        album?: string,
-        copyright?: string,
-        title?: string,
-        artist?: string,
-        track?: string,
-        date?: string
+    output?: {
+        type?: string, // mimetype
+        filename?: string,
+        metadata?: {
+            album?: string,
+            copyright?: string,
+            title?: string,
+            artist?: string,
+            track?: string,
+            date?: string
+        },
     },
 
     audio?: {

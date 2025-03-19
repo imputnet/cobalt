@@ -1,5 +1,3 @@
-import mime from "mime";
-
 import { addItem } from "$lib/state/queen-bee/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
 
@@ -55,6 +53,9 @@ export const createRemuxPipeline = (file: File) => {
 }
 
 export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
+    // TODO: proper error here
+    if (!(info.output?.filename && info.output?.type)) return;
+
     const parentId = crypto.randomUUID();
     const pipeline: CobaltPipelineItem[] = [];
 
@@ -82,9 +83,8 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
                 "-c:a", "copy"
             ],
             output: {
-                // TODO: return mime type from api to avoid dragging a big ass package into web build
-                type: mime.getType(info.filename) || undefined,
-                format: info.filename.split(".").pop(),
+                type: info.output.type,
+                format: info.output.filename.split(".").pop(),
             },
         },
     });
@@ -95,8 +95,8 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         pipeline,
         canRetry: true,
         originalRequest: request,
-        filename: info.filename,
-        mimeType: mime.getType(info.filename) || undefined,
+        filename: info.output.filename,
+        mimeType: info.output.type,
         mediaType: "video",
     });
 
