@@ -1,0 +1,13 @@
+{
+    "reset.title": "resetto tutto?",
+    "reset.body": "siete sicuri di voler resettare tutti i dati? quest'azione è immediata e irreversibile.",
+    "picker.title": "scegli cosa salvare",
+    "picker.description.desktop": "clicca su un elemento per salvarlo. le immagini possono anche essere salvate tramite il menu del tasto destro.",
+    "import.body": "l'importazione di file sconosciuti o corrotti potrebbe alterare o rompere il funzionamento di cobalt. importate solo file che avete voi stessi esportato senza alcuna modifica. se vi è stato chiesto di importare questo file da qualcuno - non fatelo.\n\nnon siamo responsabili di alcun danno causato dall'importazione di file di configurazione sconosciuti.",
+    "picker.description.phone": "premi su un elemento per salvarlo. le immagini possono essere salvate tenendo premuto.",
+    "picker.description.ios": "premi su un elemento per salvarlo con una scorciatoia. le immagini possono anche essere salvate tenendo premuto.",
+    "saving.title": "scegli come salvare",
+    "saving.blocked": "cobalt ha provato ad aprire il file in una nuova tab ma il tuo browser l'ha bloccato. puoi autorizzare cobalt ad usare i popup per evitare che questo riaccada la prossima volta.",
+    "saving.timeout": "cobalt ha provato a salvare il file in automatico ma il tuo browser l'ha fermato. devi selezionare un metodo preferito manualmente.",
+    "safety.title": "importante avviso di sicurezza"
+}
