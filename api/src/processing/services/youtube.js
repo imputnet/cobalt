@@ -46,7 +46,7 @@ const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDR
 
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
-const cloneInnertube = async (customFetch) => {
+const cloneInnertube = async (customFetch, useSession) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
 
     const rawCookie = getCookie('youtube');
@@ -55,7 +55,7 @@ const cloneInnertube = async (customFetch) => {
     const sessionTokens = getYouTubeSession();
     const retrieve_player = Boolean(sessionTokens || cookie);
 
-    if (env.ytSessionServer && !sessionTokens?.potoken) {
+    if (useSession && env.ytSessionServer && !sessionTokens?.potoken) {
         throw "no_session_tokens";
     }
 
@@ -64,8 +64,8 @@ const cloneInnertube = async (customFetch) => {
             fetch: customFetch,
             retrieve_player,
             cookie,
-            po_token: sessionTokens?.potoken,
-            visitor_data: sessionTokens?.visitor_data,
+            po_token: useSession ? sessionTokens?.potoken : undefined,
+            visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
         });
         lastRefreshedAt = +new Date();
     }
@@ -86,13 +86,46 @@ const cloneInnertube = async (customFetch) => {
 }
 
 export default async function (o) {
+    const quality = o.quality === "max" ? 9000 : Number(o.quality);
+
+    let useHLS = o.youtubeHLS;
+    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
+
+    // HLS playlists from the iOS client don't contain the av1 video format.
+    if (useHLS && o.format === "av1") {
+        useHLS = false;
+    }
+
+    if (useHLS) {
+        innertubeClient = "IOS";
+    }
+
+    // iOS client doesn't have adaptive formats of resolution >1080p,
+    // so we use the WEB_EMBEDDED client instead for those cases
+    const useSession =
+        env.ytSessionServer && (
+            (
+                !useHLS
+                && innertubeClient === "IOS"
+                && (
+                    (quality > 1080 && o.format !== "h264")
+                    || o.format === "vp9"
+                )
+            )
+        );
+
+    if (useSession) {
+        innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
+    }
+
     let yt;
     try {
         yt = await cloneInnertube(
             (input, init) => fetch(input, {
                 ...init,
                 dispatcher: o.dispatcher
-            })
+            }),
+            useSession
         );
     } catch (e) {
         if (e === "no_session_tokens") {
@@ -102,20 +135,6 @@ export default async function (o) {
         } else if (e.message?.includes("refresh access token")) {
             return { error: "youtube.token_expired" }
         } else throw e;
-    }
-
-    let useHLS = o.youtubeHLS;
-
-    // HLS playlists don't contain the av1 video format.
-    // if the session server is used, then iOS client will not work, at least currently.
-    if (useHLS && (o.format === "av1" || env.ytSessionServer)) {
-        useHLS = false;
-    }
-
-    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "ANDROID";
-
-    if (useHLS) {
-        innertubeClient = "IOS";
     }
 
     let info;
@@ -195,8 +214,6 @@ export default async function (o) {
             critical: true
         }
     }
-
-    const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
     const normalizeQuality = res => {
         const shortestSide = Math.min(res.height, res.width);
