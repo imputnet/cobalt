@@ -356,7 +356,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     }, () => {
         if (isPrimary) {
             console.log(`\n` +
-                Bright(Cyan("cobalt ")) + Bright("API ^ω⁠^") + "\n" +
+                Bright(Cyan("cobalt ")) + Bright("API ^ω^") + "\n" +
 
                 "~~~~~~\n" +
                 Bright("version: ") + version + "\n" +
