@@ -10,7 +10,7 @@
     },
     {
         "name": "picker with multiple live photos",
-        "url": "https://www.xiaohongshu.com/explore/67847fa1000000000203e6ed?xsec_token=CBzyP7Y44PPpsM20lgxqrIIJMHqOLemusDsRcmsX0cTpk",
+        "url": "https://www.xiaohongshu.com/explore/67c691b4000000000d0159cc?xsec_token=CB8p1eyB5DiFkwlUpy1BTeVsI9oOve6ppNjuDzo8V8p5w=",
         "params": {},
         "expected": {
             "code": 200,
