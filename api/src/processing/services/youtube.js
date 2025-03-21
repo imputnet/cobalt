@@ -109,7 +109,7 @@ export default async function (o) {
                 && innertubeClient === "IOS"
                 && (
                     (quality > 1080 && o.format !== "h264")
-                    || o.format === "vp9"
+                    || (quality > 1080 && o.format !== "vp9")
                 )
             )
         );
