@@ -1,0 +1,27 @@
+meta {
+  name: Download video
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:9000/
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: cb316fd0859c022fbfbd1aac02b60dc36d3e852231391343f6346e504d51aab1a81cca
+}
+
+body:json {
+  {
+    "url": "https://vm.tiktok.com/ZMBBVRkLj/",
+    "videoQuality": "360"
+  }
+}
