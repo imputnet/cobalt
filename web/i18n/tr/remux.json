@@ -1,0 +1,8 @@
+{
+    "bullet.purpose.title": "remux ne işe yarar?",
+    "bullet.purpose.description": "remux, eksik zaman bilgisi gibi dosya konteyneriyle ilgili sorunları düzeltir. ayrıca, vegas pro ve windows media player gibi eski yazılımlarla uyumluluğu artırmaya yardımcı olur.",
+    "bullet.explainer.title": "nasıl çalışır?",
+    "bullet.explainer.description": "remuxing, mevcut codec verilerini alıp yeni bir medya konteynerine kopyalar. bu işlem kayıpsızdır, medya verileri yeniden kodlanmaz.",
+    "bullet.privacy.title": "cihaz üzerinde işlem",
+    "bullet.privacy.description": "cobalt, dosyaları yerel olarak remux eder. dosyalar cihazınızı terk etmez, bu nedenle işlem neredeyse anında gerçekleşir."
+}

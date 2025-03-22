@@ -1,0 +1,35 @@
+{
+    "page.general": "cobalt nedir?",
+    "page.faq": "sss",
+
+    "page.community": "topluluk ve destek",
+
+    "page.privacy": "gizlilik politikası",
+    "page.terms": "şartlar ve etik kurallar",
+    "page.credits": "teşekkürler ve lisanslar",
+
+    "heading.general": "genel şartlar",
+    "heading.licenses": "lisanslar",
+    "heading.summary": "sevdiğin şeyleri saklamanın en iyi yolu",
+    "heading.privacy": "öncü gizlilik",
+    "heading.community": "açık topluluk",
+    "heading.local": "cihaz içi işleme",
+    "heading.saving": "kaydetme",
+    "heading.encryption": "şifreleme",
+    "heading.plausible": "anonim trafik analitiği",
+    "heading.cloudflare": "web gizliliği ve güvenliği",
+    "heading.responsibility": "kullanıcı sorumlulukları",
+    "heading.abuse": "suistimali bildirme",
+    "heading.motivation": "motivasyon",
+    "heading.testers": "beta test kullanıcıları",
+
+    "support.github": "cobalt'ın kaynak kodunu inceleyin, değişikliklere katkıda bulunun veya sorun bildirin",
+    "support.discord": "topluluk ve geliştiricilerle sohbet edin ya da yardım isteyin",
+    "support.twitter": "twitter zaman akışında cobalt'ın güncellemelerini ve gelişimini takip edin",
+    "support.telegram": "en son cobalt güncellemelerini bir telegram kanalı aracılığıyla takip edin",
+    "support.bluesky": "bluesky akışınızda cobalt'ın güncellemelerini ve gelişimini takip edin",
+
+    "support.description.issue": "bir hata veya tekrarlayan bir sorun bildirmek istiyorsanız, bunu github üzerinden yapın.",
+    "support.description.help": "diğer tüm sorular için discord'u kullanın. sorunu #cobalt-support kanalında düzgün bir şekilde açıklayın, aksi takdirde kimse yardımcı olamaz.",
+    "support.description.best-effort": "tüm destek çabası en iyi gayret esasına dayanır ve garanti edilmez, bir yanıt almak zaman alabilir."
+}
