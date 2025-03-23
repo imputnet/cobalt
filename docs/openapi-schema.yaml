@@ -42,59 +42,47 @@ components:
         videoQuality:
           type: string
           enum: ["144", "240", "360", "480", "720", "1080", "1440", "2160", "4320", "max"]
-          default: "1080"
           description: "Video resolution quality (e.g., '144', '720', '1080', up to '4320' or 'max')."
         audioFormat:
           type: string
           enum: ["best", "mp3", "ogg", "wav", "opus"]
-          default: "mp3"
           description: "Audio format for extraction or conversion."
         audioBitrate:
           type: string
           enum: ["320", "256", "128", "96", "64", "8"]
-          default: "128"
           description: "Audio bitrate in kbps for conversion; applies only when converting to audio."
         filenameStyle:
           type: string
           enum: ["classic", "pretty", "basic", "nerdy"]
-          default: "classic"
           description: "File naming style for the output file."
         downloadMode:
           type: string
           enum: ["auto", "audio", "mute"]
-          default: "auto"
           description: "Download mode: 'auto' (video with audio), 'audio' (audio-only), or 'mute' (video without audio)."
         youtubeVideoCodec:
           type: string
           enum: ["h264", "av1", "vp9"]
-          default: "h264"
           description: "Preferred video codec for YouTube downloads."
         youtubeDubLang:
           type: string
           description: "Language code for dubbed audio on YouTube (if applicable), e.g. 'en', 'ru', 'ja', 'es-US'."
         alwaysProxy:
           type: boolean
-          default: false
           description: "If true, forces all downloads to proxy through the server."
         disableMetadata:
           type: boolean
-          default: false
           description: "If true, do not embed metadata (like title or artist tags) in the output file."
         tiktokFullAudio:
           type: boolean
-          default: false
           description: "If true, download the original sound for a TikTok video when available."
         tiktokH265:
           type: boolean
-          default: false
           description: "If true, allow H.265/HEVC video for TikTok (and Xiaohongshu) if available."
         twitterGif:
           type: boolean
-          default: true
           description: "If true, convert Twitter 'GIFs' (video format) into actual .gif files."
         youtubeHLS:
           type: boolean
-          default: false
           description: "If true, use HLS streaming for YouTube video/audio downloads when available."
     RedirectResponse:
       type: object
