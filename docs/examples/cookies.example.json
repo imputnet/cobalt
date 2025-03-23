@@ -10,5 +10,8 @@
     ],
     "twitter": [
         "auth_token=<replace_this>; ct0=<replace_this>"
+    ],
+    "youtube": [
+        "cookie=<replace_this>; b=<replace_this>"
     ]
 }
