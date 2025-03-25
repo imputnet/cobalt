@@ -136,7 +136,7 @@ export const services = {
     tiktok: {
         patterns: [
             ":user/video/:postId",
-            "i18n/share/video/:postId/",
+            "i18n/share/video/:postId",
             ":shortLink",
             "t/:shortLink",
             ":user/photo/:postId",
