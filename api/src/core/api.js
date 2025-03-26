@@ -355,7 +355,57 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         reusePort: env.instanceCount > 1 || undefined
     }, () => {
         if (isPrimary) {
-            console.log(`\n` +
+            const cobaltBoot = [
+                "",
+                `${Bright(Cyan("cobalt ")) + Bright("API ^ω^")}`,
+                "~~~~~~",
+                `${Bright("version: ") + version}`,
+                `${Bright("commit: ") + git.commit}`,
+                `${Bright("branch: ") + git.branch}`,
+                `${Bright("remote: ") + git.remote}`,
+                `${Bright("start time: ") + startTime.toUTCString()}`,
+                "~~~~~~",
+                `${Bright("url: ") + Bright(Cyan(env.apiURL))}`,
+                `${Bright("port: ") + env.apiPort}`
+            ];
+            const meowbaltArt = [
+                "                  rrWW**          ",
+                '      cc++      vv&&@@&&ss        ',
+                "    MM@@%%ss    WW@@AA##&&~~      ",
+                '  --%%##&&@@zzAA&&##  **@@GG      ',
+                '  zz@@rr~~##KKAAzz~~vvoo##NN      ',
+                "  WW@@^^rr--ookkkk      cc##  ++^^",
+                '  ##@@ss..    **~~  zzHH--zz^^//  ',
+                '   ##@@**..++      ~~AA..zzcc~~   ',
+                '  ZZNN  ssGGMMoo  **      ^^^^    ',
+                '  **GG  ZZ    --    ....  rr//vv**',
+                '  ..zzssrr      --AA--    rr      ',
+                '**//rr--      --//      oorr**    ',
+                '    ooAA--          ++rr^^  ^^~~  ',
+                '    AAcc**vv**//ooMMkkoo..    vv  ',
+                '  //OO    ~~rrssccAAcc^^    ^^~~  ',
+                '  //ss            ..++MM    cc    ',
+                '    oo              rrHHoooo..    ',
+                '    ^^oo            vvAA          ',
+                '      ..vvoooooooooocc++',
+            ];
+
+            //Get the which block of text is bigger
+            const maxLines = Math.max(cobaltBoot.length, meowbaltArt.length);
+
+            //Spacing
+            console.log('');
+
+            for (let i = 0; i < maxLines; i++) { //Then draw both
+                const meowLine = i < meowbaltArt.length ? meowbaltArt[i] : ' '.repeat(meowbaltArt[0].length);
+                const infoLine = i < cobaltBoot.length ? cobaltBoot[i] : '';
+                console.log(`${meowLine}    ${infoLine}`);
+            }
+
+            //More spacing
+            console.log('');
+
+            /*console.log(`\n` +
                 Bright(Cyan("cobalt ")) + Bright("API ^ω^") + "\n" +
 
                 "~~~~~~\n" +
@@ -368,7 +418,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
                 Bright("url: ") + Bright(Cyan(env.apiURL)) + "\n" +
                 Bright("port: ") + env.apiPort + "\n"
-            );
+            );*/
         }
 
         if (env.apiKeyURL) {
