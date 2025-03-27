@@ -152,7 +152,7 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        gap: 4px;
+        gap: 3px;
     }
 
     .header-top {
