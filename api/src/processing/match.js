@@ -109,7 +109,7 @@ export default async function({ host, patternMatch, params }) {
                 }
 
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {
-                    fetchInfo.quality = "max";
+                    fetchInfo.quality = "1080";
                     fetchInfo.format = "vp9";
                     fetchInfo.isAudioOnly = true;
                     fetchInfo.isAudioMuted = false;

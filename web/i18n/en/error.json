@@ -68,5 +68,6 @@
     "api.youtube.no_hls_streams": "couldn't find any matching HLS streams for this video. try downloading it without HLS!",
     "api.youtube.api_error": "youtube updated something about its api and i couldn't get any info about this video. try again in a few seconds, but if this issue sticks, please report it!",
     "api.youtube.temporary_disabled": "youtube downloading is temporarily disabled due to restrictions from youtube's side. we're already looking for ways to go around them.\n\nwe apologize for the inconvenience and are doing our best to restore this functionality. check cobalt's socials or github for timely updates!",
-    "api.youtube.drm": "this youtube video is protected by widevine DRM, so i can't download it. try a different link!"
+    "api.youtube.drm": "this youtube video is protected by widevine DRM, so i can't download it. try a different link!",
+    "api.youtube.no_session_tokens": "couldn't get required session tokens for youtube. this may be caused by a restriction on youtube's side. try again in a few seconds, but if this issue sticks, please report it!"
 }

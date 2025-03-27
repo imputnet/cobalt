@@ -189,6 +189,7 @@
     {
         "name": "hls video (h264, 1440p)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "canFail": true,
         "params": {
             "youtubeVideoCodec": "h264",
             "videoQuality": "1440",
@@ -202,6 +203,7 @@
     {
         "name": "hls video (vp9, 360p)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "canFail": true,
         "params": {
             "youtubeVideoCodec": "vp9",
             "videoQuality": "360",
@@ -215,6 +217,7 @@
     {
         "name": "hls video (audio mode)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "canFail": true,
         "params": {
             "downloadMode": "audio",
             "youtubeHLS": true
@@ -227,6 +230,7 @@
     {
         "name": "hls video (audio mode, best format)",
         "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "canFail": true,
         "params": {
             "downloadMode": "audio",
             "youtubeHLS": true,

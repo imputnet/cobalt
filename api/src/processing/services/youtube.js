@@ -4,7 +4,8 @@ import { fetch } from "undici";
 import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
-import { getCookie, updateCookieValues } from "../cookie/manager.js";
+import { getCookie } from "../cookie/manager.js";
+import { getYouTubeSession } from "../helpers/youtube-session.js";
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
 
@@ -45,41 +46,26 @@ const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDR
 
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
-const transformSessionData = (cookie) => {
-    if (!cookie)
-        return;
-
-    const values = { ...cookie.values() };
-    const REQUIRED_VALUES = ['access_token', 'refresh_token'];
-
-    if (REQUIRED_VALUES.some(x => typeof values[x] !== 'string')) {
-        return;
-    }
-
-    if (values.expires) {
-        values.expiry_date = values.expires;
-        delete values.expires;
-    } else if (!values.expiry_date) {
-        return;
-    }
-
-    return values;
-}
-
-const cloneInnertube = async (customFetch) => {
+const cloneInnertube = async (customFetch, useSession) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
 
     const rawCookie = getCookie('youtube');
-    const rawCookieValues = rawCookie?.values();
     const cookie = rawCookie?.toString();
+
+    const sessionTokens = getYouTubeSession();
+    const retrieve_player = Boolean(sessionTokens || cookie);
+
+    if (useSession && env.ytSessionServer && !sessionTokens?.potoken) {
+        throw "no_session_tokens";
+    }
 
     if (!innertube || shouldRefreshPlayer) {
         innertube = await Innertube.create({
             fetch: customFetch,
-            retrieve_player: !!cookie,
+            retrieve_player,
             cookie,
-            po_token: rawCookieValues?.po_token,
-            visitor_data: rawCookieValues?.visitor_data,
+            po_token: useSession ? sessionTokens?.potoken : undefined,
+            visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
         });
         lastRefreshedAt = +new Date();
     }
@@ -95,71 +81,60 @@ const cloneInnertube = async (customFetch) => {
         innertube.session.cache
     );
 
-    const oauthCookie = getCookie('youtube_oauth');
-    const oauthData = transformSessionData(oauthCookie);
-
-    if (!session.logged_in && oauthData) {
-        await session.oauth.init(oauthData);
-        session.logged_in = true;
-    }
-
-    if (session.logged_in && oauthData) {
-        if (session.oauth.shouldRefreshToken()) {
-            await session.oauth.refreshAccessToken();
-        }
-
-        const cookieValues = oauthCookie.values();
-        const oldExpiry = new Date(cookieValues.expiry_date);
-        const newExpiry = new Date(session.oauth.oauth2_tokens.expiry_date);
-
-        if (oldExpiry.getTime() !== newExpiry.getTime()) {
-            updateCookieValues(oauthCookie, {
-                ...session.oauth.client_id,
-                ...session.oauth.oauth2_tokens,
-                expiry_date: newExpiry.toISOString()
-            });
-        }
-    }
-
     const yt = new Innertube(session);
     return yt;
 }
 
 export default async function (o) {
+    const quality = o.quality === "max" ? 9000 : Number(o.quality);
+
+    let useHLS = o.youtubeHLS;
+    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
+
+    // HLS playlists from the iOS client don't contain the av1 video format.
+    if (useHLS && o.format === "av1") {
+        useHLS = false;
+    }
+
+    if (useHLS) {
+        innertubeClient = "IOS";
+    }
+
+    // iOS client doesn't have adaptive formats of resolution >1080p,
+    // so we use the WEB_EMBEDDED client instead for those cases
+    const useSession =
+        env.ytSessionServer && (
+            (
+                !useHLS
+                && innertubeClient === "IOS"
+                && (
+                    (quality > 1080 && o.format !== "h264")
+                    || (quality > 1080 && o.format !== "vp9")
+                )
+            )
+        );
+
+    if (useSession) {
+        innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
+    }
+
     let yt;
     try {
         yt = await cloneInnertube(
             (input, init) => fetch(input, {
                 ...init,
                 dispatcher: o.dispatcher
-            })
+            }),
+            useSession
         );
     } catch (e) {
-        if (e.message?.endsWith("decipher algorithm")) {
+        if (e === "no_session_tokens") {
+            return { error: "youtube.no_session_tokens" };
+        } else if (e.message?.endsWith("decipher algorithm")) {
             return { error: "youtube.decipher" }
         } else if (e.message?.includes("refresh access token")) {
             return { error: "youtube.token_expired" }
         } else throw e;
-    }
-
-    const cookie = getCookie('youtube')?.toString();
-
-    let useHLS = o.youtubeHLS;
-
-    // HLS playlists don't contain the av1 video format, at least with the iOS client
-    if (useHLS && o.format === "av1") {
-        useHLS = false;
-    }
-
-    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "ANDROID";
-
-    if (cookie) {
-        useHLS = false;
-        innertubeClient = "WEB";
-    }
-
-    if (useHLS) {
-        innertubeClient = "IOS";
     }
 
     let info;
@@ -239,8 +214,6 @@ export default async function (o) {
             critical: true
         }
     }
-
-    const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
     const normalizeQuality = res => {
         const shortestSide = Math.min(res.height, res.width);

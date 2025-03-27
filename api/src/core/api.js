@@ -18,9 +18,11 @@ import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
 import { verifyStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
+import { setupTunnelHandler } from "./itunnel.js";
+
 import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
-import { setupTunnelHandler } from "./itunnel.js";
+import * as YouTubeSession from "../processing/helpers/youtube-session.js";
 
 const git = {
     branch: await getBranch(),
@@ -340,7 +342,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     }, () => {
         if (isPrimary) {
             console.log(`\n` +
-                Bright(Cyan("cobalt ")) + Bright("API ^ω⁠^") + "\n" +
+                Bright(Cyan("cobalt ")) + Bright("API ^ω^") + "\n" +
 
                 "~~~~~~\n" +
                 Bright("version: ") + version + "\n" +
@@ -361,6 +363,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
         if (env.cookiePath) {
             Cookies.setup(env.cookiePath);
+        }
+
+        if (env.ytSessionServer) {
+            YouTubeSession.setup();
         }
     });
 
