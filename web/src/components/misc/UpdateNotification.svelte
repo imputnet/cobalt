@@ -1,8 +1,15 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { t } from "$lib/i18n/translations";
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
 
-    let dismissed = false;
+    let dismissed = true;
+
+    onMount(() => {
+        setTimeout(() => {
+            dismissed = false;
+        }, 200)
+    });
 </script>
 
 <div id="update-notification" role="alert" aria-atomic="true">
@@ -98,6 +105,7 @@
         .update-button {
             transform: translateY(300px);
             margin-right: var(--padding);
+            transition: transform 0.55s cubic-bezier(0.53, 0.05, 0.23, 1.15);
         }
     }
 </style>
