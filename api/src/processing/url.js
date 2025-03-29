@@ -239,11 +239,11 @@ export function extract(url) {
     return { host, patternMatch };
 }
 
-export async function resolveRedirectingURL(url, dispatcher, userAgent) {
+export async function resolveRedirectingURL(url, dispatcher, headers) {
     const originalService = getHostIfValid(normalizeURL(url));
     if (!originalService) return;
 
-    const canonicalURL = await getRedirectingURL(url, dispatcher, userAgent);
+    const canonicalURL = await getRedirectingURL(url, dispatcher, headers);
     if (!canonicalURL) return;
 
     const { host, patternMatch } = extract(normalizeURL(canonicalURL));
