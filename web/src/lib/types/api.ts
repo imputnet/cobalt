@@ -56,11 +56,12 @@ export type CobaltFileMetadata = Record<
     typeof CobaltFileMetadataKeys[number], string | undefined
 >;
 
+export type CobaltLocalProcessingType = 'merge' | 'mute' | 'audio' | 'gif';
+
 export type CobaltLocalProcessingResponse = {
     status: CobaltResponseType.LocalProcessing,
 
-    // TODO: proper type for processing types
-    type: string,
+    type: CobaltLocalProcessingType,
     service: string,
     tunnel: string[],
 
