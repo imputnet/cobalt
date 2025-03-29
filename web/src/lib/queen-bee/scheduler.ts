@@ -18,21 +18,21 @@ const startPipeline = (pipelineItem: CobaltPipelineItem) => {
     startWorker(pipelineItem);
 }
 
-export const checkTasks = () => {
+export const schedule = () => {
     const queueItems = get(queue);
     const ongoingTasks = get(currentTasks);
 
     // TODO (?): task concurrency
-    if (Object.keys(ongoingTasks).length > 0) return;
+    if (Object.keys(ongoingTasks).length > 0) {
+        return;
+    }
 
-    for (const item of Object.keys(queueItems)) {
-        const task = queueItems[item];
-
+    for (const task of Object.values(queueItems)) {
         if (task.state === "running") {
             // if the running worker isn't completed, wait
             // to be called again on worker completion
             if (!task.completedWorkers.has(task.runningWorker)) {
-                break;
+                return;
             }
 
             // if all workers are completed, then return the
@@ -42,11 +42,11 @@ export const checkTasks = () => {
 
                 if (finalFile) {
                     itemDone(task.id, finalFile);
-                    continue;
                 } else {
                     itemError(task.id, task.runningWorker, "no final file");
-                    continue;
                 }
+
+                continue;
             }
 
             // if current worker is completed, but there are more workers,
@@ -54,17 +54,13 @@ export const checkTasks = () => {
             for (const worker of task.pipeline) {
                 if (!task.completedWorkers.has(worker.workerId)) {
                     startPipeline(worker);
-                    break;
+                    return;
                 }
             }
 
-            break;
-        }
-
         // start the nearest waiting task and wait to be called again
-        if (task.state === "waiting" && task.pipeline.length > 0) {
+        } else if (task.state === "waiting" && task.pipeline.length > 0) {
             startPipeline(task.pipeline[0]);
-            break;
         }
     }
 }

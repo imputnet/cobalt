@@ -1,6 +1,6 @@
 import { readable, type Updater } from "svelte/store";
 
-import { checkTasks } from "$lib/queen-bee/scheduler";
+import { schedule } from "$lib/queen-bee/scheduler";
 import { clearFileStorage, removeFromFileStorage } from "$lib/storage";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/queen-bee/current-tasks";
 
@@ -34,7 +34,7 @@ export function addItem(item: CobaltQueueItem) {
         return queueData;
     });
 
-    checkTasks();
+    schedule();
 }
 
 export function itemError(id: string, workerId: string, error: string) {
@@ -52,7 +52,7 @@ export function itemError(id: string, workerId: string, error: string) {
     });
 
     removeWorkerFromQueue(workerId);
-    checkTasks();
+    schedule();
 }
 
 export function itemDone(id: string, file: CobaltFileReference) {
@@ -69,7 +69,7 @@ export function itemDone(id: string, file: CobaltFileReference) {
         return queueData;
     });
 
-    checkTasks();
+    schedule();
 }
 
 export function pipelineTaskDone(id: string, workerId: string, file: CobaltFileReference) {
@@ -85,7 +85,7 @@ export function pipelineTaskDone(id: string, workerId: string, file: CobaltFileR
     });
 
     removeWorkerFromQueue(workerId);
-    checkTasks();
+    schedule();
 }
 
 export function itemRunning(id: string, workerId: string) {
@@ -102,7 +102,7 @@ export function itemRunning(id: string, workerId: string) {
         return queueData;
     });
 
-    checkTasks();
+    schedule();
 }
 
 export function removeItem(id: string) {
@@ -118,7 +118,7 @@ export function removeItem(id: string) {
         return queueData;
     });
 
-    checkTasks();
+    schedule();
 }
 
 export function clearQueue() {
