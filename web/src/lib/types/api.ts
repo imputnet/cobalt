@@ -43,6 +43,19 @@ type CobaltTunnelResponse = {
     status: CobaltResponseType.Tunnel,
 } & CobaltPartialURLResponse;
 
+export const CobaltFileMetadataKeys = [
+    'album',
+    'copyright',
+    'title',
+    'artist',
+    'track',
+    'date'
+];
+
+export type CobaltFileMetadata = Record<
+    typeof CobaltFileMetadataKeys[number], string | undefined
+>;
+
 export type CobaltLocalProcessingResponse = {
     status: CobaltResponseType.LocalProcessing,
 
@@ -54,14 +67,7 @@ export type CobaltLocalProcessingResponse = {
     output: {
         type: string, // mimetype
         filename: string,
-        metadata?: {
-            album?: string,
-            copyright?: string,
-            title?: string,
-            artist?: string,
-            track?: string,
-            date?: string
-        },
+        metadata?: CobaltFileMetadata,
     },
 
     audio?: {

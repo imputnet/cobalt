@@ -1,5 +1,6 @@
 import { addItem } from "$lib/state/queen-bee/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
+import { ffmpegMetadataArgs } from "$lib/util";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
@@ -80,7 +81,8 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         workerArgs: {
             ffargs: [
                 "-c:v", "copy",
-                "-c:a", "copy"
+                "-c:a", "copy",
+                ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
             ],
             output: {
                 type: info.output.type,
