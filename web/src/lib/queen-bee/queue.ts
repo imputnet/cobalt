@@ -95,6 +95,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
             workerId: crypto.randomUUID(),
             parentId,
             workerArgs: {
+                files: [],
                 ffargs,
                 output: {
                     type: info.output.type,

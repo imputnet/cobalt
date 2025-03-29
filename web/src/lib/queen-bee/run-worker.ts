@@ -18,11 +18,11 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
 
     switch (worker) {
         case "remux":
-            if (workerArgs?.files) {
+            if (workerArgs.files) {
                 files = workerArgs.files;
             }
 
-            if (files?.length === 0) {
+            if (files.length === 0) {
                 const parent = get(queue)[parentId];
                 if (parent.state === "running" && parent.pipelineResults.length) {
                     files = parent.pipelineResults;
@@ -42,9 +42,7 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
             break;
 
         case "fetch":
-            if (workerArgs?.url) {
-                await runFetchWorker(workerId, parentId, workerArgs.url)
-            }
+            await runFetchWorker(workerId, parentId, workerArgs.url)
             break;
     }
 }
