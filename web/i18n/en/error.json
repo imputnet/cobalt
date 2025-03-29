@@ -63,8 +63,8 @@
 
     "api.youtube.no_matching_format": "youtube didn't return a valid video + audio format combo, either video or audio is missing. formats for this video may be re-encoding on youtube's side or something went wrong when parsing them. try enabling the hls option in video settings!",
     "api.youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video. try again in a few seconds, but if this issue sticks, please report it!",
-    "api.youtube.login": "couldn't get this video because youtube told the processing instance that it's a bot and restricted its access. try again in a few seconds, but if it still doesn't work, please report this issue!",
-    "api.youtube.token_expired": "couldn't get this video because the youtube token expired and i couldn't refresh it. try again in a few seconds, but if it still doesn't work, tell the instance owner about this error!",
+    "api.youtube.login": "couldn't get this video because youtube asked the processing instance to prove that it's not a bot. try again in a few seconds, but if it still doesn't work, please report this issue!",
+    "api.youtube.token_expired": "couldn't get this video because the youtube token expired and wasn't refreshed. try again in a few seconds, but if it still doesn't work, please report this issue!",
     "api.youtube.no_hls_streams": "couldn't find any matching HLS streams for this video. try downloading it without HLS!",
     "api.youtube.api_error": "youtube updated something about its api and i couldn't get any info about this video. try again in a few seconds, but if this issue sticks, please report it!",
     "api.youtube.temporary_disabled": "youtube downloading is temporarily disabled due to restrictions from youtube's side. we're already looking for ways to go around them.\n\nwe apologize for the inconvenience and are doing our best to restore this functionality. check cobalt's socials or github for timely updates!",
