@@ -106,6 +106,14 @@ function aliasURL(url) {
                 url.pathname = `/share/${idPart.slice(-32)}`;
             }
             break;
+            
+        case "redd":
+            /* reddit short video links can be treated by changing https://v.redd.it/<id>
+            to https://reddit.com/video/<id>.*/
+            if (url.hostname === "v.redd.it" && parts.length === 2) {
+                url = new URL(`https://www.reddit.com/video/${parts[1]}`);
+            }
+            break;
     }
 
     return url;

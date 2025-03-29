@@ -1,4 +1,4 @@
-import { resolveRedirectingURL } from "../url.js";
+import { extract, resolveRedirectingURL, normalizeURL } from "../url.js";
 import { genericUserAgent, env } from "../../config.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
@@ -50,6 +50,24 @@ async function getAccessToken() {
 
 export default async function(obj) {
     let params = obj;
+    const accessToken = await getAccessToken();
+
+    if (params.shortId) {
+        let r = await fetch(`https://www.reddit.com/video/${params.shortId}`, {
+            headers: {
+                'User-Agent': genericUserAgent,
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }).then(r => r.url).catch(() => {});
+
+        if (!r) return { error: "fetch.fail" };
+
+        try {
+            params = extract(normalizeURL(r)).patternMatch;
+        } catch (error) {
+            return { error: "fetch.fail" };
+        }
+    }
 
     if (!params.id && params.shareId) {
         params = await resolveRedirectingURL(
@@ -63,7 +81,6 @@ export default async function(obj) {
 
     const url = new URL(`https://www.reddit.com/comments/${params.id}.json`);
 
-    const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';
 
     let data = await fetch(
