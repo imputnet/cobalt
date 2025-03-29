@@ -80,10 +80,12 @@
 
     .spinner-icon.animated :global(svg) {
         animation: spinner 0.7s infinite linear;
+        will-change: transform;
     }
 
     .loading .link-icon :global(svg) {
         animation: spinner 0.7s linear;
+        will-change: transform;
     }
 
     .loading .link-icon {

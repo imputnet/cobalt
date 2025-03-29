@@ -279,6 +279,7 @@
 
     .status-spinner :global(svg) {
         animation: spinner 0.7s infinite linear;
+        will-change: transform;
     }
 
     .file-actions {

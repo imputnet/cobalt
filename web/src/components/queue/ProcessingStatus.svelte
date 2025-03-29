@@ -121,6 +121,7 @@
 
     #progress-ring.indeterminate {
         animation: spinner 3s linear infinite;
+        will-change: transform;
     }
 
     #progress-ring.indeterminate circle {
