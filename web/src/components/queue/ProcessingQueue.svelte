@@ -18,7 +18,6 @@
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
 
-    let popover: SvelteComponent;
     let quotaUsage = 0;
 
     const updateQuota = async () => {
@@ -73,7 +72,6 @@
     />
 
     <PopoverContainer
-        bind:this={popover}
         id="processing-popover"
         expanded={$queueVisible}
         expandStart="right"
@@ -166,6 +164,7 @@
 
     .storage-info {
         font-size: 12px;
+        font-weight: 500;
         color: var(--gray);
     }
 
