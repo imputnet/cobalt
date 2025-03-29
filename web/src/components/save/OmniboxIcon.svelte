@@ -44,17 +44,22 @@
 </div>
 
 <style>
-    #input-icons {
-        position: relative;
+    #input-icons,
+    #input-icons :global(svg),
+    .input-icon {
         width: 18px;
         height: 18px;
     }
 
+    #input-icons {
+        display: flex;
+        position: relative;
+    }
+
     #input-icons :global(svg) {
         stroke: var(--gray);
-        width: 18px;
-        height: 18px;
         stroke-width: 2px;
+        will-change: transform;
     }
 
     .input-icon {
@@ -76,12 +81,10 @@
 
     .spinner-icon.animated :global(svg) {
         animation: spinner 0.7s infinite linear;
-        will-change: transform;
     }
 
     .loading .link-icon :global(svg) {
         animation: spinner 0.7s linear;
-        will-change: transform;
     }
 
     .loading .link-icon {
