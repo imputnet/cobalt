@@ -1,4 +1,7 @@
+import { get } from "svelte/store";
+import { t } from "$lib/i18n/translations";
 import { addItem } from "$lib/state/queen-bee/queue";
+import { createDialog } from "$lib/state/dialogs";
 import { openQueuePopover } from "$lib/state/queue-visibility";
 import { ffmpegMetadataArgs } from "$lib/util";
 
@@ -74,22 +77,48 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         });
     }
 
-    pipeline.push({
-        worker: "remux",
-        workerId: crypto.randomUUID(),
-        parentId,
-        workerArgs: {
-            ffargs: [
-                "-c:v", "copy",
-                "-c:a", "copy",
-                ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
-            ],
-            output: {
-                type: info.output.type,
-                format: info.output.filename.split(".").pop(),
+    if (["merge", "mute"].includes(info.type)) {
+        const ffargs = ["-c:v", "copy"];
+
+        if (info.type === "merge") {
+            ffargs.push("-c:a", "copy");
+        } else if (info.type === "mute") {
+            ffargs.push("-an");
+        }
+
+        ffargs.push(
+            ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
+        );
+
+        pipeline.push({
+            worker: "remux",
+            workerId: crypto.randomUUID(),
+            parentId,
+            workerArgs: {
+                ffargs,
+                output: {
+                    type: info.output.type,
+                    format: info.output.filename.split(".").pop(),
+                },
             },
-        },
-    });
+        });
+    }
+
+    if (["audio", "gif"].includes(info.type)) {
+        return createDialog({
+            id: "save-error",
+            type: "small",
+            meowbalt: "error",
+            buttons: [
+                {
+                    text: get(t)("button.gotit"),
+                    main: true,
+                    action: () => { },
+                },
+            ],
+            bodyText: "audio and gif processing isn't implemented yet!",
+        });
+    }
 
     addItem({
         id: parentId,
