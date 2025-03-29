@@ -8,13 +8,12 @@ import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning } from "$lib/types/queue";
 
 const clearPipelineCache = (queueItem: CobaltQueueItem) => {
-    if (queueItem.state === "running" && queueItem.pipelineResults) {
-        for (const item of queueItem.pipelineResults) {
+    if (queueItem.state === "running") {
+        let item: CobaltFileReference | undefined;
+        while ((item = queueItem.pipelineResults.pop())) {
             removeFromFileStorage(item.file.name);
         }
-        delete queueItem.pipelineResults;
-    }
-    if (queueItem.state === "done") {
+    } else if (queueItem.state === "done") {
         removeFromFileStorage(queueItem.resultFile.file.name);
     }
 
@@ -107,12 +106,12 @@ export function itemRunning(id: string, workerId: string) {
 
 export function removeItem(id: string) {
     update(queueData => {
-        if (queueData[id].pipeline) {
-            for (const worker in queueData[id].pipeline) {
-                removeWorkerFromQueue(queueData[id].pipeline[worker].workerId);
-            }
-            clearPipelineCache(queueData[id]);
+        const item = queueData[id];
+
+        for (const worker of item.pipeline) {
+            removeWorkerFromQueue(worker.workerId);
         }
+        clearPipelineCache(item);
 
         delete queueData[id];
         return queueData;
