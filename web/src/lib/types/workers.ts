@@ -12,16 +12,28 @@ export type CobaltWorkerProgress = {
     size: number,
 }
 
-export type CobaltWorkerArgs = {
-    files?: CobaltFileReference[],
-    url?: string,
-    ffargs?: string[],
-    output?: FileInfo,
+export type CobaltFetchWorkerArgs = { url: string };
+
+export type CobaltRemuxWorkerArgs = {
+    files: CobaltFileReference[],
+    ffargs: string[],
+    output: FileInfo,
 }
 
-export type CobaltPipelineItem = {
+export type CobaltPipelineItemBase = {
     worker: CobaltWorkerType,
     workerId: string,
     parentId: string,
-    workerArgs: CobaltWorkerArgs,
+};
+
+type CobaltRemuxPipelineItem = CobaltPipelineItemBase & {
+    worker: "remux",
+    workerArgs: CobaltRemuxWorkerArgs,
 }
+
+type CobaltFetchPipelineItem = CobaltPipelineItemBase & {
+    worker: "fetch",
+    workerArgs: CobaltFetchWorkerArgs,
+}
+
+export type CobaltPipelineItem = CobaltRemuxPipelineItem | CobaltFetchPipelineItem;

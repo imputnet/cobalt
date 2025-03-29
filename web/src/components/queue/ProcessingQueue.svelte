@@ -40,7 +40,7 @@
             return 100;
         } else if (item.state === "running") {
             return totalItemProgress(
-                item.completedWorkers?.length || 0,
+                item.completedWorkers.size,
                 $currentTasks[item.runningWorker]?.progress?.percentage || 0,
                 item.pipeline.length || 0
             );

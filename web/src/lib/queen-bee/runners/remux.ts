@@ -16,7 +16,7 @@ export const runRemuxWorker = async (
     files: CobaltFileReference[],
     args: string[],
     output: FileInfo,
-    resetStartCounter?: boolean
+    resetStartCounter = false
 ) => {
     const worker = new RemuxWorker();
 

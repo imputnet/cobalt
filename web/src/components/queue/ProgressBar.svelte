@@ -4,7 +4,7 @@
     export let percentage: number = 0;
     export let workerId: string;
     export let runningWorkerId: string | undefined;
-    export let completedWorkers: string[] = [];
+    export let completedWorkers: Set<string>;
 </script>
 
 <div class="file-progress">
@@ -13,7 +13,7 @@
             class="progress"
             style="width: {Math.min(100, percentage || 0)}%"
         ></div>
-    {:else if completedWorkers?.includes(workerId)}
+    {:else if completedWorkers.has(workerId)}
         <div
             class="progress"
             style="width: 100%"

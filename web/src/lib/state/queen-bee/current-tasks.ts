@@ -5,7 +5,7 @@ import type { CobaltCurrentTasks, CobaltCurrentTaskItem } from "$lib/types/queen
 
 let update: (_: Updater<CobaltCurrentTasks>) => void;
 
-const currentTasks = readable<CobaltCurrentTasks>(
+export const currentTasks = readable<CobaltCurrentTasks>(
     {},
     (_, _update) => { update = _update }
 );
@@ -36,5 +36,3 @@ export function clearCurrentTasks() {
         return {};
     });
 }
-
-export { currentTasks };

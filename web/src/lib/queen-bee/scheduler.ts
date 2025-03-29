@@ -18,51 +18,49 @@ const startPipeline = (pipelineItem: CobaltPipelineItem) => {
     startWorker(pipelineItem);
 }
 
-export const checkTasks = () => {
+export const schedule = () => {
     const queueItems = get(queue);
     const ongoingTasks = get(currentTasks);
 
     // TODO (?): task concurrency
-    if (Object.keys(ongoingTasks).length > 0) return;
+    if (Object.keys(ongoingTasks).length > 0) {
+        return;
+    }
 
-    for (const item of Object.keys(queueItems)) {
-        const task = queueItems[item];
-
+    for (const task of Object.values(queueItems)) {
         if (task.state === "running") {
-            // if the running worker isn't completed and wait to be called again
-            // (on worker completion)
-            if (!task.completedWorkers?.includes(task.runningWorker)) {
-                break;
+            // if the running worker isn't completed, wait
+            // to be called again on worker completion
+            if (!task.completedWorkers.has(task.runningWorker)) {
+                return;
             }
 
-            // if all workers are completed, then return the final file and go to next task
-            if (task.completedWorkers.length === task.pipeline.length) {
-                const finalFile = task.pipelineResults?.pop();
+            // if all workers are completed, then return the
+            // the final file and go to the next task
+            if (task.completedWorkers.size === task.pipeline.length) {
+                const finalFile = task.pipelineResults.pop();
+
                 if (finalFile) {
                     itemDone(task.id, finalFile);
-                    continue;
                 } else {
                     itemError(task.id, task.runningWorker, "no final file");
-                    continue;
                 }
+
+                continue;
             }
 
             // if current worker is completed, but there are more workers,
             // then start the next one and wait to be called again
-            for (let i = 0; i < task.pipeline.length; i++) {
-                if (!task.completedWorkers.includes(task.pipeline[i].workerId)) {
-                    startPipeline(task.pipeline[i]);
-                    break;
+            for (const worker of task.pipeline) {
+                if (!task.completedWorkers.has(worker.workerId)) {
+                    startPipeline(worker);
+                    return;
                 }
             }
 
-            break;
-        }
-
         // start the nearest waiting task and wait to be called again
-        if (task.state === "waiting" && task.pipeline.length > 0) {
+        } else if (task.state === "waiting" && task.pipeline.length > 0) {
             startPipeline(task.pipeline[0]);
-            break;
         }
     }
 }
