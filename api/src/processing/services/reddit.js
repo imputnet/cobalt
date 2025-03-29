@@ -53,17 +53,17 @@ export default async function(obj) {
     const accessToken = await getAccessToken();
 
     if (params.shortId) {
-        let r = await fetch(`https://www.reddit.com/video/${params.shortId}`, {
+        let url = await fetch(`https://www.reddit.com/video/${params.shortId}`, {
             headers: {
                 'User-Agent': genericUserAgent,
                 'Authorization': `Bearer ${accessToken}`
             }
         }).then(r => r.url).catch(() => {});
 
-        if (!r) return { error: "fetch.fail" };
+        if (!url) return { error: "fetch.fail" };
 
         try {
-            params = extract(normalizeURL(r)).patternMatch;
+            params = extract(normalizeURL(url)).patternMatch;
         } catch (error) {
             return { error: "fetch.fail" };
         }
