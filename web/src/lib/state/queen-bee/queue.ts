@@ -23,7 +23,7 @@ const clearPipelineCache = (queueItem: CobaltQueueItem) => {
 
 let update: (_: Updater<CobaltQueue>) => void;
 
-const queue = readable<CobaltQueue>(
+export const queue = readable<CobaltQueue>(
     {},
     (_, _update) => { update = _update }
 );
@@ -117,12 +117,7 @@ export function removeItem(id: string) {
 }
 
 export function clearQueue() {
-    update(() => {
-        return {};
-    });
-
+    update(() => ({}));
     clearCurrentTasks();
     clearFileStorage();
 }
-
-export { queue };

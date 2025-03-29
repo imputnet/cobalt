@@ -36,7 +36,7 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
                     files,
                     workerArgs.ffargs,
                     workerArgs.output,
-                    true, // resetStartCounter
+                    /*resetStartCounter=*/true,
                 );
             }
             break;
