@@ -23,7 +23,8 @@ export const testers = {
         pattern.id?.length <= 16 && !pattern.sub && !pattern.user
         || (pattern.sub?.length <= 22 && pattern.id?.length <= 16)
         || (pattern.user?.length <= 22 && pattern.id?.length <= 16)
-        || (pattern.sub?.length <= 22 && pattern.shareId?.length <= 16),
+        || (pattern.sub?.length <= 22 && pattern.shareId?.length <= 16)
+        || (pattern.shortId?.length <= 16),
 
     "rutube": pattern =>
         (pattern.id?.length === 32 && pattern.key?.length <= 32) ||

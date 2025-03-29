@@ -106,6 +106,14 @@ function aliasURL(url) {
                 url.pathname = `/share/${idPart.slice(-32)}`;
             }
             break;
+            
+        case "redd":
+            /* reddit short video links can be treated by changing https://v.redd.it/<id>
+            to https://reddit.com/video/<id>.*/
+            if (url.hostname === "v.redd.it" && parts.length === 2) {
+                url = new URL(`https://www.reddit.com/video/${parts[1]}`);
+            }
+            break;
     }
 
     return url;
@@ -231,11 +239,11 @@ export function extract(url) {
     return { host, patternMatch };
 }
 
-export async function resolveRedirectingURL(url, dispatcher, userAgent) {
+export async function resolveRedirectingURL(url, dispatcher, headers) {
     const originalService = getHostIfValid(normalizeURL(url));
     if (!originalService) return;
 
-    const canonicalURL = await getRedirectingURL(url, dispatcher, userAgent);
+    const canonicalURL = await getRedirectingURL(url, dispatcher, headers);
     if (!canonicalURL) return;
 
     const { host, patternMatch } = extract(normalizeURL(canonicalURL));

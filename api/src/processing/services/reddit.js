@@ -50,12 +50,21 @@ async function getAccessToken() {
 
 export default async function(obj) {
     let params = obj;
+    const accessToken = await getAccessToken();
+
+    if (params.shortId) {
+        params = await resolveRedirectingURL(
+            `https://www.reddit.com/video/${params.shortId}`,
+            obj.dispatcher,
+            {'User-Agent': genericUserAgent, 'Authorization': `Bearer ${accessToken}`}
+        );
+    }
 
     if (!params.id && params.shareId) {
         params = await resolveRedirectingURL(
             `https://www.reddit.com/r/${params.sub}/s/${params.shareId}`,
             obj.dispatcher,
-            genericUserAgent
+            {'User-Agent': genericUserAgent}
         );
     }
 
@@ -63,7 +72,6 @@ export default async function(obj) {
 
     const url = new URL(`https://www.reddit.com/comments/${params.id}.json`);
 
-    const accessToken = await getAccessToken();
     if (accessToken) url.hostname = 'oauth.reddit.com';
 
     let data = await fetch(

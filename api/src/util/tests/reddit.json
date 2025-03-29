@@ -56,5 +56,23 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "shortened video link",
+        "url": "https://v.redd.it/ifg2emt5ck0e1",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "shortened video link (alternative)",
+        "url": "https://reddit.com/video/ifg2emt5ck0e1",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
     }
 ]
