@@ -49,6 +49,5 @@ services:
     #     init: true
     #     restart: unless-stopped
     #     container_name: yt-session-generator
-
-    #     ports:
-    #         - 127.0.0.1:1280:8080
+    #     labels:
+    #       - com.centurylinklabs.watchtower.scope=cobalt
