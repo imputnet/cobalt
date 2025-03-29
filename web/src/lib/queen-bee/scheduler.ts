@@ -29,15 +29,17 @@ export const checkTasks = () => {
         const task = queueItems[item];
 
         if (task.state === "running") {
-            // if the running worker isn't completed and wait to be called again
-            // (on worker completion)
-            if (!task.completedWorkers?.includes(task.runningWorker)) {
+            // if the running worker isn't completed, wait
+            // to be called again on worker completion
+            if (!task.completedWorkers.has(task.runningWorker)) {
                 break;
             }
 
-            // if all workers are completed, then return the final file and go to next task
-            if (task.completedWorkers.length === task.pipeline.length) {
-                const finalFile = task.pipelineResults?.pop();
+            // if all workers are completed, then return the
+            // the final file and go to the next task
+            if (task.completedWorkers.size === task.pipeline.length) {
+                const finalFile = task.pipelineResults.pop();
+
                 if (finalFile) {
                     itemDone(task.id, finalFile);
                     continue;
@@ -49,9 +51,9 @@ export const checkTasks = () => {
 
             // if current worker is completed, but there are more workers,
             // then start the next one and wait to be called again
-            for (let i = 0; i < task.pipeline.length; i++) {
-                if (!task.completedWorkers.includes(task.pipeline[i].workerId)) {
-                    startPipeline(task.pipeline[i]);
+            for (const worker of task.pipeline) {
+                if (!task.completedWorkers.has(worker.workerId)) {
+                    startPipeline(worker);
                     break;
                 }
             }

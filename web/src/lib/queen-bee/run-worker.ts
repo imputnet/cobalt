@@ -24,7 +24,7 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
 
             if (files?.length === 0) {
                 const parent = get(queue)[parentId];
-                if (parent.state === "running" && parent.pipelineResults) {
+                if (parent.state === "running" && parent.pipelineResults.length) {
                     files = parent.pipelineResults;
                 }
             }

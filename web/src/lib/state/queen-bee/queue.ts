@@ -5,7 +5,7 @@ import { clearFileStorage, removeFromFileStorage } from "$lib/storage";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/queen-bee/current-tasks";
 
 import type { CobaltFileReference } from "$lib/types/storage";
-import type { CobaltQueue, CobaltQueueItem } from "$lib/types/queue";
+import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning } from "$lib/types/queue";
 
 const clearPipelineCache = (queueItem: CobaltQueueItem) => {
     if (queueItem.state === "running" && queueItem.pipelineResults) {
@@ -74,10 +74,13 @@ export function itemDone(id: string, file: CobaltFileReference) {
 
 export function pipelineTaskDone(id: string, workerId: string, file: CobaltFileReference) {
     update(queueData => {
-        if (queueData[id] && queueData[id].state === "running") {
-            queueData[id].pipelineResults = [...queueData[id].pipelineResults || [], file];
-            queueData[id].completedWorkers = [...queueData[id].completedWorkers || [], workerId];
+        const item = queueData[id];
+
+        if (item && item.state === 'running') {
+            item.pipelineResults.push(file);
+            item.completedWorkers.add(workerId);
         }
+
         return queueData;
     });
 
@@ -87,13 +90,15 @@ export function pipelineTaskDone(id: string, workerId: string, file: CobaltFileR
 
 export function itemRunning(id: string, workerId: string) {
     update(queueData => {
-        if (queueData[id]) {
-            queueData[id] = {
-                ...queueData[id],
-                state: "running",
-                runningWorker: workerId,
-            }
+        const data = queueData[id] as CobaltQueueItemRunning;
+
+        if (data) {
+            data.state = 'running';
+            data.runningWorker = workerId;
+            data.completedWorkers ??= new Set();
+            data.pipelineResults ??= [];
         }
+
         return queueData;
     });
 

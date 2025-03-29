@@ -78,7 +78,7 @@
                     const starting = $t(`queue.state.starting.${runningWorker.type}`);
 
                     if (info.pipeline.length > 1) {
-                        const currentPipeline = (info.completedWorkers?.length || 0) + 1;
+                        const currentPipeline = info.completedWorkers.size + 1;
                         return `${starting} (${currentPipeline}/${info.pipeline.length})`;
                     }
                     return starting;
