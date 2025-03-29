@@ -45,10 +45,7 @@
 
 <style>
     #input-icons {
-        display: flex;
         position: relative;
-        align-items: center;
-        justify-content: center;
         width: 18px;
         height: 18px;
     }
@@ -61,7 +58,6 @@
     }
 
     .input-icon {
-        display: flex;
         position: absolute;
         transition:
             transform 0.25s,
