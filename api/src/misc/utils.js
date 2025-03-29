@@ -1,11 +1,11 @@
 import { request } from 'undici';
 const redirectStatuses = new Set([301, 302, 303, 307, 308]);
 
-export async function getRedirectingURL(url, dispatcher, userAgent) {
+export async function getRedirectingURL(url, dispatcher, headers) {
     const location = await request(url, {
         dispatcher,
         method: 'HEAD',
-        headers: { 'user-agent': userAgent }
+        headers: headers
     }).then(r => {
         if (redirectStatuses.has(r.statusCode) && r.headers['location']) {
             return r.headers['location'];
