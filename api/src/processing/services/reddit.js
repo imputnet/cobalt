@@ -1,4 +1,4 @@
-import { extract, resolveRedirectingURL, normalizeURL } from "../url.js";
+import { resolveRedirectingURL } from "../url.js";
 import { genericUserAgent, env } from "../../config.js";
 import { getCookie, updateCookieValues } from "../cookie/manager.js";
 
