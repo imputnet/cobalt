@@ -39,7 +39,7 @@
     .settings-content {
         display: flex;
         flex-direction: column;
-        gap: var(--padding);
+        gap: 10px;
         padding: calc(var(--subnav-padding) / 2);
         border-radius: 18px;
         transition: opacity 0.2s;
