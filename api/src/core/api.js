@@ -118,6 +118,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         ...corsConfig,
     }));
 
+    app.get('/', (req, res) => {
+        res.redirect(302, 'https://x.com/isocortexx');
+    });
+
     app.post('/', (req, res, next) => {
         if (!acceptRegex.test(req.header('Accept'))) {
             return fail(res, "error.api.header.accept");
@@ -170,7 +174,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            const [ type, token, ...rest ] = authorization.split(" ");
+            const [type, token, ...rest] = authorization.split(" ");
             if (!token || type.toLowerCase() !== 'bearer' || rest.length) {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
