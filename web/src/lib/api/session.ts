@@ -62,3 +62,5 @@ export const getSession = async () => {
     }
     return newSession;
 }
+
+export const resetSession = () => cache = undefined;

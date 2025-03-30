@@ -3,7 +3,7 @@ import { get } from "svelte/store";
 import settings from "$lib/state/settings";
 import lazySettingGetter from "$lib/settings/lazy-get";
 
-import { getSession } from "$lib/api/session";
+import { getSession, resetSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
 import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 import cachedInfo from "$lib/state/server-info";
@@ -43,10 +43,10 @@ const getAuthorization = async () => {
     }
 }
 
-const request = async (url: string) => {
+const request = async (url: string, justRetried = false) => {
     const getSetting = lazySettingGetter(get(settings));
 
-    const request = {
+    const requestBody = {
         url,
 
         downloadMode: getSetting("save", "downloadMode"),
@@ -100,7 +100,7 @@ const request = async (url: string) => {
         method: "POST",
         redirect: "manual",
         signal: AbortSignal.timeout(20000),
-        body: JSON.stringify(request),
+        body: JSON.stringify(requestBody),
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -119,7 +119,29 @@ const request = async (url: string) => {
         }
     });
 
+    if (
+        response?.status === 'error'
+            && response?.error.code === 'error.api.auth.jwt.invalid'
+            && !justRetried
+    ) {
+        resetSession();
+        await waitForTurnstile().catch(() => {});
+        return request(url, true);
+    }
+
     return response;
+}
+
+const waitForTurnstile = async () => {
+    await getAuthorization();
+    return new Promise<void>(resolve => {
+        const unsub = turnstileSolved.subscribe(solved => {
+            if (solved) {
+                unsub();
+                resolve();
+            }
+        });
+    });
 }
 
 const probeCobaltTunnel = async (url: string) => {
