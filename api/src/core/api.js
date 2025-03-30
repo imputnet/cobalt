@@ -175,7 +175,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            if (!jwt.verify(token)) {
+            if (!jwt.verify(token, getIP(req, 32))) {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
@@ -221,7 +221,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
 
         try {
-            res.json(jwt.generate());
+            res.json(jwt.generate(getIP(req, 32)));
         } catch {
             return fail(res, "error.api.generic");
         }

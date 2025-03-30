@@ -82,14 +82,13 @@ export function normalizeRequest(request) {
     ));
 }
 
-export function getIP(req) {
+export function getIP(req, prefix = 56) {
     const strippedIP = req.ip.replace(/^::ffff:/, '');
     const ip = ipaddr.parse(strippedIP);
     if (ip.kind() === 'ipv4') {
         return strippedIP;
     }
 
-    const prefix = 56;
     const v6Bytes = ip.toByteArray();
           v6Bytes.fill(0, prefix / 8);
 
