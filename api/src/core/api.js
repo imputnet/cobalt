@@ -74,8 +74,8 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const keyGenerator = (req) => hashHmac(getIP(req), 'rate').toString('base64url');
 
     const sessionLimiter = rateLimit({
-        windowMs: 60000,
-        limit: 10,
+        windowMs: env.sessionRateLimitWindow * 1000,
+        limit: env.sessionRateLimit,
         standardHeaders: 'draft-6',
         legacyHeaders: false,
         keyGenerator,
@@ -91,7 +91,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         keyGenerator: req => req.rateLimitKey || keyGenerator(req),
         store: await createStore('api'),
         handler: handleRateExceeded
-    })
+    });
 
     const apiTunnelLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
@@ -103,7 +103,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         handler: (_, res) => {
             return res.sendStatus(429)
         }
-    })
+    });
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
