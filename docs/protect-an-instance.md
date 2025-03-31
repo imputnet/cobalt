@@ -114,7 +114,7 @@ if you want to use your instance outside of web interface, you'll need an api ke
 >
 > if api keys leak, you'll have to update/remove all UUIDs to revoke them.
 
-1. create a `keys.json` file following [the schema and example here](/docs//run-an-instance.md#api-key-file-format).
+1. create a `keys.json` file following [the schema and example down below](#api-key-file-format).
 
 2. expose the `keys.json` to the docker container:
 ```yml
@@ -148,3 +148,55 @@ environment:
 ### why not make keys exclusive by default?
 keys may be useful for going around rate limiting,
 while keeping the rest of api rate limited, with no turnstile in place.
+
+## api key file format
+the file is a JSON-serialized object with the following structure:
+```typescript
+
+type KeyFileContents = Record<
+    UUIDv4String,
+    {
+        name?: string,
+        limit?: number | "unlimited",
+        ips?: (CIDRString | IPString)[],
+        userAgents?: string[]
+    }
+>;
+```
+
+where *`UUIDv4String`* is a stringified version of a UUIDv4 identifier.
+- **name** is a field for your own reference, it is not used by cobalt anywhere.
+
+- **`limit`** specifies how many requests the API key can make during the window specified in the `RATELIMIT_WINDOW` env.
+    - when omitted, the limit specified in `RATELIMIT_MAX` will be used.
+    - it can be also set to `"unlimited"`, in which case the API key bypasses all rate limits.
+
+- **`ips`** contains an array of allowlisted IP ranges, which can be specified both as individual ips or CIDR ranges (e.g. *`["192.168.42.69", "2001:db8::48", "10.0.0.0/8", "fe80::/10"]`*).
+    - when specified, only requests from these ip ranges can use the specified api key.
+    - when omitted, any IP can be used to make requests with that API key.
+
+- **`userAgents`** contains an array of allowed user agents, with support for wildcards (e.g. *`["cobaltbot/1.0", "Mozilla/5.0 * Chrome/*"]`*).
+    - when specified, requests with a `user-agent` that does not appear in this array will be rejected.
+    - when omitted, any user agent can be specified to make requests with that API key.
+
+- if both `ips` and `userAgents` are set, the tokens will be limited by both parameters.
+- if cobalt detects any problem with your key file, it will be ignored and a warning will be printed to the console.
+
+an example key file could look like this:
+```json
+{
+    "b5c7160a-b655-4c7a-b500-de839f094550": {
+        "limit": 10,
+        "ips": ["10.0.0.0/8", "192.168.42.42"],
+        "userAgents": ["*Chrome*"]
+    },
+    "b00b1234-a3e5-99b1-c6d1-dba4512ae190": {
+        "limit": "unlimited",
+        "ips": ["192.168.1.2"],
+        "userAgents": ["cobaltbot/1.0"]
+    }
+}
+```
+
+if you are configuring a key file, **do not use the UUID from the example** but instead generate your own. you can do this by running the following command if you have node.js installed:
+`node -e "console.log(crypto.randomUUID())"`
