@@ -1,4 +1,6 @@
 # how to run a cobalt instance
+this tutorial will help you run your own cobalt processing instance. if your instance is public-facing, we highly recommend that you also [protect it from abuse](/docs/protect-an-instance.md) using turnstile or api keys or both.
+
 ## using docker compose and package from github (recommended)
 to run the cobalt docker package, you need to have `docker` and `docker-compose` installed and configured.
 
