@@ -9,6 +9,10 @@
 
 # after that go to docker-compose-ssl  file copy and add domain name and Email address
 
- [docker-compose file click here](docs/examples/docker-compose-ssl.yml)
+ [docker-compose file click here](examples/docker-compose-ssl.yml)
+ 
+ or go to docs/example/docker-compose-ssl.yml
 
-after creating this Just run the docker-compose file that will automatically create SSL Certificate for that
+ copy the code and paste it and chagne the domain name and email address
+
+after creating this Just run the docker-compose file that will automatically create SSL Certificate for that Cobalt instance
