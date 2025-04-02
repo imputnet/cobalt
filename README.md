@@ -37,7 +37,7 @@ this monorepo includes source code for api, frontend, and related packages:
 
 it also includes documentation in the [docs tree](/docs/):
 - [how to run a cobalt instance](/docs/run-an-instance.md)
-- [installing SSL certificate for Instance](docs/examples/docker-compose-ssl.yml)
+- [installing SSL certificate for Instance](docs/SSL-certificate-using-Traefik .md) 
 - [how to protect a cobalt instance](/docs/protect-an-instance.md)
 - [cobalt api instance environment variables](/docs/api-env-variables.md)
 - [cobalt api documentation](/docs/api.md)
