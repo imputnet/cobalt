@@ -51,20 +51,23 @@ async function getAccessToken() {
 export default async function(obj) {
     let params = obj;
     const accessToken = await getAccessToken();
+    const headers = {
+        'user-agent': genericUserAgent,
+        authorization: accessToken && `Bearer ${accessToken}`,
+        accept: 'application/json'
+    };
 
     if (params.shortId) {
         params = await resolveRedirectingURL(
             `https://www.reddit.com/video/${params.shortId}`,
-            obj.dispatcher,
-            {'User-Agent': genericUserAgent, 'Authorization': `Bearer ${accessToken}`}
+            obj.dispatcher, headers
         );
     }
 
     if (!params.id && params.shareId) {
         params = await resolveRedirectingURL(
             `https://www.reddit.com/r/${params.sub}/s/${params.shareId}`,
-            obj.dispatcher,
-            {'User-Agent': genericUserAgent}
+            obj.dispatcher, headers
         );
     }
 
@@ -75,13 +78,7 @@ export default async function(obj) {
     if (accessToken) url.hostname = 'oauth.reddit.com';
 
     let data = await fetch(
-        url, {
-            headers: {
-                'User-Agent': genericUserAgent,
-                accept: 'application/json',
-                authorization: accessToken && `Bearer ${accessToken}`
-            }
-        }
+        url, { headers }
     ).then(r => r.json()).catch(() => {});
 
     if (!data || !Array.isArray(data)) {
