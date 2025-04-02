@@ -97,6 +97,9 @@
         border-right: 1.5px var(--input-border) solid;
         border-top-left-radius: var(--border-radius);
         border-bottom-left-radius: var(--border-radius);
+
+        direction: ltr;
+        padding: 0 12px 0 15px;
     }
 
     #download-button:focus-visible {
