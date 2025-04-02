@@ -6,12 +6,19 @@ import { env } from "../config.js";
 const toBase64URL = (b) => Buffer.from(b).toString("base64url");
 const fromBase64URL = (b) => Buffer.from(b, "base64url").toString();
 
-const makeHmac = (header, payload) =>
-    createHmac("sha256", env.jwtSecret)
-        .update(`${header}.${payload}`)
-        .digest("base64url");
+const makeHmac = (data) => {
+    return createHmac("sha256", env.jwtSecret)
+            .update(data)
+            .digest("base64url");
+}
 
-const generate = () => {
+const sign = (header, payload) =>
+        makeHmac(`${header}.${payload}`);
+
+const getIPHash = (ip) =>
+        makeHmac(ip).slice(0, 8);
+
+const generate = (ip) => {
     const exp = Math.floor(new Date().getTime() / 1000) + env.jwtLifetime;
 
     const header = toBase64URL(JSON.stringify({
@@ -21,10 +28,11 @@ const generate = () => {
 
     const payload = toBase64URL(JSON.stringify({
         jti: nanoid(8),
+        sub: getIPHash(ip),
         exp,
     }));
 
-    const signature = makeHmac(header, payload);
+    const signature = sign(header, payload);
 
     return {
         token: `${header}.${payload}.${signature}`,
@@ -32,7 +40,7 @@ const generate = () => {
     };
 }
 
-const verify = (jwt) => {
+const verify = (jwt, ip) => {
     const [header, payload, signature] = jwt.split(".", 3);
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
@@ -40,17 +48,16 @@ const verify = (jwt) => {
         return false;
     }
 
-    const verifySignature = makeHmac(header, payload);
+    const verifySignature = sign(header, payload);
 
     if (verifySignature !== signature) {
         return false;
     }
 
-    if (timestamp >= JSON.parse(fromBase64URL(payload)).exp) {
-        return false;
-    }
+    const data = JSON.parse(fromBase64URL(payload));
 
-    return true;
+    return getIPHash(ip) === data.sub
+            && timestamp <= data.exp;
 }
 
 export default {

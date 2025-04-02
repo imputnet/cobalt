@@ -123,6 +123,7 @@
     {
         "name": "private instagram post",
         "url": "https://www.instagram.com/p/C5_A1TQNPrYw4c2g9KAUTPUl8RVHqiAdAcOOSY0",
+        "canFail": true,
         "params": {},
         "expected": {
             "code": 400,

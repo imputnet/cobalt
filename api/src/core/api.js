@@ -75,8 +75,8 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const keyGenerator = (req) => hashHmac(getIP(req), 'rate').toString('base64url');
 
     const sessionLimiter = rateLimit({
-        windowMs: 60000,
-        limit: 10,
+        windowMs: env.sessionRateLimitWindow * 1000,
+        limit: env.sessionRateLimit,
         standardHeaders: 'draft-6',
         legacyHeaders: false,
         keyGenerator,
@@ -92,7 +92,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         keyGenerator: req => req.rateLimitKey || keyGenerator(req),
         store: await createStore('api'),
         handler: handleRateExceeded
-    })
+    });
 
     const apiTunnelLimiter = rateLimit({
         windowMs: env.rateLimitWindow * 1000,
@@ -104,7 +104,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         handler: (_, res) => {
             return res.sendStatus(429)
         }
-    })
+    });
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
@@ -176,7 +176,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            if (!jwt.verify(token)) {
+            if (!jwt.verify(token, getIP(req, 32))) {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
@@ -222,7 +222,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
 
         try {
-            res.json(jwt.generate());
+            res.json(jwt.generate(getIP(req, 32)));
         } catch {
             return fail(res, "error.api.generic");
         }

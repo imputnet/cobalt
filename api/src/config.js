@@ -28,6 +28,9 @@ const env = {
     rateLimitWindow: (process.env.RATELIMIT_WINDOW && parseInt(process.env.RATELIMIT_WINDOW)) || 60,
     rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
 
+    sessionRateLimitWindow: (process.env.SESSION_RATELIMIT_WINDOW && parseInt(process.env.SESSION_RATELIMIT_WINDOW)) || 60,
+    sessionRateLimit: (process.env.SESSION_RATELIMIT && parseInt(process.env.SESSION_RATELIMIT)) || 10,
+
     durationLimit: (process.env.DURATION_LIMIT && parseInt(process.env.DURATION_LIMIT)) || 10800,
     streamLifespan: (process.env.TUNNEL_LIFESPAN && parseInt(process.env.TUNNEL_LIFESPAN)) || 90,
 

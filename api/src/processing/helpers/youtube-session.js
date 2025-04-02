@@ -1,7 +1,10 @@
 import * as cluster from "../../misc/cluster.js";
 
+import { Agent } from "undici";
 import { env } from "../../config.js";
 import { Green, Yellow } from "../../misc/console-text.js";
+
+const defaultAgent = new Agent();
 
 let session;
 
@@ -32,7 +35,11 @@ const loadSession = async () => {
     const sessionServerUrl = new URL(env.ytSessionServer);
     sessionServerUrl.pathname = "/token";
 
-    const newSession = await fetch(sessionServerUrl).then(a => a.json());
+    const newSession = await fetch(
+        sessionServerUrl,
+        { dispatcher: defaultAgent }
+    ).then(a => a.json());
+
     validateSession(newSession);
 
     if (!session || session.updated < newSession?.updated) {

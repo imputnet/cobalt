@@ -2,7 +2,7 @@ import { get } from "svelte/store";
 
 import settings from "$lib/state/settings";
 
-import { getSession } from "$lib/api/session";
+import { getSession, resetSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
 import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 import cachedInfo from "$lib/state/server-info";
@@ -42,7 +42,7 @@ const getAuthorization = async () => {
     }
 }
 
-const request = async (request: CobaltSaveRequestBody) => {
+const request = async (requestBody: CobaltSaveRequestBody, justRetried = false) => {
     await getServerInfo();
 
     const getCachedInfo = get(cachedInfo);
@@ -75,7 +75,7 @@ const request = async (request: CobaltSaveRequestBody) => {
         method: "POST",
         redirect: "manual",
         signal: AbortSignal.timeout(20000),
-        body: JSON.stringify(request),
+        body: JSON.stringify(requestBody),
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -94,7 +94,29 @@ const request = async (request: CobaltSaveRequestBody) => {
         }
     });
 
+    if (
+        response?.status === 'error'
+            && response?.error.code === 'error.api.auth.jwt.invalid'
+            && !justRetried
+    ) {
+        resetSession();
+        await waitForTurnstile().catch(() => {});
+        return request(requestBody, true);
+    }
+
     return response;
+}
+
+const waitForTurnstile = async () => {
+    await getAuthorization();
+    return new Promise<void>(resolve => {
+        const unsub = turnstileSolved.subscribe(solved => {
+            if (solved) {
+                unsub();
+                resolve();
+            }
+        });
+    });
 }
 
 const probeCobaltTunnel = async (url: string) => {
