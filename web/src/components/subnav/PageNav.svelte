@@ -120,13 +120,14 @@
 <style>
     .subnav-page {
         --subnav-nav-width: 250px;
-        --subnav-padding: 30px;
+        --subnav-padding: 26px;
         --subnav-padding-small: calc(var(--subnav-padding) - var(--padding));
         display: grid;
         width: 100%;
         grid-template-columns: var(--subnav-nav-width) 1fr;
         overflow: hidden;
         padding-left: var(--subnav-padding);
+        column-gap: calc(var(--subnav-padding) / 2);
     }
 
     .subnav-page:dir(rtl) {
@@ -213,6 +214,12 @@
         height: 22px;
         width: 22px;
         will-change: transform;
+    }
+
+    @media screen and (max-width: 1000px) {
+        .subnav-page {
+            column-gap: 0;
+        }
     }
 
     @media screen and (max-width: 750px) {
