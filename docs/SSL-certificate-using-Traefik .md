@@ -2,7 +2,7 @@
     
     cd /opt && mkdir traefik
     
-# create acme.json file
+# Create acme.json file
     
     touch acme.json
     chmod 600 /opt/traefik/acme.json
