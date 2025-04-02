@@ -170,17 +170,13 @@
             disabled={isDisabled}
         />
 
-        {#if clearVisible}
-            <ClearButton click={() => ($link = "")} />
-        {/if}
-        {#if downloadable}
-            <DownloadButton
-                url={$link}
-                bind:this={downloadButton}
-                bind:disabled={isDisabled}
-                bind:loading={isLoading}
-            />
-        {/if}
+        <ClearButton click={() => ($link = "")} />
+        <DownloadButton
+            url={$link}
+            bind:this={downloadButton}
+            bind:disabled={isDisabled}
+            bind:loading={isLoading}
+        />
     </div>
 
     <div id="action-container">
@@ -237,6 +233,14 @@
         gap: var(--input-padding);
         font-size: 14px;
         flex: 1;
+    }
+
+    #input-container:not(.clear-visible) :global(#clear-button) {
+        display: none;
+    }
+
+    #input-container:not(.downloadable) :global(#download-button) {
+        display: none;
     }
 
     #input-container.clear-visible {
