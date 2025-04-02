@@ -527,7 +527,7 @@ export default function instagram(obj) {
             // for some reason instagram decides to return HTML
             // instead of a redirect when requesting with a normal
             // browser user-agent
-            'curl/7.88.1'
+            {'User-Agent': 'curl/7.88.1'}
         ).then(match => instagram({
             ...obj, ...match,
             shareId: undefined
