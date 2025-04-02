@@ -7,7 +7,7 @@ import { t } from "$lib/i18n/translations";
 import { downloadFile } from "$lib/download";
 import { createDialog } from "$lib/state/dialogs";
 import { downloadButtonState } from "$lib/state/omnibox";
-import { createSavePipeline } from "$lib/queen-bee/queue";
+import { createSavePipeline } from "$lib/task-manager/queue";
 
 import type { DialogInfo } from "$lib/types/dialog";
 import type { CobaltSaveRequestBody } from "$lib/types/api";

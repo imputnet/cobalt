@@ -1,14 +1,14 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
-    import { onMount, type SvelteComponent } from "svelte";
 
     import { formatFileSize } from "$lib/util";
     import { clearFileStorage, getStorageQuota } from "$lib/storage";
 
     import { queueVisible } from "$lib/state/queue-visibility";
-    import { currentTasks } from "$lib/state/queen-bee/current-tasks";
-    import { clearQueue, queue as readableQueue } from "$lib/state/queen-bee/queue";
+    import { currentTasks } from "$lib/state/task-manager/current-tasks";
+    import { clearQueue, queue as readableQueue } from "$lib/state/task-manager/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";

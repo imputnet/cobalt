@@ -1,6 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { createRemuxPipeline } from "$lib/queen-bee/queue";
+    import { createRemuxPipeline } from "$lib/task-manager/queue";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";

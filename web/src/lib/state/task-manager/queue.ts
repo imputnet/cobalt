@@ -1,8 +1,8 @@
 import { readable, type Updater } from "svelte/store";
 
-import { schedule } from "$lib/queen-bee/scheduler";
+import { schedule } from "$lib/task-manager/scheduler";
 import { clearFileStorage, removeFromFileStorage } from "$lib/storage";
-import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/queen-bee/current-tasks";
+import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/task-manager/current-tasks";
 
 import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning } from "$lib/types/queue";

@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
 import { t } from "$lib/i18n/translations";
-import { addItem } from "$lib/state/queen-bee/queue";
+import { addItem } from "$lib/state/task-manager/queue";
 import { createDialog } from "$lib/state/dialogs";
 import { openQueuePopover } from "$lib/state/queue-visibility";
 import { ffmpegMetadataArgs } from "$lib/util";

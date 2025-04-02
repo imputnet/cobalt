@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
-import { queue } from "$lib/state/queen-bee/queue";
+import { queue } from "$lib/state/task-manager/queue";
 
-import { runRemuxWorker } from "$lib/queen-bee/runners/remux";
-import { runFetchWorker } from "$lib/queen-bee/runners/fetch";
+import { runRemuxWorker } from "$lib/task-manager/runners/remux";
+import { runFetchWorker } from "$lib/task-manager/runners/fetch";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 import type { CobaltFileReference } from "$lib/types/storage";

@@ -1,7 +1,7 @@
 import { readable, type Updater } from "svelte/store";
 
 import type { CobaltWorkerProgress } from "$lib/types/workers";
-import type { CobaltCurrentTasks, CobaltCurrentTaskItem } from "$lib/types/queen-bee";
+import type { CobaltCurrentTasks, CobaltCurrentTaskItem } from "$lib/types/task-manager";
 
 let update: (_: Updater<CobaltCurrentTasks>) => void;
 

@@ -1,8 +1,8 @@
 import RemuxWorker from "$lib/workers/remux?worker";
 
-import { killWorker } from "$lib/queen-bee/run-worker";
-import { updateWorkerProgress } from "$lib/state/queen-bee/current-tasks";
-import { pipelineTaskDone, itemError, queue } from "$lib/state/queen-bee/queue";
+import { killWorker } from "$lib/task-manager/run-worker";
+import { updateWorkerProgress } from "$lib/state/task-manager/current-tasks";
+import { pipelineTaskDone, itemError, queue } from "$lib/state/task-manager/queue";
 
 import type { FileInfo } from "$lib/types/libav";
 import type { CobaltQueue } from "$lib/types/queue";

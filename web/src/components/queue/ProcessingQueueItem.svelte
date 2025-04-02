@@ -2,12 +2,12 @@
     import { t } from "$lib/i18n/translations";
     import { formatFileSize } from "$lib/util";
     import { downloadFile } from "$lib/download";
-    import { removeItem } from "$lib/state/queen-bee/queue";
+    import { removeItem } from "$lib/state/task-manager/queue";
     import { savingHandler } from "$lib/api/saving-handler";
 
     import type { CobaltQueueItem } from "$lib/types/queue";
     import type { CobaltWorkerProgress } from "$lib/types/workers";
-    import type { CobaltCurrentTaskItem } from "$lib/types/queen-bee";
+    import type { CobaltCurrentTaskItem } from "$lib/types/task-manager";
 
     import ProgressBar from "$components/queue/ProgressBar.svelte";
 

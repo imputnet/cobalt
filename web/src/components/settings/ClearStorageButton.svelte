@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/state/dialogs";
-    import { clearQueue } from "$lib/state/queen-bee/queue";
+    import { clearQueue } from "$lib/state/task-manager/queue";
     import { clearCacheStorage, clearFileStorage } from "$lib/storage";
 
     import IconFileShredder from "@tabler/icons-svelte/IconFileShredder.svelte";

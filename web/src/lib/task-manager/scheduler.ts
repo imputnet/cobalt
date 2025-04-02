@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
-import { startWorker } from "$lib/queen-bee/run-worker";
-import { addWorkerToQueue, currentTasks } from "$lib/state/queen-bee/current-tasks";
-import { itemDone, itemError, itemRunning, queue } from "$lib/state/queen-bee/queue";
+import { startWorker } from "$lib/task-manager/run-worker";
+import { addWorkerToQueue, currentTasks } from "$lib/state/task-manager/current-tasks";
+import { itemDone, itemError, itemRunning, queue } from "$lib/state/task-manager/queue";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
