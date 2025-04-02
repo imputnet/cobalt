@@ -126,6 +126,9 @@
                 break;
         }
     };
+
+    $: downloadable = validLink($link);
+    $: clearVisible = $link && !isLoading;
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -144,7 +147,8 @@
     <div
         id="input-container"
         class:focused={isFocused}
-        class:downloadable={validLink($link)}
+        class:downloadable
+        class:clear-visible={clearVisible}
     >
         <OmniboxIcon loading={isLoading || isBotCheckOngoing} />
         <input
@@ -166,10 +170,10 @@
             disabled={isDisabled}
         />
 
-        {#if $link && !isLoading}
+        {#if clearVisible}
             <ClearButton click={() => ($link = "")} />
         {/if}
-        {#if validLink($link)}
+        {#if downloadable}
             <DownloadButton
                 url={$link}
                 bind:this={downloadButton}
@@ -229,11 +233,19 @@
         display: flex;
         box-shadow: 0 0 0 1.5px var(--input-border) inset;
         border-radius: var(--border-radius);
-        padding: 0 var(--input-padding);
         align-items: center;
         gap: var(--input-padding);
         font-size: 14px;
         flex: 1;
+    }
+
+    #input-container.clear-visible {
+        padding-right: var(--input-padding);
+    }
+
+    :global([dir="rtl"]) #input-container.clear-visible {
+        padding-right: unset;
+        padding-left: var(--input-padding);
     }
 
     #input-container.downloadable {
@@ -241,7 +253,6 @@
     }
 
     #input-container.downloadable:dir(rtl) {
-        padding-right: var(--input-padding);
         padding-left: 0;
     }
 
@@ -263,6 +274,7 @@
         width: 100%;
         margin: 0;
         padding: var(--input-padding) 0;
+        padding-left: calc(var(--input-padding) + 28px);
         height: 18px;
 
         align-items: center;
@@ -279,6 +291,14 @@
 
         /* workaround for safari */
         font-size: inherit;
+
+        /* prevents input from poking outside of rounded corners */
+        border-radius: var(--border-radius);
+    }
+
+    :global([dir="rtl"]) #link-area {
+        padding-left: unset;
+        padding-right: calc(var(--input-padding) + 28px);
     }
 
     #link-area:focus-visible {

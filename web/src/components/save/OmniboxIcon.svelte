@@ -53,7 +53,14 @@
 
     #input-icons {
         display: flex;
-        position: relative;
+        position: absolute;
+        margin-left: var(--input-padding);
+        pointer-events: none;
+    }
+
+    :global([dir="rtl"]) #input-icons {
+        margin-left: unset;
+        margin-right: var(--input-padding);
     }
 
     #input-icons :global(svg) {
