@@ -54,7 +54,7 @@ services:
       - "traefik.http.routers.cobalt.rule=Host(`Remove and add your domain name`)"  #add your domain name
       - "traefik.http.routers.cobalt.entrypoints=websecure"
       - "traefik.http.routers.cobalt.tls=true"
-      - "traefik.http.routers.cobalt.tls.certresolver=myresolver"
+      - "traefik.http.routers.cobalt.tls.certresolver=ls"
       - "traefik.http.services.cobalt.loadbalancer.server.port=9000"
     # uncomment only if you use the COOKIE_PATH variable
     # volumes:
