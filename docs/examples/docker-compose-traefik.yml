@@ -1,0 +1,85 @@
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+ #     - "8080:8080"                    you want dashboard then uncomment this 
+    command:
+      - "--api.insecure=true"
+#      - "--api.dashboard=true"         you want dashboard then uncomment this 
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email= add your email "  #add your email
+      - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/traefik/acme.json:/acme.json
+    networks:
+      - web
+
+  cobalt-api:
+    image: ghcr.io/imputnet/cobalt:10
+    container_name: cobalt-api
+    init: true
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    expose:
+      - 9000
+    environment:
+      # replace https://api.url.example/ with your instance's url
+      # or else tunneling functionality won't work properly
+      API_URL: "https://api.url.example/"
+      # if you want to use cookies for fetching data from services,
+      # uncomment the next line & volumes section
+      # COOKIE_PATH: "/cookies.json"
+
+      # it's recommended to configure bot protection or api keys if the instance is public,
+      # see /docs/protect-an-instance.md for more info
+
+      # see /docs/run-an-instance.md for more variables that you can use here
+    labels:
+      - "com.centurylinklabs.watchtower.scope=cobalt"
+      - "traefik.enable=true"
+      - "traefik.http.routers.cobalt.rule=Host(`Remove and add your domain name`)"  #add your domain name
+      - "traefik.http.routers.cobalt.entrypoints=websecure"
+      - "traefik.http.routers.cobalt.tls=true"
+      - "traefik.http.routers.cobalt.tls.certresolver=myresolver"
+      - "traefik.http.services.cobalt.loadbalancer.server.port=9000"
+    # uncomment only if you use the COOKIE_PATH variable
+    # volumes:
+        # - ./cookies.json:/cookies.json
+    networks:
+      - web
+
+  watchtower:
+    image: ghcr.io/containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    command: --cleanup --scope cobalt --interval 900 --include-restarting
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - web
+  
+  # if needed, use this image for automatically generating poToken & visitor_data
+  # yt-session-generator:
+  #   image: ghcr.io/imputnet/yt-session-generator:webserver
+  #   init: true
+  #   restart: unless-stopped
+  #   container_name: yt-session-generator
+  #   ports:
+  #       - 127.0.0.1:1280:8080
+networks:
+  web:
+    driver: bridge
