@@ -1,5 +1,5 @@
 <script lang="ts">
-    import env from "$lib/env";
+    import env, { officialApiURL } from "$lib/env";
 
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
@@ -137,7 +137,7 @@
     if you want to remove the community instance label,
     refer to the license first https://github.com/imputnet/cobalt/tree/main/web#license
 -->
-{#if env.DEFAULT_API || (!$page.url.host.endsWith(".cobalt.tools") && $page.url.host !== "cobalt.tools")}
+{#if env.DEFAULT_API !== officialApiURL}
     <div id="instance-label">
         {$t("save.label.community_instance")}
     </div>
