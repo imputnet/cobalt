@@ -47,9 +47,20 @@
 </SettingsCategory>
 
 <SettingsCategory
+    sectionId="youtube-better-audio"
+    title={$t("settings.audio.youtube.better_audio")}
+>
+    <SettingsToggle
+        settingContext="save"
+        settingId="youtubeBetterAudio"
+        title={$t("settings.audio.youtube.better_audio.title")}
+        description={$t("settings.audio.youtube.better_audio.description")}
+    />
+</SettingsCategory>
+
+<SettingsCategory
     sectionId="youtube-dub"
     title={$t("settings.audio.youtube.dub")}
-    beta
 >
     <SettingsDropdown
         title={$t("settings.audio.youtube.dub.title")}
