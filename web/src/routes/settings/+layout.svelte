@@ -64,8 +64,8 @@
                 iconColor="orange"
             />
             <PageNavTab
-                path="/settings/download"
-                title={$t("settings.page.download")}
+                path="/settings/metadata"
+                title={$t("settings.page.metadata")}
                 icon={IconFileDownload}
                 iconColor="green"
             />
