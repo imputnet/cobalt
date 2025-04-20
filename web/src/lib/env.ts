@@ -57,7 +57,7 @@ const docs = {
     apiLicense: "https://github.com/imputnet/cobalt/blob/main/api/LICENSE",
 };
 
-const defaultApiURL = "https://api.cobalt.tools";
+const officialApiURL = "https://api.cobalt.tools";
 
-export { donate, defaultApiURL, contacts, partners, siriShortcuts, docs };
+export { donate, officialApiURL, contacts, partners, siriShortcuts, docs };
 export default variables;
