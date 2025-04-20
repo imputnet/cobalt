@@ -1,4 +1,4 @@
-import RemuxWorker from "$lib/workers/remux?worker";
+import RemuxWorker from "$lib/task-manager/workers/remux?worker";
 
 import { killWorker } from "$lib/task-manager/run-worker";
 import { updateWorkerProgress } from "$lib/state/task-manager/current-tasks";

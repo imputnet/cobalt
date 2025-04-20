@@ -1,4 +1,4 @@
-import FetchWorker from "$lib/workers/fetch?worker";
+import FetchWorker from "$lib/task-manager/workers/fetch?worker";
 
 import { killWorker } from "$lib/task-manager/run-worker";
 import { updateWorkerProgress } from "$lib/state/task-manager/current-tasks";
