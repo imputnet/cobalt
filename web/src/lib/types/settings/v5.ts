@@ -18,5 +18,6 @@ export type CobaltSettingsV5 = Omit<CobaltSettingsV4, 'schemaVersion' | 'advance
         localProcessing: boolean;
         allowH265: boolean;
         convertGif: boolean;
+        youtubeBetterAudio: boolean;
     },
 };

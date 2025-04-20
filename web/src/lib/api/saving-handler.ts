@@ -34,9 +34,6 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
     if (!request && !url) return;
 
     const selectedRequest = request || {
-        // pointing typescript to the fact that
-        // url is either present or not used at all,
-        // aka in cases when request is present
         url: url!,
 
         alwaysProxy: getSetting("save", "alwaysProxy"),
@@ -50,6 +47,7 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
         audioFormat: getSetting("save", "audioFormat"),
         tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
         youtubeDubLang: getSetting("save", "youtubeDubLang"),
+        youtubeBetterAudio: getSetting("save", "youtubeBetterAudio"),
 
         youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
         videoQuality: getSetting("save", "videoQuality"),
