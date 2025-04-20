@@ -46,5 +46,6 @@ export const apiSchema = z.object({
     localProcessing: z.boolean().default(false),
 
     youtubeHLS: z.boolean().default(false),
+    youtubeBetterAudio: z.boolean().default(false),
 })
 .strict();

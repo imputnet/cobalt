@@ -113,6 +113,10 @@ export default async function({ host, patternMatch, params }) {
                     fetchInfo.format = "vp9";
                     fetchInfo.isAudioOnly = true;
                     fetchInfo.isAudioMuted = false;
+
+                    if (env.ytAllowBetterAudio && params.youtubeBetterAudio) {
+                        fetchInfo.quality = "max";
+                    }
                 }
 
                 r = await youtube(fetchInfo);
