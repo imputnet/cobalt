@@ -2,7 +2,7 @@
     import { t } from "$lib/i18n/translations";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
 
-    const stubActions = ["download", "remux"];
+    const stubActions = ["fetch", "remux"];
 
     const randomAction = () => {
         return stubActions[Math.floor(Math.random() * stubActions.length)];

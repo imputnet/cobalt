@@ -1,7 +1,7 @@
 {
     "title": "processing queue",
     "stub": "nothing here yet, just the two of us.\ntry {{ value }} something!",
-    "stub.download": "downloading",
+    "stub.fetch": "downloading",
     "stub.remux": "remuxing",
 
     "state.waiting": "queued",
@@ -9,9 +9,9 @@
 
     "state.starting": "starting",
     "state.starting.fetch": "starting downloading",
-    "state.starting.remux": "starting muxing",
+    "state.starting.remux": "starting remuxing",
 
-    "state.running.remux": "muxing",
+    "state.running.remux": "remuxing",
     "state.running.fetch": "downloading",
     "estimated_storage_usage": "estimated storage usage:"
 }
