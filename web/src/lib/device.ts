@@ -16,6 +16,7 @@ const device = {
     },
     browser: {
         chrome: false,
+        webkit: false,
     },
     prefers: {
         language: "en",
@@ -59,6 +60,12 @@ if (browser) {
 
     device.browser = {
         chrome: ua.includes("chrome/"),
+        webkit: ua.includes("applewebkit/")
+                && ua.includes("version/")
+                && ua.includes("safari/")
+                // this is the version of webkit that's hardcoded into chrome
+                // and indicates that the browser is not actually webkit
+                && !ua.includes("applewebkit/537.36")
     };
 
     device.prefers = {
