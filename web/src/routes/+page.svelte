@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { t,INTERNAL_locale } from "$lib/i18n/translations";
+    import { t, INTERNAL_locale } from "$lib/i18n/translations";
+    import { onMount } from 'svelte';
 
     import Omnibox from "$components/save/Omnibox.svelte";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
     import SupportedServices from "$components/save/SupportedServices.svelte";
-    import UserGuide from "$components/misc/UseGuide.svelte"
+    import UserGuide from "$components/misc/UseGuide.svelte";
     /*import Header from "$components/misc/Header.svelte"; // 导航栏组件
     import BlogPreview from "$components/blog/BlogPreview.svelte"; // 博客预览组件*/
     const donateLinks: Record<'en' | 'th' | 'zh' | 'ru', string> = {
@@ -16,12 +17,13 @@
     let key: string = $INTERNAL_locale;
     const donateLink = donateLinks[key as keyof typeof donateLinks];
 
+    let showMindsou = false;
+    let showYumcheck = false;
 </script>
 
 <svelte:head>
     <title>{$t("general.cobalt")}</title>
     <meta property="og:title" content={$t("general.cobalt")} />
-
 </svelte:head>
 
 <!--<Header />-->
@@ -38,45 +40,75 @@
         <Omnibox />
         <!--<UserGuide/>-->
     </main>
-    <!-- 添加教程和博客文章部分 -->
-    <!--<section id="tutorials">
-        <h2>如何使用我们的下载工具</h2>
-        <p>使用我们的在线下载工具可以快速下载你喜欢的视频和音频文件。以下是一些常见的使用场景：</p>
-        <ul>
-            <li><a href="/guide#youtube">如何下载 YouTube 视频？</a></li>
-            <li><a href="/guide#facebook">如何从 Facebook 保存视频？</a></li>
-            <li><a href="/guide#formats">支持的平台和格式有哪些？</a></li>
-        </ul>
-        <a href="/guide">查看完整教程</a>
 
-    </section>-->
-    <section id="tutorials">
-    <div style="text-align: left; margin-bottom: 10px;">
-        请访问为您精心开发的另一个实用在线服务:YumCheck。给食品配料表拍个照，就能分析出配料成份对健康影响的风险评级，并给出专业建议。
-        如果你对食品安全很在意，对配料表有疑问，YumCheck可以免去你搜索查询的繁琐操作。用起来吧，用手机浏览器访问这个网址即可:
-        <a href="https://yumcheck.online" target="_blank" rel="noopener noreferrer" style="color: var(--blue); text-decoration: none;">
-            https://yumcheck.online
-        </a>
-    </div>
+    <!-- 引流推广模块 -->
+    <section id="promotions">
+        <!-- Mindsou Accordion -->
+        <section id="mindsou">
+            <button
+                type="button"
+                class="accordion-header"
+                aria-expanded={showMindsou}
+                on:click={() => showMindsou = !showMindsou}
+            >
+                <img src="/popularize/mindsou_logo.png"
+                     alt="Mindsou Logo"
+                     class="section-icon" />
+                <span>用想法搜索想法-Mindsou，大脑搜索引擎</span>
+                <span class="arrow">{showMindsou ? '▲' : '▼'}</span>
+            </button>
+            {#if showMindsou}
+                <div class="details" role="region">
+                    <ul> 
+                        <li>立即发布你的想法，记录你的每一个灵感</li>
+                        <li>后端算法匹配，帮你找到和你一样想法的人</li>
+                        <li>轻量社交，无需好友，无刷屏，只专注「闪现‑共鸣‑消散」</li>
+                        <li>匹配成功自动开启私聊房间，零等待对话</li>
+                        <li>限时内容 & 隐私保护，自动销毁减少信息负担</li>
+                    </ul>
+                    <a class="button" href="https://mindsou.online" target="_blank" rel="noopener noreferrer">
+                        访问 Mindsou
+                    </a>
+                </div>
+            {/if}
+        </section>
+
+        <!-- YumCheck Accordion -->
+        <section id="yumcheck">
+            <button
+                type="button"
+                class="accordion-header"
+                aria-expanded={showYumcheck}
+                on:click={() => showYumcheck = !showYumcheck}
+            >
+                <img src="/popularize/yumcheck.ico"
+                     alt="YumCheck Logo"
+                     class="section-icon" />
+                <span>智能食品与健康解读</span>
+                <span class="arrow">{showYumcheck ? '▲' : '▼'}</span>
+            </button>
+            {#if showYumcheck}
+                <div class="details" role="region">
+                    <ul>
+                        <li>拍摄配料表，一键成分分析与健康风险评估</li>
+                        <li>扫描食品标准号，快速解读规范信息</li>
+                        <li>血液检测报告智能解析，普通人也能读懂血液报告</li>
+                    </ul>
+                    <a class="button" href="https://yumcheck.online" target="_blank" rel="noopener noreferrer">
+                        访问 YumCheck
+                    </a>
+                </div>
+            {/if}
+        </section>
     </section>
-    <section id="donate" style="margin-bottom: 30px">
-
-        <!--<a href={donateLink} class="button">{$t("donate.banner.title")}</a>-->
-        <img src="/donate/zanshang_qrcode.jpg" alt="QR Code for Donations"  style="max-width: 300px; height: auto; display: block; margin: 0 auto;" />
-
-    </section>
-    <!--<div id="terms-note">
-        {$t("save.terms.note.agreement")}
-        <a href="/about/terms">{$t("save.terms.note.link")}</a>
-    </div>-->
 </div>
 
 <style>
-
-
     #cobalt-save-container {
         padding: var(--padding);
-        overflow: hidden;
+        /* 允许纵向滚动，移除 overflow:hidden 限制 */
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     #cobalt-save {
@@ -87,24 +119,6 @@
         width: 100%;
         height: 100%;
         gap: 15px;
-    }
-
-    #tutorials, #donate {
-        display: flex;
-        flex-direction: column;
-        padding: var(--padding);
-        background-color: var(--popup-bg);
-        border-radius: var(--border-radius);
-        margin-bottom: var(--padding);
-        width: 100%;
-        max-width: 640px; /* 限制最大宽度，类似 Omnibox */
-        box-sizing: border-box;
-        gap: 15px; /* 增加内容之间的间距 */
-        transition: all 0.3s ease; /* 添加平滑过渡效果 */
-    }
-
-    h2 {
-        color: var(--blue);
     }
 
     ul {
@@ -126,50 +140,118 @@
         text-align: center;
     }
 
-    /* 响应式设计：中等屏幕 */
-    @media screen and (max-width: 768px) {
-        #tutorials, #donate {
-            padding: calc(var(--padding) / 1.5);
-            gap: 10px;
-        }
+    /* 推广模块样式 */
+    #promotions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--padding);
+        padding: var(--padding) 0;
+    }
+    #promotions > section {
+        display: flex;
+        flex-direction: column;
+        padding: var(--padding);
+        background-color: var(--popup-bg);
+        border-radius: var(--border-radius);
+        width: 100%;
+        max-width: 640px;
+        box-sizing: border-box;
+        gap: 12px;
+        transition: all 0.3s ease;
+    }
 
-        h2 {
-            font-size: 1.1rem;
-        }
+    .accordion-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        padding: var(--padding);
+        background: var(--popup-bg);
+        border-radius: var(--border-radius);
+        transition: background 0.2s;
+        gap: 8px;
+    }
+    .accordion-header:hover {
+        background: var(--secondary-bg);
+    }
+    .arrow {
+        font-size: 0.9rem;
+    }
+    .details {
+        padding: calc(var(--padding) / 2) var(--padding);
+        background: var(--popup-bg);
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        margin-bottom: var(--padding);
+        animation: fadeIn 0.3s ease;
+    }
 
-        p {
-            font-size: 0.95rem;
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mindsou 与 YumCheck 模块样式覆盖（默认暗色） */
+    #promotions > section#mindsou,
+    #promotions > section#yumcheck {
+        background-color: var(--popup-bg);
+        color: var(--primary);
+    }
+
+    /* Center‑align YumCheck 标题与箭头 */
+    #promotions > section#yumcheck .accordion-header {
+        justify-content: center;
+        text-align: center;     /* 万一有多行文字也会居中 */
+    }
+
+    /* Light 模式：使用深绿背景 + 白字 */
+    @media (prefers-color-scheme: light) {
+        #promotions > section#mindsou,
+        #promotions > section#yumcheck {
+            background-color: var(--secondary);
+            color: #ffffff;
+        }
+        #promotions .accordion-header,
+        #promotions .details {
+            background: transparent;
+            color: inherit;
+        }
+        #promotions .accordion-header:hover {
+            background-color: #FFB02E;
+        }
+        #promotions a.button {
+            background-color: #ffffff;
+            color: var(--secondary);
         }
     }
 
-    /* 响应式设计：小屏幕 */
-    @media screen and (max-width: 440px) {
-        #tutorials, #donate {
-            width: 100%; /* 占满屏幕宽度 */
-            padding: calc(var(--padding) / 2);
-            gap: 8px;
+    /* Dark 模式：文字白色 */
+    @media (prefers-color-scheme: dark) {
+        #promotions > section#mindsou,
+        #promotions > section#yumcheck {
+            color: #ffffff;
         }
-
-        h2 {
-            font-size: 1rem;
-        }
-
-        p {
-            font-size: 0.9rem;
-        }
-
-        .button {
-            width: 100%; /* 按钮在小屏幕占满宽度 */
-            text-align: center;
+        #promotions a.button {
+            color: #ffffff;
         }
     }
-
 
     @media screen and (max-width: 535px) {
         #cobalt-save-container {
             padding-top: calc(var(--padding) / 2);
         }
+    }
 
+    /* 图标尺寸 & 间距 */
+    .section-icon {
+        width: 24px;
+        height: 24px;
+        margin: 0; /* 左右间距由 gap 控制 */
+    }
 
+    /* 确保小屏时不溢出 */
+    #promotions > section .section-icon {
+        max-width: 100%;
     }
 </style>
