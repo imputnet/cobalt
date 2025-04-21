@@ -172,5 +172,7 @@
         max-width: 250px;
         font-size: 14px;
         padding: 0;
+        user-select: none;
+        -webkit-user-select: none;
     }
 </style>
