@@ -1,3 +1,4 @@
+import { device } from "$lib/device";
 import { defaultLocale } from "$lib/i18n/translations";
 import type { CobaltSettings } from "$lib/types/settings";
 
@@ -20,7 +21,7 @@ const defaultSettings: CobaltSettings = {
     },
     save: {
         alwaysProxy: false,
-        localProcessing: false,
+        localProcessing: device.supports.defaultLocalProcessing || false,
         audioBitrate: "128",
         audioFormat: "mp3",
         disableMetadata: false,
