@@ -19,3 +19,5 @@ docker-compose.yml
 
 # ide
 .vscode
+.idea/
+web/.firebase
