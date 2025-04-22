@@ -145,7 +145,7 @@
     }
 
     .dialog-inner-container:focus-visible {
-        box-shadow: none;
+        box-shadow: none!important;
     }
 
     .dialog-inner-container {

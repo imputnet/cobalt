@@ -90,7 +90,9 @@ export const services = {
             "r/u_:user/comments/:id/:title",
             "r/u_:user/comments/:id/comment/:commentId",
 
-            "r/:sub/s/:shareId"
+            "r/:sub/s/:shareId",
+
+            "video/:shortId",
         ],
         subdomains: "*",
     },
@@ -136,12 +138,13 @@ export const services = {
     tiktok: {
         patterns: [
             ":user/video/:postId",
+            "i18n/share/video/:postId",
             ":shortLink",
             "t/:shortLink",
             ":user/photo/:postId",
             "v/:postId.html"
         ],
-        subdomains: ["vt", "vm", "m"],
+        subdomains: ["vt", "vm", "m", "t"],
     },
     tumblr: {
         patterns: [

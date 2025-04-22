@@ -1,3 +1,4 @@
+import { Constants } from "youtubei.js";
 import { getVersion } from "@imput/version-info";
 import { services } from "./processing/service-config.js";
 import { supportsReusePort } from "./misc/cluster.js";
@@ -27,6 +28,9 @@ const env = {
     rateLimitWindow: (process.env.RATELIMIT_WINDOW && parseInt(process.env.RATELIMIT_WINDOW)) || 60,
     rateLimitMax: (process.env.RATELIMIT_MAX && parseInt(process.env.RATELIMIT_MAX)) || 20,
 
+    sessionRateLimitWindow: (process.env.SESSION_RATELIMIT_WINDOW && parseInt(process.env.SESSION_RATELIMIT_WINDOW)) || 60,
+    sessionRateLimit: (process.env.SESSION_RATELIMIT && parseInt(process.env.SESSION_RATELIMIT)) || 10,
+
     durationLimit: (process.env.DURATION_LIMIT && parseInt(process.env.DURATION_LIMIT)) || 10800,
     streamLifespan: (process.env.TUNNEL_LIFESPAN && parseInt(process.env.TUNNEL_LIFESPAN)) || 90,
 
@@ -52,6 +56,11 @@ const env = {
     keyReloadInterval: 900,
 
     enabledServices,
+
+    customInnertubeClient: process.env.CUSTOM_INNERTUBE_CLIENT,
+    ytSessionServer: process.env.YOUTUBE_SESSION_SERVER,
+    ytSessionReloadInterval: 300,
+    ytSessionInnertubeClient: process.env.YOUTUBE_SESSION_INNERTUBE_CLIENT,
 }
 
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
@@ -72,6 +81,12 @@ if (env.instanceCount > 1 && !env.redisURL) {
     console.error('(or other OS that supports it). for more info, see `reusePort` option on');
     console.error('https://nodejs.org/api/net.html#serverlistenoptions-callback');
     throw new Error('SO_REUSEPORT is not supported');
+}
+
+if (env.customInnertubeClient && !Constants.SUPPORTED_CLIENTS.includes(env.customInnertubeClient)) {
+    console.error("CUSTOM_INNERTUBE_CLIENT is invalid. Provided client is not supported.");
+    console.error(`Supported clients are: ${Constants.SUPPORTED_CLIENTS.join(', ')}\n`);
+    throw new Error("Invalid CUSTOM_INNERTUBE_CLIENT");
 }
 
 export {

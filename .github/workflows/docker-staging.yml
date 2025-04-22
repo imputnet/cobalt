@@ -1,4 +1,4 @@
-name: Build development Docker image
+name: Build staging Docker image
 
 on:
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          tags: type=raw,value=develop
+          tags: type=raw,value=staging
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
