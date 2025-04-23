@@ -36,8 +36,10 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
     const selectedRequest = request || {
         url: url!,
 
+        // not lazy cuz default depends on device capabilities
+        localProcessing: get(settings).save.localProcessing,
+
         alwaysProxy: getSetting("save", "alwaysProxy"),
-        localProcessing: getSetting("save", "localProcessing"),
         downloadMode: getSetting("save", "downloadMode"),
 
         filenameStyle: getSetting("save", "filenameStyle"),
