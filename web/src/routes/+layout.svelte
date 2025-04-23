@@ -156,7 +156,7 @@
         background-color: var(--primary);
         box-shadow: 0 0 0 var(--content-border-thickness) var(--content-border);
 
-        border-radius: 8px;
+        border-radius: 6px;
         margin: var(--content-margin);
         margin-left: var(--content-border-thickness);
     }
