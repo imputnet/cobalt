@@ -31,8 +31,11 @@ const fetchFile = async (url: string) => {
             return error("file response wasn't ok");
         }
 
-        const contentType = response.headers.get('Content-Type') || 'application/octet-stream';
-        const contentLength = response.headers.get('Content-Length');
+        const contentType = response.headers.get('Content-Type')
+                                || 'application/octet-stream';
+
+        const contentLength = response.headers.get('Content-Length')
+                                || response.headers.get('Estimated-Content-Length');
 
         const totalBytes = contentLength ? parseInt(contentLength, 10) : null;
         const reader = response.body?.getReader();
