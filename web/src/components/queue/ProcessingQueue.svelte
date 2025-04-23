@@ -3,8 +3,7 @@
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
 
-    import { formatFileSize } from "$lib/util";
-    import { clearFileStorage, getStorageQuota } from "$lib/storage";
+    import { clearFileStorage } from "$lib/storage";
 
     import { queueVisible } from "$lib/state/queue-visibility";
     import { currentTasks } from "$lib/state/task-manager/current-tasks";
@@ -17,13 +16,6 @@
     import ProcessingQueueStub from "$components/queue/ProcessingQueueStub.svelte";
 
     import IconX from "@tabler/icons-svelte/IconX.svelte";
-
-    let quotaUsage = 0;
-
-    const updateQuota = async () => {
-        const storageInfo = await getStorageQuota();
-        quotaUsage = storageInfo?.usage || 0;
-    }
 
     const popoverAction = () => {
         $queueVisible = !$queueVisible;
@@ -49,10 +41,6 @@
     }).reduce((a, b) => a + b) / (100 * queue.length) : 0;
 
     $: indeterminate = queue.length > 0 && totalProgress === 0;
-
-    $: if ($queueVisible) {
-        updateQuota();
-    }
 
     onNavigate(() => {
         $queueVisible = false;
@@ -88,7 +76,6 @@
                     {#if queue.length}
                         <button class="clear-button" on:click={() => {
                             clearQueue();
-                            updateQuota();
                         }}>
                             <IconX />
                             {$t("button.clear")}
@@ -96,12 +83,6 @@
                     {/if}
                 </div>
             </div>
-
-            {#if quotaUsage}
-                <div class="storage-info">
-                    {$t("queue.estimated_storage_usage")} {formatFileSize(quotaUsage)}
-                </div>
-            {/if}
         </div>
         <div id="processing-list">
             {#each queue as [id, item]}
@@ -160,12 +141,6 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 6px;
-    }
-
-    .storage-info {
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--gray);
     }
 
     .header-buttons {
