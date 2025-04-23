@@ -72,13 +72,15 @@ const cloneInnertube = async (customFetch, useSession) => {
 
     const session = new Session(
         innertube.session.context,
-        innertube.session.key,
+        innertube.session.api_key,
         innertube.session.api_version,
         innertube.session.account_index,
+        innertube.session.config_data,
         innertube.session.player,
         cookie,
         customFetch ?? innertube.session.http.fetch,
-        innertube.session.cache
+        innertube.session.cache,
+        sessionTokens?.potoken
     );
 
     const yt = new Innertube(session);
