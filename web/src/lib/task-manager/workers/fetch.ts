@@ -34,10 +34,17 @@ const fetchFile = async (url: string) => {
         const contentType = response.headers.get('Content-Type')
                                 || 'application/octet-stream';
 
-        const contentLength = response.headers.get('Content-Length')
-                                || response.headers.get('Estimated-Content-Length');
+        const contentLength = response.headers.get('Content-Length');
+        const estimatedLength = response.headers.get('Estimated-Content-Length');
 
-        const totalBytes = contentLength ? parseInt(contentLength, 10) : null;
+        let totalBytes = null;
+
+        if (contentLength) {
+            totalBytes = +contentLength;
+        } else if (estimatedLength) {
+            totalBytes = +estimatedLength;
+        }
+
         const reader = response.body?.getReader();
 
         const storage = await OPFSStorage.init();
@@ -71,7 +78,7 @@ const fetchFile = async (url: string) => {
 
         const file = await storage.res();
 
-        if (Number(contentLength) !== file.size) {
+        if (contentLength && Number(contentLength) !== file.size) {
             return error("file was not downloaded fully");
         }
 
