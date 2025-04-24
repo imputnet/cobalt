@@ -24,10 +24,10 @@
         flex-direction: column;
         border-radius: 18px;
         background: var(--button);
-        box-shadow:
-            var(--button-box-shadow),
-            0 0 10px 6px var(--popover-glow);
+        box-shadow: var(--button-box-shadow);
 
+        filter: drop-shadow(0 0 8px var(--popover-glow))
+            drop-shadow(0 0 10px var(--popover-glow));
         position: relative;
         padding: var(--padding);
         gap: 6px;
@@ -41,6 +41,8 @@
         transition:
             transform 0.3s cubic-bezier(0.53, 0.05, 0.23, 1.15),
             opacity 0.25s cubic-bezier(0.53, 0.05, 0.23, 0.99);
+
+        will-change: transform, opacity;
 
         pointer-events: all;
     }
