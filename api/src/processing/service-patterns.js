@@ -78,5 +78,5 @@ export const testers = {
 
     "xiaohongshu": pattern =>
         pattern.id?.length <= 24 && pattern.token?.length <= 64
-        || pattern.shareId?.length <= 12,
+        || pattern.shareId?.length <= 24,
 }

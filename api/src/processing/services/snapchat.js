@@ -102,10 +102,10 @@ export default async function (obj) {
         params = await resolveRedirectingURL(`https://t.snapchat.com/${obj.shortLink}`);
     }
 
-    if (params.spotlightId) {
+    if (params?.spotlightId) {
         const result = await getSpotlight(params.spotlightId);
         if (result) return result;
-    } else if (params.username) {
+    } else if (params?.username) {
         const result = await getStory(params.username, params.storyId, obj.alwaysProxy);
         if (result) return result;
     }
