@@ -37,16 +37,18 @@
 
 <style>
     #processing-status {
-        --processing-status-glow: 0 0 8px 0px var(--button-elevated-hover);
-
         pointer-events: all;
         padding: 7px;
         border-radius: 30px;
-        box-shadow:
-            var(--button-box-shadow),
-            var(--processing-status-glow);
+        box-shadow: var(--button-box-shadow);
 
-        transition: box-shadow 0.2s, background-color 0.2s, transform 0.2s;
+        filter: drop-shadow(0 0 3px var(--button-elevated-hover));
+
+        transition:
+            background-color 0.2s,
+            transform 0.2s;
+
+        will-change: transform, background-color;
     }
 
     #processing-status:focus-visible {
@@ -58,9 +60,7 @@
     }
 
     #processing-status.completed {
-        box-shadow:
-            var(--focus-ring),
-            var(--processing-status-glow);
+        box-shadow: var(--focus-ring);
     }
 
     :global([data-theme="light"]) #processing-status.completed {
