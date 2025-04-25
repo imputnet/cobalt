@@ -106,7 +106,7 @@ export default function instagram(obj) {
         return data.json();
     }
 
-    async function getMediaId(id, { cookie, token } = {}) {
+    async function getMedia(id, { cookie, token } = {}) {
         const oembedURL = new URL('https://i.instagram.com/api/v1/oembed/');
         oembedURL.searchParams.set('url', `https://www.instagram.com/p/${id}/`);
 
@@ -119,7 +119,7 @@ export default function instagram(obj) {
             dispatcher
         }).then(r => r.json()).catch(() => {});
 
-        return oembed?.media_id;
+        return oembed;
     }
 
     async function requestMobileApi(mediaId, { cookie, token } = {}) {
@@ -425,9 +425,13 @@ export default function instagram(obj) {
             const token = bearer?.values()?.token;
 
             // get media_id for mobile api, three methods
-            let media_id = await getMediaId(id);
-            if (!media_id && token) media_id = await getMediaId(id, { token });
-            if (!media_id && cookie) media_id = await getMediaId(id, { cookie });
+            let media = await getMedia(id);
+            if (!media?.media_id && token) media = await getMedia(id, { token });
+            if (!media?.media_id && cookie) media = await getMedia(id, { cookie });
+            if(media.title.includes('Restricted')) {
+                return { error: "content.post.age" }
+            }
+            let media_id = media?.media_id;
 
             // mobile api (bearer)
             if (media_id && token) data = await requestMobileApi(media_id, { token });
