@@ -3,15 +3,12 @@
     import cachedInfo from "$lib/state/server-info";
     import { getServerInfo } from "$lib/api/server-info";
 
-    import type { SvelteComponent } from "svelte";
-
     import Skeleton from "$components/misc/Skeleton.svelte";
     import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
 
     let services: string[] = [];
 
-    let popover: SvelteComponent;
     $: expanded = false;
 
     let servicesContainer: HTMLDivElement;
@@ -50,11 +47,7 @@
         <span class="title">{$t("save.services.title")}</span>
     </button>
 
-    <PopoverContainer
-        bind:this={popover}
-        id="services-popover"
-        {expanded}
-    >
+    <PopoverContainer id="services-popover" {expanded}>
         <div
             id="services-container"
             bind:this={servicesContainer}
@@ -101,7 +94,9 @@
         font-size: 13px;
         font-weight: 500;
         background: none;
-        transition: background 0.2s, box-shadow 0.1s;
+        transition:
+            background 0.2s,
+            box-shadow 0.1s;
     }
 
     #services-button:not(:focus-visible):not(:active) {
@@ -118,7 +113,9 @@
         background: var(--button-elevated);
         padding: 0;
         box-shadow: none;
-        transition: background 0.2s, transform 0.2s;
+        transition:
+            background 0.2s,
+            transform 0.2s;
     }
 
     #services-button:active {
