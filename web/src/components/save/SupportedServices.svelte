@@ -98,7 +98,7 @@
             box-shadow 0.1s;
     }
 
-    #services-button:not(:focus-visible):not(:active) {
+    #services-button:not(:active) {
         box-shadow: none;
     }
 

@@ -305,10 +305,6 @@
         padding-right: calc(var(--input-padding) + 28px);
     }
 
-    #link-area:focus-visible {
-        box-shadow: unset !important;
-    }
-
     #link-area::placeholder {
         color: var(--gray);
         /* fix for firefox */

@@ -223,10 +223,6 @@
         white-space: nowrap;
     }
 
-    .input-box:focus-visible {
-        box-shadow: unset !important;
-    }
-
     #input-container.focused {
         box-shadow: 0 0 0 2px var(--secondary) inset;
     }

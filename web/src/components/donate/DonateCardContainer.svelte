@@ -43,7 +43,7 @@
         letter-spacing: -0.3px;
     }
 
-    :global(.donate-card button:not(:focus-visible)) {
+    :global(.donate-card button) {
         box-shadow: none;
     }
 
@@ -62,8 +62,8 @@
         cursor: default;
     }
 
-    :global(.donate-card button.selected:not(:focus-visible)) {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) inset !important;
+    :global(.donate-card button.selected) {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) inset;
     }
 
     :global(.donate-card-subtitle) {

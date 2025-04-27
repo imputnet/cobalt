@@ -333,10 +333,6 @@
         opacity: 0.5;
     }
 
-    #donation-custom-input:focus-visible {
-        box-shadow: unset !important;
-    }
-
     #input-container.focused {
         box-shadow: 0 0 0 2px var(--white) inset;
     }

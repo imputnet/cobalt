@@ -106,10 +106,6 @@
         padding: 0;
     }
 
-    .popup-title:focus-visible {
-        box-shadow: none !important;
-    }
-
     .picker-body {
         overflow-y: scroll;
         display: grid;

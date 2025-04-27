@@ -184,7 +184,7 @@
         stroke-width: 1.6px;
     }
 
-    .button-wrapper-desktop button:not(:focus-visible) {
+    .button-wrapper-desktop button {
         box-shadow: none;
     }
 

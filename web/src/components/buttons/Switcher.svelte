@@ -79,7 +79,7 @@
         border-radius: calc(var(--border-radius) - var(--switcher-padding));;
     }
 
-    .switcher.big :global(.button:not(:focus-visible)) {
+    .switcher.big {
         box-shadow: none;
     }
 

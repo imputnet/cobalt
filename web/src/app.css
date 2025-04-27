@@ -282,7 +282,7 @@ a:focus-visible {
     background-color: var(--button-elevated-press);
 }
 
-.button.elevated:not(:focus-visible) {
+.button.elevated {
     box-shadow: none;
 }
 

@@ -102,10 +102,6 @@
         padding: 0 12px 0 15px;
     }
 
-    #download-button:focus-visible {
-        box-shadow: var(--focus-ring);
-    }
-
     #download-state {
         font-size: 24px;
         font-family: "Noto Sans Mono Variable", "Noto Sans Mono",

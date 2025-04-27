@@ -148,10 +148,6 @@
         gap: var(--padding);
     }
 
-    .dialog-inner-container:focus-visible {
-        box-shadow: none!important;
-    }
-
     .dialog-inner-container {
         overflow-y: scroll;
         gap: 8px;
@@ -189,10 +185,6 @@
     .popup-title {
         color: var(--secondary);
         font-size: 19px;
-    }
-
-    .popup-title:focus-visible {
-        box-shadow: none !important;
     }
 
     .action-buttons {

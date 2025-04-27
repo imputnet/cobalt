@@ -129,11 +129,6 @@
         -webkit-user-select: text;
     }
 
-    .body-text:focus-visible,
-    .popup-title:focus-visible {
-        box-shadow: none !important;
-    }
-
     .popup-subtext {
         opacity: 0.7;
         padding: 0;
