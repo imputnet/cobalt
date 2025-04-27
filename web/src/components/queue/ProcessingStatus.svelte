@@ -40,7 +40,6 @@
         pointer-events: all;
         padding: 7px;
         border-radius: 30px;
-        box-shadow: var(--button-box-shadow);
 
         filter: drop-shadow(0 0 3px var(--button-elevated-hover));
 
