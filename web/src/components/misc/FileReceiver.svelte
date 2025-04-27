@@ -81,7 +81,7 @@
         transition: box-shadow 0.2s;
     }
 
-    .open-file-button:not(:focus-visible) {
+    .open-file-button {
         box-shadow: none;
     }
 
@@ -130,6 +130,10 @@
 
     .open-file-button:focus-visible .dashed-stroke :global(svg rect) {
         stroke: var(--blue);
+    }
+
+    .open-file-button:focus-visible {
+        outline: none;
     }
 
     .open-file-container :global(.meowbalt) {
