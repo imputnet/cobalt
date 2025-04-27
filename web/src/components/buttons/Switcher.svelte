@@ -76,10 +76,7 @@
         width: 100%;
         /* [base button height] - ([switcher padding] * [padding factor to accommodate for]) */
         height: calc(40px - var(--switcher-padding) * 2);
-        border-radius: calc(var(--border-radius) - var(--switcher-padding));;
-    }
-
-    .switcher.big {
+        border-radius: calc(var(--border-radius) - var(--switcher-padding));
         box-shadow: none;
     }
 
