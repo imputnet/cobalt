@@ -248,7 +248,11 @@ button:focus-visible,
 a:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
-    z-index: 1;
+}
+
+a:not(.sidebar-tab):not(.subnav-tab):focus-visible {
+    outline-offset: 3px;
+    border-radius: 2px;
 }
 
 .button.elevated {
