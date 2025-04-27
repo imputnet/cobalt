@@ -245,7 +245,8 @@ button, .button {
 }
 
 button:focus-visible,
-a:focus-visible {
+a:focus-visible,
+select:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
 }
@@ -301,7 +302,7 @@ button[disabled] {
 /* important is used because active class is toggled by state */
 /* and added to the end of the list, taking priority */
 .active:focus-visible {
-    color: var(--sidebar-highlight) !important;
+    color: var(--white);
     background-color: var(--blue) !important;
 }
 
