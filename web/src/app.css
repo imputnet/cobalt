@@ -14,7 +14,8 @@
     --purple: #5857d4;
     --orange: #f19a38;
 
-    --focus-ring: 0 0 0 2px var(--blue) inset;
+    --focus-ring: solid 2px var(--blue);
+    --focus-ring-offset: -2px;
 
     --button: #f4f4f4;
     --button-hover: #ededed;
@@ -240,13 +241,14 @@ button, .button {
 }
 
 :focus-visible {
-    box-shadow: var(--focus-ring) !important;
     outline: none;
-    z-index: 1;
 }
 
-[data-focus-ring-hidden]:focus-visible {
-    box-shadow: none !important;
+button:focus-visible,
+a:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    z-index: 1;
 }
 
 .button.elevated {

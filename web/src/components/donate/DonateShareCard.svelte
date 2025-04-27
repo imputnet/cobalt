@@ -162,12 +162,9 @@
         box-shadow: 0 0 0 2px rgba(255, 255, 255, var(--donate-border-opacity));
     }
 
-    #share-qr:focus-visible {
-        box-shadow: none !important;
-    }
-
     #share-qr:focus-visible :global(svg) {
-        box-shadow: 0 0 0 2px var(--blue);
+        outline: var(--focus-ring);
+        outline-offset: var(--focus-ring-offset);
     }
 
     #action-buttons {

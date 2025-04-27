@@ -72,7 +72,8 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        box-shadow: var(--focus-ring);
+        outline: var(--focus-ring);
+        outline-offset: var(--focus-ring-offset);
         border-radius: inherit;
     }
 
