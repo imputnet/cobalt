@@ -51,7 +51,8 @@
     }
 
     #processing-status:focus-visible {
-        box-shadow: 0 0 0 2px var(--white) !important;
+        outline: 2px solid var(--secondary);
+        outline-offset: 2px;
     }
 
     #processing-status:active {
@@ -59,7 +60,7 @@
     }
 
     #processing-status.completed {
-        box-shadow: var(--focus-ring);
+        box-shadow: 0 0 0 2px var(--blue) inset;
     }
 
     :global([data-theme="light"]) #processing-status.completed {
