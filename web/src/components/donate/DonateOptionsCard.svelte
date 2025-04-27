@@ -136,12 +136,7 @@
         </button>
     </div>
 
-    <div
-        id="donation-options-container"
-        class:mask-both={!device.is.mobile && showLeftScroll && showRightScroll}
-        class:mask-left={!device.is.mobile && showLeftScroll && !showRightScroll}
-        class:mask-right={!device.is.mobile && showRightScroll && !showLeftScroll}
-    >
+    <div id="donation-options-container">
         {#if !device.is.mobile}
             <div id="donation-options-scroll" aria-hidden="true">
                 <button
@@ -168,6 +163,9 @@
         <div
             id="donation-options"
             bind:this={donateList}
+            class:mask-both={!device.is.mobile && showLeftScroll && showRightScroll}
+            class:mask-left={!device.is.mobile && showLeftScroll && !showRightScroll}
+            class:mask-right={!device.is.mobile && showRightScroll && !showLeftScroll}
             on:wheel={() => {
                 const currentPos = donateList.scrollLeft;
                 const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width - 5;
@@ -359,6 +357,53 @@
         flex-direction: column;
         gap: calc(var(--donate-card-main-padding) / 2);
         position: relative;
+
+        &:hover {
+            & > #donation-options-scroll {
+                opacity: 1;
+            }
+
+            & > #donation-options {
+                &.mask-both {
+                    mask-image: linear-gradient(
+                        90deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 1) 20%,
+                        rgba(0, 0, 0, 1) 50%,
+                        rgba(0, 0, 0, 1) 80%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                }
+
+                &.mask-left {
+                    mask-image: linear-gradient(
+                        90deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 1) 20%,
+                        rgba(0, 0, 0, 1) 50%,
+                        rgba(0, 0, 0, 1) 97%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                }
+
+                &.mask-right {
+                    mask-image: linear-gradient(
+                        90deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 1) 3%,
+                        rgba(0, 0, 0, 1) 50%,
+                        rgba(0, 0, 0, 1) 80%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                }
+            }
+        }
+
+        &:not(:hover) {
+            & > .scroll-button {
+                visibility: hidden;
+            }
+        }
     }
 
     #donation-options-scroll {
@@ -382,49 +427,10 @@
         padding: 0 16px;
         background-color: transparent;
         height: 100%;
-        transition: opacity 0.2s;
-    }
 
-    #donation-options-container:hover #donation-options-scroll {
-        opacity: 1;
-    }
-
-    .scroll-button.hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    #donation-options-container.mask-both:hover #donation-options {
-        mask-image: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 20%,
-            rgba(0, 0, 0, 1) 50%,
-            rgba(0, 0, 0, 1) 80%,
-            rgba(0, 0, 0, 0) 100%
-        );
-    }
-
-    #donation-options-container.mask-left:hover #donation-options {
-        mask-image: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 20%,
-            rgba(0, 0, 0, 1) 50%,
-            rgba(0, 0, 0, 1) 97%,
-            rgba(0, 0, 0, 0) 100%
-        );
-    }
-
-    #donation-options-container.mask-right:hover #donation-options {
-        mask-image: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 3%,
-            rgba(0, 0, 0, 1) 50%,
-            rgba(0, 0, 0, 1) 80%,
-            rgba(0, 0, 0, 0) 100%
-        );
+        &.hidden {
+            visibility: hidden;
+        }
     }
 
     @media screen and (max-width: 550px) {
