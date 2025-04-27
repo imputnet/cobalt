@@ -63,7 +63,6 @@
                     aria-level="1"
                     tabindex="-1"
                     data-first-focus
-                    data-focus-ring-hidden
                 >
                     {#if !isHome}
                         {$t(`${pageName}.page.${currentPageTitle}`)}
@@ -110,7 +109,6 @@
             class:wide={wideContent}
             tabindex="-1"
             data-first-focus
-            data-focus-ring-hidden
         >
             <slot name="content"></slot>
         </main>

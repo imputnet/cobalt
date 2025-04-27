@@ -52,7 +52,6 @@
             id="services-container"
             bind:this={servicesContainer}
             tabindex="-1"
-            data-focus-ring-hidden
         >
             {#if loaded}
                 {#each services as service}

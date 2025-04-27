@@ -39,7 +39,6 @@
             <div
                 class="changelog-version"
                 data-first-focus
-                data-focus-ring-hidden
                 tabindex="-1"
             >
                 {version}

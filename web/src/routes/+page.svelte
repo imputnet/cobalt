@@ -17,7 +17,6 @@
         id="cobalt-save"
         tabindex="-1"
         data-first-focus
-        data-focus-ring-hidden
     >
         <Meowbalt emotion="smile" />
         <Omnibox />

@@ -41,7 +41,6 @@
         id="remux-open"
         tabindex="-1"
         data-first-focus
-        data-focus-ring-hidden
     >
         <div id="remux-receiver">
             <FileReceiver
