@@ -136,21 +136,26 @@ export default function instagram(obj) {
     }
 
     async function requestHTML(id, cookie) {
-        const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
-            headers: {
-                ...embedHeaders,
-                cookie
-            },
-            dispatcher
-        }).then(r => r.text()).catch(() => {});
+        try {
+            const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
+                headers: {
+                    ...embedHeaders,
+                    cookie
+                },
+                dispatcher
+            }).then(r => r.text()).catch(() => {
+            });
 
-        let embedData = JSON.parse(data?.match(/"init",\[\],\[(.*?)\]\],/)[1]);
+            let embedData = JSON.parse(data?.match(/"init",\[\],\[(.*?)\]\],/)[1]);
 
-        if (!embedData || !embedData?.contextJSON) return false;
+            if (!embedData || !embedData?.contextJSON) return false;
 
-        embedData = JSON.parse(embedData.contextJSON);
+            embedData = JSON.parse(embedData.contextJSON);
+            return embedData;
+        }catch {
+            return null;
+        }
 
-        return embedData;
     }
 
     async function getGQLParams(id, cookie) {
@@ -213,6 +218,7 @@ export default function instagram(obj) {
     }
 
     async function requestGQL(id, cookie) {
+        try{
         const { headers, body } = await getGQLParams(id, cookie);
 
         const req = await fetch('https://www.instagram.com/graphql/query', {
@@ -245,6 +251,10 @@ export default function instagram(obj) {
                         .then(r => r.data)
                         .catch(() => null)
         };
+        }
+        catch {
+            return null;
+        }
     }
 
     async function getErrorContext(id) {
