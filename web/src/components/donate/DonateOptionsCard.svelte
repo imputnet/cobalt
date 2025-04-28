@@ -400,7 +400,7 @@
         }
 
         &:not(:hover) {
-            & > .scroll-button {
+            & > #donation-options-scroll .scroll-button {
                 visibility: hidden;
             }
         }
