@@ -67,7 +67,15 @@
     {/if}
 
     {#if device.is.mobile}
-        <meta name="theme-color" content={statusBarColors[$currentTheme]} />
+        <meta
+            name="theme-color"
+            content={statusBarColors.mobile[$currentTheme]}
+        />
+    {:else}
+        <meta
+            name="theme-color"
+            content={statusBarColors.desktop[$currentTheme]}
+        />
     {/if}
 
     {#if plausibleLoaded || (browser && env.PLAUSIBLE_ENABLED && !$settings.privacy.disableAnalytics)}
