@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { device } from "$lib/device";
     import settings from "$lib/state/settings";
     import { themeOptions } from "$lib/types/settings";
     import { t, locales } from "$lib/i18n/translations";
