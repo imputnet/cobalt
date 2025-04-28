@@ -1,10 +1,10 @@
 <script lang="ts">
     import env, { officialApiURL } from "$lib/env";
 
+    import { tick } from "svelte";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { browser } from "$app/environment";
-    import { SvelteComponent, tick } from "svelte";
 
     import { t } from "$lib/i18n/translations";
 
@@ -33,10 +33,8 @@
     import IconClipboard from "$components/icons/Clipboard.svelte";
 
     let linkInput: Optional<HTMLInputElement>;
-    let downloadButton: SvelteComponent;
 
     let isFocused = false;
-
     let isDisabled = false;
     let isLoading = false;
 
@@ -173,7 +171,6 @@
         <ClearButton click={() => ($link = "")} />
         <DownloadButton
             url={$link}
-            bind:this={downloadButton}
             bind:disabled={isDisabled}
             bind:loading={isLoading}
         />
