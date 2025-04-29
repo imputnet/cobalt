@@ -1,7 +1,7 @@
 {
     "name": "@imput/cobalt-api",
     "description": "save what you love",
-    "version": "10.9.3",
+    "version": "10.9.4",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
