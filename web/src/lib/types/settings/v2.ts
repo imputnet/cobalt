@@ -1,6 +1,6 @@
 import languages from "$i18n/languages.json";
 
-export const themeOptions = ["auto", "light", "dark"] as const;
+export const themeOptions = ["auto", "light", "dark", "cobalt"] as const;
 export const audioBitrateOptions = ["320", "256", "128", "96", "64", "8"] as const;
 export const audioFormatOptions = ["best", "mp3", "ogg", "wav", "opus"] as const;
 export const downloadModeOptions = ["auto", "audio", "mute"] as const;
