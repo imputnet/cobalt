@@ -30,13 +30,6 @@ export class OPFSStorage extends AbstractStorage {
         return await this.#handle.getFile();
     }
 
-    read(size: number, offset: number) {
-        const out = new Uint8Array(size);
-        const bytesRead = this.#io.read(out, { at: offset });
-
-        return out.subarray(0, bytesRead);
-    }
-
     async write(data: Uint8Array | Int8Array, offset: number) {
         return this.#io.write(data, { at: offset })
     }
