@@ -144,5 +144,9 @@
 
     "local.webcodecs": "webcodecs",
     "local.webcodecs.title": "use webcodecs for on-device processing",
-    "local.webcodecs.description": "when decoding or encoding files, cobalt will try to use webcodecs. this feature allows for GPU-accelerated processing of media files, meaning that all decoding & encoding will be way faster.\n\navailability and stability of this feature depends on your device's and browser's capabilities. stuff might break or not work properly."
+    "local.webcodecs.description": "when decoding or encoding files, cobalt will try to use webcodecs. this feature allows for GPU-accelerated processing of media files, meaning that all decoding & encoding will be way faster.\n\navailability and stability of this feature depends on your device's and browser's capabilities. stuff might break or not work properly.",
+
+    "tabs": "navigation",
+    "tabs.hide_remux": "hide the remux tab",
+    "tabs.hide_remux.description": "if you don't use the remux tool, you can hide it from the navigation bar."
 }

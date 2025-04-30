@@ -2,7 +2,9 @@ import { type CobaltSettingsV4 } from "$lib/types/settings/v4";
 
 export type CobaltSettingsV5 = Omit<CobaltSettingsV4, 'schemaVersion' | 'advanced' | 'save' | 'privacy' | 'appearance'> & {
     schemaVersion: 5,
-    appearance: Omit<CobaltSettingsV4['appearance'], 'reduceMotion' | 'reduceTransparency'>,
+    appearance: Omit<CobaltSettingsV4['appearance'], 'reduceMotion' | 'reduceTransparency'> & {
+        hideRemuxTab: boolean,
+    },
     accessibility: {
         reduceMotion: boolean;
         reduceTransparency: boolean;

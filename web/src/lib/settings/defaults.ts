@@ -12,6 +12,7 @@ const defaultSettings: CobaltSettings = {
         theme: "auto",
         language: defaultLocale,
         autoLanguage: true,
+        hideRemuxTab: false,
     },
     accessibility: {
         reduceMotion: false,

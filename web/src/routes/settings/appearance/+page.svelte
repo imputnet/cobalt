@@ -1,5 +1,7 @@
 <script lang="ts">
     import settings from "$lib/state/settings";
+
+    import { device } from "$lib/device";
     import { themeOptions } from "$lib/types/settings";
     import { t, locales } from "$lib/i18n/translations";
 
@@ -52,3 +54,14 @@
         disabled={$settings.appearance.autoLanguage}
     />
 </SettingsCategory>
+
+{#if device.is.mobile}
+    <SettingsCategory sectionId="tabs" title={$t("settings.tabs")}>
+        <SettingsToggle
+            settingContext="appearance"
+            settingId="hideRemuxTab"
+            title={$t("settings.tabs.hide_remux")}
+            description={$t("settings.tabs.hide_remux.description")}
+        />
+    </SettingsCategory>
+{/if}

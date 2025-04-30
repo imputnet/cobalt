@@ -1,4 +1,6 @@
 <script lang="ts">
+    import settings from "$lib/state/settings";
+
     import { t } from "$lib/i18n/translations";
     import { defaultNavPage } from "$lib/subnav";
 
@@ -30,7 +32,9 @@
     <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
-            <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
+            {#if !$settings.appearance.hideRemuxTab}
+                <SidebarTab name="remux" path="/remux" icon={IconRepeat} beta />
+            {/if}
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab name="settings" path={settingsLink} icon={IconSettings} />
