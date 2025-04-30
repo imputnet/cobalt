@@ -58,7 +58,9 @@ export const createRemuxPipeline = (file: File) => {
 
 export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
     // TODO: proper error here
-    if (!(info.output?.filename && info.output?.type)) return;
+    if (!info.output?.filename || !info.output?.type) {
+        return;
+    }
 
     const parentId = crypto.randomUUID();
     const pipeline: CobaltPipelineItem[] = [];
@@ -103,9 +105,41 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
                 },
             },
         });
-    }
+    } else if (info.type === "audio") {
+        if (!info.audio) return; // TODO: proper error
 
-    if (["audio", "gif"].includes(info.type)) {
+        const ffargs = [
+            "-vn",
+            ...(info.audio.copy ? ["-c:a", "copy"] : ["-b:a", `${info.audio.bitrate}k`]),
+            ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
+        ];
+
+        if (info.audio.format === "mp3" && info.audio.bitrate === "8") {
+            ffargs.push("-ar", "12000");
+        }
+
+        if (info.audio.format === "opus") {
+            ffargs.push("-vbr", "off")
+        }
+
+        const outFormat = info.audio.format === "m4a" ? "ipod" : info.audio.format;
+
+        ffargs.push('-f', outFormat);
+
+        pipeline.push({
+            worker: "encode",
+            workerId: crypto.randomUUID(),
+            parentId,
+            workerArgs: {
+                files: [],
+                ffargs,
+                output: {
+                    type: info.output.type,
+                    format: info.output.filename.split(".").pop(),
+                },
+            },
+        });
+    } else if ("gif" === info.type) {
         return createDialog({
             id: "save-error",
             type: "small",
