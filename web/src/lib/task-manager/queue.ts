@@ -139,7 +139,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
                 },
             },
         });
-    } else if ("gif" === info.type) {
+    } else if (info.type === "gif") {
         return createDialog({
             id: "save-error",
             type: "small",
