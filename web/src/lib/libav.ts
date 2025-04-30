@@ -1,4 +1,4 @@
-import { OPFSStorage } from "$lib/storage";
+import { OPFSStorage } from "$lib/storage/opfs";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 import EncodeLibAV from "@imput/libav.js-encode-cli";
 

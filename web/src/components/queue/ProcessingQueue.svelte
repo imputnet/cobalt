@@ -3,7 +3,7 @@
     import { t } from "$lib/i18n/translations";
     import { onNavigate } from "$app/navigation";
 
-    import { clearFileStorage } from "$lib/storage";
+    import { clearFileStorage } from "$lib/storage/opfs";
 
     import { queueVisible } from "$lib/state/queue-visibility";
     import { currentTasks } from "$lib/state/task-manager/current-tasks";

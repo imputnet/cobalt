@@ -1,4 +1,4 @@
-import { OPFSStorage } from "$lib/storage";
+import { OPFSStorage } from "$lib/storage/opfs";
 
 let attempts = 0;
 

@@ -1,7 +1,7 @@
 import { readable, type Updater } from "svelte/store";
 
 import { schedule } from "$lib/task-manager/scheduler";
-import { clearFileStorage, removeFromFileStorage } from "$lib/storage";
+import { clearFileStorage, removeFromFileStorage } from "$lib/storage/opfs";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/task-manager/current-tasks";
 
 import type { CobaltFileReference } from "$lib/types/storage";

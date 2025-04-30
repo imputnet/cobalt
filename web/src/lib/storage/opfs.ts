@@ -1,4 +1,3 @@
-
 const COBALT_PROCESSING_DIR = "cobalt-processing-data";
 
 export class OPFSStorage {

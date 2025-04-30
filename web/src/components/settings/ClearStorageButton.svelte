@@ -2,7 +2,7 @@
     import { t } from "$lib/i18n/translations";
     import { createDialog } from "$lib/state/dialogs";
     import { clearQueue } from "$lib/state/task-manager/queue";
-    import { clearFileStorage } from "$lib/storage";
+    import { clearFileStorage } from "$lib/storage/opfs";
 
     import IconFileShredder from "@tabler/icons-svelte/IconFileShredder.svelte";
     import DataSettingsButton from "$components/settings/DataSettingsButton.svelte";
