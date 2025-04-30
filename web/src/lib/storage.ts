@@ -65,14 +65,6 @@ export const clearFileStorage = async () => {
     }
 }
 
-export const clearCacheStorage = async () => {
-    const keys = await caches.keys();
-
-    for (const key of keys) {
-        caches.delete(key);
-    }
-}
-
 export const getStorageQuota = async () => {
     let estimate;
     if (navigator.storage.estimate) {
