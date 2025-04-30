@@ -11,7 +11,7 @@ const error = (code: string) => {
     })
 }
 
-const remux = async (variant: string, files: CobaltFileReference[], args: string[], output: FileInfo) => {
+const ffmpeg = async (variant: string, files: CobaltFileReference[], args: string[], output: FileInfo) => {
     if (!(files && output && args)) return;
 
     const ff = new LibAVWrapper((progress) => {
@@ -98,6 +98,6 @@ const remux = async (variant: string, files: CobaltFileReference[], args: string
 self.onmessage = async (event: MessageEvent) => {
     const ed = event.data.cobaltFFmpegWorker;
     if (ed?.variant && ed?.files && ed?.args && ed?.output) {
-        await remux(ed.variant, ed.files, ed.args, ed.output);
+        await ffmpeg(ed.variant, ed.files, ed.args, ed.output);
     }
 }
