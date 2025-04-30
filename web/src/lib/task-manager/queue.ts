@@ -1,11 +1,8 @@
-import { get } from "svelte/store";
-import { t } from "$lib/i18n/translations";
-import { addItem } from "$lib/state/task-manager/queue";
-import { createDialog } from "$lib/state/dialogs";
-import { openQueuePopover } from "$lib/state/queue-visibility";
 import { ffmpegMetadataArgs } from "$lib/util";
+import { addItem } from "$lib/state/task-manager/queue";
+import { openQueuePopover } from "$lib/state/queue-visibility";
 
-import type { CobaltPipelineItem } from "$lib/types/workers";
+import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
 export const getMediaType = (type: string) => {
@@ -54,6 +51,13 @@ export const createRemuxPipeline = (file: File) => {
 
         openQueuePopover();
     }
+}
+
+const mediaIcons: { [key: string]: CobaltPipelineResultFileType } = {
+    merge: "video",
+    mute: "video",
+    audio: "audio",
+    gif: "image"
 }
 
 export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
@@ -140,18 +144,23 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
             },
         });
     } else if (info.type === "gif") {
-        return createDialog({
-            id: "save-error",
-            type: "small",
-            meowbalt: "error",
-            buttons: [
-                {
-                    text: get(t)("button.gotit"),
-                    main: true,
-                    action: () => { },
+        pipeline.push({
+            worker: "encode",
+            workerId: crypto.randomUUID(),
+            parentId,
+            workerArgs: {
+                files: [],
+                ffargs: [
+                    "-vf",
+                    "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
+                    "-loop", "0",
+                    "-f", "gif"
+                ],
+                output: {
+                    type: info.output.type,
+                    format: info.output.filename.split(".").pop(),
                 },
-            ],
-            bodyText: "audio and gif processing isn't implemented yet!",
+            },
         });
     }
 
@@ -163,7 +172,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         originalRequest: request,
         filename: info.output.filename,
         mimeType: info.output.type,
-        mediaType: "video",
+        mediaType: mediaIcons[info.type],
     });
 
     openQueuePopover();
