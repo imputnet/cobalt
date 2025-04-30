@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { queue } from "$lib/state/task-manager/queue";
 
-import { runRemuxWorker } from "$lib/task-manager/runners/remux";
+import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
 import { runFetchWorker } from "$lib/task-manager/runners/fetch";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
@@ -18,6 +18,7 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
 
     switch (worker) {
         case "remux":
+        case "encode":
             if (workerArgs.files) {
                 files = workerArgs.files;
             }
@@ -30,12 +31,13 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
             }
 
             if (files.length > 0 && workerArgs.ffargs && workerArgs.output) {
-                await runRemuxWorker(
+                await runFFmpegWorker(
                     workerId,
                     parentId,
                     files,
                     workerArgs.ffargs,
                     workerArgs.output,
+                    worker,
                     /*resetStartCounter=*/true,
                 );
             }

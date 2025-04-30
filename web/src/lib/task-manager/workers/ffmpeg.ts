@@ -5,18 +5,18 @@ import type { CobaltFileReference } from "$lib/types/storage";
 
 const error = (code: string) => {
     self.postMessage({
-        cobaltRemuxWorker: {
+        cobaltFFmpegWorker: {
             error: `error.${code}`,
         }
     })
 }
 
-const remux = async (files: CobaltFileReference[], args: string[], output: FileInfo) => {
+const remux = async (variant: string, files: CobaltFileReference[], args: string[], output: FileInfo) => {
     if (!(files && output && args)) return;
 
     const ff = new LibAVWrapper((progress) => {
         self.postMessage({
-            cobaltRemuxWorker: {
+            cobaltFFmpegWorker: {
                 progress: {
                     durationProcessed: progress.out_time_sec,
                     speed: progress.speed,
@@ -28,7 +28,7 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
         })
     });
 
-    ff.init();
+    ff.init({ variant });
 
     try {
         // probing just the first file in files array (usually audio) for duration progress
@@ -50,7 +50,7 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
         }
 
         self.postMessage({
-            cobaltRemuxWorker: {
+            cobaltFFmpegWorker: {
                 progress: {
                     duration: Number(file_info.format.duration),
                 }
@@ -85,7 +85,7 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
         await ff.terminate();
 
         self.postMessage({
-            cobaltRemuxWorker: {
+            cobaltFFmpegWorker: {
                 render
             }
         });
@@ -96,10 +96,8 @@ const remux = async (files: CobaltFileReference[], args: string[], output: FileI
 }
 
 self.onmessage = async (event: MessageEvent) => {
-    const ed = event.data.cobaltRemuxWorker;
-    if (ed) {
-        if (ed.files && ed.args && ed.output) {
-            await remux(ed.files, ed.args, ed.output);
-        }
+    const ed = event.data.cobaltFFmpegWorker;
+    if (ed?.variant && ed?.files && ed?.args && ed?.output) {
+        await remux(ed.variant, ed.files, ed.args, ed.output);
     }
 }

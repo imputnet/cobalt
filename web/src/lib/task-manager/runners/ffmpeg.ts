@@ -1,4 +1,4 @@
-import RemuxWorker from "$lib/task-manager/workers/remux?worker";
+import FFmpegWorker from "$lib/task-manager/workers/ffmpeg?worker";
 
 import { killWorker } from "$lib/task-manager/run-worker";
 import { updateWorkerProgress } from "$lib/state/task-manager/current-tasks";
@@ -10,15 +10,16 @@ import type { CobaltFileReference } from "$lib/types/storage";
 
 let startAttempts = 0;
 
-export const runRemuxWorker = async (
+export const runFFmpegWorker = async (
     workerId: string,
     parentId: string,
     files: CobaltFileReference[],
     args: string[],
     output: FileInfo,
+    variant: 'remux' | 'encode',
     resetStartCounter = false
 ) => {
-    const worker = new RemuxWorker();
+    const worker = new FFmpegWorker();
 
     // sometimes chrome refuses to start libav wasm,
     // so we check if it started, try 10 more times if not, and kill self if it still doesn't work
@@ -35,7 +36,7 @@ export const runRemuxWorker = async (
             if (startAttempts <= 10) {
                 killWorker(worker, unsubscribe, startCheck);
                 console.error("worker didn't start after 5 seconds, so it was killed and started again");
-                return await runRemuxWorker(workerId, parentId, files, args, output);
+                return await runFFmpegWorker(workerId, parentId, files, args, output, variant);
             } else {
                 killWorker(worker, unsubscribe, startCheck);
                 console.error("worker didn't start after 10 attempts, so we're giving up");
@@ -55,7 +56,8 @@ export const runRemuxWorker = async (
     });
 
     worker.postMessage({
-        cobaltRemuxWorker: {
+        cobaltFFmpegWorker: {
+            variant,
             files,
             args,
             output,
@@ -63,7 +65,7 @@ export const runRemuxWorker = async (
     });
 
     worker.onerror = (e) => {
-        console.error("remux worker exploded:", e);
+        console.error("ffmpeg worker exploded:", e);
         killWorker(worker, unsubscribe, startCheck);
 
         // TODO: proper error code
@@ -73,7 +75,7 @@ export const runRemuxWorker = async (
     let totalDuration: number | null = null;
 
     worker.onmessage = (event) => {
-        const eventData = event.data.cobaltRemuxWorker;
+        const eventData = event.data.cobaltFFmpegWorker;
         if (!eventData) return;
 
         clearInterval(startCheck);
