@@ -20,7 +20,7 @@ export const apiSchema = z.object({
 
     filenameStyle: z.enum(
         ["classic", "pretty", "basic", "nerdy"]
-    ).default("classic"),
+    ).default("basic"),
 
     youtubeVideoCodec: z.enum(
         ["h264", "av1", "vp9"]
