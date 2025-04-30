@@ -64,11 +64,3 @@ export const clearFileStorage = async () => {
         }
     }
 }
-
-export const getStorageQuota = async () => {
-    let estimate;
-    if (navigator.storage.estimate) {
-        estimate = await navigator.storage.estimate();
-    }
-    return estimate;
-}
