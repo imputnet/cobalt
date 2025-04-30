@@ -1,5 +1,5 @@
 export abstract class AbstractStorage {
-    static init(): Promise<AbstractStorage> {
+    static init(_expected_size: number): Promise<AbstractStorage> {
         throw "init() call on abstract implementation";
     }
 
