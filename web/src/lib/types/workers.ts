@@ -3,7 +3,6 @@ import type { CobaltFileReference } from "$lib/types/storage";
 
 export const resultFileTypes = ["video", "audio", "image"] as const;
 
-export type CobaltWorkerType = "remux" | "fetch";
 export type CobaltPipelineResultFileType = typeof resultFileTypes[number];
 
 export type CobaltWorkerProgress = {
@@ -12,28 +11,32 @@ export type CobaltWorkerProgress = {
     size: number,
 }
 
-export type CobaltFetchWorkerArgs = { url: string };
-
-export type CobaltRemuxWorkerArgs = {
+type CobaltFFmpegWorkerArgs = {
     files: CobaltFileReference[],
     ffargs: string[],
     output: FileInfo,
 }
 
-export type CobaltPipelineItemBase = {
-    worker: CobaltWorkerType,
+type CobaltPipelineItemBase = {
     workerId: string,
     parentId: string,
 };
 
 type CobaltRemuxPipelineItem = CobaltPipelineItemBase & {
     worker: "remux",
-    workerArgs: CobaltRemuxWorkerArgs,
+    workerArgs: CobaltFFmpegWorkerArgs,
+}
+
+type CobaltEncodePipelineItem = CobaltPipelineItemBase & {
+    worker: "encode",
+    workerArgs: CobaltFFmpegWorkerArgs,
 }
 
 type CobaltFetchPipelineItem = CobaltPipelineItemBase & {
     worker: "fetch",
-    workerArgs: CobaltFetchWorkerArgs,
+    workerArgs: { url: string },
 }
 
-export type CobaltPipelineItem = CobaltRemuxPipelineItem | CobaltFetchPipelineItem;
+export type CobaltPipelineItem = CobaltEncodePipelineItem
+                               | CobaltRemuxPipelineItem
+                               | CobaltFetchPipelineItem;
