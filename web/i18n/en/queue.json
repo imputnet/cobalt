@@ -10,8 +10,10 @@
     "state.starting": "starting",
     "state.starting.fetch": "starting downloading",
     "state.starting.remux": "starting remuxing",
+    "state.starting.encode": "starting transcoding",
 
     "state.running.remux": "remuxing",
     "state.running.fetch": "downloading",
+    "state.running.encode": "transcoding",
     "estimated_storage_usage": "estimated storage usage:"
 }
