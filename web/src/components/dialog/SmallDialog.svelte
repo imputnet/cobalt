@@ -25,7 +25,9 @@
 
     // error meowbalt art is not used in dialogs unless it's an error
     if (meowbalt === "error") {
-        hapticError();
+        setTimeout(() => {
+            hapticError();
+        }, 150)
     }
 </script>
 
