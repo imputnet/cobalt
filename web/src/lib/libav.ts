@@ -1,5 +1,6 @@
 import { OPFSStorage } from "$lib/storage";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
+import EncodeLibAV from "@imput/libav.js-encode-cli";
 
 import type { FfprobeData } from "fluent-ffmpeg";
 import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, RenderParams } from "$lib/types/libav";
@@ -16,13 +17,22 @@ export default class LibAVWrapper {
     }
 
     init(options?: LibAV.LibAVOpts) {
-        if (!options) options = {
-            yesthreads: true,
+        const variant = options?.variant || 'remux';
+        let constructor: typeof LibAV.LibAV;
+
+        if (variant === 'remux') {
+            constructor = LibAV.LibAV;
+        } else if (variant === 'encode') {
+            constructor = EncodeLibAV.LibAV;
+        } else {
+            throw "invalid variant";
         }
 
         if (this.concurrency && !this.libav) {
-            this.libav = LibAV.LibAV({
+            this.libav = constructor({
                 ...options,
+                variant: undefined,
+                yesthreads: true,
                 base: '/_libav'
             });
         }

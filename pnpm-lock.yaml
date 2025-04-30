@@ -103,6 +103,9 @@ importers:
       '@fontsource/redaction-10':
         specifier: ^5.0.2
         version: 5.0.2
+      '@imput/libav.js-encode-cli':
+        specifier: 6.5.7
+        version: 6.5.7
       '@imput/libav.js-remux-cli':
         specifier: ^6.5.7
         version: 6.5.7
@@ -556,6 +559,9 @@ packages:
   '@humanwhocodes/retry@0.4.1':
     resolution: {integrity: sha512-c7hNEllBlenFTHBky65mhq8WD2kbN9Q6gk0bTk8lSBvc554jpXSkST1iePudpt7+A/AQvuHs9EMqjHDXMY1lrA==}
     engines: {node: '>=18.18'}
+
+  '@imput/libav.js-encode-cli@6.5.7':
+    resolution: {integrity: sha512-DbMBSibot7I8fASVmNVTIp0/WQrHUUV2jOCkjWBazvJQKr2hG288uFmvxUu+F2d3AFafRGA9xYtjsx8M+RULwQ==}
 
   '@imput/libav.js-remux-cli@6.5.7':
     resolution: {integrity: sha512-41ld+R5aEwllKdbiszOoCf+K614/8bnuheTZnqjgZESwDtX07xu9O8GO0m/Cpsm7O2CyqPZa1qzDx6BZVO15DQ==}
@@ -2416,6 +2422,8 @@ snapshots:
   '@humanwhocodes/retry@0.3.1': {}
 
   '@humanwhocodes/retry@0.4.1': {}
+
+  '@imput/libav.js-encode-cli@6.5.7': {}
 
   '@imput/libav.js-remux-cli@6.5.7': {}
 
