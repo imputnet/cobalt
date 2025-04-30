@@ -53,26 +53,29 @@
         });
 
     $: progress = runningWorker?.progress;
-    $: size = formatFileSize(runningWorker?.progress?.size);
 
     type StatusText = {
         info: CobaltQueueItem;
         runningWorker: CobaltCurrentTaskItem | undefined;
         progress: CobaltWorkerProgress | undefined;
-        size: string;
         retrying: boolean;
     };
 
-    const generateStatusText = ({ info, runningWorker, progress, retrying, size }: StatusText) => {
+    const generateStatusText = ({ info, runningWorker, progress, retrying }: StatusText) => {
         switch (info.state) {
         case "running":
             if (runningWorker) {
                 const running = $t(`queue.state.running.${runningWorker.type}`);
+                const formattedSize = formatFileSize(progress?.size);
+
                 if (progress && progress.percentage) {
-                    return `${running}: ${Math.ceil(progress.percentage)}%, ${size}`;
+                    return `${running}: ${Math.ceil(progress.percentage)}%, ${formattedSize}`;
                 }
-                else if (runningWorker && progress && size) {
-                    return `${running}: ${size}`;
+                else if (runningWorker && progress) {
+                    if (progress.size > 0) {
+                        return `${running}: ${formattedSize}`;
+                    }
+                    return running;
                 }
                 else if (runningWorker?.type) {
                     const starting = $t(`queue.state.starting.${runningWorker.type}`);
@@ -107,7 +110,6 @@
         runningWorker,
         progress,
         retrying,
-        size,
     });
 </script>
 
