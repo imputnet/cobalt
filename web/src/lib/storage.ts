@@ -1,4 +1,5 @@
-const cobaltProcessingDir = "cobalt-processing-data";
+
+const COBALT_PROCESSING_DIR = "cobalt-processing-data";
 
 export class OPFSStorage {
     #root;
@@ -13,7 +14,7 @@ export class OPFSStorage {
 
     static async init() {
         const root = await navigator.storage.getDirectory();
-        const cobaltDir = await root.getDirectoryHandle(cobaltProcessingDir, { create: true });
+        const cobaltDir = await root.getDirectoryHandle(COBALT_PROCESSING_DIR, { create: true });
         const handle = await cobaltDir.getFileHandle(crypto.randomUUID(), { create: true });
         const reader = await handle.createSyncAccessHandle();
 
@@ -49,7 +50,7 @@ export class OPFSStorage {
 
 export const removeFromFileStorage = async (filename: string) => {
     const root = await navigator.storage.getDirectory();
-    const cobaltDir = await root.getDirectoryHandle(cobaltProcessingDir);
+    const cobaltDir = await root.getDirectoryHandle(COBALT_PROCESSING_DIR);
     return await cobaltDir.removeEntry(filename);
 }
 
@@ -57,7 +58,7 @@ export const clearFileStorage = async () => {
     if (navigator.storage.getDirectory) {
         const root = await navigator.storage.getDirectory();
         try {
-            await root.removeEntry(cobaltProcessingDir, { recursive: true });
+            await root.removeEntry(COBALT_PROCESSING_DIR, { recursive: true });
         } catch {
             // ignore the error because the dir might be missing and that's okay!
         }
