@@ -17,7 +17,7 @@ const config = {
             markup: ({ content: code }) => {
                 code = code.replace(
                     /<div id="svelte-announcer" [\s\S]*?<\/div>/,
-                    '<svelte:component this={null} />'
+                    '{null}'
                 );
 
                 return { code }
