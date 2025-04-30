@@ -1,4 +1,4 @@
-import { OPFSStorage } from "$lib/storage/opfs";
+import * as Storage from "$lib/storage";
 import LibAV, { type LibAV as LibAVInstance } from "@imput/libav.js-remux-cli";
 import EncodeLibAV from "@imput/libav.js-encode-cli";
 
@@ -95,7 +95,8 @@ export default class LibAVWrapper {
             await libav.mkwriterdev(outputName);
             await libav.mkwriterdev('progress.txt');
 
-            const storage = await OPFSStorage.init();
+            const totalInputSize = files.reduce((a, b) => a + b.file.size, 0);
+            const storage = await Storage.init(totalInputSize);
 
             libav.onwrite = async (name, pos, data) => {
                 if (name === 'progress.txt') {

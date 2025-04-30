@@ -1,4 +1,4 @@
-import { OPFSStorage } from "$lib/storage/opfs";
+import * as Storage from "$lib/storage";
 
 let attempts = 0;
 
@@ -37,7 +37,7 @@ const fetchFile = async (url: string) => {
         const contentLength = response.headers.get('Content-Length');
         const estimatedLength = response.headers.get('Estimated-Content-Length');
 
-        let totalBytes = null;
+        let totalBytes;
 
         if (contentLength) {
             totalBytes = +contentLength;
@@ -47,7 +47,7 @@ const fetchFile = async (url: string) => {
 
         const reader = response.body?.getReader();
 
-        const storage = await OPFSStorage.init();
+        const storage = await Storage.init(totalBytes);
 
         if (!reader) {
             return error("no reader");
