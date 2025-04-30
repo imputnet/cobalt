@@ -1,11 +1,14 @@
+import { AbstractStorage } from "./storage";
+
 const COBALT_PROCESSING_DIR = "cobalt-processing-data";
 
-export class OPFSStorage {
+export class OPFSStorage extends AbstractStorage {
     #root;
     #handle;
     #io;
 
     constructor(root: FileSystemDirectoryHandle, handle: FileSystemFileHandle, reader: FileSystemSyncAccessHandle) {
+        super();
         this.#root = root;
         this.#handle = handle;
         this.#io = reader;
