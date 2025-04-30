@@ -44,7 +44,10 @@ export class OPFSStorage {
     }
 
     static isAvailable() {
-        return !!navigator.storage?.getDirectory;
+        if (typeof navigator === 'undefined')
+            return false;
+
+        return 'storage' in navigator && 'getDirectory' in navigator.storage;
     }
 }
 
@@ -55,7 +58,7 @@ export const removeFromFileStorage = async (filename: string) => {
 }
 
 export const clearFileStorage = async () => {
-    if (navigator.storage.getDirectory) {
+    if (OPFSStorage.isAvailable()) {
         const root = await navigator.storage.getDirectory();
         try {
             await root.removeEntry(COBALT_PROCESSING_DIR, { recursive: true });
