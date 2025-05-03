@@ -90,7 +90,7 @@
             return $t("queue.state.starting");
 
         case "done":
-            return formatFileSize(info.resultFile?.file?.size);
+            return formatFileSize(info.resultFile?.size);
 
         case "error":
             return !retrying ? info.errorCode : $t("queue.state.retrying");
@@ -162,7 +162,7 @@
         {#if info.state === "done" && info.resultFile}
             <button
                 class="button action-button"
-                on:click={() => download(info.resultFile.file)}
+                on:click={() => download(info.resultFile)}
             >
                 <IconDownload />
             </button>

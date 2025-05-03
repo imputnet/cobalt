@@ -1,5 +1,4 @@
 import type { FileInfo } from "$lib/types/libav";
-import type { CobaltFileReference } from "$lib/types/storage";
 
 export const resultFileTypes = ["video", "audio", "image"] as const;
 
@@ -12,7 +11,7 @@ export type CobaltWorkerProgress = {
 }
 
 type CobaltFFmpegWorkerArgs = {
-    files: CobaltFileReference[],
+    files: File[],
     ffargs: string[],
     output: FileInfo,
 }

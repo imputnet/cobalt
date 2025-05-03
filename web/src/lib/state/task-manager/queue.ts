@@ -4,17 +4,16 @@ import { schedule } from "$lib/task-manager/scheduler";
 import { clearFileStorage, removeFromFileStorage } from "$lib/storage/opfs";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/task-manager/current-tasks";
 
-import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning } from "$lib/types/queue";
 
 const clearPipelineCache = (queueItem: CobaltQueueItem) => {
     if (queueItem.state === "running") {
-        let item: CobaltFileReference | undefined;
+        let item: File | undefined;
         while ((item = queueItem.pipelineResults.pop())) {
-            removeFromFileStorage(item.file.name);
+            removeFromFileStorage(item.name);
         }
     } else if (queueItem.state === "done") {
-        removeFromFileStorage(queueItem.resultFile.file.name);
+        removeFromFileStorage(queueItem.resultFile.name);
     }
 
     return queueItem;
@@ -54,7 +53,7 @@ export function itemError(id: string, workerId: string, error: string) {
     schedule();
 }
 
-export function itemDone(id: string, file: CobaltFileReference) {
+export function itemDone(id: string, file: File) {
     update(queueData => {
         if (queueData[id]) {
             queueData[id] = clearPipelineCache(queueData[id]);
@@ -71,7 +70,7 @@ export function itemDone(id: string, file: CobaltFileReference) {
     schedule();
 }
 
-export function pipelineTaskDone(id: string, workerId: string, file: CobaltFileReference) {
+export function pipelineTaskDone(id: string, workerId: string, file: File) {
     update(queueData => {
         const item = queueData[id];
 

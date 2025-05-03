@@ -6,14 +6,13 @@ import { pipelineTaskDone, itemError, queue } from "$lib/state/task-manager/queu
 
 import type { FileInfo } from "$lib/types/libav";
 import type { CobaltQueue } from "$lib/types/queue";
-import type { CobaltFileReference } from "$lib/types/storage";
 
 let startAttempts = 0;
 
 export const runFFmpegWorker = async (
     workerId: string,
     parentId: string,
-    files: CobaltFileReference[],
+    files: File[],
     args: string[],
     output: FileInfo,
     variant: 'remux' | 'encode',

@@ -1,7 +1,6 @@
 import LibAVWrapper from "$lib/libav";
 
 import type { FileInfo } from "$lib/types/libav";
-import type { CobaltFileReference } from "$lib/types/storage";
 
 const error = (code: string) => {
     self.postMessage({
@@ -11,7 +10,7 @@ const error = (code: string) => {
     })
 }
 
-const ffmpeg = async (variant: string, files: CobaltFileReference[], args: string[], output: FileInfo) => {
+const ffmpeg = async (variant: string, files: File[], args: string[], output: FileInfo) => {
     if (!(files && output && args)) return;
 
     const ff = new LibAVWrapper((progress) => {
@@ -32,7 +31,7 @@ const ffmpeg = async (variant: string, files: CobaltFileReference[], args: strin
 
     try {
         // probing just the first file in files array (usually audio) for duration progress
-        const probeFile = files[0]?.file;
+        const probeFile = files[0];
         if (!probeFile) return error("couldn't probe one of files");
 
         const file_info = await ff.probe(probeFile).catch((e) => {

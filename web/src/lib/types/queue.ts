@@ -1,5 +1,4 @@
 import type { CobaltSaveRequestBody } from "$lib/types/api";
-import type { CobaltFileReference } from "$lib/types/storage";
 import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 
 export type CobaltQueueItemState = "waiting" | "running" | "done" | "error";
@@ -24,12 +23,12 @@ export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
     state: "running",
     runningWorker: string,
     completedWorkers: Set<string>,
-    pipelineResults: CobaltFileReference[],
+    pipelineResults: File[],
 };
 
 export type CobaltQueueItemDone = CobaltQueueBaseItem & {
     state: "done",
-    resultFile: CobaltFileReference,
+    resultFile: File,
 };
 
 export type CobaltQueueItemError = CobaltQueueBaseItem & {

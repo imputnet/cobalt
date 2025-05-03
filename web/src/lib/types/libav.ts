@@ -1,12 +1,10 @@
-import type { CobaltFileReference } from "$lib/types/storage";
-
 export type FileInfo = {
     type?: string,
     format?: string,
 }
 
 export type RenderParams = {
-    files: CobaltFileReference[],
+    files: File[],
     output: FileInfo,
     args: string[],
 }

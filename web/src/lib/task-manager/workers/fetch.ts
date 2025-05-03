@@ -76,7 +76,9 @@ const fetchFile = async (url: string) => {
             return error("tunnel is broken");
         }
 
-        const file = await storage.res();
+        const file = new File(
+            [ await storage.res() ], '', { type: contentType }
+        );
 
         if (contentLength && Number(contentLength) !== file.size) {
             return error("file was not downloaded fully");
@@ -84,10 +86,7 @@ const fetchFile = async (url: string) => {
 
         self.postMessage({
             cobaltFetchWorker: {
-                result: {
-                    file,
-                    type: contentType,
-                }
+                result: file
             }
         });
     } catch (e) {

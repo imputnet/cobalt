@@ -86,7 +86,7 @@ export default class LibAVWrapper {
 
         try {
             for (let i = 0; i < files.length; i++) {
-                const file = files[i].file;
+                const file = files[i];
 
                 await libav.mkreadaheadfile(`input${i}`, file);
                 ffInputs.push('-i', `input${i}`);
@@ -95,7 +95,7 @@ export default class LibAVWrapper {
             await libav.mkwriterdev(outputName);
             await libav.mkwriterdev('progress.txt');
 
-            const totalInputSize = files.reduce((a, b) => a + b.file.size, 0);
+            const totalInputSize = files.reduce((a, b) => a + b.size, 0);
             const storage = await Storage.init(totalInputSize);
 
             libav.onwrite = async (name, pos, data) => {
@@ -120,14 +120,15 @@ export default class LibAVWrapper {
                 outputName
             ]);
 
-            const file = await storage.res();
+            const file = new File(
+                [ await storage.res() ],
+                outputName,
+                { type: output.type }
+            );
 
             if (file.size === 0) return;
 
-            return {
-                file,
-                type: output.type,
-            }
+            return file;
         } finally {
             try {
                 await libav.unlink(outputName);

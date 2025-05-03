@@ -24,10 +24,7 @@ export const createRemuxPipeline = (file: File) => {
         workerId: crypto.randomUUID(),
         parentId,
         workerArgs: {
-            files: [{
-                file,
-                type: file.type,
-            }],
+            files: [file],
             ffargs: [
                 "-c", "copy",
                 "-map", "0"

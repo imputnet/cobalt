@@ -5,7 +5,6 @@ import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
 import { runFetchWorker } from "$lib/task-manager/runners/fetch";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
-import type { CobaltFileReference } from "$lib/types/storage";
 
 export const killWorker = (worker: Worker, unsubscribe: () => void, interval?: NodeJS.Timeout) => {
     unsubscribe();
@@ -14,7 +13,7 @@ export const killWorker = (worker: Worker, unsubscribe: () => void, interval?: N
 }
 
 export const startWorker = async ({ worker, workerId, parentId, workerArgs }: CobaltPipelineItem) => {
-    let files: CobaltFileReference[] = [];
+    let files: File[] = [];
 
     switch (worker) {
         case "remux":
