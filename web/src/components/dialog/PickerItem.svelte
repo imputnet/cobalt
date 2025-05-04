@@ -105,7 +105,7 @@
         z-index: 2;
 
         opacity: 1;
-        transition: opacity 0.15s;
+        transition: opacity 0.2s;
     }
 
     :global(.skeleton.picker-image) {
