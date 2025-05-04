@@ -49,9 +49,9 @@ export class OPFSStorage extends AbstractStorage {
 export const removeFromFileStorage = async (filename: string) => {
     if (OPFSStorage.isAvailable()) {
         const root = await navigator.storage.getDirectory();
-        const cobaltDir = await root.getDirectoryHandle(COBALT_PROCESSING_DIR);
 
         try {
+            const cobaltDir = await root.getDirectoryHandle(COBALT_PROCESSING_DIR);
             await cobaltDir.removeEntry(filename);
         } catch {}
     }
