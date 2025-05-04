@@ -98,6 +98,7 @@ export default defineConfig({
         generateSitemap
     ],
     build: {
+        sourcemap: true,
         rollupOptions: {
             output: {
                 manualChunks: (id) => {
