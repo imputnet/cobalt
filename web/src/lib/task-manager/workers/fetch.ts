@@ -76,9 +76,7 @@ const fetchFile = async (url: string) => {
             return error("tunnel is broken");
         }
 
-        const file = new File(
-            [ await storage.res() ], '', { type: contentType }
-        );
+        const file = Storage.retype(await storage.res(), contentType);
 
         if (contentLength && Number(contentLength) !== file.size) {
             return error("file was not downloaded fully");

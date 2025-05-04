@@ -13,3 +13,7 @@ export function init(expectedSize?: number): Promise<AbstractStorage> {
 
     throw "no storage method is available";
 }
+
+export function retype(file: File, type: string) {
+    return new File([ file ], file.name, { type });
+}

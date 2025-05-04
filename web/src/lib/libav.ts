@@ -120,12 +120,7 @@ export default class LibAVWrapper {
                 outputName
             ]);
 
-            const file = new File(
-                [ await storage.res() ],
-                outputName,
-                { type: output.type }
-            );
-
+            const file = Storage.retype(await storage.res(), output.type);
             if (file.size === 0) return;
 
             return file;
