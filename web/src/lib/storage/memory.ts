@@ -48,7 +48,7 @@ export class MemoryStorage extends AbstractStorage {
             }
         }
 
-        return new Blob(outputView);
+        return new File(outputView, crypto.randomUUID());
     }
 
     #expand(size: number) {

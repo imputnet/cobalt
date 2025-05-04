@@ -7,8 +7,7 @@ export abstract class AbstractStorage {
         return false;
     }
 
-    abstract res(): Promise<Blob>;
+    abstract res(): Promise<File>;
     abstract write(data: Uint8Array | Int8Array, offset: number): Promise<number>;
     abstract destroy(): Promise<void>;
 };
-
