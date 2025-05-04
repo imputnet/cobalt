@@ -142,7 +142,8 @@
         margin-bottom: -16px;
         transition:
             clip-path 0.2s,
-            margin-bottom 0.2s;
+            margin-bottom 0.2s,
+            opacity 0.15s;
     }
 
     .dragged-over :global(.meowbalt) {
