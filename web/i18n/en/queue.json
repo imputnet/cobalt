@@ -1,19 +1,16 @@
 {
     "title": "processing queue",
-    "stub": "nothing here yet, just the two of us.\ntry {{ value }} something!",
-    "stub.fetch": "downloading",
-    "stub.remux": "remuxing",
+    "stub": "nothing here yet, just the two of us.\ntry downloading something!",
 
     "state.waiting": "queued",
     "state.retrying": "retrying",
-
     "state.starting": "starting",
+
     "state.starting.fetch": "starting downloading",
     "state.starting.remux": "starting remuxing",
     "state.starting.encode": "starting transcoding",
 
     "state.running.remux": "remuxing",
     "state.running.fetch": "downloading",
-    "state.running.encode": "transcoding",
-    "estimated_storage_usage": "estimated storage usage:"
+    "state.running.encode": "transcoding"
 }

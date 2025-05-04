@@ -1,19 +1,13 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import Meowbalt from "$components/misc/Meowbalt.svelte";
-
-    const stubActions = ["fetch", "remux"];
-
-    const randomAction = () => {
-        return stubActions[Math.floor(Math.random() * stubActions.length)];
-    };
 </script>
 
 <div class="queue-stub">
     <Meowbalt emotion="think" />
     <span class="subtext stub-text">
         {$t("queue.stub", {
-            value: $t(`queue.stub.${randomAction()}`),
+            value: $t("queue.stub"),
         })}
     </span>
 </div>
