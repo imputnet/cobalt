@@ -78,6 +78,13 @@ const config = {
                     "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s=",
                 ],
 
+                "script-src-attr": [
+                    "unsafe-hashes",
+                    // hash of inline img event call
+                    // see: https://github.com/sveltejs/svelte/issues/14014
+                    "sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I="
+                ],
+
                 "frame-ancestors": ["none"]
             }
         },
