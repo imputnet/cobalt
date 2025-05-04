@@ -108,8 +108,9 @@
         transition: opacity 0.15s;
     }
 
-    :global(.skeleton) {
+    :global(.skeleton.picker-image) {
         z-index: 1;
+        position: relative;
     }
 
     .picker-image.loading {
