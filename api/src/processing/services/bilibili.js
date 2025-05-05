@@ -17,7 +17,7 @@ function extractBestQuality(dashData) {
     return [ bestVideo, bestAudio ];
 }
 
-async function com_download(id , episode = 1) {
+async function com_download(id, episode = 1) {
     let fetchUrl = `https://bilibili.com/video/${id}`;
     if (episode > 1) {
         fetchUrl += `?p=${episode}`
