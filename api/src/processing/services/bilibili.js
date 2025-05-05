@@ -86,7 +86,7 @@ async function tv_download(id) {
     };
 }
 
-export default async function({ comId, tvId, comShortLink, episode }) {
+export default async function ({ comId, tvId, comShortLink, episode }) {
     if (comShortLink) {
         const patternMatch = await resolveRedirectingURL(`https://b23.tv/${comShortLink}`);
         comId = patternMatch?.comId;
