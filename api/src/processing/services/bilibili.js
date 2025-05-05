@@ -97,7 +97,7 @@ export default async function ({comId, tvId, comShortLink, episode}) {
     }
 
     if (comId) {
-        return com_download(comId, episode ? episode : 1);
+        return com_download(comId, episode);
     } else if (tvId) {
         return tv_download(tvId);
     }
