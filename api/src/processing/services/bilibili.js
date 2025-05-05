@@ -18,11 +18,7 @@ function extractBestQuality(dashData) {
 }
 
 async function com_download(id, episode = 1) {
-    let fetchUrl = `https://bilibili.com/video/${id}`;
-    if (episode > 1) {
-        fetchUrl += `?p=${episode}`
-    }
-    let html = await fetch(fetchUrl, {
+    const html = await fetch(`https://bilibili.com/video/${id}?p=${episode}`, {
         headers: {
             "user-agent": genericUserAgent
         }
