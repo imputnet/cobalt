@@ -181,6 +181,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             }
 
             req.rateLimitKey = hashHmac(token, 'rate');
+            req.isSession = true;
         } catch {
             return fail(res, "error.api.generic");
         }
@@ -245,6 +246,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         if (!parsed) {
             return fail(res, "error.api.link.invalid");
         }
+
         if ("error" in parsed) {
             let context;
             if (parsed?.context) {
@@ -258,13 +260,14 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 host: parsed.host,
                 patternMatch: parsed.patternMatch,
                 params: normalizedRequest,
+                isSession: req.isSession ?? false,
             });
 
             res.status(result.status).json(result.body);
         } catch {
             fail(res, "error.api.generic");
         }
-    })
+    });
 
     app.use('/tunnel', cors({
         methods: ['GET'],

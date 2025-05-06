@@ -32,7 +32,7 @@ import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
 
-export default async function({ host, patternMatch, params }) {
+export default async function({ host, patternMatch, params, isSession }) {
     const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
