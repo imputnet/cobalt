@@ -292,6 +292,14 @@ export default async function({ host, patternMatch, params, isSession }) {
             })
         }
 
+        let localProcessing = params.localProcessing;
+
+        const lpEnv = env.forceLocalProcessing;
+
+        if (lpEnv === "always" || (lpEnv === "session" && isSession)) {
+            localProcessing = true;
+        }
+
         return matchAction({
             r,
             host,
@@ -304,7 +312,7 @@ export default async function({ host, patternMatch, params, isSession }) {
             requestIP,
             audioBitrate: params.audioBitrate,
             alwaysProxy: params.alwaysProxy,
-            localProcessing: params.localProcessing,
+            localProcessing,
         })
     } catch {
         return createResponse("error", {
