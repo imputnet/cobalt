@@ -12,6 +12,8 @@ const enabledServices = new Set(Object.keys(services).filter(e => {
     }
 }));
 
+const forceLocalProcessingOptions = ["never", "session", "always"];
+
 const env = {
     apiURL: process.env.API_URL || '',
     apiPort: process.env.API_PORT || 9000,
@@ -63,8 +65,8 @@ const env = {
     ytSessionInnertubeClient: process.env.YOUTUBE_SESSION_INNERTUBE_CLIENT,
     ytAllowBetterAudio: process.env.YOUTUBE_ALLOW_BETTER_AUDIO !== "0",
 
-    // "always" | "session"
-    forceLocalProcessing: process.env.FORCE_LOCAL_PROCESSING,
+    // "never" | "session" | "always"
+    forceLocalProcessing: process.env.FORCE_LOCAL_PROCESSING ?? "never",
 }
 
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
@@ -91,6 +93,12 @@ if (env.customInnertubeClient && !Constants.SUPPORTED_CLIENTS.includes(env.custo
     console.error("CUSTOM_INNERTUBE_CLIENT is invalid. Provided client is not supported.");
     console.error(`Supported clients are: ${Constants.SUPPORTED_CLIENTS.join(', ')}\n`);
     throw new Error("Invalid CUSTOM_INNERTUBE_CLIENT");
+}
+
+if (env.forceLocalProcessing && !forceLocalProcessingOptions.includes(env.forceLocalProcessing)) {
+    console.error("FORCE_LOCAL_PROCESSING is invalid.");
+    console.error(`Supported options are are: ${forceLocalProcessingOptions.join(', ')}\n`);
+    throw new Error("Invalid FORCE_LOCAL_PROCESSING");
 }
 
 export {
