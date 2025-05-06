@@ -62,6 +62,9 @@ const env = {
     ytSessionReloadInterval: 300,
     ytSessionInnertubeClient: process.env.YOUTUBE_SESSION_INNERTUBE_CLIENT,
     ytAllowBetterAudio: process.env.YOUTUBE_ALLOW_BETTER_AUDIO !== "0",
+
+    // "always" | "session"
+    forceLocalProcessing: process.env.FORCE_LOCAL_PROCESSING,
 }
 
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
