@@ -179,7 +179,7 @@ the value is a number.
 ### CORS_WILDCARD
 defines whether cross-origin resource sharing is enabled. when enabled, your instance will be accessible from foreign web pages.
 
-the value is a number. 0: disabled. 1: enabled.
+the value is a number, either `0` or `1`.
 
 ### CORS_URL
 configures the [cross-origin resource sharing origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin). your instance will be available only from this URL if `CORS_WILDCARD` is set to `0`.
@@ -216,7 +216,7 @@ the value is a URL.
 ### API_AUTH_REQUIRED
 when set to `1`, the user always needs to be authenticated in some way before they can access the API (either via an api key or via turnstile, if enabled).
 
-the value is a number.
+the value is a number, either `0` or `1`.
 
 ## service-specific
 [*jump to the table*](#service-specific-vars)
@@ -237,6 +237,6 @@ innertube client that's compatible with botguard's (web) `poToken` and `visitor_
 the value is a string.
 
 ### YOUTUBE_ALLOW_BETTER_AUDIO
-when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively affect youtube client rate limiting.
+when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively impact the rate limit of a secondary youtube client with a session.
 
-the value is a number.
+the value is a number, either `0` or `1`.
