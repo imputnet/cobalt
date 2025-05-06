@@ -3,15 +3,16 @@ you can customize your processing instance's behavior using these environment va
 this document is not final and will expand over time. feel free to improve it!
 
 ### general vars
-| name                | default   | value example                         |
-|:--------------------|:----------|:--------------------------------------|
-| API_URL             |           | `https://api.url.example/`            |
-| API_PORT            | `9000`    | `1337`                                |
-| COOKIE_PATH         |           | `/cookies.json`                       |
-| PROCESSING_PRIORITY |           | `10`                                  |
-| API_INSTANCE_COUNT  |           | `6`                                   |
-| API_REDIS_URL       |           | `redis://localhost:6379`              |
-| DISABLED_SERVICES   |           | `bilibili,youtube`                    |
+| name                   | default   | value example                         |
+|:-----------------------|:----------|:--------------------------------------|
+| API_URL                |           | `https://api.url.example/`            |
+| API_PORT               | `9000`    | `1337`                                |
+| COOKIE_PATH            |           | `/cookies.json`                       |
+| PROCESSING_PRIORITY    |           | `10`                                  |
+| API_INSTANCE_COUNT     |           | `6`                                   |
+| API_REDIS_URL          |           | `redis://localhost:6379`              |
+| DISABLED_SERVICES      |           | `bilibili,youtube`                    |
+| FORCE_LOCAL_PROCESSING |           | `always`                              |
 
 [*view details*](#general)
 
@@ -56,6 +57,7 @@ this document is not final and will expand over time. feel free to improve it!
 | CUSTOM_INNERTUBE_CLIENT          | `IOS`                    |
 | YOUTUBE_SESSION_SERVER           | `http://localhost:8080/` |
 | YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
+| YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
 
 [*view details*](#service-specific)
 
@@ -99,6 +101,13 @@ the value is a URL.
 comma-separated list which disables certain services from being used.
 
 the value is a string of cobalt-supported services.
+
+### FORCE_LOCAL_PROCESSING
+the value is a string, either `always` or `session`.
+
+when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
+
+when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
 
 ## networking
 [*jump to the table*](#networking-vars)
@@ -226,3 +235,8 @@ the value is a URL.
 innertube client that's compatible with botguard's (web) `poToken` and `visitor_data`.
 
 the value is a string.
+
+### YOUTUBE_ALLOW_BETTER_AUDIO
+when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively affect youtube client rate limiting.
+
+the value is a number.
