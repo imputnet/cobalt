@@ -3,16 +3,16 @@ you can customize your processing instance's behavior using these environment va
 this document is not final and will expand over time. feel free to improve it!
 
 ### general vars
-| name                   | default   | value example                         |
-|:-----------------------|:----------|:--------------------------------------|
-| API_URL                |           | `https://api.url.example/`            |
-| API_PORT               | `9000`    | `1337`                                |
-| COOKIE_PATH            |           | `/cookies.json`                       |
-| PROCESSING_PRIORITY    |           | `10`                                  |
-| API_INSTANCE_COUNT     |           | `6`                                   |
-| API_REDIS_URL          |           | `redis://localhost:6379`              |
-| DISABLED_SERVICES      |           | `bilibili,youtube`                    |
-| FORCE_LOCAL_PROCESSING |           | `always`                              |
+| name                   | default | value example                         |
+|:-----------------------|:--------|:--------------------------------------|
+| API_URL                |         | `https://api.url.example/`            |
+| API_PORT               | `9000`  | `1337`                                |
+| COOKIE_PATH            |         | `/cookies.json`                       |
+| PROCESSING_PRIORITY    |         | `10`                                  |
+| API_INSTANCE_COUNT     |         | `6`                                   |
+| API_REDIS_URL          |         | `redis://localhost:6379`              |
+| DISABLED_SERVICES      |         | `bilibili,youtube`                    |
+| FORCE_LOCAL_PROCESSING | `never` | `always`                              |
 
 [*view details*](#general)
 
@@ -103,11 +103,11 @@ comma-separated list which disables certain services from being used.
 the value is a string of cobalt-supported services.
 
 ### FORCE_LOCAL_PROCESSING
-the value is a string, either `always` or `session`.
-
-when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
+the value is a string: `never` (default), `session`, or `always`.
 
 when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
+
+when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
 
 ## networking
 [*jump to the table*](#networking-vars)
