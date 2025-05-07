@@ -46,7 +46,11 @@
 
     let isBotCheckOngoing = $derived($turnstileEnabled && !$turnstileSolved);
 
-    let linkPrefill = $derived(page.url.hash.replace("#", "") || page.url.searchParams.get("u") || "");
+    let linkPrefill = $derived(
+        page.url.hash.replace("#", "")
+        || (browser ? page.url.searchParams.get("u") : "")
+        || ""
+    );
 
     let downloadable = $derived(validLink($link));
     let clearVisible = $derived($link && !isLoading);
