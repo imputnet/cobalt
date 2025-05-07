@@ -2,7 +2,7 @@
     import env, { officialApiURL } from "$lib/env";
 
     import { tick } from "svelte";
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
     import { goto } from "$app/navigation";
     import { browser } from "$app/environment";
 
@@ -34,31 +34,36 @@
 
     let linkInput: Optional<HTMLInputElement>;
 
-    let isFocused = false;
-    let isDisabled = false;
-    let isLoading = false;
-
-    $: isBotCheckOngoing = $turnstileEnabled && !$turnstileSolved;
-
     const validLink = (url: string) => {
         try {
             return /^https?\:/i.test(new URL(url).protocol);
         } catch {}
     };
 
-    $: linkFromHash = $page.url.hash.replace("#", "") || "";
-    $: linkFromQuery = (browser ? $page.url.searchParams.get("u") : 0) || "";
+    let isFocused = $state(false);
+    let isDisabled = $state(false);
+    let isLoading = $state(false);
 
-    $: if (linkFromHash || linkFromQuery) {
-        if (validLink(linkFromHash)) {
-            $link = linkFromHash;
-        } else if (validLink(linkFromQuery)) {
-            $link = linkFromQuery;
+    let isBotCheckOngoing = $derived($turnstileEnabled && !$turnstileSolved);
+
+    let linkPrefill = $derived(page.url.hash.replace("#", "") || page.url.searchParams.get("u") || "");
+
+    let downloadable = $derived(validLink($link));
+    let clearVisible = $derived($link && !isLoading);
+
+    $effect (() => {
+        if (linkPrefill) {
+            // prefilled link may be uri encoded
+            linkPrefill = decodeURIComponent(linkPrefill);
+
+            if (validLink(linkPrefill)) {
+                $link = linkPrefill;
+            }
+
+            // clear hash and query to prevent bookmarking unwanted links
+            if (browser) goto("/", { replaceState: true });
         }
-
-        // clear hash and query to prevent bookmarking unwanted links
-        goto("/", { replaceState: true });
-    }
+    });
 
     const pasteClipboard = async () => {
         if ($dialogs.length > 0 || isDisabled || isLoading) {
@@ -124,12 +129,9 @@
                 break;
         }
     };
-
-    $: downloadable = validLink($link);
-    $: clearVisible = $link && !isLoading;
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} />
 
 <!--
     if you want to remove the community instance label,
@@ -153,9 +155,9 @@
             id="link-area"
             bind:value={$link}
             bind:this={linkInput}
-            on:input={() => (isFocused = true)}
-            on:focus={() => (isFocused = true)}
-            on:blur={() => (isFocused = false)}
+            oninput={() => (isFocused = true)}
+            onfocus={() => (isFocused = true)}
+            onblur={() => (isFocused = false)}
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
