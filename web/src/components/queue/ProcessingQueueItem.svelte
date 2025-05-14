@@ -69,7 +69,7 @@
                 const formattedSize = formatFileSize(progress?.size);
 
                 if (progress && progress.percentage) {
-                    return `${running}: ${Math.ceil(progress.percentage)}%, ${formattedSize}`;
+                    return `${running}: ${Math.floor(progress.percentage)}%, ${formattedSize}`;
                 }
                 else if (runningWorker && progress) {
                     if (progress.size > 0) {
