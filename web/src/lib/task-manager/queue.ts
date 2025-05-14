@@ -1,4 +1,7 @@
+import { get } from "svelte/store";
+import { t } from "$lib/i18n/translations";
 import { ffmpegMetadataArgs } from "$lib/util";
+import { createDialog } from "$lib/state/dialogs";
 import { addItem } from "$lib/state/task-manager/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
 
@@ -15,7 +18,6 @@ export const getMediaType = (type: string) => {
 }
 
 export const createRemuxPipeline = (file: File) => {
-    // chopped khia
     const parentId = crypto.randomUUID();
     const mediaType = getMediaType(file.type);
 
@@ -58,9 +60,27 @@ const mediaIcons: { [key: string]: CobaltPipelineResultFileType } = {
 }
 
 export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
-    // TODO: proper error here
+    // this is a pre-queue part of processing,
+    // so errors have to be returned via a regular dialog
+
+    const error = (errorCode: string) => {
+        return createDialog({
+            id: "pipeline-error",
+            type: "small",
+            meowbalt: "error",
+            buttons: [
+                {
+                    text: get(t)("button.gotit"),
+                    main: true,
+                    action: () => {},
+                },
+            ],
+            bodyText: get(t)(`error.${errorCode}`),
+        });
+    }
+
     if (!info.output?.filename || !info.output?.type) {
-        return;
+        return error("pipeline.missing_response_data");
     }
 
     const parentId = crypto.randomUUID();
@@ -107,7 +127,9 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
             },
         });
     } else if (info.type === "audio") {
-        if (!info.audio) return; // TODO: proper error
+        if (!info.audio) {
+            return error("pipeline.missing_response_data");
+        }
 
         const ffargs = [
             "-vn",

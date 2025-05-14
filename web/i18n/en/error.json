@@ -10,4 +10,5 @@
 
     "captcha_ongoing": "cloudflare turnstile is still checking if you're not a bot. if it takes too long, you can try: disabling weird browser extensions, changing networks, using a different browser, or checking your device for malware.",
 
+    "pipeline.missing_response_data": "the processing instance didn't return required file info, so i can't create a local processing pipeline for you. try again in a few seconds and report the issue if it sticks!"
 }
