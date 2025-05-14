@@ -5,11 +5,23 @@
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
     import IconUpload from "@tabler/icons-svelte/IconUpload.svelte";
 
-    export let files: FileList | undefined;
-    export let draggedOver = false;
-    export let acceptTypes: string[];
-    export let acceptExtensions: string[];
-    export let maxFileNumber: number = 100;
+    type Props = {
+        files: FileList | undefined;
+        draggedOver?: boolean;
+        acceptTypes: string[];
+        acceptExtensions: string[];
+        maxFileNumber?: number;
+        onImport: () => {};
+    }
+
+    let {
+        files = $bindable(),
+        draggedOver = $bindable(false),
+        acceptTypes,
+        acceptExtensions,
+        maxFileNumber = 100,
+        onImport,
+    }: Props = $props();
 
     let selectorStringMultiple = maxFileNumber > 1 ? ".multiple" : "";
 
@@ -31,7 +43,8 @@
                 if (userFiles.length > maxFileNumber) {
                     return alert("too many files, limit is " + maxFileNumber);
                 }
-                return files = userFiles;
+                files = userFiles;
+                onImport();
             }
         };
     };
@@ -40,7 +53,7 @@
 <div class="open-file-container" class:dragged-over={draggedOver}>
     <Meowbalt emotion="question" />
 
-    <button class="button open-file-button" on:click={openFile}>
+    <button class="button open-file-button" onclick={openFile}>
         <div class="dashed-stroke">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="none" rx="24" ry="24" />

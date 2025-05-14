@@ -42,6 +42,7 @@
             <FileReceiver
                 bind:draggedOver
                 bind:files
+                onImport={remux}
                 acceptTypes={["video/*", "audio/*"]}
                 acceptExtensions={[
                     "mp4",
