@@ -9,25 +9,26 @@ import { createDialog } from "$lib/state/dialogs";
 import { downloadButtonState } from "$lib/state/omnibox";
 import { createSavePipeline } from "$lib/task-manager/queue";
 
-import type { DialogInfo } from "$lib/types/dialog";
 import type { CobaltSaveRequestBody } from "$lib/types/api";
-
-const defaultErrorPopup: DialogInfo = {
-    id: "save-error",
-    type: "small",
-    meowbalt: "error",
-};
 
 export const savingHandler = async ({ url, request }: { url?: string, request?: CobaltSaveRequestBody }) => {
     downloadButtonState.set("think");
 
-    const errorButtons = [
-        {
-            text: get(t)("button.gotit"),
-            main: true,
-            action: () => { },
-        },
-    ];
+    const error = (errorText: string) => {
+        return createDialog({
+            id: "save-error",
+            type: "small",
+            meowbalt: "error",
+            buttons: [
+                {
+                    text: get(t)("button.gotit"),
+                    main: true,
+                    action: () => {},
+                },
+            ],
+            bodyText: errorText,
+        });
+    }
 
     const getSetting = lazySettingGetter(get(settings));
 
@@ -63,22 +64,15 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
 
     if (!response) {
         downloadButtonState.set("error");
-
-        return createDialog({
-            ...defaultErrorPopup,
-            buttons: errorButtons,
-            bodyText: get(t)("error.api.unreachable"),
-        });
+        return error(get(t)("error.api.unreachable"));
     }
 
     if (response.status === "error") {
         downloadButtonState.set("error");
 
-        return createDialog({
-            ...defaultErrorPopup,
-            buttons: errorButtons,
-            bodyText: get(t)(response.error.code, response?.error?.context),
-        });
+        return error(
+            get(t)(response.error.code, response?.error?.context)
+        );
     }
 
     if (response.status === "redirect") {
@@ -103,19 +97,11 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
             });
         } else {
             downloadButtonState.set("error");
-
-            return createDialog({
-                ...defaultErrorPopup,
-                buttons: errorButtons,
-                bodyText: get(t)("error.tunnel.probe"),
-            });
+            return error(get(t)("error.tunnel.probe"));
         }
     }
 
     if (response.status === "local-processing") {
-        // TODO: remove debug logging
-        console.log(response);
-
         downloadButtonState.set("done");
         return createSavePipeline(response, selectedRequest);
     }
@@ -152,9 +138,5 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
     }
 
     downloadButtonState.set("error");
-    return createDialog({
-        ...defaultErrorPopup,
-        buttons: errorButtons,
-        bodyText: get(t)("error.api.unknown_response"),
-    });
+    return error(get(t)("error.api.unknown_response"));
 }
