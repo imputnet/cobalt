@@ -1,8 +1,8 @@
 {
     "no_final_file": "no final file output",
     "worker_didnt_start": "couldn't start a processing worker",
-    "generic_error": "processing pipeline crashed, see console for details",
 
+    "fetch.crashed": "fetch worker crashed, see console for details",
     "fetch.bad_response": "couldn't access the file tunnel",
     "fetch.no_file_reader": "couldn't write a file to cache",
     "fetch.empty_tunnel": "file tunnel is empty, try again",

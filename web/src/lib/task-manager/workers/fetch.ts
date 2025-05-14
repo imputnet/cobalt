@@ -3,20 +3,19 @@ import * as Storage from "$lib/storage";
 let attempts = 0;
 
 const fetchFile = async (url: string) => {
-    const error = async (code: string) => {
+    const error = async (code: string, retry: boolean = true) => {
         attempts++;
 
-        if (attempts <= 5) {
-            // try 5 more times before actually failing
+        // try 3 more times before actually failing
+        if (retry && attempts <= 3) {
             await fetchFile(url);
         } else {
-            // if it still fails, then throw an error and quit
             self.postMessage({
                 cobaltFetchWorker: {
                     error: code,
                 }
             });
-            self.close();
+            return self.close();
         }
     };
 
@@ -75,7 +74,7 @@ const fetchFile = async (url: string) => {
         const file = Storage.retype(await storage.res(), contentType);
 
         if (contentLength && Number(contentLength) !== file.size) {
-            return error("queue.fetch.corrupted_file");
+            return error("queue.fetch.corrupted_file", false);
         }
 
         self.postMessage({
@@ -86,7 +85,7 @@ const fetchFile = async (url: string) => {
     } catch (e) {
         console.error("error from the fetch worker:");
         console.error(e);
-        return error("queue.generic_error");
+        return error("queue.fetch.crashed", false);
     }
 }
 
