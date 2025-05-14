@@ -8,15 +8,11 @@ const fetchFile = async (url: string) => {
 
         if (attempts <= 5) {
             // try 5 more times before actually failing
-
-            console.log("fetch attempt", attempts);
             await fetchFile(url);
         } else {
             // if it still fails, then throw an error and quit
             self.postMessage({
                 cobaltFetchWorker: {
-                    // TODO: return proper error code here
-                    // (error.code and not just random shit i typed up)
                     error: code,
                 }
             });
@@ -28,7 +24,7 @@ const fetchFile = async (url: string) => {
         const response = await fetch(url);
 
         if (!response.ok) {
-            return error("file response wasn't ok");
+            return error("queue.fetch.bad_response");
         }
 
         const contentType = response.headers.get('Content-Type')
@@ -50,7 +46,7 @@ const fetchFile = async (url: string) => {
         const storage = await Storage.init(totalBytes);
 
         if (!reader) {
-            return error("no reader");
+            return error("queue.fetch.no_file_reader");
         }
 
         let receivedBytes = 0;
@@ -73,13 +69,13 @@ const fetchFile = async (url: string) => {
         }
 
         if (receivedBytes === 0) {
-            return error("tunnel is broken");
+            return error("queue.fetch.empty_tunnel");
         }
 
         const file = Storage.retype(await storage.res(), contentType);
 
         if (contentLength && Number(contentLength) !== file.size) {
-            return error("file was not downloaded fully");
+            return error("queue.fetch.corrupted_file");
         }
 
         self.postMessage({
@@ -88,8 +84,9 @@ const fetchFile = async (url: string) => {
             }
         });
     } catch (e) {
-        console.log(e);
-        return error("error when downloading the file");
+        console.error("error from the fetch worker:");
+        console.error(e);
+        return error("queue.generic_error");
     }
 }
 
