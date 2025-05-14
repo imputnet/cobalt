@@ -162,6 +162,7 @@
         {#if info.state === "done" && info.resultFile}
             <button
                 class="button action-button"
+                aria-label={$t("button.download")}
                 on:click={() => download(info.resultFile)}
             >
                 <IconDownload />
@@ -172,6 +173,7 @@
             {#if info.state === "error" && info?.canRetry}
                 <button
                     class="button action-button"
+                    aria-label={$t("button.retry")}
                     on:click={() => retry(info)}
                 >
                     <IconReload />
@@ -179,6 +181,7 @@
             {/if}
             <button
                 class="button action-button"
+                aria-label={$t(`button.${info.state === "done" ? "delete" : "remove"}`)}
                 on:click={() => removeItem(id)}
             >
                 <IconX />

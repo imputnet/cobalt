@@ -22,5 +22,8 @@
     "hide_input": "hide input",
     "restore_input": "restore input",
     "clear_input": "clear input",
-    "clear_cache": "clear cache"
+    "clear_cache": "clear cache",
+    "remove": "remove",
+    "retry": "retry",
+    "delete": "delete"
 }
