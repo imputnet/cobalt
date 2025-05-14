@@ -1,26 +1,30 @@
 <script lang="ts">
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
     import { copyURL } from "$lib/download";
     import { t } from "$lib/i18n/translations";
     import { hapticConfirm } from "$lib/haptics";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
 
-    export let title: string;
-    export let sectionId: string;
-    export let beta = false;
-    export let nolink = false;
-    export let copyData = "";
+    type Props = {
+        title: string;
+        sectionId: string;
+        beta?: boolean;
+        nolink?: boolean;
+        copyData?: string;
+    };
 
-    const sectionURL = `${$page.url.origin}${$page.url.pathname}#${sectionId}`;
+    let {
+        title,
+        sectionId,
+        beta = false,
+        nolink = false,
+        copyData = "",
+    }: Props = $props();
 
-    let copied = false;
+    const sectionURL = `${page.url.origin}${page.url.pathname}#${sectionId}`;
 
-    $: if (copied) {
-        setTimeout(() => {
-            copied = false;
-        }, 1500);
-    }
+    let copied = $state(false);
 </script>
 
 <div class="heading-container">
@@ -40,11 +44,14 @@
             aria-label={copied
                 ? $t("button.copied")
                 : $t(`button.copy${copyData ? "" : ".section"}`)}
-            on:click={() => {
+            onclick={() => {
                 if (!copied) {
                     copyURL(copyData || sectionURL);
                     hapticConfirm();
                     copied = true;
+                    setTimeout(() => {
+                        copied = false;
+                    }, 1500);
                 }
             }}
         >
