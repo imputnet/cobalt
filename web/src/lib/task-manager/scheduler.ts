@@ -44,7 +44,7 @@ export const schedule = () => {
                 if (finalFile) {
                     itemDone(task.id, finalFile);
                 } else {
-                    itemError(task.id, task.runningWorker, "no final file");
+                    itemError(task.id, task.runningWorker, "queue.no_final_file");
                 }
 
                 continue;
