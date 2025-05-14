@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { queue } from "$lib/state/task-manager/queue";
+import { queue, itemError } from "$lib/state/task-manager/queue";
 
 import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
 import { runFetchWorker } from "$lib/task-manager/runners/fetch";
@@ -39,11 +39,13 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
                     worker,
                     /*resetStartCounter=*/true,
                 );
+            } else {
+                itemError(parentId, workerId, "queue.ffmpeg.no_args");
             }
             break;
 
         case "fetch":
-            await runFetchWorker(workerId, parentId, workerArgs.url)
+            await runFetchWorker(workerId, parentId, workerArgs.url);
             break;
     }
 }
