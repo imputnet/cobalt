@@ -93,7 +93,7 @@
             return formatFileSize(info.resultFile?.size);
 
         case "error":
-            return !retrying ? info.errorCode : $t("queue.state.retrying");
+            return !retrying ? $t(`error.${info.errorCode}`) : $t("queue.state.retrying");
 
         case "waiting":
             return $t("queue.state.waiting");
@@ -264,6 +264,10 @@
     .status-spinner,
     .status-text {
         display: flex;
+    }
+
+    .status-text {
+        line-break: normal;
     }
 
     /*
