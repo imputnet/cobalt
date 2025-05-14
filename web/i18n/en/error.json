@@ -3,9 +3,6 @@
     "import.invalid": "this file doesn't have valid cobalt settings to import. are you sure it's the right one?",
     "import.unknown": "couldn't load data from the file. it may be corrupted or of wrong format. here's the error i got:\n\n{{ value }}",
 
-    "remux.corrupted": "couldn't read the metadata from this file, it may be corrupted.",
-    "remux.out_of_resources": "cobalt ran out of resources and can't continue with on-device processing. this is caused by your browser's limitations. refresh or reopen the app and try again!",
-
     "tunnel.probe": "couldn't test this tunnel. your browser or network configuration may be blocking access to one of cobalt servers. are you sure you don't have any weird browser extensions?",
 
     "captcha_ongoing": "cloudflare turnstile is still checking if you're not a bot. if it takes too long, you can try: disabling weird browser extensions, changing networks, using a different browser, or checking your device for malware.",
