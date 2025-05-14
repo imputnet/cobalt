@@ -59,18 +59,21 @@ const migrations: Record<number, Migrator> = {
 
         if (settings?.privacy) {
             if ("alwaysProxy" in settings.privacy) {
-                out.save!.alwaysProxy = settings.privacy.alwaysProxy;
+                out.save ??= {};
+                out.save.alwaysProxy = settings.privacy.alwaysProxy;
                 delete settings.privacy.alwaysProxy;
             }
         }
 
         if (settings?.appearance) {
             if ("reduceMotion" in settings.appearance) {
-                out.accessibility!.reduceMotion = settings.appearance.reduceMotion;
+                out.accessibility ??= {};
+                out.accessibility.reduceMotion = settings.appearance.reduceMotion;
                 delete settings.appearance.reduceMotion;
             }
             if ("reduceTransparency" in settings.appearance) {
-                out.accessibility!.reduceTransparency = settings.appearance.reduceTransparency;
+                out.accessibility ??= {};
+                out.accessibility.reduceTransparency = settings.appearance.reduceTransparency;
                 delete settings.appearance.reduceTransparency;
             }
         }
