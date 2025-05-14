@@ -1,19 +1,37 @@
 <script lang="ts">
+    import { t } from "$lib/i18n/translations";
     import IconArrowDown from "@tabler/icons-svelte/IconArrowDown.svelte";
 
-    export let indeterminate = false;
-    export let progress: number = 0;
-    export let expandAction: () => void;
+    type Props = {
+        indeterminate?: boolean;
+        progress?: number;
+        expandAction: () => void;
+    }
 
-    $: progressStroke = `${progress}, 100`;
+    let {
+        indeterminate = false,
+        progress = $bindable(0),
+        expandAction
+    }: Props = $props();
+
+    let progressStroke = $derived(`${progress}, 100`);
     const indeterminateStroke = "15, 5";
+
+    let ariaState = $derived(
+        progress > 0 && progress < 100
+        ? "ongoing"
+        : progress >= 100
+            ? "completed"
+            : "default"
+    )
 </script>
 
 <button
     id="processing-status"
-    on:click={expandAction}
+    onclick={expandAction}
     class="button"
     class:completed={progress >= 100}
+    aria-label={$t(`a11y.queue.status.${ariaState}`)}
 >
     <svg
         id="progress-ring"
