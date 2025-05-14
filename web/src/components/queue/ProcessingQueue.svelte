@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { t } from "$lib/i18n/translations";
-    import { onNavigate } from "$app/navigation";
+    import { beforeNavigate, onNavigate } from "$app/navigation";
 
     import { clearFileStorage } from "$lib/storage/opfs";
 
@@ -49,6 +49,12 @@
     onMount(() => {
         // clear old files from storage on first page load
         clearFileStorage();
+    });
+
+    beforeNavigate((event) => {
+        if (event.type === "leave" && (totalProgress > 0 && totalProgress < 1)) {
+            event.cancel();
+        }
     });
 </script>
 
