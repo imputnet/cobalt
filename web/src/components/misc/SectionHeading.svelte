@@ -28,7 +28,7 @@
 </script>
 
 <div class="heading-container">
-    <h3 class="content-title">
+    <h3 id="{sectionId}-title" class="content-title">
         {title}
     </h3>
 
