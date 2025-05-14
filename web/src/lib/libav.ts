@@ -49,8 +49,6 @@ export default class LibAVWrapper {
         if (!this.libav) throw new Error("LibAV wasn't initialized");
         const libav = await this.libav;
 
-        console.log('yay loaded libav :3');
-
         await libav.mkreadaheadfile('input', blob);
 
         try {

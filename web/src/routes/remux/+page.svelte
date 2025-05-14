@@ -17,7 +17,11 @@
         if (!files) return;
 
         for (let i = 0; i < files?.length; i++) {
-            createRemuxPipeline(files[i]);
+            const type = files[i].type;
+            // TODO: stricter type limits?
+            if (type.startsWith("video/") || type.startsWith("audio/")) {
+                createRemuxPipeline(files[i]);
+            }
         }
 
         files = undefined;
@@ -32,16 +36,8 @@
     />
 </svelte:head>
 
-<DropReceiver
-    bind:files
-    bind:draggedOver
-    id="remux-container"
->
-    <div
-        id="remux-open"
-        tabindex="-1"
-        data-first-focus
-    >
+<DropReceiver bind:files bind:draggedOver onDrop={remux} id="remux-container">
+    <div id="remux-open" tabindex="-1" data-first-focus>
         <div id="remux-receiver">
             <FileReceiver
                 bind:draggedOver
@@ -57,19 +53,6 @@
                     "m4a",
                 ]}
             />
-
-            {#if files}
-                <div class="button-row">
-                    <button on:click={remux}>remux</button>
-                    <button
-                        on:click={() => {
-                            files = undefined;
-                        }}
-                    >
-                        clear imported files
-                    </button>
-                </div>
-            {/if}
         </div>
 
         <div id="remux-bullets">
@@ -123,18 +106,6 @@
         flex-direction: column;
         gap: 18px;
         max-width: 450px;
-    }
-
-    .button-row {
-        display: flex;
-        flex-direction: row;
-        gap: 6px;
-    }
-
-    button {
-        padding: 12px 24px;
-        border-radius: 200px;
-        width: fit-content;
     }
 
     @media screen and (max-width: 920px) {
