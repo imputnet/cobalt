@@ -9,7 +9,6 @@ export type CobaltQueueBaseItem = {
     pipeline: CobaltPipelineItem[],
     canRetry?: boolean,
     originalRequest?: CobaltSaveRequestBody,
-    // TODO: metadata
     filename: string,
     mimeType?: string,
     mediaType: CobaltPipelineResultFileType,
