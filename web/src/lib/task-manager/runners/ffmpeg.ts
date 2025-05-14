@@ -34,22 +34,16 @@ export const runFFmpegWorker = async (
             startAttempts++;
             if (startAttempts <= 10) {
                 killWorker(worker, unsubscribe, startCheck);
-                console.error("worker didn't start after 5 seconds, so it was killed and started again");
                 return await runFFmpegWorker(workerId, parentId, files, args, output, variant);
             } else {
                 killWorker(worker, unsubscribe, startCheck);
-                console.error("worker didn't start after 10 attempts, so we're giving up");
-
-                // TODO: proper error code
-                return itemError(parentId, workerId, "worker didn't start");
+                return itemError(parentId, workerId, "queue.worker_didnt_start");
             }
         }
     }, 500);
 
     const unsubscribe = queue.subscribe((queue: CobaltQueue) => {
         if (!queue[parentId]) {
-            // TODO: remove logging
-            console.log("worker's parent is gone, so it killed itself");
             killWorker(worker, unsubscribe, startCheck);
         }
     });
@@ -64,11 +58,10 @@ export const runFFmpegWorker = async (
     });
 
     worker.onerror = (e) => {
-        console.error("ffmpeg worker exploded:", e);
+        console.error("ffmpeg worker crashed:", e);
         killWorker(worker, unsubscribe, startCheck);
 
-        // TODO: proper error code
-        return itemError(parentId, workerId, "internal error");
+        return itemError(parentId, workerId, "queue.generic_error");
     };
 
     let totalDuration: number | null = null;
@@ -78,9 +71,6 @@ export const runFFmpegWorker = async (
         if (!eventData) return;
 
         clearInterval(startCheck);
-
-        // temporary debug logging
-        console.log(JSON.stringify(eventData, null, 2));
 
         if (eventData.progress) {
             if (eventData.progress.duration) {

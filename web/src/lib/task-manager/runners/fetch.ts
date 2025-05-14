@@ -11,8 +11,6 @@ export const runFetchWorker = async (workerId: string, parentId: string, url: st
 
     const unsubscribe = queue.subscribe((queue: CobaltQueue) => {
         if (!queue[parentId]) {
-            // TODO: remove logging
-            console.log("worker's parent is gone, so it killed itself");
             killWorker(worker, unsubscribe);
         }
     });
