@@ -113,7 +113,7 @@
     });
 </script>
 
-<div class="processing-item">
+<div class="processing-item" role="listitem">
     <div class="processing-info">
         <div class="file-title">
             <div class="processing-type">

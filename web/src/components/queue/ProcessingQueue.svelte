@@ -90,7 +90,8 @@
                 </div>
             </div>
         </div>
-        <div id="processing-list">
+
+        <div id="processing-list" role="list" aria-labelledby="queue-title">
             {#each queue as [id, item]}
                 <ProcessingQueueItem
                     {id}
