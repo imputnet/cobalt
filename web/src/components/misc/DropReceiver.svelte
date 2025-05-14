@@ -36,7 +36,6 @@
 <div
     {id}
     role="region"
-    aria-hidden="true"
     ondrop={(ev) => dropHandler(ev)}
     ondragover={(ev) => dragOverHandler(ev)}
     ondragend={() => {
