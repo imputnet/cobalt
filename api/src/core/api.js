@@ -95,14 +95,14 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     });
 
     const apiTunnelLimiter = rateLimit({
-        windowMs: env.rateLimitWindow * 1000,
-        limit: (req) => req.rateLimitMax || env.rateLimitMax,
+        windowMs: env.tunnelRateLimitWindow * 1000,
+        limit: env.tunnelRateLimitMax,
         standardHeaders: 'draft-6',
         legacyHeaders: false,
-        keyGenerator: req => req.rateLimitKey || keyGenerator(req),
+        keyGenerator: req => keyGenerator(req),
         store: await createStore('tunnel'),
         handler: (_, res) => {
-            return res.sendStatus(429)
+            return res.sendStatus(429);
         }
     });
 
