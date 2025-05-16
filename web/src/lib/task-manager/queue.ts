@@ -109,28 +109,28 @@ const makeGifArgs = () => {
     ];
 }
 
+const showError = (errorCode: string) => {
+    return createDialog({
+        id: "pipeline-error",
+        type: "small",
+        meowbalt: "error",
+        buttons: [
+            {
+                text: get(t)("button.gotit"),
+                main: true,
+                action: () => {},
+            },
+        ],
+        bodyText: get(t)(`error.${errorCode}`),
+    });
+}
+
 export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
     // this is a pre-queue part of processing,
     // so errors have to be returned via a regular dialog
 
-    const error = (errorCode: string) => {
-        return createDialog({
-            id: "pipeline-error",
-            type: "small",
-            meowbalt: "error",
-            buttons: [
-                {
-                    text: get(t)("button.gotit"),
-                    main: true,
-                    action: () => {},
-                },
-            ],
-            bodyText: get(t)(`error.${errorCode}`),
-        });
-    }
-
     if (!info.output?.filename || !info.output?.type) {
-        return error("pipeline.missing_response_data");
+        return showError("pipeline.missing_response_data");
     }
 
     const parentId = crypto.randomUUID();
@@ -160,7 +160,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         const args = makeAudioArgs(info);
 
         if (!args) {
-            return error("pipeline.missing_response_data");
+            return showError("pipeline.missing_response_data");
         }
 
         workerType = "encode";
@@ -169,7 +169,8 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         workerType = "encode";
         ffargs = makeGifArgs();
     } else {
-        throw new Error("unknown work type: " + info.type);
+        console.error("unknown work type: " + info.type);
+        return showError("pipeline.missing_response_data");
     }
 
     pipeline.push({
