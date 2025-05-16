@@ -59,6 +59,56 @@ const mediaIcons: { [key: string]: CobaltPipelineResultFileType } = {
     gif: "image"
 }
 
+const makeRemuxArgs = (info: CobaltLocalProcessingResponse) => {
+    const ffargs = ["-c:v", "copy"];
+
+    if (info.type === "merge") {
+        ffargs.push("-c:a", "copy");
+    } else if (info.type === "mute") {
+        ffargs.push("-an");
+    }
+
+    ffargs.push(
+        ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
+    );
+
+    return ffargs;
+}
+
+const makeAudioArgs = (info: CobaltLocalProcessingResponse) => {
+    if (!info.audio) {
+        return;
+    }
+
+    const ffargs = [
+        "-vn",
+        ...(info.audio.copy ? ["-c:a", "copy"] : ["-b:a", `${info.audio.bitrate}k`]),
+        ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
+    ];
+
+    if (info.audio.format === "mp3" && info.audio.bitrate === "8") {
+        ffargs.push("-ar", "12000");
+    }
+
+    if (info.audio.format === "opus") {
+        ffargs.push("-vbr", "off")
+    }
+
+    const outFormat = info.audio.format === "m4a" ? "ipod" : info.audio.format;
+
+    ffargs.push('-f', outFormat);
+    return ffargs;
+}
+
+const makeGifArgs = () => {
+    return [
+        "-vf",
+        "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
+        "-loop", "0",
+        "-f", "gif"
+    ];
+}
+
 export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
     // this is a pre-queue part of processing,
     // so errors have to be returned via a regular dialog
@@ -100,88 +150,41 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         });
     }
 
+    let ffargs: string[];
+    let workerType: 'encode' | 'remux';
+
     if (["merge", "mute"].includes(info.type)) {
-        const ffargs = ["-c:v", "copy"];
-
-        if (info.type === "merge") {
-            ffargs.push("-c:a", "copy");
-        } else if (info.type === "mute") {
-            ffargs.push("-an");
-        }
-
-        ffargs.push(
-            ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
-        );
-
-        pipeline.push({
-            worker: "remux",
-            workerId: crypto.randomUUID(),
-            parentId,
-            workerArgs: {
-                files: [],
-                ffargs,
-                output: {
-                    type: info.output.type,
-                    format: info.output.filename.split(".").pop(),
-                },
-            },
-        });
+        workerType = "remux";
+        ffargs = makeRemuxArgs(info);
     } else if (info.type === "audio") {
-        if (!info.audio) {
+        const args = makeAudioArgs(info);
+
+        if (!args) {
             return error("pipeline.missing_response_data");
         }
 
-        const ffargs = [
-            "-vn",
-            ...(info.audio.copy ? ["-c:a", "copy"] : ["-b:a", `${info.audio.bitrate}k`]),
-            ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
-        ];
-
-        if (info.audio.format === "mp3" && info.audio.bitrate === "8") {
-            ffargs.push("-ar", "12000");
-        }
-
-        if (info.audio.format === "opus") {
-            ffargs.push("-vbr", "off")
-        }
-
-        const outFormat = info.audio.format === "m4a" ? "ipod" : info.audio.format;
-
-        ffargs.push('-f', outFormat);
-
-        pipeline.push({
-            worker: "encode",
-            workerId: crypto.randomUUID(),
-            parentId,
-            workerArgs: {
-                files: [],
-                ffargs,
-                output: {
-                    type: info.output.type,
-                    format: info.output.filename.split(".").pop(),
-                },
-            },
-        });
+        workerType = "encode";
+        ffargs = args;
     } else if (info.type === "gif") {
-        pipeline.push({
-            worker: "encode",
-            workerId: crypto.randomUUID(),
-            parentId,
-            workerArgs: {
-                files: [],
-                ffargs: [
-                    "-vf",
-                    "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
-                    "-loop", "0",
-                    "-f", "gif"
-                ],
-                output: {
-                    type: info.output.type,
-                    format: info.output.filename.split(".").pop(),
-                },
-            },
-        });
+        workerType = "encode";
+        ffargs = makeGifArgs();
+    } else {
+        throw new Error("unknown work type: " + info.type);
     }
+
+    pipeline.push({
+        worker: workerType,
+        workerId: crypto.randomUUID(),
+        parentId,
+        workerArgs: {
+            files: [],
+            ffargs,
+            output: {
+                type: info.output.type,
+                format: info.output.filename.split(".").pop(),
+            },
+        },
+    });
 
     addItem({
         id: parentId,
