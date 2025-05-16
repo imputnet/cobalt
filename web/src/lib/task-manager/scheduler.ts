@@ -11,11 +11,7 @@ const startPipeline = (pipelineItem: CobaltPipelineItem) => {
         parentId: pipelineItem.parentId,
     });
 
-    itemRunning(
-        pipelineItem.parentId,
-        pipelineItem.workerId,
-    );
-
+    itemRunning(pipelineItem.parentId);
     startWorker(pipelineItem);
 }
 
@@ -23,18 +19,9 @@ export const schedule = () => {
     const queueItems = get(queue);
     const ongoingTasks = get(currentTasks);
 
-    // TODO (?): task concurrency
-    if (Object.keys(ongoingTasks).length > 0) {
-        return;
-    }
-
     for (const task of Object.values(queueItems)) {
         if (task.state === "running") {
-            // if the running worker isn't completed, wait
-            // to be called again on worker completion
-            if (!task.completedWorkers.has(task.runningWorker)) {
-                break;
-            }
+            const finalWorker = task.pipeline[task.pipeline.length - 1];
 
             // if all workers are completed, then return the
             // the final file and go to the next task
@@ -44,7 +31,7 @@ export const schedule = () => {
                 if (finalFile) {
                     itemDone(task.id, finalFile);
                 } else {
-                    itemError(task.id, task.runningWorker, "queue.no_final_file");
+                    itemError(task.id, finalWorker.workerId, "queue.no_final_file");
                 }
 
                 continue;
@@ -53,10 +40,16 @@ export const schedule = () => {
             // if current worker is completed, but there are more workers,
             // then start the next one and wait to be called again
             for (const worker of task.pipeline) {
-                if (!task.completedWorkers.has(worker.workerId)) {
-                    startPipeline(worker);
+                if (task.completedWorkers.has(worker.workerId) || ongoingTasks[worker.workerId]) {
+                    continue;
+                }
+
+                const needsToWait = worker.dependsOn?.some(id => !task.completedWorkers.has(id));
+                if (needsToWait) {
                     break;
                 }
+
+                startPipeline(worker);
             }
 
             // break because we don't want to start next tasks before this one is done
