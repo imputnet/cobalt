@@ -4,10 +4,11 @@
     import { downloadFile } from "$lib/download";
     import { removeItem } from "$lib/state/task-manager/queue";
     import { savingHandler } from "$lib/api/saving-handler";
+    import { getProgress } from "$lib/task-manager/queue";
+    import { currentTasks } from "$lib/state/task-manager/current-tasks";
 
     import type { CobaltQueueItem } from "$lib/types/queue";
-    import type { CobaltWorkerProgress } from "$lib/types/workers";
-    import type { CobaltCurrentTaskItem } from "$lib/types/task-manager";
+    import type { CobaltCurrentTasks } from "$lib/types/task-manager";
 
     import ProgressBar from "$components/queue/ProgressBar.svelte";
 
@@ -30,8 +31,6 @@
 
     export let id: string;
     export let info: CobaltQueueItem;
-    export let runningWorker: CobaltCurrentTaskItem | undefined;
-    export let runningWorkerId: string | undefined;
 
     let retrying = false;
 
@@ -52,41 +51,51 @@
             }),
         });
 
-    $: progress = runningWorker?.progress;
-
     type StatusText = {
         info: CobaltQueueItem;
-        runningWorker: CobaltCurrentTaskItem | undefined;
-        progress: CobaltWorkerProgress | undefined;
+        currentTasks: CobaltCurrentTasks;
         retrying: boolean;
     };
 
-    const generateStatusText = ({ info, runningWorker, progress, retrying }: StatusText) => {
+    const generateStatusText = ({ info, retrying, currentTasks }: StatusText) => {
         switch (info.state) {
         case "running":
-            if (runningWorker) {
-                const running = $t(`queue.state.running.${runningWorker.type}`);
-                const formattedSize = formatFileSize(progress?.size);
+            const progress = getProgress(info);
 
-                if (progress && progress.percentage) {
-                    return `${running}: ${Math.floor(progress.percentage)}%, ${formattedSize}`;
-                }
-                else if (runningWorker && progress) {
-                    if (progress.size > 0) {
-                        return `${running}: ${formattedSize}`;
-                    }
-                    return running;
-                }
-                else if (runningWorker?.type) {
-                    const starting = $t(`queue.state.starting.${runningWorker.type}`);
+            const runningWorkers = info.pipeline.filter(w => w.workerId in currentTasks);
+            const running = [...new Set(runningWorkers.map(task => $t(`queue.state.running.${task.worker}`)))].join(', ');
+            const progresses = runningWorkers.map(w => currentTasks[w.workerId])
+                                            .map(t => t.progress)
+                                            .filter(p => p);
 
-                    if (info.pipeline.length > 1) {
-                        const currentPipeline = info.completedWorkers.size + 1;
-                        return `${starting} (${currentPipeline}/${info.pipeline.length})`;
-                    }
-                    return starting;
-                }
+            const totalSize = progresses.reduce((s, p) => s + (p?.size ?? 0), 0);
+
+            if (runningWorkers.length && totalSize > 0) {
+                const formattedSize = formatFileSize(totalSize);
+                return `${running}: ${Math.floor(progress * 100)}%, ${formattedSize}`;
             }
+
+            const firstUnstarted = info.pipeline.find(w => {
+                if (info.completedWorkers.has(w.workerId))
+                    return false;
+
+                const task = currentTasks[w.workerId];
+                if (!task || !task.progress?.percentage) {
+                    return true;
+                }
+            });
+
+            if (firstUnstarted) {
+                const starting = $t(`queue.state.starting.${firstUnstarted.worker}`);
+
+                if (info.pipeline.length > 1) {
+                    const currentPipeline = info.completedWorkers.size + 1;
+                    return `${starting} (${currentPipeline}/${info.pipeline.length})`;
+                }
+
+                return starting;
+            }
+
             return $t("queue.state.starting");
 
         case "done":
@@ -100,6 +109,23 @@
         }
     };
 
+    const getWorkerProgress = (item: CobaltQueueItem, workerId: string): number | undefined => {
+        if (item.state === 'running' && item.completedWorkers.has(workerId)) {
+            return 100;
+        }
+
+        const workerIndex = item.pipeline.findIndex(w => w.workerId === workerId);
+        if (workerIndex === -1) {
+            return;
+        }
+
+        const worker = item.pipeline[workerIndex];
+        const task = $currentTasks[worker.workerId];
+        if (task?.progress) {
+            return task.progress.percentage;
+        }
+    }
+
     /*
         params are passed here because svelte will re-run
         the function every time either of them is changed,
@@ -107,9 +133,8 @@
     */
     $: statusText = generateStatusText({
         info,
-        runningWorker,
-        progress,
         retrying,
+        currentTasks: $currentTasks
     });
 </script>
 
@@ -126,11 +151,10 @@
 
         {#if info.state === "running"}
             <div class="progress-holder">
-                {#each info.pipeline as pipeline}
+                {#each info.pipeline as task}
                     <ProgressBar
-                        percentage={progress?.percentage}
-                        workerId={pipeline.workerId}
-                        {runningWorkerId}
+                        percentage={getWorkerProgress(info, task.workerId) || 0}
+                        workerId={task.workerId}
                         completedWorkers={info.completedWorkers}
                     />
                 {/each}

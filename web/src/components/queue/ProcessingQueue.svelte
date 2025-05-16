@@ -8,6 +8,7 @@
     import { queueVisible } from "$lib/state/queue-visibility";
     import { currentTasks } from "$lib/state/task-manager/current-tasks";
     import { clearQueue, queue as readableQueue } from "$lib/state/task-manager/queue";
+    import { getProgress } from "$lib/task-manager/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
@@ -21,23 +22,10 @@
         $queueVisible = !$queueVisible;
     };
 
-    const totalItemProgress = (completed: number, current: number, total: number) => {
-        return (completed * 100 + current) / total
-    }
-
     $: queue = Object.entries($readableQueue);
 
     $: totalProgress = queue.length ? queue.map(([, item]) => {
-        if (item.state === "done" || item.state === "error") {
-            return 100;
-        } else if (item.state === "running") {
-            return totalItemProgress(
-                item.completedWorkers.size,
-                $currentTasks[item.runningWorker]?.progress?.percentage || 0,
-                item.pipeline.length || 0
-            );
-        }
-        return 0;
+        return getProgress(item) * 100;
     }).reduce((a, b) => a + b) / (100 * queue.length) : 0;
 
     $: indeterminate = queue.length > 0 && totalProgress === 0;
@@ -93,16 +81,7 @@
 
         <div id="processing-list" role="list" aria-labelledby="queue-title">
             {#each queue as [id, item]}
-                <ProcessingQueueItem
-                    {id}
-                    info={item}
-                    runningWorker={
-                        item.state === "running" ? $currentTasks[item.runningWorker] : undefined
-                    }
-                    runningWorkerId={
-                        item.state === "running" ? item.runningWorker : undefined
-                    }
-                />
+                <ProcessingQueueItem {id} info={item} />
             {/each}
             {#if queue.length === 0}
                 <ProcessingQueueStub />

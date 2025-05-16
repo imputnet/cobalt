@@ -3,22 +3,21 @@
 
     export let percentage: number = 0;
     export let workerId: string;
-    export let runningWorkerId: string | undefined;
     export let completedWorkers: Set<string>;
 </script>
 
 <div class="file-progress">
-    {#if percentage && workerId === runningWorkerId}
+    {#if percentage}
         <div
             class="progress"
-            style="width: {Math.min(100, percentage || 0)}%"
+            style="width: {Math.min(100, percentage)}%"
         ></div>
     {:else if completedWorkers.has(workerId)}
         <div
             class="progress"
             style="width: 100%"
         ></div>
-    {:else if workerId === runningWorkerId}
+    {:else}
         <Skeleton
             height="6px"
             width="100%"
