@@ -8,17 +8,18 @@ export type CobaltWorkerProgress = {
     percentage?: number,
     speed?: number,
     size: number,
-}
+};
 
 type CobaltFFmpegWorkerArgs = {
     files: File[],
     ffargs: string[],
     output: FileInfo,
-}
+};
 
 type CobaltPipelineItemBase = {
     workerId: string,
     parentId: string,
+    dependsOn?: string[],
 };
 
 type CobaltRemuxPipelineItem = CobaltPipelineItemBase & {

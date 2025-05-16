@@ -86,13 +86,12 @@ export function pipelineTaskDone(id: string, workerId: string, file: File) {
     schedule();
 }
 
-export function itemRunning(id: string, workerId: string) {
+export function itemRunning(id: string) {
     update(queueData => {
         const data = queueData[id] as CobaltQueueItemRunning;
 
         if (data) {
             data.state = 'running';
-            data.runningWorker = workerId;
             data.completedWorkers ??= new Set();
             data.pipelineResults ??= [];
         }
