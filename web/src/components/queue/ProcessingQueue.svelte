@@ -5,9 +5,10 @@
 
     import { clearFileStorage } from "$lib/storage/opfs";
 
-    import { queueVisible } from "$lib/state/queue-visibility";
-    import { clearQueue, queue as readableQueue } from "$lib/state/task-manager/queue";
     import { getProgress } from "$lib/task-manager/queue";
+    import { queueVisible } from "$lib/state/queue-visibility";
+    import { currentTasks } from "$lib/state/task-manager/current-tasks";
+    import { clearQueue, queue as readableQueue } from "$lib/state/task-manager/queue";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
     import PopoverContainer from "$components/misc/PopoverContainer.svelte";
@@ -24,7 +25,7 @@
     let queue = $derived(Object.entries($readableQueue));
 
     let totalProgress = $derived(queue.length ? queue.map(
-        ([, item]) => getProgress(item) * 100
+        ([, item]) => getProgress(item, $currentTasks) * 100
     ).reduce((a, b) => a + b) / (100 * queue.length) : 0);
 
     let indeterminate = $derived(queue.length > 0 && totalProgress === 0);

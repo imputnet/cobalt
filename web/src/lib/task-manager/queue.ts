@@ -4,11 +4,11 @@ import { ffmpegMetadataArgs } from "$lib/util";
 import { createDialog } from "$lib/state/dialogs";
 import { addItem } from "$lib/state/task-manager/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
-import { currentTasks } from "$lib/state/task-manager/current-tasks";
 
+import type { CobaltQueueItem } from "$lib/types/queue";
+import type { CobaltCurrentTasks } from "$lib/types/task-manager";
 import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
-import type { CobaltQueueItem } from "$lib/types/queue";
 
 export const getMediaType = (type: string) => {
     const kind = type.split('/')[0];
@@ -204,20 +204,19 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
     openQueuePopover();
 }
 
-export const getProgress = (item: CobaltQueueItem): number => {
+export const getProgress = (item: CobaltQueueItem, currentTasks: CobaltCurrentTasks): number => {
     if (item.state === 'done' || item.state === 'error') {
         return 1;
     } else if (item.state === 'waiting') {
         return 0;
     }
 
-    const runningTasks = get(currentTasks);
     let sum = 0;
     for (const worker of item.pipeline) {
         if (item.completedWorkers.has(worker.workerId)) {
             sum += 1;
         } else {
-            const task = runningTasks[worker.workerId];
+            const task = currentTasks[worker.workerId];
             sum += (task?.progress?.percentage || 0) / 100;
         }
     }

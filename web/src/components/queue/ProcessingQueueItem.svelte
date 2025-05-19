@@ -64,7 +64,7 @@
     const generateStatusText = ({ info, retrying, currentTasks }: StatusText) => {
         switch (info.state) {
         case "running":
-            const progress = getProgress(info);
+            const progress = getProgress(info, currentTasks);
 
             const runningWorkers = info.pipeline.filter(w => w.workerId in currentTasks);
             const running = [...new Set(runningWorkers.map(task => $t(`queue.state.running.${task.worker}`)))].join(', ');
