@@ -29,10 +29,14 @@
         image: IconPhoto,
     };
 
-    export let id: string;
-    export let info: CobaltQueueItem;
+    type Props = {
+        id: string;
+        info: CobaltQueueItem;
+    }
 
-    let retrying = false;
+    let { id, info }: Props = $props();
+
+    let retrying = $state(false);
 
     const retry = async (info: CobaltQueueItem) => {
         if (info.canRetry && info.originalRequest) {
@@ -131,18 +135,20 @@
         the function every time either of them is changed,
         which is what we want in this case :3
     */
-    $: statusText = generateStatusText({
+    let statusText = $derived(generateStatusText({
         info,
         retrying,
         currentTasks: $currentTasks
-    });
+    }));
+
+    const MediaTypeIcon = $derived(itemIcons[info.mediaType]);
 </script>
 
 <div class="processing-item" role="listitem">
     <div class="processing-info">
         <div class="file-title">
             <div class="processing-type">
-                <svelte:component this={itemIcons[info.mediaType]} />
+                <MediaTypeIcon />
             </div>
             <span class="filename">
                 {info.filename}
@@ -187,7 +193,7 @@
             <button
                 class="button action-button"
                 aria-label={$t("button.download")}
-                on:click={() => download(info.resultFile)}
+                onclick={() => download(info.resultFile)}
             >
                 <IconDownload />
             </button>
@@ -198,7 +204,7 @@
                 <button
                     class="button action-button"
                     aria-label={$t("button.retry")}
-                    on:click={() => retry(info)}
+                    onclick={() => retry(info)}
                 >
                     <IconReload />
                 </button>
@@ -206,7 +212,7 @@
             <button
                 class="button action-button"
                 aria-label={$t(`button.${info.state === "done" ? "delete" : "remove"}`)}
-                on:click={() => removeItem(id)}
+                onclick={() => removeItem(id)}
             >
                 <IconX />
             </button>

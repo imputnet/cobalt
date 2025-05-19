@@ -1,9 +1,13 @@
 <script lang="ts">
     import Skeleton from "$components/misc/Skeleton.svelte";
 
-    export let percentage: number = 0;
-    export let workerId: string;
-    export let completedWorkers: Set<string>;
+    type Props = {
+        percentage?: number;
+        workerId: string;
+        completedWorkers: Set<string>;
+    }
+
+    let { percentage = 0, workerId, completedWorkers }: Props = $props();
 </script>
 
 <div class="file-progress">

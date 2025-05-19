@@ -6,7 +6,6 @@
     import { clearFileStorage } from "$lib/storage/opfs";
 
     import { queueVisible } from "$lib/state/queue-visibility";
-    import { currentTasks } from "$lib/state/task-manager/current-tasks";
     import { clearQueue, queue as readableQueue } from "$lib/state/task-manager/queue";
     import { getProgress } from "$lib/task-manager/queue";
 
@@ -22,13 +21,13 @@
         $queueVisible = !$queueVisible;
     };
 
-    $: queue = Object.entries($readableQueue);
+    let queue = $derived(Object.entries($readableQueue));
 
-    $: totalProgress = queue.length ? queue.map(([, item]) => {
-        return getProgress(item) * 100;
-    }).reduce((a, b) => a + b) / (100 * queue.length) : 0;
+    let totalProgress = $derived(queue.length ? queue.map(
+        ([, item]) => getProgress(item) * 100
+    ).reduce((a, b) => a + b) / (100 * queue.length) : 0);
 
-    $: indeterminate = queue.length > 0 && totalProgress === 0;
+    let indeterminate = $derived(queue.length > 0 && totalProgress === 0);
 
     onNavigate(() => {
         $queueVisible = false;
@@ -68,9 +67,7 @@
                 />
                 <div class="header-buttons">
                     {#if queue.length}
-                        <button class="clear-button" on:click={() => {
-                            clearQueue();
-                        }}>
+                        <button class="clear-button" onclick={clearQueue}>
                             <IconX />
                             {$t("button.clear")}
                         </button>
