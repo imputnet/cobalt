@@ -47,11 +47,7 @@ export const openFile = (file: File) => {
 
 export const shareFile = async (file: File) => {
     return await navigator?.share({
-        files: [
-            new File([file], file.name, {
-                type: file.type,
-            }),
-        ],
+        files: [ file ],
     });
 }
 
