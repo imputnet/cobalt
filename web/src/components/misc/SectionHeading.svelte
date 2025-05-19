@@ -82,6 +82,7 @@
 
     .link-copy:focus-visible {
         opacity: 1;
+        outline-offset: 0;
     }
 
     .link-copy :global(.copy-animation) {
