@@ -141,6 +141,11 @@
         box-shadow: none;
         text-align: left;
         border-radius: 3px;
+        outline-offset: 5px;
+    }
+
+    #processing-queue:not(.expanded) .header-buttons button {
+        pointer-events: none;
     }
 
     .header-buttons button :global(svg) {
