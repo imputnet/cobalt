@@ -46,7 +46,7 @@
     });
 </script>
 
-<div id="processing-queue" class:expanded={$queueVisible}>
+<div id="processing-queue">
     <ProcessingStatus
         progress={totalProgress * 100}
         {indeterminate}
@@ -68,7 +68,11 @@
                 />
                 <div class="header-buttons">
                     {#if queue.length}
-                        <button class="clear-button" onclick={clearQueue}>
+                        <button
+                            class="clear-button"
+                            onclick={clearQueue}
+                            tabindex={!$queueVisible ? -1 : undefined}
+                        >
                             <IconX />
                             {$t("button.clear")}
                         </button>
@@ -142,10 +146,6 @@
         text-align: left;
         border-radius: 3px;
         outline-offset: 5px;
-    }
-
-    #processing-queue:not(.expanded) .header-buttons button {
-        pointer-events: none;
     }
 
     .header-buttons button :global(svg) {
