@@ -108,7 +108,7 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
         if (file) {
             if (pref === "share" && device.supports.share) {
                 return shareFile(file);
-            } else if (pref === "download" && device.supports.directDownload) {
+            } else if (pref === "download") {
                 return openFile(file);
             }
         }
