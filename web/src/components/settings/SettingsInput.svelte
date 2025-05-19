@@ -62,7 +62,7 @@
         } else {
             validInput = new RegExp(regex[type]).test(inputValue);
         }
-    }
+    };
 
     const writeToSettings = (value: string, type: SettingsInputType) => {
         // we assume that the url is valid and error can't be thrown here
@@ -93,11 +93,7 @@
 </script>
 
 <div id="settings-input-holder">
-    <div
-        id="input-container"
-        class:focused={inputFocused}
-        aria-hidden="false"
-    >
+    <div id="input-container" class:focused={inputFocused} aria-hidden="false">
         <input
             class="input-box"
             bind:this={input}
@@ -135,7 +131,9 @@
                     class="button input-inner-button"
                     on:click={() => (inputHidden = !inputHidden)}
                     aria-label={$t(
-                        inputHidden ? "button.show_input" : "button.hide_input"
+                        inputHidden
+                            ? "button.show_input"
+                            : "button.hide_input"
                     )}
                 >
                     {#if inputHidden}
@@ -156,7 +154,9 @@
                 <button
                     class="button input-inner-button"
                     on:click={() => {
-                        inputValue = String($settings[settingContext][settingId]);
+                        inputValue = String(
+                            $settings[settingContext][settingId]
+                        );
                         checkInput();
                     }}
                     aria-label={$t("button.restore_input")}
@@ -167,11 +167,12 @@
         {/if}
     </div>
 
-    <div id="settings-input-buttons">
+    <div class="input-outer-buttons">
         <button
             class="button settings-input-button"
             aria-label={$t("button.save")}
-            disabled={inputValue === $settings[settingContext][settingId] || !validInput}
+            disabled={inputValue === $settings[settingContext][settingId] ||
+                !validInput}
             on:click={save}
         >
             <IconCheck />
@@ -186,8 +187,6 @@
     }
 
     #input-container {
-        padding: 0 16px;
-        padding-right: 4px;
         border-radius: var(--border-radius);
         color: var(--secondary);
         background-color: var(--button);
@@ -223,11 +222,16 @@
         white-space: nowrap;
     }
 
+    .input-box,
+    .input-placeholder {
+        padding-left: 16px;
+    }
+
     #input-container.focused {
         box-shadow: 0 0 0 2px var(--secondary) inset;
     }
 
-    #settings-input-buttons {
+    .input-outer-buttons {
         display: flex;
         flex-direction: row;
         gap: 6px;
@@ -254,9 +258,13 @@
         width: 34px;
         padding: 0;
         box-shadow: none;
-        /* 4px is padding outside of the button */
-        border-radius: calc(var(--border-radius) - 4px);
+        /* 3px is visual padding outside of the button */
+        border-radius: calc(var(--border-radius) - 3px);
         z-index: 1;
+    }
+
+    .input-inner-button:last-child {
+        margin-right: 3px;
     }
 
     .input-inner-button :global(svg) {
