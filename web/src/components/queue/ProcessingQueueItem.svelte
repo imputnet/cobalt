@@ -2,9 +2,11 @@
     import { t } from "$lib/i18n/translations";
     import { formatFileSize } from "$lib/util";
     import { downloadFile } from "$lib/download";
-    import { removeItem } from "$lib/state/task-manager/queue";
-    import { savingHandler } from "$lib/api/saving-handler";
     import { getProgress } from "$lib/task-manager/queue";
+    import { savingHandler } from "$lib/api/saving-handler";
+
+    import { removeItem } from "$lib/state/task-manager/queue";
+    import { queueVisible } from "$lib/state/queue-visibility";
     import { currentTasks } from "$lib/state/task-manager/current-tasks";
 
     import type { CobaltQueueItem } from "$lib/types/queue";
@@ -144,7 +146,12 @@
     const MediaTypeIcon = $derived(itemIcons[info.mediaType]);
 </script>
 
-<div class="processing-item" role="listitem">
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<div
+    class="processing-item"
+    role="listitem"
+    tabindex={$queueVisible ? 0 : -1}
+>
     <div class="processing-info">
         <div class="file-title">
             <div class="processing-type">
@@ -356,7 +363,8 @@
             );
         }
 
-        .processing-item:hover .file-actions {
+        .processing-item:hover .file-actions,
+        .processing-item:focus-within .file-actions {
             visibility: visible;
             opacity: 1;
         }
