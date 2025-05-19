@@ -11,7 +11,13 @@ import { createSavePipeline } from "$lib/task-manager/queue";
 
 import type { CobaltSaveRequestBody } from "$lib/types/api";
 
-export const savingHandler = async ({ url, request }: { url?: string, request?: CobaltSaveRequestBody }) => {
+type SavingHandlerArgs = {
+    url?: string,
+    request?: CobaltSaveRequestBody,
+    oldTaskId?: string
+}
+
+export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerArgs) => {
     downloadButtonState.set("think");
 
     const error = (errorText: string) => {
@@ -103,7 +109,7 @@ export const savingHandler = async ({ url, request }: { url?: string, request?: 
 
     if (response.status === "local-processing") {
         downloadButtonState.set("done");
-        return createSavePipeline(response, selectedRequest);
+        return createSavePipeline(response, selectedRequest, oldTaskId);
     }
 
     if (response.status === "picker") {

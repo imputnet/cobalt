@@ -15,6 +15,8 @@ const startPipeline = (pipelineItem: CobaltPipelineItem) => {
     startWorker(pipelineItem);
 }
 
+// this is really messy, sorry to whoever
+// reads this in the future (probably myself)
 export const schedule = () => {
     const queueItems = get(queue);
     const ongoingTasks = get(currentTasks);
@@ -58,7 +60,13 @@ export const schedule = () => {
         }
 
         // start the nearest waiting task and wait to be called again
-        else if (task.state === "waiting" && task.pipeline.length > 0) {
+        else if (task.state === "waiting" && task.pipeline.length > 0 && Object.keys(ongoingTasks).length === 0) {
+            // this is really bad but idk how to prevent tasks from running simultaneously
+            // on retry if a later task is running & user restarts an old task
+            for (const task of Object.values(queueItems)) {
+                if (task.state === "running") return;
+            }
+
             startPipeline(task.pipeline[0]);
 
             // break because we don't want to start next tasks before this one is done

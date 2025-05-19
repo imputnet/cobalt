@@ -127,7 +127,11 @@ const showError = (errorCode: string) => {
     });
 }
 
-export const createSavePipeline = (info: CobaltLocalProcessingResponse, request: CobaltSaveRequestBody) => {
+export const createSavePipeline = (
+    info: CobaltLocalProcessingResponse,
+    request: CobaltSaveRequestBody,
+    oldTaskId?: string
+) => {
     // this is a pre-queue part of processing,
     // so errors have to be returned via a regular dialog
 
@@ -135,7 +139,7 @@ export const createSavePipeline = (info: CobaltLocalProcessingResponse, request:
         return showError("pipeline.missing_response_data");
     }
 
-    const parentId = crypto.randomUUID();
+    const parentId = oldTaskId || crypto.randomUUID();
     const pipeline: CobaltPipelineItem[] = [];
 
     // reverse is needed for audio (second item) to be downloaded first

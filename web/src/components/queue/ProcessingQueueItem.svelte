@@ -45,6 +45,7 @@
             retrying = true;
             await savingHandler({
                 request: info.originalRequest,
+                oldTaskId: id,
             });
             retrying = false;
         }
