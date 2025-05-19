@@ -265,6 +265,14 @@ a:not(.sidebar-tab):not(.subnav-tab):focus-visible {
     background-color: var(--secondary);
 }
 
+/* important is used because active class is toggled by state */
+/* and added to the end of the list, taking priority */
+.button.active:focus-visible,
+a.active:focus-visible {
+    color: var(--white) !important;
+    background-color: var(--blue) !important;
+}
+
 @media (hover: hover) {
     .button:hover {
         background-color: var(--button-hover);
@@ -297,13 +305,6 @@ a:not(.sidebar-tab):not(.subnav-tab):focus-visible {
 
 button[disabled] {
     cursor: default;
-}
-
-/* important is used because active class is toggled by state */
-/* and added to the end of the list, taking priority */
-.active:focus-visible {
-    color: var(--white);
-    background-color: var(--blue) !important;
 }
 
 /* workaround for typing into inputs being ignored on iPadOS 15 */
