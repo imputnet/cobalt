@@ -17,7 +17,7 @@
     import IconArrowBack from "@tabler/icons-svelte/IconArrowBack.svelte";
 
     import IconEye from "@tabler/icons-svelte/IconEye.svelte";
-    import IconEyeClosed from "@tabler/icons-svelte/IconEyeClosed.svelte";
+    import IconEyeOff from "@tabler/icons-svelte/IconEyeOff.svelte";
 
     type SettingsInputType = "url" | "uuid";
 
@@ -141,7 +141,7 @@
                     {#if inputHidden}
                         <IconEye />
                     {:else}
-                        <IconEyeClosed />
+                        <IconEyeOff />
                     {/if}
                 </button>
             {/if}
