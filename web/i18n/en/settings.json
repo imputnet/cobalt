@@ -32,7 +32,7 @@
     "video.quality.description": "if preferred video quality isn't available, next best is picked instead.",
 
     "video.youtube.codec": "youtube codec and container",
-    "video.youtube.codec.description": "h264: best compatibility, average quality. max quality is 1080p. \nav1: best quality and efficiency. supports 8k & HDR. \nvp9: same quality as av1, but file is ~2x bigger. supports 4k & HDR.\n\nav1 and vp9 aren't as widely supported as h264. if av1 or vp9 isn't available, h264 is used instead.",
+    "video.youtube.codec.description": "h264: best compatibility, average quality. max quality is 1080p. \nav1: best quality and efficiency. supports 8k & HDR. \nvp9: same quality as av1, but file is ~2x bigger. supports 4k & HDR.\n\nav1 and vp9 aren't widely supported, you might have to use additional software to play/edit them. cobalt picks next best codec if preferred one isn't available.",
 
     "video.youtube.hls": "youtube hls formats",
     "video.youtube.hls.title": "prefer hls for video & audio",
