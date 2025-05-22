@@ -46,9 +46,8 @@
         padding: 8px 12px 8px 8px;
         pointer-events: all;
         gap: 8px;
-        margin: var(--padding);
         margin-right: 71px;
-        margin-top: calc(env(safe-area-inset-top) + var(--padding));
+        margin-top: calc(env(safe-area-inset-top) + 8px);
         box-shadow:
             var(--button-box-shadow),
             0 0 10px 0px var(--button-elevated-hover);
