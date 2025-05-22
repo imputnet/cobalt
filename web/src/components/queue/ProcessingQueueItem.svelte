@@ -91,7 +91,9 @@
                                             .map(t => t.progress)
                                             .filter(p => p);
 
-            const totalSize = progresses.reduce((s, p) => s + (p?.size ?? 0), 0);
+            const totalSize =
+                progresses.reduce((s, p) => s + (p?.size ?? 0), 0) +
+                info.pipelineResults.reduce((s, p) => s + (p?.size ?? 0), 0);
 
             if (runningWorkers.length && totalSize > 0) {
                 const formattedSize = formatFileSize(totalSize);
