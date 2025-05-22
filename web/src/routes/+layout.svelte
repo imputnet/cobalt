@@ -151,10 +151,6 @@
 
         #cobalt[data-iphone="true"] #content {
             padding-right: env(safe-area-inset-right);
-            /* disable the desktop frame */
-            margin: 0;
-            box-shadow: none;
-            border-radius: 0;
         }
     }
 
@@ -193,6 +189,7 @@
             order: -1;
 
             margin: 0;
+            box-shadow: none;
 
             border-bottom-left-radius: calc(var(--border-radius) * 2);
             border-bottom-right-radius: calc(var(--border-radius) * 2);
