@@ -109,14 +109,7 @@
             });
 
             if (firstUnstarted) {
-                const starting = $t(`queue.state.starting.${firstUnstarted.worker}`);
-
-                if (info.pipeline.length > 1) {
-                    const currentPipeline = info.completedWorkers.size + 1;
-                    return `${starting} (${currentPipeline}/${info.pipeline.length})`;
-                }
-
-                return starting;
+                return $t(`queue.state.starting.${firstUnstarted.worker}`);
             }
 
             return $t("queue.state.starting");
