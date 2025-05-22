@@ -161,6 +161,7 @@
     class="processing-item"
     role="listitem"
     tabindex={$queueVisible ? 0 : -1}
+    class:queue-hidden={!$queueVisible}
 >
     <div class="processing-info">
         <div class="file-title">
@@ -352,9 +353,10 @@
             height: 90%;
             padding-left: 18px;
 
-            visibility: hidden;
+            transform: translateX(5px);
+
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.15s, transform 0.15s;
 
             mask-image: linear-gradient(
                 90deg,
@@ -363,11 +365,18 @@
             );
         }
 
+        .queue-hidden .file-actions {
+            visibility: hidden;
+        }
+
         :global([dir="rtl"]) .file-actions {
             left: 0;
             right: unset;
             padding-left: 0;
             padding-right: 18px;
+
+            transform: translateX(-5px);
+
             mask-image: linear-gradient(
                 -90deg,
                 rgba(255, 255, 255, 0) 0%,
@@ -377,8 +386,8 @@
 
         .processing-item:hover .file-actions,
         .processing-item:focus-within .file-actions {
-            visibility: visible;
             opacity: 1;
+            transform: none;
         }
     }
 
