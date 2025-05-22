@@ -86,18 +86,24 @@
             const progress = getProgress(info, currentTasks);
 
             const runningWorkers = info.pipeline.filter(w => w.workerId in currentTasks);
-            const running = [...new Set(runningWorkers.map(task => $t(`queue.state.running.${task.worker}`)))].join(', ');
+            const running = new Set(runningWorkers.map(task => task.worker));
             const progresses = runningWorkers.map(w => currentTasks[w.workerId])
                                             .map(t => t.progress)
                                             .filter(p => p);
 
-            const totalSize =
-                progresses.reduce((s, p) => s + (p?.size ?? 0), 0) +
-                info.pipelineResults.reduce((s, p) => s + (p?.size ?? 0), 0);
+            let totalSize = progresses.reduce((s, p) => s + (p?.size ?? 0), 0);
+
+            // if only fetch workers are running, then we should
+            // show the sum of all running & completed fetch workers
+            if (running.size === 1 && running.has("fetch")) {
+                totalSize += info.pipelineResults.reduce((s, p) => s + (p?.size ?? 0), 0);
+            }
+
+            const runningText = [...running].map(task => $t(`queue.state.running.${task}`)).join(", ");
 
             if (runningWorkers.length && totalSize > 0) {
                 const formattedSize = formatFileSize(totalSize);
-                return `${running}: ${Math.floor(progress * 100)}%, ${formattedSize}`;
+                return `${runningText}: ${Math.floor(progress * 100)}%, ${formattedSize}`;
             }
 
             const firstUnstarted = info.pipeline.find(w => {
