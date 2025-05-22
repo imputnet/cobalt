@@ -39,6 +39,7 @@
     let { id, info }: Props = $props();
 
     let retrying = $state(false);
+    let downloading = $state(false);
 
     const retry = async (info: CobaltQueueItem) => {
         if (info.canRetry && info.originalRequest) {
@@ -51,12 +52,27 @@
         }
     };
 
-    const download = (file: File) =>
+    const download = (file: File) => {
+        downloading = true;
+
         downloadFile({
             file: new File([file], info.filename, {
                 type: info.mimeType,
             }),
         });
+
+        setTimeout(() => {
+            /*
+                fake timeout to prevent download button spam,
+                because there's no real way to await the real
+                saving process via object url (blob), which
+                takes some time on some devices depending on file size.
+                if you know of a way to do it in
+                lib/download.ts -> openFile(), please make a PR!
+            */
+            downloading = false;
+        }, 3000)
+    };
 
     type StatusText = {
         info: CobaltQueueItem;
@@ -202,8 +218,14 @@
                 class="button action-button"
                 aria-label={$t("button.download")}
                 onclick={() => download(info.resultFile)}
+                disabled={downloading}
+                class:downloading
             >
-                <IconDownload />
+                {#if !downloading}
+                    <IconDownload />
+                {:else}
+                    <IconLoader2 />
+                {/if}
             </button>
         {/if}
 
@@ -221,6 +243,7 @@
                 class="button action-button"
                 aria-label={$t(`button.${info.state === "done" ? "delete" : "remove"}`)}
                 onclick={() => removeItem(id)}
+                disabled={downloading}
             >
                 <IconX />
             </button>
@@ -324,11 +347,6 @@
         margin-right: 0;
     }
 
-    .status-spinner :global(svg) {
-        animation: spinner 0.7s infinite linear;
-        will-change: transform;
-    }
-
     .file-actions {
         gap: 4px;
     }
@@ -382,12 +400,24 @@
         padding: 8px;
         height: auto;
         box-shadow: none;
+        transition: opacity 0.2s;
     }
 
     .action-button :global(svg) {
         width: 18px;
         height: 18px;
         stroke-width: 1.5px;
+    }
+
+    .action-button:disabled {
+        cursor: progress;
+        opacity: 0.5;
+    }
+
+    .status-spinner :global(svg),
+    .action-button.downloading :global(svg) {
+        animation: spinner 0.7s infinite linear;
+        will-change: transform;
     }
 
     .processing-item:first-child {
