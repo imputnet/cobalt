@@ -50,6 +50,14 @@
         pointer-events: none;
     }
 
+    /*
+        for some weird reason parent's transition
+        breaks final opacity of children on ios
+    */
+    :global([data-iphone="true"]) .settings-content {
+        transition: none;
+    }
+
     .settings-content.focus {
         animation: highlight 2s;
     }
