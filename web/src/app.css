@@ -45,6 +45,7 @@
     --sidebar-stroke: rgba(0, 0, 0, 0.04);
 
     --content-border: rgba(0, 0, 0, 0.03);
+    --content-border-thickness: 1px;
 
     --input-border: #adadb7;
 
@@ -66,11 +67,6 @@
                 env(safe-area-inset-bottom) - 5px *
                     sign(env(safe-area-inset-bottom))
             )
-    );
-
-    --content-border-thickness: 1px;
-    --content-margin: calc(
-        var(--sidebar-inner-padding) + var(--content-border-thickness)
     );
 
     --safe-area-inset-top: env(safe-area-inset-top);

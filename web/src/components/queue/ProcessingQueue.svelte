@@ -94,7 +94,7 @@
 
 <style>
     #processing-queue {
-        --holder-padding: 16px;
+        --holder-padding: 12px;
         position: absolute;
         right: 0;
         display: flex;

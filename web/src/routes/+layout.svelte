@@ -163,14 +163,10 @@
         overflow: scroll;
         background-color: var(--primary);
         box-shadow: 0 0 0 var(--content-border-thickness) var(--content-border);
-
-        border-radius: 6px;
-        margin: var(--content-margin);
         margin-left: var(--content-border-thickness);
     }
 
     #content:dir(rtl) {
-        margin-left: var(--content-margin);
         margin-right: var(--content-border-thickness);
     }
 
@@ -197,8 +193,6 @@
             order: -1;
 
             margin: 0;
-            box-shadow: none;
-            border-radius: 0;
 
             border-bottom-left-radius: calc(var(--border-radius) * 2);
             border-bottom-right-radius: calc(var(--border-radius) * 2);
