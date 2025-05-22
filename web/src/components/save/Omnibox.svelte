@@ -231,6 +231,10 @@
         --input-padding: 10px;
         display: flex;
         box-shadow: 0 0 0 1.5px var(--input-border) inset;
+        /* webkit can't render the 1.5px box shadow properly,
+           so we duplicate the border as outline to fix it visually */
+        outline: 1.5px solid var(--input-border);
+        outline-offset: -1.5px;
         border-radius: var(--border-radius);
         align-items: center;
         gap: var(--input-padding);
@@ -264,8 +268,9 @@
     }
 
     #input-container.focused {
-        box-shadow: 0 0 0 1px var(--secondary) inset;
-        outline: var(--secondary) 1px solid;
+        box-shadow: none;
+        outline: var(--secondary) 2px solid;
+        outline-offset: -1px;
     }
 
     #input-container.focused :global(#input-icons svg) {
