@@ -145,8 +145,8 @@
 
         const worker = item.pipeline[workerIndex];
         const task = $currentTasks[worker.workerId];
-        if (task?.progress) {
-            return task.progress.percentage;
+        if (task?.progress?.percentage) {
+            return Math.max(0, Math.min(100, task.progress.percentage));
         }
     }
 
