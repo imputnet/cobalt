@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { startWorker } from "$lib/task-manager/run-worker";
 import { addWorkerToQueue, currentTasks } from "$lib/state/task-manager/current-tasks";
-import { itemDone, itemError, itemRunning, queue } from "$lib/state/task-manager/queue";
+import { DUMMY_FILE, itemDone, itemError, itemRunning, queue } from "$lib/state/task-manager/queue";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
@@ -27,8 +27,11 @@ export const schedule = () => {
 
             // if all workers are completed, then return the
             // the final file and go to the next task
-            if (task.completedWorkers.size === task.pipeline.length) {
-                const finalFile = task.pipelineResults.pop();
+            if (Object.keys(task.pipelineResults).length === task.pipeline.length) {
+                // swap final file for a dummy, so that it doesn't get
+                // deleted when we clean up the intermediate files
+                const finalFile = task.pipelineResults[finalWorker.workerId];
+                task.pipelineResults[finalWorker.workerId] = DUMMY_FILE;
 
                 if (finalFile) {
                     itemDone(task.id, finalFile);
@@ -42,11 +45,11 @@ export const schedule = () => {
             // if current worker is completed, but there are more workers,
             // then start the next one and wait to be called again
             for (const worker of task.pipeline) {
-                if (task.completedWorkers.has(worker.workerId) || ongoingTasks[worker.workerId]) {
+                if (task.pipelineResults[worker.workerId] || ongoingTasks[worker.workerId]) {
                     continue;
                 }
 
-                const needsToWait = worker.dependsOn?.some(id => !task.completedWorkers.has(id));
+                const needsToWait = worker.dependsOn?.some(id => !task.pipelineResults[id]);
                 if (needsToWait) {
                     break;
                 }

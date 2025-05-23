@@ -6,11 +6,15 @@ import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/task-manage
 
 import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning, UUID } from "$lib/types/queue";
 
+export const DUMMY_FILE = new File([], 'pipeline_result_deleted.bin');
+
 const clearPipelineCache = (queueItem: CobaltQueueItem) => {
     if (queueItem.state === "running") {
-        let item: File | undefined;
-        while ((item = queueItem.pipelineResults.pop())) {
-            removeFromFileStorage(item.name);
+        for (const [ workerId, item ] of Object.entries(queueItem.pipelineResults)) {
+            if (item.name !== DUMMY_FILE.name) {
+                removeFromFileStorage(item.name);
+                queueItem.pipelineResults[workerId] = DUMMY_FILE;
+            }
         }
     } else if (queueItem.state === "done") {
         removeFromFileStorage(queueItem.resultFile.name);
@@ -75,8 +79,7 @@ export function pipelineTaskDone(id: UUID, workerId: UUID, file: File) {
         const item = queueData[id];
 
         if (item && item.state === 'running') {
-            item.pipelineResults.push(file);
-            item.completedWorkers.add(workerId);
+            item.pipelineResults[workerId] = file;
         }
 
         return queueData;
@@ -92,8 +95,7 @@ export function itemRunning(id: UUID) {
 
         if (data) {
             data.state = 'running';
-            data.completedWorkers ??= new Set();
-            data.pipelineResults ??= [];
+            data.pipelineResults ??= {};
         }
 
         return queueData;

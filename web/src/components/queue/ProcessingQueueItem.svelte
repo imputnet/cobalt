@@ -96,7 +96,8 @@
             // if only fetch workers are running, then we should
             // show the sum of all running & completed fetch workers
             if (running.size === 1 && running.has("fetch")) {
-                totalSize += info.pipelineResults.reduce((s, p) => s + (p?.size ?? 0), 0);
+                totalSize += Object.values(info.pipelineResults)
+                                   .reduce((s, p) => s + (p?.size ?? 0), 0);
             }
 
             const runningText = [...running].map(task => $t(`queue.state.running.${task}`)).join(", ");
@@ -107,7 +108,7 @@
             }
 
             const firstUnstarted = info.pipeline.find(w => {
-                if (info.completedWorkers.has(w.workerId))
+                if (info.pipelineResults[w.workerId])
                     return false;
 
                 const task = currentTasks[w.workerId];
@@ -134,7 +135,7 @@
     };
 
     const getWorkerProgress = (item: CobaltQueueItem, workerId: UUID): number | undefined => {
-        if (item.state === 'running' && item.completedWorkers.has(workerId)) {
+        if (item.state === 'running' && item.pipelineResults[workerId]) {
             return 100;
         }
 
@@ -187,7 +188,7 @@
                     <ProgressBar
                         percentage={getWorkerProgress(info, task.workerId) || 0}
                         workerId={task.workerId}
-                        completedWorkers={info.completedWorkers}
+                        pipelineResults={info.pipelineResults}
                     />
                 {/each}
             </div>

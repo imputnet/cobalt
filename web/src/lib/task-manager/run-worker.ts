@@ -12,7 +12,7 @@ export const killWorker = (worker: Worker, unsubscribe: () => void, interval?: N
     if (interval) clearInterval(interval);
 }
 
-export const startWorker = async ({ worker, workerId, parentId, workerArgs }: CobaltPipelineItem) => {
+export const startWorker = async ({ worker, workerId, dependsOn, parentId, workerArgs }: CobaltPipelineItem) => {
     let files: File[] = [];
 
     switch (worker) {
@@ -22,10 +22,15 @@ export const startWorker = async ({ worker, workerId, parentId, workerArgs }: Co
                 files = workerArgs.files;
             }
 
-            if (files.length === 0) {
-                const parent = get(queue)[parentId];
-                if (parent.state === "running" && parent.pipelineResults.length) {
-                    files = parent.pipelineResults;
+            const parent = get(queue)[parentId];
+            if (parent?.state === "running" && dependsOn) {
+                for (const workerId of dependsOn) {
+                    const file = parent.pipelineResults[workerId];
+                    if (!file) {
+                        return itemError(parentId, workerId, "queue.ffmpeg.no_args");
+                    }
+
+                    files.push(file);
                 }
             }
 

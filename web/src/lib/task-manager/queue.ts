@@ -217,7 +217,7 @@ export const getProgress = (item: CobaltQueueItem, currentTasks: CobaltCurrentTa
 
     let sum = 0;
     for (const worker of item.pipeline) {
-        if (item.completedWorkers.has(worker.workerId)) {
+        if (item.pipelineResults[worker.workerId]) {
             sum += 1;
         } else {
             const task = currentTasks[worker.workerId];

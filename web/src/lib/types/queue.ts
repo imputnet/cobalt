@@ -19,8 +19,7 @@ type CobaltQueueItemWaiting = CobaltQueueBaseItem & {
 
 export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
     state: "running",
-    completedWorkers: Set<UUID>,
-    pipelineResults: File[],
+    pipelineResults: Record<UUID, File>,
 };
 
 type CobaltQueueItemDone = CobaltQueueBaseItem & {

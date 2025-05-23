@@ -1,14 +1,14 @@
 <script lang="ts">
     import Skeleton from "$components/misc/Skeleton.svelte";
-    import type { UUID } from "$lib/types/queue";
+    import type { CobaltQueueItemRunning, UUID } from "$lib/types/queue";
 
     type Props = {
         percentage?: number;
         workerId: UUID;
-        completedWorkers: Set<string>;
+        pipelineResults: CobaltQueueItemRunning['pipelineResults'];
     }
 
-    let { percentage = 0, workerId, completedWorkers }: Props = $props();
+    let { percentage = 0, workerId, pipelineResults }: Props = $props();
 </script>
 
 <div class="file-progress">
@@ -17,7 +17,7 @@
             class="progress"
             style="width: {Math.min(100, percentage)}%"
         ></div>
-    {:else if completedWorkers.has(workerId)}
+    {:else if pipelineResults[workerId]}
         <div
             class="progress"
             style="width: 100%"
