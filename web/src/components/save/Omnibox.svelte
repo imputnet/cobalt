@@ -69,6 +69,11 @@
 
             // clear hash and query to prevent bookmarking unwanted links
             if (browser) goto("/", { replaceState: true });
+
+            // clear link prefill to avoid extra effects
+            linkPrefill = "";
+
+            savingHandler({ url: $link });
         }
     });
 
