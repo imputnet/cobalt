@@ -1,4 +1,5 @@
 import type { FileInfo } from "$lib/types/libav";
+import type { UUID } from "./queue";
 
 export const resultFileTypes = ["video", "audio", "image"] as const;
 
@@ -17,9 +18,9 @@ type CobaltFFmpegWorkerArgs = {
 };
 
 type CobaltPipelineItemBase = {
-    workerId: string,
-    parentId: string,
-    dependsOn?: string[],
+    workerId: UUID,
+    parentId: UUID,
+    dependsOn?: UUID[],
 };
 
 type CobaltRemuxPipelineItem = CobaltPipelineItemBase & {

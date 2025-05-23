@@ -1,8 +1,10 @@
 import type { CobaltSaveRequestBody } from "$lib/types/api";
 import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
 
+export type UUID = string;
+
 type CobaltQueueBaseItem = {
-    id: string,
+    id: UUID,
     pipeline: CobaltPipelineItem[],
     canRetry?: boolean,
     originalRequest?: CobaltSaveRequestBody,
@@ -17,7 +19,7 @@ type CobaltQueueItemWaiting = CobaltQueueBaseItem & {
 
 export type CobaltQueueItemRunning = CobaltQueueBaseItem & {
     state: "running",
-    completedWorkers: Set<string>,
+    completedWorkers: Set<UUID>,
     pipelineResults: File[],
 };
 
@@ -37,5 +39,5 @@ export type CobaltQueueItem = CobaltQueueItemWaiting
                             | CobaltQueueItemError;
 
 export type CobaltQueue = {
-    [id: string]: CobaltQueueItem,
+    [id: UUID]: CobaltQueueItem,
 };

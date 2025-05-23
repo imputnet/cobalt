@@ -1,11 +1,12 @@
 import type { CobaltPipelineItem, CobaltWorkerProgress } from "$lib/types/workers";
+import type { UUID } from "./queue";
 
 export type CobaltCurrentTaskItem = {
     type: CobaltPipelineItem['worker'],
-    parentId: string,
+    parentId: UUID,
     progress?: CobaltWorkerProgress,
 }
 
 export type CobaltCurrentTasks = {
-    [id: string]: CobaltCurrentTaskItem,
+    [id: UUID]: CobaltCurrentTaskItem,
 }
