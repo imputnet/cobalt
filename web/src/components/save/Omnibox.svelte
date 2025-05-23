@@ -25,6 +25,7 @@
     import Switcher from "$components/buttons/Switcher.svelte";
     import OmniboxIcon from "$components/save/OmniboxIcon.svelte";
     import ActionButton from "$components/buttons/ActionButton.svelte";
+    import CaptchaTooltip from "$components/save/CaptchaTooltip.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
 
     import IconMute from "$components/icons/Mute.svelte";
@@ -43,6 +44,8 @@
     let isFocused = $state(false);
     let isDisabled = $state(false);
     let isLoading = $state(false);
+
+    let isHovered = $state(false);
 
     let isBotCheckOngoing = $derived($turnstileEnabled && !$turnstileSolved);
 
@@ -148,6 +151,12 @@
 {/if}
 
 <div id="omnibox">
+    {#if $turnstileEnabled}
+        <CaptchaTooltip
+            visible={isBotCheckOngoing && (isHovered || isFocused)}
+        />
+    {/if}
+
     <div
         id="input-container"
         class:focused={isFocused}
@@ -155,6 +164,7 @@
         class:clear-visible={clearVisible}
     >
         <OmniboxIcon loading={isLoading || isBotCheckOngoing} />
+
         <input
             id="link-area"
             bind:value={$link}
@@ -162,6 +172,8 @@
             oninput={() => (isFocused = true)}
             onfocus={() => (isFocused = true)}
             onblur={() => (isFocused = false)}
+            onmouseover={() => (isHovered = true)}
+            onmouseleave={() => (isHovered = false)}
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
@@ -225,6 +237,7 @@
         max-width: 640px;
         width: 100%;
         gap: 6px;
+        position: relative;
     }
 
     #input-container {
