@@ -92,10 +92,8 @@
         if (linkMatch) {
             $link = linkMatch[0].split('，')[0];
 
-            if (!isBotCheckOngoing) {
-                await tick(); // wait for button to render
-                savingHandler({ url: $link });
-            }
+            await tick(); // wait for button to render
+            savingHandler({ url: $link });
         }
     };
 
