@@ -1,11 +1,10 @@
 <script lang="ts">
     import "../app.css";
+    import "../fonts/noto-mono-cobalt.css";
 
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/400-italic.css";
     import "@fontsource/ibm-plex-mono/500.css";
-
-    import "@fontsource/noto-sans-mono";
 
     import { onMount } from "svelte";
     import { page } from "$app/stores";
@@ -39,7 +38,7 @@
         $settings.accessibility.reduceTransparency ||
         device.prefers.reducedTransparency;
 
-    $: preloadMeowbalt = false;
+    $: preloadAssets = false;
     $: plausibleLoaded = false;
 
     afterNavigate(async () => {
@@ -53,7 +52,7 @@
     });
 
     onMount(() => {
-        preloadMeowbalt = true;
+        preloadAssets = true;
     });
 </script>
 
@@ -97,8 +96,8 @@
     data-theme={browser ? $currentTheme : undefined}
     lang={$locale}
 >
-    {#if preloadMeowbalt}
-        <div id="preload-meowbalt" aria-hidden="true"></div>
+    {#if preloadAssets}
+        <div id="preload" aria-hidden="true">??</div>
     {/if}
     <div
         id="cobalt"
@@ -198,13 +197,20 @@
         }
     }
 
-    /* preload meowbalt assets to prevent flickering in dialogs */
-    #preload-meowbalt {
+    /* preload assets to prevent flickering when they appear on screen */
+    #preload {
         width: 0;
         height: 0;
         position: absolute;
         z-index: -10;
         content: url(/meowbalt/smile.png) url(/meowbalt/error.png)
             url(/meowbalt/question.png) url(/meowbalt/think.png);
+
+        font-family: "Noto Sans Mono";
+
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
     }
 </style>

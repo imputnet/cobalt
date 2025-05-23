@@ -188,7 +188,7 @@ body {
 }
 
 * {
-    font-family: "IBM Plex Mono", "Noto Sans Mono", monospace;
+    font-family: "IBM Plex Mono", monospace;
     user-select: none;
     scrollbar-width: none;
     -webkit-user-select: none;
