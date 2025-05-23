@@ -102,7 +102,7 @@
 
     #download-state {
         font-size: 24px;
-        font-family: "Noto Sans Mono", monospace;
+        font-family: "Noto Sans Mono", "IBM Plex Mono", monospace;
         font-weight: 400;
 
         text-align: center;
