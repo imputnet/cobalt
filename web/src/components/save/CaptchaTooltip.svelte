@@ -24,11 +24,11 @@
         bottom: calc(100% + 10px);
 
         opacity: 0;
-        transform: scale(0) translateX(25px) translateY(15px);
+        transform: scale(0.5) translateX(10px) translateY(15px);
         transform-origin: bottom left;
 
         transition:
-            transform 0.25s cubic-bezier(0.53, 0.05, 0.23, 1.15),
+            transform 0.2s cubic-bezier(0.53, 0.05, 0.23, 1.15),
             opacity 0.2s cubic-bezier(0.53, 0.05, 0.23, 0.99);
 
         will-change: transform, opacity;
