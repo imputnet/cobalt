@@ -2,8 +2,13 @@
     import IconLink from "@tabler/icons-svelte/IconLink.svelte";
     import IconLoader2 from "@tabler/icons-svelte/IconLoader2.svelte";
 
-    export let loading: boolean;
-    export let animated = !!loading;
+    type Props = {
+        loading: boolean;
+    };
+
+    let { loading }: Props = $props();
+
+    let animated = $state(loading);
 
     /*
         initial spinner state is equal to loading state,
@@ -29,12 +34,8 @@
     <div
         class="input-icon spinner-icon"
         class:animated
-        on:transitionstart={() => {
-            animated = true;
-        }}
-        on:transitionend={() => {
-            animated = !!loading;
-        }}
+        ontransitionstart={() => (animated = true)}
+        ontransitionend={() => (animated = loading)}
     >
         <IconLoader2 />
     </div>
