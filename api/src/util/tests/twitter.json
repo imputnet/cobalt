@@ -217,5 +217,14 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "video in an ad card",
+        "url": "https://x.com/igorbrigadir/status/1611399816487084033?s=46",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }
 ]

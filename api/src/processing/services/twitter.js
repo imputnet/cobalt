@@ -162,6 +162,19 @@ const extractGraphqlMedia = async (tweet, dispatcher, id, guestToken, cookie) =>
         repostedTweet = baseTweet?.retweeted_status_result?.result.tweet.legacy.extended_entities;
     }
 
+    if (tweetResult.card?.legacy?.binding_values?.length) {
+        const card = JSON.parse(tweetResult.card.legacy.binding_values[0].value?.string_value);
+
+        if (!["video_website", "image_website"].includes(card?.type) ||
+            !card?.media_entities ||
+            card?.component_objects?.media_1?.type !== "media") {
+            return;
+        }
+
+        const mediaId = card.component_objects?.media_1?.data?.id;
+        return [card.media_entities[mediaId]];
+    }
+
     return (repostedTweet?.media || baseTweet?.extended_entities?.media);
 }
 
