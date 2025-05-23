@@ -1,9 +1,10 @@
 <script lang="ts">
     import Skeleton from "$components/misc/Skeleton.svelte";
+    import type { UUID } from "$lib/types/queue";
 
     type Props = {
         percentage?: number;
-        workerId: string;
+        workerId: UUID;
         completedWorkers: Set<string>;
     }
 

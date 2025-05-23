@@ -4,7 +4,7 @@ import { schedule } from "$lib/task-manager/scheduler";
 import { clearFileStorage, removeFromFileStorage } from "$lib/storage/opfs";
 import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/task-manager/current-tasks";
 
-import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning } from "$lib/types/queue";
+import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning, UUID } from "$lib/types/queue";
 
 const clearPipelineCache = (queueItem: CobaltQueueItem) => {
     if (queueItem.state === "running") {
@@ -35,7 +35,7 @@ export function addItem(item: CobaltQueueItem) {
     schedule();
 }
 
-export function itemError(id: string, workerId: string, error: string) {
+export function itemError(id: UUID, workerId: UUID, error: string) {
     update(queueData => {
         if (queueData[id]) {
             queueData[id] = clearPipelineCache(queueData[id]);
@@ -53,7 +53,7 @@ export function itemError(id: string, workerId: string, error: string) {
     schedule();
 }
 
-export function itemDone(id: string, file: File) {
+export function itemDone(id: UUID, file: File) {
     update(queueData => {
         if (queueData[id]) {
             queueData[id] = clearPipelineCache(queueData[id]);
@@ -70,7 +70,7 @@ export function itemDone(id: string, file: File) {
     schedule();
 }
 
-export function pipelineTaskDone(id: string, workerId: string, file: File) {
+export function pipelineTaskDone(id: UUID, workerId: UUID, file: File) {
     update(queueData => {
         const item = queueData[id];
 
@@ -86,7 +86,7 @@ export function pipelineTaskDone(id: string, workerId: string, file: File) {
     schedule();
 }
 
-export function itemRunning(id: string) {
+export function itemRunning(id: UUID) {
     update(queueData => {
         const data = queueData[id] as CobaltQueueItemRunning;
 
@@ -102,7 +102,7 @@ export function itemRunning(id: string) {
     schedule();
 }
 
-export function removeItem(id: string) {
+export function removeItem(id: UUID) {
     update(queueData => {
         const item = queueData[id];
 
