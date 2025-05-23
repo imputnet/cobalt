@@ -11,34 +11,56 @@ import { getServerInfo } from "$lib/api/server-info";
 import type { Optional } from "$lib/types/generic";
 import type { CobaltAPIResponse, CobaltErrorResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
+const waitForTurnstile = async () => {
+    return await new Promise((resolve, reject) => {
+        const unsub = turnstileSolved.subscribe((solved) => {
+            if (solved) {
+                unsub();
+                resolve(true);
+            }
+        });
+
+        // wait for turnstile to finish for 15 seconds
+        setTimeout(() => {
+            unsub();
+            reject(false);
+        }, 15 * 1000)
+    });
+}
+
 const getAuthorization = async () => {
     const processing = get(settings).processing;
+    if (processing.enableCustomApiKey && processing.customApiKey.length > 0) {
+        return `Api-Key ${processing.customApiKey}`;
+    }
 
-    if (get(turnstileEnabled)) {
-        if (!get(turnstileSolved)) {
+    if (!get(turnstileEnabled)) {
+        return;
+    }
+
+    if (!get(turnstileSolved)) {
+        try {
+            await waitForTurnstile();
+        } catch {
             return {
                 status: "error",
                 error: {
-                    code: "error.captcha_ongoing"
+                    code: "error.captcha_too_long"
                 }
             } as CobaltErrorResponse;
         }
-
-        const session = await getSession();
-
-        if (session) {
-            if ("error" in session) {
-                if (session.error.code !== "error.api.auth.not_configured") {
-                    return session;
-                }
-            } else {
-                return `Bearer ${session.token}`;
-            }
-        }
     }
 
-    if (processing.enableCustomApiKey && processing.customApiKey.length > 0) {
-        return `Api-Key ${processing.customApiKey}`;
+    const session = await getSession();
+
+    if (session) {
+        if ("error" in session) {
+            if (session.error.code !== "error.api.auth.not_configured") {
+                return session;
+            }
+        } else {
+            return `Bearer ${session.token}`;
+        }
     }
 }
 
@@ -100,23 +122,11 @@ const request = async (requestBody: CobaltSaveRequestBody, justRetried = false) 
             && !justRetried
     ) {
         resetSession();
-        await waitForTurnstile().catch(() => {});
+        await getAuthorization();
         return request(requestBody, true);
     }
 
     return response;
-}
-
-const waitForTurnstile = async () => {
-    await getAuthorization();
-    return new Promise<void>(resolve => {
-        const unsub = turnstileSolved.subscribe(solved => {
-            if (solved) {
-                unsub();
-                resolve();
-            }
-        });
-    });
 }
 
 const probeCobaltTunnel = async (url: string) => {
