@@ -42,7 +42,7 @@ export const openFile = (file: File) => {
     a.href = url;
     a.download = file.name;
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
 export const shareFile = async (file: File) => {
