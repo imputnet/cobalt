@@ -32,17 +32,17 @@ const fetchFile = async (url: string) => {
         const contentLength = response.headers.get('Content-Length');
         const estimatedLength = response.headers.get('Estimated-Content-Length');
 
-        let totalBytes;
+        let expectedSize;
 
         if (contentLength) {
-            totalBytes = +contentLength;
+            expectedSize = +contentLength;
         } else if (estimatedLength) {
-            totalBytes = +estimatedLength;
+            expectedSize = +estimatedLength;
         }
 
         const reader = response.body?.getReader();
 
-        const storage = await Storage.init(totalBytes);
+        const storage = await Storage.init(expectedSize);
 
         if (!reader) {
             return error("queue.fetch.no_file_reader");
@@ -57,10 +57,10 @@ const fetchFile = async (url: string) => {
             await storage.write(value, receivedBytes);
             receivedBytes += value.length;
 
-            if (totalBytes) {
+            if (expectedSize) {
                 self.postMessage({
                     cobaltFetchWorker: {
-                        progress: Math.round((receivedBytes / totalBytes) * 100),
+                        progress: Math.round((receivedBytes / expectedSize) * 100),
                         size: receivedBytes,
                     }
                 });
