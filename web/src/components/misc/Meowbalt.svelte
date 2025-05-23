@@ -4,16 +4,17 @@
 
     type Props = {
         emotion: MeowbaltEmotions;
+        forceLoaded?: boolean;
     };
 
-    const { emotion }: Props = $props();
+    const { emotion, forceLoaded }: Props = $props();
 
     let loaded = $state(false);
 </script>
 
 <img
     class="meowbalt {emotion}"
-    class:loaded
+    class:loaded={loaded || forceLoaded}
     onload={() => (loaded = true)}
     src="/meowbalt/{emotion}.png"
     height="152"

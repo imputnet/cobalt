@@ -39,7 +39,10 @@
     >
         {#if meowbalt}
             <div class="meowbalt-container">
-                <Meowbalt emotion={meowbalt} />
+                <Meowbalt
+                    emotion={meowbalt}
+                    forceLoaded={id === 'nojs-dialog'}
+                />
             </div>
         {/if}
         <div class="dialog-inner-container">
