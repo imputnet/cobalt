@@ -94,12 +94,12 @@ importers:
       '@eslint/js':
         specifier: ^9.5.0
         version: 9.8.0
-      '@fontsource-variable/noto-sans-mono':
-        specifier: ^5.0.20
-        version: 5.0.20
       '@fontsource/ibm-plex-mono':
         specifier: ^5.0.13
         version: 5.0.13
+      '@fontsource/noto-sans-mono':
+        specifier: ^5.2.7
+        version: 5.2.7
       '@fontsource/redaction-10':
         specifier: ^5.0.2
         version: 5.0.2
@@ -531,11 +531,11 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@fontsource-variable/noto-sans-mono@5.0.20':
-    resolution: {integrity: sha512-Mik/wbKjiir7t+KBaDZnPZ5GjDnPOXpMF7obmFeyRa528ZsrKcFiSn4ZvArrn3sJMCp/k23wakOcXOWlGNc9cw==}
-
   '@fontsource/ibm-plex-mono@5.0.13':
     resolution: {integrity: sha512-gtlMmvk//2AgDEZDFsoL5z9mgW3ZZg/9SC7pIfDwNKp5DtZpApgqd1Fua3HhPwYRIHrT76IQ1tMTzQKLEGtJGQ==}
+
+  '@fontsource/noto-sans-mono@5.2.7':
+    resolution: {integrity: sha512-kw+z21ZEjOzsUS49FVLsR/WwJ7LnXrlam5SzNGY6uSSF4gfzYm2CBzcS0Y5YqQCrtDZ4S6PpaAGRMzQ/MAZaXA==}
 
   '@fontsource/redaction-10@5.0.2':
     resolution: {integrity: sha512-PODxYvb06YrNxdUBGcygiMibpgcZihzmvkmlX/TQAA2F7BUU/anfSKQi/VnLdJ/8LIK81/bUY+i7L/GP27FkVw==}
@@ -2404,9 +2404,9 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@fontsource-variable/noto-sans-mono@5.0.20': {}
-
   '@fontsource/ibm-plex-mono@5.0.13': {}
+
+  '@fontsource/noto-sans-mono@5.2.7': {}
 
   '@fontsource/redaction-10@5.0.2': {}
 

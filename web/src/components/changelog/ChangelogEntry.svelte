@@ -88,7 +88,7 @@
         {#if skeleton}
             <Skeleton class="big changelog-banner" width="100%" />
         {/if}
-        <div class="changelog-body long-text-noto">
+        <div class="changelog-body long-text">
             {#if skeleton}
                 {#each { length: 3 + Math.random() * 5 } as _}
                     <p>

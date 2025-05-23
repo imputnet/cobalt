@@ -5,6 +5,8 @@
     import "@fontsource/ibm-plex-mono/400-italic.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import "@fontsource/noto-sans-mono";
+
     import { onMount } from "svelte";
     import { page } from "$app/stores";
     import { updated } from "$app/stores";

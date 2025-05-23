@@ -1,6 +1,4 @@
 <script lang="ts">
-    import "@fontsource-variable/noto-sans-mono";
-
     import { onDestroy } from "svelte";
     import { t } from "$lib/i18n/translations";
     import { hapticSwitch } from "$lib/haptics";
@@ -104,8 +102,7 @@
 
     #download-state {
         font-size: 24px;
-        font-family: "Noto Sans Mono Variable", "Noto Sans Mono",
-            "IBM Plex Mono", monospace;
+        font-family: "Noto Sans Mono", monospace;
         font-weight: 400;
 
         text-align: center;

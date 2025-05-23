@@ -31,7 +31,7 @@
             <DonateShareCard />
         </section>
 
-        <section id="motivation" class="long-text-noto">
+        <section id="motivation" class="long-text">
             <p>{$t("donate.body.motivation")}</p>
             <p>{$t("donate.body.no_bullshit")}</p>
             <p>{$t("donate.body.keep_going")}</p>
