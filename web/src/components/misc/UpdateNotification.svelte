@@ -97,13 +97,13 @@
 
     @media screen and (max-width: 535px) {
         #update-notification {
-            bottom: calc(var(--sidebar-height-mobile) + 5px);
+            bottom: calc(var(--sidebar-height-mobile) + 16px);
             justify-content: center;
         }
 
         .update-button {
             transform: translateY(300px);
-            margin-right: var(--padding);
+            margin: 0;
             transition: transform 0.55s cubic-bezier(0.53, 0.05, 0.23, 1.15);
         }
     }
