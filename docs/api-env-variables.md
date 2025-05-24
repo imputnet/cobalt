@@ -13,6 +13,7 @@ this document is not final and will expand over time. feel free to improve it!
 | API_REDIS_URL          |         | `redis://localhost:6379`              |
 | DISABLED_SERVICES      |         | `bilibili,youtube`                    |
 | FORCE_LOCAL_PROCESSING | `never` | `always`                              |
+| API_ENV_FILE           |         | `/.env`                               |
 
 [*view details*](#general)
 
@@ -110,6 +111,9 @@ the value is a string: `never` (default), `session`, or `always`.
 when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
 
 when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
+
+### API_ENV_FILE
+the URL or local path to a `key=value`-style environment variable file. this is used for dynamically reloading environment variables. **not all environment variables are able to be updated by this.** (e.g. the ratelimiters are instantiated when starting cobalt, and cannot be changed)
 
 ## networking
 [*jump to the table*](#networking-vars)

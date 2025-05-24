@@ -48,19 +48,23 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
-    const serverInfo = JSON.stringify({
-        cobalt: {
-            version: version,
-            url: env.apiURL,
-            startTime: `${startTimestamp}`,
-            durationLimit: env.durationLimit,
-            turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
-            services: [...env.enabledServices].map(e => {
-                return friendlyServiceName(e);
-            }),
-        },
-        git,
-    })
+    const getServerInfo = () => {
+        return JSON.stringify({
+            cobalt: {
+                version: version,
+                url: env.apiURL,
+                startTime: `${startTimestamp}`,
+                durationLimit: env.durationLimit,
+                turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
+                services: [...env.enabledServices].map(e => {
+                    return friendlyServiceName(e);
+                }),
+            },
+            git,
+        });
+    }
+
+    const serverInfo = getServerInfo();
 
     const handleRateExceeded = (_, res) => {
         const { body } = createResponse("error", {
@@ -311,7 +315,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
     app.get('/', (_, res) => {
         res.type('json');
-        res.status(200).send(serverInfo);
+        res.status(200).send(env.envFile ? getServerInfo() : serverInfo);
     })
 
     app.get('/favicon.ico', (req, res) => {
@@ -331,10 +335,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
 
     if (env.externalProxy) {
-        if (env.freebindCIDR) {
-            throw new Error('Freebind is not available when external proxy is enabled')
-        }
-
         setGlobalDispatcher(new ProxyAgent(env.externalProxy))
     }
 
