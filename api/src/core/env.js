@@ -1,7 +1,12 @@
 
 import { Constants } from "youtubei.js";
-import { supportsReusePort } from "../misc/cluster.js";
 import { services } from "../processing/service-config.js";
+import { updateEnv, canonicalEnv, env as currentEnv } from "../config.js";
+
+import { FileWatcher } from "../misc/file-watcher.js";
+import { isURL } from "../misc/utils.js";
+import * as cluster from "../misc/cluster.js";
+import { Yellow } from "../misc/console-text.js";
 
 const forceLocalProcessingOptions = ["never", "session", "always"];
 
@@ -54,6 +59,7 @@ export const loadEnvs = (env = process.env) => {
                             && env.JWT_SECRET,
 
         apiKeyURL: env.API_KEY_URL && new URL(env.API_KEY_URL),
+        envFile: env.API_ENV_FILE,
         authRequired: env.API_AUTH_REQUIRED === '1',
         redisURL: env.API_REDIS_URL,
         instanceCount: (env.API_INSTANCE_COUNT && parseInt(env.API_INSTANCE_COUNT)) || 1,
@@ -64,6 +70,7 @@ export const loadEnvs = (env = process.env) => {
         customInnertubeClient: env.CUSTOM_INNERTUBE_CLIENT,
         ytSessionServer: env.YOUTUBE_SESSION_SERVER,
         ytSessionReloadInterval: 300,
+        envReloadInterval: 300,
         ytSessionInnertubeClient: env.YOUTUBE_SESSION_INNERTUBE_CLIENT,
         ytAllowBetterAudio: env.YOUTUBE_ALLOW_BETTER_AUDIO !== "0",
 
@@ -79,7 +86,7 @@ export const validateEnvs = async (env) => {
 
     if (env.instanceCount > 1 && !env.redisURL) {
         throw new Error("API_REDIS_URL is required when API_INSTANCE_COUNT is >= 2");
-    } else if (env.instanceCount > 1 && !await supportsReusePort()) {
+    } else if (env.instanceCount > 1 && !await cluster.supportsReusePort()) {
         console.error('API_INSTANCE_COUNT is not supported in your environment. to use this env, your node.js');
         console.error('version must be >= 23.1.0, and you must be running a recent enough version of linux');
         console.error('(or other OS that supports it). for more info, see `reusePort` option on');
@@ -97,5 +104,82 @@ export const validateEnvs = async (env) => {
         console.error("FORCE_LOCAL_PROCESSING is invalid.");
         console.error(`Supported options are are: ${forceLocalProcessingOptions.join(', ')}\n`);
         throw new Error("Invalid FORCE_LOCAL_PROCESSING");
+    }
+
+    if (env.externalProxy && env.freebindCIDR) {
+        throw new Error('freebind is not available when external proxy is enabled')
+    }
+}
+
+const reloadEnvs = async (contents) => {
+    const newEnvs = {};
+
+    for (let line of (await contents).split('\n')) {
+        line = line.trim();
+        if (line === '') {
+            continue;
+        }
+
+        const [ key, value ] = line.split(/=(.+)?/);
+        if (key) {
+            newEnvs[key] = value || '';
+        }
+    }
+
+    const candidate = {
+        ...canonicalEnv,
+        ...newEnvs,
+    };
+
+    const parsed = loadEnvs(candidate);
+    await validateEnvs(parsed);
+    updateEnv(parsed);
+}
+
+const wrapReload = (contents) => {
+    reloadEnvs(contents)
+    .catch((e) => {
+        console.error(`${Yellow('[!]')} Failed reloading environment variables at ${new Date().toISOString()}.`);
+        console.error('Error:', e);
+    });
+}
+
+let watcher;
+const setupWatcherFromFile = (path) => {
+    const load = () => wrapReload(watcher.read());
+
+    if (isURL(path)) {
+        watcher = FileWatcher.fromFileProtocol(path);
+    } else {
+        watcher = new FileWatcher({ path });
+    }
+
+    watcher.on('file-updated', load);
+    load();
+}
+
+const setupWatcherFromFetch = (url) => {
+    const load = () => wrapReload(fetch(url).then(r => r.text()));
+    setInterval(load, currentEnv.envReloadInterval);
+    load();
+}
+
+export const setupEnvWatcher = () => {
+    if (cluster.isPrimary) {
+        const envFile = currentEnv.envFile;
+        const isFile = !isURL(envFile)
+                       || new URL(envFile).protocol === 'file:';
+
+        if (isFile) {
+            setupWatcherFromFile(envFile);
+        } else {
+            setupWatcherFromFetch(envFile);
+        }
+    } else if (cluster.isWorker) {
+        process.on('message', (message) => {
+            if ('env_update' in message) {
+                updateEnv(message.env_update);
+            }
+        });
     }
 }
