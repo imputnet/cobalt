@@ -17,7 +17,7 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
 
     switch (worker) {
         case "remux":
-        case "encode":
+        case "encode": {
             if (workerArgs.files) {
                 files = workerArgs.files;
             }
@@ -48,6 +48,7 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
                 itemError(parentId, workerId, "queue.ffmpeg.no_args");
             }
             break;
+        }
 
         case "fetch":
             await runFetchWorker(workerId, parentId, workerArgs.url);
