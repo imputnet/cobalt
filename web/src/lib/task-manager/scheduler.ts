@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { startWorker } from "$lib/task-manager/run-worker";
 import { addWorkerToQueue, currentTasks } from "$lib/state/task-manager/current-tasks";
-import { DUMMY_FILE, itemDone, itemError, itemRunning, queue } from "$lib/state/task-manager/queue";
+import { itemDone, itemError, itemRunning, queue } from "$lib/state/task-manager/queue";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
@@ -28,10 +28,10 @@ export const schedule = () => {
             // if all workers are completed, then return the
             // the final file and go to the next task
             if (Object.keys(task.pipelineResults).length === task.pipeline.length) {
-                // swap final file for a dummy, so that it doesn't get
-                // deleted when we clean up the intermediate files
+                // remove the final file from pipeline results, so that it doesn't
+                // get deleted when we clean up the intermediate files
                 const finalFile = task.pipelineResults[finalWorker.workerId];
-                task.pipelineResults[finalWorker.workerId] = DUMMY_FILE;
+                delete task.pipelineResults[finalWorker.workerId];
 
                 if (finalFile) {
                     itemDone(task.id, finalFile);

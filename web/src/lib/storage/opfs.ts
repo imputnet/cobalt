@@ -53,7 +53,9 @@ export const removeFromFileStorage = async (filename: string) => {
         try {
             const cobaltDir = await root.getDirectoryHandle(COBALT_PROCESSING_DIR);
             await cobaltDir.removeEntry(filename);
-        } catch {}
+        } catch {
+            // catch and ignore
+        }
     }
 }
 

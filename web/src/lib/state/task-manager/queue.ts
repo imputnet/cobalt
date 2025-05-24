@@ -6,15 +6,11 @@ import { clearCurrentTasks, removeWorkerFromQueue } from "$lib/state/task-manage
 
 import type { CobaltQueue, CobaltQueueItem, CobaltQueueItemRunning, UUID } from "$lib/types/queue";
 
-export const DUMMY_FILE = new File([], 'pipeline_result_deleted.bin');
-
 const clearPipelineCache = (queueItem: CobaltQueueItem) => {
     if (queueItem.state === "running") {
         for (const [ workerId, item ] of Object.entries(queueItem.pipelineResults)) {
-            if (item.name !== DUMMY_FILE.name) {
-                removeFromFileStorage(item.name);
-                queueItem.pipelineResults[workerId] = DUMMY_FILE;
-            }
+            removeFromFileStorage(item.name);
+            delete queueItem.pipelineResults[workerId];
         }
     } else if (queueItem.state === "done") {
         removeFromFileStorage(queueItem.resultFile.name);
