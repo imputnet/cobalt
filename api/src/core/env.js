@@ -120,8 +120,12 @@ const reloadEnvs = async (contents) => {
             continue;
         }
 
-        const [ key, value ] = line.split(/=(.+)?/);
+        let [ key, value ] = line.split(/=(.+)?/);
         if (key) {
+            if (value.match(/^['"]/) && value.match(/['"]$/)) {
+                value = JSON.parse(value);
+            }
+
             newEnvs[key] = value || '';
         }
     }
