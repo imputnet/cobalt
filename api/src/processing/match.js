@@ -271,7 +271,7 @@ export default async function({ host, patternMatch, params, isSession }) {
             switch(r.error) {
                 case "content.too_long":
                     context = {
-                        limit: env.durationLimit / 60,
+                        limit: parseFloat((env.durationLimit / 60).toFixed(2)),
                     }
                     break;
 
