@@ -54,7 +54,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 version: version,
                 url: env.apiURL,
                 startTime: `${startTimestamp}`,
-                durationLimit: env.durationLimit,
                 turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
                 services: [...env.enabledServices].map(e => {
                     return friendlyServiceName(e);

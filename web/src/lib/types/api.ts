@@ -92,7 +92,6 @@ export type CobaltServerInfo = {
         version: string,
         url: string,
         startTime: string,
-        durationLimit: number,
         turnstileSitekey?: string,
         services: string[]
     },
