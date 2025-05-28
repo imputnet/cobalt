@@ -112,7 +112,7 @@
                     return false;
 
                 const task = currentTasks[w.workerId];
-                if (!task || !task.progress?.percentage) {
+                if (!task || !task.progress) {
                     return true;
                 }
             });
@@ -121,7 +121,7 @@
                 return $t(`queue.state.starting.${firstUnstarted.worker}`);
             }
 
-            return $t("queue.state.starting");
+            return runningText;
 
         case "done":
             return formatFileSize(info.resultFile?.size);
