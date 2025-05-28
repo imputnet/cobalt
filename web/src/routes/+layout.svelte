@@ -104,6 +104,7 @@
         class:loaded={browser}
         data-chrome={device.browser.chrome}
         data-iphone={device.is.iPhone}
+        data-mobile={device.is.mobile}
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
     >
@@ -163,7 +164,20 @@
         margin-left: var(--content-border-thickness);
     }
 
+    @media (display-mode: standalone) and (min-width: 535px)  {
+        [data-mobile="false"] #content {
+            margin-top: var(--content-border-thickness);
+            border-top-left-radius: 8px;
+        }
+
+        [data-mobile="false"] #content:dir(rtl) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 8px;
+        }
+    }
+
     #content:dir(rtl) {
+        margin-left: 0;
         margin-right: var(--content-border-thickness);
     }
 
