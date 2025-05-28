@@ -56,7 +56,7 @@ export type CobaltFileMetadata = Record<
     typeof CobaltFileMetadataKeys[number], string | undefined
 >;
 
-export type CobaltLocalProcessingType = 'merge' | 'mute' | 'audio' | 'gif';
+export type CobaltLocalProcessingType = 'merge' | 'mute' | 'audio' | 'gif' | 'remux';
 
 export type CobaltLocalProcessingResponse = {
     status: CobaltResponseType.LocalProcessing,

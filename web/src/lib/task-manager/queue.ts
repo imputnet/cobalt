@@ -58,13 +58,14 @@ const mediaIcons: { [key: string]: CobaltPipelineResultFileType } = {
     merge: "video",
     mute: "video",
     audio: "audio",
-    gif: "image"
+    gif: "image",
+    remux: "video"
 }
 
 const makeRemuxArgs = (info: CobaltLocalProcessingResponse) => {
     const ffargs = ["-c:v", "copy"];
 
-    if (info.type === "merge") {
+    if (["merge", "remux"].includes(info.type)) {
         ffargs.push("-c:a", "copy");
     } else if (info.type === "mute") {
         ffargs.push("-an");
@@ -159,7 +160,7 @@ export const createSavePipeline = (
     let ffargs: string[];
     let workerType: 'encode' | 'remux';
 
-    if (["merge", "mute"].includes(info.type)) {
+    if (["merge", "mute", "remux"].includes(info.type)) {
         workerType = "remux";
         ffargs = makeRemuxArgs(info);
     } else if (info.type === "audio") {

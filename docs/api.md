@@ -112,7 +112,7 @@ the response will always be a JSON object containing the `status` key, which is 
 | key          | type       | value                                                         |
 |:-------------|:-----------|:--------------------------------------------------------------|
 | `status`     | `string`   | `local-processing`                                            |
-| `type`       | `string`   | `merge`, `mute`, `audio`, or `gif`                            |
+| `type`       | `string`   | `merge`, `mute`, `audio`, `gif`, or `remux`                   |
 | `service`    | `string`   | origin service (`youtube`, `twitter`, `instagram`, etc)       |
 | `tunnel`     | `string[]` | array of tunnel URLs                                          |
 | `output`     | `object`   | details about the output file ([see below](#output-object))   |
