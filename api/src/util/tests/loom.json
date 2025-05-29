@@ -29,5 +29,32 @@
             "code": 400,
             "status": "error"
         }
+    },
+    {
+        "name": "video with no transcodedUrl",
+        "url": "https://www.loom.com/share/aa3d8b08bee74d05af5b42989e9f33e9",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video with title in url",
+        "url": "https://www.loom.com/share/Meet-AI-workflows-aa3d8b08bee74d05af5b42989e9f33e9",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video with title in url (2)",
+        "url": "https://www.loom.com/share/Unlocking-Incredible-Organizational-Velocity-with-Async-Video-4a2a8baf124c4390954dcbb46a58cfd7",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }
 ]
