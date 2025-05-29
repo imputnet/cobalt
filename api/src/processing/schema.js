@@ -47,5 +47,9 @@ export const apiSchema = z.object({
 
     youtubeHLS: z.boolean().default(false),
     youtubeBetterAudio: z.boolean().default(false),
+
+    // temporarily kept for backwards compatibility with cobalt 10 schema
+    twitterGif: z.boolean().default(false),
+    tiktokH265: z.boolean().default(false),
 })
 .strict();
