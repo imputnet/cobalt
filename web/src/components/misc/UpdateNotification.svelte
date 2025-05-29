@@ -1,11 +1,26 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { t } from "$lib/i18n/translations";
-
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
+
+    let dismissed = true;
+
+    onMount(() => {
+        setTimeout(() => {
+            dismissed = false;
+        }, 200)
+    });
 </script>
 
 <div id="update-notification" role="alert" aria-atomic="true">
-    <button class="update-button" on:click={() => window.location.reload()}>
+    <button
+        class="button update-button"
+        class:visible={!dismissed}
+        on:click={() => {
+            dismissed = true;
+            window.location.reload()
+        }}
+    >
         <div class="update-icon">
             <IconComet />
         </div>
@@ -31,13 +46,19 @@
         padding: 8px 12px 8px 8px;
         pointer-events: all;
         gap: 8px;
-        margin: var(--padding);
-        margin-top: calc(env(safe-area-inset-top) + var(--padding));
+        margin-right: 71px;
+        margin-top: calc(env(safe-area-inset-top) + 8px);
         box-shadow:
             var(--button-box-shadow),
             0 0 10px 0px var(--button-elevated-hover);
         border-radius: 14px;
-        animation: slide-in-top 0.4s;
+
+        transform: translateY(-150px);
+        transition: transform 0.4s cubic-bezier(0.53, 0.05, 0.23, 1.15);
+    }
+
+    .update-button.visible {
+        transform: none;
     }
 
     .update-icon {
@@ -74,29 +95,16 @@
         line-height: 1.2;
     }
 
-    @keyframes slide-in-top {
-        from {
-            transform: translateY(-150px);
-        }
-        100% {
-            transform: none;
-        }
-    }
-
     @media screen and (max-width: 535px) {
         #update-notification {
-            bottom: var(--sidebar-height-mobile);
+            bottom: calc(var(--sidebar-height-mobile) + 16px);
             justify-content: center;
-            animation: slide-in-bottom 0.4s;
         }
 
-        @keyframes slide-in-bottom {
-            from {
-                transform: translateY(300px);
-            }
-            100% {
-                transform: none;
-            }
+        .update-button {
+            transform: translateY(300px);
+            margin: 0;
+            transition: transform 0.55s cubic-bezier(0.53, 0.05, 0.23, 1.15);
         }
     }
 </style>

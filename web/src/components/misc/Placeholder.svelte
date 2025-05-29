@@ -6,7 +6,7 @@
 
 <div id="placeholder-container" class="center-column-container">
     <Meowbalt emotion="smile" />
-    <div tabindex="-1" data-first-focus data-focus-ring-hidden>
+    <div tabindex="-1" data-first-focus>
         {`${pageName} page is not ready yet!`}
     </div>
 </div>

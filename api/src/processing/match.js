@@ -32,7 +32,7 @@ import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
 
-export default async function({ host, patternMatch, params }) {
+export default async function({ host, patternMatch, params, isSession }) {
     const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
@@ -70,7 +70,7 @@ export default async function({ host, patternMatch, params }) {
                 r = await twitter({
                     id: patternMatch.id,
                     index: patternMatch.index - 1,
-                    toGif: !!params.twitterGif,
+                    toGif: !!params.convertGif,
                     alwaysProxy: params.alwaysProxy,
                     dispatcher
                 });
@@ -113,6 +113,10 @@ export default async function({ host, patternMatch, params }) {
                     fetchInfo.format = "vp9";
                     fetchInfo.isAudioOnly = true;
                     fetchInfo.isAudioMuted = false;
+
+                    if (env.ytAllowBetterAudio && params.youtubeBetterAudio) {
+                        fetchInfo.quality = "max";
+                    }
                 }
 
                 r = await youtube(fetchInfo);
@@ -131,7 +135,7 @@ export default async function({ host, patternMatch, params }) {
                     shortLink: patternMatch.shortLink,
                     fullAudio: params.tiktokFullAudio,
                     isAudioOnly,
-                    h265: params.tiktokH265,
+                    h265: params.allowH265,
                     alwaysProxy: params.alwaysProxy,
                 });
                 break;
@@ -239,7 +243,7 @@ export default async function({ host, patternMatch, params }) {
             case "xiaohongshu":
                 r = await xiaohongshu({
                     ...patternMatch,
-                    h265: params.tiktokH265,
+                    h265: params.allowH265,
                     isAudioOnly,
                     dispatcher,
                 });
@@ -267,7 +271,7 @@ export default async function({ host, patternMatch, params }) {
             switch(r.error) {
                 case "content.too_long":
                     context = {
-                        limit: env.durationLimit / 60,
+                        limit: parseFloat((env.durationLimit / 60).toFixed(2)),
                     }
                     break;
 
@@ -288,6 +292,14 @@ export default async function({ host, patternMatch, params }) {
             })
         }
 
+        let localProcessing = params.localProcessing;
+
+        const lpEnv = env.forceLocalProcessing;
+
+        if (lpEnv === "always" || (lpEnv === "session" && isSession)) {
+            localProcessing = true;
+        }
+
         return matchAction({
             r,
             host,
@@ -296,10 +308,11 @@ export default async function({ host, patternMatch, params }) {
             isAudioMuted,
             disableMetadata: params.disableMetadata,
             filenameStyle: params.filenameStyle,
-            twitterGif: params.twitterGif,
+            convertGif: params.convertGif,
             requestIP,
             audioBitrate: params.audioBitrate,
             alwaysProxy: params.alwaysProxy,
+            localProcessing,
         })
     } catch {
         return createResponse("error", {

@@ -8,6 +8,7 @@
     import { updateSetting } from "$lib/state/settings";
     import type { CobaltSettings } from "$lib/types/settings";
 
+    import { hapticConfirm, hapticSwitch } from "$lib/haptics";
     import IconSelector from "@tabler/icons-svelte/IconSelector.svelte";
 
     export let title: string;
@@ -22,8 +23,9 @@
     export let disabled = false;
 
     const onChange = (event: Event) => {
-        const target = event.target as HTMLSelectElement;
+        hapticConfirm();
 
+        const target = event.target as HTMLSelectElement;
         updateSetting({
             [settingContext]: {
                 [settingId]: target.value,
@@ -46,13 +48,17 @@
             </div>
         </div>
 
-        <select on:change={e => onChange(e)} {disabled}>
+        <select
+            on:click={() => hapticSwitch()}
+            on:change={(e) => onChange(e)}
+            {disabled}
+        >
             {#each Object.keys(items) as value, i}
                 <option {value} selected={selectedOption === value}>
                     {items[value]}
                 </option>
                 {#if i === 0}
-                    <hr>
+                    <hr />
                 {/if}
             {/each}
         </select>
@@ -156,11 +162,5 @@
         border-radius: initial;
         background: initial;
         border: initial;
-    }
-
-    @media (hover: hover) {
-        .selector:hover {
-            background-color: var(--button-hover);
-        }
     }
 </style>

@@ -21,5 +21,7 @@
     "tutorial.shortcut.photos": "to photos",
     "tutorial.shortcut.files": "to files",
 
-    "label.community_instance": "community instance"
+    "label.community_instance": "community instance",
+
+    "tooltip.captcha": "cloudflare turnstile is checking if you're not a bot, please wait!"
 }

@@ -24,6 +24,8 @@ jobs:
           node-version: 'lts/*'
       - uses: pnpm/action-setup@v4
       - run: .github/test.sh web
+        env:
+          WEB_DEFAULT_API: ${{ vars.WEB_DEFAULT_API }}
 
   test-api:
     name: api sanity check

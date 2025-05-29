@@ -18,7 +18,6 @@
                 class="redaction"
                 tabindex="-1"
                 data-first-focus
-                data-focus-ring-hidden
             >
                 {$t("donate.banner.title")}
             </div>

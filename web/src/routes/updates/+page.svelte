@@ -90,7 +90,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div class="news" tabindex="-1" data-focus-ring-hidden on:wheel={handleScroll}>
+<div class="news" tabindex="-1" on:wheel={handleScroll}>
     {#if changelog}
         <div id="left-button" class="button-wrapper-desktop">
             {#if prev}
@@ -184,7 +184,7 @@
         stroke-width: 1.6px;
     }
 
-    .button-wrapper-desktop button:not(:focus-visible) {
+    .button-wrapper-desktop button {
         box-shadow: none;
     }
 

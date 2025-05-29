@@ -47,7 +47,8 @@ async function com_download(id) {
     return {
         urls: [video.baseUrl, audio.baseUrl],
         audioFilename: `bilibili_${id}_audio`,
-        filename: `bilibili_${id}_${video.width}x${video.height}.mp4`
+        filename: `bilibili_${id}_${video.width}x${video.height}.mp4`,
+        isHLS: true
     };
 }
 

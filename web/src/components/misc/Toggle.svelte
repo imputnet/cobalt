@@ -21,7 +21,7 @@
         border-radius: 5px;
         border-radius: 100px;
         background: var(--toggle-bg);
-        transition: background 0.2s;
+        transition: background 0.25s;
     }
 
     .toggle:dir(rtl) {
@@ -34,7 +34,7 @@
         background: var(--white);
         border-radius: 100px;
         transform: translateX(0%);
-        transition: transform 0.2s, width 0.2s;
+        transition: transform 0.25s cubic-bezier(0.53, 0.05, 0.02, 1.2);
     }
 
     .toggle.enabled {
@@ -43,9 +43,5 @@
 
     .toggle.enabled .toggle-switcher {
         transform: translateX(var(--enabled-pos));
-    }
-
-    :global(.toggle-container:active .toggle:not(.enabled) .toggle-switcher) {
-        width: calc(var(--base-size) * 1.3);
     }
 </style>

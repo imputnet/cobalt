@@ -70,8 +70,45 @@ export function createStream(obj) {
     return streamLink.toString();
 }
 
-export function getInternalStream(id) {
+export function createProxyTunnels(info) {
+    const proxyTunnels = [];
+
+    let urls = info.url;
+
+    if (typeof urls === "string") {
+        urls = [urls];
+    }
+
+    for (const url of urls) {
+        proxyTunnels.push(
+            createStream({
+                url,
+                type: "proxy",
+
+                service: info?.service,
+                headers: info?.headers,
+                requestIP: info?.requestIP,
+
+                originalRequest: info?.originalRequest
+            })
+        );
+    }
+
+    return proxyTunnels;
+}
+
+export function getInternalTunnel(id) {
     return internalStreamCache.get(id);
+}
+
+export function getInternalTunnelFromURL(url) {
+    url = new URL(url);
+    if (url.hostname !== '127.0.0.1') {
+        return;
+    }
+
+    const id = url.searchParams.get('id');
+    return getInternalTunnel(id);
 }
 
 export function createInternalStream(url, obj = {}) {
@@ -131,7 +168,7 @@ export function destroyInternalStream(url) {
     const id = getInternalTunnelId(url);
 
     if (internalStreamCache.has(id)) {
-        closeRequest(getInternalStream(id)?.controller);
+        closeRequest(getInternalTunnel(id)?.controller);
         internalStreamCache.delete(id);
     }
 }
@@ -143,7 +180,7 @@ const transplantInternalTunnels = function(tunnelUrls, transplantUrls) {
 
     for (const [ tun, url ] of zip(tunnelUrls, transplantUrls)) {
         const id = getInternalTunnelId(tun);
-        const itunnel = getInternalStream(id);
+        const itunnel = getInternalTunnel(id);
 
         if (!itunnel) continue;
         itunnel.url = url;

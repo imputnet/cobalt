@@ -1,5 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
+    import { hapticConfirm } from "$lib/haptics";
     import { copyURL, openURL } from "$lib/download";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
@@ -21,14 +22,17 @@
 
 <div class="wallet-holder">
     <button
-        class="wallet"
+        class="button wallet"
         aria-label={$t(`donate.alt.${type}`, {
             value: name,
         })}
         on:click={() => {
             if (type === "copy") {
-                copied = true;
-                copyURL(address);
+                if (!copied) {
+                    copyURL(address);
+                    hapticConfirm();
+                    copied = true;
+                }
             } else {
                 openURL(address);
             }
@@ -88,7 +92,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border-right: 1.5px var(--button-stroke) solid;
+        border-right: 1px var(--button-stroke) solid;
         margin-left: 3px;
     }
 

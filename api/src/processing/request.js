@@ -1,7 +1,8 @@
+import mime from "mime";
 import ipaddr from "ipaddr.js";
 
-import { createStream } from "../stream/manage.js";
 import { apiSchema } from "./schema.js";
+import { createProxyTunnels, createStream } from "../stream/manage.js";
 
 export function createResponse(responseType, responseData) {
     const internalError = (code) => {
@@ -46,6 +47,41 @@ export function createResponse(responseType, responseData) {
                 response = {
                     url: createStream(responseData),
                     filename: responseData?.filename
+                }
+                break;
+
+            case "local-processing":
+                response = {
+                    type: responseData?.type,
+                    service: responseData?.service,
+                    tunnel: createProxyTunnels(responseData),
+
+                    output: {
+                        type: mime.getType(responseData?.filename) || undefined,
+                        filename: responseData?.filename,
+                        metadata: responseData?.fileMetadata || undefined,
+                    },
+
+                    audio: {
+                        copy: responseData?.audioCopy,
+                        format: responseData?.audioFormat,
+                        bitrate: responseData?.audioBitrate,
+                    },
+
+                    isHLS: responseData?.isHLS,
+                }
+
+                if (!response.audio.format) {
+                    if (response.type === "audio") {
+                        // audio response without a format is invalid
+                        return internalError();
+                    }
+                    delete response.audio;
+                }
+
+                if (!response.output.type || !response.output.filename) {
+                    // response without a type or filename is invalid
+                    return internalError();
                 }
                 break;
 

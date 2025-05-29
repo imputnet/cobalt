@@ -1,7 +1,5 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import { copyURL as _copyURL } from "$lib/download";
-
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 
     export let title: string;
@@ -41,7 +39,7 @@
     .settings-content {
         display: flex;
         flex-direction: column;
-        gap: var(--padding);
+        gap: 10px;
         padding: calc(var(--subnav-padding) / 2);
         border-radius: 18px;
         transition: opacity 0.2s;
@@ -50,6 +48,14 @@
     .settings-content.disabled {
         opacity: 0.5;
         pointer-events: none;
+    }
+
+    /*
+        for some weird reason parent's transition
+        breaks final opacity of children on ios
+    */
+    :global([data-iphone="true"]) .settings-content {
+        transition: none;
     }
 
     .settings-content.focus {

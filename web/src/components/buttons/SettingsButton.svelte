@@ -6,6 +6,8 @@
         Value extends CobaltSettings[Context][Id]
     "
 >
+    import { hapticSwitch } from "$lib/haptics";
+
     import settings, { updateSetting } from "$lib/state/settings";
     import type { CobaltSettings } from "$lib/types/settings";
 
@@ -22,12 +24,14 @@
     class="button"
     class:active={isActive}
     aria-pressed={isActive}
-    on:click={() =>
+    on:click={() => {
+        hapticSwitch();
         updateSetting({
             [settingContext]: {
                 [settingId]: settingValue,
             },
-        })}
+        });
+    }}
 >
     <slot></slot>
 </button>

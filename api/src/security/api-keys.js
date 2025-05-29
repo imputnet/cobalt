@@ -1,8 +1,8 @@
 import { env } from "../config.js";
-import { readFile } from "node:fs/promises";
 import { Green, Yellow } from "../misc/console-text.js";
 import ip from "ipaddr.js";
 import * as cluster from "../misc/cluster.js";
+import { FileWatcher } from "../misc/file-watcher.js";
 
 // this function is a modified variation of code
 // from https://stackoverflow.com/a/32402438/14855621
@@ -13,7 +13,7 @@ const generateWildcardRegex = rule => {
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
-let keys = {};
+let keys = {}, reader = null;
 
 const ALLOWED_KEYS = new Set(['name', 'ips', 'userAgents', 'limit']);
 
@@ -118,34 +118,39 @@ const formatKeys = (keyData) => {
 }
 
 const updateKeys = (newKeys) => {
+    validateKeys(newKeys);
+
+    cluster.broadcast({ api_keys: newKeys });
+
     keys = formatKeys(newKeys);
 }
 
-const loadKeys = async (source) => {
-    let updated;
-    if (source.protocol === 'file:') {
-        const pathname = source.pathname === '/' ? '' : source.pathname;
-        updated = JSON.parse(
-            await readFile(
-                decodeURIComponent(source.host + pathname),
-                'utf8'
-            )
-        );
-    } else {
-        updated = await fetch(source).then(a => a.json());
-    }
+const loadRemoteKeys = async (source) => {
+    updateKeys(
+        await fetch(source).then(a => a.json())
+    );
+}
 
-    validateKeys(updated);
-
-    cluster.broadcast({ api_keys: updated });
-
-    updateKeys(updated);
+const loadLocalKeys = async () => {
+    updateKeys(
+        JSON.parse(await reader.read())
+    );
 }
 
 const wrapLoad = (url, initial = false) => {
-    loadKeys(url)
-    .then(() => {
+    let load = loadRemoteKeys.bind(null, url);
+
+    if (url.protocol === 'file:') {
         if (initial) {
+            reader = FileWatcher.fromFileProtocol(url);
+            reader.on('file-updated', () => wrapLoad(url));
+        }
+
+        load = loadLocalKeys;
+    }
+
+    load().then(() => {
+        if (initial || reader) {
             console.log(`${Green('[✓]')} api keys loaded successfully!`)
         }
     })
@@ -214,7 +219,7 @@ export const validateAuthorization = (req) => {
 export const setup = (url) => {
     if (cluster.isPrimary) {
         wrapLoad(url, true);
-        if (env.keyReloadInterval > 0) {
+        if (env.keyReloadInterval > 0 && url.protocol !== 'file:') {
             setInterval(() => wrapLoad(url), env.keyReloadInterval * 1000);
         }
     } else if (cluster.isWorker) {

@@ -42,6 +42,12 @@ export default derived(
 ) as Readable<Exclude<Theme, "auto">>
 
 export const statusBarColors = {
-    "dark": "#000000",
-    "light": "#ffffff"
+    mobile: {
+        dark: "#000000",
+        light: "#ffffff"
+    },
+    desktop: {
+        dark: "#131313",
+        light: "#f4f4f4"
+    }
 }

@@ -1,8 +1,11 @@
+import type { CobaltSettings } from "$lib/types/settings";
+
 enum CobaltResponseType {
     Error = 'error',
     Picker = 'picker',
     Redirect = 'redirect',
     Tunnel = 'tunnel',
+    LocalProcessing = 'local-processing',
 }
 
 export type CobaltErrorResponse = {
@@ -40,6 +43,43 @@ type CobaltTunnelResponse = {
     status: CobaltResponseType.Tunnel,
 } & CobaltPartialURLResponse;
 
+export const CobaltFileMetadataKeys = [
+    'album',
+    'copyright',
+    'title',
+    'artist',
+    'track',
+    'date'
+];
+
+export type CobaltFileMetadata = Record<
+    typeof CobaltFileMetadataKeys[number], string | undefined
+>;
+
+export type CobaltLocalProcessingType = 'merge' | 'mute' | 'audio' | 'gif' | 'remux';
+
+export type CobaltLocalProcessingResponse = {
+    status: CobaltResponseType.LocalProcessing,
+
+    type: CobaltLocalProcessingType,
+    service: string,
+    tunnel: string[],
+
+    output: {
+        type: string, // mimetype
+        filename: string,
+        metadata?: CobaltFileMetadata,
+    },
+
+    audio?: {
+        copy: boolean,
+        format: string,
+        bitrate: string,
+    },
+
+    isHLS?: boolean,
+}
+
 export type CobaltFileUrlType = "redirect" | "tunnel";
 
 export type CobaltSession = {
@@ -52,7 +92,6 @@ export type CobaltServerInfo = {
         version: string,
         url: string,
         startTime: string,
-        durationLimit: number,
         turnstileSitekey?: string,
         services: string[]
     },
@@ -63,10 +102,17 @@ export type CobaltServerInfo = {
     }
 }
 
+// TODO: strict partial
+// this allows for extra properties, which is not ideal,
+// but i couldn't figure out how to make a strict partial :(
+export type CobaltSaveRequestBody =
+    { url: string } & Partial<Omit<CobaltSettings['save'], 'savingMethod'>>;
+
 export type CobaltSessionResponse = CobaltSession | CobaltErrorResponse;
 export type CobaltServerInfoResponse = CobaltServerInfo | CobaltErrorResponse;
 
 export type CobaltAPIResponse = CobaltErrorResponse
                               | CobaltPickerResponse
                               | CobaltRedirectResponse
-                              | CobaltTunnelResponse;
+                              | CobaltTunnelResponse
+                              | CobaltLocalProcessingResponse;

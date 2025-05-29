@@ -10,10 +10,17 @@
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
     import IconGif from "@tabler/icons-svelte/IconGif.svelte";
 
-    export let item: DialogPickerItem;
-    export let number: number;
+    type Props = {
+        item: DialogPickerItem;
+        number: number;
+    };
 
-    let imageLoaded = false;
+    const { item, number }: Props = $props();
+
+    const itemType = $derived(item.type ?? "photo");
+
+    let imageLoaded = $state(false);
+    let hideSkeleton = $state(false);
 
     let validUrl = false;
     try {
@@ -23,12 +30,19 @@
 
     const isTunnel = validUrl && new URL(item.url).pathname === "/tunnel";
 
-    $: itemType = item.type ?? "photo";
+    const loaded = () => {
+        imageLoaded = true;
+
+        // remove the skeleton after the image is done fading in
+        setTimeout(() => {
+            hideSkeleton = true;
+        }, 200)
+    }
 </script>
 
 <button
     class="picker-item"
-    on:click={() => {
+    onclick={() => {
         if (validUrl) {
             downloadFile({
                 url: item.url,
@@ -52,23 +66,32 @@
         src={item.thumb ?? item.url}
         class:loading={!imageLoaded}
         class:video-thumbnail={["video", "gif"].includes(itemType)}
-        on:load={() => (imageLoaded = true)}
+        onload={loaded}
         alt="{$t(`a11y.dialog.picker.item.${itemType}`)} {number}"
     />
-    <Skeleton class="picker-image elevated" hidden={imageLoaded} />
+    <Skeleton class="picker-image elevated" hidden={hideSkeleton} />
 </button>
 
 <style>
     .picker-item {
         position: relative;
         background: none;
-        padding: 2px;
+        padding: 0;
         box-shadow: none;
         border-radius: calc(var(--border-radius) / 2 + 2px);
     }
 
+    .picker-item:focus-visible::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        outline: var(--focus-ring);
+        outline-offset: var(--focus-ring-offset);
+        border-radius: inherit;
+    }
+
     :global(.picker-image) {
-        display: block;
         width: 100%;
         height: 100%;
 
@@ -76,11 +99,22 @@
         pointer-events: all;
 
         object-fit: cover;
-        border-radius: calc(var(--border-radius) / 2);
+        border-radius: inherit;
+
+        position: absolute;
+        z-index: 2;
+
+        opacity: 1;
+        transition: opacity 0.2s;
+    }
+
+    :global(.skeleton.picker-image) {
+        z-index: 1;
+        position: relative;
     }
 
     .picker-image.loading {
-        display: none;
+        opacity: 0;
     }
 
     .picker-image.video-thumbnail {
@@ -88,12 +122,12 @@
     }
 
     :global(.picker-item:active .picker-image) {
-        opacity: 0.7;
+        opacity: 0.75;
     }
 
     @media (hover: hover) {
-        :global(.picker-item:hover .picker-image) {
-            opacity: 0.7;
+        :global(.picker-item:hover:not(:active) .picker-image) {
+            opacity: 0.8;
         }
     }
 
@@ -103,7 +137,7 @@
         background: rgba(0, 0, 0, 0.5);
         width: 24px;
         height: 24px;
-        z-index: 9;
+        z-index: 3;
 
         display: flex;
         flex-direction: row;

@@ -65,6 +65,9 @@
 <style>
     .picker-dialog {
         --picker-item-size: 120px;
+        --picker-item-gap: 4px;
+        --picker-item-area: calc(var(--picker-item-size) + var(--picker-item-gap));
+
         gap: var(--padding);
         max-height: calc(
             90% - env(safe-area-inset-bottom) - env(safe-area-inset-top)
@@ -77,7 +80,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 3px;
-        max-width: calc(var(--picker-item-size) * 4);
+        max-width: calc(var(--picker-item-area) * 4);
     }
 
     .popup-title-container {
@@ -103,15 +106,12 @@
         padding: 0;
     }
 
-    .popup-title:focus-visible {
-        box-shadow: none !important;
-    }
-
     .picker-body {
         overflow-y: scroll;
         display: grid;
         justify-items: center;
         grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: var(--picker-item-gap);
     }
 
     .three-columns .picker-body {
@@ -119,7 +119,7 @@
     }
 
     .three-columns .popup-header {
-        max-width: calc(var(--picker-item-size) * 3);
+        max-width: calc(var(--picker-item-area) * 3);
     }
 
     :global(.picker-item) {
@@ -133,48 +133,78 @@
         }
 
         .popup-header {
-            max-width: calc(var(--picker-item-size) * 3);
+            max-width: calc(var(--picker-item-area) * 3);
         }
     }
 
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 410px) {
+        .picker-dialog {
+            --picker-item-size: 118px;
+        }
+    }
+
+    @media screen and (max-width: 405px) {
+        .picker-dialog {
+            --picker-item-size: 116px;
+        }
+    }
+
+    @media screen and (max-width: 398px) {
         .picker-dialog {
             --picker-item-size: 115px;
         }
     }
 
-    @media screen and (max-width: 380px) {
+    @media screen and (max-width: 388px) {
         .picker-dialog {
             --picker-item-size: 110px;
         }
     }
 
-    @media screen and (max-width: 365px) {
+    @media screen and (max-width: 378px) {
         .picker-dialog {
             --picker-item-size: 105px;
         }
     }
 
-    @media screen and (max-width: 350px) {
+    @media screen and (max-width: 365px) {
         .picker-dialog {
             --picker-item-size: 100px;
         }
     }
 
-    @media screen and (max-width: 335px) {
+    @media screen and (max-width: 352px) {
+        .picker-dialog {
+            --picker-item-size: 95px;
+        }
+    }
+
+    @media screen and (max-width: 334px) {
+        .picker-dialog {
+            --picker-item-size: 130px;
+        }
+
         .picker-body,
         .three-columns .picker-body {
             grid-template-columns: 1fr 1fr;
         }
+    }
 
-        .popup-header {
-            max-width: calc(var(--picker-item-size) * 3);
+    @media screen and (max-width: 300px) {
+        .picker-dialog {
+            --picker-item-size: 120px;
+        }
+    }
+
+    @media screen and (max-width: 280px) {
+        .picker-dialog {
+            --picker-item-size: 110px;
         }
     }
 
     @media screen and (max-width: 255px) {
         .picker-dialog {
-            --picker-item-size: 120px;
+            --picker-item-size: 140px;
         }
 
         .picker-body,

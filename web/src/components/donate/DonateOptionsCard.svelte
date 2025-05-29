@@ -75,7 +75,7 @@
         return window.open(donationMethods[processor](amount), "_blank");
     };
 
-    const scrollBehavior = $settings.appearance.reduceMotion
+    const scrollBehavior = $settings.accessibility.reduceMotion
         ? "instant"
         : "smooth";
 
@@ -85,7 +85,7 @@
     const scroll = (direction: "left" | "right") => {
         const currentPos = donateList.scrollLeft;
         const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width;
-        const newPos = direction === "left" ? currentPos - 150 : currentPos + 150;
+        const newPos = direction === "left" ? currentPos - 250 : currentPos + 250;
 
         donateList.scroll({
             left: newPos,
@@ -136,12 +136,7 @@
         </button>
     </div>
 
-    <div
-        id="donation-options-container"
-        class:mask-both={!device.is.mobile && showLeftScroll && showRightScroll}
-        class:mask-left={!device.is.mobile && showLeftScroll && !showRightScroll}
-        class:mask-right={!device.is.mobile && showRightScroll && !showLeftScroll}
-    >
+    <div id="donation-options-container">
         {#if !device.is.mobile}
             <div id="donation-options-scroll" aria-hidden="true">
                 <button
@@ -168,6 +163,9 @@
         <div
             id="donation-options"
             bind:this={donateList}
+            class:mask-both={!device.is.mobile && showLeftScroll && showRightScroll}
+            class:mask-left={!device.is.mobile && showLeftScroll && !showRightScroll}
+            class:mask-right={!device.is.mobile && showRightScroll && !showLeftScroll}
             on:wheel={() => {
                 const currentPos = donateList.scrollLeft;
                 const maxPos = donateList.scrollWidth - donateList.getBoundingClientRect().width - 5;
@@ -285,10 +283,17 @@
         width: 100%;
         border-radius: 12px;
         color: var(--white);
-        background-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
         align-items: center;
         gap: 4px;
+
+    }
+
+    @media (hover: hover) {
+        #input-container:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
     }
 
     #input-dollar-sign {
@@ -326,17 +331,12 @@
         opacity: 0.5;
     }
 
-    #donation-custom-input:focus-visible {
-        box-shadow: unset !important;
-    }
-
     #input-container.focused {
         box-shadow: 0 0 0 2px var(--white) inset;
     }
 
     #donation-custom-submit {
         color: var(--white);
-        background-color: rgba(255, 255, 255, 0.1);
         aspect-ratio: 1/1;
         padding: 0px 10px;
     }
@@ -357,6 +357,53 @@
         flex-direction: column;
         gap: calc(var(--donate-card-main-padding) / 2);
         position: relative;
+
+        &:hover {
+            & > #donation-options-scroll {
+                opacity: 1;
+            }
+
+            & > #donation-options {
+                &.mask-both {
+                    mask-image: linear-gradient(
+                        90deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 1) 20%,
+                        rgba(0, 0, 0, 1) 50%,
+                        rgba(0, 0, 0, 1) 80%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                }
+
+                &.mask-left {
+                    mask-image: linear-gradient(
+                        90deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 1) 20%,
+                        rgba(0, 0, 0, 1) 50%,
+                        rgba(0, 0, 0, 1) 97%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                }
+
+                &.mask-right {
+                    mask-image: linear-gradient(
+                        90deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 1) 3%,
+                        rgba(0, 0, 0, 1) 50%,
+                        rgba(0, 0, 0, 1) 80%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                }
+            }
+        }
+
+        &:not(:hover) {
+            & > #donation-options-scroll .scroll-button {
+                visibility: hidden;
+            }
+        }
     }
 
     #donation-options-scroll {
@@ -380,49 +427,10 @@
         padding: 0 16px;
         background-color: transparent;
         height: 100%;
-        transition: opacity 0.2s;
-    }
 
-    #donation-options-container:hover #donation-options-scroll {
-        opacity: 1;
-    }
-
-    .scroll-button.hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    #donation-options-container.mask-both:hover #donation-options {
-        mask-image: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 20%,
-            rgba(0, 0, 0, 1) 50%,
-            rgba(0, 0, 0, 1) 80%,
-            rgba(0, 0, 0, 0) 100%
-        );
-    }
-
-    #donation-options-container.mask-left:hover #donation-options {
-        mask-image: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 20%,
-            rgba(0, 0, 0, 1) 50%,
-            rgba(0, 0, 0, 1) 97%,
-            rgba(0, 0, 0, 0) 100%
-        );
-    }
-
-    #donation-options-container.mask-right:hover #donation-options {
-        mask-image: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 1) 3%,
-            rgba(0, 0, 0, 1) 50%,
-            rgba(0, 0, 0, 1) 80%,
-            rgba(0, 0, 0, 0) 100%
-        );
+        &.hidden {
+            visibility: hidden;
+        }
     }
 
     @media screen and (max-width: 550px) {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
-    import { partners, contacts, docs } from "$lib/env";
+    import { contacts, docs } from "$lib/env";
 
     import SectionHeading from "$components/misc/SectionHeading.svelte";
 </script>
@@ -22,27 +22,27 @@ no ads, trackers, paywalls, or other nonsense. just a convenient web app that wo
     sectionId="motivation"
 />
 
-cobalt was created for public benefit, to protect people from ads and malware pushed by its alternatives.
-we believe that the best software is safe, open, and accessible.
-
-a part of our infrastructure is provided by our long-standing partner, [royalehosting.net]({partners.royalehosting})!
+cobalt was created for public benefit, to protect people from ads and malware pushed by alternative downloaders.
+we believe that the best software is safe, open, and accessible. all imput project follow these basic principles.
 </section>
 
-<section id="privacy">
+<section id="privacy-efficiency">
 <SectionHeading
-    title={$t("about.heading.privacy")}
-    sectionId="privacy"
+    title={$t("about.heading.privacy_efficiency")}
+    sectionId="privacy-efficiency"
 />
 
-all requests to the backend are anonymous and all information about tunnels is encrypted.
-we have a strict zero log policy and don't track *anything* about individual people.
+all requests to the backend are anonymous and all information about potential file tunnels is encrypted.
+we have a strict zero log policy and don't store or track *anything* about individual people.
 
-when a request needs additional processing, cobalt processes files on-the-fly.
-it's done by tunneling processed parts directly to the client, without ever saving anything to disk.
-for example, this method is used when the source service provides video and audio channels as separate files.
+if a request requires additional processing, such as remuxing or transcoding, cobalt processes media
+directly on your device. this ensures best efficiency and privacy.
 
-additionally, you can [enable forced tunneling](/settings/privacy#tunnel) to protect your privacy.
-when enabled, cobalt will tunnel all downloaded files.
+if your device doesn't support local processing, then server-based live processing is used instead.
+in this scenario, processed media is streamed directly to client, without ever being stored on server's disk.
+
+you can [enable forced tunneling](/settings/privacy#tunnel) to boost privacy even further.
+when enabled, cobalt will tunnel all downloaded files, not just those that require it.
 no one will know where you download something from, even your network provider.
 all they'll see is that you're using a cobalt instance.
 </section>
@@ -64,15 +64,4 @@ if your friend hosts a processing instance, just ask them for a domain and [add 
 
 you can check the source code and contribute [on github]({contacts.github}) at any time.
 we welcome all contributions and suggestions!
-</section>
-
-<section id="local">
-<SectionHeading
-    title={$t("about.heading.local")}
-    sectionId="local"
-/>
-
-newest features, such as [remuxing](/remux), work locally on your device.
-on-device processing is efficient and never sends anything over the internet.
-it perfectly aligns with our future goal of moving as much processing as possible to the client.
 </section>

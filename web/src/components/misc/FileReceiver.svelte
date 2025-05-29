@@ -5,22 +5,46 @@
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
     import IconUpload from "@tabler/icons-svelte/IconUpload.svelte";
 
-    export let file: File | undefined;
-    export let draggedOver = false;
-    export let acceptTypes: string[];
-    export let acceptExtensions: string[];
+    type Props = {
+        files: FileList | undefined;
+        draggedOver?: boolean;
+        acceptTypes: string[];
+        acceptExtensions: string[];
+        maxFileNumber?: number;
+        onImport: () => {};
+    }
+
+    let {
+        files = $bindable(),
+        draggedOver = $bindable(false),
+        acceptTypes,
+        acceptExtensions,
+        maxFileNumber = 100,
+        onImport,
+    }: Props = $props();
+
+    let selectorStringMultiple = maxFileNumber > 1 ? ".multiple" : "";
 
     let fileInput: HTMLInputElement;
+
     const openFile = async () => {
         fileInput = document.createElement("input");
         fileInput.type = "file";
         fileInput.accept = acceptTypes.join(",");
 
+        if (maxFileNumber > 1) {
+            fileInput.multiple = true;
+        }
+
         fileInput.click();
         fileInput.onchange = async () => {
-            if (fileInput.files?.length === 1) {
-                file = fileInput.files[0];
-                return file;
+            let userFiles = fileInput?.files;
+            if (userFiles && userFiles.length >= 1) {
+                if (userFiles.length > maxFileNumber) {
+                    return alert("too many files, limit is " + maxFileNumber);
+                }
+                files = userFiles;
+                onImport();
             }
         };
     };
@@ -29,7 +53,7 @@
 <div class="open-file-container" class:dragged-over={draggedOver}>
     <Meowbalt emotion="question" />
 
-    <button class="open-file-button" on:click={openFile}>
+    <button class="button open-file-button" onclick={openFile}>
         <div class="dashed-stroke">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="none" rx="24" ry="24" />
@@ -47,9 +71,9 @@
         <div class="open-file-text">
             <div class="open-title">
                 {#if draggedOver}
-                    {$t("receiver.title.drop")}
+                    {$t("receiver.title.drop" + selectorStringMultiple)}
                 {:else}
-                    {$t("receiver.title")}
+                    {$t("receiver.title" + selectorStringMultiple)}
                 {/if}
             </div>
             <div class="subtext accept-list">
@@ -70,7 +94,7 @@
         transition: box-shadow 0.2s;
     }
 
-    .open-file-button:not(:focus-visible) {
+    .open-file-button {
         box-shadow: none;
     }
 
@@ -121,13 +145,18 @@
         stroke: var(--blue);
     }
 
+    .open-file-button:focus-visible {
+        outline: none;
+    }
+
     .open-file-container :global(.meowbalt) {
         z-index: 2;
         clip-path: inset(0px 0px 16px 0px);
         margin-bottom: -16px;
         transition:
             clip-path 0.2s,
-            margin-bottom 0.2s;
+            margin-bottom 0.2s,
+            opacity 0.15s;
     }
 
     .dragged-over :global(.meowbalt) {
@@ -161,5 +190,7 @@
         max-width: 250px;
         font-size: 14px;
         padding: 0;
+        user-select: none;
+        -webkit-user-select: none;
     }
 </style>

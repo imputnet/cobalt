@@ -42,16 +42,12 @@ export const openFile = (file: File) => {
     a.href = url;
     a.download = file.name;
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
 export const shareFile = async (file: File) => {
     return await navigator?.share({
-        files: [
-            new File([file], file.name, {
-                type: file.type,
-            }),
-        ],
+        files: [ file ],
     });
 }
 
@@ -110,9 +106,23 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
 
     try {
         if (file) {
+            // 256mb cuz ram limit per tab is 384mb,
+            // and other stuff (such as libav) might have used some ram too
+            const iosFileShareSizeLimit = 1024 * 1024 * 256;
+
+            // this is required because we can't share big files
+            // on ios due to a very low ram limit
+            if (device.is.iOS) {
+                if (file.size < iosFileShareSizeLimit) {
+                    return shareFile(file);
+                } else {
+                    return openFile(file);
+                }
+            }
+
             if (pref === "share" && device.supports.share) {
                 return shareFile(file);
-            } else if (pref === "download" && device.supports.directDownload) {
+            } else if (pref === "download") {
                 return openFile(file);
             }
         }

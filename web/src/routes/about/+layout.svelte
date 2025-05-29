@@ -8,9 +8,9 @@
 
     import IconLock from "@tabler/icons-svelte/IconLock.svelte";
     import IconComet from "@tabler/icons-svelte/IconComet.svelte";
-    import IconLicense from "@tabler/icons-svelte/IconLicense.svelte";
     import IconChecklist from "@tabler/icons-svelte/IconChecklist.svelte";
     import IconUsersGroup from "@tabler/icons-svelte/IconUsersGroup.svelte";
+    import IconHeartHandshake from "@tabler/icons-svelte/IconHeartHandshake.svelte";
 </script>
 
 <PageNav
@@ -32,28 +32,28 @@
                 path="/about/community"
                 title={$t("about.page.community")}
                 icon={IconUsersGroup}
-                iconColor="green"
+                iconColor="purple"
             />
         </PageNavSection>
 
         <PageNavSection>
             <PageNavTab
-                path="/about/terms"
-                title={$t("about.page.terms")}
-                icon={IconChecklist}
-                iconColor="gray"
-            />
-            <PageNavTab
                 path="/about/privacy"
                 title={$t("about.page.privacy")}
                 icon={IconLock}
-                iconColor="gray"
+                iconColor="blue"
+            />
+            <PageNavTab
+                path="/about/terms"
+                title={$t("about.page.terms")}
+                icon={IconChecklist}
+                iconColor="green"
             />
             <PageNavTab
                 path="/about/credits"
                 title={$t("about.page.credits")}
-                icon={IconLicense}
-                iconColor="gray"
+                icon={IconHeartHandshake}
+                iconColor="magenta"
             />
         </PageNavSection>
     </svelte:fragment>

@@ -1,6 +1,6 @@
+import env from "$lib/env";
 import { get } from "svelte/store";
 import settings from "$lib/state/settings";
-import env, { defaultApiURL } from "$lib/env";
 
 export const currentApiURL = () => {
     const processingSettings = get(settings).processing;
@@ -10,9 +10,5 @@ export const currentApiURL = () => {
         return new URL(customInstanceURL).origin;
     }
 
-    if (env.DEFAULT_API) {
-        return new URL(env.DEFAULT_API).origin;
-    }
-
-    return new URL(defaultApiURL).origin;
+    return new URL(env.DEFAULT_API!).origin;
 }

@@ -52,3 +52,12 @@ export function splitFilenameExtension(filename) {
 export function zip(a, b) {
     return a.map((value, i) => [ value, b[i] ]);
 }
+
+export function isURL(input) {
+    try {
+        new URL(input);
+        return true;
+    } catch {
+        return false;
+    }
+}

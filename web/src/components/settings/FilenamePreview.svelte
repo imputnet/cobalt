@@ -106,12 +106,16 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        gap: 8px;
-        padding: 8px var(--padding);
+        gap: 9px;
+        padding: 7px var(--padding);
     }
 
     .filename-preview-item:first-child {
-        border-bottom: 1.5px var(--button-stroke) solid;
+        border-bottom: 1px var(--button-stroke) solid;
+    }
+
+    .filename-preview-item:last-child {
+        padding-top: 6px;
     }
 
     .item-icon {
@@ -144,6 +148,7 @@
 
     .item-text .description {
         padding: 0;
+        line-height: 1.3;
     }
 
     @media screen and (max-width: 750px) {

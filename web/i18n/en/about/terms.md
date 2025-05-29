@@ -10,7 +10,7 @@
 />
 
 these terms are applicable only when using the official cobalt instance.
-in other cases, you may need to contact the hoster for accurate info.
+in other cases, you may need to contact the instance hoster for accurate info.
 </section>
 
 <section id="saving">
@@ -19,12 +19,14 @@ in other cases, you may need to contact the hoster for accurate info.
     sectionId="saving"
 />
 
-saving functionality simplifies downloading content from the internet and takes zero liability for what the saved content is used for.
-processing servers work like advanced proxies and don't ever write any content to disk.
-everything is handled in RAM and permanently purged once the tunnel is done.
-we have no downloading logs and can't identify anyone.
+saving functionality simplifies downloading content from the internet
+and we take zero liability for what the saved content is used for.
 
-[you can read more about how tunnels work in our privacy policy.](/about/privacy)
+processing servers operate like advanced proxies and don't ever write any requested content to disk.
+everything is handled in RAM and permanently purged once the tunnel is completed.
+we have no downloading logs and cannot identify anyone.
+
+you can learn more about how tunnels work in [privacy policy](/about/privacy).
 </section>
 
 <section id="responsibility">
@@ -48,10 +50,10 @@ fair use and credits benefit everyone.
     sectionId="abuse"
 />
 
-we have no way of detecting abusive behavior automatically because cobalt is 100% anonymous.
+we have no way of detecting abusive behavior automatically because cobalt is fully anonymous.
 however, you can report such activities to us via email and we'll do our best to comply manually: abuse[at]imput.net
 
 **this email is not intended for user support, you will not get a response if your concern is not related to abuse.**
 
-if you're experiencing issues, contact us via any preferred method on [the support page](/about/community).
+if you're experiencing issues, you can reach out for support via any preferred method on [the community page](/about/community).
 </section>

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { hapticError } from "$lib/haptics";
     import type { Optional } from "$lib/types/generic";
     import type { MeowbaltEmotions } from "$lib/types/meowbalt";
     import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
@@ -21,6 +22,13 @@
     export let leftAligned = false;
 
     let close: () => void;
+
+    // error meowbalt art is not used in dialogs unless it's an error
+    if (meowbalt === "error") {
+        setTimeout(() => {
+            hapticError();
+        }, 150)
+    }
 </script>
 
 <DialogContainer {id} {dismissable} bind:close>
@@ -31,7 +39,10 @@
     >
         {#if meowbalt}
             <div class="meowbalt-container">
-                <Meowbalt emotion={meowbalt} />
+                <Meowbalt
+                    emotion={meowbalt}
+                    forceLoaded={id === 'nojs-dialog'}
+                />
             </div>
         {/if}
         <div class="dialog-inner-container">
@@ -121,11 +132,6 @@
         white-space: pre-wrap;
         user-select: text;
         -webkit-user-select: text;
-    }
-
-    .body-text:focus-visible,
-    .popup-title:focus-visible {
-        box-shadow: none !important;
     }
 
     .popup-subtext {

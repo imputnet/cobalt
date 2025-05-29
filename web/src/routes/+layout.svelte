@@ -1,13 +1,16 @@
 <script lang="ts">
+    import "../app.css";
+    import "../fonts/noto-mono-cobalt.css";
+
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/400-italic.css";
     import "@fontsource/ibm-plex-mono/500.css";
 
+    import { onMount } from "svelte";
     import { page } from "$app/stores";
     import { updated } from "$app/stores";
     import { browser } from "$app/environment";
     import { afterNavigate } from "$app/navigation";
-    import { getServerInfo } from "$lib/api/server-info";
 
     import "$lib/polyfills";
     import env from "$lib/env";
@@ -17,6 +20,7 @@
     import { t } from "$lib/i18n/translations";
 
     import { device, app } from "$lib/device";
+    import { getServerInfo } from "$lib/api/server-info";
     import currentTheme, { statusBarColors } from "$lib/state/theme";
     import { turnstileCreated, turnstileEnabled } from "$lib/state/turnstile";
 
@@ -24,14 +28,18 @@
     import Turnstile from "$components/misc/Turnstile.svelte";
     import NotchSticker from "$components/misc/NotchSticker.svelte";
     import DialogHolder from "$components/dialog/DialogHolder.svelte";
+    import ProcessingQueue from "$components/queue/ProcessingQueue.svelte";
     import UpdateNotification from "$components/misc/UpdateNotification.svelte";
 
     $: reduceMotion =
-        $settings.appearance.reduceMotion || device.prefers.reducedMotion;
+        $settings.accessibility.reduceMotion || device.prefers.reducedMotion;
 
     $: reduceTransparency =
-        $settings.appearance.reduceTransparency ||
+        $settings.accessibility.reduceTransparency ||
         device.prefers.reducedTransparency;
+
+    $: preloadAssets = false;
+    $: plausibleLoaded = false;
 
     afterNavigate(async () => {
         const to_focus: HTMLElement | null =
@@ -41,6 +49,10 @@
         if ($page.url.pathname === "/") {
             await getServerInfo();
         }
+    });
+
+    onMount(() => {
+        preloadAssets = true;
     });
 </script>
 
@@ -56,16 +68,26 @@
     {/if}
 
     {#if device.is.mobile}
-        <meta name="theme-color" content={statusBarColors[$currentTheme]} />
+        <meta
+            name="theme-color"
+            content={statusBarColors.mobile[$currentTheme]}
+        />
+    {:else}
+        <meta
+            name="theme-color"
+            content={statusBarColors.desktop[$currentTheme]}
+        />
     {/if}
 
-    {#if env.PLAUSIBLE_ENABLED}
+    {#if plausibleLoaded || (browser && env.PLAUSIBLE_ENABLED && !$settings.privacy.disableAnalytics)}
         <script
             defer
             data-domain={env.HOST}
+            on:load={() => {
+                plausibleLoaded = true;
+            }}
             src="https://{env.PLAUSIBLE_HOST}/js/script.js"
-        >
-        </script>
+        ></script>
     {/if}
 </svelte:head>
 
@@ -74,21 +96,27 @@
     data-theme={browser ? $currentTheme : undefined}
     lang={$locale}
 >
+    {#if preloadAssets}
+        <div id="preload" aria-hidden="true">??</div>
+    {/if}
     <div
         id="cobalt"
         class:loaded={browser}
+        data-chrome={device.browser.chrome}
         data-iphone={device.is.iPhone}
+        data-mobile={device.is.mobile}
         data-reduce-motion={reduceMotion}
         data-reduce-transparency={reduceTransparency}
     >
-        {#if $updated}
-            <UpdateNotification />
-        {/if}
         {#if device.is.iPhone && app.is.installed}
             <NotchSticker />
         {/if}
         <DialogHolder />
         <Sidebar />
+        {#if $updated}
+            <UpdateNotification />
+        {/if}
+        <ProcessingQueue />
         <div id="content">
             {#if ($turnstileEnabled && $page.url.pathname === "/") || $turnstileCreated}
                 <Turnstile />
@@ -99,162 +127,6 @@
 </div>
 
 <style>
-    :global(:root) {
-        --primary: #ffffff;
-        --secondary: #000000;
-
-        --white: #ffffff;
-        --gray: #75757e;
-
-        --red: #ed2236;
-        --dark-red: #d61c2e;
-        --green: #51cf5e;
-        --blue: #2f8af9;
-
-        --button: #f4f4f4;
-        --button-hover: #e8e8e8;
-        --button-active-hover: #2a2a2a;
-        --button-hover-transparent: rgba(0, 0, 0, 0.06);
-        --button-stroke: rgba(0, 0, 0, 0.06);
-        --button-text: #282828;
-        --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
-
-        --button-elevated: #e3e3e3;
-        --button-elevated-hover: #dadada;
-        --button-elevated-shimmer: #ededed;
-
-        --popover-glow: var(--button-stroke);
-
-        --popup-bg: #f1f1f1;
-        --popup-stroke: rgba(0, 0, 0, 0.08);
-
-        --dialog-backdrop: rgba(255, 255, 255, 0.3);
-
-        --sidebar-bg: #000000;
-        --sidebar-highlight: #ffffff;
-        --sidebar-hover: rgba(255, 255, 255, 0.1);
-
-        --input-border: #adadb7;
-
-        --toggle-bg: var(--input-border);
-        --toggle-bg-enabled: var(--secondary);
-
-        --padding: 12px;
-        --border-radius: 11px;
-
-        --sidebar-width: 80px;
-        --sidebar-font-size: 11px;
-        --sidebar-inner-padding: 4px;
-        --sidebar-height-mobile: calc(
-            50px + calc(var(--sidebar-inner-padding) * 2) +
-                env(safe-area-inset-bottom)
-        );
-
-        --safe-area-inset-top: env(safe-area-inset-top);
-        --safe-area-inset-bottom: env(safe-area-inset-bottom);
-
-        --switcher-padding: var(--sidebar-inner-padding);
-
-        /* used for fading the tab bar on scroll */
-        --sidebar-mobile-gradient: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0) 4%,
-            rgba(0, 0, 0, 0) 50%,
-            rgba(0, 0, 0, 0) 96%,
-            rgba(0, 0, 0, 0.9) 100%
-        );
-
-        --skeleton-gradient: linear-gradient(
-            90deg,
-            var(--button-hover),
-            var(--button),
-            var(--button-hover)
-        );
-
-        --skeleton-gradient-elevated: linear-gradient(
-            90deg,
-            var(--button-elevated),
-            var(--button-elevated-shimmer),
-            var(--button-elevated)
-        );
-    }
-
-    :global([data-theme="dark"]) {
-        --primary: #000000;
-        --secondary: #e1e1e1;
-
-        --gray: #818181;
-
-        --blue: #2a7ce1;
-        --green: #37aa42;
-
-        --button: #191919;
-        --button-hover: #2a2a2a;
-        --button-active-hover: #f9f9f9;
-        --button-hover-transparent: rgba(225, 225, 225, 0.1);
-        --button-stroke: rgba(255, 255, 255, 0.05);
-        --button-text: #e1e1e1;
-        --button-box-shadow: 0 0 0 1.5px var(--button-stroke) inset;
-
-        --button-elevated: #282828;
-        --button-elevated-hover: #323232;
-
-        --popover-glow: rgba(135, 135, 135, 0.12);
-
-        --popup-bg: #191919;
-        --popup-stroke: rgba(255, 255, 255, 0.08);
-
-        --dialog-backdrop: rgba(0, 0, 0, 0.3);
-
-        --sidebar-bg: #101010;
-        --sidebar-highlight: #f2f2f2;
-
-        --input-border: #383838;
-
-        --toggle-bg: var(--input-border);
-        --toggle-bg-enabled: #8a8a8a;
-
-        --sidebar-mobile-gradient: linear-gradient(
-            90deg,
-            rgba(16, 16, 16, 0.9) 0%,
-            rgba(16, 16, 16, 0) 4%,
-            rgba(16, 16, 16, 0) 50%,
-            rgba(16, 16, 16, 0) 96%,
-            rgba(16, 16, 16, 0.9) 100%
-        );
-
-        --skeleton-gradient: linear-gradient(
-            90deg,
-            var(--button),
-            var(--button-hover),
-            var(--button)
-        );
-
-        --skeleton-gradient-elevated: linear-gradient(
-            90deg,
-            var(--button-elevated),
-            var(--button-elevated-hover),
-            var(--button-elevated)
-        );
-    }
-
-    :global([data-theme="light"] [data-reduce-transparency="true"]) {
-        --dialog-backdrop: rgba(255, 255, 255, 0.6);
-    }
-
-    :global([data-theme="dark"] [data-reduce-transparency="true"]) {
-        --dialog-backdrop: rgba(0, 0, 0, 0.5);
-    }
-
-    :global(html),
-    :global(body) {
-        margin: 0;
-        height: 100vh;
-        overflow: hidden;
-        overscroll-behavior-y: none;
-    }
-
     #cobalt {
         height: 100%;
         width: 100%;
@@ -288,296 +160,71 @@
         display: flex;
         overflow: scroll;
         background-color: var(--primary);
-        border-top-left-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
+        box-shadow: 0 0 0 var(--content-border-thickness) var(--content-border);
+        margin-left: var(--content-border-thickness);
+    }
+
+    @media (display-mode: standalone) and (min-width: 535px)  {
+        [data-mobile="false"] #content {
+            margin-top: var(--content-border-thickness);
+            border-top-left-radius: 8px;
+        }
+
+        [data-mobile="false"] #content:dir(rtl) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 8px;
+        }
     }
 
     #content:dir(rtl) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
+        margin-left: 0;
+        margin-right: var(--content-border-thickness);
     }
 
     @media screen and (max-width: 535px) {
+        /* dark navbar cuz it looks better on mobile */
+        :global([data-theme="light"]) {
+            --sidebar-bg: #000000;
+            --sidebar-highlight: var(--primary);
+        }
+
         #cobalt {
             display: grid;
             grid-template-columns: unset;
-            grid-template-rows: 1fr var(--sidebar-height-mobile);
+            grid-template-rows:
+                1fr
+                calc(
+                    var(--sidebar-height-mobile) + var(--sidebar-inner-padding) * 2
+                );
         }
 
         #content,
         #content:dir(rtl) {
             padding-top: env(safe-area-inset-top);
             order: -1;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
+
+            margin: 0;
+            box-shadow: none;
+
             border-bottom-left-radius: calc(var(--border-radius) * 2);
             border-bottom-right-radius: calc(var(--border-radius) * 2);
         }
     }
 
-    :global(*) {
-        font-family: "IBM Plex Mono", "Noto Sans Mono Variable",
-            "Noto Sans Mono", monospace;
+    /* preload assets to prevent flickering when they appear on screen */
+    #preload {
+        width: 0;
+        height: 0;
+        position: absolute;
+        z-index: -10;
+        content: url(/meowbalt/smile.png) url(/meowbalt/error.png)
+            url(/meowbalt/question.png) url(/meowbalt/think.png);
+
+        font-family: "Noto Sans Mono";
+
+        pointer-events: none;
         user-select: none;
-        scrollbar-width: none;
         -webkit-user-select: none;
         -webkit-user-drag: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    :global(::-webkit-scrollbar) {
-        display: none;
-    }
-
-    :global(a) {
-        color: inherit;
-        text-underline-offset: 3px;
-        -webkit-touch-callout: none;
-    }
-
-    :global(a:visited) {
-        color: inherit;
-    }
-
-    :global(svg),
-    :global(img) {
-        pointer-events: none;
-    }
-
-    :global(button, .button) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px 13px;
-        gap: 6px;
-        border: none;
-        border-radius: var(--border-radius);
-        font-size: 14.5px;
-        cursor: pointer;
-        background-color: var(--button);
-        color: var(--button-text);
-        box-shadow: var(--button-box-shadow);
-    }
-
-    :global(:focus-visible) {
-        box-shadow: 0 0 0 2px var(--blue) inset !important;
-        outline: none;
-        z-index: 1;
-    }
-
-    :global([data-focus-ring-hidden]:focus-visible) {
-        box-shadow: none !important;
-    }
-
-    :global(button:active, .button:active) {
-        background-color: var(--button-hover);
-    }
-
-    :global(.button.elevated) {
-        background-color: var(--button-elevated);
-    }
-
-    :global(.button.elevated:not(.color):active) {
-        background-color: var(--button-elevated-hover);
-    }
-
-    :global(.button.elevated:not(:focus-visible)) {
-        box-shadow: none;
-    }
-
-    :global(.button.active) {
-        color: var(--primary);
-        background-color: var(--secondary);
-    }
-
-    :global(.button.active:not(.color):active) {
-        background-color: var(--button-active-hover);
-    }
-
-    :global(button[disabled]) {
-        cursor: default;
-    }
-
-    /* important is used because active class is toggled by state */
-    /* and added to the end of the list, taking priority */
-    :global(.active:focus-visible) {
-        color: var(--sidebar-highlight) !important;
-        background-color: var(--blue) !important;
-    }
-
-    /* workaround for typing into inputs being ignored on iPadOS 15 */
-    :global(input) {
-        user-select: text;
-        -webkit-user-select: text;
-    }
-
-    @media (hover: hover) {
-        :global(button:hover) {
-            background-color: var(--button-hover);
-        }
-
-        :global(.button.elevated:not(.color):hover) {
-            background-color: var(--button-elevated-hover);
-        }
-
-        :global(.button.active:not(.color):hover) {
-            background-color: var(--button-active-hover);
-        }
-    }
-
-    :global(.center-column-container) {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    :global(button) {
-        font-weight: 500;
-    }
-
-    :global(h1, h2, h3, h4, h5, h6) {
-        font-weight: 500;
-        margin-block: 0;
-    }
-
-    :global(h1) {
-        font-size: 24px;
-        letter-spacing: -1px;
-    }
-
-    :global(h2) {
-        font-size: 20px;
-        letter-spacing: -1px;
-    }
-
-    :global(h3) {
-        font-size: 16px;
-    }
-
-    :global(h4) {
-        font-size: 14.5px;
-    }
-
-    :global(h5) {
-        font-size: 12px;
-    }
-
-    :global(h6) {
-        font-size: 11px;
-    }
-
-    :global(.subtext) {
-        font-size: 12.5px;
-        font-weight: 500;
-        color: var(--gray);
-        line-height: 1.4;
-        padding: 0 var(--padding);
-        white-space: pre-line;
-        user-select: text;
-        -webkit-user-select: text;
-    }
-
-    :global(.long-text-noto),
-    :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
-        line-height: 1.8;
-        font-size: 14.5px;
-        font-family: "Noto Sans Mono Variable", "Noto Sans Mono", monospace;
-        user-select: text;
-        -webkit-user-select: text;
-    }
-
-    :global(.long-text-noto),
-    :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6, strong, em, del)) {
-        font-weight: 410;
-    }
-
-    :global(.long-text-noto ul) {
-        padding-inline-start: 30px;
-    }
-
-    :global(.long-text-noto li) {
-        padding-left: 3px;
-    }
-
-    :global(.long-text-noto:not(.about) h1),
-    :global(.long-text-noto:not(.about) h2),
-    :global(.long-text-noto:not(.about) h3) {
-        user-select: text;
-        -webkit-user-select: text;
-        letter-spacing: 0;
-        margin-block-start: 1rem;
-    }
-
-    :global(.long-text-noto h3) {
-        font-size: 17px;
-    }
-
-    :global(.long-text-noto h2) {
-        font-size: 19px;
-    }
-
-    :global(.long-text-noto:not(.about) h3) {
-        margin-block-end: -0.5rem;
-    }
-
-    :global(.long-text-noto:not(.about) h2) {
-        font-size: 19px;
-        line-height: 1.3;
-        margin-block-end: -0.3rem;
-        padding: 6px 0;
-        border-bottom: 1.5px solid var(--button-elevated-hover);
-    }
-
-    :global(.long-text-noto img) {
-        border-radius: 6px;
-    }
-
-    :global(table),
-    :global(td),
-    :global(th) {
-        border-spacing: 0;
-        border-style: solid;
-        border-width: 1px;
-        border-collapse: collapse;
-        text-align: center;
-        padding: 3px 8px;
-    }
-
-    :global(tr td:first-child),
-    :global(tr th:first-child) {
-        text-align: right;
-    }
-
-    :global(.long-text-noto.about section p:first-of-type) {
-        margin-block-start: 0.3em;
-    }
-
-    :global(.long-text-noto.about .heading-container) {
-        padding-top: calc(var(--padding) / 2);
-    }
-
-    :global(.long-text-noto.about section:first-of-type .heading-container) {
-        padding-top: 0;
-    }
-
-    :global(::selection) {
-        color: var(--primary);
-        background: var(--secondary);
-    }
-
-    @media screen and (max-width: 535px) {
-        :global(.long-text-noto),
-        :global(.long-text-noto *:not(h1, h2, h3, h4, h5, h6)) {
-            font-size: 14px;
-        }
-    }
-
-    [data-reduce-motion="true"] :global(*) {
-        animation: none !important;
-        transition: none !important;
     }
 </style>
