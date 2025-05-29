@@ -21,6 +21,17 @@ them, you must specify them when building the frontend (or running a vite server
 \* don't use plausible.io as receiver backend unless you paid for their cloud service.
    use your own domain when hosting community edition of plausible. refer to their [docs](https://plausible.io/docs) when needed.
 
+## link prefill
+to prefill the link into the input box & start the download automatically, you can pass the URL in the `#` parameter, like this:
+```
+https://cobalt.tools/#https://www.youtube.com/watch?v=dQw4w9WgXcQ
+```
+
+the link can also be URI-encoded, like this:
+```
+https://cobalt.tools/#https%3A//www.youtube.com/watch%3Fv=dQw4w9WgXcQ
+```
+
 ## license
 cobalt web code is licensed under [CC-BY-NC-SA-4.0](LICENSE).
 
