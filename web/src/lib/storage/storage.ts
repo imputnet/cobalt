@@ -3,7 +3,7 @@ export abstract class AbstractStorage {
         throw "init() call on abstract implementation";
     }
 
-    static isAvailable(): boolean {
+    static async isAvailable(): Promise<boolean> {
         return false;
     }
 

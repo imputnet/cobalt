@@ -85,7 +85,7 @@ export class MemoryStorage extends AbstractStorage {
         this.#chunks = [];
     }
 
-    static isAvailable() {
+    static async isAvailable() {
         return true;
     }
 }

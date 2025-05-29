@@ -7,6 +7,8 @@ export class OPFSStorage extends AbstractStorage {
     #handle;
     #io;
 
+    static #isAvailable?: boolean;
+
     constructor(root: FileSystemDirectoryHandle, handle: FileSystemFileHandle, reader: FileSystemSyncAccessHandle) {
         super();
         this.#root = root;
@@ -38,16 +40,33 @@ export class OPFSStorage extends AbstractStorage {
         await this.#root.removeEntry(this.#handle.name);
     }
 
-    static isAvailable() {
+    static async #computeIsAvailable() {
         if (typeof navigator === 'undefined')
             return false;
 
-        return 'storage' in navigator && 'getDirectory' in navigator.storage;
+        if ('storage' in navigator && 'getDirectory' in navigator.storage) {
+            try {
+                await navigator.storage.getDirectory();
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    static async isAvailable() {
+        if (this.#isAvailable === undefined) {
+            this.#isAvailable = await this.#computeIsAvailable();
+        }
+
+        return this.#isAvailable;
     }
 }
 
 export const removeFromFileStorage = async (filename: string) => {
-    if (OPFSStorage.isAvailable()) {
+    if (await OPFSStorage.isAvailable()) {
         const root = await navigator.storage.getDirectory();
 
         try {
@@ -60,7 +79,7 @@ export const removeFromFileStorage = async (filename: string) => {
 }
 
 export const clearFileStorage = async () => {
-    if (OPFSStorage.isAvailable()) {
+    if (await OPFSStorage.isAvailable()) {
         const root = await navigator.storage.getDirectory();
         try {
             await root.removeEntry(COBALT_PROCESSING_DIR, { recursive: true });
