@@ -180,7 +180,7 @@ const transplantInternalTunnels = function(tunnelUrls, transplantUrls) {
 
     for (const [ tun, url ] of zip(tunnelUrls, transplantUrls)) {
         const id = getInternalTunnelId(tun);
-        const itunnel = getInternalStream(id);
+        const itunnel = getInternalTunnel(id);
 
         if (!itunnel) continue;
         itunnel.url = url;
