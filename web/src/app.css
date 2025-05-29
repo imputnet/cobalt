@@ -428,6 +428,12 @@ th {
     padding: 3px 8px;
 }
 
+code {
+    background: var(--button-elevated);
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
 tr td:first-child,
 tr th:first-child {
     text-align: right;
