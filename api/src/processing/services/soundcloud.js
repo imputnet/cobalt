@@ -108,7 +108,7 @@ export default async function(obj) {
     fileUrl.searchParams.set("track_authorization", json.track_authorization);
 
     const file = await fetch(fileUrl)
-                     .then(async r => (await r.json()).url)
+                     .then(async r => new URL((await r.json()).url))
                      .catch(() => {});
 
     if (!file) return { error: "fetch.empty" };
@@ -119,13 +119,14 @@ export default async function(obj) {
     }
 
     return {
-        urls: file,
+        urls: file.toString(),
         filenameAttributes: {
             service: "soundcloud",
             id: json.id,
             ...fileMetadata
         },
         bestAudio,
-        fileMetadata
+        fileMetadata,
+        isHLS: file.pathname.endsWith('.m3u8'),
     }
 }
