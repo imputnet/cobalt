@@ -4,6 +4,8 @@ const gqlURL = "https://gql.twitch.tv/gql";
 const clientIdHead = { "client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko" };
 
 export default async function (obj) {
+    if (obj.type === 'vod') return { error: "twitch.vod_not_supported" };
+
     const req_metadata = await fetch(gqlURL, {
         method: "POST",
         headers: clientIdHead,
