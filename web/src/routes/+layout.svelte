@@ -221,6 +221,8 @@
             url(/meowbalt/question.png) url(/meowbalt/think.png);
 
         font-family: "Noto Sans Mono";
+        font-size: 0;
+        opacity: 0;
 
         pointer-events: none;
         user-select: none;
