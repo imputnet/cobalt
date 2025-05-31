@@ -19,8 +19,6 @@ export const updateEnv = (newEnv) => {
     for (const key in env) {
         env[key] = newEnv[key];
     }
-
-    cluster.broadcast({ env_update: newEnv });
 }
 
 await validateEnvs(env);

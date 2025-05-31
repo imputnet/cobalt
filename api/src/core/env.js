@@ -113,8 +113,9 @@ export const validateEnvs = async (env) => {
 
 const reloadEnvs = async (contents) => {
     const newEnvs = {};
+    const resolvedContents = await contents;
 
-    for (let line of (await contents).split('\n')) {
+    for (let line of resolvedContents.split('\n')) {
         line = line.trim();
         if (line === '') {
             continue;
@@ -138,6 +139,7 @@ const reloadEnvs = async (contents) => {
     const parsed = loadEnvs(candidate);
     await validateEnvs(parsed);
     updateEnv(parsed);
+    cluster.broadcast({ env_update: resolvedContents });
 }
 
 const wrapReload = (contents) => {
@@ -182,7 +184,7 @@ export const setupEnvWatcher = () => {
     } else if (cluster.isWorker) {
         process.on('message', (message) => {
             if ('env_update' in message) {
-                updateEnv(message.env_update);
+                reloadEnvs(message.env_update);
             }
         });
     }
