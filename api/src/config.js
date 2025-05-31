@@ -1,6 +1,5 @@
 import { getVersion } from "@imput/version-info";
 import { loadEnvs, validateEnvs, setupEnvWatcher } from "./core/env.js";
-import * as cluster from "./misc/cluster.js";
 
 const version = await getVersion();
 
