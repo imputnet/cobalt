@@ -191,11 +191,19 @@ export default async function({ host, patternMatch, params, isSession }) {
                 break;
 
             case "twitch":
-                r = await twitch({
-                    clipId: patternMatch.clip || false,
-                    quality: params.videoQuality,
-                    isAudioOnly,
-                });
+                if (url.pathname.includes('/videos/')) {
+                    r = await twitch({
+                        clipId: false,
+                        type: 'vod'
+                    });
+                }
+                if (url.pathname.includes('/clip/')) {
+                    r = await twitch({
+                        clipId: patternMatch.clip || false,
+                        quality: params.videoQuality,
+                        isAudioOnly,
+                    });
+                }
                 break;
 
             case "rutube":
