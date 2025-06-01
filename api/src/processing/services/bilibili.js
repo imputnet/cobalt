@@ -42,13 +42,10 @@ async function com_download(id) {
     const [ video, audio ] = extractBestQuality(streamData.data.dash);
     if (!video || !audio) {
         return { error: "fetch.empty" };
-    }
-
-    return {
+    }    return {
         urls: [video.baseUrl, audio.baseUrl],
         audioFilename: `bilibili_${id}_audio`,
-        filename: `bilibili_${id}_${video.width}x${video.height}.mp4`,
-        isHLS: true
+        filename: `bilibili_${id}_${video.width}x${video.height}.mp4`
     };
 }
 
