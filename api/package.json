@@ -1,7 +1,7 @@
 {
     "name": "@imput/cobalt-api",
     "description": "save what you love",
-    "version": "10.4.3",
+    "version": "11.0.2",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -11,7 +11,6 @@
     "scripts": {
         "start": "node src/cobalt",
         "test": "node src/util/test",
-        "token:youtube": "node src/util/generate-youtube-tokens",
         "token:jwt": "node src/util/generate-jwt-secret"
     },
     "repository": {
@@ -30,18 +29,17 @@
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
-        "esbuild": "^0.14.51",
-        "express": "^4.21.1",
+        "express": "^4.21.2",
         "express-rate-limit": "^7.4.1",
         "ffmpeg-static": "^5.1.0",
         "hls-parser": "^0.10.7",
         "ipaddr.js": "2.2.0",
-        "nanoid": "^4.0.2",
-        "node-cache": "^5.1.2",
+        "mime": "^4.0.4",
+        "nanoid": "^5.0.9",
         "set-cookie-parser": "2.6.0",
         "undici": "^5.19.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^12.2.0",
+        "youtubei.js": "^13.4.0",
         "zod": "^3.23.8"
     },
     "optionalDependencies": {

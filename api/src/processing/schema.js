@@ -20,7 +20,7 @@ export const apiSchema = z.object({
 
     filenameStyle: z.enum(
         ["classic", "pretty", "basic", "nerdy"]
-    ).default("classic"),
+    ).default("basic"),
 
     youtubeVideoCodec: z.enum(
         ["h264", "av1", "vp9"]
@@ -36,16 +36,20 @@ export const apiSchema = z.object({
                      .regex(/^[0-9a-zA-Z\-]+$/)
                      .optional(),
 
-    // TODO: remove this variable as it's no longer used
-    // and is kept for schema compatibility reasons
-    youtubeDubBrowserLang: z.boolean().default(false),
+    disableMetadata: z.boolean().default(false),
+
+    allowH265: z.boolean().default(false),
+    convertGif: z.boolean().default(true),
+    tiktokFullAudio: z.boolean().default(false),
 
     alwaysProxy: z.boolean().default(false),
-    disableMetadata: z.boolean().default(false),
-    tiktokFullAudio: z.boolean().default(false),
-    tiktokH265: z.boolean().default(false),
-    twitterGif: z.boolean().default(true),
+    localProcessing: z.boolean().default(false),
 
     youtubeHLS: z.boolean().default(false),
+    youtubeBetterAudio: z.boolean().default(false),
+
+    // temporarily kept for backwards compatibility with cobalt 10 schema
+    twitterGif: z.boolean().default(false),
+    tiktokH265: z.boolean().default(false),
 })
 .strict();

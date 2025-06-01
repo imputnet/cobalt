@@ -1,6 +1,6 @@
 import Cookie from "../cookie/cookie.js";
 
-import { extract } from "../url.js";
+import { extract, normalizeURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { updateCookie } from "../cookie/manager.js";
 import { createStream } from "../../stream/manage.js";
@@ -23,14 +23,14 @@ export default async function(obj) {
 
         if (html.startsWith('<a href="https://')) {
             const extractedURL = html.split('<a href="')[1].split('?')[0];
-            const { patternMatch } = extract(extractedURL);
-            postId = patternMatch.postId;
+            const { patternMatch } = extract(normalizeURL(extractedURL));
+            postId = patternMatch?.postId;
         }
     }
     if (!postId) return { error: "fetch.short_link" };
 
     // should always be /video/, even for photos
-    const res = await fetch(`https://tiktok.com/@i/video/${postId}`, {
+    const res = await fetch(`https://www.tiktok.com/@i/video/${postId}`, {
         headers: {
             "user-agent": genericUserAgent,
             cookie,

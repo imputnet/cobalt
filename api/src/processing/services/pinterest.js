@@ -1,4 +1,5 @@
 import { genericUserAgent } from "../../config.js";
+import { resolveRedirectingURL } from "../url.js";
 
 const videoRegex = /"url":"(https:\/\/v1\.pinimg\.com\/videos\/.*?)"/g;
 const imageRegex = /src="(https:\/\/i\.pinimg\.com\/.*\.(jpg|gif))"/g;
@@ -7,10 +8,10 @@ export default async function(o) {
     let id = o.id;
 
     if (!o.id && o.shortLink) {
-        id = await fetch(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`, { redirect: "manual" })
-                   .then(r => r.headers.get("location").split('pin/')[1].split('/')[0])
-                   .catch(() => {});
+        const patternMatch = await resolveRedirectingURL(`https://api.pinterest.com/url_shortener/${o.shortLink}/redirect/`);
+        id = patternMatch?.id;
     }
+
     if (id.includes("--")) id = id.split("--")[1];
     if (!id) return { error: "fetch.fail" };
 
@@ -22,12 +23,12 @@ export default async function(o) {
 
     const videoLink = [...html.matchAll(videoRegex)]
                     .map(([, link]) => link)
-                    .find(a => a.endsWith('.mp4') && a.includes('720p'));
+                    .find(a => a.endsWith('.mp4'));
 
     if (videoLink) return {
         urls: videoLink,
-        filename: `pinterest_${o.id}.mp4`,
-        audioFilename: `pinterest_${o.id}_audio`
+        filename: `pinterest_${id}.mp4`,
+        audioFilename: `pinterest_${id}_audio`
     }
 
     const imageLink = [...html.matchAll(imageRegex)]
@@ -39,7 +40,7 @@ export default async function(o) {
     if (imageLink) return {
         urls: imageLink,
         isPhoto: true,
-        filename: `pinterest_${o.id}.${imageType}`
+        filename: `pinterest_${id}.${imageType}`
     }
 
     return { error: "fetch.empty" };

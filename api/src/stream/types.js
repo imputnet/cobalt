@@ -1,4 +1,4 @@
-import { request } from "undici";
+import { Agent, request } from "undici";
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
@@ -6,7 +6,7 @@ import { create as contentDisposition } from "content-disposition-header";
 import { env } from "../config.js";
 import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
-import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
+import { getHeaders, closeRequest, closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
 
 const ffmpegArgs = {
     webm: ["-c:v", "copy", "-c:a", "copy"],
@@ -29,7 +29,7 @@ const convertMetadataToFFmpeg = (metadata) => {
 
     for (const [ name, value ] of Object.entries(metadata)) {
         if (metadataTags.includes(name)) {
-            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`);
+            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`); // skipcq: JS-0004
         } else {
             throw `${name} metadata tag is not supported.`;
         }
@@ -60,6 +60,8 @@ const getCommand = (args) => {
     return [ffmpeg, args]
 }
 
+const defaultAgent = new Agent();
+
 const proxy = async (streamInfo, res) => {
     const abortController = new AbortController();
     const shutdown = () => (
@@ -78,7 +80,8 @@ const proxy = async (streamInfo, res) => {
                 Range: streamInfo.range
             },
             signal: abortController.signal,
-            maxRedirections: 16
+            maxRedirections: 16,
+            dispatcher: defaultAgent,
         });
 
         res.status(statusCode);
@@ -95,7 +98,7 @@ const proxy = async (streamInfo, res) => {
     }
 }
 
-const merge = (streamInfo, res) => {
+const merge = async (streamInfo, res) => {
     let process;
     const shutdown = () => (
         killProcess(process),
@@ -109,7 +112,7 @@ const merge = (streamInfo, res) => {
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
 
-        const format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
+        const format = streamInfo.filename.split('.').pop();
 
         let args = [
             '-loglevel', '-8',
@@ -149,6 +152,7 @@ const merge = (streamInfo, res) => {
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+        res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo));
 
         pipe(muxOutput, res, shutdown);
 
@@ -159,7 +163,7 @@ const merge = (streamInfo, res) => {
     }
 }
 
-const remux = (streamInfo, res) => {
+const remux = async (streamInfo, res) => {
     let process;
     const shutdown = () => (
         killProcess(process),
@@ -193,7 +197,7 @@ const remux = (streamInfo, res) => {
             args.push('-bsf:a', 'aac_adtstoasc');
         }
 
-        let format = streamInfo.filename.split('.')[streamInfo.filename.split('.').length - 1];
+        let format = streamInfo.filename.split('.').pop();
         if (format === "mp4") {
             args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
         }
@@ -212,6 +216,7 @@ const remux = (streamInfo, res) => {
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+        res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo));
 
         pipe(muxOutput, res, shutdown);
 
@@ -222,7 +227,7 @@ const remux = (streamInfo, res) => {
     }
 }
 
-const convertAudio = (streamInfo, res) => {
+const convertAudio = async (streamInfo, res) => {
     let process;
     const shutdown = () => (
         killProcess(process),
@@ -281,6 +286,13 @@ const convertAudio = (streamInfo, res) => {
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+        res.setHeader(
+            'Estimated-Content-Length',
+            await estimateTunnelLength(
+                streamInfo,
+                estimateAudioMultiplier(streamInfo) * 1.1
+            )
+        );
 
         pipe(muxOutput, res, shutdown);
         res.on('finish', shutdown);
@@ -289,7 +301,7 @@ const convertAudio = (streamInfo, res) => {
     }
 }
 
-const convertGif = (streamInfo, res) => {
+const convertGif = async (streamInfo, res) => {
     let process;
     const shutdown = () => (killProcess(process), closeResponse(res));
 
@@ -318,6 +330,7 @@ const convertGif = (streamInfo, res) => {
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
+        res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo, 60));
 
         pipe(muxOutput, res, shutdown);
 

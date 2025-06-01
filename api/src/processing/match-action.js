@@ -5,7 +5,22 @@ import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
 
-export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate, alwaysProxy }) {
+const extraProcessingTypes = ["merge", "remux", "mute", "audio", "gif"];
+
+export default function({
+    r,
+    host,
+    audioFormat,
+    isAudioOnly,
+    isAudioMuted,
+    disableMetadata,
+    filenameStyle,
+    convertGif,
+    requestIP,
+    audioBitrate,
+    alwaysProxy,
+    localProcessing
+}) {
     let action,
         responseType = "tunnel",
         defaultParams = {
@@ -15,13 +30,14 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
-            requestIP
+            requestIP,
+            originalRequest: r.originalRequest
         },
         params = {};
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
-    else if (r.isGif && twitterGif) action = "gif";
+    else if (r.isGif && convertGif) action = "gif";
     else if (isAudioOnly) action = "audio";
     else if (isAudioMuted) action = "muteVideo";
     else if (r.isHLS) action = "hls";
@@ -47,7 +63,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             });
 
         case "photo":
-            responseType = "redirect";
+            params = { type: "proxy" };
             break;
 
         case "gif":
@@ -68,7 +84,8 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             }
             params = {
                 type: muteType,
-                url: Array.isArray(r.urls) ? r.urls[0] : r.urls
+                url: Array.isArray(r.urls) ? r.urls[0] : r.urls,
+                isHLS: r.isHLS
             }
             if (host === "reddit" && r.typeId === "redirect") {
                 responseType = "redirect";
@@ -82,6 +99,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "twitter":
                 case "snapchat":
                 case "bsky":
+                case "xiaohongshu":
                     params = { picker: r.picker };
                     break;
 
@@ -101,6 +119,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             filename: `${r.audioFilename}.${audioFormat}`,
                             isAudioOnly: true,
                             audioFormat,
+                            audioBitrate
                         })
                     }
                     break;
@@ -141,6 +160,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "ok":
                 case "vk":
                 case "tiktok":
+                case "xiaohongshu":
                     params = { type: "proxy" };
                     break;
 
@@ -211,5 +231,14 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         params.type = "proxy";
     }
 
-    return createResponse(responseType, {...defaultParams, ...params})
+    // TODO: add support for HLS
+    // (very painful)
+    if (localProcessing && !params.isHLS && extraProcessingTypes.includes(params.type)) {
+        responseType = "local-processing";
+    }
+
+    return createResponse(
+        responseType,
+        { ...defaultParams, ...params }
+    );
 }

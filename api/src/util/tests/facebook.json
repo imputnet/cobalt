@@ -29,7 +29,6 @@
     {
         "name": "shortlink video",
         "url": "https://fb.watch/r1K6XHMfGT/",
-        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
@@ -39,7 +38,6 @@
     {
         "name": "reel video",
         "url": "https://web.facebook.com/reel/730293269054758",
-        "canFail": true,
         "params": {},
         "expected": {
             "code": 200,
@@ -48,7 +46,7 @@
     },
     {
         "name": "shared video link",
-        "url": "https://www.facebook.com/share/v/NEf87jbPTvFE8LsL/",
+        "url": "https://www.facebook.com/share/v/6EJK4Z8EAEAHtz8K/",
         "params": {},
         "expected": {
             "code": 200,

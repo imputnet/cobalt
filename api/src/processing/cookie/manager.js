@@ -12,7 +12,7 @@ const VALID_SERVICES = new Set([
     'instagram_bearer',
     'reddit',
     'twitter',
-    'youtube_oauth'
+    'youtube',
 ]);
 
 const invalidCookies = {};
