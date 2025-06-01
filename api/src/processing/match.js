@@ -8,6 +8,8 @@ import matchAction from "./match-action.js";
 
 import { friendlyServiceName } from "./service-alias.js";
 
+import { incrementFailed, incrementSuccessful } from "../misc/metrics.js"
+
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
 import twitter from "./services/twitter.js";
@@ -286,11 +288,15 @@ export default async function({ host, patternMatch, params, isSession }) {
                     break;
             }
 
+            incrementFailed(host);
+
             return createResponse("error", {
                 code: `error.api.${r.error}`,
                 context,
             })
         }
+
+        incrementSuccessful(host);
 
         let localProcessing = params.localProcessing;
 

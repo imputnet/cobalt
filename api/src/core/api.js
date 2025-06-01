@@ -3,6 +3,8 @@ import http from "node:http";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, ProxyAgent } from "undici";
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
+import registry from "../misc/metrics.js"
+import { httpRequests, httpRequestDuration } from "../misc/metrics.js"
 
 import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
@@ -110,6 +112,17 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     });
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
+
+    app.use((req, res, next) => {
+        const end = httpRequestDuration.startTimer({ method: req.method });
+      
+        res.on('finish', () => {
+          httpRequests.labels(req.method, res.statusCode.toString()).inc();
+          end();
+        });
+      
+        next();
+    });
 
     app.use('/', cors({
         methods: ['GET', 'POST'],
@@ -320,6 +333,11 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     app.get('/favicon.ico', (req, res) => {
         res.status(404).end();
     })
+
+    app.get('/metrics', async (req, res) => {
+        res.set('Content-Type', registry.contentType);
+        res.send(await registry.metrics());
+    });
 
     app.get('/*', (req, res) => {
         res.redirect('/');
