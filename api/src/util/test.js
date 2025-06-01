@@ -4,6 +4,7 @@ import { env } from "../config.js";
 import { runTest } from "../misc/run-test.js";
 import { loadJSON } from "../misc/load-from-fs.js";
 import { Red, Bright } from "../misc/console-text.js";
+import { setGlobalDispatcher, ProxyAgent } from "undici";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 
 import { services } from "../processing/service-config.js";
@@ -13,7 +14,11 @@ const getTests = (service) => loadJSON(getTestPath(service));
 
 // services that are known to frequently fail due to external
 // factors (e.g. rate limiting)
-const finnicky = new Set(['bilibili', 'instagram', 'facebook', 'youtube', 'vk', 'twitter']);
+const finnicky = new Set(
+    process.env.TEST_IGNORE_SERVICES
+    ? process.env.TEST_IGNORE_SERVICES.split(',')
+    : ['bilibili', 'instagram', 'facebook', 'youtube', 'vk', 'twitter', 'reddit']
+);
 
 const runTestsFor = async (service) => {
     const tests = getTests(service);
@@ -64,6 +69,14 @@ const printHeader = (service, padLen) => {
     console.log(service + '='.repeat(50));
 }
 
+if (env.externalProxy) {
+    setGlobalDispatcher(new ProxyAgent(env.externalProxy));
+}
+
+env.streamLifespan = 10000;
+env.apiURL = 'http://x/';
+randomizeCiphers();
+
 const action = process.argv[2];
 switch (action) {
     case "get-services":
@@ -86,9 +99,6 @@ switch (action) {
         break;
 
     case "run-tests-for":
-        env.streamLifespan = 10000;
-        env.apiURL = 'http://x/';
-        randomizeCiphers();
 
         try {
             const { softFails } = await runTestsFor(process.argv[3]);
@@ -103,10 +113,6 @@ switch (action) {
     default:
         const maxHeaderLen = Object.keys(services).reduce((n, v) => v.length > n ? v.length : n, 0);
         const failCounters = {};
-
-        env.streamLifespan = 10000;
-        env.apiURL = 'http://x/';
-        randomizeCiphers();
 
         for (const service in services) {
             printHeader(service, maxHeaderLen);

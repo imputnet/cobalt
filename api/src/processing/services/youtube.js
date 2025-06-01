@@ -4,7 +4,8 @@ import { fetch } from "undici";
 import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
-import { getCookie, updateCookieValues } from "../cookie/manager.js";
+import { getCookie } from "../cookie/manager.js";
+import { getYouTubeSession } from "../helpers/youtube-session.js";
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
 
@@ -41,119 +42,110 @@ const hlsCodecList = {
     }
 }
 
+const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDROID'];
+
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
-const transformSessionData = (cookie) => {
-    if (!cookie)
-        return;
-
-    const values = { ...cookie.values() };
-    const REQUIRED_VALUES = [ 'access_token', 'refresh_token' ];
-
-    if (REQUIRED_VALUES.some(x => typeof values[x] !== 'string')) {
-        return;
-    }
-
-    if (values.expires) {
-        values.expiry_date = values.expires;
-        delete values.expires;
-    } else if (!values.expiry_date) {
-        return;
-    }
-
-    return values;
-}
-
-const cloneInnertube = async (customFetch) => {
+const cloneInnertube = async (customFetch, useSession) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
+
+    const rawCookie = getCookie('youtube');
+    const cookie = rawCookie?.toString();
+
+    const sessionTokens = getYouTubeSession();
+    const retrieve_player = Boolean(sessionTokens || cookie);
+
+    if (useSession && env.ytSessionServer && !sessionTokens?.potoken) {
+        throw "no_session_tokens";
+    }
+
     if (!innertube || shouldRefreshPlayer) {
         innertube = await Innertube.create({
-            fetch: customFetch
+            fetch: customFetch,
+            retrieve_player,
+            cookie,
+            po_token: useSession ? sessionTokens?.potoken : undefined,
+            visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
         });
         lastRefreshedAt = +new Date();
     }
 
     const session = new Session(
         innertube.session.context,
-        innertube.session.key,
+        innertube.session.api_key,
         innertube.session.api_version,
         innertube.session.account_index,
+        innertube.session.config_data,
         innertube.session.player,
-        undefined,
+        cookie,
         customFetch ?? innertube.session.http.fetch,
-        innertube.session.cache
+        innertube.session.cache,
+        sessionTokens?.potoken
     );
-
-    const cookie = getCookie('youtube_oauth');
-    const oauthData = transformSessionData(cookie);
-
-    if (!session.logged_in && oauthData) {
-        const tokensMod = {
-            ...oauthData,  // 复制 oauthData 中的所有属性
-            client: {
-                client_id: oauthData.client_id,
-                client_secret: oauthData.client_secret
-            }
-        };
-        delete tokensMod.client_id;
-        delete tokensMod.client_secret;
-
-        await session.oauth.init(tokensMod);
-        session.logged_in = true;
-    }
-
-    if (session.logged_in) {
-        if (session.oauth.shouldRefreshToken()) {
-            await session.oauth.refreshAccessToken();
-        }
-
-        const cookieValues = cookie.values();
-        const oldExpiry = new Date(cookieValues.expiry_date);
-        const newExpiry = new Date(session.oauth.oauth2_tokens.expiry_date);
-
-        if (oldExpiry.getTime() !== newExpiry.getTime()) {
-            updateCookieValues(cookie, {
-                ...session.oauth.client_id,
-                ...session.oauth.oauth2_tokens,
-                expiry_date: newExpiry.toISOString()
-            });
-        }
-    }
 
     const yt = new Innertube(session);
     return yt;
 }
 
-export default async function(o) {
+export default async function (o) {
+    const quality = o.quality === "max" ? 9000 : Number(o.quality);
+
+    let useHLS = o.youtubeHLS;
+    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
+
+    // HLS playlists from the iOS client don't contain the av1 video format.
+    if (useHLS && o.format === "av1") {
+        useHLS = false;
+    }
+
+    if (useHLS) {
+        innertubeClient = "IOS";
+    }
+
+    // iOS client doesn't have adaptive formats of resolution >1080p,
+    // so we use the WEB_EMBEDDED client instead for those cases
+    const useSession =
+        env.ytSessionServer && (
+            (
+                !useHLS
+                && innertubeClient === "IOS"
+                && (
+                    (quality > 1080 && o.format !== "h264")
+                    || (quality > 1080 && o.format !== "vp9")
+                )
+            )
+        );
+
+    if (useSession) {
+        innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
+    }
+
     let yt;
     try {
         yt = await cloneInnertube(
             (input, init) => fetch(input, {
                 ...init,
                 dispatcher: o.dispatcher
-            })
+            }),
+            useSession
         );
     } catch (e) {
-        if (e.message?.endsWith("decipher algorithm")) {
+        if (e === "no_session_tokens") {
+            return { error: "youtube.no_session_tokens" };
+        } else if (e.message?.endsWith("decipher algorithm")) {
             return { error: "youtube.decipher" }
         } else if (e.message?.includes("refresh access token")) {
             return { error: "youtube.token_expired" }
         } else throw e;
     }
 
-    let useHLS = o.youtubeHLS;
-
-    // HLS playlists don't contain the av1 video format, at least with the iOS client
-    if (useHLS && o.format === "av1") {
-        useHLS = false;
-    }
-
     let info;
     try {
-        info = await yt.getBasicInfo(o.id, useHLS ? 'IOS' : 'WEB');
+        info = await yt.getBasicInfo(o.id, innertubeClient);
     } catch (e) {
         if (e?.info) {
-            const errorInfo = JSON.parse(e?.info);
+            let errorInfo;
+            try { errorInfo = JSON.parse(e?.info); } catch {}
 
             if (errorInfo?.reason === "This video is private") {
                 return { error: "content.video.private" };
@@ -175,12 +167,12 @@ export default async function(o) {
     const playability = info.playability_status;
     const basicInfo = info.basic_info;
 
-    switch(playability.status) {
+    switch (playability.status) {
         case "LOGIN_REQUIRED":
             if (playability.reason.endsWith("bot")) {
                 return { error: "youtube.login" }
             }
-            if (playability.reason.endsWith("age")) {
+            if (playability.reason.endsWith("age") || playability.reason.endsWith("inappropriate for some users.")) {
                 return { error: "content.video.age" }
             }
             if (playability?.error_screen?.reason?.text === "Private video") {
@@ -225,15 +217,13 @@ export default async function(o) {
         }
     }
 
-    const quality = o.quality === "max" ? 9000 : Number(o.quality);
-
     const normalizeQuality = res => {
-        const shortestSide = res.height > res.width ? res.width : res.height;
+        const shortestSide = Math.min(res.height, res.width);
         return videoQualities.find(qual => qual >= shortestSide);
     }
 
     let video, audio, dubbedLanguage,
-        codec = o.format || "h264";
+        codec = o.format || "h264", itag = o.itag;
 
     if (useHLS) {
         const hlsManifest = info.streaming_data.hls_manifest_url;
@@ -250,7 +240,7 @@ export default async function(o) {
             } else {
                 throw new Error("couldn't fetch the HLS playlist");
             }
-        }).catch(() => {});
+        }).catch(() => { });
 
         if (!fetchedHlsManifest) {
             return { error: "youtube.no_hls_streams" };
@@ -331,7 +321,7 @@ export default async function(o) {
         }
 
         const checkFormat = (format, pCodec) => format.content_length &&
-                (format.mime_type.includes(codecList[pCodec].videoCodec)
+            (format.mime_type.includes(codecList[pCodec].videoCodec)
                 || format.mime_type.includes(codecList[pCodec].audioCodec));
 
         // sort formats & weed out bad ones
@@ -339,17 +329,21 @@ export default async function(o) {
             Number(b.bitrate) - Number(a.bitrate)
         ).forEach(format => {
             Object.keys(codecList).forEach(yCodec => {
+                const matchingItag = slot => !itag?.[slot] || itag[slot] === format.itag;
                 const sorted = sorted_formats[yCodec];
                 const goodFormat = checkFormat(format, yCodec);
                 if (!goodFormat) return;
 
-                if (format.has_video) {
+                if (format.has_video && matchingItag('video')) {
                     sorted.video.push(format);
-                    if (!sorted.bestVideo) sorted.bestVideo = format;
+                    if (!sorted.bestVideo)
+                        sorted.bestVideo = format;
                 }
-                if (format.has_audio) {
+
+                if (format.has_audio && matchingItag('audio')) {
                     sorted.audio.push(format);
-                    if (!sorted.bestAudio) sorted.bestAudio = format;
+                    if (!sorted.bestAudio)
+                        sorted.bestAudio = format;
                 }
             })
         });
@@ -411,6 +405,10 @@ export default async function(o) {
         }
     }
 
+    if (video?.drm_families || audio?.drm_families) {
+        return { error: "youtube.drm" };
+    }
+
     const fileMetadata = {
         title: basicInfo.title.trim(),
         artist: basicInfo.author.replace("- Topic", "").trim()
@@ -436,6 +434,18 @@ export default async function(o) {
         youtubeDubName: dubbedLanguage || false,
     }
 
+    itag = {
+        video: video?.itag,
+        audio: audio?.itag
+    };
+
+    const originalRequest = {
+        ...o,
+        dispatcher: undefined,
+        itag,
+        innertubeClient
+    };
+
     if (audio && o.isAudioOnly) {
         let bestAudio = codec === "h264" ? "m4a" : "opus";
         let urls = audio.url;
@@ -443,6 +453,10 @@ export default async function(o) {
         if (useHLS) {
             bestAudio = "mp3";
             urls = audio.uri;
+        }
+
+        if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
+            urls = audio.decipher(innertube.session.player);
         }
 
         return {
@@ -453,6 +467,7 @@ export default async function(o) {
             fileMetadata,
             bestAudio,
             isHLS: useHLS,
+            originalRequest
         }
     }
 
@@ -471,11 +486,17 @@ export default async function(o) {
                 width: video.width,
                 height: video.height,
             });
+
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = codecList[codec].container;
 
-            video = video.url;
-            audio = audio.url;
+            if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
+                video = video.decipher(innertube.session.player);
+                audio = audio.decipher(innertube.session.player);
+            } else {
+                video = video.url;
+                audio = audio.url;
+            }
         }
 
         filenameAttributes.qualityLabel = `${resolution}p`;
@@ -490,6 +511,7 @@ export default async function(o) {
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,
+            originalRequest
         }
     }
 
