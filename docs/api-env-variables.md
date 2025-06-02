@@ -64,6 +64,14 @@ this document is not final and will expand over time. feel free to improve it!
 
 [*view details*](#service-specific)
 
+### prometheus metrics vars
+| name                             | value example            |
+|:---------------------------------|:-------------------------|
+| METRICS                          | `1`                      |
+| METRICS_PORT                     | `9100`                   |
+
+[*view details*](#metrics)
+
 ## general
 [*jump to the table*](#general-vars)
 
@@ -256,3 +264,16 @@ the value is a string.
 when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively impact the rate limit of a secondary youtube client with a session.
 
 the value is a number, either `0` or `1`.
+
+## prometheus metrics
+[*jump to the table*](#prometheus-metrics-vars)
+
+### METRICS
+enable prometheus compatible metrics. metrics include: successful/failed requests to services, http requests, and http requests duration.
+
+the value is a number, either `0` or `1`.
+
+### METRICS_PORT
+port from which the metrics will be server under. these are local to the container/host.
+
+the value is a number from 1024 to 65535.
