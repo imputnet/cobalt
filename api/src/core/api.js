@@ -41,7 +41,7 @@ const corsConfig = env.corsWildcard ? {} : {
     optionsSuccessStatus: 200
 }
 
-const metrics = env.metrics && env.metricsPort;
+const metrics = Boolean(env.metrics && env.metricsPort);
 
 const fail = (res, code, context) => {
     const { status, body } = createResponse("error", { code, context });
@@ -58,6 +58,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 version: version,
                 url: env.apiURL,
                 startTime: `${startTimestamp}`,
+                metrics: metrics,
                 turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
                 services: [...env.enabledServices].map(e => {
                     return friendlyServiceName(e);
