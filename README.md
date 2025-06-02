@@ -4,7 +4,7 @@
         <img src="web/static/favicon.png" title="cobalt" alt="cobalt logo" width="100" />
     </p>
     <p>
-        best way to save what you love
+        best way to save what you love!
         <br/>
         <a href="https://cobalt.tools">
             cobalt.tools
