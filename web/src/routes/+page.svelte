@@ -15,10 +15,23 @@
         ru: "https://buy.stripe.com/5kAeYG7rwgwW43S4gh",
     };
     let key: string = $INTERNAL_locale;
-    const donateLink = donateLinks[key as keyof typeof donateLinks];
-
-    let showMindsou = false;
+    const donateLink = donateLinks[key as keyof typeof donateLinks];    let showMindsou = false;
     let showYumcheck = false;
+    let showNotification = true; // 控制通知显示
+
+    // 检查本地存储中是否已关闭通知
+    onMount(() => {
+        const notificationClosed = localStorage.getItem('notification-xiaohongshu-youtube-closed');
+        if (notificationClosed === 'true') {
+            showNotification = false;
+        }
+    });
+
+    // 关闭通知并保存状态到本地存储
+    const closeNotification = () => {
+        showNotification = false;
+        localStorage.setItem('notification-xiaohongshu-youtube-closed', 'true');
+    };
 </script>
 
 <svelte:head>
@@ -36,6 +49,22 @@
         data-first-focus
         data-focus-ring-hidden
     >
+        <!-- 通知信息 -->
+        {#if showNotification}
+            <div class="notification" role="alert">
+                <div class="notification-content">
+                    <span class="notification-icon">🎉</span>
+                    <span class="notification-text">竹子下载最新添加了对小红书和油管下载的支持</span>                    <button 
+                        class="notification-close" 
+                        aria-label="关闭通知"
+                        on:click={closeNotification}
+                    >
+                        ×
+                    </button>
+                </div>
+            </div>
+        {/if}
+        
         <Meowbalt emotion="smile" />
         <Omnibox />
         <!--<UserGuide/>-->
@@ -54,17 +83,17 @@
                 <img src="/popularize/mindsou_logo.png"
                      alt="Mindsou Logo"
                      class="section-icon" />
-                <span>用想法搜索想法-Mindsou，大脑搜索引擎</span>
+                <span>基于相同想法的陌生人聊天网站,不用担心尬聊</span>
                 <span class="arrow">{showMindsou ? '▲' : '▼'}</span>
             </button>
             {#if showMindsou}
                 <div class="details" role="region">
                     <ul> 
-                        <li>立即发布你的想法，记录你的每一个灵感</li>
-                        <li>后端算法匹配，帮你找到和你一样想法的人</li>
-                        <li>轻量社交，无需好友，无刷屏，只专注「闪现‑共鸣‑消散」</li>
-                        <li>匹配成功自动开启私聊房间，零等待对话</li>
-                        <li>限时内容 & 隐私保护，自动销毁减少信息负担</li>
+                        <li>1.发布你大脑中某时刻的想法</li>
+                        <li>2.完全匹配,语义匹配,互补匹配</li>
+                        <li>3.点击匹配对象即可聊天</li>
+                        <li>4.离线匹配邮件提醒</li>
+                        <li>5.限时内容 & 隐私保护，自动销毁减少信息负担</li>
                     </ul>
                     <a class="button" href="https://mindsou.online" target="_blank" rel="noopener noreferrer">
                         访问 Mindsou
@@ -84,13 +113,14 @@
                 <img src="/popularize/yumcheck.ico"
                      alt="YumCheck Logo"
                      class="section-icon" />
-                <span>智能食品与健康解读</span>
+                <span>食品配料表,拍照自动查询分析</span>
                 <span class="arrow">{showYumcheck ? '▲' : '▼'}</span>
             </button>
             {#if showYumcheck}
                 <div class="details" role="region">
                     <ul>
                         <li>拍摄配料表，一键成分分析与健康风险评估</li>
+                        <li>食品添加剂对比欧盟标准，多维度了解</li>
                         <li>扫描食品标准号，快速解读规范信息</li>
                         <li>血液检测报告智能解析，普通人也能读懂血液报告</li>
                     </ul>
@@ -253,5 +283,67 @@
     /* 确保小屏时不溢出 */
     #promotions > section .section-icon {
         max-width: 100%;
+    }    /* 通知组件样式 */
+    .notification {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--padding);
+        background-color: #e8f5e8;
+        color: #2e7d32;
+        border-radius: var(--border-radius);
+        width: 100%;
+        max-width: 640px;
+        box-sizing: border-box;
+        margin-bottom: var(--padding);
+        animation: slideIn 0.5s ease-out;
+        border: 1px solid #c8e6c9;
+    }
+    .notification-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 10px;
+    }
+    .notification-icon {
+        font-size: 1.5rem;
+        margin-right: 10px;
+    }
+    .notification-text {
+        flex: 1;
+        font-size: 0.9rem;
+    }    .notification-close {
+        background: none;
+        border: none;
+        color: inherit;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 10px;
+        transition: opacity 0.2s;
+    }
+    .notification-close:hover {
+        opacity: 0.7;
+    }
+
+    /* 深色模式下的通知样式 */
+    @media (prefers-color-scheme: dark) {
+        .notification {
+            background-color: #1b3e1f;
+            color: #81c784;
+            border-color: #2e7d32;
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
