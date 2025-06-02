@@ -129,14 +129,17 @@ the response will always be a JSON object containing the `status` key, which is 
 #### output.metadata object
 all keys in this table are optional.
 
-| key         | type     | description                                |
-|:------------|:---------|:-------------------------------------------|
-| `album`     | `string` | album name or collection title             |
-| `copyright` | `string` | copyright information or ownership details |
-| `title`     | `string` | title of the track or media file           |
-| `artist`    | `string` | artist or creator name                     |
-| `track`     | `string` | track number or position in album          |
-| `date`      | `string` | release date or creation date              |
+| key            | type     | description                                |
+|:---------------|:---------|:-------------------------------------------|
+| `album`        | `string` | album name or collection title             |
+| `composer`     | `string` | composter of the track                     |
+| `genre`        | `string` | genre or genres of the track               |
+| `copyright`    | `string` | copyright information or ownership details |
+| `title`        | `string` | title of the track or media file           |
+| `artist`       | `string` | artist or creator name                     |
+| `album_artist` | `string` | artist or creator name of the album        |
+| `track`        | `string` | track number or position in album          |
+| `date`         | `string` | release year or creation year              |
 
 #### audio object
 | key       | type      | value                                      |
