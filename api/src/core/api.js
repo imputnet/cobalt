@@ -396,7 +396,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 res.set('Content-Type', registry.contentType);
                 res.send(await registry.metrics());
             });
-            metricsApp.listen(env.metricsPort, () => {
+            metricsApp.listen(env.metricsPort, '127.0.0.1', () => {
                 console.log(`${Green('[✓]')} prometheus metrics running on 127.0.0.1:${env.metricsPort}/metrics`);
             });
 
