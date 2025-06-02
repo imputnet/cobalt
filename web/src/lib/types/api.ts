@@ -45,9 +45,12 @@ type CobaltTunnelResponse = {
 
 export const CobaltFileMetadataKeys = [
     'album',
+    'composer',
+    'genre',
     'copyright',
     'title',
     'artist',
+    'album_artist',
     'track',
     'date'
 ];

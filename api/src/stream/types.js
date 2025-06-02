@@ -17,9 +17,12 @@ const ffmpegArgs = {
 
 const metadataTags = [
     "album",
+    "composer",
+    "genre",
     "copyright",
     "title",
     "artist",
+    "album_artist",
     "track",
     "date",
 ];
