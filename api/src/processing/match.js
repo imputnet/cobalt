@@ -288,7 +288,7 @@ export default async function({ host, patternMatch, params, isSession }) {
                     break;
             }
 
-            incrementFailed(host);
+            if (env.metrics && env.metricsPort) incrementFailed(host);
 
             return createResponse("error", {
                 code: `error.api.${r.error}`,
@@ -296,7 +296,7 @@ export default async function({ host, patternMatch, params, isSession }) {
             })
         }
 
-        incrementSuccessful(host);
+        if (env.metrics && env.metricsPort) incrementSuccessful(host);
 
         let localProcessing = params.localProcessing;
 

@@ -12,7 +12,7 @@ import match from "../processing/match.js";
 
 import { env } from "../config.js";
 import { extract } from "../processing/url.js";
-import { Bright, Cyan } from "../misc/console-text.js";
+import { Bright, Cyan, Green } from "../misc/console-text.js";
 import { hashHmac } from "../security/secrets.js";
 import { createStore } from "../store/redis-ratelimit.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
@@ -40,6 +40,8 @@ const corsConfig = env.corsWildcard ? {} : {
     origin: env.corsURL,
     optionsSuccessStatus: 200
 }
+
+const metrics = env.metrics && env.metricsPort;
 
 const fail = (res, code, context) => {
     const { status, body } = createResponse("error", { code, context });
@@ -113,16 +115,18 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
-    app.use((req, res, next) => {
-        const end = httpRequestDuration.startTimer({ method: req.method });
-      
-        res.on('finish', () => {
-          httpRequests.labels(req.method, res.statusCode.toString()).inc();
-          end();
+    if (metrics) {
+        app.use((req, res, next) => {
+            const end = httpRequestDuration.startTimer({ method: req.method });
+          
+            res.on('finish', () => {
+              httpRequests.labels(req.method, res.statusCode.toString()).inc();
+              end();
+            });
+          
+            next();
         });
-      
-        next();
-    });
+    }
 
     app.use('/', cors({
         methods: ['GET', 'POST'],
@@ -334,11 +338,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         res.status(404).end();
     })
 
-    app.get('/metrics', async (req, res) => {
-        res.set('Content-Type', registry.contentType);
-        res.send(await registry.metrics());
-    });
-
     app.get('/*', (req, res) => {
         res.redirect('/');
     })
@@ -387,6 +386,18 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
         if (env.ytSessionServer) {
             YouTubeSession.setup();
+        }
+
+        if (metrics) {
+            const metricsApp = express();
+
+            metricsApp.get('/metrics', async (req, res) => {
+                res.set('Content-Type', registry.contentType);
+                res.send(await registry.metrics());
+            });
+            metricsApp.listen(env.metricsPort, () => {
+                console.log(`${Green('[✓]')} prometheus metrics running on 127.0.0.1:${env.metricsPort}/metrics`);
+            });
         }
     });
 
