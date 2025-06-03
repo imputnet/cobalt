@@ -83,11 +83,10 @@ keys are generated uniquely for each requested tunnel.
     sectionId="plausible"
 />
 
-we use [plausible](https://plausible.io/) for anonymous traffic analytics,
-to get an approximate number of active cobalt users.
-no identifiable information about you or your requests is ever stored.
-all data is anonymized and aggregated.
-we self-host and manage the plausible instance that cobalt uses.
+we use [plausible](https://plausible.io/) to get an approximate number
+of active cobalt users, fully anonymously. no identifiable information about
+you or your requests is ever stored. all data is anonymized and aggregated.
+we self-host and manage the [plausible instance](https://{env.PLAUSIBLE_HOST}/) that cobalt uses.
 
 plausible doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.
 
@@ -107,7 +106,7 @@ if you opt out, the plausible script will not be loaded at all.
 we use cloudflare services for:
 - ddos & abuse protection.
 - bot protection (cloudflare turnstile).
-- hosting & deploying the statically rendered web app (cloudflare pages).
+- hosting & deploying the statically rendered web app (cloudflare workers).
 
 all of these are required to provide the best experience for everyone.
 cloudflare is the most private & reliable provider for all mentioned solutions that we know of.
