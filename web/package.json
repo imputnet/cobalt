@@ -37,6 +37,7 @@
         "@types/eslint__js": "^8.42.3",
         "@types/fluent-ffmpeg": "^2.1.25",
         "@types/node": "^20.14.10",
+        "@types/qrcode": "^1.5.5",
         "@vitejs/plugin-basic-ssl": "^1.1.0",
         "compare-versions": "^6.1.0",
         "dotenv": "^16.0.1",
@@ -54,5 +55,8 @@
         "typescript": "^5.4.5",
         "typescript-eslint": "^7.13.1",
         "vite": "^5.0.3"
+    },
+    "dependencies": {
+        "qrcode": "^1.5.4"
     }
 }

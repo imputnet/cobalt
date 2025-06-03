@@ -3,10 +3,9 @@
     import { defaultNavPage } from "$lib/subnav";
 
     import CobaltLogo from "$components/sidebar/CobaltLogo.svelte";
-    import SidebarTab from "$components/sidebar/SidebarTab.svelte";
-
-    import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
+    import SidebarTab from "$components/sidebar/SidebarTab.svelte";    import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
     import IconSettings from "@tabler/icons-svelte/IconSettings.svelte";
+    import IconClipboard from "$components/icons/Clipboard.svelte";
 
     import IconRepeat from "@tabler/icons-svelte/IconRepeat.svelte";
 
@@ -27,10 +26,12 @@
 
 <nav id="sidebar" aria-label={$t("a11y.tabs.tab_panel")}>
     <CobaltLogo />
-    <div id="sidebar-tabs" role="tablist">
-        <div id="sidebar-actions" class="sidebar-inner-container">
+    <div id="sidebar-tabs" role="tablist">        <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab tabName="save" tabLink="/">
                 <IconDownload />
+            </SidebarTab>
+            <SidebarTab tabName="clipboard" tabLink="/clipboard">
+                <IconClipboard />
             </SidebarTab>
             <SidebarTab tabName="remux" tabLink="/remux" beta>
                 <IconRepeat />

@@ -1,0 +1,33 @@
+{
+    "title": "剪贴板分享",
+    "description": "使用端到端加密在设备间安全分享文本和文件",
+    "create_session": "创建会话",
+    "create_description": "创建新的分享会话并获取分享码",
+    "create": "创建",
+    "creating": "创建中...",
+    "join_session": "加入会话",
+    "join_description": "输入会话码加入现有会话",
+    "join": "加入",
+    "joining": "加入中...",
+    "enter_code": "输入会话码",
+    "session_active": "会话已激活",
+    "session_id": "会话ID",
+    "copy_link": "复制分享链接",
+    "scan_qr": "扫描二维码从其他设备加入",
+    "peer_connected": "设备已连接",
+    "waiting_peer": "等待设备连接",
+    "send_text": "发送文本",
+    "enter_text": "输入要分享的文本",
+    "send": "发送",
+    "sending": "发送中...",
+    "download": "下载",
+    "receiving": "接收中",
+    "received_files": "已接收文件",
+    "disconnect": "断开连接",
+    "error": {
+        "session_not_found": "会话不存在或已过期",
+        "session_full": "会话已满",
+        "connection_failed": "连接失败",
+        "encryption_failed": "加密失败"
+    }
+}

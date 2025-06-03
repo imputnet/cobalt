@@ -1,0 +1,33 @@
+{
+    "title": "Clipboard Share",
+    "description": "Share text and files securely between devices using end-to-end encryption",
+    "create_session": "Create Session",
+    "create_description": "Create a new sharing session and get a code",
+    "create": "Create",
+    "creating": "Creating...",
+    "join_session": "Join Session",
+    "join_description": "Enter a session code to join an existing session",
+    "join": "Join",
+    "joining": "Joining...",
+    "enter_code": "Enter session code",
+    "session_active": "Session Active",
+    "session_id": "Session ID",
+    "copy_link": "Copy sharing link",
+    "scan_qr": "Scan QR code to join from another device",
+    "peer_connected": "Device connected",
+    "waiting_peer": "Waiting for device to connect",
+    "send_text": "Send Text",
+    "enter_text": "Enter text to share",
+    "send": "Send",
+    "sending": "Sending...",
+    "download": "Download",
+    "receiving": "Receiving",
+    "received_files": "Received Files",
+    "disconnect": "Disconnect",
+    "error": {
+        "session_not_found": "Session not found or expired",
+        "session_full": "Session is full",
+        "connection_failed": "Connection failed",
+        "encryption_failed": "Encryption failed"
+    }
+}

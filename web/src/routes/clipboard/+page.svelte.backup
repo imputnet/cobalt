@@ -1,0 +1,1112 @@
+<script lang="ts">
+    import { onMount, onDestroy } from 'svelte';
+    import { browser } from '$app/environment';
+    import { page } from '$app/stores';
+    import { t } from '$lib/i18n/translations';
+    import SettingsCategory from '$components/settings/SettingsCategory.svelte';
+    import Meowbalt from '$components/misc/Meowbalt.svelte';
+    import ActionButton from '$components/buttons/ActionButton.svelte';
+    import QRCode from 'qrcode';
+
+    // Type definitions
+    interface FileItem {
+        name: string;
+        size: number;
+        type: string;
+        blob?: Blob;
+        url?: string;
+    }
+
+    interface ReceivingFile {
+        name: string;
+        size: number;
+        type: string;
+        chunks: Uint8Array[];
+        receivedSize: number;
+    }
+
+    // State variables
+    let ws: WebSocket | null = null;
+    let sessionId: string = '';
+    let isCreator: boolean = false;
+    let isConnected: boolean = false;
+    let peerConnected: boolean = false;
+    let dataChannel: RTCDataChannel | null = null;
+    let peerConnection: RTCPeerConnection | null = null;
+    let sharedKey: CryptoKey | null = null;
+    let keyPair: CryptoKeyPair | null = null;
+    let remotePublicKey: CryptoKey | null = null;
+
+    // UI state
+    let isCreating: boolean = false;
+    let isJoining: boolean = false;
+    let joinCode: string = '';
+    let textContent: string = '';
+    let files: File[] = [];
+    let dragover: boolean = false;
+    let sendingFiles: boolean = false;
+    let receivingFiles: boolean = false;
+    let transferProgress: number = 0;
+    let qrCodeUrl: string = '';
+    let receivedFiles: FileItem[] = [];    let currentReceivingFile: ReceivingFile | null = null;
+
+    // WebSocket URL - dynamically determine based on current host
+    function getWebSocketURL(): string {
+        if (browser) {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const host = window.location.hostname;
+            const port = '9000'; // API server port
+            return `${protocol}//${host}:${port}/ws`;
+        }
+        return 'ws://localhost:9000/ws'; // fallback for SSR
+    }
+
+    onMount(async () => {
+        if (browser) {
+            await generateKeyPair();
+            
+            // Check URL parameters
+            const urlSessionId = $page.url.searchParams.get('session');
+            if (urlSessionId) {
+                joinCode = urlSessionId;
+                await joinSession();
+            }
+        }
+    });    onDestroy(() => {
+        cleanup();
+    });
+
+    // Generate ECDH key pair
+    async function generateKeyPair(): Promise<void> {
+        try {
+            keyPair = await window.crypto.subtle.generateKey(
+                { name: 'ECDH', namedCurve: 'P-256' },
+                true,
+                ['deriveKey']
+            );
+            console.log('Key pair generated successfully');        } catch (error) {
+            console.error('Key generation failed:', error);
+        }
+    }
+
+    // Export public key
+    async function exportPublicKey(): Promise<number[] | null> {
+        if (!keyPair) {
+            console.error('Key pair not available for export');
+            return null;
+        }
+        const exported = await window.crypto.subtle.exportKey('raw', keyPair.publicKey);
+        const result = Array.from(new Uint8Array(exported));
+        console.log('Public key exported, length:', result.length);
+        return result;
+    }
+
+    // Import remote public key
+    async function importRemotePublicKey(publicKeyArray: number[]): Promise<void> {
+        const publicKeyBuffer = new Uint8Array(publicKeyArray).buffer;
+        remotePublicKey = await window.crypto.subtle.importKey(
+            'raw',
+            publicKeyBuffer,
+            { name: 'ECDH', namedCurve: 'P-256' },
+            false,
+            []
+        );
+    }
+
+    // Derive shared key
+    async function deriveSharedKey(): Promise<void> {
+        if (!keyPair || !remotePublicKey) return;
+        
+        const sharedSecret = await window.crypto.subtle.deriveKey(
+            { name: 'ECDH', public: remotePublicKey },
+            keyPair.privateKey,
+            { name: 'AES-GCM', length: 256 },
+            false,
+            ['encrypt', 'decrypt']
+        );
+        
+        sharedKey = sharedSecret;
+    }
+
+    // Encrypt data
+    async function encryptData(data: string): Promise<Uint8Array> {
+        if (!sharedKey) throw new Error('Shared key not established');
+        
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+        const encoder = new TextEncoder();
+        const dataBuffer = encoder.encode(data);
+        
+        const encrypted = await window.crypto.subtle.encrypt(
+            { name: 'AES-GCM', iv: iv },
+            sharedKey,
+            dataBuffer
+        );
+        
+        const result = new Uint8Array(iv.length + encrypted.byteLength);
+        result.set(iv);
+        result.set(new Uint8Array(encrypted), iv.length);
+        
+        return result;
+    }
+
+    // Decrypt data
+    async function decryptData(encryptedData: Uint8Array): Promise<string> {
+        if (!sharedKey) throw new Error('Shared key not established');
+        
+        const iv = encryptedData.slice(0, 12);
+        const data = encryptedData.slice(12);
+        
+        const decrypted = await window.crypto.subtle.decrypt(
+            { name: 'AES-GCM', iv: iv },
+            sharedKey,
+            data
+        );
+        
+        const decoder = new TextDecoder();
+        return decoder.decode(decrypted);
+    }    // Create session
+    async function createSession(): Promise<void> {
+        if (isCreating) return;
+        isCreating = true;
+        
+        console.log('Starting session creation...');
+        
+        try {
+            const publicKey = await exportPublicKey();
+            if (!publicKey) {
+                console.error('Failed to export public key');
+                isCreating = false;
+                return;
+            }
+              const wsUrl = getWebSocketURL();
+            console.log('Creating WebSocket connection to:', wsUrl);
+            ws = new WebSocket(wsUrl);
+              ws.onopen = () => {
+                console.log('WebSocket connected');
+                isConnected = true;
+                isCreator = true;
+                
+                if (ws && publicKey) {
+                    console.log('Sending create_session message');
+                    ws.send(JSON.stringify({
+                        type: 'create_session',
+                        publicKey: publicKey
+                    }));
+                }
+            };
+            
+            ws.onmessage = handleWebSocketMessage;
+            ws.onclose = () => {
+                isConnected = false;
+                peerConnected = false;
+            };
+              ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                isCreating = false;
+            };
+            
+        } catch (error) {
+            console.error('Failed to create session:', error);
+            isCreating = false;
+        }
+    }
+
+    // Join session    async function joinSession(): Promise<void> {
+        if (isJoining || !joinCode) return;
+        isJoining = true;
+        
+        try {
+            const publicKey = await exportPublicKey();
+            const wsUrl = getWebSocketURL();
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                isConnected = true;
+                isCreator = false;
+                
+                if (ws && publicKey) {
+                    ws.send(JSON.stringify({
+                        type: 'join_session',
+                        sessionId: joinCode,
+                        publicKey: publicKey
+                    }));
+                }
+            };
+            
+            ws.onmessage = handleWebSocketMessage;
+            ws.onclose = () => {
+                isConnected = false;
+                peerConnected = false;
+                isJoining = false;
+            };
+            
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                isJoining = false;
+            };
+            
+        } catch (error) {
+            console.error('Failed to join session:', error);
+            isJoining = false;
+        }
+    }
+
+    // Handle WebSocket messages
+    async function handleWebSocketMessage(event: MessageEvent): Promise<void> {
+        const message = JSON.parse(event.data);
+        
+        switch (message.type) {
+            case 'session_created':
+                sessionId = message.sessionId;
+                isCreating = false;
+                console.log('Session created:', sessionId);
+                await generateQRCode();
+                break;
+                
+            case 'session_joined':
+                isJoining = false;
+                await importRemotePublicKey(message.publicKey);
+                await deriveSharedKey();
+                setupWebRTC(false);
+                break;
+                
+            case 'peer_joined':
+                await importRemotePublicKey(message.publicKey);
+                await deriveSharedKey();
+                setupWebRTC(true);
+                break;
+                
+            case 'offer':
+                await handleOffer(message.offer);
+                break;
+                
+            case 'answer':
+                await handleAnswer(message.answer);
+                break;
+                
+            case 'ice_candidate':
+                await handleIceCandidate(message.candidate);
+                break;
+                
+            case 'error':
+                console.error('Server error:', message.message);
+                isCreating = false;
+                isJoining = false;
+                break;
+        }
+    }
+
+    // Setup WebRTC connection
+    function setupWebRTC(createOffer: boolean): void {
+        peerConnection = new RTCPeerConnection({
+            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        });
+        
+        peerConnection.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
+            if (event.candidate && ws) {
+                ws.send(JSON.stringify({
+                    type: 'ice_candidate',
+                    candidate: event.candidate
+                }));
+            }
+        };
+        
+        if (createOffer) {
+            dataChannel = peerConnection.createDataChannel('fileTransfer', { ordered: true });
+            setupDataChannel(dataChannel);
+            
+            peerConnection.createOffer().then(offer => {
+                if (peerConnection) {
+                    peerConnection.setLocalDescription(offer);
+                    if (ws) {
+                        ws.send(JSON.stringify({ type: 'offer', offer: offer }));
+                    }
+                }
+            });
+        } else {
+            peerConnection.ondatachannel = (event: RTCDataChannelEvent) => {
+                dataChannel = event.channel;
+                setupDataChannel(dataChannel);
+            };
+        }
+    }
+
+    // Setup data channel
+    function setupDataChannel(channel: RTCDataChannel): void {
+        channel.onopen = () => {
+            peerConnected = true;
+            console.log('Data channel connected');
+        };
+        
+        channel.onclose = () => {
+            peerConnected = false;
+        };
+        
+        channel.onmessage = handleDataChannelMessage;
+    }
+
+    // Handle WebRTC offer
+    async function handleOffer(offer: RTCSessionDescriptionInit): Promise<void> {
+        if (!peerConnection) return;
+        await peerConnection.setRemoteDescription(offer);
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+        
+        if (ws) {
+            ws.send(JSON.stringify({ type: 'answer', answer: answer }));
+        }
+    }
+
+    // Handle WebRTC answer
+    async function handleAnswer(answer: RTCSessionDescriptionInit): Promise<void> {
+        if (!peerConnection) return;
+        await peerConnection.setRemoteDescription(answer);
+    }
+
+    // Handle ICE candidate
+    async function handleIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
+        if (!peerConnection) return;
+        await peerConnection.addIceCandidate(candidate);
+    }
+
+    // Handle data channel messages
+    async function handleDataChannelMessage(event: MessageEvent): Promise<void> {
+        try {
+            const encryptedData = new Uint8Array(event.data);
+            const decryptedMessage = await decryptData(encryptedData);
+            const message = JSON.parse(decryptedMessage);
+            
+            if (message.type === 'text') {
+                textContent = message.data;
+            } else if (message.type === 'file_info') {
+                currentReceivingFile = {
+                    name: message.name,
+                    size: message.size,
+                    type: message.mimeType,
+                    chunks: [],
+                    receivedSize: 0
+                };
+                receivingFiles = true;
+            } else if (message.type === 'file_chunk' && currentReceivingFile) {
+                // Decode base64 to binary data
+                const chunkData = Uint8Array.from(atob(message.data), c => c.charCodeAt(0));
+                currentReceivingFile.chunks.push(chunkData);
+                currentReceivingFile.receivedSize += chunkData.length;
+                
+                // Update progress
+                transferProgress = (currentReceivingFile.receivedSize / currentReceivingFile.size) * 100;
+                
+                // Check if receiving is complete
+                if (currentReceivingFile.receivedSize >= currentReceivingFile.size) {
+                    const completeFile = new Blob(currentReceivingFile.chunks, { type: currentReceivingFile.type });
+                    receivedFiles = [...receivedFiles, {
+                        name: currentReceivingFile.name,
+                        size: currentReceivingFile.size,
+                        type: currentReceivingFile.type,
+                        blob: completeFile,
+                        url: URL.createObjectURL(completeFile)
+                    }];
+                    
+                    currentReceivingFile = null;
+                    receivingFiles = false;
+                    transferProgress = 0;
+                }
+            }
+        } catch (error) {
+            console.error('Failed to handle data channel message:', error);
+        }
+    }
+
+    // Send text
+    async function sendText(): Promise<void> {
+        if (!dataChannel || !peerConnected || !textContent.trim()) return;
+        
+        try {
+            const message = { type: 'text', data: textContent.trim() };
+            const encryptedData = await encryptData(JSON.stringify(message));
+            
+            if (dataChannel) {
+                dataChannel.send(encryptedData);
+                textContent = '';
+            }
+        } catch (error) {
+            console.error('Failed to send text:', error);
+        }
+    }
+
+    // Send files
+    async function sendFiles(): Promise<void> {
+        if (!dataChannel || !peerConnected || files.length === 0) return;
+        
+        sendingFiles = true;
+        transferProgress = 0;
+        
+        try {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Send file info
+                const fileInfo = {
+                    type: 'file_info',
+                    name: file.name,
+                    size: file.size,
+                    mimeType: file.type
+                };
+                
+                const encryptedInfo = await encryptData(JSON.stringify(fileInfo));
+                dataChannel.send(encryptedInfo);
+                
+                // Send file data in chunks
+                const chunkSize = 16384; // 16KB chunks
+                const totalChunks = Math.ceil(file.size / chunkSize);
+                
+                for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+                    const start = chunkIndex * chunkSize;
+                    const end = Math.min(start + chunkSize, file.size);
+                    const chunk = file.slice(start, end);
+                    
+                    const arrayBuffer = await chunk.arrayBuffer();
+                    const uint8Array = new Uint8Array(arrayBuffer);
+                    const base64Data = btoa(String.fromCharCode(...uint8Array));
+                    
+                    const chunkMessage = {
+                        type: 'file_chunk',
+                        data: base64Data,
+                        chunkIndex: chunkIndex,
+                        totalChunks: totalChunks
+                    };
+                    
+                    const encryptedChunk = await encryptData(JSON.stringify(chunkMessage));
+                    dataChannel.send(encryptedChunk);
+                    
+                    // Update progress
+                    const fileProgress = (chunkIndex + 1) / totalChunks;
+                    const totalProgress = ((i + fileProgress) / files.length) * 100;
+                    transferProgress = totalProgress;
+                    
+                    // Small delay to avoid blocking UI
+                    await new Promise(resolve => setTimeout(resolve, 1));
+                }
+            }
+            
+            // Clear file list after sending
+            files = [];
+            transferProgress = 0;
+        } catch (error) {
+            console.error('Failed to send files:', error);
+        } finally {
+            sendingFiles = false;
+        }
+    }
+
+    // Handle file selection
+    function handleFileSelect(event: Event): void {
+        const target = event.target as HTMLInputElement;
+        if (target?.files) {
+            files = [...files, ...Array.from(target.files)];
+        }
+    }
+
+    // Handle file drop
+    function handleDrop(event: DragEvent): void {
+        event.preventDefault();
+        dragover = false;
+        
+        if (event.dataTransfer?.files) {
+            files = [...files, ...Array.from(event.dataTransfer.files)];
+        }
+    }
+
+    // Remove file
+    function removeFile(index: number): void {
+        files = files.filter((_, i) => i !== index);
+    }
+
+    // Format file size
+    function formatFileSize(bytes: number): string {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Download received file
+    function downloadReceivedFile(file: FileItem): void {
+        if (!file.url) return;
+        const a = document.createElement('a');
+        a.href = file.url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    // Remove received file
+    function removeReceivedFile(index: number): void {
+        const file = receivedFiles[index];
+        if (file.url) {
+            URL.revokeObjectURL(file.url);
+        }
+        receivedFiles = receivedFiles.filter((_, i) => i !== index);
+    }    // Generate QR code
+    async function generateQRCode(): Promise<void> {
+        if (typeof window !== 'undefined' && sessionId) {
+            try {
+                const url = `${window.location.origin}/clipboard?session=${sessionId}`;
+                
+                // Generate as data URL instead of blob to avoid CSP issues
+                qrCodeUrl = await QRCode.toDataURL(url, { 
+                    width: 200,
+                    margin: 2,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                });
+                
+                console.log('QR Code generated:', { sessionId, url, qrCodeUrl: 'data URL created' });
+            } catch (error) {
+                console.error('QR Code generation failed:', error);
+            }
+        } else {
+            console.log('QR Code generation failed:', { hasWindow: typeof window !== 'undefined', sessionId });
+        }
+    }// Copy session link
+    function copySessionLink(): void {
+        if (typeof window !== 'undefined' && sessionId) {
+            const url = `${window.location.origin}/clipboard?session=${sessionId}`;
+            navigator.clipboard.writeText(url);
+        }
+    }    // Cleanup resources
+    function cleanup(): void {
+        if (dataChannel) {
+            dataChannel.close();
+            dataChannel = null;
+        }
+        
+        if (peerConnection) {
+            peerConnection.close();
+            peerConnection = null;
+        }
+        
+        if (ws) {
+            ws.close();
+            ws = null;
+        }
+        
+        sessionId = '';
+        isConnected = false;
+        peerConnected = false;
+        sharedKey = null;
+        remotePublicKey = null;
+        qrCodeUrl = '';
+    }
+</script>
+
+<svelte:head>
+    <title>cobalt | {$t("clipboard.title")}</title>
+    <meta property="og:title" content="cobalt | {$t("clipboard.title")}" />
+    <meta property="og:description" content={$t("clipboard.description")} />
+    <meta property="description" content={$t("clipboard.description")} />
+</svelte:head>
+
+<div class="clipboard-container">
+    <div class="clipboard-header">
+        <Meowbalt emotion="smile" />
+        <h1>{$t("clipboard.title")}</h1>
+        <p>{$t("clipboard.description")}</p>
+    </div>
+
+    {#if !isConnected}
+        <SettingsCategory title={$t("clipboard.title")} sectionId="connection-setup">
+            <div class="connection-options">
+                <div class="option-group">
+                    <h3>{$t("clipboard.create_session")}</h3>
+                    <p>{$t("clipboard.create_description")}</p>
+                    <ActionButton 
+                        id="create-session"
+                        click={createSession}
+                    >
+                        {isCreating ? $t("clipboard.creating") : $t("clipboard.create")}
+                    </ActionButton>
+                </div>
+
+                <div class="divider">
+                    <span>{$t("general.or")}</span>
+                </div>
+
+                <div class="option-group">
+                    <h3>{$t("clipboard.join_session")}</h3>
+                    <p>{$t("clipboard.join_description")}</p>
+                    <div class="join-form">
+                        <input 
+                            type="text" 
+                            bind:value={joinCode}
+                            placeholder={$t("clipboard.enter_code")}
+                            maxlength="8"
+                            disabled={isJoining}
+                        />
+                        <ActionButton 
+                            id="join-session"
+                            click={joinSession}
+                        >
+                            {isJoining ? $t("clipboard.joining") : $t("clipboard.join")}
+                        </ActionButton>
+                    </div>
+                </div>
+            </div>
+        </SettingsCategory>
+    {:else}
+        <SettingsCategory title={$t("clipboard.session_active")} sectionId="session-info">
+            <div class="session-info">
+                <h3>{$t("clipboard.session_active")}</h3>
+                <div class="session-details">
+                    <div class="session-id">
+                        <strong>{$t("clipboard.session_id")}:</strong> 
+                        <code>{sessionId}</code>
+                        <ActionButton 
+                            id="copy-link"
+                            click={copySessionLink}
+                        >
+                            📋
+                        </ActionButton>
+                    </div>                    {#if isCreator && sessionId && !peerConnected && qrCodeUrl}
+                        <div class="qr-code">
+                            <p>{$t("clipboard.scan_qr")}</p>
+                            <img src={qrCodeUrl} alt="QR Code" />
+                        </div>
+                    {/if}
+                    
+                    <div class="connection-status">
+                        <span class="status-indicator" class:connected={peerConnected}></span>
+                        {peerConnected ? $t("clipboard.peer_connected") : $t("clipboard.waiting_peer")}
+                    </div>
+                </div>
+            </div>
+        </SettingsCategory>
+
+        {#if peerConnected}
+            <SettingsCategory title={$t("clipboard.send_text")} sectionId="text-transfer">
+                <div class="text-transfer">
+                    <h3>{$t("clipboard.send_text")}</h3>
+                    <textarea 
+                        bind:value={textContent}
+                        placeholder={$t("clipboard.enter_text")}
+                        rows="4"
+                    ></textarea>
+                    <ActionButton 
+                        id="send-text"
+                        click={sendText}
+                    >
+                        {$t("clipboard.send")}
+                    </ActionButton>
+                </div>
+            </SettingsCategory>
+
+            <SettingsCategory title={$t("clipboard.send_files")} sectionId="file-transfer">
+                <div class="file-transfer">
+                    <h3>{$t("clipboard.send_files")}</h3>
+                    
+                    <div 
+                        class="drop-zone"
+                        class:dragover
+                        role="button"
+                        tabindex="0"
+                        on:dragover|preventDefault={() => dragover = true}
+                        on:dragleave={() => dragover = false}
+                        on:drop={handleDrop}
+                        on:click={() => document.getElementById('file-input')?.click()}
+                        on:keydown={(e) => e.key === 'Enter' && document.getElementById('file-input')?.click()}
+                    >
+                        <div class="drop-content">
+                            <p>{$t("clipboard.drop_files")}</p>
+                            <input 
+                                type="file" 
+                                multiple 
+                                on:change={handleFileSelect}
+                                id="file-input"
+                                style="display: none;"
+                            />
+                            <ActionButton 
+                                id="select-files"
+                                click={() => document.getElementById('file-input')?.click()}
+                            >
+                                {$t("clipboard.select_files")}
+                            </ActionButton>
+                        </div>
+                    </div>
+
+                    {#if files.length > 0}
+                        <div class="file-list">
+                            {#each files as file, index}
+                                <div class="file-item">
+                                    <div class="file-info">
+                                        <span class="file-name">{file.name}</span>
+                                        <span class="file-size">{formatFileSize(file.size)}</span>
+                                    </div>
+                                    <ActionButton 
+                                        id="remove-file-{index}"
+                                        click={() => removeFile(index)}
+                                    >
+                                        ✕
+                                    </ActionButton>
+                                </div>
+                            {/each}
+                        </div>
+                        
+                        <div class="send-files-section">
+                            <ActionButton 
+                                id="send-files"
+                                click={sendFiles}
+                            >
+                                {sendingFiles ? $t("clipboard.sending") : $t("clipboard.send")}
+                            </ActionButton>
+                            
+                            {#if sendingFiles || transferProgress > 0}
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {transferProgress}%"></div>
+                                </div>
+                                <span class="progress-text">{Math.round(transferProgress)}%</span>
+                            {/if}
+                        </div>
+                    {/if}
+                </div>
+            </SettingsCategory>
+
+            {#if receivedFiles.length > 0}
+                <SettingsCategory title={$t("clipboard.received_files")} sectionId="received-files">
+                    <div class="received-files">
+                        <h3>{$t("clipboard.received_files")}</h3>
+                        <div class="file-list">
+                            {#each receivedFiles as file, index}
+                                <div class="file-item">
+                                    <div class="file-info">
+                                        <span class="file-name">{file.name}</span>
+                                        <span class="file-size">{formatFileSize(file.size)}</span>
+                                    </div>
+                                    <div class="file-actions">
+                                        <ActionButton 
+                                            id="download-{index}"
+                                            click={() => downloadReceivedFile(file)}
+                                        >
+                                            ⬇ {$t("clipboard.download")}
+                                        </ActionButton>
+                                        <ActionButton 
+                                            id="remove-received-{index}"
+                                            click={() => removeReceivedFile(index)}
+                                        >
+                                            ✕
+                                        </ActionButton>
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                </SettingsCategory>
+            {/if}
+            
+            {#if receivingFiles && currentReceivingFile}
+                <SettingsCategory title={$t("clipboard.receiving")} sectionId="receiving-progress">
+                    <div class="receiving-progress">
+                        <h3>{$t("clipboard.receiving")}: {currentReceivingFile.name}</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {transferProgress}%"></div>
+                        </div>
+                        <span class="progress-text">{Math.round(transferProgress)}% ({formatFileSize(currentReceivingFile.receivedSize)} / {formatFileSize(currentReceivingFile.size)})</span>
+                    </div>
+                </SettingsCategory>
+            {/if}
+        {/if}
+
+        <SettingsCategory title="" sectionId="session-controls">
+            <div class="session-controls">
+                <ActionButton 
+                    id="disconnect"
+                    click={cleanup}
+                >
+                    {$t("clipboard.disconnect")}
+                </ActionButton>
+            </div>
+        </SettingsCategory>
+    {/if}
+</div>
+
+<style>
+    .clipboard-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+
+    .clipboard-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .clipboard-header h1 {
+        margin: 1rem 0 0.5rem;
+        font-size: 2rem;
+    }
+
+    .clipboard-header p {
+        color: var(--secondary);
+        margin-bottom: 2rem;
+    }
+
+    .connection-options {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .option-group {
+        text-align: center;
+    }
+
+    .option-group h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .option-group p {
+        color: var(--secondary);
+        margin-bottom: 1rem;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--border);
+    }
+
+    .divider span {
+        background: var(--background);
+        padding: 0 1rem;
+        color: var(--secondary);
+    }
+
+    .join-form {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .join-form input {
+        padding: 0.5rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--background-alt);
+        color: var(--primary);
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .session-info {
+        text-align: center;
+    }
+
+    .session-details {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .session-id {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .session-id code {
+        background: var(--background-alt);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 1.1em;
+        letter-spacing: 0.1em;
+    }
+
+    .qr-code {
+        margin: 1rem 0;
+    }
+
+    .qr-code img {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .connection-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--red);
+        transition: background 0.3s ease;
+    }
+
+    .status-indicator.connected {
+        background: var(--green);
+    }
+
+    .text-transfer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .text-transfer textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--background-alt);
+        color: var(--primary);
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .file-transfer h3 {
+        margin-bottom: 1rem;
+    }
+
+    .drop-zone {
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .drop-zone.dragover {
+        border-color: var(--accent);
+        background: var(--background-alt);
+    }
+
+    .drop-content p {
+        margin-bottom: 1rem;
+        color: var(--secondary);
+    }
+
+    .file-list {
+        margin-top: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .file-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .file-item:last-child {
+        border-bottom: none;
+    }
+
+    .file-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .file-name {
+        font-weight: 500;
+    }
+
+    .file-size {
+        font-size: 0.875rem;
+        color: var(--secondary);
+    }
+
+    .file-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .send-files-section {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--background-alt);
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0.5rem 0;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+        transition: width 0.3s ease;
+        border-radius: 4px;
+    }
+
+    .progress-text {
+        font-size: 0.875rem;
+        color: var(--secondary);
+        text-align: center;
+        display: block;
+    }
+
+    .receiving-progress {
+        text-align: center;
+    }
+
+    .receiving-progress h3 {
+        margin-bottom: 1rem;
+        color: var(--accent);
+    }
+
+    .session-controls {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .clipboard-container {
+            padding: 0.5rem;
+        }
+        
+        .join-form {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .join-form input {
+            width: 100%;
+        }
+        
+        .session-id {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+</style>

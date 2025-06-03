@@ -19,6 +19,7 @@ import { friendlyServiceName } from "../processing/service-alias.js";
 import { verifyStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
 import { setupTunnelHandler } from "./itunnel.js";
+import { setupSignalingServer } from "./signaling.js";
 
 import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
@@ -309,8 +310,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             streamInfo.range = req.headers['range'];
         }
 
-        return stream(res, streamInfo);
-    });
+        return stream(res, streamInfo);    });
 
     app.get('/', (_, res) => {
         res.type('json');
@@ -337,7 +337,12 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         setGlobalDispatcher(new ProxyAgent(env.externalProxy))
     }
 
-    http.createServer(app).listen({
+    const server = http.createServer(app);
+    
+    // 设置WebSocket信令服务器
+    setupSignalingServer(server);
+
+    server.listen({
         port: env.apiPort,
         host: env.listenAddress,
         reusePort: env.instanceCount > 1 || undefined
