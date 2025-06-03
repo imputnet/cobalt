@@ -83,10 +83,9 @@ if (browser) {
         // so they're enabled only on ios 18+ for now
         haptics: modernIOS,
 
-        // enable local processing by default
-        // on desktop & in firefox on android
-        // (first stage of rollout)
-        defaultLocalProcessing: !device.is.mobile ||
+        // enable local processing by default on
+        // desktop, ios 18+, and firefox on android
+        defaultLocalProcessing: !device.is.mobile || modernIOS ||
                                 (device.is.android && !device.browser.chrome),
     };
 
