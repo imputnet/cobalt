@@ -113,17 +113,16 @@ export default async function(obj) {
 
     if (!file) return { error: "fetch.empty" };
 
-    const title = json.title.trim();
     const artist = json.user.username.trim();
     const fileMetadata = {
-        title,
-        album: json.publisher_metadata.album_title?.trim() ?? title,
+        title: json.title.trim(),
+        album: json.publisher_metadata?.album_title?.trim(),
         artist,
         album_artist: artist,
-        composer: json.publisher_metadata.writer_composer?.trim(),
-        genre: json.genre.trim(),
-        date: json.display_date.slice(0, 4),
-        copyright: json.license.trim(),
+        composer: json.publisher_metadata?.writer_composer?.trim(),
+        genre: json.genre?.trim(),
+        date: json.display_date?.trim().slice(0, 10),
+        copyright: json.license?.trim(),
     }
 
     return {
