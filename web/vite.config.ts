@@ -92,7 +92,13 @@ export default defineConfig({
                 searchForWorkspaceRoot(process.cwd())
             ]
         },
-        proxy: {}
+        proxy: {
+            '/ws': {
+                target: 'ws://192.168.1.12:9000',
+                ws: true,
+                changeOrigin: true
+            }
+        }
     },
     optimizeDeps: {
         exclude: [ "@imput/libav.js-remux-cli" ]

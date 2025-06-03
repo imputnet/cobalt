@@ -72,10 +72,25 @@
         if (typeof window === 'undefined') return 'ws://localhost:9000/ws';
         
         const apiUrl = currentApiURL();
-        const url = new URL(apiUrl);
-        const protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+        console.log('Current API URL:', apiUrl);
         
-        return `${protocol}//${url.host}/ws`;
+        // For local development with SSL, use the Vite proxy
+        if (typeof window !== 'undefined') {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            let host = window.location.host;
+            
+            // For mobile access, use the actual IP instead of localhost
+            if (host.includes('localhost') || host.includes('127.0.0.1')) {
+                host = '192.168.1.12:5173';
+            }
+            
+            const wsUrl = `${protocol}//${host}/ws`;
+            console.log('Constructed WebSocket URL:', wsUrl);
+            return wsUrl;
+        }
+        
+        // Fallback for server-side rendering
+        return 'ws://192.168.1.12:9000/ws';
     }
 
     async function generateKeyPair(): Promise<void> {
@@ -177,11 +192,16 @@
                     console.log('WebSocket disconnected');
                     isConnected = false;
                 };
-                
-                ws.onerror = (error) => {
+                  ws.onerror = (error) => {
                     console.error('WebSocket error:', error);
+                    console.error('WebSocket error details:', { 
+                        readyState: ws?.readyState,
+                        url: wsUrl,
+                        error: error 
+                    });
                     isConnected = false;
-                    reject(error);
+                    alert('WebSocket connection failed. Check console for details.');
+                    reject(new Error('WebSocket connection failed'));
                 };
             } catch (error) {
                 reject(error);
@@ -223,11 +243,15 @@
             case 'ice_candidate':
                 await handleIceCandidate(message.candidate);
                 break;
-                
-            case 'error':
-                console.error('Server error:', message.error);
+                  case 'error':
+                console.error('Server error:', message);
+                alert(`WebSocket error: ${message.message || message.error || 'Unknown error'}`);
                 isCreating = false;
                 isJoining = false;
+                break;
+                
+            default:
+                console.warn('Unknown message type:', message);
                 break;
         }
     }    async function createSession(): Promise<void> {
@@ -248,25 +272,39 @@
         } catch (error) {
             console.error('Error creating session:', error);
             isCreating = false;
-        }
-    }    async function joinSession(): Promise<void> {
+        }    }    async function joinSession(): Promise<void> {
         try {
+            console.log('Starting join session process...', { joinCode, hasWebSocket: !!ws });
             isJoining = true;
+            
+            console.log('Generating key pair...');
             await generateKeyPair();
+            console.log('Key pair generated successfully');
+            
+            console.log('Connecting to WebSocket...');
             await connectWebSocket();
+            console.log('WebSocket connected, sending join request...');
             
             const publicKeyBuffer = await exportPublicKey();
             const publicKeyArray = Array.from(new Uint8Array(publicKeyBuffer));
+            console.log('Public key prepared, array length:', publicKeyArray.length);
             
-            if (ws) {
-                ws.send(JSON.stringify({
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const message = {
                     type: 'join_session',
                     sessionId: joinCode,
                     publicKey: publicKeyArray
-                }));
-            }
-        } catch (error) {
+                };
+                console.log('Sending join message:', message);
+                ws.send(JSON.stringify(message));
+                console.log('Join message sent successfully');
+            } else {
+                console.error('WebSocket not ready:', { ws: !!ws, readyState: ws?.readyState });
+                alert('WebSocket connection failed. Please try again.');
+                isJoining = false;
+            }        } catch (error) {
             console.error('Error joining session:', error);
+            alert(`Failed to join session: ${error instanceof Error ? error.message : 'Unknown error'}`);
             isJoining = false;
         }
     }
@@ -493,12 +531,17 @@
         const sizes = ['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    async function generateQRCode(): Promise<void> {
+    }    async function generateQRCode(): Promise<void> {
         try {
             if (typeof window !== 'undefined' && sessionId) {
-                const url = `${window.location.origin}/clipboard?session=${sessionId}`;
+                // For QR codes, use the actual IP address instead of localhost
+                let origin = window.location.origin;
+                if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+                    // Use the same IP that we use for WebSocket connections
+                    origin = origin.replace(/localhost:\d+|127\.0\.0\.1:\d+/, '192.168.1.12:5173');
+                }
+                
+                const url = `${origin}/clipboard?session=${sessionId}`;
                 qrCodeUrl = await QRCode.toDataURL(url, {
                     width: 200,
                     margin: 2,
@@ -510,11 +553,15 @@
             console.error('QR Code generation failed:', error);
             console.log('QR Code generation failed:', { hasWindow: typeof window !== 'undefined', sessionId });
         }
-    }
-
-    function shareSession(): void {
+    }    function shareSession(): void {
         if (typeof window !== 'undefined' && sessionId) {
-            const url = `${window.location.origin}/clipboard?session=${sessionId}`;
+            // Use the same logic as QR code generation for consistency
+            let origin = window.location.origin;
+            if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+                origin = origin.replace(/localhost:\d+|127\.0\.0\.1:\d+/, '192.168.1.12:5173');
+            }
+            
+            const url = `${origin}/clipboard?session=${sessionId}`;
             navigator.clipboard.writeText(url);
         }
     }
