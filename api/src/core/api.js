@@ -3,8 +3,7 @@ import http from "node:http";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, ProxyAgent } from "undici";
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
-import registry from "../misc/metrics.js"
-import { httpRequests, httpRequestDuration } from "../misc/metrics.js"
+import { httpRequests, httpRequestDuration, WORKER_ID, aggregatorRegistry } from "../misc/metrics.js";
 
 import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
@@ -118,11 +117,11 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
     if (metrics) {
         app.use((req, res, next) => {
-            const end = httpRequestDuration.startTimer({ method: req.method });
-          
+            const end = httpRequestDuration.startTimer({ method: req.method, worker_id: WORKER_ID });
+
             res.on('finish', () => {
-              httpRequests.labels(req.method, res.statusCode.toString()).inc();
-              end();
+                httpRequests.labels(req.method, res.statusCode.toString(), WORKER_ID).inc();
+                end();
             });
           
             next();
@@ -389,20 +388,26 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             YouTubeSession.setup();
         }
 
-        if (metrics) {
+        if (metrics && isPrimary) {
             const metricsApp = express();
-
+        
             metricsApp.get('/metrics', async (req, res) => {
-                res.set('Content-Type', registry.contentType);
-                res.send(await registry.metrics());
-            });
-            metricsApp.listen(env.metricsPort, '127.0.0.1', () => {
-                console.log(`${Green('[✓]')} prometheus metrics running on 127.0.0.1:${env.metricsPort}/metrics`);
+                try {
+                    const data = await aggregatorRegistry.clusterMetrics();
+                    res.set('Content-Type', 'text/plain');
+                    res.end(data);
+                } catch (err) {
+                    res.status(500).end(err.message);
+                }
             });
 
             metricsApp.get('/*', (req, res) => {
                 res.redirect('/metrics');
-            })
+            });
+        
+            metricsApp.listen(env.metricsPort, '127.0.0.1', () => {
+                console.log(`${Green('[✓]')} prometheus metrics running on 127.0.0.1:${env.metricsPort}/metrics`);
+            });
         }
     });
 
