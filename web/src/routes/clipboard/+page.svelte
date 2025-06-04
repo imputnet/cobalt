@@ -1,4 +1,5 @@
-<script lang="ts">    import { onMount, onDestroy } from 'svelte';
+<script lang="ts">
+    import { onMount, onDestroy } from 'svelte';
     import { t } from '$lib/i18n/translations';
     import SettingsCategory from '$components/settings/SettingsCategory.svelte';
     import ActionButton from '$components/buttons/ActionButton.svelte';
@@ -50,10 +51,110 @@
     let receivingFiles = false;
     let transferProgress = 0;
     let currentReceivingFile: ReceivingFile | null = null;
+    
+    // Session persistence
+    let storedSessionId = '';
+    let storedIsCreator = false;
+    
+    // Load stored session data
+    function loadStoredSession(): void {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem('clipboard_session');
+            if (stored) {
+                try {
+                    const sessionData = JSON.parse(stored);
+                    const now = Date.now();
+                    
+                    // Check if session is still valid (30 minute timeout)
+                    if (sessionData.timestamp && (now - sessionData.timestamp) < 30 * 60 * 1000) {
+                        storedSessionId = sessionData.sessionId || '';
+                        storedIsCreator = sessionData.isCreator || false;
+                        console.log('📁 Loaded stored session:', { 
+                            sessionId: storedSessionId, 
+                            isCreator: storedIsCreator,
+                            age: Math.round((now - sessionData.timestamp) / 1000) + 's'
+                        });
+                        return;
+                    } else {
+                        console.log('🕐 Stored session expired, clearing...');
+                        localStorage.removeItem('clipboard_session');
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading stored session:', error);
+                    localStorage.removeItem('clipboard_session');
+                }
+            }
+        }
+        
+        storedSessionId = '';
+        storedIsCreator = false;
+    }
+    
+    // Save session data to localStorage
+    function saveSession(sessionId: string, isCreator: boolean): void {
+        if (typeof window !== 'undefined' && sessionId) {
+            const sessionData = {
+                sessionId,
+                isCreator,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('clipboard_session', JSON.stringify(sessionData));
+            console.log('💾 Session saved to localStorage:', sessionData);
+        }
+    }
+    
+    // Clear stored session
+    function clearStoredSession(): void {
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('clipboard_session');
+            console.log('🗑️ Stored session cleared');
+        }
+        storedSessionId = '';
+        storedIsCreator = false;
+    }
+    
+    // Attempt to reconnect to stored session
+    async function reconnectToStoredSession(): Promise<boolean> {
+        if (!storedSessionId) return false;
+        
+        try {
+            console.log('🔄 Attempting to reconnect to stored session:', storedSessionId);
+            
+            await generateKeyPair();
+            await connectWebSocket();
+            
+            const publicKeyBuffer = await exportPublicKey();
+            const publicKeyArray = Array.from(new Uint8Array(publicKeyBuffer));
+            
+            if (ws) {
+                if (storedIsCreator) {
+                    // Reconnect as creator
+                    ws.send(JSON.stringify({
+                        type: 'create_session',
+                        existingSessionId: storedSessionId,
+                        publicKey: publicKeyArray
+                    }));
+                } else {
+                    // Reconnect as joiner
+                    ws.send(JSON.stringify({
+                        type: 'join_session',
+                        sessionId: storedSessionId,
+                        publicKey: publicKeyArray
+                    }));
+                }
+                return true;
+            }
+        } catch (error) {
+            console.error('❌ Error reconnecting to stored session:', error);
+            clearStoredSession();
+        }
+        
+        return false;
+    }
 
-    // Constants
-    const CHUNK_SIZE = 64 * 1024; // 64KB chunks
-
+    // Lifecycle functions
+    let statusInterval: ReturnType<typeof setInterval> | null = null;
+    
     onMount(async () => {
         // Check for session parameter in URL
         if (typeof window !== 'undefined') {
@@ -62,13 +163,43 @@
             if (sessionParam) {
                 joinCode = sessionParam;
                 await joinSession();
+            } else {
+                // Try to reconnect to stored session if no session param
+                loadStoredSession();
+                if (storedSessionId) {
+                    console.log('🔄 Reconnecting to stored session on mount:', storedSessionId);
+                    await reconnectToStoredSession();
+                }
             }
         }
+        
+        // Start periodic connection status check
+        statusInterval = setInterval(() => {
+            if (dataChannel) {
+                const wasConnected = peerConnected;
+                const isNowConnected = dataChannel.readyState === 'open';
+                
+                if (wasConnected !== isNowConnected) {
+                    console.log('Data channel state changed:', {
+                        was: wasConnected,
+                        now: isNowConnected,
+                        readyState: dataChannel.readyState
+                    });
+                    peerConnected = isNowConnected;
+                }
+            }
+        }, 1000);
     });
 
     onDestroy(() => {
+        if (statusInterval) {
+            clearInterval(statusInterval);
+        }
         cleanup();
-    });    function getWebSocketURL(): string {
+    });
+
+    // Helper functions
+    function getWebSocketURL(): string {
         if (typeof window === 'undefined') return 'ws://localhost:9000/ws';
         
         const apiUrl = currentApiURL();
@@ -98,13 +229,14 @@
             { name: 'ECDH', namedCurve: 'P-256' },
             false,
             ['deriveKey']
-        );
-    }
+        );    }
 
     async function exportPublicKey(): Promise<ArrayBuffer> {
         if (!keyPair) throw new Error('Key pair not generated');
         return await window.crypto.subtle.exportKey('raw', keyPair.publicKey);
-    }    async function importRemotePublicKey(publicKeyArray: number[]): Promise<void> {
+    }
+
+    async function importRemotePublicKey(publicKeyArray: number[]): Promise<void> {
         const publicKeyBuffer = new Uint8Array(publicKeyArray).buffer;
         remotePublicKey = await window.crypto.subtle.importKey(
             'raw',
@@ -208,6 +340,8 @@
             }
         });
     }    async function handleWebSocketMessage(message: any): Promise<void> {
+        console.log('Handling WebSocket message:', message.type, message);
+        
         switch (message.type) {
             case 'session_created':
                 sessionId = message.sessionId;
@@ -215,21 +349,66 @@
                 isCreator = true;
                 console.log('Session created:', sessionId);
                 await generateQRCode();
+                saveSession(sessionId, isCreator); // Save session on create
+                break;
+                
+            case 'session_reconnected':
+                sessionId = message.sessionId;
+                isCreating = false;
+                isCreator = true;
+                console.log('Session reconnected:', sessionId);
+                await generateQRCode();
+                saveSession(sessionId, isCreator); // Update saved session on reconnect
                 break;
                 
             case 'session_joined':
+                console.log('Session joined successfully, setting up WebRTC...');
                 await importRemotePublicKey(message.publicKey);
                 await deriveSharedKey();
                 isJoining = false;
+                console.log('About to setup WebRTC as joiner (offer=false)');
                 await setupWebRTC(false);
                 break;
                 
+            case 'waiting_for_creator':
+                console.log('Waiting for creator to reconnect...');
+                isJoining = false;
+                // 可以显示等待状态给用户
+                break;
+                
+            case 'creator_reconnected':
+                console.log('Creator reconnected, setting up WebRTC...');
+                await importRemotePublicKey(message.publicKey);
+                await deriveSharedKey();
+                console.log('About to setup WebRTC as joiner (offer=false)');
+                await setupWebRTC(false);
+                break;
+                
+            case 'peer_already_joined':
+                console.log('Peer already joined, setting up WebRTC...');
+                await importRemotePublicKey(message.publicKey);
+                await deriveSharedKey();
+                console.log('Setting up WebRTC as creator (offer=true)');
+                await setupWebRTC(true);
+                break;
+                
             case 'peer_joined':
+                console.log('Peer joined, setting up WebRTC...');
                 await importRemotePublicKey(message.publicKey);
                 await deriveSharedKey();
                 if (isCreator) {
+                    console.log('Setting up WebRTC as creator (offer=true)');
                     await setupWebRTC(true);
+                } else {
+                    console.log('Setting up WebRTC as joiner (offer=false)');
+                    await setupWebRTC(false);
                 }
+                break;
+                
+            case 'peer_disconnected':
+                console.log('Peer disconnected, waiting for reconnection...');
+                peerConnected = false;
+                // 可以显示等待重连状态
                 break;
                 
             case 'offer':
@@ -307,75 +486,250 @@
             alert(`Failed to join session: ${error instanceof Error ? error.message : 'Unknown error'}`);
             isJoining = false;
         }
-    }
-
-    async function setupWebRTC(shouldCreateOffer: boolean): Promise<void> {
+    }    async function setupWebRTC(shouldCreateOffer: boolean): Promise<void> {
+        console.log('Setting up WebRTC...', { shouldCreateOffer, isCreator });
+        
+        // Clean up any existing connection
+        if (peerConnection) {
+            console.log('🧹 Cleaning up existing peer connection');
+            peerConnection.close();
+        }
+        
         peerConnection = new RTCPeerConnection({
-            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' }
+            ],
+            iceCandidatePoolSize: 10
         });
 
-        peerConnection.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
-            if (event.candidate && ws) {
-                ws.send(JSON.stringify({
-                    type: 'ice_candidate',
-                    candidate: event.candidate
-                }));
+        // Enhanced connection state tracking
+        peerConnection.onconnectionstatechange = () => {
+            const state = peerConnection?.connectionState;
+            console.log('🔄 Peer connection state changed:', state);
+            
+            if (state === 'connected') {
+                console.log('🎉 Peer connection established successfully!');
+            } else if (state === 'failed') {
+                console.error('❌ Peer connection failed');
+                peerConnected = false;
+                // Try to restart connection after a delay
+                setTimeout(() => {
+                    if (isCreator && state === 'failed') {
+                        console.log('🔄 Attempting to restart failed connection...');
+                        setupWebRTC(true);
+                    }
+                }, 2000);
+            } else if (state === 'disconnected') {
+                console.warn('⚠️ Peer connection disconnected');
+                peerConnected = false;
             }
         };
 
+        peerConnection.oniceconnectionstatechange = () => {
+            const iceState = peerConnection?.iceConnectionState;
+            console.log('🧊 ICE connection state changed:', iceState);
+            
+            if (iceState === 'connected' || iceState === 'completed') {
+                console.log('🎉 ICE connection established!');
+            } else if (iceState === 'failed') {
+                console.error('❌ ICE connection failed - checking data channel...');
+                if (dataChannel && dataChannel.readyState !== 'open') {
+                    console.log('🔄 ICE failed but data channel not open, will restart');
+                    setTimeout(() => {
+                        if (isCreator && iceState === 'failed') {
+                            console.log('🔄 Restarting WebRTC due to ICE failure...');
+                            setupWebRTC(true);
+                        }
+                    }, 3000);
+                }
+            } else if (iceState === 'disconnected') {
+                console.warn('⚠️ ICE connection disconnected');
+            }
+        };
+
+        peerConnection.onicegatheringstatechange = () => {
+            const gatheringState = peerConnection?.iceGatheringState;
+            console.log('🧊 ICE gathering state changed:', gatheringState);
+            
+            if (gatheringState === 'complete') {
+                console.log('✅ ICE gathering completed');
+            }
+        };
+
+        peerConnection.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
+            if (event.candidate) {
+                console.log('🧊 New ICE candidate generated:', {
+                    candidate: event.candidate.candidate,
+                    sdpMid: event.candidate.sdpMid,
+                    sdpMLineIndex: event.candidate.sdpMLineIndex,
+                    type: event.candidate.type,
+                    protocol: event.candidate.protocol
+                });
+                
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({
+                        type: 'ice_candidate',
+                        candidate: event.candidate
+                    }));
+                    console.log('📤 ICE candidate sent via WebSocket');
+                } else {
+                    console.error('❌ WebSocket not ready when sending ICE candidate');
+                }
+            } else {
+                console.log('🏁 ICE gathering completed (null candidate received)');
+            }
+        };
+
+        peerConnection.onsignalingstatechange = () => {
+            const signalingState = peerConnection?.signalingState;
+            console.log('📡 Signaling state changed:', signalingState);
+            
+            if (signalingState === 'stable') {
+                console.log('✅ Signaling negotiation completed successfully');
+            } else if (signalingState === 'closed') {
+                console.log('🔒 Peer connection signaling closed');
+            }
+        };
+
+        peerConnection.ondatachannel = (event: RTCDataChannelEvent) => {
+            console.log('📥 Data channel received from remote peer:', {
+                label: event.channel.label,
+                readyState: event.channel.readyState,
+                ordered: event.channel.ordered,
+                protocol: event.channel.protocol
+            });
+            dataChannel = event.channel;
+            setupDataChannel(dataChannel);
+        };
+
         if (shouldCreateOffer) {
-            dataChannel = peerConnection.createDataChannel('fileTransfer', { ordered: true });
+            console.log('👑 Creating data channel and offer (as creator)...');
+            dataChannel = peerConnection.createDataChannel('fileTransfer', { 
+                ordered: true,
+                maxRetransmits: 3
+            });
+            console.log('📡 Data channel created:', {
+                label: dataChannel.label,
+                readyState: dataChannel.readyState,
+                ordered: dataChannel.ordered
+            });
             setupDataChannel(dataChannel);
             
-            peerConnection.createOffer().then((offer: RTCSessionDescriptionInit) => {
-                if (peerConnection) {
-                    peerConnection.setLocalDescription(offer);
-                    if (ws) {
-                        ws.send(JSON.stringify({ type: 'offer', offer: offer }));
-                    }
+            try {
+                console.log('⏳ Creating WebRTC offer...');
+                const offer = await peerConnection.createOffer();
+                console.log('📝 Offer created, setting as local description...');
+                await peerConnection.setLocalDescription(offer);
+                console.log('✅ Local description set successfully');
+                console.log('Offer details:', {
+                    type: offer.type,
+                    sdpPreview: offer.sdp?.substring(0, 200) + '...'
+                });
+                
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'offer', offer: offer }));
+                    console.log('📤 Offer sent via WebSocket');
+                } else {
+                    console.error('❌ WebSocket not ready when sending offer');
                 }
-            });
+                
+                // Enhanced timeout for connection establishment
+                setTimeout(() => {
+                    if (dataChannel && dataChannel.readyState !== 'open') {
+                        console.warn('⚠️ Data channel still not open after 30 seconds');
+                        console.log('Current connection states:', {
+                            dataChannelState: dataChannel.readyState,
+                            peerConnectionState: peerConnection?.connectionState,
+                            iceConnectionState: peerConnection?.iceConnectionState,
+                            iceGatheringState: peerConnection?.iceGatheringState,
+                            signalingState: peerConnection?.signalingState
+                        });
+                        
+                        // Auto-restart if stuck
+                        console.log('🔄 Auto-restarting WebRTC connection due to timeout...');
+                        setupWebRTC(true);
+                    }
+                }, 30000);
+                
+            } catch (error) {
+                console.error('❌ Error creating offer:', error);
+            }
         } else {
-            peerConnection.ondatachannel = (event: RTCDataChannelEvent) => {
-                dataChannel = event.channel;
-                setupDataChannel(dataChannel);
-            };
+            console.log('👥 Waiting for data channel from remote peer (as joiner)...');
         }
-    }
+    }function setupDataChannel(channel: RTCDataChannel): void {
+        console.log('Setting up data channel:', { 
+            readyState: channel.readyState, 
+            label: channel.label,
+            ordered: channel.ordered,
+            protocol: channel.protocol
+        });
 
-    function setupDataChannel(channel: RTCDataChannel): void {
         channel.onopen = () => {
-            console.log('Data channel opened');
+            console.log('🎉 Data channel opened successfully!');
+            console.log('Data channel final state:', {
+                readyState: channel.readyState,
+                bufferedAmount: channel.bufferedAmount,
+                maxPacketLifeTime: channel.maxPacketLifeTime,
+                maxRetransmits: channel.maxRetransmits
+            });
             peerConnected = true;
+            console.log('✅ peerConnected set to true, UI should update');
+            
+            // Force reactive update
+            peerConnected = peerConnected;
         };
 
         channel.onclose = () => {
-            console.log('Data channel closed');
+            console.log('❌ Data channel closed');
+            console.log('Data channel close state:', {
+                readyState: channel.readyState,
+                peerConnectionState: peerConnection?.connectionState
+            });
             peerConnected = false;
+        };
+
+        channel.onerror = (error) => {
+            console.error('❌ Data channel error:', error);
+            console.error('Data channel error details:', {
+                readyState: channel.readyState,
+                error: error,
+                peerConnectionState: peerConnection?.connectionState,
+                iceConnectionState: peerConnection?.iceConnectionState
+            });
         };
 
         channel.onmessage = async (event) => {
             try {
+                console.log('📩 Received data channel message, size:', event.data.byteLength || event.data.length);
                 const encryptedData = event.data;
                 const decryptedMessage = await decryptData(encryptedData);
                 const message = JSON.parse(decryptedMessage);
                 
+                console.log('📩 Decrypted message type:', message.type);
+                
                 if (message.type === 'text') {
                     textContent = message.data;
+                    console.log('📝 Text content received');
                 } else if (message.type === 'file_info') {
                     currentReceivingFile = {
                         name: message.name,
                         size: message.size,
-                        type: message.type,
+                        type: message.mimeType,
                         chunks: [],
                         receivedSize: 0
                     };
                     receivingFiles = true;
+                    console.log('📁 File transfer started:', message.name);
                 } else if (message.type === 'file_chunk' && currentReceivingFile) {
                     const chunkData = new Uint8Array(message.data);
                     currentReceivingFile.chunks.push(chunkData);
                     currentReceivingFile.receivedSize += chunkData.length;
                     transferProgress = (currentReceivingFile.receivedSize / currentReceivingFile.size) * 100;
+                    
+                    console.log(`📦 File chunk received: ${Math.round(transferProgress)}%`);
                     
                     if (currentReceivingFile.receivedSize >= currentReceivingFile.size) {
                         const completeFile = new Blob(currentReceivingFile.chunks, { type: currentReceivingFile.type });
@@ -386,37 +740,106 @@
                             blob: completeFile
                         }];
                         
+                        console.log('✅ File transfer completed:', currentReceivingFile.name);
                         currentReceivingFile = null;
                         receivingFiles = false;
                         transferProgress = 0;
                     }
                 }
             } catch (error) {
-                console.error('Error handling data channel message:', error);
+                console.error('❌ Error handling data channel message:', error);
             }
         };
-    }
 
-    async function handleOffer(offer: RTCSessionDescriptionInit): Promise<void> {
-        if (!peerConnection) return;
+        // If the channel is already open, set the state immediately
+        if (channel.readyState === 'open') {
+            console.log('✅ Data channel was already open, setting peerConnected to true');
+            peerConnected = true;
+        } else {
+            console.log('⏳ Data channel not yet open, current state:', channel.readyState);
+        }
+    }    async function handleOffer(offer: RTCSessionDescriptionInit): Promise<void> {
+        if (!peerConnection) {
+            console.error('❌ No peer connection when handling offer');
+            return;
+        }
         
-        await peerConnection.setRemoteDescription(offer);
-        const answer = await peerConnection.createAnswer();
-        await peerConnection.setLocalDescription(answer);
-        
-        if (ws) {
-            ws.send(JSON.stringify({ type: 'answer', answer: answer }));
+        try {
+            console.log('📥 Received offer, setting as remote description...');
+            console.log('Offer SDP preview:', offer.sdp?.substring(0, 200) + '...');
+            
+            await peerConnection.setRemoteDescription(offer);
+            console.log('✅ Remote description set successfully');
+            
+            console.log('⏳ Creating answer...');
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            console.log('✅ Answer created and set as local description');
+            console.log('Answer SDP preview:', answer.sdp?.substring(0, 200) + '...');
+            
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ type: 'answer', answer: answer }));
+                console.log('📤 Answer sent via WebSocket');
+            } else {
+                console.error('❌ WebSocket not ready when sending answer');
+            }
+        } catch (error) {
+            console.error('❌ Error handling offer:', error);
         }
     }
 
     async function handleAnswer(answer: RTCSessionDescriptionInit): Promise<void> {
-        if (!peerConnection) return;
-        await peerConnection.setRemoteDescription(answer);
+        if (!peerConnection) {
+            console.error('❌ No peer connection when handling answer');
+            return;
+        }
+        
+        try {
+            console.log('📥 Received answer, setting as remote description...');
+            console.log('Answer SDP preview:', answer.sdp?.substring(0, 200) + '...');
+            
+            await peerConnection.setRemoteDescription(answer);
+            console.log('✅ Remote description set successfully from answer');
+        } catch (error) {
+            console.error('❌ Error handling answer:', error);
+        }
     }
 
     async function handleIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
-        if (!peerConnection) return;
-        await peerConnection.addIceCandidate(candidate);
+        if (!peerConnection) {
+            console.error('❌ No peer connection when handling ICE candidate');
+            return;
+        }
+        
+        try {
+            console.log('🧊 Received ICE candidate:', {
+                candidate: candidate.candidate,
+                sdpMid: candidate.sdpMid,
+                sdpMLineIndex: candidate.sdpMLineIndex
+            });
+            
+            // Wait for remote description to be set before adding ICE candidates
+            if (peerConnection.remoteDescription) {
+                await peerConnection.addIceCandidate(candidate);
+                console.log('✅ ICE candidate added successfully');
+            } else {
+                console.warn('⚠️ Remote description not set yet, queuing ICE candidate');
+                // You might want to queue candidates here, but for simplicity we'll just wait
+                setTimeout(async () => {
+                    if (peerConnection && peerConnection.remoteDescription) {
+                        try {
+                            await peerConnection.addIceCandidate(candidate);
+                            console.log('✅ Queued ICE candidate added successfully');
+                        } catch (error) {
+                            console.error('❌ Error adding queued ICE candidate:', error);
+                        }
+                    }
+                }, 1000);
+            }
+        } catch (error) {
+            console.error('❌ Error handling ICE candidate:', error);
+            console.error('ICE candidate details:', candidate);
+        }
     }
 
     async function sendText(): Promise<void> {
@@ -566,6 +989,37 @@
         }
     }
 
+    async function restartWebRTC(): Promise<void> {
+        console.log('🔄 Manually restarting WebRTC connection...');
+        
+        // Close existing connections
+        if (dataChannel) {
+            console.log('🧹 Closing existing data channel...');
+            dataChannel.close();
+            dataChannel = null;
+        }
+        
+        if (peerConnection) {
+            console.log('🧹 Closing existing peer connection...');
+            peerConnection.close();
+            peerConnection = null;
+        }
+        
+        // Reset state
+        peerConnected = false;
+        
+        // Wait a bit before restarting
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Restart WebRTC
+        if (isCreator) {
+            console.log('🔄 Restarting as creator (creating offer)...');
+            await setupWebRTC(true);
+        } else {
+            console.log('⚠️ Only creator can initiate restart. Waiting for creator to restart...');
+        }
+    }
+
     function cleanup(): void {
         if (dataChannel) {
             dataChannel.close();
@@ -655,10 +1109,98 @@
                             <img src={qrCodeUrl} alt="QR Code" />
                         </div>
                     {/if}
-                    
-                    <div class="connection-status">
+                      <div class="connection-status">
                         <span class="status-indicator" class:connected={peerConnected}></span>
                         {peerConnected ? $t("clipboard.peer_connected") : $t("clipboard.waiting_peer")}
+                    </div>
+                      <!-- Debug panel -->
+                    <div class="debug-panel">
+                        <details>
+                            <summary>🔧 Connection Debug</summary>
+                            <div class="debug-info">
+                                <p><strong>WebSocket:</strong> {isConnected ? '✅ Connected' : '❌ Disconnected'}</p>
+                                <p><strong>Session ID:</strong> {sessionId || 'Not set'}</p>
+                                <p><strong>Is Creator:</strong> {isCreator ? 'Yes' : 'No'}</p>
+                                <p><strong>Peer Connected:</strong> {peerConnected ? '✅ Yes' : '❌ No'}</p>
+                                <p><strong>Data Channel:</strong> {dataChannel ? (dataChannel.readyState || 'Unknown') : 'Not created'}</p>                                <p><strong>Peer Connection:</strong> {peerConnection ? (peerConnection.connectionState || 'Unknown') : 'Not created'}</p>
+                                <p><strong>Signaling State:</strong> {peerConnection ? (peerConnection.signalingState || 'Unknown') : 'Not created'}</p>
+                                <p><strong>ICE Connection:</strong> {peerConnection ? (peerConnection.iceConnectionState || 'Unknown') : 'Not created'}</p>
+                                <p><strong>ICE Gathering:</strong> {peerConnection ? (peerConnection.iceGatheringState || 'Unknown') : 'Not created'}</p>
+                                
+                                <div class="debug-actions">
+                                    <button 
+                                        type="button" 
+                                        on:click={() => console.log('🔍 Full Debug State:', { 
+                                            isConnected, sessionId, isCreator, peerConnected, 
+                                            dataChannelState: dataChannel?.readyState,
+                                            peerConnectionState: peerConnection?.connectionState,
+                                            iceConnectionState: peerConnection?.iceConnectionState,
+                                            iceGatheringState: peerConnection?.iceGatheringState,
+                                            hasSharedKey: !!sharedKey,
+                                            hasRemotePublicKey: !!remotePublicKey,
+                                            wsReadyState: ws?.readyState
+                                        })}
+                                        class="debug-btn"
+                                    >
+                                        📝 Log Full State
+                                    </button>
+                                    
+                                    {#if dataChannel && dataChannel.readyState === 'open' && !peerConnected}
+                                        <button 
+                                            type="button" 
+                                            on:click={() => { 
+                                                console.log('🔧 Forcing peerConnected to true'); 
+                                                peerConnected = true; 
+                                            }}
+                                            class="debug-btn"
+                                        >
+                                            🔧 Force Connect
+                                        </button>
+                                    {/if}
+                                      {#if peerConnection && dataChannel && dataChannel.readyState === 'connecting'}
+                                        <button 
+                                            type="button" 
+                                            on:click={restartWebRTC}
+                                            class="debug-btn restart-btn"
+                                        >
+                                            🔄 Restart WebRTC
+                                        </button>
+                                    {/if}
+                                    
+                                    <button 
+                                        type="button" 
+                                        on:click={() => {
+                                            console.log('🧪 Testing data channel send...');
+                                            if (dataChannel && dataChannel.readyState === 'open') {
+                                                try {
+                                                    dataChannel.send('test-ping');
+                                                    console.log('✅ Test message sent successfully');
+                                                } catch (error) {
+                                                    console.error('❌ Test send failed:', error);
+                                                }
+                                            } else {
+                                                console.warn('⚠️ Data channel not ready for testing');
+                                            }
+                                        }}
+                                        class="debug-btn"
+                                    >
+                                        🧪 Test Send
+                                    </button>
+                                </div>
+                                
+                                {#if dataChannel && dataChannel.readyState === 'connecting'}
+                                    <div class="debug-warning">
+                                        ⚠️ Data channel stuck in "connecting" state. This usually indicates:
+                                        <ul>
+                                            <li>ICE connection issues</li>
+                                            <li>Firewall blocking WebRTC</li>
+                                            <li>NAT traversal problems</li>
+                                        </ul>
+                                        Try the "Restart WebRTC" button above.
+                                    </div>
+                                {/if}
+                            </div>
+                        </details>
                     </div>
                 </div>
             </div>
@@ -883,6 +1425,87 @@
 
     .status-indicator.connected {
         background-color: var(--green);
+    }
+
+    .debug-panel {
+        margin-top: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 0.25rem;
+        overflow: hidden;
+    }
+
+    .debug-panel summary {
+        padding: 0.5rem;
+        background-color: var(--background-alt);
+        cursor: pointer;
+        font-size: 0.85rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .debug-panel summary:hover {
+        background-color: var(--hover-background);
+    }
+
+    .debug-info {
+        padding: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .debug-info p {
+        margin: 0.25rem 0;
+        font-family: monospace;
+    }
+
+    .debug-actions {
+        margin-top: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .debug-btn {
+        padding: 0.25rem 0.5rem;
+        background-color: var(--accent-background);
+        border: 1px solid var(--accent);
+        border-radius: 0.25rem;
+        color: var(--accent);
+        cursor: pointer;
+        font-size: 0.75rem;
+        transition: all 0.2s ease;
+    }    .debug-btn:hover {
+        background-color: var(--accent);
+        color: var(--background);
+    }
+
+    .restart-btn {
+        background-color: var(--orange-background);
+        border-color: var(--orange);
+        color: var(--orange);
+    }
+
+    .restart-btn:hover {
+        background-color: var(--orange);
+        color: var(--background);
+    }
+
+    .debug-warning {
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background-color: var(--yellow-background);
+        border: 1px solid var(--yellow);
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        color: var(--text);
+    }
+
+    .debug-warning ul {
+        margin: 0.25rem 0 0 1rem;
+        padding: 0;
+    }
+
+    .debug-warning li {
+        margin: 0.1rem 0;
     }
 
     .text-transfer textarea {
