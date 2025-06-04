@@ -104,15 +104,27 @@
     </div>
 {/if}
 
-<style>
-    .connection-setup {
+<style>    .connection-setup {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 2.5rem;
+        padding: 1rem;
     }
 
     .setup-option {
         text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+    }
+
+    .setup-option:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
     }
 
     .setup-option h3 {
@@ -155,76 +167,147 @@
         border-radius: 0.25rem;
         background-color: var(--input-background);
         color: var(--text);
-    }
-
-    .session-info {
+    }    .session-info {
         text-align: center;
+        padding: 1rem;
     }
 
     .session-details {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         align-items: center;
     }
 
     .session-id {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(4px);
+    }
+
+    .session-id span {
+        font-weight: 500;
+        color: var(--secondary);
     }
 
     .session-id code {
-        background-color: var(--border);
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-family: monospace;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #667eea;
+        border: 1px solid rgba(102, 126, 234, 0.2);
     }
 
     .copy-btn {
-        background: none;
-        border: none;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         cursor: pointer;
-        padding: 0.25rem;
-        border-radius: 0.25rem;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        font-size: 1rem;
     }
 
     .copy-btn:hover {
-        background-color: var(--hover-background);
+        background: rgba(102, 126, 234, 0.1);
+        border-color: rgba(102, 126, 234, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
     }
 
     .qr-code {
         text-align: center;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(4px);
+    }
+
+    .qr-code h4 {
+        margin: 0 0 1rem 0;
+        font-weight: 600;
+        color: var(--text);
     }
 
     .qr-code img {
         max-width: 200px;
-        border: 1px solid var(--border);
-        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .connection-status {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        padding: 1rem 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(4px);
     }
 
     .status-indicator {
-        width: 12px;
-        height: 12px;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
-        background-color: var(--red);
+        background-color: #f44336;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .status-indicator::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border-radius: 50%;
+        background-color: inherit;
+        opacity: 0.3;
+        animation: pulse 2s infinite;
     }
 
     .status-indicator.connected {
-        background-color: var(--green);
+        background-color: #4caf50;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.3;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0.3;
+        }
+    }
+
+    .connection-status span {
+        font-weight: 500;
+        color: var(--text);
     }
 
     .disconnect-section {
         text-align: center;
-        margin-top: 2rem;
+        margin-top: 2.5rem;
         padding-top: 2rem;
-        border-top: 1px solid var(--border);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     @media (min-width: 768px) {

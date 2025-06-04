@@ -5,13 +5,11 @@
     import ActionButton from '$components/buttons/ActionButton.svelte';
     import QRCode from 'qrcode';
     import { currentApiURL } from '$lib/api/api-url';
-    
-    // Import clipboard components
+      // Import clipboard components
     import SessionManager from '$components/clipboard/SessionManager.svelte';
     import TabNavigation from '$components/clipboard/TabNavigation.svelte';
     import FileTransfer from '$components/clipboard/FileTransfer.svelte';
     import TextSharing from '$components/clipboard/TextSharing.svelte';
-    import DebugPanel from '$components/clipboard/DebugPanel.svelte';
       // Import clipboard manager
     import { ClipboardManager, clipboardState, type FileItem } from '$lib/clipboard/clipboard-manager';    // Types
     interface ReceivingFile {
@@ -146,22 +144,9 @@
         } else {
             console.log('No text to send');
         }
-    }
-
-    function handleClearText() {
+    }    function handleClearText() {
         clipboardState.update(state => ({ ...state, receivedText: '' }));
-    }
-
-    // Debug handlers
-    function handleRestartWebRTC() {
-        // Implementation would be in clipboard manager
-        console.log('Restart WebRTC');
-    }
-
-    function handleForceConnection() {
-        // Implementation would be in clipboard manager
-        console.log('Force connection');
-    }    // Lifecycle functions
+    }// Lifecycle functions
     onMount(async () => {
         clipboardManager = new ClipboardManager();
         
@@ -204,53 +189,54 @@
         on:shareSession={handleShareSession}
         on:cleanup={handleCleanup}
         bind:joinCode
-    />
+    />    {#if isConnected && peerConnected}        <!-- Connection Status Indicator -->
+        <div class="session-status">
+            <div class="status-badge">
+                <div class="status-dot connected"></div>
+                <span class="status-text">已连接到会话</span>
+            </div>
+        </div>
 
-    {#if isConnected && peerConnected}
         <!-- Tab Navigation Component -->
         <TabNavigation
             {activeTab}
             on:tabChange={handleTabChange}
         />
 
-        <!-- File Transfer Component -->        {#if activeTab === 'files'}
-            <FileTransfer
-                {files}
-                {receivedFiles}
-                {sendingFiles}
-                {receivingFiles}
-                {transferProgress}
-                {dragover}
-                {peerConnected}
-                on:filesSelected={handleFilesSelected}
-                on:removeFile={handleRemoveFile}
-                on:sendFiles={handleSendFiles}
-                on:downloadFile={handleDownloadFile}
-                on:removeReceivedFile={handleRemoveReceivedFile}
-            />
-        {/if}
+        <!-- Content Area -->
+        <div class="tab-content">
+            <!-- File Transfer Component -->
+            {#if activeTab === 'files'}
+                <FileTransfer
+                    {files}
+                    {receivedFiles}
+                    {sendingFiles}
+                    {receivingFiles}
+                    {transferProgress}
+                    {dragover}
+                    {peerConnected}
+                    on:filesSelected={handleFilesSelected}
+                    on:removeFile={handleRemoveFile}
+                    on:sendFiles={handleSendFiles}
+                    on:downloadFile={handleDownloadFile}
+                    on:removeReceivedFile={handleRemoveReceivedFile}
+                />
+            {/if}
 
-        <!-- Text Sharing Component -->        {#if activeTab === 'text'}
-            <TextSharing
-                {receivedText}
-                {peerConnected}
-                on:sendText={handleSendText}
-                on:clearText={handleClearText}
-                bind:textContent
-            />
-        {/if}
-    {/if}    <!-- Debug Panel Component -->    {#if isConnected}
-        <DebugPanel
-            {isConnected}
-            {sessionId}
-            {isCreator}
-            {peerConnected}
-            {dataChannel}
-            {peerConnection}
-            on:restartWebRTC={handleRestartWebRTC}
-            on:forceConnection={handleForceConnection}
-        />
+            <!-- Text Sharing Component -->
+            {#if activeTab === 'text'}
+                <TextSharing
+                    {receivedText}
+                    {peerConnected}
+                    on:sendText={handleSendText}
+                    on:clearText={handleClearText}
+                    bind:textContent
+                />
+            {/if}
+        </div>
+    {/if}
 
+    {#if isConnected}
         <!-- Disconnect Section -->
         <div class="disconnect-section">
             <ActionButton id="cleanup" click={handleCleanup}>
@@ -263,31 +249,298 @@
 <style>
     /* Main container styles */
     .clipboard-container {
-        max-width: 800px;
+        max-width: 900px;
         margin: 0 auto;
         padding: 2rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        min-height: 70vh;
     }
 
     .clipboard-header {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        padding: 2rem 0;
+        position: relative;
+    }
+
+    .clipboard-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+        border-radius: 2px;
+        margin-bottom: 1rem;
     }
 
     .clipboard-header h1 {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-top: 1rem;
+    }
+
+    .clipboard-header p {
+        color: var(--subtext);
+        font-size: 1.1rem;
+        font-weight: 400;
+        opacity: 0.8;
+    }
+
+    /* Enhanced session status */
+    .session-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        border-radius: 12px;
+        backdrop-filter: blur(8px);
+    }
+
+    .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        animation: pulse 2s infinite;
+    }
+
+    .status-text {
+        font-weight: 500;
+        color: #22c55e;
+        font-size: 0.95rem;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.7;
+            transform: scale(1.1);
+        }
+    }
+
+    /* Tab content styling */
+    .tab-content {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .tab-content:hover {
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+        border-color: rgba(255, 255, 255, 0.12);
     }
 
     .disconnect-section {
         text-align: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--border);
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(5px);
+    }
+
+    /* Enhanced card-like sections */
+    :global(.card) {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+    }
+
+    :global(.card:hover) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Progress indicators */
+    :global(.progress-container) {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 1rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* File drop zone enhancements */
+    :global(.drop-zone) {
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        padding: 3rem 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.02);
+        position: relative;
+        overflow: hidden;
+    }
+
+    :global(.drop-zone::before) {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.6s ease;
+    }
+
+    :global(.drop-zone:hover::before) {
+        left: 100%;
+    }
+
+    :global(.drop-zone.dragover) {
+        border-color: var(--accent);
+        background: rgba(var(--accent-rgb), 0.05);
+        transform: scale(1.02);
+    }
+
+    /* Button enhancements */
+    :global(.btn-primary) {
+        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        border: none;
+        border-radius: 12px;
+        padding: 0.8rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    :global(.btn-primary:hover) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(var(--accent-rgb), 0.4);
+    }
+
+    :global(.btn-primary::before) {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    :global(.btn-primary:hover::before) {
+        left: 100%;
+    }
+
+    /* Text areas and inputs */
+    :global(.text-input, .textarea) {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    :global(.text-input:focus, .textarea:focus) {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Enhanced spacing and layout */
+    :global(.section-spacing) {
+        margin: 2rem 0;
+    }
+
+    :global(.content-spacing) {
+        margin: 1.5rem 0;
+    }
+
+    /* Loading states */
+    :global(.loading-shimmer) {
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
     }
 
     /* Responsive Design */
     @media (max-width: 768px) {
         .clipboard-container {
             padding: 1rem;
+            margin: 1rem;
+            border-radius: 16px;
+        }
+
+        .clipboard-header h1 {
+            font-size: 2rem;
+        }
+
+        .clipboard-header {
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        :global(.card) {
+            padding: 1rem;
+        }
+
+        :global(.tab-content) {
+            padding: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .clipboard-container {
+            margin: 0.5rem;
+        }
+
+        .clipboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        :global(.drop-zone) {
+            padding: 2rem 1rem;
         }
     }
 </style>

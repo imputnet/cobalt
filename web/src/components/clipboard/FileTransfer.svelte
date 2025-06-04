@@ -177,139 +177,247 @@
     .file-transfer-section {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 2.5rem;
+        padding: 1rem;
     }
 
     .send-files, .received-files {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+    }
+
+    .send-files:hover, .received-files:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .send-files h4, .received-files h4 {
+        margin: 0 0 1rem 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .file-drop-zone {
-        border: 2px dashed var(--border);
-        border-radius: 0.5rem;
-        padding: 2rem;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        padding: 3rem 2rem;
         text-align: center;
-        transition: all 0.2s ease;
-        background-color: var(--background);
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .file-drop-zone::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+        transition: left 0.5s ease;
     }
 
     .file-drop-zone:hover {
-        border-color: var(--accent);
-        background-color: var(--accent-background);
+        border-color: rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
     }
 
-    .file-drop-zone.dragover {
-        border-color: var(--accent);
-        background-color: var(--accent-background);
-        transform: scale(1.02);
+    .file-drop-zone:hover::before {
+        left: 100%;
     }
+    .file-drop-zone.dragover {
+    border-color: rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.25);
+}
 
     .file-drop-zone p {
         margin-bottom: 1rem;
         color: var(--secondary);
+        font-size: 1.1rem;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
     }
 
     .file-list {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .file-list h5 {
+        margin: 0 0 1rem 0;
+        font-weight: 600;
+        color: var(--text);
+        font-size: 0.95rem;
     }
 
     .file-item {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem;
-        background-color: var(--background-alt);
-        border-radius: 0.25rem;
-        border: 1px solid var(--border);
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+    }
+
+    .file-item:hover {
+        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .file-name {
         flex: 1;
         font-weight: 500;
         color: var(--text);
+        word-break: break-all;
     }
 
     .file-size {
         color: var(--secondary);
         font-size: 0.9rem;
+        font-weight: 400;
     }
 
     .file-actions {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        align-items: center;
     }
 
     .download-btn {
-        background-color: var(--accent-background);
-        border: 1px solid var(--accent);
-        color: var(--accent);
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border: 1px solid rgba(102, 126, 234, 0.2);
+        color: #667eea;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
         cursor: pointer;
-        font-size: 0.8rem;
-        transition: all 0.2s ease;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
     }
 
     .download-btn:hover {
-        background-color: var(--accent);
-        color: var(--background);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+        border-color: rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
     }
 
     .remove-file {
-        background: none;
-        border: none;
-        color: var(--red);
+        background: rgba(244, 67, 54, 0.1);
+        border: 1px solid rgba(244, 67, 54, 0.2);
+        color: #f44336;
         cursor: pointer;
-        padding: 0.25rem;
-        border-radius: 0.25rem;
-        transition: background-color 0.2s;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        backdrop-filter: blur(4px);
     }
 
     .remove-file:hover {
-        background-color: var(--red-background);
+        background: rgba(244, 67, 54, 0.2);
+        border-color: rgba(244, 67, 54, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
     }
 
     .progress-section {
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: var(--background-alt);
-        border-radius: 0.5rem;
-        border: 1px solid var(--border);
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(4px);
     }
 
     .progress-section h4 {
-        margin: 0 0 0.5rem 0;
+        margin: 0 0 1rem 0;
         color: var(--text);
-        font-size: 0.9rem;
+        font-size: 1rem;
+        font-weight: 600;
     }
 
     .progress-bar {
         width: 100%;
-        height: 8px;
-        background-color: var(--border);
-        border-radius: 4px;
+        height: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
         overflow: hidden;
+        position: relative;
     }
 
     .progress-fill {
         height: 100%;
-        background-color: var(--accent);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         transition: width 0.3s ease;
+        border-radius: 6px;
+        position: relative;
+    }
+
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, 
+            transparent 25%, 
+            rgba(255, 255, 255, 0.2) 25%, 
+            rgba(255, 255, 255, 0.2) 50%, 
+            transparent 50%, 
+            transparent 75%, 
+            rgba(255, 255, 255, 0.2) 75%);
+        background-size: 20px 20px;
+        animation: progress-stripes 1s linear infinite;
+    }
+
+    @keyframes progress-stripes {
+        0% { background-position: 0 0; }
+        100% { background-position: 20px 0; }
     }
 
     .empty-state {
         text-align: center;
         color: var(--secondary);
         font-style: italic;
-        padding: 2rem;
-        border: 1px dashed var(--border);
-        border-radius: 0.5rem;
-        background-color: var(--background-alt);
+        padding: 3rem 2rem;
+        border: 2px dashed rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
+        transition: all 0.3s ease;
+    }
+
+    .empty-state:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
     }
 
     @media (max-width: 768px) {
