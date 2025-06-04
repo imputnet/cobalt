@@ -22,6 +22,9 @@
         receivedSize: number;
     }
 
+    // Constants
+    const CHUNK_SIZE = 64 * 1024; // 64KB chunks for file transfer
+
     // State variables
     let sessionId = '';
     let joinCode = '';
@@ -32,6 +35,9 @@
     let peerConnected = false;
     let qrCodeUrl = '';
     
+    // Navigation state
+    let activeTab: 'files' | 'text' = 'files';
+    
     // WebSocket and WebRTC
     let ws: WebSocket | null = null;
     let peerConnection: RTCPeerConnection | null = null;
@@ -40,17 +46,17 @@
     // Encryption
     let keyPair: CryptoKeyPair | null = null;
     let remotePublicKey: CryptoKey | null = null;
-    let sharedKey: CryptoKey | null = null;
-    
-    // File transfer
+    let sharedKey: CryptoKey | null = null;    // File transfer
     let files: File[] = [];
     let receivedFiles: FileItem[] = [];
     let textContent = '';
+    let receivedText = '';
     let dragover = false;
     let sendingFiles = false;
     let receivingFiles = false;
     let transferProgress = 0;
     let currentReceivingFile: ReceivingFile | null = null;
+    let fileInput: HTMLInputElement;
     
     // Session persistence
     let storedSessionId = '';
@@ -184,8 +190,7 @@
                         was: wasConnected,
                         now: isNowConnected,
                         readyState: dataChannel.readyState
-                    });
-                    peerConnected = isNowConnected;
+                    });                    peerConnected = isNowConnected;
                 }
             }
         }, 1000);
@@ -709,9 +714,8 @@
                 const message = JSON.parse(decryptedMessage);
                 
                 console.log('📩 Decrypted message type:', message.type);
-                
-                if (message.type === 'text') {
-                    textContent = message.data;
+                  if (message.type === 'text') {
+                    receivedText = message.data;
                     console.log('📝 Text content received');
                 } else if (message.type === 'file_info') {
                     currentReceivingFile = {
@@ -1018,9 +1022,7 @@
         } else {
             console.log('⚠️ Only creator can initiate restart. Waiting for creator to restart...');
         }
-    }
-
-    function cleanup(): void {
+    }    function cleanup(): void {
         if (dataChannel) {
             dataChannel.close();
             dataChannel = null;
@@ -1040,6 +1042,11 @@
         sharedKey = null;
         remotePublicKey = null;
         qrCodeUrl = '';
+        clearStoredSession();
+    }
+
+    function switchTab(tab: 'files' | 'text'): void {
+        activeTab = tab;
     }
 </script>
 
@@ -1061,9 +1068,11 @@
             <div class="connection-setup">
                 <div class="setup-option">
                     <h3>{$t("clipboard.create_session")}</h3>
-                    <p>{$t("clipboard.create_description")}</p>                    <ActionButton
+                    <p>{$t("clipboard.create_description")}</p>
+                    <ActionButton
                         id="create-session"
-                        click={createSession}                        disabled={isCreating}
+                        click={createSession}
+                        disabled={isCreating}
                     >
                         {isCreating ? $t("clipboard.creating") : $t("clipboard.create")}
                     </ActionButton>
@@ -1082,7 +1091,8 @@
                             bind:value={joinCode}
                             placeholder={$t("clipboard.enter_code")}
                             disabled={isJoining}
-                        />                        <ActionButton
+                        />
+                        <ActionButton
                             id="join-session"
                             click={joinSession}
                             disabled={isJoining || !joinCode.trim()}
@@ -1094,13 +1104,19 @@
             </div>
         </SettingsCategory>
     {:else}
+        <!-- Session Info -->
         <SettingsCategory title={$t("clipboard.session_active")} sectionId="session-info">
             <div class="session-info">
-                <h3>{$t("clipboard.session_active")}</h3>
                 <div class="session-details">
                     <div class="session-id">
                         <strong>{$t("clipboard.session_id")}:</strong>
                         <code>{sessionId}</code>
+                        <ActionButton 
+                            id="share-session"
+                            click={shareSession}
+                        >
+                            📋
+                        </ActionButton>
                     </div>
                     
                     {#if isCreator && sessionId && !peerConnected && qrCodeUrl}
@@ -1109,12 +1125,184 @@
                             <img src={qrCodeUrl} alt="QR Code" />
                         </div>
                     {/if}
-                      <div class="connection-status">
+                    
+                    <div class="connection-status">
                         <span class="status-indicator" class:connected={peerConnected}></span>
                         {peerConnected ? $t("clipboard.peer_connected") : $t("clipboard.waiting_peer")}
                     </div>
-                      <!-- Debug panel -->
-                    <div class="debug-panel">
+                </div>
+            </div>
+        </SettingsCategory>
+
+        {#if peerConnected}
+            <!-- Navigation Tabs -->
+            <div class="tab-navigation">
+                <button 
+                    class="tab-button" 
+                    class:active={activeTab === 'files'}
+                    on:click={() => switchTab('files')}
+                >
+                    📁 文件传输
+                </button>
+                <button 
+                    class="tab-button" 
+                    class:active={activeTab === 'text'}
+                    on:click={() => switchTab('text')}
+                >
+                    📝 文本分享
+                </button>
+            </div>
+
+            <!-- Files Tab -->
+            {#if activeTab === 'files'}
+                <SettingsCategory title="文件传输" sectionId="file-transfer">
+                    <div class="file-transfer-section">
+                        <div class="send-files">
+                            <h3>发送文件</h3>
+                            <div 
+                                class="file-drop-zone" 
+                                class:dragover
+                                on:dragover={handleDragOver}
+                                on:dragleave={handleDragLeave}
+                                on:drop={handleDrop}
+                            >
+                                <p>拖放文件到这里或点击选择</p>
+                                <input
+                                    type="file"
+                                    multiple
+                                    on:change={handleFileSelect}
+                                    style="display: none;"
+                                    bind:this={fileInput}
+                                />
+                                <ActionButton 
+                                    id="select-files"
+                                    click={() => fileInput?.click()}
+                                >
+                                    选择文件
+                                </ActionButton>
+                            </div>
+
+                            {#if files.length > 0}
+                                <div class="file-list">
+                                    <h4>待发送文件：</h4>
+                                    {#each files as file, index}
+                                        <div class="file-item">
+                                            <span class="file-name">{file.name}</span>
+                                            <span class="file-size">({formatFileSize(file.size)})</span>
+                                            <button 
+                                                type="button" 
+                                                on:click={() => removeFile(index)}
+                                                class="remove-file"
+                                            >
+                                                ❌
+                                            </button>
+                                        </div>
+                                    {/each}
+                                    <ActionButton 
+                                        id="send-files"
+                                        click={sendFiles}
+                                        disabled={sendingFiles}
+                                    >
+                                        {sendingFiles ? '发送中...' : '发送文件'}
+                                    </ActionButton>
+                                </div>
+                            {/if}
+
+                            {#if sendingFiles}
+                                <div class="progress-section">
+                                    <h4>发送进度：</h4>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: {transferProgress}%"></div>
+                                    </div>
+                                    <span class="progress-text">{Math.round(transferProgress)}%</span>
+                                </div>
+                            {/if}
+                        </div>
+
+                        <div class="received-files">
+                            <h3>接收到的文件</h3>
+                            {#if receivedFiles.length > 0}
+                                <div class="file-list">
+                                    {#each receivedFiles as file, index}
+                                        <div class="file-item">
+                                            <span class="file-name">{file.name}</span>
+                                            <span class="file-size">({formatFileSize(file.size)})</span>
+                                            <ActionButton 
+                                                id="download-{index}"
+                                                click={() => downloadReceivedFile(file)}
+                                            >
+                                                下载
+                                            </ActionButton>
+                                            <button 
+                                                type="button" 
+                                                on:click={() => removeReceivedFile(index)}
+                                                class="remove-file"
+                                            >
+                                                ❌
+                                            </button>
+                                        </div>
+                                    {/each}
+                                </div>
+                            {:else}
+                                <p class="empty-state">还没有接收到任何文件</p>
+                            {/if}
+
+                            {#if receivingFiles && currentReceivingFile}
+                                <div class="progress-section">
+                                    <h4>接收文件：{currentReceivingFile.name}</h4>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: {transferProgress}%"></div>
+                                    </div>
+                                    <span class="progress-text">{Math.round(transferProgress)}% ({formatFileSize(currentReceivingFile.receivedSize)} / {formatFileSize(currentReceivingFile.size)})</span>
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+                </SettingsCategory>
+            {/if}
+
+            <!-- Text Tab -->
+            {#if activeTab === 'text'}
+                <SettingsCategory title="文本分享" sectionId="text-sharing">
+                    <div class="text-sharing-section">
+                        <div class="send-text">
+                            <h3>发送文本</h3>
+                            <textarea
+                                bind:value={textContent}
+                                placeholder="输入要分享的文本内容..."
+                                rows="6"
+                                class="text-input"
+                            ></textarea>
+                            <ActionButton 
+                                id="send-text"
+                                click={sendText}
+                                disabled={!textContent.trim()}
+                            >
+                                发送文本
+                            </ActionButton>
+                        </div>                        <div class="received-text">
+                            <h3>接收到的文本</h3>
+                            {#if receivedText}
+                                <div class="text-display">
+                                    <pre class="text-content">{receivedText}</pre>
+                                    <ActionButton 
+                                        id="copy-text"
+                                        click={() => navigator.clipboard.writeText(receivedText)}
+                                    >
+                                        复制文本
+                                    </ActionButton>
+                                </div>
+                            {:else}
+                                <p class="empty-state">还没有接收到任何文本</p>
+                            {/if}
+                        </div>
+                    </div>                </SettingsCategory>
+            {/if}
+        {/if}
+
+        <!-- Debug Panel -->
+        <SettingsCategory title="Debug Panel" sectionId="debug-panel">
+            <div class="debug-panel">
                         <details>
                             <summary>🔧 Connection Debug</summary>
                             <div class="debug-info">
@@ -1197,110 +1385,14 @@
                                             <li>NAT traversal problems</li>
                                         </ul>
                                         Try the "Restart WebRTC" button above.
-                                    </div>
-                                {/if}
+                                    </div>                                {/if}
                             </div>
                         </details>
                     </div>
-                </div>
-            </div>
         </SettingsCategory>
 
-        {#if peerConnected}
-            <SettingsCategory title={$t("clipboard.send_text")} sectionId="text-transfer">
-                <div class="text-transfer">
-                    <h3>{$t("clipboard.send_text")}</h3>
-                    <textarea
-                        bind:value={textContent}
-                        placeholder={$t("clipboard.enter_text")}
-                        rows="4"
-                    ></textarea>                    <ActionButton id="send-text" click={sendText} disabled={!textContent.trim()}>
-                        {$t("clipboard.send")}
-                    </ActionButton>
-                </div>
-            </SettingsCategory>
-
-            <SettingsCategory title={$t("clipboard.send_files")} sectionId="file-transfer">
-                <div class="file-transfer">
-                    <h3>{$t("clipboard.send_files")}</h3>
-                    <div
-                        class="drop-zone"
-                        on:dragover|preventDefault={handleDragOver}
-                        on:dragleave={handleDragLeave}
-                        on:drop={handleDrop}
-                        class:dragover
-                    >
-                        <div class="drop-content">
-                            <p>{$t("clipboard.drop_files")}</p>
-                            <input
-                                type="file"
-                                multiple
-                                on:change={handleFileSelect}
-                                id="file-input"
-                                style="display: none;"
-                            />                            <ActionButton id="select-files" click={() => document.getElementById('file-input')?.click()}>
-                                {$t("clipboard.select_files")}
-                            </ActionButton>
-                        </div>
-                    </div>
-                    
-                    {#if files.length > 0}
-                        <div class="file-list">
-                            {#each files as file, index}
-                                <div class="file-item">
-                                    <span class="file-name">{file.name}</span>
-                                    <span class="file-size">({formatFileSize(file.size)})</span>
-                                    <button class="remove-btn" on:click={() => removeFile(index)}>×</button>
-                                </div>
-                            {/each}                            <ActionButton id="send-files" click={sendFiles} disabled={sendingFiles}>
-                                {sendingFiles ? $t("clipboard.sending") : $t("clipboard.send")}
-                            </ActionButton>
-                            
-                            {#if sendingFiles || transferProgress > 0}
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {transferProgress}%"></div>
-                                </div>
-                                <span class="progress-text">{Math.round(transferProgress)}%</span>
-                            {/if}
-                        </div>
-                    {/if}
-                </div>
-            </SettingsCategory>
-
-            {#if receivedFiles.length > 0}
-                <SettingsCategory title={$t("clipboard.received_files")} sectionId="received-files">
-                    <div class="received-files">
-                        <h3>{$t("clipboard.received_files")}</h3>
-                        <div class="file-list">
-                            {#each receivedFiles as file, index}
-                                <div class="file-item">
-                                    <span class="file-name">{file.name}</span>
-                                    <span class="file-size">({formatFileSize(file.size)})</span>
-                                    <div class="file-actions">
-                                        <button class="download-btn" on:click={() => downloadReceivedFile(file)}>
-                                            ⬇ {$t("clipboard.download")}
-                                        </button>
-                                        <button class="remove-btn" on:click={() => removeReceivedFile(index)}>×</button>
-                                    </div>
-                                </div>
-                            {/each}
-                        </div>
-                    </div>
-                </SettingsCategory>
-            {/if}
-
-            {#if receivingFiles && currentReceivingFile}
-                <SettingsCategory title={$t("clipboard.receiving")} sectionId="receiving-progress">
-                    <div class="receiving-progress">
-                        <h3>{$t("clipboard.receiving")}: {currentReceivingFile.name}</h3>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: {transferProgress}%"></div>
-                        </div>
-                        <span class="progress-text">{Math.round(transferProgress)}% ({formatFileSize(currentReceivingFile.receivedSize)} / {formatFileSize(currentReceivingFile.size)})</span>
-                    </div>
-                </SettingsCategory>
-            {/if}
-        {/if}        <div class="disconnect-section">
+        <!-- Disconnect Section -->
+        <div class="disconnect-section">
             <ActionButton id="cleanup" click={cleanup}>
                 {$t("clipboard.disconnect")}
             </ActionButton>
@@ -1309,6 +1401,200 @@
 </div>
 
 <style>
+    /* Tab Navigation Styles */
+    .tab-navigation {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        padding: 0.25rem;
+        background-color: var(--button);
+        border-radius: 0.5rem;
+        max-width: fit-content;
+        margin: 0 auto 1.5rem auto;
+    }
+
+    .tab-button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        background-color: transparent;
+        color: var(--secondary);
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .tab-button:hover {
+        background-color: var(--button-hover);
+        color: var(--text);
+    }
+
+    .tab-button.active {
+        background-color: var(--secondary);
+        color: var(--primary);
+        cursor: default;
+    }
+
+    .tab-button.active:hover {
+        background-color: var(--secondary);
+        color: var(--primary);
+    }
+
+    /* File Transfer Section Styles */
+    .file-transfer-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .send-files, .received-files {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .file-drop-zone {
+        border: 2px dashed var(--border);
+        border-radius: 0.5rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.2s ease;
+        background-color: var(--background);
+    }
+
+    .file-drop-zone:hover {
+        border-color: var(--accent);
+        background-color: var(--accent-background);
+    }
+
+    .file-drop-zone.dragover {
+        border-color: var(--accent);
+        background-color: var(--accent-background);
+        transform: scale(1.02);
+    }
+
+    .file-drop-zone p {
+        margin-bottom: 1rem;
+        color: var(--secondary);
+    }
+
+    /* Text Sharing Section Styles */
+    .text-sharing-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .send-text, .received-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .text-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        background-color: var(--input-background);
+        color: var(--text);
+        resize: vertical;
+        font-family: inherit;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .text-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px var(--accent-background);
+    }
+
+    .text-display {
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        background-color: var(--background-alt);
+    }
+
+    .text-content {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin: 0 0 1rem 0;
+        font-family: inherit;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--text);
+    }
+
+    /* Progress and File Item Styles */
+    .progress-section {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: var(--background-alt);
+        border-radius: 0.5rem;
+        border: 1px solid var(--border);
+    }
+
+    .progress-section h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--text);
+        font-size: 0.9rem;
+    }
+
+    .remove-file {
+        background: none;
+        border: none;
+        color: var(--red);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        transition: background-color 0.2s;
+    }
+
+    .remove-file:hover {
+        background-color: var(--red-background);
+    }
+
+    /* Empty State Styles */
+    .empty-state {
+        text-align: center;
+        color: var(--secondary);
+        font-style: italic;
+        padding: 2rem;
+        border: 1px dashed var(--border);
+        border-radius: 0.5rem;
+        background-color: var(--background-alt);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .tab-navigation {
+            width: 100%;
+            max-width: none;
+        }
+        
+        .tab-button {
+            flex: 1;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .file-transfer-section,
+        .text-sharing-section {
+            gap: 1.5rem;
+        }
+          .file-drop-zone {
+            padding: 1.5rem 1rem;
+        }
+    }
+
+    /* Main container styles */
     .clipboard-container {
         max-width: 800px;
         margin: 0 auto;
@@ -1502,105 +1788,8 @@
     .debug-warning ul {
         margin: 0.25rem 0 0 1rem;
         padding: 0;
-    }
-
-    .debug-warning li {
+    }    .debug-warning li {
         margin: 0.1rem 0;
-    }
-
-    .text-transfer textarea {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid var(--border);
-        border-radius: 0.25rem;
-        background-color: var(--input-background);
-        color: var(--text);
-        resize: vertical;
-        margin-bottom: 1rem;
-    }
-
-    .drop-zone {
-        border: 2px dashed var(--border);
-        border-radius: 0.5rem;
-        padding: 2rem;
-        text-align: center;
-        transition: border-color 0.2s;
-        margin-bottom: 1rem;
-    }
-
-    .drop-zone.dragover {
-        border-color: var(--accent);
-        background-color: var(--accent-background);
-    }
-
-    .file-list {
-        margin-top: 1rem;
-    }
-
-    .file-item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.5rem;
-        border: 1px solid var(--border);
-        border-radius: 0.25rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .file-name {
-        flex: 1;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    .file-size {
-        color: var(--secondary);
-        font-size: 0.9rem;
-    }
-
-    .file-actions {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    .download-btn, .remove-btn {
-        background: none;
-        border: 1px solid var(--border);
-        border-radius: 0.25rem;
-        padding: 0.25rem 0.5rem;
-        cursor: pointer;
-        color: var(--text);
-        transition: background-color 0.2s;
-    }
-
-    .download-btn:hover {
-        background-color: var(--accent-background);
-    }
-
-    .remove-btn:hover {
-        background-color: var(--red-background);
-        color: var(--red);
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 8px;
-        background-color: var(--border);
-        border-radius: 4px;
-        overflow: hidden;
-        margin: 0.5rem 0;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background-color: var(--accent);
-        transition: width 0.3s ease;
-    }
-
-    .progress-text {
-        font-size: 0.9rem;
-        color: var(--secondary);
     }
 
     .disconnect-section {
