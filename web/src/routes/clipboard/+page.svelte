@@ -48,6 +48,11 @@
     let dataChannel: RTCDataChannel | null = null;
     let peerConnection: RTCPeerConnection | null = null;
     
+    // Error handling state
+    let errorMessage = '';
+    let showError = false;
+    let waitingForCreator = false;
+    
     // Clipboard manager instance
     let clipboardManager: ClipboardManager;    // Subscribe to clipboard state
     $: if (clipboardManager) {
@@ -71,6 +76,9 @@
             transferProgress = state.transferProgress;
             dataChannel = state.dataChannel;
             peerConnection = state.peerConnection;
+            errorMessage = state.errorMessage;
+            showError = state.showError;
+            waitingForCreator = state.waitingForCreator;
         });
     }
 
@@ -143,10 +151,15 @@
             clipboardManager?.sendText(text);
         } else {
             console.log('No text to send');
-        }
-    }    function handleClearText() {
+        }    }    function handleClearText() {
         clipboardState.update(state => ({ ...state, receivedText: '' }));
-    }// Lifecycle functions
+    }
+
+    function handleClearError() {
+        clipboardManager?.clearError();
+    }
+
+// Lifecycle functions
     onMount(async () => {
         clipboardManager = new ClipboardManager();
         
@@ -171,27 +184,37 @@
     <meta property="description" content={$t("clipboard.description")} />
 </svelte:head>
 
-<div class="clipboard-container">    <div class="clipboard-header">
+<div class="clipboard-container">
+    <div class="clipboard-header">
         <h1>{$t("clipboard.title")}</h1>
         <div class="description-container">
             <p class="description-main">{$t("clipboard.description")}</p>
             <p class="description-subtitle">{$t("clipboard.description_subtitle")}</p>
+        </div>    </div>
+
+    <!-- Error Message Display -->
+    {#if showError && errorMessage}
+        <div class="error-notification" class:waiting={waitingForCreator}>
+            <div class="error-content">
+                <div class="error-icon">
+                    {#if waitingForCreator}
+                        <div class="spinner"></div>
+                    {:else}
+                        ⚠️
+                    {/if}
+                </div>                <div class="error-text">
+                    <strong>{waitingForCreator ? '等待中' : '提示'}</strong>
+                    <p>{errorMessage}</p>
+                </div>
+                <button class="error-close" on:click={handleClearError} aria-label="关闭">
+                    ✕
+                </button>
+            </div>
         </div>
-    </div><!-- Session Management Component -->
-    <SessionManager
-        {sessionId}
-        {isConnected}
-        {isCreating}
-        {isJoining}
-        {isCreator}
-        {peerConnected}
-        {qrCodeUrl}
-        on:createSession={handleCreateSession}
-        on:joinSession={handleJoinSession}
-        on:shareSession={handleShareSession}
-        on:cleanup={handleCleanup}
-        bind:joinCode
-    />    {#if isConnected && peerConnected}        <!-- Connection Status Indicator -->
+    {/if}
+
+    {#if isConnected && peerConnected}
+        <!-- Connection Status Indicator -->
         <div class="session-status">
             <div class="status-badge">
                 <div class="status-dot connected"></div>
@@ -199,13 +222,13 @@
             </div>
         </div>
 
-        <!-- Tab Navigation Component -->
+        <!-- Tab Navigation Component - Moved to top -->
         <TabNavigation
             {activeTab}
             on:tabChange={handleTabChange}
         />
 
-        <!-- Content Area -->
+        <!-- Content Area - Moved to top -->
         <div class="tab-content">
             <!-- File Transfer Component -->
             {#if activeTab === 'files'}
@@ -233,8 +256,41 @@
                     on:sendText={handleSendText}
                     on:clearText={handleClearText}
                     bind:textContent
-                />            {/if}
+                />
+            {/if}
         </div>
+
+        <!-- Session Management Section - Moved to bottom -->
+        <div class="session-management-section">
+            <div class="session-info">
+                <h3>会话管理</h3>
+                <p>会话ID: <code>{sessionId}</code></p>
+                <div class="session-actions">
+                    <button class="btn-secondary" on:click={handleShareSession}>
+                        分享会话
+                    </button>
+                    <button class="btn-secondary danger" on:click={handleCleanup}>
+                        断开连接
+                    </button>
+                </div>
+            </div>
+        </div>
+    {:else}
+        <!-- Session Management Component - Show when not connected -->
+        <SessionManager
+            {sessionId}
+            {isConnected}
+            {isCreating}
+            {isJoining}
+            {isCreator}
+            {peerConnected}
+            {qrCodeUrl}
+            on:createSession={handleCreateSession}
+            on:joinSession={handleJoinSession}
+            on:shareSession={handleShareSession}
+            on:cleanup={handleCleanup}
+            bind:joinCode
+        />
     {/if}
 </div>
 
@@ -302,9 +358,106 @@
         font-weight: 400 !important;
         opacity: 0.7 !important;
         margin: 0;
-        max-width: 600px;
-        line-height: 1.4;
-    }    /* Enhanced session status */
+        max-width: 600px;        line-height: 1.4;
+    }
+
+    /* Error notification styles */
+    .error-notification {
+        margin: 1rem 0;
+        padding: 1rem;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 12px;
+        backdrop-filter: blur(8px);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .error-notification.waiting {
+        background: rgba(34, 197, 94, 0.1);
+        border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .error-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .error-icon {
+        flex-shrink: 0;
+        font-size: 1.2rem;
+        margin-top: 0.1rem;
+    }
+
+    .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(34, 197, 94, 0.3);
+        border-top: 2px solid #22c55e;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    .error-text {
+        flex: 1;
+    }
+
+    .error-text strong {
+        color: #ef4444;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .error-notification.waiting .error-text strong {
+        color: #22c55e;
+    }
+
+    .error-text p {
+        color: var(--text);
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .error-close {
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+        padding: 0;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .error-close:hover {
+        opacity: 1;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Enhanced session status */
     .session-status {
         display: flex;
         align-items: center;
@@ -357,11 +510,86 @@
         backdrop-filter: blur(8px);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
+        position: relative;
+        overflow: visible; /* 允许通知显示在容器外 */
     }
 
     .tab-content:hover {
         box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
-        border-color: rgba(255, 255, 255, 0.12);    }
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Session management section styling */
+    .session-management-section {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+    }
+
+    .session-info {
+        text-align: center;
+    }
+
+    .session-info h3 {
+        color: var(--text);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .session-info p {
+        color: var(--subtext);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .session-info code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+        color: var(--accent);
+        font-weight: 500;
+    }
+
+    .session-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 0.6rem 1.2rem;
+        color: var(--text);
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.25);
+        transform: translateY(-1px);
+    }
+
+    .btn-secondary.danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.3);
+        color: #ef4444;
+    }
+
+    .btn-secondary.danger:hover {
+        background: rgba(239, 68, 68, 0.15);
+        border-color: rgba(239, 68, 68, 0.4);
+    }
 
     /* Enhanced card-like sections */
     :global(.card) {

@@ -41,7 +41,10 @@ export const clipboardState = writable({
     receivingFiles: false,
     transferProgress: 0,
     dataChannel: null as RTCDataChannel | null,
-    peerConnection: null as RTCPeerConnection | null
+    peerConnection: null as RTCPeerConnection | null,
+    errorMessage: '' as string,
+    showError: false as boolean,
+    waitingForCreator: false as boolean
 });
 
 export class ClipboardManager {
@@ -92,19 +95,31 @@ export class ClipboardManager {
         if (typeof window !== 'undefined') {
             localStorage.removeItem('clipboard_session');
         }
-    }
-
-    private startStatusCheck(): void {
+    }    private startStatusCheck(): void {
+        // 在移动端使用更频繁的状态检查以确保UI及时更新
+        const isMobile = typeof window !== 'undefined' && 
+            (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+        const checkInterval = isMobile ? 300 : 1000; // 移动端300ms，桌面端1秒
+        
         this.statusInterval = setInterval(() => {
             const wsConnected = this.ws?.readyState === WebSocket.OPEN;
             const peerConnected = this.dataChannel?.readyState === 'open';
             
-            clipboardState.update(state => ({
-                ...state,
-                isConnected: wsConnected,
-                peerConnected: peerConnected
-            }));
-        }, 1000);
+            // 获取当前状态避免不必要的更新
+            let currentState: any = {};
+            const unsubscribe = clipboardState.subscribe(s => currentState = s);
+            unsubscribe();
+            
+            // 只在状态真正变化时更新
+            if (currentState.isConnected !== wsConnected || currentState.peerConnected !== peerConnected) {
+                console.log('📱 Status update:', { wsConnected, peerConnected, isMobile });
+                clipboardState.update(state => ({
+                    ...state,
+                    isConnected: wsConnected,
+                    peerConnected: peerConnected
+                }));
+            }
+        }, checkInterval);
     }
 
     // WebSocket management
@@ -353,9 +368,7 @@ export class ClipboardManager {
             const url = `${origin}/clipboard?session=${sessionId}`;
             navigator.clipboard.writeText(url);
         }
-    }
-
-    cleanup(): void {
+    }    cleanup(): void {
         if (this.dataChannel) {
             this.dataChannel.close();
             this.dataChannel = null;
@@ -377,7 +390,10 @@ export class ClipboardManager {
             sessionId: '',
             isConnected: false,
             peerConnected: false,
-            qrCodeUrl: ''
+            qrCodeUrl: '',
+            errorMessage: '',
+            showError: false,
+            waitingForCreator: false
         }));
         
         this.sharedKey = null;
@@ -385,7 +401,15 @@ export class ClipboardManager {
         this.clearStoredSession();
     }
 
-    // WebSocket message handler
+    // 清除错误消息
+    clearError(): void {
+        clipboardState.update(state => ({
+            ...state,
+            errorMessage: '',
+            showError: false,
+            waitingForCreator: false
+        }));
+    }// WebSocket message handler
     private async handleWebSocketMessage(message: any): Promise<void> {
         console.log('Handling WebSocket message:', message.type);
         
@@ -395,7 +419,9 @@ export class ClipboardManager {
                     ...state,
                     sessionId: message.sessionId,
                     isCreating: false,
-                    isCreator: true
+                    isCreator: true,
+                    errorMessage: '',
+                    showError: false
                 }));
                 await this.generateQRCode(message.sessionId);
                 this.saveSession(message.sessionId, true);
@@ -405,7 +431,13 @@ export class ClipboardManager {
                 console.log('Session joined successfully, setting up WebRTC...');
                 await this.importRemotePublicKey(message.publicKey);
                 await this.deriveSharedKey();
-                clipboardState.update(state => ({ ...state, isJoining: false }));
+                clipboardState.update(state => ({ 
+                    ...state, 
+                    isJoining: false,
+                    waitingForCreator: false,
+                    errorMessage: '',
+                    showError: false
+                }));
                 await this.setupWebRTC(false);
                 break;
                   
@@ -426,6 +458,36 @@ export class ClipboardManager {
                 }
                 break;
                 
+            case 'waiting_for_creator':
+                console.log('Waiting for creator to reconnect...');
+                clipboardState.update(state => ({
+                    ...state,
+                    isJoining: false,
+                    waitingForCreator: true,
+                    errorMessage: message.message || '等待创建者重新连接',
+                    showError: true
+                }));
+                break;
+                
+            case 'peer_disconnected':
+                console.log('Peer disconnected');
+                clipboardState.update(state => ({
+                    ...state,
+                    peerConnected: false,
+                    errorMessage: '对端已断开连接',
+                    showError: true
+                }));
+                // 清理 WebRTC 连接但保持 WebSocket 连接
+                if (this.peerConnection) {
+                    this.peerConnection.close();
+                    this.peerConnection = null;
+                }
+                if (this.dataChannel) {
+                    this.dataChannel.close();
+                    this.dataChannel = null;
+                }
+                break;
+                
             case 'offer':
                 await this.handleOffer(message.offer);
                 break;
@@ -440,20 +502,48 @@ export class ClipboardManager {
                 
             case 'error':
                 console.error('Server error:', message);
+                let errorMessage = '连接错误';
+                
+                // 处理特定的错误消息
+                if (message.message) {
+                    switch (message.message) {
+                        case '会话不存在或已过期':
+                            errorMessage = '会话已过期或不存在，请创建新会话';
+                            this.clearStoredSession(); // 清理本地存储的过期会话
+                            break;
+                        case '会话已满':
+                            errorMessage = '会话已满，无法加入';
+                            break;
+                        case '未知消息类型':
+                            errorMessage = '通信协议错误';
+                            break;
+                        case '消息格式错误':
+                            errorMessage = '数据格式错误';
+                            break;
+                        default:
+                            errorMessage = message.message;
+                    }
+                }
+                
                 clipboardState.update(state => ({
                     ...state,
                     isCreating: false,
-                    isJoining: false
+                    isJoining: false,
+                    waitingForCreator: false,
+                    errorMessage,
+                    showError: true
                 }));
                 break;
         }
-    }
-
-    // WebRTC setup and handlers
+    }    // WebRTC setup and handlers
     private async setupWebRTC(isInitiator: boolean): Promise<void> {
         try {
             this.peerConnection = new RTCPeerConnection({
-                iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' }  // 添加备用STUN服务器
+                ],
+                iceCandidatePoolSize: 10  // 增加ICE候选池大小
             });
 
             // Update state with peer connection
@@ -462,37 +552,84 @@ export class ClipboardManager {
                 peerConnection: this.peerConnection 
             }));
 
+            // 添加ICE连接状态监听
+            this.peerConnection.oniceconnectionstatechange = () => {
+                const iceState = this.peerConnection?.iceConnectionState;
+                console.log('🧊 ICE connection state changed:', iceState);
+                
+                if (iceState === 'failed') {
+                    console.warn('❌ ICE connection failed, attempting restart...');
+                    this.restartIce();
+                }
+            };
+
             this.peerConnection.onicecandidate = (event) => {
                 if (event.candidate && this.ws) {
+                    console.log('📡 Sending ICE candidate:', event.candidate.type);
                     this.ws.send(JSON.stringify({
                         type: 'ice_candidate',
                         candidate: event.candidate
                     }));
                 }
-            };
-
-            this.peerConnection.onconnectionstatechange = () => {
+            };            this.peerConnection.onconnectionstatechange = () => {
                 const state = this.peerConnection?.connectionState;
                 console.log('🔗 Peer connection state changed:', state);
+                
+                // 检测移动设备
+                const isMobile = typeof window !== 'undefined' && 
+                    (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
                 
                 if (state === 'connected') {
                     console.log('🎉 Peer connected!');
                     clipboardState.update(state => ({ ...state, peerConnected: true }));
-                } else if (state === 'failed' || state === 'disconnected') {
-                    console.warn('❌ Peer connection failed/disconnected');
+                    
+                    // 移动端额外确认连接状态
+                    if (isMobile) {
+                        setTimeout(() => {
+                            console.log('📱 Mobile peer connection confirmation');
+                            clipboardState.update(state => ({ ...state, peerConnected: true }));
+                        }, 150);
+                    }
+                } else if (state === 'failed') {
+                    console.warn('❌ Peer connection failed, retrying...');
                     clipboardState.update(state => ({ ...state, peerConnected: false }));
+                    
+                    // 移动端使用更短的重试间隔
+                    const retryDelay = isMobile ? 1000 : 2000;
+                    setTimeout(() => {
+                        if (this.peerConnection?.connectionState === 'failed') {
+                            console.log(`🔄 Attempting to restart peer connection (${isMobile ? 'mobile' : 'desktop'})...`);
+                            this.restartWebRTC();
+                        }
+                    }, retryDelay);
+                } else if (state === 'disconnected') {
+                    console.warn('⚠️ Peer connection disconnected');
+                    clipboardState.update(state => ({ ...state, peerConnected: false }));
+                    
+                    // 移动端快速恢复尝试
+                    if (isMobile) {
+                        setTimeout(() => {
+                            if (this.peerConnection?.connectionState === 'disconnected') {
+                                console.log('📱 Mobile reconnection attempt...');
+                                this.restartWebRTC();
+                            }
+                        }, 800);
+                    }
                 }
-            };
-
-            if (isInitiator) {
+            };if (isInitiator) {
                 this.dataChannel = this.peerConnection.createDataChannel('files', {
-                    ordered: true
+                    ordered: true,
+                    maxRetransmits: 3  // 增加重传次数
                 });
                 this.setupDataChannel();
+
+                // 为移动端增加延迟，确保ICE candidates收集完成
+                await new Promise(resolve => setTimeout(resolve, 500));
 
                 const offer = await this.peerConnection.createOffer();
                 await this.peerConnection.setLocalDescription(offer);
                 
+                console.log('📤 Sending offer to peer...');
                 if (this.ws) {
                     this.ws.send(JSON.stringify({
                         type: 'offer',
@@ -501,16 +638,59 @@ export class ClipboardManager {
                 }
             } else {
                 this.peerConnection.ondatachannel = (event) => {
+                    console.log('📥 Data channel received');
                     this.dataChannel = event.channel;
                     this.setupDataChannel();
                 };
             }
         } catch (error) {
             console.error('Error setting up WebRTC:', error);
+            // 添加错误恢复
+            setTimeout(() => {
+                console.log('🔄 Retrying WebRTC setup...');
+                this.setupWebRTC(isInitiator);
+            }, 3000);
         }
     }
 
-    private setupDataChannel(): void {
+    // 添加ICE重启方法
+    private async restartIce(): Promise<void> {
+        try {
+            if (this.peerConnection && this.peerConnection.connectionState !== 'closed') {
+                console.log('🔄 Restarting ICE...');
+                await this.peerConnection.restartIce();
+            }
+        } catch (error) {
+            console.error('Error restarting ICE:', error);
+        }
+    }
+
+    // 添加WebRTC重启方法
+    private async restartWebRTC(): Promise<void> {
+        try {
+            console.log('🔄 Restarting WebRTC connection...');
+            
+            // 清理现有连接
+            if (this.dataChannel) {
+                this.dataChannel.close();
+                this.dataChannel = null;
+            }
+            if (this.peerConnection) {
+                this.peerConnection.close();
+                this.peerConnection = null;
+            }
+
+            // 获取当前状态以确定是否为发起者
+            let currentState: any = {};
+            const unsubscribe = clipboardState.subscribe(s => currentState = s);
+            unsubscribe();
+
+            // 重新建立连接
+            await this.setupWebRTC(currentState.isCreator);
+        } catch (error) {
+            console.error('Error restarting WebRTC:', error);
+        }
+    }    private setupDataChannel(): void {
         if (!this.dataChannel) return;
 
         // Update state with data channel
@@ -521,7 +701,18 @@ export class ClipboardManager {
 
         this.dataChannel.onopen = () => {
             console.log('🎉 Data channel opened!');
+            // 立即更新状态，不等待状态检查间隔
             clipboardState.update(state => ({ ...state, peerConnected: true }));
+            
+            // 移动端额外的状态确认延迟，确保UI有足够时间响应
+            const isMobile = typeof window !== 'undefined' && 
+                (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+            if (isMobile) {
+                setTimeout(() => {
+                    console.log('📱 Mobile connection confirmation');
+                    clipboardState.update(state => ({ ...state, peerConnected: true }));
+                }, 200);
+            }
         };
 
         this.dataChannel.onclose = () => {
@@ -531,6 +722,17 @@ export class ClipboardManager {
 
         this.dataChannel.onerror = (error) => {
             console.error('Data channel error:', error);
+            // 移动端错误恢复机制
+            const isMobile = typeof window !== 'undefined' && 
+                (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+            if (isMobile) {
+                console.log('📱 Mobile data channel error, attempting recovery...');
+                setTimeout(() => {
+                    if (this.dataChannel?.readyState === 'open') {
+                        clipboardState.update(state => ({ ...state, peerConnected: true }));
+                    }
+                }, 500);
+            }
         };        this.dataChannel.onmessage = async (event) => {
             console.log('📨 Data channel message received:', event.data);
             try {
