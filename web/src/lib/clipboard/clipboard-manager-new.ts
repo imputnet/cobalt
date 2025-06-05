@@ -584,16 +584,16 @@ export class ClipboardManager {
 
     private async handleDataChannelMessage(data: any): Promise<void> {
         // Handle different types of data channel messages
-        switch (data.type) {
-            case 'text':
+        switch (data.type) {            case 'text':
                 // Convert array back to ArrayBuffer for decryption
                 const encryptedBuffer = new Uint8Array(data.content).buffer;
                 const decryptedText = await this.decryptData(encryptedBuffer);
                 clipboardState.update(state => ({
                     ...state,
-                    receivedText: decryptedText
+                    receivedText: decryptedText,
+                    activeTab: 'text' // 自动切换到文本分享标签
                 }));
-                console.log('Text received successfully');
+                console.log('Text received successfully, switched to text tab');
                 break;
                 
             case 'file_start':
@@ -604,13 +604,13 @@ export class ClipboardManager {
                     type: data.mimeType || data.type,
                     chunks: [],
                     receivedSize: 0
-                };
-                clipboardState.update(state => ({ 
+                };                clipboardState.update(state => ({ 
                     ...state, 
                     receivingFiles: true, 
-                    transferProgress: 0 
+                    transferProgress: 0,
+                    activeTab: 'files' // 自动切换到文件传输标签
                 }));
-                console.log('Started receiving file:', data.name);
+                console.log('Started receiving file:', data.name, ', switched to files tab');
                 break;
                 
             case 'file_chunk':
@@ -672,8 +672,11 @@ export class ClipboardManager {
             console.error('Data channel not ready');
             return;
         }
-        
-        try {
+          try {
+            // 自动切换到文本分享标签
+            clipboardState.update(state => ({ ...state, activeTab: 'text' }));
+            console.log('Switched to text tab for sending');
+            
             const encryptedText = await this.encryptData(text);
             // Convert ArrayBuffer to Array for JSON serialization
             const encryptedArray = Array.from(new Uint8Array(encryptedText));
@@ -705,9 +708,15 @@ export class ClipboardManager {
             console.log('No files to send');
             return;
         }
-        
-        try {
-            clipboardState.update(state => ({ ...state, sendingFiles: true, transferProgress: 0 }));
+          try {
+            // 自动切换到文件传输标签
+            clipboardState.update(state => ({ 
+                ...state, 
+                sendingFiles: true, 
+                transferProgress: 0,
+                activeTab: 'files'
+            }));
+            console.log('Switched to files tab for sending');
             
             for (let i = 0; i < currentFiles.length; i++) {
                 const file = currentFiles[i];

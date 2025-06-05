@@ -670,8 +670,11 @@ export class ClipboardManager {
         if (!this.dataChannel || this.dataChannel.readyState !== 'open') {
             console.error('Data channel not ready');
             return;
-        }
-          try {
+        }        try {
+            // 自动切换到文本分享标签
+            clipboardState.update(state => ({ ...state, activeTab: 'text' }));
+            console.log('Switched to text tab for sending');
+            
             console.log('🔐 Encrypting text:', text.substring(0, 20) + '...');
             const encryptedText = await this.encryptData(text);
             // Convert ArrayBuffer to Array for JSON serialization
@@ -705,9 +708,15 @@ export class ClipboardManager {
             console.log('No files to send');
             return;
         }
-        
-        try {
-            clipboardState.update(state => ({ ...state, sendingFiles: true, transferProgress: 0 }));
+          try {
+            // 自动切换到文件传输标签
+            clipboardState.update(state => ({ 
+                ...state, 
+                sendingFiles: true, 
+                transferProgress: 0,
+                activeTab: 'files'
+            }));
+            console.log('Switched to files tab for sending');
             
             for (let i = 0; i < currentFiles.length; i++) {
                 const file = currentFiles[i];

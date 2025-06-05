@@ -162,14 +162,25 @@
             var(--button-hover),
             var(--button),
             var(--button-hover)
-        );
-
-        --skeleton-gradient-elevated: linear-gradient(
+        );        --skeleton-gradient-elevated: linear-gradient(
             90deg,
             var(--button-elevated),
             var(--button-elevated-shimmer),
             var(--button-elevated)
-        );
+        );        /* Accent colors for light theme */
+        --accent: #82b52d;
+        --accent-hover: #6fa525;
+        --accent-rgb: 130, 181, 45;
+        --accent-background: rgba(130, 181, 45, 0.1);
+        
+        /* Additional colors for components */
+        --background: #ffffff;
+        --text: #282828;
+        --subtext: #75757e;
+        --orange: #ff9500;
+        --orange-background: rgba(255, 149, 0, 0.1);
+        --yellow: #ffcc02;
+        --yellow-background: rgba(255, 204, 2, 0.1);
     }
 
     :global([data-theme="dark"]) {
@@ -219,14 +230,25 @@
             var(--button),
             var(--button-hover),
             var(--button)
-        );
-
-        --skeleton-gradient-elevated: linear-gradient(
+        );        --skeleton-gradient-elevated: linear-gradient(
             90deg,
             var(--button-elevated),
             var(--button-elevated-hover),
             var(--button-elevated)
-        );
+        );        /* Accent colors for dark theme */
+        --accent: #82b52d;
+        --accent-hover: #9bc53a;
+        --accent-rgb: 130, 181, 45;
+        --accent-background: rgba(130, 181, 45, 0.1);
+        
+        /* Additional colors for components */
+        --background: #000000;
+        --text: #e1e1e1;
+        --subtext: #818181;
+        --orange: #ff9500;
+        --orange-background: rgba(255, 149, 0, 0.1);
+        --yellow: #ffcc02;
+        --yellow-background: rgba(255, 204, 2, 0.1);
     }
 
     :global([data-theme="light"] [data-reduce-transparency="true"]) {
