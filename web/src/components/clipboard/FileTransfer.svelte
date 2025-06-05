@@ -108,7 +108,7 @@
                             </button>
                         </div>
                     {/each}
-                      <ActionButton
+                    <ActionButton
                         id="send-files"
                         disabled={!peerConnected || sendingFiles}
                         click={sendFiles}
@@ -242,12 +242,13 @@
     .file-drop-zone:hover::before {
         left: 100%;
     }
+
     .file-drop-zone.dragover {
-    border-color: rgba(102, 126, 234, 0.6);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-    transform: scale(1.02);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.25);
-}
+        border-color: rgba(102, 126, 234, 0.6);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        transform: scale(1.02);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.25);
+    }
 
     .file-drop-zone p {
         margin-bottom: 1rem;

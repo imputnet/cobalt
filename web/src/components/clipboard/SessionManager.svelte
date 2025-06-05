@@ -42,7 +42,7 @@
                     disabled={isCreating}
                     click={handleCreateSession}
                 >
-                    {isCreating ? 'Creating...' : $t("clipboard.create_session")}
+                    {isCreating ? $t("clipboard.creating") : $t("clipboard.create_session")}
                 </ActionButton>
             </div>
             
@@ -53,18 +53,17 @@
             <div class="setup-option">
                 <h3>{$t("clipboard.join_session")}</h3>
                 <p>{$t("clipboard.join_description")}</p>
-                <div class="join-form">
-                    <input
+                <div class="join-form">                    <input
                         type="text"
                         bind:value={joinCode}
-                        placeholder="Enter session code"
+                        placeholder={$t("clipboard.enter_code")}
                         disabled={isJoining}
                     />                    <ActionButton
                         id="join-session"
                         disabled={isJoining || !joinCode.trim()}
                         click={handleJoinSession}
                     >
-                        {isJoining ? 'Joining...' : $t("clipboard.join_session")}
+                        {isJoining ? $t("clipboard.joining") : $t("clipboard.join_session")}
                     </ActionButton>
                 </div>
             </div>
@@ -74,23 +73,20 @@
     <!-- Session Info -->
     <SettingsCategory title={$t("clipboard.session_active")} sectionId="session-info">
         <div class="session-info">
-            <div class="session-details">
-                <div class="session-id">
-                    <span>Session ID:</span>
+            <div class="session-details">                <div class="session-id">
+                    <span>{$t("clipboard.session_id")}:</span>
                     <code>{sessionId}</code>
                     <button class="copy-btn" on:click={handleShare}>📋</button>
                 </div>
                 
-                {#if isCreator && sessionId && !peerConnected && qrCodeUrl}
-                    <div class="qr-code">
-                        <h4>Scan to join:</h4>
+                {#if isCreator && sessionId && !peerConnected && qrCodeUrl}                    <div class="qr-code">
+                        <h4>{$t("clipboard.scan_qr")}</h4>
                         <img src={qrCodeUrl} alt="QR Code" />
                     </div>
                 {/if}
-                
-                <div class="connection-status">
+                  <div class="connection-status">
                     <div class="status-indicator" class:connected={peerConnected}></div>
-                    <span>{peerConnected ? 'Connected' : 'Waiting for peer...'}</span>
+                    <span>{peerConnected ? $t("clipboard.peer_connected") : $t("clipboard.waiting_peer")}</span>
                 </div>
             </div>
         </div>
@@ -107,34 +103,66 @@
 <style>    .connection-setup {
         display: flex;
         flex-direction: column;
-        gap: 2.5rem;
-        padding: 1rem;
+        gap: 2rem;
+        padding: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
     }
 
     .setup-option {
         text-align: center;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(8px);
-        transition: all 0.3s ease;
+        padding: 2.5rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .setup-option::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.5s;
     }
 
     .setup-option:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    }
+
+    .setup-option:hover::before {
+        left: 100%;
     }
 
     .setup-option h3 {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .divider {
+    .setup-option p {
+        margin-bottom: 1.5rem;
+        color: var(--secondary);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }    .divider {
         text-align: center;
         position: relative;
-        margin: 1rem 0;
+        margin: 1.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .divider::before {
@@ -143,187 +171,281 @@
         top: 50%;
         left: 0;
         right: 0;
-        height: 1px;
-        background-color: var(--border);
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+        border-radius: 1px;
     }
 
     .divider span {
-        background-color: var(--background);
-        padding: 0 1rem;
+        background: linear-gradient(135deg, var(--background), rgba(255, 255, 255, 0.02));
+        padding: 0.75rem 1.5rem;
         color: var(--secondary);
-    }
-
-    .join-form {
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 1;
+        position: relative;
+    }    .join-form {
         display: flex;
         gap: 1rem;
-        max-width: 400px;
+        max-width: 500px;
         margin: 0 auto;
+        align-items: stretch;
     }
 
     .join-form input {
         flex: 1;
-        padding: 0.5rem;
-        border: 1px solid var(--border);
-        border-radius: 0.25rem;
-        background-color: var(--input-background);
+        padding: 1rem 1.25rem;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
         color: var(--text);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(8px);
+    }
+
+    .join-form input:focus {
+        outline: none;
+        border-color: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    }
+
+    .join-form input::placeholder {
+        color: var(--secondary);
+        opacity: 0.7;
     }    .session-info {
         text-align: center;
-        padding: 1rem;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
     }
 
     .session-details {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        align-items: center;
+        display: grid;
+        gap: 2rem;
+        align-items: start;
+        justify-items: center;
+        grid-template-columns: 1fr;
     }
 
     .session-id {
         display: flex;
         align-items: center;
         gap: 1rem;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(4px);
+        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 400px;
+        transition: all 0.3s ease;
+    }
+
+    .session-id:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: rgba(102, 126, 234, 0.3);
     }
 
     .session-id span {
-        font-weight: 500;
+        font-weight: 600;
         color: var(--secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .session-id code {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+        padding: 0.75rem 1.25rem;
+        border-radius: 10px;
         font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-        font-weight: 600;
-        letter-spacing: 0.5px;
+        font-weight: 700;
+        letter-spacing: 1px;
         color: #667eea;
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        font-size: 1.1rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        text-align: center;
+    }    .copy-btn {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
         border: 1px solid rgba(102, 126, 234, 0.2);
-    }
-
-    .copy-btn {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
         cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(4px);
-        font-size: 1rem;
+        padding: 0.75rem;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(8px);
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        height: 44px;
     }
 
     .copy-btn:hover {
-        background: rgba(102, 126, 234, 0.1);
-        border-color: rgba(102, 126, 234, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+        border-color: rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
     }
 
-    .qr-code {
+    .copy-btn:active {
+        transform: translateY(0) scale(0.95);
+    }    .qr-code {
         text-align: center;
-        padding: 1.5rem;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(4px);
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .qr-code:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        border-color: rgba(102, 126, 234, 0.3);
     }
 
     .qr-code h4 {
-        margin: 0 0 1rem 0;
+        margin: 0 0 1.5rem 0;
         font-weight: 600;
         color: var(--text);
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .qr-code img {
         max-width: 200px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
     }
 
-    .connection-status {
+    .qr-code img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    }    .connection-status {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 1rem 1.5rem;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(4px);
+        gap: 1rem;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        max-width: 300px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .connection-status:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
 
     .status-indicator {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         background-color: #f44336;
         position: relative;
         transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
     }
 
     .status-indicator::before {
         content: '';
         position: absolute;
-        top: -4px;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
+        top: -6px;
+        left: -6px;
+        right: -6px;
+        bottom: -6px;
         border-radius: 50%;
         background-color: inherit;
-        opacity: 0.3;
+        opacity: 0.2;
         animation: pulse 2s infinite;
     }
 
     .status-indicator.connected {
         background-color: #4caf50;
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
     }
 
     @keyframes pulse {
         0% {
             transform: scale(1);
-            opacity: 0.3;
+            opacity: 0.2;
         }
         50% {
-            transform: scale(1.2);
-            opacity: 0.1;
+            transform: scale(1.3);
+            opacity: 0.05;
         }
         100% {
             transform: scale(1);
-            opacity: 0.3;
+            opacity: 0.2;
         }
     }
 
     .connection-status span {
-        font-weight: 500;
+        font-weight: 600;
         color: var(--text);
-    }
-
-    .disconnect-section {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }    .disconnect-section {
         text-align: center;
-        margin-top: 2.5rem;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 3rem;
+        padding-top: 2.5rem;
+        border-top: 2px solid rgba(255, 255, 255, 0.05);
+        position: relative;
     }
 
-    @media (min-width: 768px) {
+    .disconnect-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(244, 67, 54, 0.5), transparent);
+        border-radius: 1px;
+    }    @media (min-width: 768px) {
         .connection-setup {
             flex-direction: row;
-            align-items: flex-start;
+            align-items: stretch;
+            gap: 3rem;
         }
 
         .setup-option {
             flex: 1;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .divider {
             align-self: center;
-            margin: 0 2rem;
-            width: 60px;
+            margin: 0;
+            width: 80px;
+            flex-shrink: 0;
         }
 
         .divider::before {
@@ -331,18 +453,49 @@
             bottom: 0;
             left: 50%;
             right: auto;
-            width: 1px;
+            width: 2px;
             height: auto;
+            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+        }
+
+        .divider span {
+            transform: rotate(90deg);
+            white-space: nowrap;
         }
 
         .session-details {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .session-id {
+            grid-column: 1;
+            justify-self: end;
         }
 
         .qr-code {
-            order: -1;
+            grid-column: 2;
+            justify-self: center;
+        }
+
+        .connection-status {
+            grid-column: 3;
+            justify-self: start;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .connection-setup {
+            gap: 4rem;
+        }
+
+        .setup-option {
+            padding: 3rem;
+        }
+
+        .session-details {
+            gap: 4rem;
         }
     }
 </style>

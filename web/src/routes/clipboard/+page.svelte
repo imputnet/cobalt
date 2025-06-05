@@ -231,17 +231,7 @@
                     on:sendText={handleSendText}
                     on:clearText={handleClearText}
                     bind:textContent
-                />
-            {/if}
-        </div>
-    {/if}
-
-    {#if isConnected}
-        <!-- Disconnect Section -->
-        <div class="disconnect-section">
-            <ActionButton id="cleanup" click={handleCleanup}>
-                {$t("clipboard.disconnect")}
-            </ActionButton>
+                />            {/if}
         </div>
     {/if}
 </div>
@@ -357,18 +347,7 @@
 
     .tab-content:hover {
         box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
-        border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .disconnect-section {
-        text-align: center;
-        margin-top: 3rem;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(5px);
-    }
+        border-color: rgba(255, 255, 255, 0.12);    }
 
     /* Enhanced card-like sections */
     :global(.card) {
