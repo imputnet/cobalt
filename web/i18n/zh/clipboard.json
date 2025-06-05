@@ -1,6 +1,7 @@
 {
-    "title": "剪贴板分享",
-    "description": "使用端到端加密在设备间安全分享文本和文件",
+    "title": "文件传输",
+    "description": "在你的电脑,手机间传输文件和文本",
+    "description_subtitle": "文件和文本不经过服务器，采用端到端加密技术传输。",
     "create_session": "创建会话",
     "create_description": "创建新的分享会话并获取分享码",
     "create": "创建",

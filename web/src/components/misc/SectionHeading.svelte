@@ -18,7 +18,7 @@
     }
 </script>
 
-<div class="heading-container">
+<!-- <div class="heading-container">
     <h3 class="content-title">{title}</h3>
     {#if beta}
         <div class="beta-label">{$t("general.beta")}</div>
@@ -33,7 +33,7 @@
     >
         <CopyIcon check={copied} />
     </button>
-</div>
+</div> -->
 
 <style>
     .heading-container {

@@ -25,37 +25,33 @@
     </button>
 </div>
 
-<style>
-    .tab-navigation {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 2rem;
-        padding: 0.5rem;
+<style>    .tab-navigation {
+        display: flex;        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding: 0.3rem;
         background: rgba(255, 255, 255, 0.05);
         border-radius: 16px;
         max-width: fit-content;
-        margin: 0 auto 2rem auto;
+        margin: 0 auto 0.5rem auto;
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(10px);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .tab-button {
-        padding: 1rem 2rem;
+    }    .tab-button {
+        padding: 0.75rem 1.5rem;
         border: none;
         background: transparent;
         color: var(--subtext);
         border-radius: 12px;
         cursor: pointer;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.5rem;
         position: relative;
         overflow: hidden;
-        min-width: 140px;
+        min-width: 120px;
         justify-content: center;
     }
 
@@ -97,20 +93,19 @@
 
     .tab-button.active::before {
         display: none;
-    }
-
-    @media (max-width: 768px) {
+    }    @media (max-width: 768px) {
         .tab-navigation {
             width: 100%;
             max-width: none;
-            margin: 0 0 2rem 0;
+            margin: 0 0 1rem 0;
+            padding: 0.25rem;
         }
         
         .tab-button {
             flex: 1;
             justify-content: center;
-            padding: 1rem;
-            font-size: 0.9rem;
+            padding: 0.75rem;
+            font-size: 0.85rem;
             min-width: auto;
         }
     }

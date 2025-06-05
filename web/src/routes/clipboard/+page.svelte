@@ -171,11 +171,13 @@
     <meta property="description" content={$t("clipboard.description")} />
 </svelte:head>
 
-<div class="clipboard-container">
-    <div class="clipboard-header">
+<div class="clipboard-container">    <div class="clipboard-header">
         <h1>{$t("clipboard.title")}</h1>
-        <p>{$t("clipboard.description")}</p>
-    </div>    <!-- Session Management Component -->
+        <div class="description-container">
+            <p class="description-main">{$t("clipboard.description")}</p>
+            <p class="description-subtitle">{$t("clipboard.description_subtitle")}</p>
+        </div>
+    </div><!-- Session Management Component -->
     <SessionManager
         {sessionId}
         {isConnected}
@@ -236,24 +238,23 @@
     {/if}
 </div>
 
-<style>
-    /* Main container styles */
+<style>    /* Main container styles */
     .clipboard-container {
         max-width: 900px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
         border-radius: 20px;
         backdrop-filter: blur(10px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        min-height: 70vh;
-    }
-
-    .clipboard-header {
+        min-height: 55vh;
+        max-height: 80vh;
+        overflow-y: auto;
+    }    .clipboard-header {
         text-align: center;
-        margin-bottom: 3rem;
-        padding: 2rem 0;
+        margin-bottom: 0.5rem;
+        padding: 0.25rem 0;
         position: relative;
     }
 
@@ -268,33 +269,50 @@
         background: linear-gradient(90deg, var(--accent), var(--accent-hover));
         border-radius: 2px;
         margin-bottom: 1rem;
-    }
-
-    .clipboard-header h1 {
-        margin-bottom: 0.8rem;
-        font-size: 2.5rem;
+    }    .clipboard-header h1 {
+        margin-bottom: 0.2rem;
+        font-size: 2.2rem;
         font-weight: 700;
         background: linear-gradient(135deg, var(--accent), var(--accent-hover));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        margin-top: 1rem;
-    }
-
-    .clipboard-header p {
+        margin-top: 0.3rem;
+    }.clipboard-header p {
         color: var(--subtext);
         font-size: 1.1rem;
         font-weight: 400;
         opacity: 0.8;
+    }    .description-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.02rem;
+        align-items: center;
     }
 
-    /* Enhanced session status */
+    .description-main {
+        color: var(--text);
+        font-size: 1.3rem !important;
+        font-weight: 500 !important;
+        opacity: 0.9 !important;
+        margin: 0;
+    }
+
+    .description-subtitle {
+        color: var(--subtext);
+        font-size: 0.95rem !important;
+        font-weight: 400 !important;
+        opacity: 0.7 !important;
+        margin: 0;
+        max-width: 600px;
+        line-height: 1.4;
+    }    /* Enhanced session status */
     .session-status {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 1.5rem 0;
-        padding: 1rem;
+        margin: 0.25rem 0;
+        padding: 0.4rem;
         background: rgba(34, 197, 94, 0.1);
         border: 1px solid rgba(34, 197, 94, 0.2);
         border-radius: 12px;
@@ -331,14 +349,12 @@
             opacity: 0.7;
             transform: scale(1.1);
         }
-    }
-
-    /* Tab content styling */
+    }    /* Tab content styling */
     .tab-content {
         background: rgba(255, 255, 255, 0.03);
         border-radius: 15px;
-        padding: 2rem;
-        margin-top: 1.5rem;
+        padding: 0.75rem;
+        margin-top: 0.25rem;
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(8px);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -480,46 +496,54 @@
         }
         100% {
             background-position: 200% 0;
-        }
+        }    }    /* Override SettingsCategory default padding for clipboard page */
+    :global(.settings-content) {
+        padding: 0.25rem !important;
+        gap: 0.5rem !important;
     }
-
-    /* Responsive Design */
+    
+    @media screen and (max-width: 750px) {
+        :global(.settings-content) {
+            padding: 0.1rem !important;
+            gap: 0.25rem !important;
+        }
+    }    /* Responsive Design */
     @media (max-width: 768px) {
         .clipboard-container {
-            padding: 1rem;
-            margin: 1rem;
+            padding: 0.75rem;
+            margin: 0.75rem;
             border-radius: 16px;
+            max-height: 85vh;
         }
 
         .clipboard-header h1 {
-            font-size: 2rem;
-        }
-
-        .clipboard-header {
-            padding: 1.5rem 0;
-            margin-bottom: 2rem;
+            font-size: 1.9rem;
+        }        .clipboard-header {
+            padding: 0.5rem 0;
+            margin-bottom: 0.75rem;
         }
 
         :global(.card) {
-            padding: 1rem;
+            padding: 0.75rem;
         }
 
         :global(.tab-content) {
-            padding: 1.5rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
         }
-    }
-
-    @media (max-width: 480px) {
+    }    @media (max-width: 480px) {
         .clipboard-container {
             margin: 0.5rem;
+            padding: 0.5rem;
+            max-height: 90vh;
         }
 
         .clipboard-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
 
         :global(.drop-zone) {
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
         }
     }
 </style>

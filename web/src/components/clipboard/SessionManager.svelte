@@ -33,7 +33,7 @@
 </script>
 
 {#if !isConnected}
-    <SettingsCategory title={$t("clipboard.title")} sectionId="connection-setup">
+    <SettingsCategory title="" sectionId="connection-setup">
         <div class="connection-setup">
             <div class="setup-option">
                 <h3>{$t("clipboard.create_session")}</h3>
@@ -49,16 +49,17 @@
             <div class="divider">
                 <span>{$t("general.or")}</span>
             </div>
-            
-            <div class="setup-option">
+              <div class="setup-option">
                 <h3>{$t("clipboard.join_session")}</h3>
                 <p>{$t("clipboard.join_description")}</p>
-                <div class="join-form">                    <input
+                <div class="join-form">
+                    <input
                         type="text"
                         bind:value={joinCode}
                         placeholder={$t("clipboard.enter_code")}
                         disabled={isJoining}
-                    />                    <ActionButton
+                    />
+                    <ActionButton
                         id="join-session"
                         disabled={isJoining || !joinCode.trim()}
                         click={handleJoinSession}
@@ -103,15 +104,13 @@
 <style>    .connection-setup {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-        padding: 1.5rem;
+        gap: 0.75rem;
+        padding: 0.25rem;
         max-width: 800px;
         margin: 0 auto;
-    }
-
-    .setup-option {
+    }    .setup-option {
         text-align: center;
-        padding: 2.5rem;
+        padding: 0.75rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -141,25 +140,23 @@
 
     .setup-option:hover::before {
         left: 100%;
-    }
-
-    .setup-option h3 {
-        margin-bottom: 0.75rem;
-        font-size: 1.5rem;
+    }    .setup-option h3 {
+        margin-bottom: 0.15rem;
+        font-size: 1.3rem;
         font-weight: 600;
         color: var(--text);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .setup-option p {
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem;
         color: var(--secondary);
         line-height: 1.6;
-        font-size: 0.95rem;
+        font-size: 0.85rem;
     }    .divider {
         text-align: center;
         position: relative;
-        margin: 1.5rem 0;
+        margin: 0.25rem 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -191,14 +188,13 @@
         position: relative;
     }    .join-form {
         display: flex;
+        flex-direction: column;
         gap: 1rem;
-        max-width: 500px;
+        max-width: 400px;
         margin: 0 auto;
-        align-items: stretch;
-    }
-
-    .join-form input {
-        flex: 1;
+        align-items: center;
+        width: 100%;
+    }    .join-form input {
         padding: 1rem 1.25rem;
         border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
@@ -207,6 +203,9 @@
         font-size: 1rem;
         transition: all 0.3s ease;
         backdrop-filter: blur(8px);
+        width: 100%;
+        min-height: 48px;
+        box-sizing: border-box;
     }
 
     .join-form input:focus {
@@ -219,26 +218,31 @@
     .join-form input::placeholder {
         color: var(--secondary);
         opacity: 0.7;
-    }    .session-info {
+    }
+
+    /* Ensure ActionButton is properly sized on mobile */
+    .join-form :global(.action-button) {
+        width: 100%;
+        min-height: 48px;
+        font-size: 1rem;
+        font-weight: 600;    }    .session-info {
         text-align: center;
-        padding: 2rem;
+        padding: 0.75rem;
         max-width: 900px;
         margin: 0 auto;
-    }
-
-    .session-details {
+    }    .session-details {
         display: grid;
-        gap: 2rem;
-        align-items: start;
+        gap: 0.75rem;
+        align-items: center;
         justify-items: center;
         grid-template-columns: 1fr;
-    }
-
-    .session-id {
+        max-width: 800px;
+        margin: 0 auto;
+    }.session-id {
         display: flex;
         align-items: center;
         gap: 1rem;
-        padding: 1.5rem;
+        padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 16px;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -302,33 +306,35 @@
         transform: translateY(0) scale(0.95);
     }    .qr-code {
         text-align: center;
-        padding: 2rem;
+        padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
-        max-width: 300px;
+        max-width: 280px;
         width: 100%;
-    }
-
-    .qr-code:hover {
-        transform: translateY(-2px);
+        margin: 0 auto;
+        justify-self: center;
+        align-self: center;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }.qr-code:hover {
+        transform: translateX(-50%) translateY(-2px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         border-color: rgba(102, 126, 234, 0.3);
-    }
-
-    .qr-code h4 {
-        margin: 0 0 1.5rem 0;
+    }    .qr-code h4 {
+        margin: 0 0 0.5rem 0;
         font-weight: 600;
         color: var(--text);
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
     .qr-code img {
-        max-width: 200px;
+        max-width: 180px;
         width: 100%;
         border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
@@ -341,9 +347,8 @@
         box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
     }    .connection-status {
         display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1.5rem 2rem;
+        align-items: center;        gap: 1rem;
+        padding: 1rem 1.5rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 16px;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -409,11 +414,14 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }    .disconnect-section {
-        text-align: center;
-        margin-top: 3rem;
-        padding-top: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
         border-top: 2px solid rgba(255, 255, 255, 0.05);
         position: relative;
+        width: 100%;
     }
 
     .disconnect-section::before {
@@ -428,14 +436,14 @@
         border-radius: 1px;
     }    @media (min-width: 768px) {
         .connection-setup {
-            flex-direction: row;
-            align-items: stretch;
-            gap: 3rem;
-        }
-
-        .setup-option {
-            flex: 1;
-            min-height: 280px;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            max-width: 600px;
+        }        .setup-option {
+            width: 100%;
+            max-width: 500px;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -443,59 +451,108 @@
 
         .divider {
             align-self: center;
-            margin: 0;
-            width: 80px;
+            margin: 1.5rem 0;
+            width: 100%;
             flex-shrink: 0;
         }
 
         .divider::before {
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            right: auto;
-            width: 2px;
-            height: auto;
-            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            top: 50%;
+            left: 0;
+            right: 0;
+            width: auto;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
         }
 
         .divider span {
-            transform: rotate(90deg);
+            transform: none;
             white-space: nowrap;
-        }
-
-        .session-details {
-            grid-template-columns: 1fr auto 1fr;
-            gap: 3rem;
+        }        .session-details {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             align-items: center;
+            justify-items: center;
         }
 
         .session-id {
-            grid-column: 1;
-            justify-self: end;
+            justify-self: center;
         }
 
         .qr-code {
-            grid-column: 2;
             justify-self: center;
         }
 
         .connection-status {
-            grid-column: 3;
-            justify-self: start;
+            justify-self: center;
         }
-    }
-
-    @media (min-width: 1024px) {
+    }    @media (min-width: 1024px) {
         .connection-setup {
-            gap: 4rem;
+            gap: 2rem;
         }
 
         .setup-option {
-            padding: 3rem;
+            padding: 2rem;
         }
 
         .session-details {
-            gap: 4rem;
+            gap: 2.5rem;
+        }
+    }    /* Enhanced mobile styles */
+    @media (max-width: 639px) {
+        .connection-setup {
+            padding: 0.75rem;
+            gap: 1rem;
+        }
+
+        .setup-option {
+            padding: 1rem;
+        }
+
+        .setup-option h3 {
+            font-size: 1.15rem;
+        }
+
+        .session-info {
+            padding: 0.75rem;
+        }        .session-details {
+            gap: 0.75rem;
+        }
+
+        .session-id {
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .session-id code {
+            font-size: 0.95rem;
+            padding: 0.6rem;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            align-self: center;
+            min-width: 44px;
+        }
+
+        .qr-code {
+            max-width: 220px;
+            padding: 0.75rem;
+        }
+
+        .qr-code img {
+            max-width: 160px;
+        }
+
+        .connection-status {            max-width: 260px;
+            padding: 0.75rem;
+        }
+
+        .disconnect-section {
+            margin-top: 0.4rem;
+            padding-top: 0.4rem;
         }
     }
 </style>

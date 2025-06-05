@@ -1,6 +1,7 @@
 {
     "title": "Clipboard Share",
-    "description": "Share text and files securely between devices using end-to-end encryption",
+    "description": "Share text and files securely between devices",
+    "description_subtitle": "Files and text are transmitted using end-to-end encryption without going through servers.",
     "create_session": "Create Session",
     "create_description": "Create a new sharing session and get a code",
     "create": "Create",
