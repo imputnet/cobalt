@@ -85,16 +85,10 @@
     // Event handlers for components
     function handleCreateSession() {
         clipboardManager?.createSession();
-    }
-
-    function handleJoinSession() {
+    }    function handleJoinSession() {
         if (joinCode.trim()) {
             clipboardManager?.joinSession(joinCode.trim());
         }
-    }
-
-    function handleShareSession() {
-        clipboardManager?.shareSession(sessionId);
     }
 
     function handleCleanup() {
@@ -264,11 +258,7 @@
         <div class="session-management-section">
             <div class="session-info">
                 <h3>会话管理</h3>
-                <p>会话ID: <code>{sessionId}</code></p>
-                <div class="session-actions">
-                    <button class="btn-secondary" on:click={handleShareSession}>
-                        分享会话
-                    </button>
+                <p>会话ID: <code>{sessionId}</code></p>                <div class="session-actions">
                     <button class="btn-secondary danger" on:click={handleCleanup}>
                         断开连接
                     </button>
@@ -278,8 +268,7 @@
     {:else}
         <!-- Session Management Component - Show when not connected -->
         <SessionManager
-            {sessionId}
-            {isConnected}
+            {sessionId}            {isConnected}
             {isCreating}
             {isJoining}
             {isCreator}
@@ -287,7 +276,6 @@
             {qrCodeUrl}
             on:createSession={handleCreateSession}
             on:joinSession={handleJoinSession}
-            on:shareSession={handleShareSession}
             on:cleanup={handleCleanup}
             bind:joinCode
         />

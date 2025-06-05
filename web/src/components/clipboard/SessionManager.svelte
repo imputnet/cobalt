@@ -18,13 +18,8 @@
     function handleCreateSession() {
         dispatch('createSession');
     }
-    
-    function handleJoinSession() {
+      function handleJoinSession() {
         dispatch('joinSession');
-    }
-    
-    function handleShare() {
-        dispatch('shareSession');
     }
     
     function handleCleanup() {
@@ -77,7 +72,6 @@
             <div class="session-details">                <div class="session-id">
                     <span>{$t("clipboard.session_id")}:</span>
                     <code>{sessionId}</code>
-                    <button class="copy-btn" on:click={handleShare}>📋</button>
                 </div>
                 
                 {#if isCreator && sessionId && !peerConnected && qrCodeUrl}                    <div class="qr-code">
@@ -244,6 +238,7 @@
     }.session-id {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 1rem;
         padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -278,36 +273,12 @@
         letter-spacing: 1px;
         color: #667eea;
         border: 1px solid rgba(102, 126, 234, 0.3);
-        font-size: 1.1rem;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        font-size: 1.1rem;        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         flex: 1;
         text-align: center;
-    }    .copy-btn {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-        border: 1px solid rgba(102, 126, 234, 0.2);
-        cursor: pointer;
-        padding: 0.75rem;
-        border-radius: 10px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        backdrop-filter: blur(8px);
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 44px;
-        height: 44px;
     }
 
-    .copy-btn:hover {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-        border-color: rgba(102, 126, 234, 0.4);
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-    }
-
-    .copy-btn:active {
-        transform: translateY(0) scale(0.95);
-    }    .qr-code {
+    .qr-code {
         text-align: center;
         padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -542,13 +513,7 @@
         .session-id code {
             font-size: 0.95rem;
             padding: 0.6rem;
-            word-break: break-all;
-        }
-
-        .copy-btn {
-            align-self: center;
-            min-width: 44px;
-        }
+            word-break: break-all;        }
 
         .qr-code {
             max-width: 220px;
