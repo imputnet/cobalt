@@ -160,9 +160,9 @@
     #processing-list {
         display: flex;
         flex-direction: column;
-
         max-height: 65vh;
         overflow-y: scroll;
+        overflow-x: hidden;
     }
 
     @media screen and (max-width: 535px) {
