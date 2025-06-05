@@ -104,13 +104,13 @@
 <style>    .connection-setup {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        padding: 0.25rem;
+        gap: 1rem;
+        padding: 0.5rem;
         max-width: 800px;
         margin: 0 auto;
     }    .setup-option {
         text-align: center;
-        padding: 0.75rem;
+        padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -118,6 +118,9 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .setup-option::before {
@@ -141,22 +144,22 @@
     .setup-option:hover::before {
         left: 100%;
     }    .setup-option h3 {
-        margin-bottom: 0.15rem;
-        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
         font-weight: 600;
         color: var(--text);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .setup-option p {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
         color: var(--secondary);
         line-height: 1.6;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
     }    .divider {
         text-align: center;
         position: relative;
-        margin: 0.25rem 0;
+        margin: 0.75rem 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -501,16 +504,26 @@
     }    /* Enhanced mobile styles */
     @media (max-width: 639px) {
         .connection-setup {
-            padding: 0.75rem;
-            gap: 1rem;
+            padding: 0.5rem;
+            gap: 0.75rem;
         }
 
         .setup-option {
-            padding: 1rem;
+            padding: 0.75rem;
         }
 
         .setup-option h3 {
             font-size: 1.15rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .setup-option p {
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .divider {
+            margin: 0.5rem 0;
         }
 
         .session-info {

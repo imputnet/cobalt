@@ -249,9 +249,7 @@
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.1);
         min-height: 55vh;
-        max-height: 80vh;
-        overflow-y: auto;
-    }    .clipboard-header {
+    }.clipboard-header {
         text-align: center;
         margin-bottom: 0.5rem;
         padding: 0.25rem 0;
@@ -514,6 +512,7 @@
             margin: 0.75rem;
             border-radius: 16px;
             max-height: 85vh;
+            overflow-y: auto;
         }
 
         .clipboard-header h1 {
@@ -536,6 +535,7 @@
             margin: 0.5rem;
             padding: 0.5rem;
             max-height: 90vh;
+            overflow-y: auto;
         }
 
         .clipboard-header h1 {
