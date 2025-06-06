@@ -172,8 +172,8 @@
 </script>
 
 <svelte:head>
-    <title>cobalt | {$t("clipboard.title")}</title>
-    <meta property="og:title" content="cobalt | {$t("clipboard.title")}" />
+    <title>竹子下载 | {$t("clipboard.title")}</title>
+    <meta property="og:title" content="竹子下载 | {$t("clipboard.title")}" />
     <meta property="og:description" content={$t("clipboard.description")} />
     <meta property="description" content={$t("clipboard.description")} />
 </svelte:head>
