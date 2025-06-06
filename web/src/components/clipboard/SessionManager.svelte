@@ -435,15 +435,17 @@
             margin: 0 auto;
             width: 100%;
             box-sizing: border-box;
-        }.setup-option {
+        }        .setup-option {
             max-width: 300px;
             min-height: 120px;
             max-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             padding: 1rem;
             flex-shrink: 0;
+            text-align: center;
         }.divider {
             flex-shrink: 0;
             margin: 0;
@@ -505,12 +507,14 @@
             justify-content: center;
             margin: 0 auto;
             width: 100%;
-        }.setup-option {
+        }        .setup-option {
             padding: 1.2rem;
             min-height: 140px;
             max-height: 220px;
             max-width: 280px;
             flex-shrink: 0;
+            align-items: center;
+            text-align: center;
         }
 
         .setup-option h3 {
@@ -540,12 +544,13 @@
             justify-content: center;
             margin: 0 auto;
             width: 100%;
-        }
-          .setup-option {
+        }          .setup-option {
             max-width: 320px;
             min-height: 160px;
             max-height: 240px;
             flex-shrink: 0;
+            align-items: center;
+            text-align: center;
         }.divider {
             min-width: 70px;
             max-width: 90px;
@@ -558,12 +563,13 @@
             max-width: 650px;
             max-height: 400px;
         }
-        
-        .setup-option {
+          .setup-option {
             width: 100%;
             max-width: 550px;
             min-height: 130px;
             max-height: 180px;
+            align-items: center;
+            text-align: center;
         }
         
         .divider {

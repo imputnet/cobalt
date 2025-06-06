@@ -437,22 +437,40 @@
         .file-actions {
             align-self: flex-end;
         }
-    }    /* PC/Desktop 优化 - 1024px 及以上 */
+    }    /* PC/Desktop 优化 - 1024px 及以上 - 横向布局 */
     @media (min-width: 1024px) {
         .file-transfer-section {
+            flex-direction: row;
             gap: 2rem;
             padding: 0.5rem;
-            max-height: 60vh;
-            overflow-y: auto;
+            max-height: 75vh;
+            align-items: stretch;
         }
         
         .send-files, .received-files {
             padding: 1.5rem;
+            flex: 1;
+            max-width: calc(50% - 1rem);
+        }
+        
+        /* 调整发送文件区域 */
+        .send-files {
+            order: 1;
+        }
+        
+        /* 调整接收文件区域 */
+        .received-files {
+            order: 2;
         }
         
         .file-list {
-            max-height: 250px;
+            max-height: 400px;
             overflow-y: auto;
+        }
+        
+        .file-drop-zone {
+            min-height: 140px;
+            padding: 2rem 1.5rem;
         }
         
         /* 优化PC端文件列表滚动条 */
@@ -473,26 +491,33 @@
         .file-list::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        
-        /* 优化整体区域滚动条 */
-        .file-transfer-section::-webkit-scrollbar {
-            width: 6px;
+    }
+
+    /* 超大桌面屏幕优化 - 1440px 及以上 */
+    @media (min-width: 1440px) {
+        .file-transfer-section {
+            gap: 2.5rem;
+            max-height: 80vh;
+            padding: 1rem;
         }
         
-        .file-transfer-section::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 3px;
+        .send-files, .received-files {
+            padding: 2rem;
         }
         
-        .file-transfer-section::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+        .file-list {
+            max-height: 450px;
         }
         
-        .file-transfer-section::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .file-drop-zone {
+            min-height: 160px;
+            padding: 2.5rem 2rem;
         }
-    }    /* 平板优化 - 768px 到 1023px */
+        
+        .file-item {
+            padding: 1.2rem;
+        }
+    }/* 平板优化 - 768px 到 1023px */
     @media (min-width: 768px) and (max-width: 1023px) {
         .file-transfer-section {
             gap: 1.8rem;

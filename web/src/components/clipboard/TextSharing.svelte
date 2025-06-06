@@ -270,9 +270,7 @@
         flex-direction: column;
         gap: 2.5rem;
         padding: 1rem;
-    }
-
-    .send-text, .received-text {
+    }    .send-text, .received-text {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
@@ -282,6 +280,8 @@
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(8px);
         transition: all 0.3s ease;
+        align-items: center;
+        text-align: center;
     }
 
     /* 新消息状态的特殊样式 */
@@ -311,9 +311,7 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 35px rgba(102, 126, 234, 0.3);
         border-color: rgba(102, 126, 234, 0.4);
-    }
-
-    .send-text h4, .received-text h4 {
+    }    .send-text h4, .received-text h4 {
         margin: 0 0 1rem 0;
         font-size: 1.1rem;
         font-weight: 600;
@@ -323,9 +321,10 @@
         background-clip: text;
         display: flex;
         align-items: center;
-    }
-
-    .text-input {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }    .text-input {
         width: 100%;
         padding: 1rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -336,9 +335,13 @@
         font-family: inherit;
         font-size: 0.95rem;
         line-height: 1.6;
-        min-height: 120px;
+        min-height: 100px;
         transition: all 0.3s ease;
         backdrop-filter: blur(4px);
+        text-align: left;
+        align-self: center;
+        margin: 0 auto;
+        box-sizing: border-box;
     }
 
     .text-input:focus {
@@ -352,23 +355,21 @@
         opacity: 0.5;
         cursor: not-allowed;
         transform: none;
-    }
-
-    .text-display {
+    }    .text-display {
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.02);
         overflow: hidden;
         backdrop-filter: blur(4px);
         transition: all 0.3s ease;
+        align-self: stretch;
+        width: 100%;
     }
 
     .text-display:hover {
         border-color: rgba(255, 255, 255, 0.15);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .text-content {
+    }    .text-content {
         padding: 1.5rem;
         white-space: pre-wrap;
         word-wrap: break-word;
@@ -377,7 +378,7 @@
         font-size: 0.95rem;
         background: rgba(255, 255, 255, 0.01);
         min-height: 60px;
-        max-height: 300px;
+        max-height: 200px;
         overflow-y: auto;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
@@ -398,15 +399,14 @@
 
     .text-content::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.2);
-    }
-
-    .text-actions {
+    }    .text-actions {
         display: flex;
         gap: 0.75rem;
         padding: 1rem 1.5rem;
         background: rgba(255, 255, 255, 0.01);
-        justify-content: flex-end;
+        justify-content: center;
         flex-wrap: wrap;
+        align-self: stretch;
     }
 
     .copy-btn, .clear-btn {
@@ -483,51 +483,130 @@
         100% {
             left: 100%;
         }
-    }    /* 移动端响应式 */    /* PC/Desktop 优化 - 1024px 及以上 */
+    }    /* 移动端响应式 */    /* PC/Desktop 优化 - 1024px 及以上 - 横向布局 */
     @media (min-width: 1024px) {
         .text-sharing-section {
+            flex-direction: row;
             gap: 2rem;
             padding: 0.5rem;
-            max-height: 60vh;
+            max-height: 55vh;
+            align-items: stretch;
+        }        .send-text, .received-text {
+            padding: 1.5rem;
+            flex: 1;
+            max-width: calc(50% - 1rem);
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+          /* 确保标题在PC端居中 */
+        .send-text h4, .received-text h4 {
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto 1rem auto;
+        }
+        
+        /* 确保输入框在PC端居中 */
+        .text-input {
+            align-self: center;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* 调整发送文本区域 */
+        .send-text {
+            order: 1;
+        }
+        
+        /* 调整接收文本区域 */
+        .received-text {
+            order: 2;
+        }
+          .text-content {
+            max-height: 250px;
             overflow-y: auto;
         }
         
-        .send-text, .received-text {
-            padding: 1.5rem;
-        }
-        
-        .text-content {
-            max-height: 250px;
-        }
-        
         .text-input {
-            min-height: 120px;
+            min-height: 200px;
+            max-height: 250px;
+            resize: vertical;
         }
         
         /* 优化PC端滚动条 */
-        .text-sharing-section::-webkit-scrollbar {
+        .text-content::-webkit-scrollbar,
+        .text-input::-webkit-scrollbar {
             width: 6px;
         }
         
-        .text-sharing-section::-webkit-scrollbar-track {
+        .text-content::-webkit-scrollbar-track,
+        .text-input::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.02);
             border-radius: 3px;
         }
         
-        .text-sharing-section::-webkit-scrollbar-thumb {
+        .text-content::-webkit-scrollbar-thumb,
+        .text-input::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
         }
         
-        .text-sharing-section::-webkit-scrollbar-thumb:hover {
+        .text-content::-webkit-scrollbar-thumb:hover,
+        .text-input::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+    }    /* 超大桌面屏幕优化 - 1440px 及以上 */
+    @media (min-width: 1440px) {
+        .text-sharing-section {
+            gap: 2.5rem;
+            max-height: 60vh;
+            padding: 1rem;
+        }
+          .send-text, .received-text {
+            padding: 2rem;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+          /* 确保大桌面端标题居中 */
+        .send-text h4, .received-text h4 {
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto 1rem auto;
+        }
+        
+        /* 确保大桌面端输入框居中 */
+        .text-input {
+            align-self: center;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .text-content {
+            max-height: 300px;
+        }
+        
+        .text-input {
+            min-height: 250px;
+            max-height: 300px;
+        }
+        
+        .text-actions {
+            gap: 1rem;
+        }
+        
+        .copy-btn, .clear-btn {
+            padding: 0.9rem 1.5rem;
+            font-size: 0.95rem;
         }
     }    /* 平板优化 - 768px 到 1023px */
     @media (min-width: 768px) and (max-width: 1023px) {
         .text-sharing-section {
             gap: 1.8rem;
             padding: 0.75rem;
-            max-height: 50vh;
+            max-height: 40vh;
             overflow-y: auto;
         }
         
@@ -536,7 +615,7 @@
         }
         
         .text-content {
-            max-height: 280px;
+            max-height: 200px;
         }
     }
     
@@ -602,7 +681,35 @@
         }
 
         .notification-text span {
-            font-size: 0.75rem;
+            font-size: 0.75rem;        }
+    }
+    
+    /* ActionButton居中样式 */
+    .send-text :global(.action-button) {
+        align-self: center;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    /* PC端ActionButton居中 */
+    @media (min-width: 1024px) {
+        .send-text :global(.action-button) {
+            align-self: center;
+            margin: 0 auto;
+            display: block;
+            width: auto;
+            max-width: 200px;
+        }
+    }
+    
+    /* 大桌面端ActionButton居中 */
+    @media (min-width: 1440px) {
+        .send-text :global(.action-button) {
+            align-self: center;
+            margin: 0 auto;
+            display: block;
+            width: auto;
+            max-width: 220px;
         }
     }
 </style>

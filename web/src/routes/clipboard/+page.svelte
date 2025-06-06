@@ -727,17 +727,20 @@
     }    /* Responsive Design */    /* PC/Desktop 优化 - 1024px 及以上 */
     @media (min-width: 1024px) {
         .clipboard-container {
-            max-height: 85vh;
+            max-height: 95vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
         }
         
         .tab-content {
-            max-height: 65vh;
+            max-height: 85vh;
             overflow-y: auto;
             flex: 1;
-            /* 改善滚动条样式 */
+            padding: 1rem;
+            /* 确保子组件可以使用横向布局 */
+            display: flex;
+            flex-direction: column;
         }
         
         .tab-content::-webkit-scrollbar {
@@ -762,15 +765,24 @@
         .session-management-section {
             flex-shrink: 0;
         }
-    }    /* 平板优化 - 768px 到 1023px */
-    @media (min-width: 768px) and (max-width: 1023px) {
+    }    /* 超大桌面屏幕优化 - 1440px 及以上 */
+    @media (min-width: 1440px) {
         .clipboard-container {
-            max-height: 80vh;
+            max-height: 98vh;
+        }
+        
+        .tab-content {
+            max-height: 90vh;
+            padding: 1.5rem;
+        }
+    }/* 平板优化 - 768px 到 1023px */    @media (min-width: 768px) and (max-width: 1023px) {
+        .clipboard-container {
+            max-height: 90vh;
             overflow-y: auto;
         }
         
         .tab-content {
-            max-height: 55vh;
+            max-height: 70vh;
             overflow-y: auto;
         }
     }
