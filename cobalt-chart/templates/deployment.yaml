@@ -49,7 +49,19 @@ spec:
             - name: API_PORT
               value: '80'
             - name: API_NAME
-              value: cobalt
+              value: freesavevideo-api
+            - name: CORS_WILDCARD
+              value: '1'
+            - name: CORS_URL
+              value: https://freesavevideo.online
+            - name: RATELIMIT_WINDOW
+              value: '60'
+            - name: RATELIMIT_MAX
+              value: '30'
+            - name: TUNNEL_RATELIMIT_WINDOW
+              value: '60'
+            - name: TUNNEL_RATELIMIT_MAX
+              value: '50'
             - name: TURNSTILE_SITEKEY
               value: 0x4AAAAAAAw8jRb9G7cWXnbd
             - name: COOKIE_PATH

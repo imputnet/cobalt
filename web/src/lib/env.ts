@@ -55,8 +55,8 @@ const docs = {
     apiLicense: "https://github.com/imputnet/cobalt/blob/main/api/LICENSE",
 };
 
-//const apiURL = "https://api.freesavevideo.online/";
-const apiURL = "http://localhost:9000";
+// 生产环境使用环境变量或默认值
+const apiURL = variables.DEFAULT_API || "https://api.freesavevideo.online/";
 
 export { donate, apiURL, contacts, partners, siriShortcuts, docs };
 export default variables;

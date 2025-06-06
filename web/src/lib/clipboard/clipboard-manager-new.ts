@@ -105,17 +105,19 @@ export class ClipboardManager {
                 peerConnected: peerConnected
             }));
         }, 1000);
-    }
-
-    // WebSocket management
+    }    // WebSocket management
     private getWebSocketURL(): string {
         if (typeof window === 'undefined') return 'ws://localhost:9000/ws';
         
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         let host = window.location.host;
         
-        // For mobile access, use the actual IP instead of localhost
-        if (host.includes('localhost') || host.includes('127.0.0.1')) {
+        // 生产环境使用API域名进行WebSocket连接
+        if (window.location.hostname === 'freesavevideo.online') {
+            host = 'api.freesavevideo.online';
+        }
+        // 开发环境处理
+        else if (host.includes('localhost') || host.includes('127.0.0.1')) {
             host = '192.168.1.12:5173';
         }
         
