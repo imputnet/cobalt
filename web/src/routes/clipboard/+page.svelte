@@ -292,7 +292,7 @@
         backdrop-filter: blur(10px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        min-height: 55vh;
+        min-height: 60vh;
     }.clipboard-header {
         text-align: center;
         margin-bottom: 0.5rem;
@@ -500,6 +500,9 @@
         transition: all 0.3s ease;
         position: relative;
         overflow: visible; /* 允许通知显示在容器外 */
+        /* PC端高度限制 - 增加高度 */
+        max-height: 65vh;
+        overflow-y: auto;
     }
 
     .tab-content:hover {
@@ -721,7 +724,57 @@
             padding: 0.1rem !important;
             gap: 0.25rem !important;
         }
-    }    /* Responsive Design */
+    }    /* Responsive Design */    /* PC/Desktop 优化 - 1024px 及以上 */
+    @media (min-width: 1024px) {
+        .clipboard-container {
+            max-height: 85vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tab-content {
+            max-height: 65vh;
+            overflow-y: auto;
+            flex: 1;
+            /* 改善滚动条样式 */
+        }
+        
+        .tab-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .tab-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        .tab-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+        }
+        
+        .tab-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        /* 确保内容区域不会溢出 */
+        .session-management-section {
+            flex-shrink: 0;
+        }
+    }    /* 平板优化 - 768px 到 1023px */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .clipboard-container {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .tab-content {
+            max-height: 55vh;
+            overflow-y: auto;
+        }
+    }
+    
     @media (max-width: 768px) {
         .clipboard-container {
             padding: 0.75rem;

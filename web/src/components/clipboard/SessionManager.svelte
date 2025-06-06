@@ -37,7 +37,7 @@
                     disabled={isCreating}
                     click={handleCreateSession}
                 >
-                    {isCreating ? $t("clipboard.creating") : $t("clipboard.create_session")}
+                    {isCreating ? $t("clipboard.creating") : $t("clipboard.create")}
                 </ActionButton>
             </div>
             
@@ -53,13 +53,12 @@
                         bind:value={joinCode}
                         placeholder={$t("clipboard.enter_code")}
                         disabled={isJoining}
-                    />
-                    <ActionButton
+                    />                    <ActionButton
                         id="join-session"
                         disabled={isJoining || !joinCode.trim()}
                         click={handleJoinSession}
                     >
-                        {isJoining ? $t("clipboard.joining") : $t("clipboard.join_session")}
+                        {isJoining ? $t("clipboard.joining") : $t("clipboard.join")}
                     </ActionButton>
                 </div>
             </div>
@@ -99,10 +98,14 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        padding: 0.5rem;
+        padding: 1rem;
         max-width: 800px;
         margin: 0 auto;
-    }    .setup-option {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }.setup-option {
         text-align: center;
         padding: 1rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -115,6 +118,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        min-height: 160px;
     }
 
     .setup-option::before {
@@ -138,8 +143,8 @@
     .setup-option:hover::before {
         left: 100%;
     }    .setup-option h3 {
-        margin-bottom: 0.5rem;
-        font-size: 1.4rem;
+        margin-bottom: 0.6rem;
+        font-size: 1.2rem;
         font-weight: 600;
         color: var(--text);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -148,12 +153,12 @@
     .setup-option p {
         margin-bottom: 1rem;
         color: var(--secondary);
-        line-height: 1.6;
-        font-size: 0.9rem;
+        line-height: 1.4;
+        font-size: 0.85rem;
     }    .divider {
         text-align: center;
         position: relative;
-        margin: 0.75rem 0;
+        margin: 0.5rem 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -168,31 +173,29 @@
         height: 2px;
         background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
         border-radius: 1px;
-    }
-
-    .divider span {
+    }    .divider span {
         background: linear-gradient(135deg, var(--background), rgba(255, 255, 255, 0.02));
-        padding: 0.75rem 1.5rem;
+        padding: 0.5rem 1.2rem;
         color: var(--secondary);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         font-weight: 500;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         z-index: 1;
         position: relative;
-    }    .join-form {
+    }.join-form {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        max-width: 400px;
+        gap: 0.8rem;
+        max-width: 380px;
         margin: 0 auto;
         align-items: center;
         width: 100%;
     }    .join-form input {
-        padding: 1rem 1.25rem;
+        padding: 0.8rem 1rem;
         border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -215,14 +218,26 @@
     .join-form input::placeholder {
         color: var(--secondary);
         opacity: 0.7;
-    }
-
-    /* Ensure ActionButton is properly sized on mobile */
+    }    /* Ensure ActionButton is properly sized on mobile */
     .join-form :global(.action-button) {
         width: 100%;
         min-height: 48px;
         font-size: 1rem;
-        font-weight: 600;    }    .session-info {
+        font-weight: 600;
+    }
+
+    /* ActionButton optimization for desktop */
+    @media (min-width: 768px) {
+        :global(.action-button) {
+            min-height: 44px;
+            font-size: 0.9rem;
+            padding: 0.7rem 1.5rem;
+        }
+        
+        .join-form :global(.action-button) {
+            min-height: 42px;
+        }
+    }.session-info {
         text-align: center;
         padding: 0.75rem;
         max-width: 900px;
@@ -410,39 +425,60 @@
         border-radius: 1px;
     }    @media (min-width: 768px) {
         .connection-setup {
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            max-width: 600px;
-        }        .setup-option {
+            flex-direction: row;
+            align-items: stretch;
+            gap: 1.5rem;
+            max-width: 700px;
+            padding: 1.2rem;
+            max-height: 280px;
+            justify-content: center;
+            margin: 0 auto;
             width: 100%;
-            max-width: 500px;
-            min-height: 200px;
+            box-sizing: border-box;
+        }.setup-option {
+            max-width: 300px;
+            min-height: 120px;
+            max-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-
-        .divider {
-            align-self: center;
-            margin: 1.5rem 0;
-            width: 100%;
+            padding: 1rem;
             flex-shrink: 0;
+        }.divider {
+            flex-shrink: 0;
+            margin: 0;
+            width: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            min-width: 60px;
+            max-width: 80px;
+            position: relative;
         }
 
         .divider::before {
+            content: '';
+            position: absolute;
             top: 50%;
-            left: 0;
-            right: 0;
-            width: auto;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            left: 50%;
+            width: 2px;
+            height: 60%;
+            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            border-radius: 1px;
+            transform: translate(-50%, -50%);
         }
 
         .divider span {
-            transform: none;
+            transform: rotate(0deg);
             white-space: nowrap;
-        }        .session-details {
+            writing-mode: horizontal-tb;
+            text-orientation: mixed;
+            position: relative;
+            z-index: 2;
+        }.session-details {
             grid-template-columns: 1fr;
             gap: 1.5rem;
             align-items: center;
@@ -463,16 +499,92 @@
     }    @media (min-width: 1024px) {
         .connection-setup {
             gap: 2rem;
+            padding: 1.5rem;
+            max-width: 750px;
+            max-height: 300px;
+            justify-content: center;
+            margin: 0 auto;
+            width: 100%;
+        }.setup-option {
+            padding: 1.2rem;
+            min-height: 140px;
+            max-height: 220px;
+            max-width: 280px;
+            flex-shrink: 0;
         }
 
-        .setup-option {
-            padding: 2rem;
+        .setup-option h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
         }
 
-        .session-details {
+        .setup-option p {
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }        .join-form {
+            max-width: 320px;
+        }
+
+        .join-form input {
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
+        }.session-details {
             gap: 2.5rem;
         }
-    }    /* Enhanced mobile styles */
+    }    /* Extra large desktop screens */
+    @media (min-width: 1440px) {
+        .connection-setup {
+            max-width: 850px;
+            padding: 1.8rem;
+            max-height: 320px;
+            justify-content: center;
+            margin: 0 auto;
+            width: 100%;
+        }
+          .setup-option {
+            max-width: 320px;
+            min-height: 160px;
+            max-height: 240px;
+            flex-shrink: 0;
+        }.divider {
+            min-width: 70px;
+            max-width: 90px;
+        }
+    }/* Tablet and small desktop adjustment */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .connection-setup {
+            flex-direction: column;
+            align-items: center;
+            max-width: 650px;
+            max-height: 400px;
+        }
+        
+        .setup-option {
+            width: 100%;
+            max-width: 550px;
+            min-height: 130px;
+            max-height: 180px;
+        }
+        
+        .divider {
+            writing-mode: horizontal-tb;
+            height: auto;
+            width: 100%;
+            min-width: auto;
+            margin: 1rem 0;
+        }
+        
+        .divider::before {
+            top: 50%;
+            left: 0;
+            right: 0;
+            bottom: auto;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            transform: translateY(-50%);
+        }
+    }/* Enhanced mobile styles */
     @media (max-width: 639px) {
         .connection-setup {
             padding: 0.5rem;

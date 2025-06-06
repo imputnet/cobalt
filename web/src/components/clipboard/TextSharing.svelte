@@ -483,9 +483,63 @@
         100% {
             left: 100%;
         }
+    }    /* 移动端响应式 */    /* PC/Desktop 优化 - 1024px 及以上 */
+    @media (min-width: 1024px) {
+        .text-sharing-section {
+            gap: 2rem;
+            padding: 0.5rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .send-text, .received-text {
+            padding: 1.5rem;
+        }
+        
+        .text-content {
+            max-height: 250px;
+        }
+        
+        .text-input {
+            min-height: 120px;
+        }
+        
+        /* 优化PC端滚动条 */
+        .text-sharing-section::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .text-sharing-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 3px;
+        }
+        
+        .text-sharing-section::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .text-sharing-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }    /* 平板优化 - 768px 到 1023px */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .text-sharing-section {
+            gap: 1.8rem;
+            padding: 0.75rem;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+        
+        .send-text, .received-text {
+            padding: 1.75rem;
+        }
+        
+        .text-content {
+            max-height: 280px;
+        }
     }
-
-    /* 移动端响应式 */
+    
     @media (max-width: 768px) {
         .new-message-notification {
             right: 10px;
