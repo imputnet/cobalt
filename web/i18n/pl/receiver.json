@@ -1,0 +1,5 @@
+{
+    "title": "przeciągnij lub wybierz plik",
+    "accept": "obsługiwane formaty: {{ formats }}.",
+    "title.drop": "upuść plik tutaj!"
+}
