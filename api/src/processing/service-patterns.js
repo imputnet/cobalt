@@ -79,4 +79,9 @@ export const testers = {
     "xiaohongshu": pattern =>
         pattern.id?.length <= 24 && pattern.token?.length <= 64
         || pattern.shareId?.length <= 24,
+
+    "newgrounds": (patternMatch) =>
+        (patternMatch.type == 'portal' && patternMatch.method == 'view')
+        || (patternMatch.type == 'audio' && patternMatch.method == 'listen')
+        && patternMatch.id?.length >= 1,
 }
