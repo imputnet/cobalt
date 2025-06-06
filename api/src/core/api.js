@@ -3,6 +3,7 @@ import http from "node:http";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, ProxyAgent } from "undici";
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
+import { httpRequests, httpRequestDuration, WORKER_ID, aggregatorRegistry } from "../misc/metrics.js";
 
 import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
@@ -10,7 +11,7 @@ import match from "../processing/match.js";
 
 import { env } from "../config.js";
 import { extract } from "../processing/url.js";
-import { Bright, Cyan } from "../misc/console-text.js";
+import { Bright, Cyan, Green } from "../misc/console-text.js";
 import { hashHmac } from "../security/secrets.js";
 import { createStore } from "../store/redis-ratelimit.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
@@ -39,6 +40,8 @@ const corsConfig = env.corsWildcard ? {} : {
     optionsSuccessStatus: 200
 }
 
+const metrics = Boolean(env.metrics && env.metricsPort);
+
 const fail = (res, code, context) => {
     const { status, body } = createResponse("error", { code, context });
     res.status(status).json(body);
@@ -54,6 +57,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 version: version,
                 url: env.apiURL,
                 startTime: `${startTimestamp}`,
+                metrics: metrics,
                 turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
                 services: [...env.enabledServices].map(e => {
                     return friendlyServiceName(e);
@@ -110,6 +114,19 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     });
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
+
+    if (metrics) {
+        app.use((req, res, next) => {
+            const end = httpRequestDuration.startTimer({ method: req.method, worker_id: WORKER_ID });
+
+            res.on('finish', () => {
+                httpRequests.labels(req.method, res.statusCode.toString(), WORKER_ID).inc();
+                end();
+            });
+          
+            next();
+        });
+    }
 
     app.use('/', cors({
         methods: ['GET', 'POST'],
@@ -369,6 +386,28 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
         if (env.ytSessionServer) {
             YouTubeSession.setup();
+        }
+
+        if (metrics && isPrimary) {
+            const metricsApp = express();
+        
+            metricsApp.get('/metrics', async (req, res) => {
+                try {
+                    const data = await aggregatorRegistry.clusterMetrics();
+                    res.set('Content-Type', 'text/plain');
+                    res.end(data);
+                } catch (err) {
+                    res.status(500).end(err.message);
+                }
+            });
+
+            metricsApp.get('/*', (req, res) => {
+                res.redirect('/metrics');
+            });
+        
+            metricsApp.listen(env.metricsPort, '0.0.0.0', () => {
+                console.log(`${Green('[✓]')} prometheus metrics running on 0.0.0.0:${env.metricsPort}/metrics`);
+            });
         }
     });
 
