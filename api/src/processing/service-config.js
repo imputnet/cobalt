@@ -177,7 +177,8 @@ export const services = {
             ":id",
             "video/:id",
             ":id/:password",
-            "/channels/:user/:id"
+            "/channels/:user/:id",
+            "groups/:groupId/videos/:id"
         ],
         subdomains: ["player"],
     },
