@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { env, isCluster } from "./config.js"
 import { Red } from "./misc/console-text.js";
 import { initCluster } from "./misc/cluster.js";
+import { setupEnvWatcher } from "./core/env.js";
 
 const app = express();
 
@@ -22,6 +23,10 @@ if (env.apiURL) {
 
     if (isCluster) {
        await initCluster();
+    }
+
+    if (env.envFile) {
+        setupEnvWatcher();
     }
 
     runAPI(express, app, __dirname, cluster.isPrimary);

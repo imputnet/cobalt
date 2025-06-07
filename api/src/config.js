@@ -1,5 +1,5 @@
 import { getVersion } from "@imput/version-info";
-import { loadEnvs, validateEnvs, setupEnvWatcher } from "./core/env.js";
+import { loadEnvs, validateEnvs } from "./core/env.js";
 
 const version = await getVersion();
 
@@ -28,10 +28,6 @@ export const updateEnv = (newEnv) => {
 }
 
 await validateEnvs(env);
-
-if (env.envFile) {
-    setupEnvWatcher();
-}
 
 export {
     env,
