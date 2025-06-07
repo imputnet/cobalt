@@ -4,6 +4,11 @@ metadata:
   name: {{ include "cobalt-chart.fullname" . }}
   labels:
     {{- include "cobalt-chart.labels" . | nindent 4 }}
+{{- if .Values.ingress.enabled }}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "websocket-backendconfig"}'
+    cloud.google.com/neg: '{"ingress": true}'
+{{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:

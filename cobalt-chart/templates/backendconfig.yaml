@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: websocket-backendconfig
+  labels:
+    {{- include "cobalt-chart.labels" . | nindent 4 }}
+spec:
+  # WebSocket connection timeout configuration
+  timeoutSec: 3600  # 1-hour backend timeout
+  connectionDraining:
+    drainingTimeoutSec: 60  # Connection draining time
+  # Session affinity to ensure WebSocket connections stay on same Pod
+  sessionAffinity:
+    affinityType: "CLIENT_IP"
+    affinityCookieTtlSec: 3600
+  # Health check configuration
+  healthCheck:
+    checkIntervalSec: 15
+    timeoutSec: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 2
+    type: HTTP
+    requestPath: /health
+    port: 80
+  # Disable CDN for WebSocket compatibility
+  cdn:
+    enabled: false
+{{- end }}

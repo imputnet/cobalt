@@ -20,9 +20,7 @@ export const setupSignalingServer = (httpServer) => {
                 console.log(`Cleaned up expired session: ${sessionId}`);
             }
         }
-    }, 5 * 60 * 1000); // Check every 5 minutes
-
-    wss.on('connection', (ws, req) => {
+    }, 5 * 60 * 1000); // Check every 5 minutes    wss.on('connection', (ws, req) => {
         const clientIP = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.socket.remoteAddress;
         const userAgent = req.headers['user-agent'] || 'Unknown';
         console.log(`WebSocket connection established: ${clientIP}, URL: ${req.url}, User-Agent: ${userAgent}`);
@@ -30,6 +28,56 @@ export const setupSignalingServer = (httpServer) => {
         let sessionId = null;
         let userRole = null; // 'creator' | 'joiner'
         let connectionStartTime = Date.now();
+        let lastPingTime = Date.now();
+        let lastPongTime = Date.now();
+        let missedPongs = 0;
+        const maxMissedPongs = 3; // 允许最多3次未响应ping
+        
+        // Send ping every 25 seconds to keep connection alive
+        const pingInterval = setInterval(() => {
+            if (ws.readyState === ws.OPEN) {
+                const now = Date.now();
+                
+                // 检查是否有太多未响应的ping
+                if (now - lastPongTime > 75000) { // 75秒没有pong响应
+                    missedPongs++;
+                    console.warn(`Missed pong from ${clientIP} (session: ${sessionId || 'none'}), count: ${missedPongs}`);
+                    
+                    if (missedPongs >= maxMissedPongs) {
+                        console.error(`Too many missed pongs from ${clientIP}, closing connection`);
+                        ws.terminate();
+                        return;
+                    }
+                }
+                
+                ws.ping();
+                lastPingTime = now;
+                console.log(`Ping sent to ${clientIP} (session: ${sessionId || 'none'}), pongs missed: ${missedPongs}`);
+            }
+        }, 25000);
+        
+        // 额外的健康检查，每60秒检查连接状态
+        const healthCheckInterval = setInterval(() => {
+            if (ws.readyState === ws.OPEN) {
+                const now = Date.now();
+                const connectionAge = now - connectionStartTime;
+                const lastActivity = Math.min(now - lastPingTime, now - lastPongTime);
+                
+                console.log(`Health check for ${clientIP} (session: ${sessionId || 'none'}): connection age ${Math.round(connectionAge/1000)}s, last activity ${Math.round(lastActivity/1000)}s ago`);
+                
+                // 如果连接超过2小时且长时间没有活动，主动关闭
+                if (connectionAge > 2 * 60 * 60 * 1000 && lastActivity > 300000) { // 2小时连接且5分钟无活动
+                    console.log(`Closing stale connection from ${clientIP} due to inactivity`);
+                    ws.close(1000, 'Connection cleanup due to inactivity');
+                }
+            }
+        }, 60000);
+        
+        ws.on('pong', () => {
+            lastPongTime = Date.now();
+            missedPongs = 0; // 重置未响应计数
+            console.log(`Pong received from ${clientIP} (session: ${sessionId || 'none'})`);
+        });
 
         ws.on('message', (data) => {
             try {
@@ -65,12 +113,32 @@ export const setupSignalingServer = (httpServer) => {
                     message: 'Message format error' 
                 }));
             }
-        });
-
-        ws.on('close', (code, reason) => {
+        });        ws.on('close', (code, reason) => {
+            // 清理所有定时器
+            clearInterval(pingInterval);
+            clearInterval(healthCheckInterval);
+            
             const connectionDuration = Date.now() - connectionStartTime;
             const reasonStr = reason ? reason.toString() : 'No reason provided';
-            console.log(`WebSocket connection closed: code=${code}, reason="${reasonStr}", sessionId=${sessionId || 'None'}, role=${userRole || 'None'}, duration=${connectionDuration}ms`);
+            
+            // Log detailed close information
+            let closeReason = 'Unknown';
+            switch(code) {
+                case 1000: closeReason = 'Normal closure'; break;
+                case 1001: closeReason = 'Going away'; break;
+                case 1002: closeReason = 'Protocol error'; break;
+                case 1003: closeReason = 'Unsupported data'; break;
+                case 1005: closeReason = 'No status received'; break;
+                case 1006: closeReason = 'Abnormal closure'; break;
+                case 1007: closeReason = 'Invalid frame payload data'; break;
+                case 1008: closeReason = 'Policy violation'; break;
+                case 1009: closeReason = 'Message too big'; break;
+                case 1010: closeReason = 'Mandatory extension'; break;
+                case 1011: closeReason = 'Internal server error'; break;
+                case 1015: closeReason = 'TLS handshake'; break;
+            }
+            
+            console.log(`WebSocket connection closed: code=${code} (${closeReason}), reason="${reasonStr}", sessionId=${sessionId || 'None'}, role=${userRole || 'None'}, duration=${connectionDuration}ms, clientIP=${clientIP}`);
             
             if (sessionId && userRole) {
                 handleDisconnect(sessionId, userRole);

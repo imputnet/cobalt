@@ -46,6 +46,10 @@ ingress:
     # GKE WebSocket 支持
     cloud.google.com/neg: '{"ingress": true}'
     kubernetes.io/ingress.allow-http: "false"
+    # WebSocket 超时配置 - 增加超时时间以支持长连接
+    cloud.google.com/timeout-sec: "3600"  # 1小时超时
+    # Backend 服务超时配置
+    cloud.google.com/backend-config: '{"default": "websocket-backendconfig"}'
   hosts:
     - host: api.freesavevideo.online
       paths:

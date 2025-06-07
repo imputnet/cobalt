@@ -56,6 +56,11 @@ export class ClipboardManager {
     private sharedKey: CryptoKey | null = null;
     private currentReceivingFile: ReceivingFile | null = null;
     private statusInterval: ReturnType<typeof setInterval> | null = null;
+    private reconnectAttempts = 0;
+    private maxReconnectAttempts = 5;
+    private reconnectDelay = 1000; // Start with 1 second
+    private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+    private isReconnecting = false;
 
     constructor() {
         this.loadStoredSession();
@@ -139,9 +144,7 @@ export class ClipboardManager {
         const wsUrl = `${protocol}//${host}/ws`;
         console.log('Constructed WebSocket URL:', wsUrl);
         return wsUrl;
-    }
-
-    private async connectWebSocket(): Promise<void> {
+    }    private async connectWebSocket(): Promise<void> {
         return new Promise((resolve, reject) => {
             try {
                 const wsUrl = this.getWebSocketURL();
@@ -149,6 +152,8 @@ export class ClipboardManager {
                 
                 this.ws.onopen = () => {
                     console.log('🔗 WebSocket connected');
+                    this.reconnectAttempts = 0; // Reset reconnect attempts on successful connection
+                    this.reconnectDelay = 1000; // Reset delay
                     clipboardState.update(state => ({ ...state, isConnected: true }));
                     resolve();
                 };
@@ -162,9 +167,14 @@ export class ClipboardManager {
                     }
                 };
                 
-                this.ws.onclose = () => {
-                    console.log('🔌 WebSocket disconnected');
+                this.ws.onclose = (event) => {
+                    console.log(`🔌 WebSocket disconnected: code=${event.code}, reason=${event.reason}`);
                     clipboardState.update(state => ({ ...state, isConnected: false }));
+                    
+                    // Only attempt reconnection if we have a session and we're not manually disconnecting
+                    if (!this.isReconnecting && this.shouldReconnect(event.code)) {
+                        this.handleReconnection();
+                    }
                 };
                 
                 this.ws.onerror = (error) => {
@@ -176,6 +186,113 @@ export class ClipboardManager {
                 reject(error);
             }
         });
+    }
+
+    // Reconnection logic
+    private shouldReconnect(closeCode: number): boolean {
+        // Get current session state
+        const state = this.getCurrentState();
+        
+        // Don't reconnect if we don't have a session
+        if (!state.sessionId) {
+            return false;
+        }
+        
+        // Don't reconnect on normal closure (user initiated)
+        if (closeCode === 1000) {
+            return false;
+        }
+        
+        // Reconnect on abnormal closures (network issues)
+        return closeCode === 1005 || closeCode === 1006 || closeCode === 1001;
+    }
+    
+    private async handleReconnection(): Promise<void> {
+        if (this.isReconnecting || this.reconnectAttempts >= this.maxReconnectAttempts) {
+            console.log(`Max reconnection attempts reached (${this.maxReconnectAttempts})`);
+            this.showError('Connection lost. Please refresh the page to reconnect.');
+            return;
+        }
+        
+        this.isReconnecting = true;
+        this.reconnectAttempts++;
+        
+        console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
+        
+        // Show reconnecting status to user
+        clipboardState.update(state => ({
+            ...state,
+            errorMessage: `Reconnecting... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`,
+            showError: true
+        }));
+        
+        // Wait before reconnecting (exponential backoff)
+        this.reconnectTimer = setTimeout(async () => {
+            try {
+                await this.connectWebSocket();
+                await this.rejoinSession();
+                
+                // Clear error message on successful reconnection
+                clipboardState.update(state => ({
+                    ...state,
+                    errorMessage: '',
+                    showError: false
+                }));
+                
+                console.log('✅ Successfully reconnected and rejoined session');
+            } catch (error) {
+                console.error('❌ Reconnection failed:', error);
+                // Exponential backoff: increase delay for next attempt
+                this.reconnectDelay = Math.min(this.reconnectDelay * 2, 30000); // Max 30 seconds
+                
+                // Try again
+                this.handleReconnection();
+            } finally {
+                this.isReconnecting = false;
+            }
+        }, this.reconnectDelay);
+    }
+    
+    private async rejoinSession(): Promise<void> {
+        const state = this.getCurrentState();
+        
+        if (!state.sessionId || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
+            throw new Error('Cannot rejoin: no session or WebSocket not ready');
+        }
+        
+        // Generate new key pair for security
+        await this.generateKeyPair();
+        const publicKeyArray = Array.from(new Uint8Array(await this.exportPublicKey()));
+        
+        if (state.isCreator) {
+            // Reconnect as creator
+            this.ws.send(JSON.stringify({
+                type: 'create_session',
+                publicKey: publicKeyArray,
+                existingSessionId: state.sessionId
+            }));
+        } else {
+            // Reconnect as joiner
+            this.ws.send(JSON.stringify({
+                type: 'join_session',
+                sessionId: state.sessionId,
+                publicKey: publicKeyArray
+            }));
+        }
+    }
+      private getCurrentState() {
+        let state: any;
+        const unsubscribe = clipboardState.subscribe(s => state = s);
+        unsubscribe();
+        return state;
+    }
+    
+    private showError(message: string): void {
+        clipboardState.update(state => ({
+            ...state,
+            errorMessage: message,
+            showError: true
+        }));
     }
 
     // Encryption
@@ -371,6 +488,14 @@ export class ClipboardManager {
             navigator.clipboard.writeText(url);
         }
     }    cleanup(): void {
+        // Clear reconnection timer
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = null;
+        }
+        this.isReconnecting = false;
+        this.reconnectAttempts = 0;
+        
         if (this.dataChannel) {
             this.dataChannel.close();
             this.dataChannel = null;
