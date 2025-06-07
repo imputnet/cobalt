@@ -42,8 +42,8 @@
         }
     },
     {
-        "name": "picker: mixed media (3 videos)",
-        "url": "https://twitter.com/DankGameAlert/status/1584726006094794774",
+        "name": "picker: mixed media (video + image)",
+        "url": "https://x.com/PopCrave/status/1682176754792955905",
         "params": {
             "audioFormat": "mp3"
         },
@@ -149,7 +149,7 @@
     },
     {
         "name": "post with 4 images",
-        "url": "https://x.com/PopCrave/status/1816260887147114696",
+        "url": "https://x.com/PopCrave/status/1877880433242771717",
         "params": {},
         "expected": {
             "code": 200,
