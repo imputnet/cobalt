@@ -113,9 +113,9 @@ export default async function(obj) {
 
     if (!file) return { error: "fetch.empty" };
 
-    const artist = json.user.username.trim();
+    const artist = json.user?.username?.trim();
     const fileMetadata = {
-        title: json.title.trim(),
+        title: json.title?.trim(),
         album: json.publisher_metadata?.album_title?.trim(),
         artist,
         album_artist: artist,
