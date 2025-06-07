@@ -9,6 +9,8 @@ export const setupSignalingServer = (httpServer) => {
 
     const sessions = new Map(); // sessionId -> { creator, joiner, createdAt }
 
+    console.log(`${Green('[✓]')} WebSocket信令服务器启动成功，监听路径: /ws`);
+
     // 清理过期会话
     setInterval(() => {
         const now = Date.now();
@@ -21,7 +23,8 @@ export const setupSignalingServer = (httpServer) => {
     }, 5 * 60 * 1000); // 每5分钟检查一次
 
     wss.on('connection', (ws, req) => {
-        console.log('WebSocket连接建立:', req.socket.remoteAddress);
+        const clientIP = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.socket.remoteAddress;
+        console.log('WebSocket连接建立:', clientIP, 'URL:', req.url);
         
         let sessionId = null;
         let userRole = null; // 'creator' | 'joiner'

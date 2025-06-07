@@ -310,11 +310,21 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             streamInfo.range = req.headers['range'];
         }
 
-        return stream(res, streamInfo);    });
-
-    app.get('/', (_, res) => {
+        return stream(res, streamInfo);    });    app.get('/', (_, res) => {
         res.type('json');
         res.status(200).send(env.envFile ? getServerInfo() : serverInfo);
+    })
+
+    app.get('/health', (_, res) => {
+        res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+    })
+
+    app.get('/ws/health', (_, res) => {
+        res.status(200).json({ 
+            status: 'websocket_ready', 
+            timestamp: new Date().toISOString(),
+            path: '/ws'
+        });
     })
 
     app.get('/favicon.ico', (req, res) => {

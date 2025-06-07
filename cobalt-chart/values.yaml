@@ -41,9 +41,11 @@ service:
 ingress:
   enabled: true
   className: ""
-  annotations: {networking.gke.io/managed-certificates: "apifreesavevideo-tls"}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations: 
+    networking.gke.io/managed-certificates: "apifreesavevideo-tls"
+    # GKE WebSocket 支持
+    cloud.google.com/neg: '{"ingress": true}'
+    kubernetes.io/ingress.allow-http: "false"
   hosts:
     - host: api.freesavevideo.online
       paths:
