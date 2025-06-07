@@ -208,7 +208,8 @@ export const services = {
         patterns: [
             "watch?v=:id",
             "embed/:id",
-            "watch/:id"
+            "watch/:id",
+            "v/:id"
         ],
         subdomains: ["music", "m"],
     }
