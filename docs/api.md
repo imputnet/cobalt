@@ -139,7 +139,7 @@ all keys in this table are optional.
 | `date`      | `string` | release date or creation date              |
 
 #### audio object
-| key       | type       | value                                     |
+| key       | type      | value                                      |
 |:----------|:----------|:-------------------------------------------|
 | `copy`    | `boolean` | defines whether audio codec data is copied |
 | `format`  | `string`  | output audio format                        |
