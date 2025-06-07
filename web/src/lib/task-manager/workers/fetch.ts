@@ -1,5 +1,10 @@
 import * as Storage from "$lib/storage";
 
+const networkErrors = [
+    "TypeError: Failed to fetch",
+    "TypeError: network error",
+];
+
 let attempts = 0;
 
 const fetchFile = async (url: string) => {
@@ -83,6 +88,10 @@ const fetchFile = async (url: string) => {
             }
         });
     } catch (e) {
+        // retry several times if the error is network-related
+        if (networkErrors.includes(String(e))) {
+            return error("queue.fetch.network_error");
+        }
         console.error("error from the fetch worker:");
         console.error(e);
         return error("queue.fetch.crashed", false);
