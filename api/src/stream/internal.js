@@ -13,31 +13,55 @@ async function* readChunks(streamInfo, size) {
             throw new Error("controller aborted");
         }
 
-        const chunk = await request(streamInfo.url, {
-            headers: {
-                ...getHeaders('youtube'),
-                Range: `bytes=${read}-${read + CHUNK_SIZE}`
-            },
-            dispatcher: streamInfo.dispatcher,
-            signal: streamInfo.controller.signal,
-            maxRedirections: 4
-        });
-
-        if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.transplant) {
-            chunksSinceTransplant = 0;
+        let retries = 3;
+        let chunk;
+        
+        // Retry mechanism for failed chunks
+        while (retries > 0) {
             try {
-                await streamInfo.transplant(streamInfo.dispatcher);
-                continue;
-            } catch {}
+                chunk = await request(streamInfo.url, {
+                    headers: {
+                        ...getHeaders('youtube'),
+                        Range: `bytes=${read}-${read + CHUNK_SIZE}`
+                    },
+                    dispatcher: streamInfo.dispatcher,
+                    signal: streamInfo.controller.signal,
+                    maxRedirections: 4
+                });
+
+                // Check for valid response before processing
+                if (chunk.statusCode === 206 || chunk.statusCode === 200) {
+                    break; // Success, exit retry loop
+                } else if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.transplant) {
+                    chunksSinceTransplant = 0;
+                    try {
+                        await streamInfo.transplant(streamInfo.dispatcher);
+                        continue; // Retry with transplanted connection
+                    } catch {}
+                }
+                
+                // For other status codes, retry
+                throw new Error(`HTTP ${chunk.statusCode} response`);
+                
+            } catch (error) {
+                retries--;
+                if (retries === 0) {
+                    throw new Error(`Failed to fetch chunk after 3 attempts: ${error.message}`);
+                }
+                
+                // Wait before retry (exponential backoff)
+                await new Promise(resolve => setTimeout(resolve, (4 - retries) * 1000));
+            }
         }
 
         chunksSinceTransplant++;
-
+        
         const expected = min(CHUNK_SIZE, size - read);
         const received = BigInt(chunk.headers['content-length']);
 
-        if (received < expected / 2n) {
-            closeRequest(streamInfo.controller);
+        // Validate we received some data
+        if (received === 0n && expected > 0n) {
+            throw new Error("Received empty chunk when data was expected");
         }
 
         for await (const data of chunk.body) {
@@ -50,7 +74,13 @@ async function* readChunks(streamInfo, size) {
 
 async function handleYoutubeStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
-    const cleanup = () => (res.end(), closeRequest(streamInfo.controller));
+    const cleanup = () => {
+        // Only end response if headers haven't been sent to prevent 0-byte files
+        if (!res.headersSent) {
+            res.end();
+        }
+        closeRequest(streamInfo.controller);
+    };
 
     try {
         let req, attempts = 3;
@@ -78,6 +108,21 @@ async function handleYoutubeStream(streamInfo, res) {
             return cleanup();
         }
 
+        // Check if client sent a Range header for partial content request
+        const rangeHeader = streamInfo.headers?.get('range');
+        
+        if (rangeHeader && req.headers.get('accept-ranges') === 'bytes') {
+            // Handle range request - delegate to handleGenericStream for proper range handling
+            return await handleGenericStream(streamInfo, res);
+        }
+
+        // Set headers before starting stream to ensure they're sent
+        for (const headerName of ['content-type', 'content-length', 'accept-ranges']) {
+            const headerValue = req.headers.get(headerName);
+            if (headerValue) res.setHeader(headerName, headerValue);
+        }
+
+        // Full file request - use chunked download approach
         const generator = readChunks(streamInfo, size);
 
         const abortGenerator = () => {
@@ -89,13 +134,17 @@ async function handleYoutubeStream(streamInfo, res) {
 
         const stream = Readable.from(generator);
 
-        for (const headerName of ['content-type', 'content-length']) {
-            const headerValue = req.headers.get(headerName);
-            if (headerValue) res.setHeader(headerName, headerValue);
-        }
+        // Add error handling to prevent 0-byte files
+        stream.on('error', (error) => {
+            console.error('YouTube stream error:', error);
+            if (!res.headersSent) {
+                res.status(500).end();
+            }
+        });
 
         pipe(stream, res, cleanup);
-    } catch {
+    } catch (error) {
+        console.error('YouTube stream handling error:', error);
         cleanup();
     }
 }
