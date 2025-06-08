@@ -245,19 +245,29 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, "error.api.invalid_body");
         }
 
+        // Log the requested video URL for tracking user download attempts
+        console.log(`[DOWNLOAD REQUEST] User attempting to download: ${normalizedRequest.url}`);
+        console.log(`[DOWNLOAD REQUEST] Client IP: ${getIP(req)}`);
+        console.log(`[DOWNLOAD REQUEST] Timestamp: ${new Date().toISOString()}`);
+        console.log(`[DOWNLOAD REQUEST] User Agent: ${req.get('User-Agent') || 'Unknown'}`);
+
         const parsed = extract(normalizedRequest.url);
 
         if (!parsed) {
+            console.log(`[DOWNLOAD REQUEST] Failed - Invalid URL: ${normalizedRequest.url}`);
             return fail(res, "error.api.link.invalid");
         }
 
         if ("error" in parsed) {
+            console.log(`[DOWNLOAD REQUEST] Failed - Parse error for URL: ${normalizedRequest.url}, Error: ${parsed.error}`);
             let context;
             if (parsed?.context) {
                 context = parsed.context;
             }
             return fail(res, `error.api.${parsed.error}`, context);
         }
+
+        console.log(`[DOWNLOAD REQUEST] Successfully parsed URL: ${normalizedRequest.url}, Service: ${parsed.host}`);
 
         try {
             const result = await match({
@@ -267,8 +277,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 isSession: req.isSession ?? false,
             });
 
+            console.log(`[DOWNLOAD REQUEST] Processing completed for URL: ${normalizedRequest.url}, Status: ${result.status}`);
             res.status(result.status).json(result.body);
-        } catch {
+        } catch (error) {
+            console.log(`[DOWNLOAD REQUEST] Processing failed for URL: ${normalizedRequest.url}, Error: ${error.message}`);
             fail(res, "error.api.generic");
         }
     });
@@ -373,7 +385,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 "~~~~~~\n" +
 
                 Bright("url: ") + Bright(Cyan(env.apiURL)) + "\n" +
-                Bright("port: ") + env.apiPort + "\n"
+                Bright("port: ") + env.apiPort + "\n" +
+                
+                "~~~~~~\n" +
+                Bright("📊 Logging enabled: ") + "Video download requests will be tracked\n"
             );
         }
 
