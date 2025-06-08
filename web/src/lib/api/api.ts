@@ -65,6 +65,9 @@ const request = async (url: string) => {
 
     const api = currentApiURL();
 
+    console.log("[Cobalt BAM] API endpoint URL:", api);
+    console.log("[Cobalt BAM] Making POST request to:", `${api}/`);
+
     const session = getCachedInfo?.info?.cobalt?.turnstileSitekey
                     ? await getSession() : undefined;
 
@@ -80,9 +83,11 @@ const request = async (url: string) => {
                 "Authorization": `Bearer ${session.token}`,
             };
         }
-    }    const response: Optional<CobaltAPIResponse> = await fetch(api, {
+    }
+
+    const requestOptions = {
         method: "POST",
-        redirect: "manual",
+        redirect: "manual" as RequestRedirect,
         signal: AbortSignal.timeout(10000),
         body: JSON.stringify(request),
         headers: {
@@ -90,7 +95,13 @@ const request = async (url: string) => {
             "Content-Type": "application/json",
             ...extraHeaders,
         },
-    })
+    };
+
+    console.log("[Cobalt BAM] Full fetch options:", requestOptions);
+    console.log("[Cobalt BAM] Request headers:", requestOptions.headers);
+    console.log("[Cobalt BAM] Request body:", requestOptions.body);
+
+    const response: Optional<CobaltAPIResponse> = await fetch(api, requestOptions)
     .then(r => r.json())
     .catch((e) => {
         if (e?.message?.includes("timed out")) {

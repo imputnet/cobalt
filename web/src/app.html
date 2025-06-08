@@ -1,5 +1,39 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html>        <meta name="darkreader-lock">
+        <meta name="color-scheme" content="only light">
+
+        <!-- Network monitoring script for debugging -->
+        <script>
+            // 监控所有网络请求
+            (function() {
+                const originalFetch = window.fetch;
+                window.fetch = function(...args) {
+                    console.log('[Network Monitor] Fetch request to:', args[0]);
+                    console.log('[Network Monitor] Request options:', args[1]);
+                    console.log('[Network Monitor] Full request details:', {
+                        url: args[0],
+                        method: args[1]?.method || 'GET',
+                        headers: args[1]?.headers || {},
+                        body: args[1]?.body || null
+                    });
+                    
+                    return originalFetch.apply(this, args)
+                        .then(response => {
+                            console.log('[Network Monitor] Response received:');
+                            console.log('  - URL:', response.url);
+                            console.log('  - Status:', response.status, response.statusText);
+                            console.log('  - Headers:', Object.fromEntries(response.headers.entries()));
+                            console.log('  - Type:', response.type);
+                            console.log('  - Redirected:', response.redirected);
+                            return response;
+                        })
+                        .catch(error => {
+                            console.error('[Network Monitor] Fetch error for:', args[0]);
+                            console.error('[Network Monitor] Error details:', error);
+                            throw error;
+                        });
+                };
+            })();
+        </script><html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=1">

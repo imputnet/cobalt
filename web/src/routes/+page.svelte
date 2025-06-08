@@ -54,7 +54,7 @@
             <div class="notification" role="alert">
                 <div class="notification-content">
                     <span class="notification-icon">🎉</span>
-                    <span class="notification-text">竹子下载最新添加了对小红书和油管下载的支持</span>                    <button 
+                    <span class="notification-text">竹子下载遇到了些问题，正在维修中...</span>                    <button 
                         class="notification-close" 
                         aria-label="关闭通知"
                         on:click={closeNotification}
