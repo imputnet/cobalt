@@ -14,7 +14,8 @@
         "params": {},
         "expected": {
             "code": 400,
-            "status": "error"
+            "status": "error",
+            "errorCode": "error.api.fetch.empty"
         }
     },
     {
