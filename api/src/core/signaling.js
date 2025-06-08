@@ -20,7 +20,9 @@ export const setupSignalingServer = (httpServer) => {
                 console.log(`Cleaned up expired session: ${sessionId}`);
             }
         }
-    }, 5 * 60 * 1000); // Check every 5 minutes    wss.on('connection', (ws, req) => {
+    }, 5 * 60 * 1000); // Check every 5 minutes
+
+    wss.on('connection', (ws, req) => {
         const clientIP = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.socket.remoteAddress;
         const userAgent = req.headers['user-agent'] || 'Unknown';
         console.log(`WebSocket connection established: ${clientIP}, URL: ${req.url}, User-Agent: ${userAgent}`);
