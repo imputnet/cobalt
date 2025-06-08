@@ -61,12 +61,9 @@ const request = async (url: string) => {
                 code: "error.captcha_ongoing"
             }
         } as CobaltErrorResponse;
-    }
+    }    const api = currentApiURL();
 
-    const api = currentApiURL();
-
-    console.log("[Cobalt BAM] API endpoint URL:", api);
-    console.log("[Cobalt BAM] Making POST request to:", `${api}/`);
+    console.log("[Cobalt BAM] Making POST request to:", api);
 
     const session = getCachedInfo?.info?.cobalt?.turnstileSitekey
                     ? await getSession() : undefined;
@@ -97,10 +94,6 @@ const request = async (url: string) => {
         },
     };
 
-    console.log("[Cobalt BAM] Full fetch options:", requestOptions);
-    console.log("[Cobalt BAM] Request headers:", requestOptions.headers);
-    console.log("[Cobalt BAM] Request body:", requestOptions.body);
-
     const response: Optional<CobaltAPIResponse> = await fetch(api, requestOptions)
     .then(r => r.json())
     .catch((e) => {
@@ -111,11 +104,10 @@ const request = async (url: string) => {
                     code: "error.api.timed_out"
                 }
             } as CobaltErrorResponse;
-        }
-    });
+        }    });
 
     // Log the API response
-    console.log("[Cobalt BAM] API Response for URL", url, ":", response);
+    console.log("[Cobalt BAM] API Response:", response);
 
     return response;
 }
