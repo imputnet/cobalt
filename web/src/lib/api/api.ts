@@ -35,6 +35,10 @@ const request = async (url: string) => {
         alwaysProxy: getSetting("privacy", "alwaysProxy"),
     }
 
+    // Log the URL being submitted to the backend
+    console.log("[Cobalt BAM] Submitting URL to backend:", url);
+    console.log("[Cobalt BAM] Full request object:", request);
+
     /*await apiOverrideWarning();*/
 
     await getServerInfo();
@@ -76,9 +80,7 @@ const request = async (url: string) => {
                 "Authorization": `Bearer ${session.token}`,
             };
         }
-    }
-
-    const response: Optional<CobaltAPIResponse> = await fetch(api, {
+    }    const response: Optional<CobaltAPIResponse> = await fetch(api, {
         method: "POST",
         redirect: "manual",
         signal: AbortSignal.timeout(10000),
@@ -100,6 +102,9 @@ const request = async (url: string) => {
             } as CobaltErrorResponse;
         }
     });
+
+    // Log the API response
+    console.log("[Cobalt BAM] API Response for URL", url, ":", response);
 
     return response;
 }

@@ -58,9 +58,10 @@
         if (final.includes(state)) {
             setTimeout(() => changeDownloadButton("idle"), 1500);
         }
-    };
-
-    export const download = async (link: string) => {
+    };    export const download = async (link: string) => {
+        // Log the link being processed
+        console.log("[Cobalt BAM] Download button clicked for link:", link);
+        
         changeDownloadButton("think");
 
         const response = await API.request(link);
