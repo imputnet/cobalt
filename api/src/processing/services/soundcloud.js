@@ -43,12 +43,14 @@ async function findClientID() {
 const findBestForPreset = (transcodings, preset) => {
     let inferior;
     for (const entry of transcodings) {
-        if (entry.snipped) {
+        const protocol = entry?.format?.protocol;
+
+        if (entry.snipped || protocol?.includes('encrypted')) {
             continue;
         }
 
-        if (entry.preset === preset) {
-            if (entry?.format?.protocol === 'progressive') {
+        if (entry?.preset?.startsWith(`${preset}_`)) {
+            if (protocol === 'progressive') {
                 return entry;
             }
 
@@ -108,9 +110,9 @@ export default async function(obj) {
     }
 
     let bestAudio = "opus",
-        selectedStream = findBestForPreset(json.media.transcodings, "opus_0_0");
+        selectedStream = findBestForPreset(json.media.transcodings, "opus");
 
-    const mp3Media = findBestForPreset(json.media.transcodings, "mp3_0_0");
+    const mp3Media = findBestForPreset(json.media.transcodings, "mp3");
 
     // use mp3 if present if user prefers it or if opus isn't available
     if (mp3Media && (obj.format === "mp3" || !selectedStream)) {
