@@ -41,13 +41,38 @@ export function getHeaders(service) {
 }
 
 export function pipe(from, to, done) {
-    from.on('error', done)
-        .on('close', done);
+    let bytesTransferred = 0;
+    let startTime = Date.now();
+    console.log(`[pipe] Starting pipe operation`);
 
-    to.on('error', done)
-      .on('close', done);
+    from.on('error', (error) => {
+        console.log(`[pipe] Source stream error after ${bytesTransferred} bytes: ${error}`);
+        done(error);
+    })
+    .on('close', () => {
+        const duration = Date.now() - startTime;
+        console.log(`[pipe] Source stream closed after ${bytesTransferred} bytes in ${duration}ms`);
+        done();
+    })    .on('data', (chunk) => {
+        bytesTransferred += chunk.length;
+        // Log every 8MB (chunk size) or first few chunks
+        if (bytesTransferred % (8 * 1024 * 1024) < chunk.length || bytesTransferred < 32 * 1024) {
+            console.log(`[pipe] Data transferred: ${bytesTransferred} bytes`);
+        }
+    });
+
+    to.on('error', (error) => {
+        console.log(`[pipe] Destination stream error after ${bytesTransferred} bytes: ${error}`);
+        done(error);
+    })
+    .on('close', () => {
+        const duration = Date.now() - startTime;
+        console.log(`[pipe] Destination stream closed after ${bytesTransferred} bytes in ${duration}ms`);
+        done();
+    });
 
     from.pipe(to);
+    console.log(`[pipe] Pipe established between streams`);
 }
 
 export async function estimateTunnelLength(streamInfo, multiplier = 1.1) {
