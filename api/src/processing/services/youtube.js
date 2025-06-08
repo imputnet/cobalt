@@ -280,7 +280,7 @@ export default async function (o) {
         // some videos (mainly those with AI dubs) don't have any tracks marked as default
         // why? god knows, but we assume that a default track is marked as such in the title
         if (!audio) {
-            audio = selected.audio.find(i => i.name.endsWith("- original"));
+            audio = selected.audio.find(i => i.name.endsWith("original"));
         }
 
         if (o.dubLang) {
@@ -369,9 +369,9 @@ export default async function (o) {
 
         audio = sorted_formats[codec].bestAudio;
 
-        if (audio?.audio_track && !audio?.audio_track?.audio_is_default) {
+        if (audio?.audio_track && !audio?.is_original) {
             audio = sorted_formats[codec].audio.find(i =>
-                i?.audio_track?.audio_is_default
+                i?.is_original
             );
         }
 
@@ -380,7 +380,7 @@ export default async function (o) {
                 i.language?.startsWith(o.dubLang) && i.audio_track
             );
 
-            if (dubbedAudio && !dubbedAudio?.audio_track?.audio_is_default) {
+            if (dubbedAudio && !dubbedAudio?.is_original) {
                 audio = dubbedAudio;
                 dubbedLanguage = dubbedAudio.language;
             }
