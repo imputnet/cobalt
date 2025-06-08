@@ -54,7 +54,7 @@
             <div class="notification" role="alert">
                 <div class="notification-content">
                     <span class="notification-icon">🎉</span>
-                    <span class="notification-text">最新功能:你可以在的设备中传输文件和文本,完全加密传输，保护隐私性!</span>                    <button 
+                    <span class="notification-text">最新功能=>"传输": 你可以方便的在你的设备之间传输文件和文本,端到端加密，保护隐私性!</span>                    <button 
                         class="notification-close" 
                         aria-label="关闭通知"
                         on:click={closeNotification}
