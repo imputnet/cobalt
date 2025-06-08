@@ -310,7 +310,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             streamInfo.range = req.headers['range'];
         }
 
-        return stream(res, streamInfo);    });    app.get('/', (_, res) => {
+        return stream(res, streamInfo);
+    });
+
+    app.get('/', (_, res) => {
         res.type('json');
         res.status(200).send(env.envFile ? getServerInfo() : serverInfo);
     })
