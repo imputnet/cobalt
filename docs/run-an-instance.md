@@ -41,7 +41,7 @@ requirements:
 - pnpm
 
 1. clone the repo: `git clone https://github.com/imputnet/cobalt`.
-2. go to api/src directory: `cd cobalt/api/src`.
+2. go to api directory: `cd cobalt/api`.
 3. install dependencies: `pnpm install`.
 4. create `.env` file in the same directory.
 5. add needed environment variables to `.env` file. only `API_URL` is required to run cobalt.
