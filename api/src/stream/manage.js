@@ -174,21 +174,40 @@ export function destroyInternalStream(url) {
 }
 
 const transplantInternalTunnels = function(tunnelUrls, transplantUrls) {
+    console.log(`[transplantInternalTunnels] Starting transplant - tunnels: ${tunnelUrls.length}, urls: ${transplantUrls.length}`);
+    
     if (tunnelUrls.length !== transplantUrls.length) {
+        console.log(`[transplantInternalTunnels] Length mismatch, aborting`);
         return;
     }
 
     for (const [ tun, url ] of zip(tunnelUrls, transplantUrls)) {
         const id = getInternalTunnelId(tun);
         const itunnel = getInternalTunnel(id);
+        
+        console.log(`[transplantInternalTunnels] Processing tunnel ID: ${id}`);
+        console.log(`[transplantInternalTunnels] Old URL: ${itunnel?.url}`);
+        console.log(`[transplantInternalTunnels] New URL: ${url}`);
 
-        if (!itunnel) continue;
+        if (!itunnel) {
+            console.log(`[transplantInternalTunnels] No internal tunnel found for ID: ${id}`);
+            continue;
+        }
+        
         itunnel.url = url;
+        console.log(`[transplantInternalTunnels] Successfully updated tunnel ${id} URL`);
     }
+    
+    console.log(`[transplantInternalTunnels] Transplant completed`);
 }
 
 const transplantTunnel = async function (dispatcher) {
+    console.log(`[transplant] Starting transplant for service: ${this.service}`);
+    console.log(`[transplant] Original request ID: ${this.originalRequest?.id}`);
+    console.log(`[transplant] Current URL: ${this.url}`);
+    
     if (this.pendingTransplant) {
+        console.log(`[transplant] Transplant already pending, waiting...`);
         await this.pendingTransplant;
         return;
     }
@@ -197,31 +216,60 @@ const transplantTunnel = async function (dispatcher) {
     this.pendingTransplant = new Promise(r => finished = r);
 
     try {
+        console.log(`[transplant] Loading service handler: ${this.service}`);
         const handler = await import(`../processing/services/${this.service}.js`);
+        
+        console.log(`[transplant] Calling service with originalRequest:`, {
+            id: this.originalRequest?.id,
+            quality: this.originalRequest?.quality,
+            format: this.originalRequest?.format,
+            isAudioOnly: this.originalRequest?.isAudioOnly,
+            isAudioMuted: this.originalRequest?.isAudioMuted
+        });
+        
         const response = await handler.default({
             ...this.originalRequest,
             dispatcher
         });
 
+        console.log(`[transplant] Service response:`, {
+            hasUrls: !!response.urls,
+            urlsLength: response.urls ? [response.urls].flat().length : 0,
+            error: response.error,
+            type: response.type
+        });
+
         if (!response.urls) {
+            console.log(`[transplant] No URLs in response, aborting transplant`);
             return;
         }
 
         response.urls = [response.urls].flat();
+        console.log(`[transplant] Flattened URLs count: ${response.urls.length}`);
+        
         if (this.originalRequest.isAudioOnly && response.urls.length > 1) {
             response.urls = [response.urls[1]];
+            console.log(`[transplant] Using audio-only URL (index 1)`);
         } else if (this.originalRequest.isAudioMuted) {
             response.urls = [response.urls[0]];
+            console.log(`[transplant] Using muted video URL (index 0)`);
         }
 
         const tunnels = [this.urls].flat();
+        console.log(`[transplant] Tunnels count: ${tunnels.length}, response URLs count: ${response.urls.length}`);
+        
         if (tunnels.length !== response.urls.length) {
+            console.log(`[transplant] Tunnel/URL count mismatch, aborting transplant`);
             return;
         }
 
+        console.log(`[transplant] Transplanting internal tunnels...`);
         transplantInternalTunnels(tunnels, response.urls);
+        console.log(`[transplant] Transplant completed successfully`);
     }
-    catch {}
+    catch (error) {
+        console.log(`[transplant] Error during transplant:`, error);
+    }
     finally {
         finished();
         delete this.pendingTransplant;
