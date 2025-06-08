@@ -86,7 +86,7 @@
     },
     {
         "name": "go+ song, should fail",
-        "url": "https://soundcloud.com/dualipa/illusion-1",
+        "url": "https://soundcloud.com/dualipa/physical-feat-troye-sivan",
         "params": {},
         "expected": {
             "code": 400,
