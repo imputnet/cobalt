@@ -60,7 +60,7 @@
         }
     };    export const download = async (link: string) => {
         // Log the link being processed
-        console.log("[Cobalt BAM] Download button clicked for link:", link);
+        
         
         changeDownloadButton("think");
 

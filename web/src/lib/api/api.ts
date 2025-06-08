@@ -35,9 +35,6 @@ const request = async (url: string) => {
         alwaysProxy: getSetting("privacy", "alwaysProxy"),
     }
 
-    // Log the URL being submitted to the backend
-    console.log("[Cobalt BAM] Submitting URL to backend:", url);
-    console.log("[Cobalt BAM] Full request object:", request);
 
     /*await apiOverrideWarning();*/
 
@@ -61,10 +58,8 @@ const request = async (url: string) => {
                 code: "error.captcha_ongoing"
             }
         } as CobaltErrorResponse;
-    }    const api = currentApiURL();
-
-    console.log("[Cobalt BAM] Making POST request to:", api);
-
+    }    
+    const api = currentApiURL();
     const session = getCachedInfo?.info?.cobalt?.turnstileSitekey
                     ? await getSession() : undefined;
 
@@ -106,8 +101,7 @@ const request = async (url: string) => {
             } as CobaltErrorResponse;
         }    });
 
-    // Log the API response
-    console.log("[Cobalt BAM] API Response:", response);
+   
 
     return response;
 }
