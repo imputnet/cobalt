@@ -3,6 +3,7 @@ import { resolveRedirectingURL } from "../url.js";
 
 const videoRegex = /"url":"(https:\/\/v1\.pinimg\.com\/videos\/.*?)"/g;
 const imageRegex = /src="(https:\/\/i\.pinimg\.com\/.*\.(jpg|gif))"/g;
+const notFoundRegex = /"__typename"\s*:\s*"PinNotFound"/;
 
 export default async function(o) {
     let id = o.id;
@@ -18,6 +19,10 @@ export default async function(o) {
     const html = await fetch(`https://www.pinterest.com/pin/${id}/`, {
         headers: { "user-agent": genericUserAgent }
     }).then(r => r.text()).catch(() => {});
+
+    const invalidPin = html.match(notFoundRegex);
+
+    if (invalidPin) return { error: "fetch.empty" };
 
     if (!html) return { error: "fetch.fail" };
 

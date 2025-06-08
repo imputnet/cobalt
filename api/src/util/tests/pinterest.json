@@ -9,6 +9,16 @@
         }
     },
     {
+        "name": "invalid link",
+        "url": "https://www.pinterest.com/pin/eeeeeee/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.fetch.empty"
+        }
+    },
+    {
         "name": "regular video (isAudioOnly)",
         "url": "https://www.pinterest.com/pin/70437485604616/",
         "params": {
