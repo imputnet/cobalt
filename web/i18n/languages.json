@@ -1,4 +1,18 @@
 {
     "en": "english",
-    "ru": "русский"
+    "ru": "русский",
+    "de": "deutsch",
+    "ar": "العربية",
+    "zh": "中文",
+    "es": "español",
+    "fr": "français",
+    "jp": "日本語",
+    "hu": "magyar",
+    "sk": "slovenčina",
+    "pt": "português",
+    "it": "italiano",
+    "uk": "українська",
+    "sr": "српски",
+    "pl": "polski",
+    "cs": "čeština"
 }
