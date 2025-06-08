@@ -40,6 +40,27 @@ async function findClientID() {
     } catch {}
 }
 
+const findBestForPreset = (transcodings, preset) => {
+    let inferior;
+    for (const entry of transcodings) {
+        const protocol = entry?.format?.protocol;
+
+        if (entry.snipped || protocol?.includes('encrypted')) {
+            continue;
+        }
+
+        if (entry?.preset?.startsWith(`${preset}_`)) {
+            if (protocol === 'progressive') {
+                return entry;
+            }
+
+            inferior = entry;
+        }
+    }
+
+    return inferior;
+}
+
 export default async function(obj) {
     const clientId = await findClientID();
     if (!clientId) return { error: "fetch.fail" };
@@ -89,9 +110,9 @@ export default async function(obj) {
     }
 
     let bestAudio = "opus",
-        selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0");
+        selectedStream = findBestForPreset(json.media.transcodings, "opus");
 
-    const mp3Media = json.media.transcodings.find(v => v.preset === "mp3_0_0");
+    const mp3Media = findBestForPreset(json.media.transcodings, "mp3");
 
     // use mp3 if present if user prefers it or if opus isn't available
     if (mp3Media && (obj.format === "mp3" || !selectedStream)) {
@@ -113,9 +134,16 @@ export default async function(obj) {
 
     if (!file) return { error: "fetch.empty" };
 
+    const artist = json.user?.username?.trim();
     const fileMetadata = {
-        title: json.title.trim(),
-        artist: json.user.username.trim(),
+        title: json.title?.trim(),
+        album: json.publisher_metadata?.album_title?.trim(),
+        artist,
+        album_artist: artist,
+        composer: json.publisher_metadata?.writer_composer?.trim(),
+        genre: json.genre?.trim(),
+        date: json.display_date?.trim().slice(0, 10),
+        copyright: json.license?.trim(),
     }
 
     return {

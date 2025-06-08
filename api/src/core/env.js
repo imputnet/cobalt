@@ -5,7 +5,7 @@ import { updateEnv, canonicalEnv, env as currentEnv } from "../config.js";
 import { FileWatcher } from "../misc/file-watcher.js";
 import { isURL } from "../misc/utils.js";
 import * as cluster from "../misc/cluster.js";
-import { Yellow } from "../misc/console-text.js";
+import { Green, Yellow } from "../misc/console-text.js";
 
 const forceLocalProcessingOptions = ["never", "session", "always"];
 
@@ -109,6 +109,8 @@ export const validateEnvs = async (env) => {
     if (env.externalProxy && env.freebindCIDR) {
         throw new Error('freebind is not available when external proxy is enabled')
     }
+
+    return env;
 }
 
 const reloadEnvs = async (contents) => {
@@ -136,14 +138,34 @@ const reloadEnvs = async (contents) => {
         ...newEnvs,
     };
 
-    const parsed = loadEnvs(candidate);
-    await validateEnvs(parsed);
-    updateEnv(parsed);
+    const parsed = await validateEnvs(
+        loadEnvs(candidate)
+    );
+
     cluster.broadcast({ env_update: resolvedContents });
+    return updateEnv(parsed);
 }
 
 const wrapReload = (contents) => {
     reloadEnvs(contents)
+    .then(changes => {
+        if (changes.length === 0) {
+            return;
+        }
+
+        console.log(`${Green('[✓]')} envs reloaded successfully!`);
+        for (const key of changes) {
+            const value = currentEnv[key];
+            const isSecret = key.toLowerCase().includes('apikey')
+                          || key.toLowerCase().includes('secret');
+
+            if (!value) {
+                console.log(`    removed: ${key}`);
+            } else {
+                console.log(`    changed: ${key} -> ${isSecret ? '***' : value}`);
+            }
+        }
+    })
     .catch((e) => {
         console.error(`${Yellow('[!]')} Failed reloading environment variables at ${new Date().toISOString()}.`);
         console.error('Error:', e);
