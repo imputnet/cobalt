@@ -40,6 +40,25 @@ async function findClientID() {
     } catch {}
 }
 
+const findBestForPreset = (transcodings, preset) => {
+    let inferior;
+    for (const entry of transcodings) {
+        if (entry.snipped) {
+            continue;
+        }
+
+        if (entry.preset === preset) {
+            if (entry?.format?.protocol === 'progressive') {
+                return entry;
+            }
+
+            inferior = entry;
+        }
+    }
+
+    return inferior;
+}
+
 export default async function(obj) {
     const clientId = await findClientID();
     if (!clientId) return { error: "fetch.fail" };
@@ -89,9 +108,9 @@ export default async function(obj) {
     }
 
     let bestAudio = "opus",
-        selectedStream = json.media.transcodings.find(v => v.preset === "opus_0_0");
+        selectedStream = findBestForPreset(json.media.transcodings, "opus_0_0");
 
-    const mp3Media = json.media.transcodings.find(v => v.preset === "mp3_0_0");
+    const mp3Media = findBestForPreset(json.media.transcodings, "mp3_0_0");
 
     // use mp3 if present if user prefers it or if opus isn't available
     if (mp3Media && (obj.format === "mp3" || !selectedStream)) {
