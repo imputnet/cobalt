@@ -41,43 +41,11 @@ export function getHeaders(service) {
 }
 
 export function pipe(from, to, done) {
-    let finished = false;
-    let bytesWritten = 0;
-    
-    const cleanup = (error) => {
-        if (finished) return;
-        finished = true;
-        
-        // Log if we got 0 bytes to help debug production issues
-        if (bytesWritten === 0 && !error) {
-            console.warn('Stream completed with 0 bytes written - potential issue');
-        }
-        
-        done(error);
-    };
+    from.on('error', done)
+        .on('close', done);
 
-    from.on('error', (error) => {
-        console.error('Stream source error:', error);
-        cleanup(error);
-    })
-    .on('close', () => {
-        if (!finished) {
-            cleanup();
-        }
-    })
-    .on('data', (chunk) => {
-        bytesWritten += chunk.length;
-    });
-
-    to.on('error', (error) => {
-        console.error('Stream destination error:', error);
-        cleanup(error);
-    })
-    .on('close', () => {
-        if (!finished) {
-            cleanup();
-        }
-    });
+    to.on('error', done)
+      .on('close', done);
 
     from.pipe(to);
 }
