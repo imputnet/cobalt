@@ -30,17 +30,64 @@ async function* readChunks(streamInfo, size) {
             maxRedirections: 4
         });
 
-        console.log(`[readChunks] Chunk response: status=${chunk.statusCode}, content-length=${chunk.headers['content-length']}`);
-
-        if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.transplant) {
+        console.log(`[readChunks] Chunk response: status=${chunk.statusCode}, content-length=${chunk.headers['content-length']}`);        if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.originalRequest) {
             chunksSinceTransplant = 0;
-            console.log(`[readChunks] 403 error after ${chunksSinceTransplant} chunks, attempting transplant`);
+            console.log(`[readChunks] 403 error after 3+ chunks, attempting fresh YouTube API call`);
             try {
-                await streamInfo.transplant(streamInfo.dispatcher);
-                console.log(`[readChunks] Transplant successful, retrying`);
-                continue;
+                // Import YouTube service dynamically
+                const handler = await import(`../processing/services/youtube.js`);
+                console.log(`[readChunks] Calling YouTube service for fresh URLs`);
+                
+                const response = await handler.default({
+                    ...streamInfo.originalRequest,
+                    dispatcher: streamInfo.dispatcher
+                });
+
+                console.log(`[readChunks] Fresh API response:`, {
+                    hasUrls: !!response.urls,
+                    urlsLength: response.urls ? [response.urls].flat().length : 0,
+                    error: response.error,
+                    type: response.type
+                });
+
+                if (response.urls) {
+                    response.urls = [response.urls].flat();
+                    
+                    // Update the URL for this stream based on audio/video selection
+                    if (streamInfo.originalRequest.isAudioOnly && response.urls.length > 1) {
+                        streamInfo.url = response.urls[1];
+                        console.log(`[readChunks] Updated to fresh audio URL`);
+                    } else if (streamInfo.originalRequest.isAudioMuted) {
+                        streamInfo.url = response.urls[0];
+                        console.log(`[readChunks] Updated to fresh video URL`);
+                    } else {
+                        // For video streams, use the first URL
+                        streamInfo.url = response.urls[0];
+                        console.log(`[readChunks] Updated to fresh video URL`);
+                    }
+                    
+                    console.log(`[readChunks] Fresh URL obtained, retrying chunk request`);
+                    continue; // Retry with fresh URL
+                } else {
+                    console.log(`[readChunks] Fresh API call failed, falling back to transplant`);
+                    if (streamInfo.transplant) {
+                        await streamInfo.transplant(streamInfo.dispatcher);
+                        console.log(`[readChunks] Transplant successful, retrying`);
+                        continue;
+                    }
+                }
             } catch (error) {
-                console.log(`[readChunks] Transplant failed: ${error}`);
+                console.log(`[readChunks] Fresh API call failed:`, error);
+                // Fallback to transplant
+                if (streamInfo.transplant) {
+                    try {
+                        await streamInfo.transplant(streamInfo.dispatcher);
+                        console.log(`[readChunks] Transplant successful, retrying`);
+                        continue;
+                    } catch (transplantError) {
+                        console.log(`[readChunks] Both fresh API and transplant failed:`, transplantError);
+                    }
+                }
             }
         }
 
@@ -92,15 +139,61 @@ async function handleYoutubeStream(streamInfo, res) {
 
             console.log(`[handleYoutubeStream] HEAD response: status=${req.status}, url=${req.url}`);
             
-            streamInfo.url = req.url;
-            if (req.status === 403 && streamInfo.transplant) {
-                console.log(`[handleYoutubeStream] Got 403, attempting transplant`);
+            streamInfo.url = req.url;            if (req.status === 403 && streamInfo.originalRequest && attempts > 0) {
+                console.log(`[handleYoutubeStream] Got 403, attempting fresh YouTube API call (attempts left: ${attempts})`);
                 try {
-                    await streamInfo.transplant(streamInfo.dispatcher);
-                    console.log(`[handleYoutubeStream] Transplant successful`);
+                    // Import YouTube service dynamically
+                    const handler = await import(`../processing/services/youtube.js`);
+                    console.log(`[handleYoutubeStream] Calling YouTube service for fresh URLs`);
+                    
+                    const response = await handler.default({
+                        ...streamInfo.originalRequest,
+                        dispatcher: streamInfo.dispatcher
+                    });
+
+                    console.log(`[handleYoutubeStream] Fresh API response:`, {
+                        hasUrls: !!response.urls,
+                        urlsLength: response.urls ? [response.urls].flat().length : 0,
+                        error: response.error,
+                        type: response.type
+                    });
+
+                    if (response.urls) {
+                        response.urls = [response.urls].flat();
+                        
+                        // Update the URL for this stream based on audio/video selection
+                        if (streamInfo.originalRequest.isAudioOnly && response.urls.length > 1) {
+                            streamInfo.url = response.urls[1];
+                            console.log(`[handleYoutubeStream] Updated to fresh audio URL`);
+                        } else if (streamInfo.originalRequest.isAudioMuted) {
+                            streamInfo.url = response.urls[0];
+                            console.log(`[handleYoutubeStream] Updated to fresh video URL`);
+                        } else {
+                            // For video streams, use the first URL
+                            streamInfo.url = response.urls[0];
+                            console.log(`[handleYoutubeStream] Updated to fresh video URL`);
+                        }
+                        
+                        console.log(`[handleYoutubeStream] Fresh URL obtained, retrying HEAD request`);
+                        continue; // Retry with fresh URL
+                    } else {
+                        console.log(`[handleYoutubeStream] Fresh API call failed, falling back to transplant`);
+                        if (streamInfo.transplant) {
+                            await streamInfo.transplant(streamInfo.dispatcher);
+                            console.log(`[handleYoutubeStream] Transplant completed as fallback`);
+                        }
+                    }
                 } catch (error) {
-                    console.log(`[handleYoutubeStream] Transplant failed: ${error}`);
-                    break;
+                    console.log(`[handleYoutubeStream] Fresh API call failed:`, error);
+                    // Fallback to transplant
+                    if (streamInfo.transplant) {
+                        try {
+                            await streamInfo.transplant(streamInfo.dispatcher);
+                            console.log(`[handleYoutubeStream] Transplant completed as fallback`);
+                        } catch (transplantError) {
+                            console.log(`[handleYoutubeStream] Both fresh API and transplant failed:`, transplantError);
+                        }
+                    }
                 }
             } else break;
         }
