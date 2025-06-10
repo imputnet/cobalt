@@ -43,9 +43,11 @@
             copied = false;
         }, 1500);
     }
+
+    if (!id.endsWith('0')) document.querySelector(`.picker-item:has(img[alt$="${id.slice(7)}"])`)?.classList.add('picker-item-active')
 </script>
 
-<DialogContainer {id} {dismissable} bind:close>
+<DialogContainer {id} {dismissable} bind:close onclose={() => { if (!id.endsWith('0')) document.querySelector(`.picker-item:has(img[alt$="${id.slice(7)}"])`)?.classList.remove('picker-item-active') }}>
     <div class="dialog-body popup-body">
         <div class="meowbalt-container">
             <Meowbalt emotion="question" />

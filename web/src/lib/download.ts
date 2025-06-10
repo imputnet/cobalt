@@ -13,6 +13,7 @@ type DownloadFileParams = {
     url?: string,
     file?: File,
     urlType?: CobaltFileUrlType,
+    id: number
 }
 
 type SavingDialogParams = {
@@ -20,12 +21,13 @@ type SavingDialogParams = {
     file?: File,
     body?: string,
     urlType?: CobaltFileUrlType,
+    fileId: number
 }
 
-const openSavingDialog = ({ url, file, body, urlType }: SavingDialogParams) => {
+const openSavingDialog = ({ url, file, body, urlType, fileId }: SavingDialogParams) => {
     const dialogData: DialogInfo = {
         type: "saving",
-        id: "saving",
+        id: `saving-${fileId}`,
         file,
         url,
         urlType,
@@ -62,7 +64,8 @@ export const openURL = (url: string) => {
     if (!open) {
         return openSavingDialog({
             url,
-            body: get(t)("dialog.saving.blocked")
+            body: get(t)("dialog.saving.blocked"),
+            fileId: 0
         });
     }
 }
@@ -75,13 +78,13 @@ export const copyURL = async (url: string) => {
     return await navigator?.clipboard?.writeText(url);
 }
 
-export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
+export const downloadFile = ({ url, file, urlType, id }: DownloadFileParams) => {
     if (!url && !file) throw new Error("attempted to download void");
 
     const pref = get(settings).save.savingMethod;
 
     if (pref === "ask") {
-        return openSavingDialog({ url, file, urlType });
+        return openSavingDialog({ url, file, urlType, fileId: id });
     }
 
     /*
@@ -100,7 +103,8 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
             url,
             file,
             body: get(t)("dialog.saving.timeout"),
-            urlType
+            urlType,
+            fileId: id
         });
     }
 
@@ -139,5 +143,5 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
         }
     } catch { /* catch & ignore */ }
 
-    return openSavingDialog({ url, file, urlType });
+    return openSavingDialog({ url, file, urlType, fileId: id });
 }
