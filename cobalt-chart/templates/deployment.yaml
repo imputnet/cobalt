@@ -51,7 +51,7 @@ spec:
             - name: API_NAME
               value: freesavevideo-api
             - name: CORS_WILDCARD
-              value: '1'
+              value: '0'
             - name: CORS_URL
               value: https://freesavevideo.online
             - name: RATELIMIT_WINDOW
