@@ -10,9 +10,6 @@
     "page.local": "local processing",
     "page.accessibility": "accessibility",
 
-    "section.general": "general",
-    "section.save": "save",
-
     "theme": "theme",
     "theme.auto": "auto",
     "theme.light": "light",
