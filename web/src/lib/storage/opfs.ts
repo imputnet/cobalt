@@ -42,16 +42,29 @@ export class OPFSStorage extends AbstractStorage {
     }
 
     static async #computeIsAvailable() {
+        let tempFile = uuid(), ok = true;
+
         if (typeof navigator === 'undefined')
             return false;
 
         if ('storage' in navigator && 'getDirectory' in navigator.storage) {
             try {
-                await navigator.storage.getDirectory();
-                return true;
+                const root = await navigator.storage.getDirectory();
+                const handle = await root.getFileHandle(tempFile, { create: true });
+                const syncAccess = await handle.createSyncAccessHandle();
+                syncAccess.close();
             } catch {
-                return false;
+                ok = false;
             }
+
+            try {
+                const root = await navigator.storage.getDirectory();
+                await root.removeEntry(tempFile, { recursive: true });
+            } catch {
+                ok = false;
+            }
+
+            return ok;
         }
 
         return false;
