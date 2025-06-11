@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Cobalt Side Panel",
+  "version": "1.0",
+  "description": "A Chrome extension that provides a side panel interface for Cobalt.",
+  "permissions": [
+    "sidePanel"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open Cobalt Side Panel"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}
