@@ -156,6 +156,7 @@ const merge = async (streamInfo, res) => {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
         res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo));
+        res.setHeader('Transfer-Encoding', 'chunked');
 
         pipe(muxOutput, res, shutdown);
 
@@ -220,6 +221,7 @@ const remux = async (streamInfo, res) => {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
         res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo));
+        res.setHeader('Transfer-Encoding', 'chunked');
 
         pipe(muxOutput, res, shutdown);
 
@@ -296,6 +298,7 @@ const convertAudio = async (streamInfo, res) => {
                 estimateAudioMultiplier(streamInfo) * 1.1
             )
         );
+        res.setHeader('Transfer-Encoding', 'chunked');
 
         pipe(muxOutput, res, shutdown);
         res.on('finish', shutdown);
@@ -334,6 +337,7 @@ const convertGif = async (streamInfo, res) => {
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
         res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo, 60));
+        res.setHeader('Transfer-Encoding', 'chunked');
 
         pipe(muxOutput, res, shutdown);
 

@@ -276,7 +276,8 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         methods: ['GET'],
         exposedHeaders: [
             'Estimated-Content-Length',
-            'Content-Disposition'
+            'Content-Disposition',
+            'Transfer-Encoding'
         ],
         ...corsConfig,
     }));
