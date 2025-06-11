@@ -17,7 +17,7 @@
 
     let screenWidth: number;
 
-    $: currentPageTitle = $page.url.pathname.split("/").at(-1);
+    $: currentPageTitle = $page.url.pathname.split("/").pop();
     $: stringPageTitle =
         currentPageTitle !== pageName
             ? ` / ${$t(`${pageName}.page.${currentPageTitle}`)}`
