@@ -4,6 +4,7 @@ import { ffmpegMetadataArgs } from "$lib/util";
 import { createDialog } from "$lib/state/dialogs";
 import { addItem } from "$lib/state/task-manager/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
+import { uuid } from "$lib/util";
 
 import type { CobaltQueueItem } from "$lib/types/queue";
 import type { CobaltCurrentTasks } from "$lib/types/task-manager";
@@ -20,12 +21,12 @@ export const getMediaType = (type: string) => {
 }
 
 export const createRemuxPipeline = (file: File) => {
-    const parentId = crypto.randomUUID();
+    const parentId = uuid();
     const mediaType = getMediaType(file.type);
 
     const pipeline: CobaltPipelineItem[] = [{
         worker: "remux",
-        workerId: crypto.randomUUID(),
+        workerId: uuid(),
         parentId,
         workerArgs: {
             files: [file],
@@ -140,7 +141,7 @@ export const createSavePipeline = (
         return showError("pipeline.missing_response_data");
     }
 
-    const parentId = oldTaskId || crypto.randomUUID();
+    const parentId = oldTaskId || uuid();
     const pipeline: CobaltPipelineItem[] = [];
 
     // reverse is needed for audio (second item) to be downloaded first
@@ -149,7 +150,7 @@ export const createSavePipeline = (
     for (const tunnel of tunnels) {
         pipeline.push({
             worker: "fetch",
-            workerId: crypto.randomUUID(),
+            workerId: uuid(),
             parentId,
             workerArgs: {
                 url: tunnel,
@@ -182,7 +183,7 @@ export const createSavePipeline = (
 
     pipeline.push({
         worker: workerType,
-        workerId: crypto.randomUUID(),
+        workerId: uuid(),
         parentId,
         dependsOn: pipeline.map(w => w.workerId),
         workerArgs: {

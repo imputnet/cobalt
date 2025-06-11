@@ -1,4 +1,5 @@
 import { AbstractStorage } from "./storage";
+import { uuid } from "$lib/util";
 
 const COBALT_PROCESSING_DIR = "cobalt-processing-data";
 
@@ -19,7 +20,7 @@ export class OPFSStorage extends AbstractStorage {
     static async init() {
         const root = await navigator.storage.getDirectory();
         const cobaltDir = await root.getDirectoryHandle(COBALT_PROCESSING_DIR, { create: true });
-        const handle = await cobaltDir.getFileHandle(crypto.randomUUID(), { create: true });
+        const handle = await cobaltDir.getFileHandle(uuid(), { create: true });
         const reader = await handle.createSyncAccessHandle();
 
         return new this(cobaltDir, handle, reader);

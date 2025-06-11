@@ -1,4 +1,5 @@
 import { AbstractStorage } from "./storage";
+import { uuid } from "$lib/util";
 
 export class MemoryStorage extends AbstractStorage {
     #chunkSize: number;
@@ -48,7 +49,7 @@ export class MemoryStorage extends AbstractStorage {
             }
         }
 
-        return new File(outputView, crypto.randomUUID());
+        return new File(outputView, uuid());
     }
 
     #expand(size: number) {
