@@ -47,19 +47,37 @@ const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDR
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
 const cloneInnertube = async (customFetch, useSession) => {
+    console.log(`======> [cloneInnertube] Starting Innertube creation, useSession: ${useSession}`);
+    
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
+    console.log(`======> [cloneInnertube] Should refresh player: ${shouldRefreshPlayer}`);
 
-    const rawCookie = getCookie('youtube');
+    // First try youtube_oauth cookies
+    let rawCookie = getCookie('youtube_oauth');
+    if (!rawCookie) {
+        console.log(`======> [cloneInnertube] No youtube_oauth cookies found, trying regular youtube cookies`);
+        rawCookie = getCookie('youtube');
+    }
+    
     const cookie = rawCookie?.toString();
+    console.log(`======> [cloneInnertube] Cookie available: ${!!cookie}`);
+    if (cookie) {
+        console.log(`======> [cloneInnertube] Cookie length: ${cookie.length}, preview: ${cookie.substring(0, 100)}...`);
+    }
 
     const sessionTokens = getYouTubeSession();
+    console.log(`======> [cloneInnertube] Session tokens available: ${!!sessionTokens}`);
+    
     const retrieve_player = Boolean(sessionTokens || cookie);
+    console.log(`======> [cloneInnertube] Will retrieve player: ${retrieve_player}`);
 
     if (useSession && env.ytSessionServer && !sessionTokens?.potoken) {
+        console.log(`======> [cloneInnertube] Throwing no_session_tokens error`);
         throw "no_session_tokens";
     }
 
     if (!innertube || shouldRefreshPlayer) {
+        console.log(`======> [cloneInnertube] Creating new Innertube instance with cookie authentication`);
         innertube = await Innertube.create({
             fetch: customFetch,
             retrieve_player,
@@ -68,6 +86,7 @@ const cloneInnertube = async (customFetch, useSession) => {
             visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
         });
         lastRefreshedAt = +new Date();
+        console.log(`======> [cloneInnertube] Innertube instance created successfully`);
     }
 
     const session = new Session(
@@ -88,18 +107,34 @@ const cloneInnertube = async (customFetch, useSession) => {
 }
 
 export default async function (o) {
+    console.log(`======> [youtube] Starting YouTube video processing for URL: ${o.url || o.id}`);
+    
+    // Check if cookies are available before proceeding
+    const oauthCookie = getCookie('youtube_oauth');
+    const regularCookie = getCookie('youtube');
+    const hasCookies = !!(oauthCookie || regularCookie);
+    
+    console.log(`======> [youtube] Cookie availability check - OAuth: ${!!oauthCookie}, Regular: ${!!regularCookie}, Has any: ${hasCookies}`);
+    
+    if (!hasCookies) {
+        console.log(`======> [youtube] ERROR: No YouTube authentication cookies found! All YouTube downloads require authentication.`);
+        return { error: "youtube.auth_required" };
+    }
+    
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
+    console.log(`======> [youtube] Processing with quality: ${quality}`);
 
     let useHLS = o.youtubeHLS;
     let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
+    console.log(`======> [youtube] Using HLS: ${useHLS}, Client: ${innertubeClient}`);
 
     // HLS playlists from the iOS client don't contain the av1 video format.
     if (useHLS && o.format === "av1") {
         useHLS = false;
-    }
-
-    if (useHLS) {
+        console.log(`======> [youtube] Disabled HLS due to av1 format`);
+    }    if (useHLS) {
         innertubeClient = "IOS";
+        console.log(`======> [youtube] Set client to IOS for HLS`);
     }
 
     // iOS client doesn't have adaptive formats of resolution >1080p,
@@ -114,14 +149,14 @@ export default async function (o) {
                     || (quality > 1080 && o.format !== "vp9")
                 )
             )
-        );
-
-    if (useSession) {
+        );    if (useSession) {
         innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
+        console.log(`======> [youtube] Using session client: ${innertubeClient}`);
     }
 
     let yt;
     try {
+        console.log(`======> [youtube] Creating Innertube instance with authentication`);
         yt = await cloneInnertube(
             (input, init) => fetch(input, {
                 ...init,
@@ -129,7 +164,9 @@ export default async function (o) {
             }),
             useSession
         );
+        console.log(`======> [youtube] Innertube instance created successfully with authentication`);
     } catch (e) {
+        console.log(`======> [youtube] Innertube creation failed: ${e}`);
         if (e === "no_session_tokens") {
             return { error: "youtube.no_session_tokens" };
         } else if (e.message?.endsWith("decipher algorithm")) {
@@ -141,8 +178,11 @@ export default async function (o) {
 
     let info;
     try {
+        console.log(`======> [youtube] Getting basic video info for ID: ${o.id} with client: ${innertubeClient}`);
         info = await yt.getBasicInfo(o.id, innertubeClient);
+        console.log(`======> [youtube] Successfully retrieved video info with authentication`);
     } catch (e) {
+        console.log(`======> [youtube] Failed to get video info: ${e.message}`);
         if (e?.info) {
             let errorInfo;
             try { errorInfo = JSON.parse(e?.info); } catch {}

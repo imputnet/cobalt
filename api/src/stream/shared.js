@@ -1,5 +1,6 @@
 import { genericUserAgent } from "../config.js";
 import { vkClientAgent } from "../processing/services/vk.js";
+import { getCookie } from "../processing/cookie/manager.js";
 import { getInternalTunnelFromURL } from "./manage.js";
 import { probeInternalTunnel } from "./internal.js";
 
@@ -44,9 +45,34 @@ export function closeResponse(res) {
 }
 
 export function getHeaders(service) {
+    console.log(`======> [getHeaders] Getting headers for service: ${service}`);
+    
     // Converting all header values to strings
-    return Object.entries({ ...defaultHeaders, ...serviceHeaders[service] })
-        .reduce((p, [key, val]) => ({ ...p, [key]: String(val) }), {})
+    const baseHeaders = Object.entries({ ...defaultHeaders, ...serviceHeaders[service] })
+        .reduce((p, [key, val]) => ({ ...p, [key]: String(val) }), {});
+    
+    // For YouTube, always try to add authentication cookies
+    if (service === 'youtube') {
+        console.log(`======> [getHeaders] YouTube service detected, checking for authentication cookies`);
+        
+        // First try OAuth cookies, then regular cookies
+        let cookie = getCookie('youtube_oauth');
+        if (!cookie) {
+            console.log(`======> [getHeaders] No OAuth cookies found, trying regular youtube cookies`);
+            cookie = getCookie('youtube');
+        }
+        
+        if (cookie) {
+            const cookieStr = cookie.toString();
+            baseHeaders.Cookie = cookieStr;
+            console.log(`======> [getHeaders] Added authentication cookie for YouTube: ${cookieStr.substring(0, 50)}${cookieStr.length > 50 ? '...' : ''}`);
+        } else {
+            console.log(`======> [getHeaders] WARNING: No YouTube authentication cookies found! Requests may fail.`);
+        }
+    }
+    
+    console.log(`======> [getHeaders] Final headers for ${service}:`, Object.keys(baseHeaders));
+    return baseHeaders;
 }
 
 export function pipe(from, to, done) {

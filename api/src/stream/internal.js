@@ -7,8 +7,8 @@ const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
 
 async function* readChunks(streamInfo, size) {
-    let read = 0n, chunksSinceTransplant = 0;
-    console.log(`[readChunks] Starting chunk download - Total size: ${size}, URL: ${streamInfo.url}`);
+    let read = 0n, chunksSinceTransplant = 0;    console.log(`[readChunks] Starting chunk download - Total size: ${size}, URL: ${streamInfo.url}`);
+    console.log(`======> [readChunks] YouTube chunk download with authentication started`);
     
     while (read < size) {
         if (streamInfo.controller.signal.aborted) {
@@ -20,19 +20,26 @@ async function* readChunks(streamInfo, size) {
         const rangeEnd = read + CHUNK_SIZE;
         console.log(`[readChunks] Requesting chunk: bytes=${rangeStart}-${rangeEnd}, read=${read}/${size}`);
 
+        const headers = {
+            ...getHeaders('youtube'),
+            Range: `bytes=${read}-${read + CHUNK_SIZE}`
+        };
+        console.log(`======> [readChunks] Chunk request using authenticated headers: ${!!headers.Cookie}`);
+
         const chunk = await request(streamInfo.url, {
-            headers: {
-                ...getHeaders('youtube'),
-                Range: `bytes=${read}-${read + CHUNK_SIZE}`
-            },
+            headers,
             dispatcher: streamInfo.dispatcher,
             signal: streamInfo.controller.signal,
             maxRedirections: 4
         });
 
-        console.log(`[readChunks] Chunk response: status=${chunk.statusCode}, content-length=${chunk.headers['content-length']}`);        if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.originalRequest) {
+        console.log(`[readChunks] Chunk response: status=${chunk.statusCode}, content-length=${chunk.headers['content-length']}`);
+        console.log(`======> [readChunks] Authenticated chunk request result: status=${chunk.statusCode}`);
+        
+        if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.originalRequest) {
             chunksSinceTransplant = 0;
             console.log(`[readChunks] 403 error after 3+ chunks, attempting fresh YouTube API call`);
+            console.log(`======> [readChunks] 403 error detected, attempting fresh authenticated API call`);
             try {
                 // Import YouTube service dynamically
                 const handler = await import(`../processing/services/youtube.js`);
@@ -49,6 +56,7 @@ async function* readChunks(streamInfo, size) {
                     error: response.error,
                     type: response.type
                 });
+                console.log(`======> [readChunks] Fresh authenticated API call result:`, { hasUrls: !!response.urls, error: response.error });
 
                 if (response.urls) {
                     response.urls = [response.urls].flat();
@@ -124,22 +132,28 @@ async function handleYoutubeStream(streamInfo, res) {
     };
 
     console.log(`[handleYoutubeStream] Starting YouTube stream for URL: ${streamInfo.url}`);
+    console.log(`======> [handleYoutubeStream] YouTube stream processing initiated with authentication`);
 
     try {
         let req, attempts = 3;
         console.log(`[handleYoutubeStream] Starting HEAD request with ${attempts} attempts`);
+        console.log(`======> [handleYoutubeStream] Using authenticated headers for HEAD request`);
         
         while (attempts--) {
+            const headers = getHeaders('youtube');
+            console.log(`======> [handleYoutubeStream] HEAD request headers prepared with auth: ${!!headers.Cookie}`);
+            
             req = await fetch(streamInfo.url, {
-                headers: getHeaders('youtube'),
+                headers,
                 method: 'HEAD',
                 dispatcher: streamInfo.dispatcher,
                 signal
             });
 
             console.log(`[handleYoutubeStream] HEAD response: status=${req.status}, url=${req.url}`);
+            console.log(`======> [handleYoutubeStream] Authenticated HEAD request completed: status=${req.status}`);
             
-            streamInfo.url = req.url;            if (req.status === 403 && streamInfo.originalRequest && attempts > 0) {
+            streamInfo.url = req.url;if (req.status === 403 && streamInfo.originalRequest && attempts > 0) {
                 console.log(`[handleYoutubeStream] Got 403, attempting fresh YouTube API call (attempts left: ${attempts})`);
                 try {
                     // Import YouTube service dynamically

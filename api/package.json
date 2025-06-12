@@ -7,9 +7,11 @@
     "type": "module",
     "engines": {
         "node": ">=18"
-    },
-    "scripts": {
+    },    "scripts": {
         "start": "node src/cobalt",
+        "dev": "node dev-start.js",
+        "setup-youtube": "node setup-youtube-auth.js",
+        "verify-cookies": "node verify-cookies.js",
         "test": "node src/util/test",
         "token:jwt": "node src/util/generate-jwt-secret"
     },

@@ -13,6 +13,7 @@ const VALID_SERVICES = new Set([
     'reddit',
     'twitter',
     'youtube',
+    'youtube_oauth',
 ]);
 
 const invalidCookies = {};
@@ -102,24 +103,36 @@ export const setup = async (path) => {
 }
 
 export function getCookie(service) {
+    console.log(`======> [getCookie] Requesting cookie for service: ${service}`);
+    
     if (!VALID_SERVICES.has(service)) {
         console.error(
             `${Red('[!]')} ${service} not in allowed services list for cookies.`
             + ' if adding a new cookie type, include it there.'
         );
+        console.log(`======> [getCookie] Service ${service} not in valid services list`);
         return;
     }
 
-    if (!cookies[service] || !cookies[service].length) return;
+    if (!cookies[service] || !cookies[service].length) {
+        console.log(`======> [getCookie] No cookies found for service: ${service}`);
+        return;
+    }
 
     const idx = Math.floor(Math.random() * cookies[service].length);
+    console.log(`======> [getCookie] Found ${cookies[service].length} cookies for ${service}, using index ${idx}`);
 
     const cookie = cookies[service][idx];
     if (typeof cookie === 'string') {
+        console.log(`======> [getCookie] Converting string cookie to Cookie object for ${service}`);
         cookies[service][idx] = Cookie.fromString(cookie);
     }
 
     cookies[service][idx].meta = { service, idx };
+    
+    const cookieStr = cookies[service][idx].toString();
+    console.log(`======> [getCookie] Returning cookie for ${service}: ${cookieStr.substring(0, 50)}${cookieStr.length > 50 ? '...' : ''}`);
+    
     return cookies[service][idx];
 }
 
