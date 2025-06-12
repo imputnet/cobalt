@@ -1,0 +1,18 @@
+{
+    "picker.title": "vybrat, co uložit",
+    "picker.description.desktop": "kliknutím na položku ji uložíš. obrázky lze uložit také pomocí nabídky, která se zobrazí po kliknutím pravého tlačítka myši.",
+    "saving.title": "zvol způsob ukládání",
+    "picker.description.ios": "po stisknutí položky ji můžeš uložit pomocí zkratky. obrázky lze uložit také podržením stisku.",
+    "saving.timeout": "cobalt se pokusil soubor uložit automaticky, ale tvůj prohlížeč to zablokoval. musíš zvolit preferovanou metodu ručně.",
+    "processing.title.ongoing": "zpracování bude zrušeno",
+    "processing.ongoing": "cobalt právě zpracovává média na této kartě. odchodem se zpracovávání přeruší. určitě to chceš udělat?",
+    "api.override.body": "{{ value }} je nyní instance, která zpracovává tvé požadavky. pokud jí nevěříš, stiskni \"cancel\" a bude ignorována.\n\nsvou volbu můžeš později změnit v nastavení zpracování.",
+    "api.override.title": "změna zpracovávací instance",
+    "safety.title": "důležité bezpečnostní upozornění",
+    "reset.title": "resetovat všechna data?",
+    "reset.body": "určitě chceš resetovat všechna data? tato akce je okamžitá a neodvratná.",
+    "picker.description.phone": "stisknutím položky ji uložíš. obrázky lze uložit také dlouhým stisknutím.",
+    "saving.blocked": "cobalt se pokusil otevřít soubor na nové kartě, ale tvůj prohlížeč to zablokoval. můžeš povolit vyskakovací okna pro cobalt, aby se to příště nestalo.",
+    "safety.custom_instance.body": "jiné instance mohou potenciálně ohrozit tvé soukromí a bezpečnost.\n\nzlomyslné instance tě mohou:\n1. přesměrovat pryč z cobaltu a pokusit se tě podvést.\n2. zaznamenávat všechny informace o tvých požadavcích, ukládat je navždy a používat je ke sledování.\n3. poskytovat ti škodlivé soubory (například malware).\n4. nutit tě platit za stahování nebo sledovat reklamy.\n\npo tomto bodě tě nemůžeme ochránit. dávej si prosím pozor, jaké instance používáš, a vždy důvěřuj svému instinktu. pokud se ti něco nezdá, vrať se na tuto stránku, resetuj instanci a nahlas nám to na githubu.",
+    "import.body": "import neznámých nebo poškozených souborů může neočekávaně změnit nebo zkazit funkčnost cobaltu. importuj pouze soubory, které jsi osobně exportoval/a a neupravoval/a. pokud tě o import tohoto souboru někdo požádal - nedělej to.\n\nneneseme odpovědnost za škody způsobené importem neznámých souborů s nastaveními."
+}
