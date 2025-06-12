@@ -1,0 +1,18 @@
+{
+    "reset.title": "zresetować wszystkie dane?",
+    "reset.body": "czy na pewno chcesz zresetować wszystkie dane? ta czynność jest natychmiastowa i nieodwracalna.",
+    "saving.title": "wybierz sposób zapisywania",
+    "saving.timeout": "cobalt próbował zapisać plik automatycznie, ale przeglądarka go zatrzymała. musisz wybrać preferowaną metodę ręcznie.",
+    "safety.title": "ważna informacja dotycząca bezpieczeństwa",
+    "picker.title": "wybierz, co zapisać",
+    "saving.blocked": "cobalt próbował otworzyć plik w nowej karcie, ale twoja przeglądarka to zablokowała. możesz zezwolić na pop-upy dla cobalta, aby zapobiec temu następnym razem.",
+    "import.body": "importowanie nieznanych lub uszkodzonych plików może nieoczekiwanie zmienić lub złamać funkcjonalność cobalt. importuj tylko pliki, które osobiście wyeksportowałeś i nie modyfikowałeś. jeśli zostałeś poproszony o zaimportowanie tego pliku przez kogoś - nie rób tego.\n\nnie ponosimy odpowiedzialności za jakiekolwiek szkody spowodowane importowaniem nieznanych plików ustawień.",
+    "picker.description.phone": "dotknij item, aby go zapisać. zdjęcia także mogą być zapisane długim przytrzymaniem.",
+    "picker.description.ios": "dotknij item, aby go zapisać używając skrótu. zdjęcia także mogą być zapisane długim przytrzymaniem.",
+    "api.override.title": "nadpisanie instancji przetwarzania",
+    "picker.description.desktop": "kliknij item, aby go zapisać. zdjęcia także mogą być zapisane używając menu prawego kliknięcia.",
+    "api.override.body": "{{ value }} jest teraz instancją przetwarzania. jeśli jej nie ufasz, naciśnij \"anuluj\", a zostanie ona zignorowana.\n\nmożesz zmienić swój wybór później w ustawieniach przetwarzania.",
+    "safety.custom_instance.body": "niestandardowe instancje mogą potencjalnie stanowić zagrożenie dla prywatności i bezpieczeństwa.\n\nzłe instancje mogą:\n1. przekierować cię poza cobalta i próbować cię oszukać.\n2. rejestrować wszystkie informacje o twoich żądaniach, przechowywać je na zawsze i wykorzystywać je do śledzenia cię.\n3. wyświetlać złośliwe pliki (takie jak złośliwe oprogramowanie).\n4. zmuszać cię do oglądania reklam lub płacenia za pobieranie.\n\nod tego momentu, nie możemy cię chronić. pamiętaj, jakich instancji używać i zawsze ufaj swojemu przeczuciu. jeśli coś wydaje się nie tak, wróć na tę stronę, zresetuj niestandardową instancję i zgłoś nam to na githubie.",
+    "processing.ongoing": "cobalt obecnie przetwarza media w tej zakładce. odejście spowoduje przerwanie przetwarzania. czy na pewno chcesz to zrobić?",
+    "processing.title.ongoing": "przetwarzanie będzie anulowane"
+}
