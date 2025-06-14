@@ -64,6 +64,14 @@ const ffmpeg = async (variant: string, files: File[], args: string[], output: Fi
             return error("queue.ffmpeg.no_input_format");
         }
 
+        // handle the edge case when a video doesn't have an audio track
+        // but user still tries to extract it
+        if (files.length === 1 && file_info.streams?.length === 1) {
+            if (output.type?.startsWith("audio") && file_info.streams[0].codec_type !== "audio") {
+                return error("queue.ffmpeg.no_audio_channel");
+            }
+        }
+
         self.postMessage({
             cobaltFFmpegWorker: {
                 progress: {

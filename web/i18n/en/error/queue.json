@@ -15,5 +15,6 @@
     "ffmpeg.no_input_type": "the file's type isn't supported",
     "ffmpeg.crashed": "ffmpeg worker crashed, see console for details",
     "ffmpeg.no_render": "ffmpeg render is empty, something very odd happened",
-    "ffmpeg.no_args": "ffmpeg worker didn't get required arguments"
+    "ffmpeg.no_args": "ffmpeg worker didn't get required arguments",
+    "ffmpeg.no_audio_channel": "this video has no audio track, nothing to do"
 }
