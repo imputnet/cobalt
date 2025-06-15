@@ -1,0 +1,17 @@
+{
+    "page.appearance": "kinézet",
+    "page.privacy": "adatvédelem",
+    "page.video": "videó",
+    "page.audio": "audió",
+    "page.download": "letöltés",
+    "page.advanced": "haladó",
+    "page.debug": "hibaelhárítási információ",
+    "page.instances": "szerverek",
+    "section.general": "általános",
+    "theme": "téma",
+    "theme.auto": "automatikus",
+    "theme.light": "világos",
+    "theme.dark": "sötét",
+    "theme.description": "az automatikus téma világos és sötét mód között választ a készüléked beállítása szerint.",
+    "section.save": "mentés"
+}
