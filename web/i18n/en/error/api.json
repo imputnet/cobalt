@@ -50,7 +50,7 @@
     "content.post.private": "couldn't get anything about this post because it's from a private account. try a different link!",
     "content.post.age": "this post is age-restricted, so i can't access it anonymously. try again or try a different link!",
 
-    "youtube.no_matching_format": "youtube didn't return a valid video + audio format combo, either video or audio is missing. formats for this video may be re-encoding on youtube's side or something went wrong when parsing them. try enabling the hls option in video settings!",
+    "youtube.no_matching_format": "youtube didn't return a valid video + audio format combo, either video or audio is missing. formats for this video may be re-encoding on youtube's side or something may have went wrong when parsing them. try again a bit later!",
     "youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video. try again in a few seconds, but if this issue sticks, please report it!",
     "youtube.login": "couldn't get this video because youtube asked the processing instance to prove that it's not a bot. try again in a few seconds, but if it still doesn't work, please report this issue!",
     "youtube.token_expired": "couldn't get this video because the youtube token expired and wasn't refreshed. try again in a few seconds, but if it still doesn't work, please report this issue!",
