@@ -40,7 +40,7 @@
     }
 
     .tooltip-body {
-        max-width: 180px;
+        max-width: 190px;
         position: relative;
 
         pointer-events: none;
