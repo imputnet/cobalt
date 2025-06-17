@@ -8,6 +8,7 @@ import * as cluster from "../misc/cluster.js";
 import { Green, Yellow } from "../misc/console-text.js";
 
 const forceLocalProcessingOptions = ["never", "session", "always"];
+const youtubeHlsOptions = ["never", "key", "always"];
 
 export const loadEnvs = (env = process.env) => {
     const disabledServices = env.DISABLED_SERVICES?.split(',') || [];
@@ -74,6 +75,9 @@ export const loadEnvs = (env = process.env) => {
         // "never" | "session" | "always"
         forceLocalProcessing: env.FORCE_LOCAL_PROCESSING ?? "never",
 
+        // "never" | "key" | "always"
+        enableDeprecatedYoutubeHls: env.ENABLE_DEPRECATED_YOUTUBE_HLS ?? "never",
+
         envFile: env.API_ENV_FILE,
         envRemoteReloadInterval: 300,
     };
@@ -104,6 +108,12 @@ export const validateEnvs = async (env) => {
         console.error("FORCE_LOCAL_PROCESSING is invalid.");
         console.error(`Supported options are are: ${forceLocalProcessingOptions.join(', ')}\n`);
         throw new Error("Invalid FORCE_LOCAL_PROCESSING");
+    }
+
+    if (env.enableDeprecatedYoutubeHls && !youtubeHlsOptions.includes(env.enableDeprecatedYoutubeHls)) {
+        console.error("ENABLE_DEPRECATED_YOUTUBE_HLS is invalid.");
+        console.error(`Supported options are are: ${youtubeHlsOptions.join(', ')}\n`);
+        throw new Error("Invalid ENABLE_DEPRECATED_YOUTUBE_HLS");
     }
 
     if (env.externalProxy && env.freebindCIDR) {

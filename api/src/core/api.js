@@ -156,6 +156,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, `error.api.auth.key.${error}`);
         }
 
+        req.isApiKey = true;
         return next();
     });
 
@@ -264,6 +265,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 patternMatch: parsed.patternMatch,
                 params: normalizedRequest,
                 isSession: req.isSession ?? false,
+                isApiKey: req.isApiKey ?? false,
             });
 
             res.status(result.status).json(result.body);

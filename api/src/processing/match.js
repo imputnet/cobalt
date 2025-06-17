@@ -32,7 +32,7 @@ import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
 
-export default async function({ host, patternMatch, params, isSession }) {
+export default async function({ host, patternMatch, params, isSession, isApiKey }) {
     const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
@@ -63,6 +63,14 @@ export default async function({ host, patternMatch, params, isSession }) {
                     service: friendlyServiceName(host),
                 }
             });
+        }
+
+        // youtubeHLS will be fully removed in the future
+        let youtubeHLS = params.youtubeHLS;
+        const hlsEnv = env.enableDeprecatedYoutubeHls;
+
+        if (hlsEnv === "never" || (hlsEnv === "key" && !isApiKey)) {
+            youtubeHLS = false;
         }
 
         switch (host) {
@@ -105,7 +113,7 @@ export default async function({ host, patternMatch, params, isSession }) {
                     isAudioOnly,
                     isAudioMuted,
                     dubLang: params.youtubeDubLang,
-                    youtubeHLS: params.youtubeHLS,
+                    youtubeHLS,
                 }
 
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {
