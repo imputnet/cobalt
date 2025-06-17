@@ -61,6 +61,7 @@ this document is not final and will expand over time. feel free to improve it!
 | YOUTUBE_SESSION_SERVER           | `http://localhost:8080/` |
 | YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
 | YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
+| ENABLE_DEPRECATED_YOUTUBE_HLS    | `key`                    |
 
 [*view details*](#service-specific)
 
@@ -256,3 +257,9 @@ the value is a string.
 when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively impact the rate limit of a secondary youtube client with a session.
 
 the value is a number, either `0` or `1`.
+
+### ENABLE_DEPRECATED_YOUTUBE_HLS
+the value is a string: `never` (default), `key`, or `always`:
+- when the var is not defined or set to `never`, `youtubeHLS` in POST requests will be ignored.
+- when set to `key`, only requests from api-key clients will be able to use `youtubeHLS` in POST requests.
+- when set to `always`, all requests will be able to use `youtubeHLS` in POST requests.
