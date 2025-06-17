@@ -34,9 +34,9 @@ this document is not final and will expand over time. feel free to improve it!
 | RATELIMIT_WINDOW         | `60`    | `120`         |
 | RATELIMIT_MAX            | `20`    | `30`          |
 | SESSION_RATELIMIT_WINDOW | `60`    | `60`          |
-| SESSION_RATELIMIT        | `10`    | `10`          |
+| SESSION_RATELIMIT_MAX    | `10`    | `10`          |
 | TUNNEL_RATELIMIT_WINDOW  | `60`    | `60`          |
-| TUNNEL_RATELIMIT         | `40`    | `10`          |
+| TUNNEL_RATELIMIT_MAX     | `40`    | `10`          |
 
 [*view details*](#limits)
 
@@ -171,7 +171,7 @@ rate limit time window for session creation requests, in **seconds**.
 
 the value is a number.
 
-### SESSION_RATELIMIT
+### SESSION_RATELIMIT_MAX
 amount of session requests to be allowed within the time window of `SESSION_RATELIMIT_WINDOW`.
 
 the value is a number.
@@ -181,7 +181,7 @@ rate limit time window for tunnel (proxy/stream) requests, in **seconds**.
 
 the value is a number.
 
-### TUNNEL_RATELIMIT
+### TUNNEL_RATELIMIT_MAX
 amount of tunnel requests to be allowed within the time window of `TUNNEL_RATELIMIT_WINDOW`.
 
 the value is a number.
