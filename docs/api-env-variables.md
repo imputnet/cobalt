@@ -107,11 +107,10 @@ comma-separated list which disables certain services from being used.
 the value is a string of cobalt-supported services.
 
 ### FORCE_LOCAL_PROCESSING
-the value is a string: `never` (default), `session`, or `always`.
-
-when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
-
-when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
+the value is a string: `never` (default), `session`, or `always`:
+- when the var is not defined or set to `never`, all requests will be able to set a preference via `localProcessing` in POST requests.
+- when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
+- when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
 
 ### API_ENV_FILE
 the URL or local path to a `key=value`-style environment variable file. this is used for dynamically reloading environment variables. **not all environment variables are able to be updated by this.** (e.g. the ratelimiters are instantiated when starting cobalt, and cannot be changed)
