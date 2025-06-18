@@ -36,6 +36,12 @@ export const apiSchema = z.object({
                      .regex(/^[0-9a-zA-Z\-]+$/)
                      .optional(),
 
+    subtitleLang: z.string()
+                     .min(2)
+                     .max(8)
+                     .regex(/^[0-9a-zA-Z\-]+$/)
+                     .optional(),
+
     disableMetadata: z.boolean().default(false),
 
     allowH265: z.boolean().default(false),
