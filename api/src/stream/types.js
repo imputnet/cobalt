@@ -25,6 +25,7 @@ const metadataTags = [
     "album_artist",
     "track",
     "date",
+    "sublanguage"
 ];
 
 const convertMetadataToFFmpeg = (metadata) => {
@@ -32,6 +33,10 @@ const convertMetadataToFFmpeg = (metadata) => {
 
     for (const [ name, value ] of Object.entries(metadata)) {
         if (metadataTags.includes(name)) {
+            if (name === "sublanguage") {
+                args.push('-metadata:s:s:0', `language=${value}`);
+                continue;
+            }
             args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`); // skipcq: JS-0004
         } else {
             throw `${name} metadata tag is not supported.`;
@@ -109,9 +114,6 @@ const merge = async (streamInfo, res) => {
         streamInfo.urls.map(destroyInternalStream)
     );
 
-    const headers = getHeaders(streamInfo.service);
-    const rawHeaders = toRawHeaders(headers);
-
     try {
         if (streamInfo.urls.length !== 2) return shutdown();
 
@@ -119,13 +121,21 @@ const merge = async (streamInfo, res) => {
 
         let args = [
             '-loglevel', '-8',
-            '-headers', rawHeaders,
             '-i', streamInfo.urls[0],
-            '-headers', rawHeaders,
             '-i', streamInfo.urls[1],
+        ];
+
+        if (streamInfo.subtitles) {
+            args.push(
+                '-i', streamInfo.subtitles,
+                '-map', '2:s'
+            );
+        };
+
+        args.push(
             '-map', '0:v',
             '-map', '1:a',
-        ]
+        );
 
         args = args.concat(ffmpegArgs[format]);
 
@@ -137,8 +147,12 @@ const merge = async (streamInfo, res) => {
             }
         }
 
+        if (streamInfo.subtitles && format === "mp4") {
+            args.push('-c:s', 'mov_text');
+        }
+
         if (streamInfo.metadata) {
-            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata))
+            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata));
         }
 
         args.push('-f', format, 'pipe:3');

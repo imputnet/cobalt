@@ -31,7 +31,8 @@ export default function({
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
             requestIP,
-            originalRequest: r.originalRequest
+            originalRequest: r.originalRequest,
+            subtitles: r.subtitles,
         },
         params = {};
 

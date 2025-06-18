@@ -114,6 +114,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     isAudioMuted,
                     dubLang: params.youtubeDubLang,
                     youtubeHLS,
+                    subtitleLang: params.subtitleLang,
                 }
 
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {

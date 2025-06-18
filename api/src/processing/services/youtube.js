@@ -87,6 +87,83 @@ const cloneInnertube = async (customFetch, useSession) => {
     return yt;
 }
 
+const getHlsVariants = async (hlsManifest, dispatcher) => {
+    if (!hlsManifest) {
+        return { error: "youtube.no_hls_streams" };
+    }
+
+    const fetchedHlsManifest =
+        await fetch(hlsManifest, { dispatcher })
+            .then(r => r.status === 200 ? r.text() : undefined)
+            .catch(() => {});
+
+    if (!fetchedHlsManifest) {
+        return { error: "youtube.no_hls_streams" };
+    }
+
+    const variants = HLS.parse(fetchedHlsManifest).variants.sort(
+        (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
+    );
+
+    if (!variants || variants.length === 0) {
+        return { error: "youtube.no_hls_streams" };
+    }
+
+    return variants;
+}
+
+const getSubtitles = async (info, dispatcher, subtitleLang) => {
+    const preferredCap = info.captions.caption_tracks.find(caption =>
+        caption.kind !== 'asr' && caption.language_code.startsWith(subtitleLang)
+    );
+
+    const captionsUrl = preferredCap?.base_url;
+    if (!captionsUrl) return;
+
+    if (!captionsUrl.includes("exp=xpe")) {
+        let url = new URL(captionsUrl);
+        url.searchParams.set('fmt', 'vtt');
+
+        return {
+            url: url.toString(),
+            language: preferredCap.language_code,
+        }
+    }
+
+    // if we have exp=xpe in the url, then captions are
+    // locked down and can't be accessed without a yummy potoken,
+    // so instead we just use subtitles from HLS
+
+    const hlsVariants = await getHlsVariants(
+        info.streaming_data.hls_manifest_url,
+        dispatcher
+    );
+    if (hlsVariants?.error) return;
+
+    // all variants usually have the same set of subtitles
+    const hlsSubtitles = hlsVariants[0]?.subtitles;
+    if (!hlsSubtitles?.length) return;
+
+    const preferredHls = hlsSubtitles.find(
+        subtitle => subtitle.language.startsWith(subtitleLang)
+    );
+
+    if (!preferredHls) return;
+
+    const fetchedHlsSubs =
+        await fetch(preferredHls.uri, { dispatcher })
+            .then(r => r.status === 200 ? r.text() : undefined)
+            .catch(() => {});
+
+    const parsedSubs = HLS.parse(fetchedHlsSubs);
+    if (!parsedSubs) return;
+
+    return {
+        url: parsedSubs.segments[0]?.uri,
+        language: preferredHls.language,
+    }
+}
+
 export default async function (o) {
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
@@ -98,7 +175,8 @@ export default async function (o) {
         useHLS = false;
     }
 
-    if (useHLS) {
+    // we can get subtitles reliably only from the iOS client
+    if (useHLS || o.subtitleLang) {
         innertubeClient = "IOS";
     }
 
@@ -222,37 +300,16 @@ export default async function (o) {
         return videoQualities.find(qual => qual >= shortestSide);
     }
 
-    let video, audio, dubbedLanguage,
+    let video, audio, subtitles, dubbedLanguage,
         codec = o.format || "h264", itag = o.itag;
 
     if (useHLS) {
-        const hlsManifest = info.streaming_data.hls_manifest_url;
-
-        if (!hlsManifest) {
-            return { error: "youtube.no_hls_streams" };
-        }
-
-        const fetchedHlsManifest = await fetch(hlsManifest, {
-            dispatcher: o.dispatcher,
-        }).then(r => {
-            if (r.status === 200) {
-                return r.text();
-            } else {
-                throw new Error("couldn't fetch the HLS playlist");
-            }
-        }).catch(() => { });
-
-        if (!fetchedHlsManifest) {
-            return { error: "youtube.no_hls_streams" };
-        }
-
-        const variants = HLS.parse(fetchedHlsManifest).variants.sort(
-            (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
+        const variants = await getHlsVariants(
+            info.streaming_data.hls_manifest_url,
+            o.dispatcher
         );
 
-        if (!variants || variants.length === 0) {
-            return { error: "youtube.no_hls_streams" };
-        }
+        if (variants?.error) return variants;
 
         const matchHlsCodec = codecs => (
             codecs.includes(hlsCodecList[codec].videoCodec)
@@ -403,6 +460,13 @@ export default async function (o) {
 
             if (!video) video = sorted_formats[codec].bestVideo;
         }
+
+        if (o.subtitleLang && !o.isAudioOnly && info.captions?.caption_tracks?.length) {
+            const videoSubtitles = await getSubtitles(info, o.dispatcher, o.subtitleLang);
+            if (videoSubtitles) {
+                subtitles = videoSubtitles;
+            }
+        }
     }
 
     if (video?.drm_families || audio?.drm_families) {
@@ -424,6 +488,10 @@ export default async function (o) {
                 fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
             }
         }
+    }
+
+    if (subtitles) {
+        fileMetadata.sublanguage = subtitles.language;
     }
 
     const filenameAttributes = {
@@ -508,6 +576,7 @@ export default async function (o) {
                 video,
                 audio,
             ],
+            subtitles: subtitles?.url,
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,
