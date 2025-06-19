@@ -5,6 +5,12 @@ import EncodeLibAV from "@imput/libav.js-encode-cli";
 import type { FfprobeData } from "fluent-ffmpeg";
 import type { FFmpegProgressCallback, FFmpegProgressEvent, FFmpegProgressStatus, RenderParams } from "$lib/types/libav";
 
+const ua = navigator.userAgent.toLowerCase();
+const iPhone = ua.includes("iphone os");
+const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
+const iOS = iPhone || iPad;
+const modernIOS = iOS && Number(ua.match(/iphone os (\d+)_/)?.[1]) >= 18;
+
 export default class LibAVWrapper {
     libav: Promise<LibAVInstance> | null;
     concurrency: number;
@@ -32,7 +38,7 @@ export default class LibAVWrapper {
             this.libav = constructor({
                 ...options,
                 variant: undefined,
-                yesthreads: true,
+                yesthreads: !iOS || modernIOS,
                 base: '/_libav'
             });
         }
