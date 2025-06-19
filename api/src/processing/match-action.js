@@ -4,6 +4,7 @@ import { createResponse } from "./request.js";
 import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
+import { convertSubtitleLanguage } from "../misc/subtitle-lang.js";
 
 const extraProcessingTypes = ["merge", "remux", "mute", "audio", "gif"];
 
@@ -236,6 +237,19 @@ export default function({
     // (very painful)
     if (localProcessing && !params.isHLS && extraProcessingTypes.includes(params.type)) {
         responseType = "local-processing";
+    }
+
+    // extractors return ISO 639-1 language codes,
+    // but video players expect ISO 639-2, so we convert them here
+    if (defaultParams.fileMetadata?.sublanguage) {
+        const code = convertSubtitleLanguage(defaultParams.fileMetadata.sublanguage);
+        if (code) {
+            defaultParams.fileMetadata.sublanguage = code;
+        } else {
+            // if a language code couldn't be converted,
+            // then we don't want it at all
+            delete defaultParams.fileMetadata.sublanguage;
+        }
     }
 
     return createResponse(
