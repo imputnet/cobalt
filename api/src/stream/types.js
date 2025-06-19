@@ -128,7 +128,8 @@ const merge = async (streamInfo, res) => {
         if (streamInfo.subtitles) {
             args.push(
                 '-i', streamInfo.subtitles,
-                '-map', '2:s'
+                '-map', '2:s',
+                '-c:s', format === 'mp4' ? 'mov_text' : 'webvtt'
             );
         };
 
@@ -145,10 +146,6 @@ const merge = async (streamInfo, res) => {
             } else {
                 args.push('-c:a', 'aac', '-bsf:a', 'aac_adtstoasc');
             }
-        }
-
-        if (streamInfo.subtitles && format === "mp4") {
-            args.push('-c:s', 'mov_text');
         }
 
         if (streamInfo.metadata) {
