@@ -73,6 +73,7 @@ export type CobaltLocalProcessingResponse = {
         type: string, // mimetype
         filename: string,
         metadata?: CobaltFileMetadata,
+        subtitles?: boolean,
     },
 
     audio?: {
