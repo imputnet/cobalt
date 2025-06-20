@@ -26,6 +26,10 @@ export const apiSchema = z.object({
         ["h264", "av1", "vp9"]
     ).default("h264"),
 
+    youtubeVideoContainer: z.enum(
+        ["auto", "mp4", "webm", "mkv"]
+    ).default("auto"),
+
     videoQuality: z.enum(
         ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"]
     ).default("1080"),

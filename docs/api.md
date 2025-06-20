@@ -81,15 +81,16 @@ all keys except for `url` are optional. value options are separated by `/`.
 | `localProcessing`      | `boolean` | remux/transcode files locally instead of the server             | `false`    |
 
 #### service-specific options
-| key                    | type      | description/value                                 | default |
-|:-----------------------|:----------|:--------------------------------------------------|:--------|
-| `youtubeVideoCodec`    | `string`  | `h264 / av1 / vp9`                                | `h264`  |
-| `youtubeDubLang`       | `string`  | any valid language code, such as: `en` or `zh-CN` | *none*  |
-| `convertGif`           | `boolean` | convert twitter gifs to the actual GIF format     | `true`  |
-| `allowH265`            | `boolean` | allow H265/HEVC videos from tiktok/xiaohongshu    | `false` |
-| `tiktokFullAudio`      | `boolean` | download the original sound used in a video       | `false` |
-| `youtubeBetterAudio`   | `boolean` | prefer higher quality youtube audio if possible   | `false` |
-| `youtubeHLS`           | `boolean` | use HLS formats when downloading from youtube     | `false` |
+| key                     | type      | description/value                                 | default |
+|:------------------------|:----------|:--------------------------------------------------|:--------|
+| `youtubeVideoCodec`     | `string`  | `h264 / av1 / vp9`                                | `h264`  |
+| `youtubeVideoContainer` | `string`  | `auto / mp4 / webm / mkv`                         | `auto`  |
+| `youtubeDubLang`        | `string`  | any valid language code, such as: `en` or `zh-CN` | *none*  |
+| `convertGif`            | `boolean` | convert twitter gifs to the actual GIF format     | `true`  |
+| `allowH265`             | `boolean` | allow H265/HEVC videos from tiktok/xiaohongshu    | `false` |
+| `tiktokFullAudio`       | `boolean` | download the original sound used in a video       | `false` |
+| `youtubeBetterAudio`    | `boolean` | prefer higher quality youtube audio if possible   | `false` |
+| `youtubeHLS`            | `boolean` | use HLS formats when downloading from youtube     | `false` |
 
 ### response
 body type: `application/json`
