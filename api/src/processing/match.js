@@ -235,7 +235,8 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
 
             case "loom":
                 r = await loom({
-                    id: patternMatch.id
+                    id: patternMatch.id,
+                    subtitleLang,
                 });
                 break;
 
