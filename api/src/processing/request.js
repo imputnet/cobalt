@@ -11,7 +11,7 @@ export function createResponse(responseType, responseData) {
             body: {
                 status: "error",
                 error: {
-                    code: code || "error.api.fetch.critical",
+                    code: code || "error.api.fetch.critical.core",
                 },
                 critical: true
             }
@@ -109,7 +109,7 @@ export function createResponse(responseType, responseData) {
             }
         }
     } catch {
-        return internalError()
+        return internalError();
     }
 }
 
