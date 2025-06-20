@@ -65,7 +65,7 @@
 
     "subtitles": "subtitles",
     "subtitles.title": "preferred subtitle language",
-    "subtitles.description": "cobalt will add subtitles to the downloaded file in the preferred language if they're available. if not, nothing will be added.",
+    "subtitles.description": "cobalt will add subtitles to the downloaded file in the preferred language if they're available.\n\nsome services don't have a language selection, and if that's the case, cobalt will add the only available subtitle track if you have any language selected.",
     "subtitles.none": "none",
 
     "audio.youtube.better_audio": "youtube audio quality",
