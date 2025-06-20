@@ -175,14 +175,13 @@ export default async function (o) {
         useHLS = false;
     }
 
-    // we can get subtitles reliably only from the iOS client
-    if (useHLS || o.subtitleLang) {
+    if (useHLS) {
         innertubeClient = "IOS";
     }
 
     // iOS client doesn't have adaptive formats of resolution >1080p,
     // so we use the WEB_EMBEDDED client instead for those cases
-    const useSession =
+    let useSession =
         env.ytSessionServer && (
             (
                 !useHLS
@@ -193,6 +192,12 @@ export default async function (o) {
                 )
             )
         );
+
+    // we can get subtitles reliably only from the iOS client
+    if (o.subtitleLang) {
+        innertubeClient = "IOS";
+        useSession = false;
+    }
 
     if (useSession) {
         innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
