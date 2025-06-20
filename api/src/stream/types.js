@@ -1,19 +1,12 @@
-import { Agent, request } from "undici";
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
+import { Agent, request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
 import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
 import { getHeaders, closeRequest, closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
-
-const ffmpegArgs = {
-    webm: ["-c:v", "copy", "-c:a", "copy"],
-    mp4: ["-c:v", "copy", "-c:a", "copy", "-movflags", "faststart+frag_keyframe+empty_moov"],
-    m4a: ["-movflags", "frag_keyframe+empty_moov"],
-    gif: ["-vf", "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse", "-loop", "0"]
-}
 
 const metadataTags = [
     "album",
@@ -129,16 +122,23 @@ const merge = async (streamInfo, res) => {
             args.push(
                 '-i', streamInfo.subtitles,
                 '-map', '2:s',
-                '-c:s', format === 'mp4' ? 'mov_text' : 'webvtt'
+                '-c:s', format === 'mp4' ? 'mov_text' : 'webvtt',
             );
         };
 
         args.push(
             '-map', '0:v',
             '-map', '1:a',
+            '-c:v', 'copy',
+            '-c:a', 'copy',
         );
 
-        args = args.concat(ffmpegArgs[format]);
+        if (format === "mp4") {
+            args.push(
+                '-movflags',
+                'faststart+frag_keyframe+empty_moov',
+            )
+        }
 
         if (hlsExceptions.includes(streamInfo.service) && streamInfo.isHLS) {
             if (streamInfo.service === "youtube" && format === "webm") {
@@ -152,7 +152,10 @@ const merge = async (streamInfo, res) => {
             args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata));
         }
 
-        args.push('-f', format, 'pipe:3');
+        args.push(
+            '-f', format === "mkv" ? "matroska" : format,
+            'pipe:3'
+        );
 
         process = spawn(...getCommand(args), {
             windowsHide: true,
@@ -206,7 +209,7 @@ const remux = async (streamInfo, res) => {
 
         if (hlsExceptions.includes(streamInfo.service)) {
             if (streamInfo.type !== "mute") {
-                args.push('-c:a', 'aac')
+                args.push('-c:a', 'aac');
             }
             args.push('-bsf:a', 'aac_adtstoasc');
         }
@@ -275,11 +278,11 @@ const convertAudio = async (streamInfo, res) => {
         }
 
         if (streamInfo.audioFormat === "opus") {
-            args.push("-vbr", "off")
+            args.push("-vbr", "off");
         }
 
-        if (ffmpegArgs[streamInfo.audioFormat]) {
-            args = args.concat(ffmpegArgs[streamInfo.audioFormat])
+        if (streamInfo.audioFormat === "mp4a") {
+            args.push("-movflags", "frag_keyframe+empty_moov");
         }
 
         if (streamInfo.metadata) {
@@ -329,7 +332,11 @@ const convertGif = async (streamInfo, res) => {
         }
 
         args.push('-i', streamInfo.urls);
-        args = args.concat(ffmpegArgs.gif);
+        args.push(
+            '-vf',
+            'scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse',
+            '-loop', '0'
+        );
         args.push('-f', "gif", 'pipe:3');
 
         process = spawn(...getCommand(args), {
