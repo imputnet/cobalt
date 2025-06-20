@@ -40,7 +40,7 @@ const compareQuality = (rendition, requestedQuality) => {
     return Math.abs(quality - requestedQuality);
 }
 
-const getDirectLink = (data, quality) => {
+const getDirectLink = async (data, quality, subtitleLang) => {
     if (!data.files) return;
 
     const match = data.files
@@ -56,8 +56,23 @@ const getDirectLink = (data, quality) => {
 
     if (!match) return;
 
+    let subtitles;
+    if (subtitleLang && data.config_url) {
+        const config = await fetch(data.config_url)
+                    .then(r => r.json())
+                    .catch(() => {});
+
+        if (config && config.request?.text_tracks?.length) {
+            subtitles = config.request.text_tracks.find(
+                t => t.lang.startsWith(subtitleLang)
+            );
+            subtitles = new URL(subtitles.url, "https://player.vimeo.com/").toString();
+        }
+    }
+
     return {
         urls: match.link,
+        subtitles,
         filenameAttributes: {
             resolution: `${match.width}x${match.height}`,
             qualityLabel: match.rendition,
@@ -143,7 +158,7 @@ export default async function(obj) {
         response = await getHLS(info.config_url, { ...obj, quality });
     }
 
-    if (!response) response = getDirectLink(info, quality);
+    if (!response) response = await getDirectLink(info, quality, obj.subtitleLang);
     if (!response) response = { error: "fetch.empty" };
 
     if (response.error) {
@@ -154,6 +169,10 @@ export default async function(obj) {
         title: info.name,
         artist: info.user.name,
     };
+
+    if (response.subtitles) {
+        fileMetadata.sublanguage = obj.subtitleLang;
+    }
 
     return merge(
         {

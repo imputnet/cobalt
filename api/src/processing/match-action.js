@@ -145,7 +145,9 @@ export default function({
 
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
-                        params = { type: "merge" }
+                        params = { type: "merge" };
+                    } else if (r.subtitles) {
+                        params = { type: "remux" };
                     } else {
                         responseType = "redirect";
                     }

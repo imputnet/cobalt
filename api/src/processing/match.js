@@ -167,6 +167,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     password: patternMatch.password,
                     quality: params.videoQuality,
                     isAudioOnly,
+                    subtitleLang,
                 });
                 break;
 
