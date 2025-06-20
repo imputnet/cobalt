@@ -189,6 +189,8 @@ const remux = async (streamInfo, res) => {
     );
 
     try {
+        const format = streamInfo.filename.split('.').pop();
+
         let args = [
             '-loglevel', '-8',
             '-headers', toRawHeaders(getHeaders(streamInfo.service)),
@@ -198,10 +200,16 @@ const remux = async (streamInfo, res) => {
             args.push('-seekable', '0')
         }
 
-        args.push(
-            '-i', streamInfo.urls,
-            '-c:v', 'copy',
-        )
+        args.push('-i', streamInfo.urls);
+
+        if (streamInfo.subtitles) {
+            args.push(
+                '-i', streamInfo.subtitles,
+                '-c:s', format === 'mp4' ? 'mov_text' : 'webvtt',
+            );
+        };
+
+        args.push('-c:v', 'copy');
 
         if (streamInfo.type === "mute") {
             args.push('-an');
@@ -214,9 +222,12 @@ const remux = async (streamInfo, res) => {
             args.push('-bsf:a', 'aac_adtstoasc');
         }
 
-        let format = streamInfo.filename.split('.').pop();
         if (format === "mp4") {
             args.push('-movflags', 'faststart+frag_keyframe+empty_moov')
+        }
+
+        if (streamInfo.metadata) {
+            args = args.concat(convertMetadataToFFmpeg(streamInfo.metadata));
         }
 
         args.push('-f', format, 'pipe:3');
