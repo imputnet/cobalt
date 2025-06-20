@@ -68,15 +68,15 @@ const makeRemuxArgs = (info: CobaltLocalProcessingResponse) => {
 
     if (["merge", "remux"].includes(info.type)) {
         ffargs.push("-c:a", "copy");
-
-        if (info.output.subtitles) {
-            ffargs.push(
-                "-c:s",
-                info.output.filename.endsWith(".mp4") ? "mov_text" : "webvtt"
-            );
-        }
     } else if (info.type === "mute") {
         ffargs.push("-an");
+    }
+
+    if (info.output.subtitles) {
+        ffargs.push(
+            "-c:s",
+            info.output.filename.endsWith(".mp4") ? "mov_text" : "webvtt"
+        );
     }
 
     ffargs.push(
