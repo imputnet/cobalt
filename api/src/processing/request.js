@@ -60,6 +60,7 @@ export function createResponse(responseType, responseData) {
                         type: mime.getType(responseData?.filename) || undefined,
                         filename: responseData?.filename,
                         metadata: responseData?.fileMetadata || undefined,
+                        subtitles: !!responseData?.subtitles || undefined,
                     },
 
                     audio: {
