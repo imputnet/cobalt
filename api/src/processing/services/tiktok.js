@@ -4,6 +4,7 @@ import { extract, normalizeURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { updateCookie } from "../cookie/manager.js";
 import { createStream } from "../../stream/manage.js";
+import { convertLanguageCode } from "../../misc/language-codes.js";
 
 const shortDomain = "https://vt.tiktok.com/";
 
@@ -97,8 +98,23 @@ export default async function(obj) {
     }
 
     if (video) {
+        let subtitles, fileMetadata;
+        if (obj.subtitleLang && detail?.video?.subtitleInfos?.length) {
+            const langCode = convertLanguageCode(obj.subtitleLang);
+            const subtitle = detail?.video?.subtitleInfos.find(
+                s => s.LanguageCodeName.startsWith(langCode) && s.Format === "webvtt"
+            )
+            if (subtitle) {
+                subtitles = subtitle.Url;
+                fileMetadata = {
+                    sublanguage: langCode,
+                }
+            }
+        }
         return {
             urls: video,
+            subtitles,
+            fileMetadata,
             filename: videoFilename,
             headers: { cookie }
         }

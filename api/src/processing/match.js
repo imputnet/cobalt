@@ -150,6 +150,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     isAudioOnly,
                     h265: params.allowH265,
                     alwaysProxy: params.alwaysProxy,
+                    subtitleLang,
                 });
                 break;
 

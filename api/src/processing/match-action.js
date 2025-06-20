@@ -169,9 +169,14 @@ export default function({
                     }
                     break;
 
+                case "tiktok":
+                    params = {
+                        type: r.subtitles ? "remux" : "proxy"
+                    };
+                    break;
+
                 case "ok":
                 case "vk":
-                case "tiktok":
                 case "xiaohongshu":
                     params = { type: "proxy" };
                     break;
