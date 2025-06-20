@@ -73,6 +73,9 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
             youtubeHLS = false;
         }
 
+        const subtitleLang =
+            params.subtitleLang !== "none" ? params.subtitleLang : undefined;
+
         switch (host) {
             case "twitter":
                 r = await twitter({
@@ -114,7 +117,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     isAudioMuted,
                     dubLang: params.youtubeDubLang,
                     youtubeHLS,
-                    subtitleLang: params.subtitleLang,
+                    subtitleLang,
                 }
 
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {
