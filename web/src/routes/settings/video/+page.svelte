@@ -3,7 +3,7 @@
     import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
 
-    import { videoQualityOptions } from "$lib/types/settings";
+    import { videoQualityOptions, youtubeVideoContainerOptions } from "$lib/types/settings";
     import { youtubeVideoCodecOptions } from "$lib/types/settings";
 
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
@@ -12,9 +12,9 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     const codecTitles = {
-        h264: "h264 (mp4)",
-        av1: "av1 (webm)",
-        vp9: "vp9 (webm)",
+        h264: "h264 + aac",
+        av1: "av1 + opus",
+        vp9: "vp9 + opus",
     }
 </script>
 
@@ -50,6 +50,26 @@
                 settingValue={value}
             >
                 {codecTitles[value]}
+            </SettingsButton>
+        {/each}
+    </Switcher>
+</SettingsCategory>
+
+<SettingsCategory
+    sectionId="youtube-container"
+    title={$t("settings.video.youtube.container")}
+>
+    <Switcher
+        big={true}
+        description={$t("settings.video.youtube.container.description")}
+    >
+        {#each youtubeVideoContainerOptions as value}
+            <SettingsButton
+                settingContext="save"
+                settingId="youtubeVideoContainer"
+                settingValue={value}
+            >
+                {value}
             </SettingsButton>
         {/each}
     </Switcher>
