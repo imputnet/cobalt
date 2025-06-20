@@ -1,5 +1,5 @@
 import type { Optional } from '$lib/types/generic';
-import defaultSettings from './defaults'
+import defaultSettings from '$lib/settings/defaults';
 import {
     downloadModeOptions,
     filenameStyleOptions,
@@ -9,7 +9,7 @@ import {
     youtubeVideoCodecOptions,
     type PartialSettings,
 } from '$lib/types/settings';
-import { youtubeLanguages } from './youtube-lang';
+import { youtubeDubLanguages } from '$lib/settings/audio-sub-language';
 
 function validateTypes(input: unknown, reference = defaultSettings as unknown) {
     if (typeof input === 'undefined')
@@ -81,7 +81,7 @@ export function validateSettings(settings: PartialSettings) {
             [ settings?.save?.videoQuality     , videoQualityOptions ],
             [ settings?.save?.youtubeVideoCodec, youtubeVideoCodecOptions ],
             [ settings?.save?.savingMethod     , savingMethodOptions ],
-            [ settings?.save?.youtubeDubLang   , youtubeLanguages ]
+            [ settings?.save?.youtubeDubLang   , youtubeDubLanguages ]
         ])
     );
 }

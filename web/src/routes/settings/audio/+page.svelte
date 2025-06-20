@@ -1,7 +1,7 @@
 <script lang="ts">
     import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
-    import { namedYoutubeLanguages } from "$lib/settings/youtube-lang";
+    import { namedYoutubeLanguages } from "$lib/settings/audio-sub-language";
 
     import { audioFormatOptions, audioBitrateOptions } from "$lib/types/settings";
 

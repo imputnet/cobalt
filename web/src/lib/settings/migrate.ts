@@ -6,7 +6,7 @@ import type {
     CobaltSettingsV4,
     CobaltSettingsV5,
 } from "$lib/types/settings";
-import { getBrowserLanguage } from "$lib/settings/youtube-lang";
+import { getBrowserLanguage } from "$lib/settings/audio-sub-language";
 
 type Migrator = (s: AllPartialSettingsWithSchema) => AllPartialSettingsWithSchema;
 
