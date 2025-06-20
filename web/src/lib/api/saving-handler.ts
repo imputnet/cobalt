@@ -50,21 +50,23 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
         alwaysProxy: getSetting("save", "alwaysProxy"),
         downloadMode: getSetting("save", "downloadMode"),
 
+        subtitleLang: getSetting("save", "subtitleLang"),
         filenameStyle: getSetting("save", "filenameStyle"),
         disableMetadata: getSetting("save", "disableMetadata"),
 
-        audioBitrate: getSetting("save", "audioBitrate"),
         audioFormat: getSetting("save", "audioFormat"),
+        audioBitrate: getSetting("save", "audioBitrate"),
         tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
         youtubeDubLang: getSetting("save", "youtubeDubLang"),
         youtubeBetterAudio: getSetting("save", "youtubeBetterAudio"),
 
-        youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
         videoQuality: getSetting("save", "videoQuality"),
+        youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
+        youtubeVideoContainer: getSetting("save", "youtubeVideoContainer"),
         youtubeHLS: env.ENABLE_DEPRECATED_YOUTUBE_HLS ? getSetting("save", "youtubeHLS") : undefined,
 
-        convertGif: getSetting("save", "convertGif"),
         allowH265: getSetting("save", "allowH265"),
+        convertGif: getSetting("save", "convertGif"),
     }
 
     const response = await API.request(selectedRequest);
