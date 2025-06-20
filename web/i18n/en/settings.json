@@ -63,6 +63,11 @@
     "audio.youtube.dub.description": "cobalt will use a dubbed audio track for selected language if it's available. if not, original will be used instead.",
     "youtube.dub.original": "original",
 
+    "subtitles": "subtitles",
+    "subtitles.title": "preferred subtitle language",
+    "subtitles.description": "cobalt will add subtitles to the downloaded file in the preferred language if they're available. if not, nothing will be added.",
+    "subtitles.none": "none",
+
     "audio.youtube.better_audio": "youtube audio quality",
     "audio.youtube.better_audio.title": "prefer better quality",
     "audio.youtube.better_audio.description": "cobalt will try to pick highest quality audio in audio mode. it may not be available depending on youtube's response, current traffic, and server status. custom instances may not support this option.",
