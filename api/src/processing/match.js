@@ -112,7 +112,8 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     dispatcher,
                     id: patternMatch.id.slice(0, 11),
                     quality: params.videoQuality,
-                    format: params.youtubeVideoCodec,
+                    codec: params.youtubeVideoCodec,
+                    container: params.youtubeVideoContainer,
                     isAudioOnly,
                     isAudioMuted,
                     dubLang: params.youtubeDubLang,
@@ -122,7 +123,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
 
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {
                     fetchInfo.quality = "1080";
-                    fetchInfo.format = "vp9";
+                    fetchInfo.codec = "vp9";
                     fetchInfo.isAudioOnly = true;
                     fetchInfo.isAudioMuted = false;
 

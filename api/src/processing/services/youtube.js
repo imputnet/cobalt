@@ -171,7 +171,7 @@ export default async function (o) {
     let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
 
     // HLS playlists from the iOS client don't contain the av1 video format.
-    if (useHLS && o.format === "av1") {
+    if (useHLS && o.codec === "av1") {
         useHLS = false;
     }
 
@@ -188,8 +188,8 @@ export default async function (o) {
                 !useHLS
                 && innertubeClient === "IOS"
                 && (
-                    (quality > 1080 && o.format !== "h264")
-                    || (quality > 1080 && o.format !== "vp9")
+                    (quality > 1080 && o.codec !== "h264")
+                    || (quality > 1080 && o.codec !== "vp9")
                 )
             )
         );
@@ -301,7 +301,7 @@ export default async function (o) {
     }
 
     let video, audio, subtitles, dubbedLanguage,
-        codec = o.format || "h264", itag = o.itag;
+        codec = o.codec || "h264", itag = o.itag;
 
     if (useHLS) {
         const variants = await getHlsVariants(
@@ -545,7 +545,7 @@ export default async function (o) {
         if (useHLS) {
             resolution = normalizeQuality(video.resolution);
             filenameAttributes.resolution = `${video.resolution.width}x${video.resolution.height}`;
-            filenameAttributes.extension = hlsCodecList[codec].container;
+            filenameAttributes.extension = o.container === "auto" ? hlsCodecList[codec].container : o.container;
 
             video = video.uri;
             audio = audio.uri;
@@ -556,7 +556,7 @@ export default async function (o) {
             });
 
             filenameAttributes.resolution = `${video.width}x${video.height}`;
-            filenameAttributes.extension = codecList[codec].container;
+            filenameAttributes.extension = o.container === "auto" ? codecList[codec].container : o.container;
 
             if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
                 video = video.decipher(innertube.session.player);
