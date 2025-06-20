@@ -52,7 +52,8 @@ export const CobaltFileMetadataKeys = [
     'artist',
     'album_artist',
     'track',
-    'date'
+    'date',
+    'sublanguage',
 ];
 
 export type CobaltFileMetadata = Record<
