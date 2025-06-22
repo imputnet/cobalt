@@ -242,7 +242,8 @@ export default function({
         defaultParams.filename += `.${audioFormat}`;
     }
 
-    if ((alwaysProxy || localProcessing === "forced") && responseType === "redirect") {
+    // alwaysProxy is set to true in match.js if localProcessing is forced
+    if (alwaysProxy && responseType === "redirect") {
         responseType = "tunnel";
         params.type = "proxy";
     }

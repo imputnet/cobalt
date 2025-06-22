@@ -328,7 +328,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
             convertGif: params.convertGif,
             requestIP,
             audioBitrate: params.audioBitrate,
-            alwaysProxy: params.alwaysProxy,
+            alwaysProxy: params.alwaysProxy || localProcessing === "forced",
             localProcessing,
         })
     } catch {
