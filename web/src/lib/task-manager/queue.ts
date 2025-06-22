@@ -8,14 +8,13 @@ import { uuid } from "$lib/util";
 
 import type { CobaltQueueItem } from "$lib/types/queue";
 import type { CobaltCurrentTasks } from "$lib/types/task-manager";
-import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
+import { resultFileTypes, type CobaltPipelineItem, type CobaltPipelineResultFileType } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
 export const getMediaType = (type: string) => {
-    const kind = type.split('/')[0];
+    const kind = type.split('/')[0] as CobaltPipelineResultFileType;
 
-    // can't use .includes() here for some reason
-    if (kind === "video" || kind === "audio" || kind === "image") {
+    if (resultFileTypes.includes(kind)) {
         return kind;
     }
 }
@@ -53,14 +52,6 @@ export const createRemuxPipeline = (file: File) => {
 
         openQueuePopover();
     }
-}
-
-const mediaIcons: { [key: string]: CobaltPipelineResultFileType } = {
-    merge: "video",
-    mute: "video",
-    audio: "audio",
-    gif: "image",
-    remux: "video"
 }
 
 const makeRemuxArgs = (info: CobaltLocalProcessingResponse) => {
@@ -211,7 +202,7 @@ export const createSavePipeline = (
         originalRequest: request,
         filename: info.output.filename,
         mimeType: info.output.type,
-        mediaType: mediaIcons[info.type],
+        mediaType: getMediaType(info.output.type) || "file",
     });
 
     openQueuePopover();

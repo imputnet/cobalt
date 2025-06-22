@@ -21,11 +21,13 @@
     import IconDownload from "@tabler/icons-svelte/IconDownload.svelte";
     import IconExclamationCircle from "@tabler/icons-svelte/IconExclamationCircle.svelte";
 
+    import IconFile from "@tabler/icons-svelte/IconFile.svelte";
     import IconMovie from "@tabler/icons-svelte/IconMovie.svelte";
     import IconMusic from "@tabler/icons-svelte/IconMusic.svelte";
     import IconPhoto from "@tabler/icons-svelte/IconPhoto.svelte";
 
     const itemIcons = {
+        file: IconFile,
         video: IconMovie,
         audio: IconMusic,
         image: IconPhoto,
