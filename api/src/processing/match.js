@@ -309,11 +309,12 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
         }
 
         let localProcessing = params.localProcessing;
-
         const lpEnv = env.forceLocalProcessing;
+        const shouldForceLocal = lpEnv === "always" || (lpEnv === "session" && isSession);
+        const localDisabled = (!localProcessing || localProcessing === "none");
 
-        if (lpEnv === "always" || (lpEnv === "session" && isSession)) {
-            localProcessing = true;
+        if (shouldForceLocal && localDisabled) {
+            localProcessing = "preferred";
         }
 
         return matchAction({
