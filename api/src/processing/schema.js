@@ -34,6 +34,10 @@ export const apiSchema = z.object({
         ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"]
     ).default("1080"),
 
+    localProcessing: z.enum(
+        ["disabled", "preferred", "forced"]
+    ).default("disabled"),
+
     youtubeDubLang: z.string()
                      .min(2)
                      .max(8)
@@ -53,12 +57,11 @@ export const apiSchema = z.object({
     tiktokFullAudio: z.boolean().default(false),
 
     alwaysProxy: z.boolean().default(false),
-    localProcessing: z.boolean().default(false),
 
     youtubeHLS: z.boolean().default(false),
     youtubeBetterAudio: z.boolean().default(false),
 
-    // temporarily kept for backwards compatibility with cobalt 10 schema
+    // TODO: remove after backwards compatibility period
     twitterGif: z.boolean().default(false),
     tiktokH265: z.boolean().default(false),
 })
