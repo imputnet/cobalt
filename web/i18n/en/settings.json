@@ -143,9 +143,11 @@
     "advanced.settings_data": "settings data",
     "advanced.local_storage": "local storage",
 
-    "local.saving": "media processing",
-    "local.saving.title": "download & process media locally",
-    "local.saving.description": "when downloading media, remuxing and transcoding will be done on-device instead of the cloud. you'll see detailed progress in the processing queue. processing instances may enforce this feature to save resources.\n\nexclusive on-device features are not affected by this toggle, they always run locally.",
+    "local.saving": "local media processing",
+    "local.saving.description": "when downloading media, remuxing and transcoding will be done on-device instead of the cloud. you'll see detailed progress in the processing queue.\n\ndisabled: local processing will not be used. processing instances can enforce local processing, so this option may not have effect.\npreferred: media that requires extra processing will be downloaded through the processing queue, but the rest of media will be downloaded by your browser's download manager.\nforced: all media will always be proxied and downloaded through the processing queue.\n\nexclusive on-device features are not affected by this setting, they always run locally.",
+    "local.saving.disabled": "disabled",
+    "local.saving.preferred": "preferred",
+    "local.saving.forced": "forced",
 
     "local.webcodecs": "webcodecs",
     "local.webcodecs.title": "use webcodecs for on-device processing",
