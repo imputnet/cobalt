@@ -20,7 +20,7 @@ export default function({
     requestIP,
     audioBitrate,
     alwaysProxy,
-    localProcessing
+    localProcessing,
 }) {
     let action,
         responseType = "tunnel",
@@ -242,15 +242,20 @@ export default function({
         defaultParams.filename += `.${audioFormat}`;
     }
 
-    if (alwaysProxy && responseType === "redirect") {
+    if ((alwaysProxy || localProcessing === "forced") && responseType === "redirect") {
         responseType = "tunnel";
         params.type = "proxy";
     }
 
     // TODO: add support for HLS
     // (very painful)
-    if (localProcessing && !params.isHLS && extraProcessingTypes.includes(params.type)) {
-        responseType = "local-processing";
+    if (!params.isHLS) {
+        const isPreferredWithExtra =
+            localProcessing === "preferred" && extraProcessingTypes.includes(params.type);
+
+        if (localProcessing === "forced" || isPreferredWithExtra) {
+            responseType = "local-processing";
+        }
     }
 
     // extractors usually return ISO 639-1 language codes,
