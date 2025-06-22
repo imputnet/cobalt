@@ -60,9 +60,5 @@ export const apiSchema = z.object({
 
     youtubeHLS: z.boolean().default(false),
     youtubeBetterAudio: z.boolean().default(false),
-
-    // TODO: remove after backwards compatibility period
-    twitterGif: z.boolean().default(false),
-    tiktokH265: z.boolean().default(false),
 })
 .strict();
