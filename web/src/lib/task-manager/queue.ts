@@ -156,43 +156,45 @@ export const createSavePipeline = (
         });
     }
 
-    let ffargs: string[];
-    let workerType: 'encode' | 'remux';
+    if (info.type !== "proxy") {
+        let ffargs: string[];
+        let workerType: 'encode' | 'remux';
 
-    if (["merge", "mute", "remux"].includes(info.type)) {
-        workerType = "remux";
-        ffargs = makeRemuxArgs(info);
-    } else if (info.type === "audio") {
-        const args = makeAudioArgs(info);
+        if (["merge", "mute", "remux"].includes(info.type)) {
+            workerType = "remux";
+            ffargs = makeRemuxArgs(info);
+        } else if (info.type === "audio") {
+            const args = makeAudioArgs(info);
 
-        if (!args) {
+            if (!args) {
+                return showError("pipeline.missing_response_data");
+            }
+
+            workerType = "encode";
+            ffargs = args;
+        } else if (info.type === "gif") {
+            workerType = "encode";
+            ffargs = makeGifArgs();
+        } else {
+            console.error("unknown work type: " + info.type);
             return showError("pipeline.missing_response_data");
         }
 
-        workerType = "encode";
-        ffargs = args;
-    } else if (info.type === "gif") {
-        workerType = "encode";
-        ffargs = makeGifArgs();
-    } else {
-        console.error("unknown work type: " + info.type);
-        return showError("pipeline.missing_response_data");
-    }
-
-    pipeline.push({
-        worker: workerType,
-        workerId: uuid(),
-        parentId,
-        dependsOn: pipeline.map(w => w.workerId),
-        workerArgs: {
-            files: [],
-            ffargs,
-            output: {
-                type: info.output.type,
-                format: info.output.filename.split(".").pop(),
+        pipeline.push({
+            worker: workerType,
+            workerId: uuid(),
+            parentId,
+            dependsOn: pipeline.map(w => w.workerId),
+            workerArgs: {
+                files: [],
+                ffargs,
+                output: {
+                    type: info.output.type,
+                    format: info.output.filename.split(".").pop(),
+                },
             },
-        },
-    });
+        });
+    }
 
     addItem({
         id: parentId,
