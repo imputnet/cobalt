@@ -114,6 +114,11 @@ export function createResponse(responseType, responseData) {
 }
 
 export function normalizeRequest(request) {
+    // TODO: remove after backwards compatibility period
+    if ("localProcessing" in request && typeof request.localProcessing === "boolean") {
+        request.localProcessing = request.localProcessing ? "preferred" : "disabled";
+    }
+
     return apiSchema.safeParseAsync(request).catch(() => (
         { success: false }
     ));
