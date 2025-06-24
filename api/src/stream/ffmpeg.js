@@ -1,12 +1,11 @@
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
-import { Agent, request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
 import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
-import { getHeaders, closeRequest, closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
+import { closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
 
 const metadataTags = [
     "album",
@@ -53,44 +52,6 @@ const getCommand = (args) => {
         return ['nice', ['-n', env.processingPriority.toString(), ffmpeg, ...args]]
     }
     return [ffmpeg, args]
-}
-
-const defaultAgent = new Agent();
-
-const proxy = async (streamInfo, res) => {
-    const abortController = new AbortController();
-    const shutdown = () => (
-        closeRequest(abortController),
-        closeResponse(res),
-        destroyInternalStream(streamInfo.urls)
-    );
-
-    try {
-        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-        res.setHeader('Content-disposition', contentDisposition(streamInfo.filename));
-
-        const { body: stream, headers, statusCode } = await request(streamInfo.urls, {
-            headers: {
-                ...getHeaders(streamInfo.service),
-                Range: streamInfo.range
-            },
-            signal: abortController.signal,
-            maxRedirections: 16,
-            dispatcher: defaultAgent,
-        });
-
-        res.status(statusCode);
-
-        for (const headerName of ['accept-ranges', 'content-type', 'content-length']) {
-            if (headers[headerName]) {
-                res.setHeader(headerName, headers[headerName]);
-            }
-        }
-
-        pipe(stream, res, shutdown);
-    } catch {
-        shutdown();
-    }
 }
 
 const render = async (res, streamInfo, ffargs, multiplier) => {
@@ -245,7 +206,6 @@ const convertGif = async (streamInfo, res) => {
 }
 
 export default {
-    proxy,
     remux,
     convertAudio,
     convertGif,
