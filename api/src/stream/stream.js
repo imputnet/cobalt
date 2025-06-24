@@ -13,8 +13,6 @@ export default async function(res, streamInfo) {
                 return await internalStream(streamInfo.data, res);
 
             case "merge":
-                return await stream.merge(streamInfo, res);
-
             case "remux":
             case "mute":
                 return await stream.remux(streamInfo, res);
