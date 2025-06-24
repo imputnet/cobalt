@@ -1,0 +1,37 @@
+{
+    "banner.title": "Unterstütze ein sicheres\nund offenes Internet",
+    "banner.subtitle": "spende an imput oder teile die\nfreude an cobalt mit einem freund",
+
+    "body.motivation": "cobalt hilft produzenten, pädagogen, videomachern und vielen anderen dabei, das zu tun, was sie lieben. es ist eine andere art von service, der mit liebe gemacht wird, nicht für profit.",
+    "body.no_bullshit": "wir glauben, dass das internet nicht beängstigend sein muss, weshalb cobalt niemals werbung oder andere schädliche inhalte haben wird. es ist ein versprechen, zu dem wir fest stehen. alles, was wir tun, ist mit datenschutz, zugänglichkeit und benutzerfreundlichkeit im sinn gebaut, wodurch cobalt für jeden verfügbar ist.",
+    "body.keep_going": "wenn du cobalt nützlich gefunden hast, erwäge bitte, unsere arbeit zu unterstützen! du kannst uns helfen, indem du eine spende machst oder cobalt mit einem freund teilst. jede spende wird sehr geschätzt und hilft uns dabei, weiter an cobalt und anderen projekten zu arbeiten.",
+
+    "card.once": "einmalige spende",
+    "card.recurring": "regelmäßige spende",
+    "card.custom": "benutzerdefinierter betrag (ab $2)",
+
+    "card.processor": "über {{value}}",
+
+    "card.option.5": "tasse kaffee",
+    "card.option.10": "große pizza",
+    "card.option.15": "vollständiges mittagessen",
+    "card.option.30": "mittagessen für zwei",
+    "card.option.50": "10kg katzenfutter",
+    "card.option.100": "ein jahr domains",
+    "card.option.200": "heißluftfritteuse",
+    "card.option.500": "schicker bürostuhl",
+    "card.option.1599": "base macbook pro",
+    "card.option.4900": "10.000 äpfel",
+    "card.option.7398": "maxed out macbook pro",
+    "card.option.8629": "ein kleines grundstück",
+    "card.option.9433": "luxus whirlpool",
+
+    "card.custom.submit": "benutzerdefinierten betrag spenden",
+
+    "share.title": "teile cobalt mit einem freund",
+
+    "alternative.title": "alternative spendenmöglichkeiten",
+
+    "alt.copy": "{{ value }}. crypto wallet adresse. drücken zum kopieren.",
+    "alt.open": "{{ value }}. drücken zum öffnen."
+}

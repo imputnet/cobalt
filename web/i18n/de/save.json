@@ -1,0 +1,27 @@
+{
+    "paste": "einfügen",
+    "paste.long": "einfügen und herunterladen",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "stumm",
+    "input.placeholder": "link hier einfügen",
+    "terms.note.agreement": "durch fortfahren stimmst du den",
+    "terms.note.link": "nutzungsbedingungen und ethik zu",
+    "services.title": "unterstützte dienste",
+    "services.title_show": "unterstützte dienste anzeigen",
+    "services.title_hide": "unterstützte dienste ausblenden",
+    "services.disclaimer": "cobalt ist nicht mit einem der oben aufgeführten dienste verbunden.",
+
+    "tutorial.title": "wie speichere ich auf ios?",
+    "tutorial.intro": "um medien bequem auf ios zu speichern, musst du einen begleitenden siri-shortcut aus dem teilmenü verwenden.",
+    "tutorial.step.1": "begleitende siri-shortcuts hinzufügen:",
+    "tutorial.step.2": "drücke den \"teilen\"-button in cobalts speicher-dialog.",
+    "tutorial.step.3": "wähle den entsprechenden shortcut im teilmenü aus.",
+    "tutorial.outro": "diese shortcuts funktionieren nur aus der cobalt-app, das teilen von links aus anderen apps funktioniert nicht.",
+    "tutorial.shortcut.photos": "zu fotos",
+    "tutorial.shortcut.files": "zu dateien",
+
+    "label.community_instance": "community-instanz",
+
+    "tooltip.captcha": "cloudflare turnstile prüft, ob du kein bot bist, bitte warten!"
+}

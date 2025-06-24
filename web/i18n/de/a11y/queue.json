@@ -1,0 +1,5 @@
+{
+    "status.default": "verarbeitungswarteschlange",
+    "status.completed": "verarbeitungswarteschlange. alle aufgaben sind abgeschlossen.",
+    "status.ongoing": "verarbeitungswarteschlange. laufende aufgaben."
+}
