@@ -128,7 +128,7 @@ export default async function ({ ownerId, videoId, accessKey, quality, subtitleL
     let subtitles;
     if (subtitleLang && video.subtitles?.length) {
         const subtitle = video.subtitles.find(
-            s => !s.is_auto && s.lang.startsWith(subtitleLang)
+            s => s.title.endsWith(".vtt") && s.lang.startsWith(subtitleLang)
         );
         if (subtitle) {
             subtitles = subtitle.url;
