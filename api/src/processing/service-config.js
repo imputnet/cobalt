@@ -186,12 +186,13 @@ export const services = {
         patterns: [
             "video:ownerId_:videoId",
             "clip:ownerId_:videoId",
-            "clips:duplicate?z=clip:ownerId_:videoId",
-            "videos:duplicate?z=video:ownerId_:videoId",
             "video:ownerId_:videoId_:accessKey",
             "clip:ownerId_:videoId_:accessKey",
-            "clips:duplicate?z=clip:ownerId_:videoId_:accessKey",
-            "videos:duplicate?z=video:ownerId_:videoId_:accessKey"
+
+            // links with a duplicate author id and/or zipper query param
+            "clips:duplicateId",
+            "videos:duplicateId",
+            "search/video"
         ],
         subdomains: ["m"],
         altDomains: ["vkvideo.ru", "vk.ru"],
