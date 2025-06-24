@@ -29,7 +29,7 @@ const convertMetadataToFFmpeg = (metadata) => {
                 args.push('-metadata:s:s:0', `language=${value}`);
                 continue;
             }
-            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, "")}`); // skipcq: JS-0004
+            args.push('-metadata', `${name}=${value.replace(/[\u0000-\u0009]/g, '')}`); // skipcq: JS-0004
         } else {
             throw `${name} metadata tag is not supported.`;
         }
@@ -116,17 +116,14 @@ const remux = async (streamInfo, res) => {
             '-map', '0:v',
             '-map', '1:a',
             '-c:v', 'copy',
-            '-c:a', 'copy'
         );
     } else {
         args.push('-c:v', 'copy');
-
-        if (streamInfo.type === 'mute') {
-            args.push('-an');
-        } else {
-            args.push('-c:a', 'copy');
-        }
     }
+
+    args.push(
+        ...(streamInfo.type === 'mute' ? ['-an'] : ['-c:a', 'copy'])
+    );
 
     if (format === 'mp4') {
         args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
@@ -175,7 +172,7 @@ const convertAudio = async (streamInfo, res) => {
     args.push(
         '-f',
         streamInfo.audioFormat === 'm4a' ? 'ipod' : streamInfo.audioFormat,
-        'pipe:3'
+        'pipe:3',
     );
 
     await render(
@@ -194,7 +191,7 @@ const convertGif = async (streamInfo, res) => {
         'scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse',
         '-loop', '0',
 
-        '-f', "gif", 'pipe:3',
+        '-f', 'gif', 'pipe:3',
     ];
 
     await render(
