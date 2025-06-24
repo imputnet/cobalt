@@ -92,7 +92,8 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     ownerId: patternMatch.ownerId,
                     videoId: patternMatch.videoId,
                     accessKey: patternMatch.accessKey,
-                    quality: params.videoQuality
+                    quality: params.videoQuality,
+                    subtitleLang,
                 });
                 break;
 
