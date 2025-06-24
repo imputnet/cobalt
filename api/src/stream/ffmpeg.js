@@ -118,6 +118,8 @@ const remux = async (streamInfo, res) => {
             '-c:v', 'copy',
         );
     } else {
+        args.push('-map', '0:v:0');
+        args.push('-map', '0:a:0');
         args.push('-c:v', 'copy');
     }
 
