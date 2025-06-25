@@ -84,8 +84,8 @@ if (browser) {
         haptics: modernIOS,
 
         // enable local processing by default on
-        // desktop, ios 18+, and firefox on android
-        defaultLocalProcessing: !device.is.mobile || modernIOS ||
+        // desktop, ios, and firefox on android
+        defaultLocalProcessing: !device.is.mobile || iOS ||
                                 (device.is.android && !device.browser.chrome),
     };
 
