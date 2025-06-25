@@ -64,12 +64,6 @@ const render = async (res, streamInfo, ffargs, estimateMultiplier) => {
     );
 
     try {
-        // if the streamInfo.urls is an array but doesn't have 2 urls,
-        // then something went wrong
-        if (urls.length !== 2) {
-            return shutdown();
-        }
-
         const args = [
             '-loglevel', '-8',
             ...ffargs,
@@ -106,6 +100,11 @@ const remux = async (streamInfo, res) => {
     const format = streamInfo.filename.split('.').pop();
     const urls = Array.isArray(streamInfo.urls) ? streamInfo.urls : [streamInfo.urls];
     const args = urls.flatMap(url => ['-i', url]);
+
+    // if the stream type is merge, we expect two URLs
+    if (streamInfo.type === 'merge' && urls.length !== 2) {
+        return closeResponse(res);
+    }
 
     if (streamInfo.subtitles) {
         args.push(
