@@ -65,8 +65,21 @@ export default async function(obj) {
         artist: play.author.name.trim(),
     }
 
+    let subtitles;
+    if (obj.subtitleLang && play.captions?.length) {
+        const subtitle = play.captions.find(
+            s => ["webvtt", "srt"].includes(s.format) && s.code.startsWith(obj.subtitleLang)
+        );
+
+        if (subtitle) {
+            subtitles = subtitle.file;
+            fileMetadata.sublanguage = obj.subtitleLang;
+        }
+    }
+
     return {
         urls: matchingQuality.uri,
+        subtitles,
         isHLS: true,
         filenameAttributes: {
             service: "rutube",
