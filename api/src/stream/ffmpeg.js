@@ -136,7 +136,7 @@ const remux = async (streamInfo, res) => {
         args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
     }
 
-    if (streamInfo.type !== 'mute' && streamInfo.isHLS && hlsExceptions.includes(streamInfo.service)) {
+    if (streamInfo.type !== 'mute' && streamInfo.isHLS && hlsExceptions.has(streamInfo.service)) {
         if (streamInfo.service === 'youtube' && format === 'webm') {
             args.push('-c:a', 'libopus');
         } else {

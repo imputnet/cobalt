@@ -194,7 +194,7 @@ export default function({
             break;
 
         case "audio":
-            if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
+            if (audioIgnore.has(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
                     code: "error.api.service.audio_not_supported"
                 })
