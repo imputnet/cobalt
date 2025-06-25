@@ -7,7 +7,7 @@ import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
 import { closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
 
-const metadataTags = [
+const metadataTags = new Set([
     "album",
     "composer",
     "genre",
@@ -18,13 +18,13 @@ const metadataTags = [
     "track",
     "date",
     "sublanguage"
-];
+]);
 
 const convertMetadataToFFmpeg = (metadata) => {
     const args = [];
 
     for (const [ name, value ] of Object.entries(metadata)) {
-        if (metadataTags.includes(name)) {
+        if (metadataTags.has(name)) {
             if (name === "sublanguage") {
                 args.push('-metadata:s:s:0', `language=${value}`);
                 continue;
@@ -54,7 +54,7 @@ const getCommand = (args) => {
     return [ffmpeg, args]
 }
 
-const render = async (res, streamInfo, ffargs, multiplier) => {
+const render = async (res, streamInfo, ffargs, estimateMultiplier) => {
     let process;
     const urls = Array.isArray(streamInfo.urls) ? streamInfo.urls : [streamInfo.urls];
     const shutdown = () => (
@@ -66,7 +66,7 @@ const render = async (res, streamInfo, ffargs, multiplier) => {
     try {
         // if the streamInfo.urls is an array but doesn't have 2 urls,
         // then something went wrong
-        if (Array.isArray(streamInfo.urls) && streamInfo.urls.length !== 2) {
+        if (urls.length !== 2) {
             return shutdown();
         }
 
@@ -87,7 +87,11 @@ const render = async (res, streamInfo, ffargs, multiplier) => {
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
-        res.setHeader('Estimated-Content-Length', await estimateTunnelLength(streamInfo, multiplier));
+
+        res.setHeader(
+            'Estimated-Content-Length',
+            await estimateTunnelLength(streamInfo, estimateMultiplier)
+        );
 
         pipe(muxOutput, res, shutdown);
 
@@ -101,7 +105,7 @@ const render = async (res, streamInfo, ffargs, multiplier) => {
 const remux = async (streamInfo, res) => {
     const format = streamInfo.filename.split('.').pop();
     const urls = Array.isArray(streamInfo.urls) ? streamInfo.urls : [streamInfo.urls];
-    const args = [...urls.flatMap(url => ['-i', url])];
+    const args = urls.flatMap(url => ['-i', url]);
 
     if (streamInfo.subtitles) {
         args.push(
@@ -115,15 +119,16 @@ const remux = async (streamInfo, res) => {
         args.push(
             '-map', '0:v',
             '-map', '1:a',
-            '-c:v', 'copy',
         );
     } else {
-        args.push('-map', '0:v:0');
-        args.push('-map', '0:a:0');
-        args.push('-c:v', 'copy');
+        args.push(
+            '-map', '0:v:0',
+            '-map', '0:a:0'
+        );
     }
 
     args.push(
+        '-c:v', 'copy',
         ...(streamInfo.type === 'mute' ? ['-an'] : ['-c:a', 'copy'])
     );
 
