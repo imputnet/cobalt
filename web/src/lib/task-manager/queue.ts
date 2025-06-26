@@ -82,11 +82,27 @@ const makeAudioArgs = (info: CobaltLocalProcessingResponse) => {
         return;
     }
 
-    const ffargs = [
-        "-vn",
+    const ffargs = [];
+
+    if (info.audio.cover) {
+        ffargs.push(
+            "-map", "0",
+            "-map", "1",
+            ...(info.audio.cropCover ? [
+                "-c:v", "mjpeg",
+                "-vf", "scale=-1:800,crop=800:800",
+            ] : [
+                "-c:v", "copy",
+            ]),
+        );
+    } else {
+        ffargs.push("-vn");
+    }
+
+    ffargs.push(
         ...(info.audio.copy ? ["-c:a", "copy"] : ["-b:a", `${info.audio.bitrate}k`]),
         ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
-    ];
+    );
 
     if (info.audio.format === "mp3" && info.audio.bitrate === "8") {
         ffargs.push("-ar", "12000");

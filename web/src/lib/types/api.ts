@@ -80,6 +80,8 @@ export type CobaltLocalProcessingResponse = {
         copy: boolean,
         format: string,
         bitrate: string,
+        cover?: boolean,
+        cropCover?: boolean,
     },
 
     isHLS?: boolean,
