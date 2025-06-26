@@ -245,7 +245,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, "error.api.invalid_body");
         }
 
-        const parsed = extract(normalizedRequest.url);
+        const parsed = extract(
+            normalizedRequest.url,
+            APIKeys.getAllowedServices(req.rateLimitKey),
+        );
 
         if (!parsed) {
             return fail(res, "error.api.link.invalid");

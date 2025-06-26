@@ -199,7 +199,7 @@ export function normalizeURL(url) {
     );
 }
 
-export function extract(url) {
+export function extract(url, enabledServices = env.enabledServices) {
     if (!(url instanceof URL)) {
         url = new URL(url);
     }
@@ -210,7 +210,7 @@ export function extract(url) {
         return { error: "link.invalid" };
     }
 
-    if (!env.enabledServices.has(host)) {
+    if (!enabledServices.has(host)) {
         // show a different message when youtube is disabled on official instances
         // as it only happens when shit hits the fan
         if (new URL(env.apiURL).hostname.endsWith(".imput.net") && host === "youtube") {

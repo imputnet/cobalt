@@ -11,6 +11,7 @@ const forceLocalProcessingOptions = ["never", "session", "always"];
 const youtubeHlsOptions = ["never", "key", "always"];
 
 export const loadEnvs = (env = process.env) => {
+    const allServices = new Set(Object.keys(services));
     const disabledServices = env.DISABLED_SERVICES?.split(',') || [];
     const enabledServices = new Set(Object.keys(services).filter(e => {
         if (!disabledServices.includes(e)) {
@@ -64,6 +65,7 @@ export const loadEnvs = (env = process.env) => {
         instanceCount: (env.API_INSTANCE_COUNT && parseInt(env.API_INSTANCE_COUNT)) || 1,
         keyReloadInterval: 900,
 
+        allServices,
         enabledServices,
 
         customInnertubeClient: env.CUSTOM_INNERTUBE_CLIENT,
