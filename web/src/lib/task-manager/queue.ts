@@ -84,7 +84,7 @@ const makeAudioArgs = (info: CobaltLocalProcessingResponse) => {
 
     const ffargs = [];
 
-    if (info.audio.cover) {
+    if (info.audio.cover && info.audio.format === "mp3") {
         ffargs.push(
             "-map", "0",
             "-map", "1",
