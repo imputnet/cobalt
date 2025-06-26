@@ -90,7 +90,7 @@ const makeAudioArgs = (info: CobaltLocalProcessingResponse) => {
             "-map", "1",
             ...(info.audio.cropCover ? [
                 "-c:v", "mjpeg",
-                "-vf", "scale=-1:800,crop=800:800",
+                "-vf", "scale=-1:720,crop=720:720",
             ] : [
                 "-c:v", "copy",
             ]),
