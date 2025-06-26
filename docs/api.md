@@ -144,11 +144,13 @@ all keys in this table are optional.
 | `date`         | `string` | release date or creation date              |
 
 #### audio object
-| key       | type      | value                                      |
-|:----------|:----------|:-------------------------------------------|
-| `copy`    | `boolean` | defines whether audio codec data is copied |
-| `format`  | `string`  | output audio format                        |
-| `bitrate` | `string`  | preferred bitrate of audio format          |
+| key         | type      | value                                                      |
+|:------------|:----------|:-----------------------------------------------------------|
+| `copy`      | `boolean` | defines whether audio codec data is copied                 |
+| `format`    | `string`  | output audio format                                        |
+| `bitrate`   | `string`  | preferred bitrate of audio format                          |
+| `cover`     | `boolean` | whether tunnels include a cover art file (optional)        |
+| `cropCover` | `boolean` | whether cover art should be cropped to a square (optional) |
 
 ### picker response
 | key             | type     | value                                                                                          |
