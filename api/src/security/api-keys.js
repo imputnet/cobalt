@@ -80,10 +80,10 @@ const validateKeys = (input) => {
         }
 
         if (details.allowedServices) {
-            const isArray = Array.isArray(details.allowedServices);
-
-            if (isArray) {
-                const invalid_services = details.allowedServices.find(service => !env.allServices.has(service));
+            if (Array.isArray(details.allowedServices)) {
+                const invalid_services = details.allowedServices.some(
+                    service => !env.allServices.has(service)
+                );
                 if (invalid_services) {
                     throw "`allowedServices` in details contains an invalid service";
                 }
