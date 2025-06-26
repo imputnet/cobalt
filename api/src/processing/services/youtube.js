@@ -532,6 +532,15 @@ export default async function (o) {
             urls = audio.decipher(innertube.session.player);
         }
 
+        let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
+        const testMaxCover = await fetch(cover, { dispatcher: o.dispatcher })
+            .then(r => r.status === 200)
+            .catch(() => {});
+
+        if (!testMaxCover) {
+            cover = basicInfo.thumbnail?.[0]?.url;
+        }
+
         return {
             type: "audio",
             isAudioOnly: true,
@@ -540,7 +549,10 @@ export default async function (o) {
             fileMetadata,
             bestAudio,
             isHLS: useHLS,
-            originalRequest
+            originalRequest,
+
+            cover,
+            cropCover: basicInfo.author.endsWith("- Topic"),
         }
     }
 

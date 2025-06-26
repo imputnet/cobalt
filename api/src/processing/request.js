@@ -67,6 +67,8 @@ export function createResponse(responseType, responseData) {
                         copy: responseData?.audioCopy,
                         format: responseData?.audioFormat,
                         bitrate: responseData?.audioBitrate,
+                        cover: !!responseData?.cover || undefined,
+                        cropCover: !!responseData?.cropCover || undefined,
                     },
 
                     isHLS: responseData?.isHLS,

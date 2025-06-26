@@ -146,8 +146,14 @@ export default async function(obj) {
         copyright: json.license?.trim(),
     }
 
+    let cover;
+    if (json.artwork_url) {
+        cover = json.artwork_url.replace(/-large/, "-t1080x1080");
+    }
+
     return {
         urls: file.toString(),
+        cover,
         filenameAttributes: {
             service: "soundcloud",
             id: json.id,

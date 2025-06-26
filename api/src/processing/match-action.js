@@ -34,6 +34,8 @@ export default function({
             requestIP,
             originalRequest: r.originalRequest,
             subtitles: r.subtitles,
+            cover: r.cover,
+            cropCover: r.cropCover,
         },
         params = {};
 

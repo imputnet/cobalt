@@ -82,17 +82,19 @@ export function createProxyTunnels(info) {
         urls = [urls];
     }
 
+    const tunnelTemplate = {
+        type: "proxy",
+        headers: info?.headers,
+        requestIP: info?.requestIP,
+    }
+
     for (const url of urls) {
         proxyTunnels.push(
             createStream({
+                ...tunnelTemplate,
                 url,
-                type: "proxy",
-
                 service: info?.service,
-                headers: info?.headers,
-                requestIP: info?.requestIP,
-
-                originalRequest: info?.originalRequest
+                originalRequest: info?.originalRequest,
             })
         );
     }
@@ -100,11 +102,19 @@ export function createProxyTunnels(info) {
     if (info.subtitles) {
         proxyTunnels.push(
             createStream({
+                ...tunnelTemplate,
                 url: info.subtitles,
-                type: "proxy",
                 service: `${info?.service}-subtitles`,
-                headers: info?.headers,
-                requestIP: info?.requestIP
+            })
+        );
+    }
+
+    if (info.cover) {
+        proxyTunnels.push(
+            createStream({
+                ...tunnelTemplate,
+                url: info.cover,
+                service: `${info?.service}-cover`,
             })
         );
     }
