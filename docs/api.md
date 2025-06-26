@@ -121,11 +121,12 @@ the response will always be a JSON object containing the `status` key, which is 
 | `isHLS`      | `boolean`  | whether the output is in HLS format (optional)                |
 
 #### output object
-| key        | type     | value                                                                             |
-|:-----------|:---------|:----------------------------------------------------------------------------------|
-| `type`     | `string` | mime type of the output file                                                      |
-| `filename` | `string` | filename of the output file                                                       |
-| `metadata` | `object` | metadata associated with the file (optional, [see below](#outputmetadata-object)) |
+| key         | type      | value                                                                             |
+|:------------|:----------|:----------------------------------------------------------------------------------|
+| `type`      | `string`  | mime type of the output file                                                      |
+| `filename`  | `string`  | filename of the output file                                                       |
+| `metadata`  | `object`  | metadata associated with the file (optional, [see below](#outputmetadata-object)) |
+| `subtitles` | `boolean` | whether tunnels include a subtitle file                                           |
 
 #### output.metadata object
 all keys in this table are optional.
