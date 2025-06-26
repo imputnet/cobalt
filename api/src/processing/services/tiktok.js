@@ -24,8 +24,10 @@ export default async function(obj) {
 
         if (html.startsWith('<a href="https://')) {
             const extractedURL = html.split('<a href="')[1].split('?')[0];
-            const { patternMatch } = extract(normalizeURL(extractedURL));
-            postId = patternMatch?.postId;
+            const { host, patternMatch } = extract(normalizeURL(extractedURL));
+            if (host === "tiktok") {
+                postId = patternMatch?.postId;
+            }
         }
     }
     if (!postId) return { error: "fetch.short_link" };
