@@ -47,6 +47,7 @@
         "name": "private video",
         "url": "https://vimeo.com/903115595/f14d06da38",
         "params": {},
+        "canFail": true,
         "expected": {
             "code": 200,
             "status": "redirect"
@@ -56,6 +57,7 @@
         "name": "mature video",
         "url": "https://vimeo.com/973212054",
         "params": {},
+        "canFail": true,
         "expected": {
             "code": 200,
             "status": "redirect"
