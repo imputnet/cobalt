@@ -83,7 +83,8 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
                     index: patternMatch.index - 1,
                     toGif: !!params.convertGif,
                     alwaysProxy: params.alwaysProxy,
-                    dispatcher
+                    dispatcher,
+                    subtitleLang
                 });
                 break;
 

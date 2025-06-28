@@ -1,3 +1,4 @@
+import HLS from "hls-parser";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
@@ -192,7 +193,7 @@ const testResponse = (result) => {
     return true;
 }
 
-export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
+export default async function({ id, index, toGif, dispatcher, alwaysProxy, subtitleLang }) {
     const cookie = await getCookie('twitter');
 
     let syndication = false;
@@ -252,6 +253,30 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
         url, filename,
     });
 
+    const extractSubtitles = async (hlsUrl) => {
+        const mainHls = await fetch(hlsUrl).then(r => r.text()).catch(() => {});
+        if (!mainHls) return;
+
+        const subtitle = HLS.parse(mainHls)?.variants[0]?.subtitles?.find(
+            s => s.language.startsWith(subtitleLang)
+        );
+        if (!subtitle) return;
+
+        const subtitleUrl = new URL(subtitle.uri, hlsUrl).toString();
+        const subtitleHls = await fetch(subtitleUrl).then(r => r.text());
+        if (!subtitleHls) return;
+
+        const finalSubtitlePath = HLS.parse(subtitleHls)?.segments?.[0].uri;
+        if (!finalSubtitlePath) return;
+
+        const finalSubtitleUrl = new URL(finalSubtitlePath, hlsUrl).toString();
+
+        return {
+            url: finalSubtitleUrl,
+            language: subtitle.language,
+        };
+    }
+
     switch (media?.length) {
         case undefined:
         case 0:
@@ -259,21 +284,37 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy }) {
                 error: "fetch.empty"
             }
         case 1:
-            if (media[0].type === "photo") {
+            const mediaItem = media[0];
+            if (mediaItem.type === "photo") {
                 return {
                     type: "proxy",
                     isPhoto: true,
-                    filename: `twitter_${id}.${getFileExt(media[0].media_url_https)}`,
-                    urls: `${media[0].media_url_https}?name=4096x4096`
+                    filename: `twitter_${id}.${getFileExt(mediaItem.media_url_https)}`,
+                    urls: `${mediaItem.media_url_https}?name=4096x4096`
+                }
+            }
+
+            let subtitles;
+            let fileMetadata;
+            if (mediaItem.type === "video" && subtitleLang) {
+                const hlsVariant = mediaItem.video_info?.variants?.find(
+                    v => v.content_type === "application/x-mpegURL"
+                );
+                if (hlsVariant) {
+                    const { url, language } = await extractSubtitles(hlsVariant.url) || {};
+                    subtitles = url;
+                    if (language) fileMetadata = { sublanguage: language };
                 }
             }
 
             return {
-                type: needsFixing(media[0]) ? "remux" : "proxy",
-                urls: bestQuality(media[0].video_info.variants),
+                type: subtitles || needsFixing(mediaItem) ? "remux" : "proxy",
+                urls: bestQuality(mediaItem.video_info.variants),
                 filename: `twitter_${id}.mp4`,
                 audioFilename: `twitter_${id}_audio`,
-                isGif: media[0].type === "animated_gif"
+                isGif: mediaItem.type === "animated_gif",
+                subtitles,
+                fileMetadata,
             }
         default:
             const proxyThumb = (url, i) =>
