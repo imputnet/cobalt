@@ -44,11 +44,11 @@ const namedLanguages = (
                 name = get(t)("settings.subtitles.none");
                 break;
             default: {
-                let intlName = "unknown";
+                let intlName;
                 try {
-                    intlName = new Intl.DisplayNames([lang], { type: 'language' }).of(lang) || "unknown";
+                    intlName = new Intl.DisplayNames([lang], { type: 'language' }).of(lang);
                 } catch { /* */ };
-                name = `${intlName} (${lang})`;
+                name = `${intlName || "unknown"} (${lang})`;
                 break;
             }
         }
@@ -69,16 +69,15 @@ export const namedSubtitleLanguages = () => {
 }
 
 export const getBrowserLanguage = (): YoutubeDubLang => {
-    if (typeof navigator === 'undefined')
-        return "original";
-
-    const browserLanguage = navigator.language as YoutubeDubLang;
-    if (youtubeDubLanguages.includes(browserLanguage))
-        return browserLanguage;
-
-    const shortened = browserLanguage.split('-')[0] as YoutubeDubLang;
-    if (youtubeDubLanguages.includes(shortened))
-        return shortened;
-
+    if (typeof navigator !== 'undefined') {
+        const browserLanguage = navigator.language as YoutubeDubLang;
+        if (youtubeDubLanguages.includes(browserLanguage)) {
+            return browserLanguage;
+        }
+        const shortened = browserLanguage.split('-')[0] as YoutubeDubLang;
+        if (youtubeDubLanguages.includes(shortened)) {
+            return shortened;
+        }
+    }
     return "original";
 }
