@@ -68,17 +68,18 @@ you can read [the api schema](/api/src/processing/schema.js) directly from code 
 all keys except for `url` are optional. value options are separated by `/`.
 
 #### general
-| key                    | type      | description/value                                               | default    |
-|:-----------------------|:----------|:----------------------------------------------------------------|:-----------|
-| `url`                  | `string`  | source URL                                                      | *required* |
-| `audioBitrate`         | `string`  | `320 / 256 / 128 / 96 / 64 / 8` (kbps)                          | `128`      |
-| `audioFormat`          | `string`  | `best / mp3 / ogg / wav / opus`                                 | `mp3`      |
-| `downloadMode`         | `string`  | `auto / audio / mute`                                           | `auto`     |
-| `filenameStyle`        | `string`  | `classic / pretty / basic / nerdy`                              | `basic`    |
-| `videoQuality`         | `string`  | `max / 4320 / 2160 / 1440 / 1080 / 720 / 480 / 360 / 240 / 144` | `1080`     |
-| `disableMetadata`      | `boolean` | title, artist, and other info will not be added to the file     | `false`    |
-| `alwaysProxy`          | `boolean` | always tunnel all files, even when not necessary                | `false`    |
-| `localProcessing`      | `boolean` | remux/transcode files locally instead of the server             | `false`    |
+| key               | type      | description/value                                               | default    |
+|:------------------|:----------|:----------------------------------------------------------------|:-----------|
+| `url`             | `string`  | source URL                                                      | *required* |
+| `audioBitrate`    | `string`  | `320 / 256 / 128 / 96 / 64 / 8` (kbps)                          | `128`      |
+| `audioFormat`     | `string`  | `best / mp3 / ogg / wav / opus`                                 | `mp3`      |
+| `downloadMode`    | `string`  | `auto / audio / mute`                                           | `auto`     |
+| `filenameStyle`   | `string`  | `classic / pretty / basic / nerdy`                              | `basic`    |
+| `videoQuality`    | `string`  | `max / 4320 / 2160 / 1440 / 1080 / 720 / 480 / 360 / 240 / 144` | `1080`     |
+| `disableMetadata` | `boolean` | title, artist, and other info will not be added to the file     | `false`    |
+| `alwaysProxy`     | `boolean` | always tunnel all files, even when not necessary                | `false`    |
+| `localProcessing` | `string`  | `disabled / preferred / forced`                                 | `disabled` |
+| `subtitleLang`    | `string`  | any valid language code, such as: `en` or `zh-CN`               | *none*     |
 
 #### service-specific options
 | key                     | type      | description/value                                 | default |
@@ -142,6 +143,7 @@ all keys in this table are optional.
 | `album_artist` | `string` | album's artist or creator name             |
 | `track`        | `string` | track number or position in album          |
 | `date`         | `string` | release date or creation date              |
+| `sublanguage`  | `string` | subtitle language code (ISO 639-2)         |
 
 #### audio object
 | key         | type      | value                                                      |
