@@ -43,7 +43,7 @@ export const testers = {
         pattern.id?.length <= 6,
 
     "tiktok": pattern =>
-        pattern.postId?.length <= 21 || pattern.shortLink?.length <= 13,
+        pattern.postId?.length <= 21 || pattern.shortLink?.length <= 21,
 
     "tumblr": pattern =>
         pattern.id?.length < 21
