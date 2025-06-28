@@ -10,7 +10,8 @@ const getEnv = (_key: string) => {
 }
 
 const getEnvBool = (key: string) => {
-    return getEnv(key) === "true";
+    const value = getEnv(key);
+    return value && ['1', 'true'].includes(value.toLowerCase());
 }
 
 const variables = {
