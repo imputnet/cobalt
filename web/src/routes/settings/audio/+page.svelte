@@ -11,7 +11,7 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
     import SettingsDropdown from "$components/settings/SettingsDropdown.svelte";
 
-    const displayLangs = namedYoutubeDubLanguages();
+    const displayLangs = namedYoutubeDubLanguages($t);
 </script>
 
 <SettingsCategory sectionId="format" title={$t("settings.audio.format")}>

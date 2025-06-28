@@ -12,7 +12,7 @@
     import FilenamePreview from "$components/settings/FilenamePreview.svelte";
     import SettingsDropdown from "$components/settings/SettingsDropdown.svelte";
 
-    const displayLangs = namedSubtitleLanguages();
+    const displayLangs = namedSubtitleLanguages($t);
 </script>
 
 <SettingsCategory sectionId="filename" title={$t("settings.metadata.filename")}>
