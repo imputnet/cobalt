@@ -217,7 +217,7 @@ export const services = {
             "v/:id"
         ],
         subdomains: ["music", "m"],
-    },
+    }
 }
 
 Object.values(services).forEach(service => {

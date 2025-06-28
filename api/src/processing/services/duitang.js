@@ -1,4 +1,4 @@
-import { genericUserAgent, env } from "../../config.js";
+import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js"
 
 export default async function(post) {
@@ -21,7 +21,7 @@ export default async function(post) {
         } catch { return { error: 'fetch.empty' }; }
 
         let originalUrl = json.data.photo.path.toString();
-        const image = {
+        let image = {
             // always proxy here because of headers
             type: "photo",
             url: createStream({
