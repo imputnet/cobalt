@@ -1,6 +1,6 @@
 {
     "name": "@imput/version-info",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "helper package for cobalt that provides commit info & version from package file.",
     "main": "index.js",
     "types": "index.d.ts",
