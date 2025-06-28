@@ -6,7 +6,7 @@ import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
 import { convertLanguageCode } from "../misc/language-codes.js";
 
-const extraProcessingTypes = ["merge", "remux", "mute", "audio", "gif"];
+const extraProcessingTypes = new Set(["merge", "remux", "mute", "audio", "gif"]);
 
 export default function({
     r,
@@ -254,7 +254,7 @@ export default function({
     // (very painful)
     if (!params.isHLS && responseType !== "picker") {
         const isPreferredWithExtra =
-            localProcessing === "preferred" && extraProcessingTypes.includes(params.type);
+            localProcessing === "preferred" && extraProcessingTypes.has(params.type);
 
         if (localProcessing === "forced" || isPreferredWithExtra) {
             responseType = "local-processing";

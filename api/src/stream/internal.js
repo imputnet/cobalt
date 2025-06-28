@@ -6,7 +6,7 @@ import { handleHlsPlaylist, isHlsResponse, probeInternalHLSTunnel } from "./inte
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
 
-const serviceNeedsChunks = ["youtube", "vk"];
+const serviceNeedsChunks = new Set(["youtube", "vk"]);
 
 async function* readChunks(streamInfo, size) {
     let read = 0n, chunksSinceTransplant = 0;
@@ -148,7 +148,7 @@ export function internalStream(streamInfo, res) {
         streamInfo.headers.delete('icy-metadata');
     }
 
-    if (serviceNeedsChunks.includes(streamInfo.service) && !streamInfo.isHLS) {
+    if (serviceNeedsChunks.has(streamInfo.service) && !streamInfo.isHLS) {
         return handleChunkedStream(streamInfo, res);
     }
 
