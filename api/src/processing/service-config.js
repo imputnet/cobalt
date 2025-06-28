@@ -22,6 +22,10 @@ export const services = {
     dailymotion: {
         patterns: ["video/:id"],
     },
+    duitang: {
+        patterns: [ ":type?id=:id" ],
+        subdomains: ["m"]
+    },
     facebook: {
         patterns: [
             "_shortLink/:shortLink",
@@ -213,7 +217,7 @@ export const services = {
             "v/:id"
         ],
         subdomains: ["music", "m"],
-    }
+    },
 }
 
 Object.values(services).forEach(service => {
