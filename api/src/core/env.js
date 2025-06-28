@@ -39,7 +39,12 @@ export const loadEnvs = (env = process.env) => {
         tunnelRateLimitMax: (env.TUNNEL_RATELIMIT_MAX && parseInt(env.TUNNEL_RATELIMIT_MAX)) || 40,
 
         sessionRateLimitWindow: (env.SESSION_RATELIMIT_WINDOW && parseInt(env.SESSION_RATELIMIT_WINDOW)) || 60,
-        sessionRateLimit: (env.SESSION_RATELIMIT_MAX && parseInt(env.SESSION_RATELIMIT_MAX)) || 10,
+        sessionRateLimit:
+            // backwards compatibility with SESSION_RATELIMIT
+            // till next major due to an error in docs
+            (env.SESSION_RATELIMIT_MAX && parseInt(env.SESSION_RATELIMIT_MAX))
+            || (env.SESSION_RATELIMIT && parseInt(env.SESSION_RATELIMIT))
+            || 10,
 
         durationLimit: (env.DURATION_LIMIT && parseInt(env.DURATION_LIMIT)) || 10800,
         streamLifespan: (env.TUNNEL_LIFESPAN && parseInt(env.TUNNEL_LIFESPAN)) || 90,
