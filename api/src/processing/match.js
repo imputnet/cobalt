@@ -32,7 +32,7 @@ import xiaohongshu from "./services/xiaohongshu.js";
 
 let freebind;
 
-export default async function({ host, patternMatch, params, isSession, isApiKey }) {
+export default async function({ host, patternMatch, params, authType }) {
     const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
@@ -69,7 +69,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
         let youtubeHLS = params.youtubeHLS;
         const hlsEnv = env.enableDeprecatedYoutubeHls;
 
-        if (hlsEnv === "never" || (hlsEnv === "key" && !isApiKey)) {
+        if (hlsEnv === "never" || (hlsEnv === "key" && authType !== "key")) {
             youtubeHLS = false;
         }
 
@@ -313,7 +313,7 @@ export default async function({ host, patternMatch, params, isSession, isApiKey 
 
         let localProcessing = params.localProcessing;
         const lpEnv = env.forceLocalProcessing;
-        const shouldForceLocal = lpEnv === "always" || (lpEnv === "session" && isSession);
+        const shouldForceLocal = lpEnv === "always" || (lpEnv === "session" && authType === "session");
         const localDisabled = (!localProcessing || localProcessing === "none");
 
         if (shouldForceLocal && localDisabled) {

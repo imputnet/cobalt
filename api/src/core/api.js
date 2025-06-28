@@ -156,7 +156,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, `error.api.auth.key.${error}`);
         }
 
-        req.isApiKey = true;
+        req.authType = "key";
         return next();
     });
 
@@ -185,7 +185,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             }
 
             req.rateLimitKey = hashHmac(token, 'rate');
-            req.isSession = true;
+            req.authType = "session";
         } catch {
             return fail(res, "error.api.generic");
         }
@@ -267,8 +267,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 host: parsed.host,
                 patternMatch: parsed.patternMatch,
                 params: normalizedRequest,
-                isSession: req.isSession ?? false,
-                isApiKey: req.isApiKey ?? false,
+                authType: req.authType ?? "none",
             });
 
             res.status(result.status).json(result.body);
