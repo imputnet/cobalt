@@ -134,6 +134,11 @@ function cleanURL(url) {
     }
 
     switch (host) {
+        case "duitang":
+            if (url.searchParams.get('id')) {
+                limitQuery('id');
+            }
+            break;
         case "pinterest":
             url.hostname = 'pinterest.com';
             break;
