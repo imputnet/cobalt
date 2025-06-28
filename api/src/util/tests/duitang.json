@@ -1,0 +1,37 @@
+[
+    {
+        "name": "regular album",
+        "url": "https://www.duitang.com/atlas/?id=135382417",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "single image",
+        "url": "https://www.duitang.com/blog/?id=1517805784",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "single image, mobile link",
+        "url": "https://m.duitang.com/blog/?id=1517805784",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "regular album, mobile link",
+        "url": "https://m.duitang.com/atlas/?id=135382417",
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    }
+]
