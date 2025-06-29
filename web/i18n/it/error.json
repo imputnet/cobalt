@@ -1,0 +1,6 @@
+{
+    "import.no_data": "non c'è niente da caricare nel file. sei sicuro di aver selezionato quello giusto?",
+    "import.invalid": "il tuo file non ha impostazioni di cobalt valide da importare. sei sicuro di aver selezionato quello giusto?",
+    "remux.corrupted": "non sono riuscito a leggere i metadati da questo file, potrebbe essere corrotto.",
+    "import.unknown": "non sono riuscito a caricare i dati dal file. potrebbe essere corrotto o essere in un formato sbagliato. ecco l'errore che ho ottenuto:\n\n{{ value }}"
+}

@@ -1,0 +1,5 @@
+{
+    "title.drop": "vlož soubor sem!",
+    "accept": "podporované formáty: {{ formats }}.",
+    "title": "přetáhni nebo vyber soubor"
+}

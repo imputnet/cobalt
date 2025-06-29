@@ -1,0 +1,18 @@
+{
+    "safety.custom_instance.body": "instâncias personalizadas podem potencialmente representar riscos de privacidade e segurança.\n\ninstâncias ruins podem:\n1. redirecionar você para longe do cobalt e tentar enganá-lo.\n2. registrar todas as informações sobre suas solicitações, armazená-las para sempre e usá-las para rastreá-lo.\n3. fornecer arquivos maliciosos (como vírus).\n4. forçá-lo a assistir anúncios ou fazer você pagar pelo download.\n\ndepois desse ponto, não podemos protegê-lo. esteja atento a quais instâncias usar e sempre confie em seu instinto. se algo parecer estranho, volte a esta página, redefina a instância personalizada e nos informe no github.",
+    "reset.title": "apagar todas as configurações?",
+    "reset.body": "você tem certeza que quer apagar todas as configurações? essa ação é imediata e irreversível.",
+    "picker.title": "selecione o que salvar",
+    "picker.description.desktop": "clique em um item para salvar. imagens também podem ser salvas usando o menu do botão direito.",
+    "picker.description.ios": "pressione um item para salvar com o atalho. imagens também podem ser salvas com um toque longo.",
+    "saving.title": "escolha como salvar",
+    "saving.blocked": "cobalt tentou abrir o arquivo em uma nova guia, mas seu navegador bloqueou. você pode permitir pop-ups para evitar que isso aconteça novamente.",
+    "saving.timeout": "cobalt tentou baixar o arquivo automaticamente, mas seu navegador não permitiu. você precisa escolher uma maneira para salvar manualmente.",
+    "safety.title": "notícia importante de segurança",
+    "import.body": "importar arquivos desconhecidos ou corrompidos pode alterar ou quebrar inesperadamente a funcionalidade do cobalt. importe apenas arquivos que você exportou pessoalmente e não modificou. se alguém lhe pediu para importar este arquivo, não continue.\n\nnão somos responsáveis por nenhum dano causado pela importação de arquivos de configuração desconhecidos.",
+    "api.override.title": "substituir instância de processamento",
+    "api.override.body": "{{ value }} é a instância de processamento agora. se você não confia nela, aperte em \"cancelar\".\n\nvocê pode alterar isso depois nas configurações de processamento.",
+    "processing.ongoing": "cobalt está processando mídia nesta guia. se você sair, isso será abortado. tem certeza de que deseja fazer isso?",
+    "processing.title.ongoing": "o processamento será cancelado",
+    "picker.description.phone": "pressione em um item para salvar. imagens também podem ser salvas com um toque longo."
+}
