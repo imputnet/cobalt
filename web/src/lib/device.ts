@@ -83,10 +83,8 @@ if (browser) {
         // so they're enabled only on ios 18+ for now
         haptics: modernIOS,
 
-        // enable local processing by default on
-        // desktop, ios, and firefox on android
-        defaultLocalProcessing: !device.is.mobile || iOS ||
-                                (device.is.android && !device.browser.chrome),
+        // enable local processing by default everywhere but android chrome
+        defaultLocalProcessing: !(device.is.android && device.browser.chrome),
     };
 
     device.userAgent = navigator.userAgent;
