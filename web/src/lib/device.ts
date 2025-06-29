@@ -28,6 +28,7 @@ const device = {
         directDownload: false,
         haptics: false,
         defaultLocalProcessing: false,
+        multithreading: false,
     },
     userAgent: "sveltekit server",
 }
@@ -85,6 +86,7 @@ if (browser) {
 
         // enable local processing by default everywhere but android chrome
         defaultLocalProcessing: !(device.is.android && device.browser.chrome),
+        multithreading: !iOS || (iOS && iosVersion >= 18),
     };
 
     device.userAgent = navigator.userAgent;
