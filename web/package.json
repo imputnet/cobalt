@@ -1,6 +1,6 @@
 {
     "name": "@imput/cobalt-web",
-    "version": "11.2",
+    "version": "11.2.1",
     "type": "module",
     "private": true,
     "scripts": {
