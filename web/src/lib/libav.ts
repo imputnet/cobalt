@@ -9,7 +9,7 @@ const ua = navigator.userAgent.toLowerCase();
 const iPhone = ua.includes("iphone os");
 const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
 const iOS = iPhone || iPad;
-const modernIOS = iOS && Number(ua.match(/iphone os (\d+)_/)?.[1]) >= 18;
+const modernIOS = iOS && Number(ua.match(/version\/(\d+)/)?.[1]) >= 18;
 
 export default class LibAVWrapper {
     libav: Promise<LibAVInstance> | null;

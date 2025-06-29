@@ -38,7 +38,7 @@ if (browser) {
     const iPhone = ua.includes("iphone os");
     const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
 
-    const iosVersion = Number(ua.match(/iphone os (\d+)_/)?.[1]);
+    const iosVersion = Number(ua.match(/version\/(\d+)/)?.[1]);
     const modernIOS = iPhone && iosVersion >= 18;
 
     const iOS = iPhone || iPad;
