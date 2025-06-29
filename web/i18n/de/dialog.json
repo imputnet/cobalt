@@ -1,0 +1,28 @@
+{
+    "reset_settings.title": "alle einstellungen zurücksetzen?",
+    "reset_settings.body": "bist du sicher, dass du alle einstellungen zurücksetzen möchtest? diese aktion ist sofort und unumkehrbar.",
+
+    "picker.title": "wähle aus, was gespeichert werden soll",
+    "picker.description.desktop": "klicke auf ein element, um es zu speichern. bilder können auch über das rechtsklick-menü gespeichert werden.",
+    "picker.description.phone": "drücke auf ein element, um es zu speichern. bilder können auch mit einem langen drück gespeichert werden.",
+    "picker.description.ios": "drücke auf ein element, um es mit einer tastenkombination zu speichern. bilder können auch mit einem langen drück gespeichert werden.",
+
+    "saving.title": "wähle, wie gespeichert werden soll",
+    "saving.blocked": "cobalt hat versucht, die datei in einem neuen tab zu öffnen, aber dein browser hat es blockiert. du kannst pop-ups für cobalt erlauben, um dies das nächste mal zu verhindern.",
+    "saving.timeout": "cobalt hat versucht, die datei automatisch zu speichern, aber dein browser hat es gestoppt. du musst eine bevorzugte methode manuell auswählen.",
+
+    "safety.title": "wichtiger sicherheitshinweis",
+
+    "import.body": "das importieren unbekannter oder beschädigter dateien kann cobalt-funktionalität unerwartet verändern oder beschädigen. importiere nur dateien, die du persönlich exportiert und nicht verändert hast. wenn dich jemand gebeten hat, diese datei zu importieren - tu es nicht.\n\nwir sind nicht verantwortlich für schäden, die durch das importieren unbekannter einstellungsdateien entstehen.",
+
+    "api.override.title": "verarbeitungsinstanz überschreiben",
+    "api.override.body": "{{ value }} ist jetzt die verarbeitungsinstanz. wenn du ihr nicht vertraust, drücke \"abbrechen\" und sie wird ignoriert.\n\ndu kannst deine wahl später in den verarbeitungseinstellungen ändern.",
+
+    "safety.custom_instance.body": "benutzerdefinierte instanzen können potenziell datenschutz- und sicherheitsrisiken darstellen.\n\nschlechte instanzen können:\n1. dich von cobalt weg umleiten und versuchen, dich zu betrügen.\n2. alle informationen über deine anfragen protokollieren, für immer speichern und verwenden, um dich zu verfolgen.\n3. dir schädliche dateien servieren (wie malware).\n4. dich zwingen, werbung zu schauen, oder dich zum bezahlen für downloads zwingen.\n\nab diesem punkt können wir dich nicht mehr schützen. sei achtsam bei der auswahl der instanzen und vertraue immer deinem bauchgefühl. wenn sich etwas komisch anfühlt, komm zurück zu dieser seite, setze die benutzerdefinierte instanz zurück und melde sie uns auf github.",
+
+    "processing.ongoing": "cobalt verarbeitet derzeit medien in diesem tab. wegzugehen wird es abbrechen. bist du sicher, dass du das tun möchtest?",
+    "processing.title.ongoing": "verarbeitung wird abgebrochen",
+
+    "clear_cache.title": "alle cache löschen?",
+    "clear_cache.body": "alle dateien aus der verarbeitungswarteschlange werden entfernt und on-device-funktionen werden länger zum laden brauchen. diese aktion ist sofort und unumkehrbar."
+}
