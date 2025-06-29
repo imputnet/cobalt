@@ -16,7 +16,8 @@ export const runFFmpegWorker = async (
     args: string[],
     output: FileInfo,
     variant: 'remux' | 'encode',
-    resetStartCounter = false
+    yesthreads: boolean,
+    resetStartCounter = false,
 ) => {
     const worker = new FFmpegWorker();
 
@@ -34,7 +35,11 @@ export const runFFmpegWorker = async (
             startAttempts++;
             if (startAttempts <= 10) {
                 killWorker(worker, unsubscribe, startCheck);
-                return await runFFmpegWorker(workerId, parentId, files, args, output, variant);
+                return await runFFmpegWorker(
+                    workerId, parentId,
+                    files, args, output,
+                    variant, yesthreads
+                );
             } else {
                 killWorker(worker, unsubscribe, startCheck);
                 return itemError(parentId, workerId, "queue.worker_didnt_start");
@@ -54,6 +59,7 @@ export const runFFmpegWorker = async (
             files,
             args,
             output,
+            yesthreads,
         }
     });
 

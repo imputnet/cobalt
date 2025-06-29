@@ -1,7 +1,13 @@
 import LibAVWrapper from "$lib/libav";
 import type { FileInfo } from "$lib/types/libav";
 
-const ffmpeg = async (variant: string, files: File[], args: string[], output: FileInfo) => {
+const ffmpeg = async (
+    variant: string,
+    files: File[],
+    args: string[],
+    output: FileInfo,
+    yesthreads: boolean = false,
+) => {
     if (!(files && output && args)) {
         self.postMessage({
             cobaltFFmpegWorker: {
@@ -25,7 +31,7 @@ const ffmpeg = async (variant: string, files: File[], args: string[], output: Fi
         })
     });
 
-    ff.init({ variant });
+    ff.init({ variant, yesthreads });
 
     const error = (code: string) => {
         self.postMessage({
@@ -122,6 +128,6 @@ const ffmpeg = async (variant: string, files: File[], args: string[], output: Fi
 self.onmessage = async (event: MessageEvent) => {
     const ed = event.data.cobaltFFmpegWorker;
     if (ed?.variant && ed?.files && ed?.args && ed?.output) {
-        await ffmpeg(ed.variant, ed.files, ed.args, ed.output);
+        await ffmpeg(ed.variant, ed.files, ed.args, ed.output, ed.yesthreads);
     }
 }

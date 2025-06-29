@@ -86,7 +86,7 @@ if (browser) {
 
         // enable local processing by default everywhere but android chrome
         defaultLocalProcessing: !(device.is.android && device.browser.chrome),
-        multithreading: !iOS || (iOS && iosVersion >= 18),
+        multithreading: !iOS || iosVersion >= 18,
     };
 
     device.userAgent = navigator.userAgent;
