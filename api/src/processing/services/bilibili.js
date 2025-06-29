@@ -17,8 +17,8 @@ function extractBestQuality(dashData) {
     return [ bestVideo, bestAudio ];
 }
 
-async function com_download(id) {
-    let html = await fetch(`https://bilibili.com/video/${id}`, {
+async function com_download(id, episode = 1) {
+    const html = await fetch(`https://bilibili.com/video/${id}?p=${episode}`, {
         headers: {
             "user-agent": genericUserAgent
         }
@@ -87,14 +87,14 @@ async function tv_download(id) {
     };
 }
 
-export default async function({ comId, tvId, comShortLink }) {
+export default async function ({ comId, tvId, comShortLink, episode }) {
     if (comShortLink) {
         const patternMatch = await resolveRedirectingURL(`https://b23.tv/${comShortLink}`);
         comId = patternMatch?.comId;
     }
 
     if (comId) {
-        return com_download(comId);
+        return com_download(comId, episode);
     } else if (tvId) {
         return tv_download(tvId);
     }
