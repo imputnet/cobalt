@@ -7,7 +7,7 @@ FROM node:20-alpine AS builder
 
 WORKDIR /repo
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm 
 
 # Copy monorepo into container
 COPY . .
