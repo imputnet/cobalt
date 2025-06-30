@@ -480,7 +480,7 @@ export default async function (o) {
 
     const fileMetadata = {
         title: basicInfo.title.trim(),
-        artist: basicInfo.author.replace("- Topic", "").trim()
+        artist: basicInfo.author.replace("- Topic", "").trim(),
     }
 
     if (basicInfo?.short_description?.startsWith("Provided to YouTube by")) {
@@ -597,7 +597,8 @@ export default async function (o) {
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,
-            originalRequest
+            originalRequest,
+            duration: basicInfo.duration,
         }
     }
 

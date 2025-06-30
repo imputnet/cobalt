@@ -276,6 +276,49 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
     });
 
+    app.post('/metadata', apiLimiter);
+    app.post('/metadata', async (req, res) => {
+        const request = req.body;
+        if (!request.url) {
+            return fail(res, "error.api.link.missing");
+        }
+        const { success, data: normalizedRequest } = await normalizeRequest(request);
+        if (!success) {
+            return fail(res, "error.api.invalid_body");
+        }
+        const parsed = extract(
+            normalizedRequest.url,
+            APIKeys.getAllowedServices(req.rateLimitKey),
+        );
+        if (!parsed) {
+            return fail(res, "error.api.link.invalid");
+        }
+        if ("error" in parsed) {
+            let context;
+            if (parsed?.context) {
+                context = parsed.context;
+            }
+            return fail(res, `error.api.${parsed.error}`, context);
+        }
+
+        if (parsed.host === "youtube") {
+            const youtube = (await import("../processing/services/youtube.js")).default;
+            const info = await youtube({ id: parsed.patternMatch.id });
+            if (info.error) {
+                return fail(res, info.error);
+            }
+            const meta = {
+                title: info.fileMetadata?.title,
+                duration: info.duration || null,
+                thumbnail: info.cover || null,
+                author: info.fileMetadata?.artist || null,
+            };
+            return res.json({ status: "success", metadata: meta });
+        } else {
+            return res.status(501).json({ status: "error", code: "not_implemented", message: "Metadata endpoint is only implemented for YouTube." });
+        }
+    });
+
     app.use('/tunnel', cors({
         methods: ['GET'],
         exposedHeaders: [
