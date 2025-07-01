@@ -75,7 +75,7 @@
         </div>
         <div class="item-text">
             <div class="preview">{`${videoFilePreview}.${youtubeVideoExt}`}</div>
-            <div class="subtext description">video file preview</div>
+            <div class="subtext description">{$t("settings.filename.preview_desc.video")}</div>
         </div>
     </div>
     <div id="filename-preview-audio" class="filename-preview-item">
@@ -84,7 +84,7 @@
         </div>
         <div class="item-text">
             <div class="preview">{`${audioFilePreview}.${audioFormat}`}</div>
-            <div class="subtext description">audio file preview</div>
+            <div class="subtext description">{$t("settings.filename.preview_desc.audio")}</div>
         </div>
     </div>
 </div>

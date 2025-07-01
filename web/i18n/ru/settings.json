@@ -80,6 +80,8 @@
     "video.youtube.hls.title": "предпочитать hls для видео и аудио",
     "metadata.filename.preview.video": "Название Видео - Автор Видео",
     "metadata.filename.preview.audio": "Название Аудио - Автор Аудио",
+    "filename.preview_desc.video": "превью видео файла",
+    "filename.preview_desc.audio": "превью аудио файла",
     "saving.description": "предпочтительный способ сохранения файла или ссылки с кобальта. если предпочитаемый метод недоступен или что-то пойдёт не так, кобальт спросит тебя как поступить.",
     "accessibility.transparency.description": "уменьшает прозрачность поверхностей и выключает эффекты размытия. также может улучшить работу интерфейса на менее мощных устройствах.",
     "accessibility.transparency.title": "уменьшить визуальную прозрачность",

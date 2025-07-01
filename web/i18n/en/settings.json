@@ -85,6 +85,8 @@
 
     "metadata.filename.preview.video": "Video Title - Video Author",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
+    "filename.preview_desc.video": "video file preview",
+    "filename.preview_desc.audio": "audio file preview",
 
     "metadata.file": "file metadata",
     "metadata.disable.title": "disable file metadata",
