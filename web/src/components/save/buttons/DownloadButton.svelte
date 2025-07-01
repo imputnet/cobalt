@@ -61,12 +61,11 @@
     on:click={() => {
         hapticSwitch();
         if (clipMode) {
-            const req: CobaltSaveRequestBody & { clipStart?: number; clipEnd?: number } = {
+            savingHandler({ request: {
                 url,
                 clipStart,
                 clipEnd,
-            };
-            savingHandler({ request: req });
+            } });
         } else {
             savingHandler({ url });
         }

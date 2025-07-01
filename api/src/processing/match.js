@@ -330,9 +330,15 @@ export default async function({ host, patternMatch, params, authType }) {
         const lpEnv = env.forceLocalProcessing;
         const shouldForceLocal = lpEnv === "always" || (lpEnv === "session" && authType === "session");
         const localDisabled = (!localProcessing || localProcessing === "none");
+        const isClip = typeof params.clipStart === 'number' && typeof params.clipEnd === 'number';
 
         if (shouldForceLocal && localDisabled) {
             localProcessing = "preferred";
+        }
+
+        if (isClip) {
+            r.clipStart = params.clipStart;
+            r.clipEnd = params.clipEnd;
         }
 
         return matchAction({

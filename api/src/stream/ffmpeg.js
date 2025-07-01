@@ -100,9 +100,7 @@ const remux = async (streamInfo, res) => {
     const format = streamInfo.filename.split('.').pop();
     const urls = Array.isArray(streamInfo.urls) ? streamInfo.urls : [streamInfo.urls];
     const isClipping = typeof streamInfo.clipStart === 'number' || typeof streamInfo.clipEnd === 'number';
-    let args = [];
-
-    args.push(...urls.flatMap(url => ['-i', url]));
+    const args = urls.flatMap(url => ['-i', url]);
 
     if (typeof streamInfo.clipStart === 'number') {
         args.push('-ss', streamInfo.clipStart.toString());
@@ -110,7 +108,8 @@ const remux = async (streamInfo, res) => {
     if (typeof streamInfo.clipEnd === 'number') {
         args.push('-to', streamInfo.clipEnd.toString());
     }
-
+    
+    // if the stream type is merge, we expect two URLs
     if (streamInfo.type === 'merge' && urls.length !== 2) {
         return closeResponse(res);
     }
@@ -171,13 +170,11 @@ const remux = async (streamInfo, res) => {
 }
 
 const convertAudio = async (streamInfo, res) => {
-    let args = [];
-
-    args.push(
+    const args = [
         '-i', streamInfo.urls,
         '-vn',
         ...(streamInfo.audioCopy ? ['-c:a', 'copy'] : ['-b:a', `${streamInfo.audioBitrate}k`]),
-    );
+    ];
 
     if (typeof streamInfo.clipStart === 'number') {
         args.push('-ss', streamInfo.clipStart.toString());
