@@ -278,44 +278,71 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
     app.post('/metadata', apiLimiter);
     app.post('/metadata', async (req, res) => {
-        const request = req.body;
-        if (!request.url) {
-            return fail(res, "error.api.link.missing");
-        }
-        const { success, data: normalizedRequest } = await normalizeRequest(request);
-        if (!success) {
-            return fail(res, "error.api.invalid_body");
-        }
-        const parsed = extract(
-            normalizedRequest.url,
-            APIKeys.getAllowedServices(req.rateLimitKey),
-        );
-        if (!parsed) {
-            return fail(res, "error.api.link.invalid");
-        }
-        if ("error" in parsed) {
-            let context;
-            if (parsed?.context) {
-                context = parsed.context;
+        try {
+            const request = req.body;
+            
+            if (!request.url) {
+                return fail(res, "error.api.link.missing");
             }
-            return fail(res, `error.api.${parsed.error}`, context);
-        }
 
-        if (parsed.host === "youtube") {
-            const youtube = (await import("../processing/services/youtube.js")).default;
-            const info = await youtube({ id: parsed.patternMatch.id });
-            if (info.error) {
-                return fail(res, info.error);
+            const { success, data: normalizedRequest } = await normalizeRequest(request);
+            if (!success) {
+                return fail(res, "error.api.invalid_body");
             }
-            const meta = {
-                title: info.fileMetadata?.title,
-                duration: info.duration || null,
-                thumbnail: info.cover || null,
-                author: info.fileMetadata?.artist || null,
+
+            const parsed = extract(
+                normalizedRequest.url,
+                APIKeys.getAllowedServices(req.rateLimitKey),
+            );
+
+            if (!parsed) {
+                return fail(res, "error.api.link.invalid");
+            }
+
+            if ("error" in parsed) {
+                let context;
+                if (parsed?.context) {
+                    context = parsed.context;
+                }
+                return fail(res, `error.api.${parsed.error}`, context);
+            }
+
+            if (parsed.host !== "youtube") {
+                return res.status(501).json({
+                    status: "error",
+                    code: "not_implemented",
+                    message: "Metadata endpoint is only implemented for YouTube."
+                });
+            }
+
+            const youtube = (await import("../processing/services/youtube.js")).default;
+            
+            const fetchInfo = {
+                id: parsed.patternMatch.id.slice(0, 11),
+                metadataOnly: true,
             };
-            return res.json({ status: "success", metadata: meta });
-        } else {
-            return res.status(501).json({ status: "error", code: "not_implemented", message: "Metadata endpoint is only implemented for YouTube." });
+
+            const result = await youtube(fetchInfo);
+            
+            if (result.error) {
+                return fail(res, `error.api.${result.error}`);
+            }
+
+            const metadata = {
+                title: result.fileMetadata?.title || null,
+                author: result.fileMetadata?.artist || null,
+                duration: result.duration || null,
+                thumbnail: result.cover || null,
+            };
+
+            return res.json({
+                status: "success",
+                metadata: metadata
+            });
+
+        } catch (error) {
+            console.error('Metadata endpoint error:', error);
+            return fail(res, "error.api.generic");
         }
     });
 

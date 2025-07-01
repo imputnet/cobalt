@@ -99,9 +99,18 @@ const render = async (res, streamInfo, ffargs, estimateMultiplier) => {
 const remux = async (streamInfo, res) => {
     const format = streamInfo.filename.split('.').pop();
     const urls = Array.isArray(streamInfo.urls) ? streamInfo.urls : [streamInfo.urls];
-    const args = urls.flatMap(url => ['-i', url]);
+    const isClipping = typeof streamInfo.clipStart === 'number' || typeof streamInfo.clipEnd === 'number';
+    let args = [];
 
-    // if the stream type is merge, we expect two URLs
+    args.push(...urls.flatMap(url => ['-i', url]));
+
+    if (typeof streamInfo.clipStart === 'number') {
+        args.push('-ss', streamInfo.clipStart.toString());
+    }
+    if (typeof streamInfo.clipEnd === 'number') {
+        args.push('-to', streamInfo.clipEnd.toString());
+    }
+
     if (streamInfo.type === 'merge' && urls.length !== 2) {
         return closeResponse(res);
     }
@@ -126,10 +135,19 @@ const remux = async (streamInfo, res) => {
         );
     }
 
-    args.push(
-        '-c:v', 'copy',
-        ...(streamInfo.type === 'mute' ? ['-an'] : ['-c:a', 'copy'])
-    );
+    if (isClipping) {
+        const vcodec = format === 'webm' ? 'libvpx-vp9' : 'libx264';
+        const acodec = format === 'webm' ? 'libopus' : 'aac';
+        args.push(
+            '-c:v', vcodec,
+            ...(streamInfo.type === 'mute' ? ['-an'] : ['-c:a', acodec])
+        );
+    } else {
+        args.push(
+            '-c:v', 'copy',
+            ...(streamInfo.type === 'mute' ? ['-an'] : ['-c:a', 'copy'])
+        );
+    }
 
     if (format === 'mp4') {
         args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
@@ -149,15 +167,24 @@ const remux = async (streamInfo, res) => {
 
     args.push('-f', format === 'mkv' ? 'matroska' : format, 'pipe:3');
 
-    await render(res, streamInfo, args);
+    await render(res, streamInfo, args, estimateAudioMultiplier(streamInfo) * 1.1);
 }
 
 const convertAudio = async (streamInfo, res) => {
-    const args = [
+    let args = [];
+
+    args.push(
         '-i', streamInfo.urls,
         '-vn',
         ...(streamInfo.audioCopy ? ['-c:a', 'copy'] : ['-b:a', `${streamInfo.audioBitrate}k`]),
-    ];
+    );
+
+    if (typeof streamInfo.clipStart === 'number') {
+        args.push('-ss', streamInfo.clipStart.toString());
+    }
+    if (typeof streamInfo.clipEnd === 'number') {
+        args.push('-to', streamInfo.clipEnd.toString());
+    }
 
     if (streamInfo.audioFormat === 'mp3' && streamInfo.audioBitrate === '8') {
         args.push('-ar', '12000');

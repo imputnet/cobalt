@@ -32,6 +32,7 @@
         "express": "^4.21.2",
         "express-rate-limit": "^7.4.1",
         "ffmpeg-static": "^5.1.0",
+        "ffprobe-static": "^3.1.0",
         "hls-parser": "^0.10.7",
         "ipaddr.js": "2.2.0",
         "mime": "^4.0.4",

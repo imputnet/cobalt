@@ -45,6 +45,9 @@ export function createStream(obj) {
 
             // url to a subtitle file
             subtitles: obj.subtitles,
+
+            clipStart: obj.clipStart,
+            clipEnd: obj.clipEnd,
         };
 
     // FIXME: this is now a Promise, but it is not awaited

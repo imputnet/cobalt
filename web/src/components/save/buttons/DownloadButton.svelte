@@ -6,10 +6,14 @@
     import { downloadButtonState } from "$lib/state/omnibox";
 
     import type { CobaltDownloadButtonState } from "$lib/types/omnibox";
+    import type { CobaltSaveRequestBody } from "$lib/types/api";
 
     export let url: string;
     export let disabled = false;
     export let loading = false;
+    export let clipMode = false;
+    export let clipStart: number
+    export let clipEnd: number
 
     $: buttonText = ">>";
     $: buttonAltText = $t("a11y.save.download");
@@ -56,7 +60,16 @@
     {disabled}
     on:click={() => {
         hapticSwitch();
-        savingHandler({ url });
+        if (clipMode) {
+            const req: CobaltSaveRequestBody & { clipStart?: number; clipEnd?: number } = {
+                url,
+                clipStart,
+                clipEnd,
+            };
+            savingHandler({ request: req });
+        } else {
+            savingHandler({ url });
+        }
     }}
     aria-label={buttonAltText}
 >

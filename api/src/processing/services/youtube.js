@@ -291,6 +291,13 @@ export default async function (o) {
         return { error: "content.too_long" };
     }
 
+    if (typeof o.clipStart === 'number' && o.clipStart >= basicInfo.duration) {
+        return { error: "clip.start_exceeds_duration" };
+    }
+    if (typeof o.clipEnd === 'number' && o.clipEnd > basicInfo.duration) {
+        return { error: "clip.end_exceeds_duration" };
+    }
+
     // return a critical error if returned video is "Video Not Available"
     // or a similar stub by youtube
     if (basicInfo.id !== o.id) {
@@ -495,6 +502,27 @@ export default async function (o) {
         }
     }
 
+    if (o.metadataOnly) {
+        let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
+        try {
+            const testMaxCover = await fetch(cover, { dispatcher: o.dispatcher })
+                .then(r => r.status === 200)
+                .catch(() => false);
+
+            if (!testMaxCover) {
+                cover = basicInfo.thumbnail?.[0]?.url || null;
+            }
+        } catch {
+            cover = basicInfo.thumbnail?.[0]?.url || null;
+        }
+
+        return {
+            fileMetadata,
+            duration: basicInfo.duration,
+            cover,
+        };
+    }
+
     if (subtitles) {
         fileMetadata.sublanguage = subtitles.language;
     }
@@ -553,6 +581,8 @@ export default async function (o) {
 
             cover,
             cropCover: basicInfo.author.endsWith("- Topic"),
+            clipStart: o.clipStart,
+            clipEnd: o.clipEnd,
         }
     }
 
@@ -599,6 +629,8 @@ export default async function (o) {
             isHLS: useHLS,
             originalRequest,
             duration: basicInfo.duration,
+            clipStart: o.clipStart,
+            clipEnd: o.clipEnd,
         }
     }
 
