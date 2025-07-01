@@ -1,7 +1,7 @@
 import HLS from "hls-parser";
 
 import { fetch } from "undici";
-import { Innertube, Session } from "youtubei.js";
+import { Innertube, Session } from "@imput/youtubei.js";
 
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
