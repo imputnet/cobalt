@@ -79,14 +79,14 @@ all keys except for `url` are optional. value options are separated by `/`.
 | `disableMetadata` | `boolean` | title, artist, and other info will not be added to the file     | `false`    |
 | `alwaysProxy`     | `boolean` | always tunnel all files, even when not necessary                | `false`    |
 | `localProcessing` | `string`  | `disabled / preferred / forced`                                 | `disabled` |
-| `subtitleLang`    | `string`  | any valid language code, such as: `en` or `zh-CN`               | *none*     |
+| `subtitleLang`    | `string`  | any valid ISO 639-1 language code                               | *none*     |
 
 #### service-specific options
 | key                     | type      | description/value                                 | default |
 |:------------------------|:----------|:--------------------------------------------------|:--------|
 | `youtubeVideoCodec`     | `string`  | `h264 / av1 / vp9`                                | `h264`  |
 | `youtubeVideoContainer` | `string`  | `auto / mp4 / webm / mkv`                         | `auto`  |
-| `youtubeDubLang`        | `string`  | any valid language code, such as: `en` or `zh-CN` | *none*  |
+| `youtubeDubLang`        | `string`  | any valid ISO 639-1 language code                 | *none*  |
 | `convertGif`            | `boolean` | convert twitter gifs to the actual GIF format     | `true`  |
 | `allowH265`             | `boolean` | allow H265/HEVC videos from tiktok/xiaohongshu    | `false` |
 | `tiktokFullAudio`       | `boolean` | download the original sound used in a video       | `false` |
