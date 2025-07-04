@@ -18,6 +18,7 @@
 
     import type { Optional } from "$lib/types/generic";
     import type { DownloadModeOption } from "$lib/types/settings";
+    import type { CobaltSaveRequestBody } from "$lib/types/api";
 
     import ClearButton from "$components/save/buttons/ClearButton.svelte";
     import DownloadButton from "$components/save/buttons/DownloadButton.svelte";
@@ -32,6 +33,11 @@
     import IconMusic from "$components/icons/Music.svelte";
     import IconSparkles from "$components/icons/Sparkles.svelte";
     import IconClipboard from "$components/icons/Clipboard.svelte";
+
+    import API from "$lib/api/api";
+    import ClipRangeSlider from "./ClipRangeSlider.svelte";
+    import ClipCheckbox from "./buttons/ClipCheckbox.svelte";
+    import ClipControls from "./ClipControls.svelte";
 
     let linkInput: Optional<HTMLInputElement>;
 
@@ -57,6 +63,40 @@
 
     let downloadable = $derived(validLink($link));
     let clearVisible = $derived($link && !isLoading);
+
+    let clipMode = $state(false);
+    let metadata: { title?: string; author?: string; duration?: number } | null = $state(null);
+    let metaLoading = $state(false);
+    let metaError: string | null = $state(null);
+    let clipStart = $state(0);
+    let clipEnd = $state(0);
+
+    async function fetchMetadata() {
+        if (!validLink($link)) return;
+        metaLoading = true;
+        metaError = null;
+        metadata = null;
+        try {
+            const res = await API.getMetadata($link);
+            if (res.status === "success") {
+                metadata = res.metadata;
+                clipStart = 0;
+                clipEnd = metadata?.duration || 0;
+            } else {
+                metaError = res.message || "Failed to fetch metadata.";
+            }
+        } catch (e: any) {
+            metaError = e.message || "Failed to fetch metadata.";
+        } finally {
+            metaLoading = false;
+        }
+    }
+
+    $effect(() => {
+        if (clipMode && validLink($link)) {
+            fetchMetadata();
+        }
+    });
 
     $effect (() => {
         if (linkPrefill) {
@@ -139,6 +179,12 @@
                 break;
         }
     };
+
+    function formatTime(seconds: number) {
+        const m = Math.floor(seconds / 60);
+        const s = (seconds % 60).toFixed(3).padStart(6, '0');
+        return `${m}:${s}`;
+    }
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -192,6 +238,9 @@
         <ClearButton click={() => ($link = "")} />
         <DownloadButton
             url={$link}
+            clipMode={clipMode}
+            clipStart={clipStart}
+            clipEnd={clipEnd}
             bind:disabled={isDisabled}
             bind:loading={isLoading}
         />
@@ -225,12 +274,25 @@
             </SettingsButton>
         </Switcher>
 
+
+        <ClipCheckbox checked={clipMode} onclick={() => clipMode = !clipMode} />
+
         <ActionButton id="paste" click={pasteClipboard}>
             <IconClipboard />
             <span id="paste-desktop-text">{$t("save.paste")}</span>
             <span id="paste-mobile-text">{$t("save.paste.long")}</span>
         </ActionButton>
     </div>
+
+    {#if clipMode && validLink($link)}
+        <ClipControls
+            {metaLoading}
+            {metaError}
+            {metadata}
+            bind:clipStart
+            bind:clipEnd
+        />
+    {/if}
 </div>
 
 <style>

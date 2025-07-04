@@ -41,7 +41,7 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
 
     if (!request && !url) return;
 
-    const selectedRequest = request || {
+    const selectedRequest = {
         url: url!,
 
         // not lazy cuz default depends on device capabilities
@@ -67,6 +67,7 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
 
         allowH265: getSetting("save", "allowH265"),
         convertGif: getSetting("save", "convertGif"),
+        ...request,
     }
 
     const response = await API.request(selectedRequest);

@@ -137,7 +137,26 @@ const probeCobaltTunnel = async (url: string) => {
     return 0;
 }
 
+const getMetadata = async (url: string) => {
+    const api = currentApiURL().replace(/\/?$/, '/metadata');
+    const authorization = await getAuthorization();
+    let extraHeaders = {};
+    if (authorization && typeof authorization === "string") {
+        extraHeaders = { "Authorization": authorization };
+    }
+    return fetch(api, {
+        method: "POST",
+        body: JSON.stringify({ url }),
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            ...extraHeaders,
+        },
+    }).then(r => r.json());
+};
+
 export default {
     request,
     probeCobaltTunnel,
+    getMetadata,
 }

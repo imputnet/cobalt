@@ -123,6 +123,21 @@ export default async function({ host, patternMatch, params, authType }) {
                     subtitleLang,
                 }
 
+                if (typeof params.clipStart === 'number') {
+                    fetchInfo.clipStart = params.clipStart;
+                }
+                if (typeof params.clipEnd === 'number') {
+                    fetchInfo.clipEnd = params.clipEnd;
+                }
+
+                if (fetchInfo.clipStart !== undefined && fetchInfo.clipEnd !== undefined) {
+                    if (fetchInfo.clipStart >= fetchInfo.clipEnd) {
+                        return createResponse("error", {
+                            code: "error.api.clip.invalid_range"
+                        });
+                    }
+                }
+
                 if (url.hostname === "music.youtube.com" || isAudioOnly) {
                     fetchInfo.quality = "1080";
                     fetchInfo.codec = "vp9";
@@ -315,9 +330,15 @@ export default async function({ host, patternMatch, params, authType }) {
         const lpEnv = env.forceLocalProcessing;
         const shouldForceLocal = lpEnv === "always" || (lpEnv === "session" && authType === "session");
         const localDisabled = (!localProcessing || localProcessing === "none");
+        const isClip = typeof params.clipStart === 'number' && typeof params.clipEnd === 'number';
 
         if (shouldForceLocal && localDisabled) {
             localProcessing = "preferred";
+        }
+
+        if (isClip) {
+            r.clipStart = params.clipStart;
+            r.clipEnd = params.clipEnd;
         }
 
         return matchAction({

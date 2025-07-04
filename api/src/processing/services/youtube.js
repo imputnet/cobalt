@@ -495,6 +495,27 @@ export default async function (o) {
         }
     }
 
+    if (o.metadataOnly) {
+        let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
+        try {
+            const testMaxCover = await fetch(cover, { dispatcher: o.dispatcher })
+                .then(r => r.status === 200)
+                .catch(() => false);
+
+            if (!testMaxCover) {
+                cover = basicInfo.thumbnail?.[0]?.url || null;
+            }
+        } catch {
+            cover = basicInfo.thumbnail?.[0]?.url || null;
+        }
+
+        return {
+            fileMetadata,
+            duration: basicInfo.duration,
+            cover,
+        };
+    }
+
     if (subtitles) {
         fileMetadata.sublanguage = subtitles.language;
     }
@@ -597,7 +618,8 @@ export default async function (o) {
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,
-            originalRequest
+            originalRequest,
+            duration: basicInfo.duration
         }
     }
 
