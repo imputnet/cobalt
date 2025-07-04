@@ -162,6 +162,11 @@ function cleanURL(url) {
                 limitQuery('xsec_token');
             }
             break;
+        case "bilibili":
+            if (url.searchParams.get('p')) {
+                limitQuery('p');
+            }
+            break;
     }
 
     if (stripQuery) {
