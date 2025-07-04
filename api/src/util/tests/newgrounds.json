@@ -1,0 +1,42 @@
+[
+    {
+        "name": "regular video",
+        "url": "https://www.newgrounds.com/portal/view/938050",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "regular video (audio only)",
+        "url": "https://www.newgrounds.com/portal/view/938050",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "regular video (muted)",
+        "url": "https://www.newgrounds.com/portal/view/938050",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "regular music",
+        "url": "https://www.newgrounds.com/audio/listen/500476",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    }
+]
