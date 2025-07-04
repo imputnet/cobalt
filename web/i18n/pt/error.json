@@ -1,0 +1,6 @@
+{
+    "import.no_data": "não tem nada nesse arquivo. tem certeza que este é o certo?",
+    "import.invalid": "seu arquivo não parece ter configurações válidas para ser importado. tem certeza que é esse mesmo?",
+    "import.unknown": "não consegui carregar os dados do arquivo. ele pode estar corrompido ou está num formato inválido. mensagem de erro:\n\n{{ value }}",
+    "tunnel.probe": "não consegui ver se você pode baixar esse arquivo. tente novamente em alguns segundos!"
+}
