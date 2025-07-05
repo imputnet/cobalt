@@ -168,4 +168,6 @@ export default async function(obj) {
             headers: { cookie }
         }
     }
+
+    return { error: "fetch.empty" };
 }
