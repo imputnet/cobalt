@@ -15,7 +15,46 @@ const resolutionMatch = {
     "426": 240
 }
 
-const requestApiInfo = (videoId, password) => {
+const genericHeaders = {
+    Accept: 'application/vnd.vimeo.*+json; version=3.4.10',
+    'User-Agent': 'Vimeo/11.13.0 (com.vimeo; build:250619.102023.0; iOS 18.5.0) Alamofire/5.9.0 VimeoNetworking/5.0.0',
+    Authorization: 'Basic MTMxNzViY2Y0NDE0YTQ5YzhjZTc0YmU0NjVjNDQxYzNkYWVjOWRlOTpHKzRvMmgzVUh4UkxjdU5FRW80cDNDbDhDWGR5dVJLNUJZZ055dHBHTTB4V1VzaG41bEx1a2hiN0NWYWNUcldSSW53dzRUdFRYZlJEZmFoTTArOTBUZkJHS3R4V2llYU04Qnl1bERSWWxUdXRidjNqR2J4SHFpVmtFSUcyRktuQw==',
+    'Accept-Language': 'en-US,en;q=0.9',
+}
+
+let bearer = '';
+
+const getBearer = async (refresh = false) => {
+    if (bearer && !refresh) return bearer;
+
+    const oauthResponse = await fetch(
+        `https://api.vimeo.com/oauth/authorize/client?sizes=216,288,300,360,640,960,1280,1920&cdm_type=fairplay`,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                scope: 'public private purchased create edit delete interact upload stats',
+                grant_type: 'client_credentials',
+                // device_identifier is a long ass base64 string of seemingly
+                // random data, but it doesn't seem to be required, so we just omit it lol
+                device_identifier: '',
+            }),
+            headers: {
+                ...genericHeaders,
+                'Content-Type': 'application/json',
+            }
+        }
+    )
+    .then(a => a.json())
+    .catch(() => {});
+
+    if (!oauthResponse || !oauthResponse.access_token) {
+        return;
+    }
+
+    return bearer = oauthResponse.access_token;
+}
+
+const requestApiInfo = (bearerToken, videoId, password) => {
     if (password) {
         videoId += `:${password}`
     }
@@ -24,10 +63,8 @@ const requestApiInfo = (videoId, password) => {
         `https://api.vimeo.com/videos/${videoId}`,
         {
             headers: {
-                Accept: 'application/vnd.vimeo.*+json; version=3.4.2',
-                'User-Agent': 'Vimeo/10.19.0 (com.vimeo; build:101900.57.0; iOS 17.5.1) Alamofire/5.9.0 VimeoNetworking/5.0.0',
-                Authorization: 'Basic MTMxNzViY2Y0NDE0YTQ5YzhjZTc0YmU0NjVjNDQxYzNkYWVjOWRlOTpHKzRvMmgzVUh4UkxjdU5FRW80cDNDbDhDWGR5dVJLNUJZZ055dHBHTTB4V1VzaG41bEx1a2hiN0NWYWNUcldSSW53dzRUdFRYZlJEZmFoTTArOTBUZkJHS3R4V2llYU04Qnl1bERSWWxUdXRidjNqR2J4SHFpVmtFSUcyRktuQw==',
-                'Accept-Language': 'en'
+                ...genericHeaders,
+                Authorization: `Bearer ${bearerToken}`,
             }
         }
     )
@@ -151,8 +188,27 @@ export default async function(obj) {
     if (quality < 240) quality = 240;
     if (!quality || obj.isAudioOnly) quality = 9000;
 
-    const info = await requestApiInfo(obj.id, obj.password);
+    const bearerToken = await getBearer();
+    if (!bearerToken) {
+        return { error: "fetch.fail" };
+    }
+
+    let info = await requestApiInfo(bearerToken, obj.id, obj.password);
     let response;
+
+    // auth error, try to refresh the token
+    if (info?.error_code === 8003) {
+        const newBearer = await getBearer(true);
+        if (!newBearer) {
+            return { error: "fetch.fail" };
+        }
+        info = await requestApiInfo(newBearer, obj.id, obj.password);
+    }
+
+    // if there's still no info, then return a generic error
+    if (!info || info.error_code) {
+        return { error: "fetch.empty" };
+    }
 
     if (obj.isAudioOnly) {
         response = await getHLS(info.config_url, { ...obj, quality });

@@ -1,4 +1,4 @@
-import { Constants } from "youtubei.js";
+import { Constants } from "@imput/youtubei.js";
 import { services } from "../processing/service-config.js";
 import { updateEnv, canonicalEnv, env as currentEnv } from "../config.js";
 

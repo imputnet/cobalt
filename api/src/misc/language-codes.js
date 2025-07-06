@@ -49,5 +49,6 @@ const maps = {
 }
 
 export const convertLanguageCode = (code) => {
+    code = code?.split("-")[0]?.split("_")[0] || "";
     return maps[code.length]?.[code.toLowerCase()] || null;
 }
