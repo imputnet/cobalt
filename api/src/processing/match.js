@@ -29,6 +29,7 @@ import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import xiaohongshu from "./services/xiaohongshu.js";
+import nicovideo from "./services/nicovideo.js";
 
 let freebind;
 
@@ -265,6 +266,14 @@ export default async function({ host, patternMatch, params, authType }) {
                     h265: params.allowH265,
                     isAudioOnly,
                     dispatcher,
+                });
+                break;
+
+            case "nicovideo":
+                r = await nicovideo({
+                    ...patternMatch,
+                    dispatcher,
+                    quality: params.videoQuality,
                 });
                 break;
 

@@ -60,6 +60,11 @@ export const services = {
     loom: {
         patterns: ["share/:id", "embed/:id"],
     },
+    nicovideo: {
+        patterns: ["watch/:id"],
+        tld: "jp",
+        subdomains: ["sp"],
+    },
     ok: {
         patterns: [
             "video/:id",
