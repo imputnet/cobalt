@@ -1,0 +1,6 @@
+{
+    "import.no_data": "no hay ninguna configuración para este archivo . ¿estás seguro que es el correcto?",
+    "import.invalid": "tu archivo no tiene una configuración de cobalt válida para importar. ¿estás seguro de que es el correcto?",
+    "import.unknown": "no se pudieron cargar los datos del archivo. puede que esté dañado o que tenga el formato incorrecto. aquí está el error que me apareció:\n\n{{ value }}",
+    "tunnel.probe": "no se pudo probar este túnel. tu navegador o configuración de red podría estar bloqueando acceso a alguno de los servidores de cobalt. ¿seguro de que no tienes ninguna extensión de navegador rara?"
+}
