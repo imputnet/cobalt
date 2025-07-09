@@ -148,7 +148,14 @@ export default async function(obj) {
 
     let cover;
     if (json.artwork_url) {
-        cover = json.artwork_url.replace(/-large/, "-t1080x1080");
+        const coverUrl = json.artwork_url.replace(/-large/, "-t1080x1080");
+        const testCover = await fetch(coverUrl)
+            .then(r => r.status === 200)
+            .catch(() => {});
+
+        if (testCover) {
+            cover = coverUrl;
+        }
     }
 
     return {
