@@ -74,6 +74,12 @@ export const services = {
             "url_shortener/:shortLink"
         ],
     },
+    newgrounds: {
+        patterns: [
+            "portal/view/:id",
+            "audio/listen/:audioId",
+        ]
+    },
     reddit: {
         patterns: [
             "comments/:id",
