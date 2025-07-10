@@ -5,6 +5,10 @@ export const testers = {
 
     "dailymotion": pattern => pattern.id?.length <= 32,
 
+    "duitang": pattern =>
+        (pattern.type == 'blog' || pattern.type == 'atlas') &&
+        pattern.id?.length <= 10,
+
     "instagram": pattern =>
         pattern.postId?.length <= 48
         || pattern.shareId?.length <= 16
