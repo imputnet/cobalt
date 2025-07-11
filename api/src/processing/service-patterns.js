@@ -82,4 +82,8 @@ export const testers = {
 
     "newgrounds": pattern =>
         pattern.id?.length <= 12 || pattern.audioId?.length <= 12,
+
+    "ntv": pattern => 
+        pattern.videoid.length <= 32 ||
+        (pattern.name.length <= 64 && pattern.showid.length <= 32 && pattern.videoid.length <= 32),
 }

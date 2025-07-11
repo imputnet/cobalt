@@ -30,6 +30,7 @@ import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import xiaohongshu from "./services/xiaohongshu.js";
 import newgrounds from "./services/newgrounds.js";
+import ntv from "./services/ntv.js";
 
 let freebind;
 
@@ -229,6 +230,15 @@ export default async function({ host, patternMatch, params, authType }) {
 
             case "dailymotion":
                 r = await dailymotion(patternMatch);
+                break;
+
+            case "ntv":
+                r = await ntv({
+                    name: patternMatch.name ?? null,
+                    showid: patternMatch.showid ?? null,
+                    videoid: patternMatch.videoid,
+                    quality: params.videoQuality
+                });
                 break;
 
             case "snapchat":
