@@ -29,6 +29,7 @@ import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import xiaohongshu from "./services/xiaohongshu.js";
+import terabox from "./services/terabox.js";
 
 let freebind;
 
@@ -266,6 +267,10 @@ export default async function({ host, patternMatch, params, authType }) {
                     isAudioOnly,
                     dispatcher,
                 });
+                break;
+
+            case "terabox":
+                r = await terabox(fetchInfo); // Assuming fetchInfo is appropriate, adjust if needed
                 break;
 
             default:

@@ -213,6 +213,12 @@ export const services = {
             "v/:id"
         ],
         subdomains: ["music", "m"],
+    },
+    terabox: {
+        patterns: [
+            "s/:id",
+        ],
+        altDomains: ["terabox.app"], // Assuming .app is an alternative, can be adjusted
     }
 }
 

@@ -79,4 +79,7 @@ export const testers = {
     "xiaohongshu": pattern =>
         pattern.id?.length <= 24 && pattern.token?.length <= 64
         || pattern.shareId?.length <= 24,
+
+    "terabox": pattern =>
+        pattern.id?.length <= 32, // Placeholder, adjust as needed
 }
