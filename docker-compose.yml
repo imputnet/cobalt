@@ -1,0 +1,34 @@
+services:
+    cobalt-api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+
+        working_dir: /app
+
+        init: true
+        read_only: true
+        restart: unless-stopped
+        container_name: cobalt-api
+
+        ports:
+            - 9000:9000/tcp
+
+        environment:
+            API_URL: "http://localhost:9000/"
+            API_AUTH_REQUIRED: 1
+            API_KEY_URL: "file:///keys.json"
+
+        labels:
+            - com.centurylinklabs.watchtower.scope=cobalt
+
+        volumes:
+            - ./keys.json:/keys.json:ro
+
+    # watchtower updates the cobalt image automatically
+    watchtower:
+        image: ghcr.io/containrrr/watchtower
+        restart: unless-stopped
+        command: --cleanup --scope cobalt --interval 900 --include-restarting
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
