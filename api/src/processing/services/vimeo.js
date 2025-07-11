@@ -17,9 +17,9 @@ const resolutionMatch = {
 
 const genericHeaders = {
     Accept: 'application/vnd.vimeo.*+json; version=3.4.10',
-    'User-Agent': 'Vimeo/11.13.0 (com.vimeo; build:250619.102023.0; iOS 18.5.0) Alamofire/5.9.0 VimeoNetworking/5.0.0',
-    Authorization: 'Basic MTMxNzViY2Y0NDE0YTQ5YzhjZTc0YmU0NjVjNDQxYzNkYWVjOWRlOTpHKzRvMmgzVUh4UkxjdU5FRW80cDNDbDhDWGR5dVJLNUJZZ055dHBHTTB4V1VzaG41bEx1a2hiN0NWYWNUcldSSW53dzRUdFRYZlJEZmFoTTArOTBUZkJHS3R4V2llYU04Qnl1bERSWWxUdXRidjNqR2J4SHFpVmtFSUcyRktuQw==',
-    'Accept-Language': 'en-US,en;q=0.9',
+    'User-Agent': 'com.vimeo.android.videoapp (Google, Pixel 7a, google, Android 16/36 Version 11.8.1) Kotlin VimeoNetworking/3.12.0',
+    Authorization: 'Basic NzRmYTg5YjgxMWExY2JiNzUwZDg1MjhkMTYzZjQ4YWYyOGEyZGJlMTp4OGx2NFd3QnNvY1lkamI2UVZsdjdDYlNwSDUrdm50YzdNNThvWDcwN1JrenJGZC9tR1lReUNlRjRSVklZeWhYZVpRS0tBcU9YYzRoTGY2Z1dlVkJFYkdJc0dMRHpoZWFZbU0reDRqZ1dkZ1diZmdIdGUrNUM5RVBySlM0VG1qcw==',
+    'Accept-Language': 'en',
 }
 
 let bearer = '';
@@ -28,19 +28,16 @@ const getBearer = async (refresh = false) => {
     if (bearer && !refresh) return bearer;
 
     const oauthResponse = await fetch(
-        `https://api.vimeo.com/oauth/authorize/client?sizes=216,288,300,360,640,960,1280,1920&cdm_type=fairplay`,
+        'https://api.vimeo.com/oauth/authorize/client',
         {
             method: 'POST',
-            body: JSON.stringify({
-                scope: 'public private purchased create edit delete interact upload stats',
+            body: new URLSearchParams({
+                scope: 'private public create edit delete interact upload purchased stats',
                 grant_type: 'client_credentials',
-                // device_identifier is a long ass base64 string of seemingly
-                // random data, but it doesn't seem to be required, so we just omit it lol
-                device_identifier: '',
-            }),
+            }).toString(),
             headers: {
                 ...genericHeaders,
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             }
         }
     )
