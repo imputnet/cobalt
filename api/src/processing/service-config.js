@@ -1,6 +1,6 @@
 import UrlPattern from "url-pattern";
 
-export const audioIgnore = new Set(["vk", "ok", "loom"]);
+export const audioIgnore = new Set(["vk", "ok", "loom", "ntv"]);
 export const hlsExceptions = new Set(["dailymotion", "vimeo", "rutube", "bsky", "youtube"]);
 
 export const services = {
@@ -219,6 +219,13 @@ export const services = {
             "v/:id"
         ],
         subdomains: ["music", "m"],
+    },
+    ntv: {
+        patterns: [
+            "peredacha/:name/m:showid/o:videoid",
+            "video/:videoid",
+        ],
+        tld: "ru"
     }
 }
 
