@@ -1,0 +1,16 @@
+{
+    "title": "verarbeitungswarteschlange",
+    "stub": "noch nichts hier, nur wir beide.\nversuche etwas herunterzuladen!",
+
+    "state.waiting": "wartend",
+    "state.retrying": "wiederholen",
+    "state.starting": "startet",
+
+    "state.starting.fetch": "startet download",
+    "state.starting.remux": "startet remuxing",
+    "state.starting.encode": "startet transcoding",
+
+    "state.running.remux": "remuxing",
+    "state.running.fetch": "lädt herunter",
+    "state.running.encode": "transcoding"
+}

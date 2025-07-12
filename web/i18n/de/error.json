@@ -1,0 +1,11 @@
+{
+    "import.no_data": "es gibt keine einstellungen in dieser datei zum laden. bist du sicher, dass es die richtige ist?",
+    "import.invalid": "diese datei enthält keine gültigen cobalt-einstellungen zum importieren. bist du sicher, dass es die richtige ist?",
+    "import.unknown": "konnte keine daten aus der datei laden. sie könnte beschädigt oder im falschen format sein. hier ist der fehler, den ich bekommen habe:\n\n{{ value }}",
+
+    "tunnel.probe": "konnte diesen tunnel nicht testen. dein browser oder die netzwerkkonfiguration könnte den zugriff auf einen der cobalt-server blockieren. bist du sicher, dass du keine seltsamen browser-erweiterungen hast?",
+
+    "captcha_too_long": "cloudflare turnstile braucht zu lange, um zu prüfen, ob du kein bot bist. versuche es erneut, aber wenn es wieder viel zu lange dauert, kannst du versuchen: seltsame browser-erweiterungen zu deaktivieren, netzwerke zu wechseln, einen anderen browser zu verwenden oder dein gerät auf malware zu überprüfen.",
+
+    "pipeline.missing_response_data": "die verarbeitungsinstanz hat keine erforderlichen dateiinformationen zurückgegeben, daher kann ich keine lokale verarbeitungspipeline für dich erstellen. versuche es in ein paar sekunden erneut und melde das problem, wenn es bestehen bleibt!"
+}
