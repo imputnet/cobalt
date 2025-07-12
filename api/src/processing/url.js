@@ -99,7 +99,7 @@ function aliasURL(url) {
 
         case "xhslink":
             if (url.hostname === 'xhslink.com' && parts.length === 3) {
-                url = new URL(`https://www.xiaohongshu.com/a/${parts[2]}`);
+                url = new URL(`https://www.xiaohongshu.com/${parts[1]}/${parts[2]}`);
             }
             break;
 

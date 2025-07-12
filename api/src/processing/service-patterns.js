@@ -78,7 +78,7 @@ export const testers = {
 
     "xiaohongshu": pattern =>
         pattern.id?.length <= 24 && pattern.token?.length <= 64
-        || pattern.shareId?.length <= 24,
+        || pattern.shareId?.length <= 24 && pattern.shareType?.length === 1,
 
     "newgrounds": pattern =>
         pattern.id?.length <= 12 || pattern.audioId?.length <= 12,
