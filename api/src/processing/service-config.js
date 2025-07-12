@@ -207,7 +207,8 @@ export const services = {
         patterns: [
             "explore/:id?xsec_token=:token",
             "discovery/item/:id?xsec_token=:token",
-            "a/:shareId"
+            "a/:shareId",
+            "m/:shareId"
         ],
         altDomains: ["xhslink.com"],
     },

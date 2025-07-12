@@ -1,21 +1,35 @@
-import { resolveRedirectingURL } from "../url.js";
+import { resolveRedirectingURL, extract, normalizeURL } from "../url.js";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
+import { request } from "undici";
 
 const https = (url) => {
     return url.replace(/^http:/i, 'https:');
 }
 
-export default async function ({ id, token, shareId, h265, isAudioOnly, dispatcher }) {
+export default async function ({ id, token, shareType, shareId, h265, isAudioOnly, dispatcher }) {
     let noteId = id;
     let xsecToken = token;
 
-    if (!noteId) {
+    if (!noteId && shareType === "a") {
         const patternMatch = await resolveRedirectingURL(
             `https://xhslink.com/a/${shareId}`,
             dispatcher
         );
 
+        noteId = patternMatch?.id;
+        xsecToken = patternMatch?.token;
+    } else if (!noteId && shareType === "m") {
+        const location = await request(`https://xhslink.com/m/${shareId}`, {
+            dispatcher,
+            redirect: 'manual'
+        }).then(r => {
+            if (r.statusCode === 302 && r.headers['location']) {
+                return r.headers['location'];
+            }
+        }).catch(() => null);
+
+        const { patternMatch } = extract(normalizeURL(location));
         noteId = patternMatch?.id;
         xsecToken = patternMatch?.token;
     }

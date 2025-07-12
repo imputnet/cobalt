@@ -263,6 +263,7 @@ export default async function({ host, patternMatch, params, authType }) {
             case "xiaohongshu":
                 r = await xiaohongshu({
                     ...patternMatch,
+                    shareType: url.pathname.split("/")[1],
                     h265: params.allowH265,
                     isAudioOnly,
                     dispatcher,
