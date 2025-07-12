@@ -6,13 +6,13 @@ const https = (url) => {
     return url.replace(/^http:/i, 'https:');
 }
 
-export default async function ({ id, token, shareId, h265, isAudioOnly, dispatcher }) {
+export default async function ({ id, token, shareType, shareId, h265, isAudioOnly, dispatcher }) {
     let noteId = id;
     let xsecToken = token;
 
     if (!noteId) {
         const patternMatch = await resolveRedirectingURL(
-            `https://xhslink.com/a/${shareId}`,
+            `https://xhslink.com/${shareType}/${shareId}`,
             dispatcher
         );
 
