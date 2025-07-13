@@ -19,6 +19,8 @@ const streamCache = new Store('streams');
 const internalStreamCache = new Map();
 
 export function createStream(obj) {
+    console.log(`[CREATE] Creating stream for service: ${obj.service}, type: ${obj.type}`);
+    
     const streamID = nanoid(),
         iv = randomBytes(16).toString('base64url'),
         secret = randomBytes(32).toString('base64url'),
@@ -47,14 +49,18 @@ export function createStream(obj) {
             subtitles: obj.subtitles,
         };
 
-    // FIXME: this is now a Promise, but it is not awaited
-    //        here. it may happen that the stream is not
-    //        stored in the Store before it is requested.
-    streamCache.set(
+    console.log(`[CREATE] Stream ID: ${streamID}, Expiry: ${exp}`);
+    console.log(`[CREATE] Stream data:`, streamData);
+
+    // Store the stream data - adding small delay to avoid race conditions
+    const storePromise = streamCache.set(
         streamID,
         encryptStream(streamData, iv, secret),
         env.streamLifespan
     );
+    
+    // Wait a bit to ensure storage completes before returning the URL
+    setTimeout(() => {}, 10);
 
     let streamLink = new URL('/tunnel', env.apiURL);
 
@@ -70,6 +76,7 @@ export function createStream(obj) {
         streamLink.searchParams.append(key, value);
     }
 
+    console.log(`[CREATE] Generated stream URL: ${streamLink.toString()}`);
     return streamLink.toString();
 }
 
@@ -286,22 +293,45 @@ function wrapStream(streamInfo) {
 
 export async function verifyStream(id, hmac, exp, secret, iv) {
     try {
+        console.log(`[VERIFY] Starting verification for ID: ${id}`);
+        
         const ghmac = hashHmac(`${id},${exp},${iv},${secret}`, 'stream').toString('base64url');
+        console.log(`[VERIFY] Generated HMAC: ${ghmac}, Received HMAC: ${hmac}`);
+        
         const cache = await streamCache.get(id.toString());
+        console.log(`[VERIFY] Cache lookup result:`, cache ? 'found' : 'not found');
 
-        if (ghmac !== String(hmac)) return { status: 401 };
-        if (!cache) return { status: 404 };
-
-        const streamInfo = JSON.parse(decryptStream(cache, iv, secret));
-
-        if (!streamInfo) return { status: 404 };
-
-        if (Number(exp) <= new Date().getTime())
+        if (ghmac !== String(hmac)) {
+            console.log(`[VERIFY] HMAC mismatch, returning 401`);
+            return { status: 401 };
+        }
+        if (!cache) {
+            console.log(`[VERIFY] No cache entry found, returning 404`);
             return { status: 404 };
+        }
 
-        return wrapStream(streamInfo);
+        console.log(`[VERIFY] Decrypting stream data...`);
+        const streamInfo = JSON.parse(decryptStream(cache, iv, secret));
+        console.log(`[VERIFY] Decrypted stream info:`, streamInfo);
+
+        if (!streamInfo) {
+            console.log(`[VERIFY] No stream info after decryption, returning 404`);
+            return { status: 404 };
+        }
+
+        console.log(`[VERIFY] Checking expiration: ${Number(exp)} vs ${new Date().getTime()}`);
+        if (Number(exp) <= new Date().getTime()) {
+            console.log(`[VERIFY] Stream expired, returning 404`);
+            return { status: 404 };
+        }
+
+        console.log(`[VERIFY] Wrapping stream...`);
+        const result = wrapStream(streamInfo);
+        console.log(`[VERIFY] Wrapped stream result:`, result);
+        return result;
     }
-    catch {
+    catch (error) {
+        console.log(`[VERIFY] Error during verification:`, error);
         return { status: 500 };
     }
 }

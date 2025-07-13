@@ -9,7 +9,7 @@
         "node": ">=18"
     },
     "scripts": {
-        "start": "node src/cobalt",
+        "start": "API_EXTERNAL_PROXY=http://127.0.0.1:1087 node src/cobalt",
         "test": "node src/util/test",
         "token:jwt": "node src/util/generate-jwt-secret"
     },

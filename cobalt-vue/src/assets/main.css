@@ -1,0 +1,537 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Google Fonts - Inter & JetBrains Mono */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* CSS变量定义 */
+:root {
+  --neon-intensity: 80%;
+  --neon-red: #f472b6;
+  --neon-red-dark: #f472b6;
+  --animation-duration: 300ms;
+  
+  /* 深色主题颜色 */
+  --bg-primary: #0A0A0B;
+  --bg-secondary: #1e293b;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* 浅色主题 */
+:root:not(.dark) {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: rgba(30, 41, 59, 0.8);
+  --text-muted: rgba(30, 41, 59, 0.6);
+  --border-color: rgba(30, 41, 59, 0.15);
+  --glass-bg: rgba(30, 41, 59, 0.08);
+}
+
+/* 减少动画效果 */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* 全局样式重置和基础样式 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color var(--animation-duration) ease, color var(--animation-duration) ease;
+}
+
+#app {
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--glass-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+}
+
+/* 选择文本样式 */
+::selection {
+  background: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100));
+  color: var(--text-primary);
+}
+
+/* 玻璃形态效果组件 */
+.glass-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  background-image: linear-gradient(135deg, var(--glass-bg) 0%, rgba(255, 255, 255, 0.02) 100%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all var(--animation-duration) ease;
+}
+
+/* 深色主题下的阴影 */
+.dark .glass-container {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-container:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* 深色主题下的悬停阴影 */
+.dark .glass-container:hover {
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  background-image: linear-gradient(135deg, var(--glass-bg) 0%, rgba(255, 255, 255, 0.02) 100%);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 深色主题下的面板阴影 */
+.dark .glass-panel {
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 霓虹发光效果 */
+.neon-glow {
+  box-shadow: 
+    0 0 5px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100)),
+    0 0 10px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100)),
+    0 0 15px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.1 / 100));
+}
+
+.neon-glow-strong {
+  box-shadow: 
+    0 0 10px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.8 / 100)),
+    0 0 20px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100)),
+    0 0 30px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100)),
+    0 0 40px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.1 / 100));
+}
+
+/* 输入框样式 */
+.input-glass {
+  background: var(--glass-bg) !important;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  backdrop-filter: blur(16px);
+  transition: all var(--animation-duration) ease;
+}
+
+.input-glass::placeholder {
+  color: var(--text-muted);
+}
+
+.input-glass:focus {
+  border-color: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+  box-shadow: 
+    0 0 5px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100)),
+    0 0 10px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100)),
+    0 0 15px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.1 / 100));
+}
+
+.glass-input {
+  width: 100%;
+  padding: 0.75rem 5rem 0.75rem 1rem; /* 右边距增加到5rem(80px)，为图标留空间 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  transition: all var(--animation-duration) ease;
+}
+
+.glass-input::placeholder {
+  color: var(--text-muted);
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 0 5px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100)),
+    0 0 10px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100)),
+    0 0 15px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.1 / 100));
+}
+
+.glass-select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--animation-duration) ease;
+  /* 移除默认箭头 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* 添加自定义箭头 */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+/* 浅色主题下的select箭头 */
+:root:not(.dark) .glass-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231e293b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.glass-select:focus {
+  outline: none;
+  border-color: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+}
+
+.glass-select option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.glass-slider {
+  width: 100%;
+  height: 0.5rem;
+  background: linear-gradient(
+    to right,
+    var(--neon-red) 0%,
+    rgba(244, 114, 182, 0.6) var(--slider-progress, 50%),
+    var(--border-color) var(--slider-progress, 50%),
+    var(--border-color) 100%
+  );
+  border-radius: 0.5rem;
+  appearance: none;
+  cursor: pointer;
+  transition: all var(--animation-duration) ease;
+  position: relative;
+}
+
+.glass-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--neon-red);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+  transition: all var(--animation-duration) ease;
+}
+
+.glass-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.8 / 100));
+}
+
+.glass-slider::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--neon-red);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 0;
+  box-shadow: 0 0 8px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+  transition: all var(--animation-duration) ease;
+}
+
+.glass-slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.8 / 100));
+}
+
+/* 按钮样式 */
+.btn-glass {
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(8px);
+  transition: all var(--animation-duration) ease;
+  cursor: pointer;
+}
+
+.btn-glass:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.02);
+}
+
+.btn-neon {
+  background: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.2 / 100));
+  border-color: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+  color: var(--neon-red);
+  box-shadow: 
+    0 0 5px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100)),
+    0 0 10px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100)),
+    0 0 15px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.1 / 100));
+}
+
+.btn-neon:hover {
+  background: var(--neon-red);
+  color: white;
+}
+
+.glass-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: all var(--animation-duration) ease;
+  cursor: pointer;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100));
+}
+
+.glass-btn-secondary {
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.glass-btn-secondary:hover {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 下载相关组件样式 */
+.download-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: all var(--animation-duration) ease;
+  cursor: pointer;
+}
+
+.download-mode-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.download-mode-btn.active {
+  background: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.2 / 100));
+  border-color: rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100));
+  color: var(--neon-red);
+  box-shadow: 
+    0 0 5px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.5 / 100)),
+    0 0 10px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.3 / 100)),
+    0 0 15px rgba(244, 114, 182, calc(var(--neon-intensity) * 0.1 / 100));
+}
+
+
+
+/* 设置组件样式 */
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.setting-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.setting-checkbox:hover .checkbox-custom {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.checkbox-custom {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: 0.25rem;
+  background: var(--glass-bg);
+  transition: all var(--animation-duration) ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.setting-checkbox input:checked + .checkbox-custom {
+  background: var(--neon-red);
+  border-color: var(--neon-red);
+}
+
+.setting-checkbox input:checked + .checkbox-custom::after {
+  content: '✓';
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  position: absolute;
+}
+
+/* 下载界面专用样式 */
+.download-interface {
+  width: 100%;
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* 响应式隐藏 */
+@media (max-width: 640px) {
+  .hidden-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .hidden-desktop {
+    display: none;
+  }
+}
+
+/* 无障碍性 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 聚焦样式 */
+.focus\:ring-neon:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.3);
+}

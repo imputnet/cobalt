@@ -8,7 +8,7 @@ import { convertLanguageCode } from "../misc/language-codes.js";
 
 const extraProcessingTypes = new Set(["merge", "remux", "mute", "audio", "gif"]);
 
-export default function({
+export default async function({
     r,
     host,
     audioFormat,
@@ -62,7 +62,7 @@ export default function({
 
     switch (action) {
         default:
-            return createResponse("error", {
+            return await createResponse("error", {
                 code: "error.api.fetch.empty"
             });
 
@@ -115,7 +115,7 @@ export default function({
                     }
                     params = {
                         picker: r.picker,
-                        url: createStream({
+                        url: await createStream({
                             service: "tiktok",
                             type: audioStreamType,
                             url: r.urls,
@@ -133,7 +133,13 @@ export default function({
         case "video":
             switch (host) {
                 case "bilibili":
-                    params = { type: "merge" };
+                    // Respect localProcessing parameter instead of forcing merge
+                    if (localProcessing === "preferred" || localProcessing === "required") {
+                        responseType = "local-processing";
+                        params = { type: "merge", ...defaultParams };
+                    } else {
+                        params = { type: "merge" };
+                    }
                     break;
 
                 case "youtube":
@@ -179,8 +185,17 @@ export default function({
                     break;
 
                 case "ok":
-                case "xiaohongshu":
                     params = { type: "proxy" };
+                    break;
+
+                case "xiaohongshu":
+                    console.log('🔍 [match-action.js] 小红书处理 - r.originalUrl:', r.originalUrl);
+                    params = { 
+                        type: "proxy",
+                        // 传递原始URL给前端，供直接预览尝试
+                        originalUrl: r.originalUrl 
+                    };
+                    console.log('🔍 [match-action.js] 小红书处理 - params:', params);
                     break;
 
                 case "facebook":
@@ -197,7 +212,7 @@ export default function({
 
         case "audio":
             if (audioIgnore.has(host) || (host === "reddit" && r.typeId === "redirect")) {
-                return createResponse("error", {
+                return await createResponse("error", {
                     code: "error.api.service.audio_not_supported"
                 })
             }
@@ -275,7 +290,7 @@ export default function({
         }
     }
 
-    return createResponse(
+    return await createResponse(
         responseType,
         { ...defaultParams, ...params }
     );

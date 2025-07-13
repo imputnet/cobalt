@@ -74,11 +74,21 @@ export default async function ({ id, token, shareId, h265, isAudioOnly, dispatch
 
         if (!videoURL) return { error: "fetch.empty" };
 
-        return {
+        const result = {
             urls: https(videoURL),
             filename: videoFilename,
             audioFilename: audioFilename,
-        }
+            // 添加原始URL供前端直接预览尝试
+            originalUrl: https(videoURL),
+        };
+        
+        console.log('🔍 [xiaohongshu.js] 返回结果:', {
+            originalUrl: result.originalUrl,
+            urls: result.urls,
+            filename: result.filename
+        });
+        
+        return result;
     }
 
     if (!images || images.length === 0) {
