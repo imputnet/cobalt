@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
-import { Settings, X, Download, Loader2, ExternalLink, CheckCircle } from 'lucide-vue-next'
+import { Settings, X, Download, Loader2, ExternalLink, CheckCircle, XCircle } from 'lucide-vue-next'
 import DownloadInterface from '@/components/DownloadInterface.vue'
 import SettingsPanel from '@/components/SettingsPanel.vue'
 import Toast from '@/components/Toast.vue'
@@ -295,56 +295,196 @@ function downloadFile(blob: Blob, filename: string) {
   URL.revokeObjectURL(url);
 }
 
-// Function to process a single queue item（恢复并重写，支持 remux）
+// Function to process a single queue item（修复逻辑错误，支持 remux）
 async function processQueueItem(item: QueuedItem) {
   try {
     item.status = 'processing';
-    item.progress = 50;
-    // 仅针对 B 站且 tunnel 返回两个流时 remux
-    const isBilibili = ((item.response as any).service === 'bilibili' || (item.response.filename && item.response.filename.startsWith('bilibili_')));
-    if (isBilibili && (item.response as any).tunnel && Array.isArray((item.response as any).tunnel) && (item.response as any).tunnel.length === 2) {
+    item.currentStep = '正在分析链接...';
+    
+    console.log('🚀 开始处理队列项目:', {
+      service: (item.response as any).service,
+      status: item.response.status,
+      hasTunnel: !!(item.response as any).tunnel,
+      tunnelLength: Array.isArray((item.response as any).tunnel) ? (item.response as any).tunnel.length : 'not-array'
+    });
+    
+    // 检测需要remux合并的平台（B站、YouTube等）
+    const service = (item.response as any).service;
+    const needsRemux = (
+      service === 'bilibili' || 
+      service === 'youtube' || 
+      (item.response.filename && (item.response.filename.startsWith('bilibili_') || item.response.filename.startsWith('youtube_')))
+    );
+    
+    console.log('🔍 [processQueueItem] 服务检测:', {
+      service,
+      needsRemux,
+      hasTunnel: !!(item.response as any).tunnel,
+      tunnelLength: Array.isArray((item.response as any).tunnel) ? (item.response as any).tunnel.length : 'not-array'
+    });
+    
+    if (needsRemux && (item.response as any).tunnel && Array.isArray((item.response as any).tunnel) && (item.response as any).tunnel.length === 2) {
+      console.log(`🎬 检测到${service}双流，开始remux处理...`);
+      item.currentStep = `检测到${service}分离流，准备下载...`;
+      
       const [videoUrl, audioUrl] = (item.response as any).tunnel;
+      
+      console.log('🔗 获取到流URL:', {
+        videoUrl: videoUrl?.substring(0, 100) + '...',
+        audioUrl: audioUrl?.substring(0, 100) + '...'
+      });
+      
+      showToast('正在下载视频和音频流...', 'info');
+      
+      item.currentStep = '正在下载视频流...';
+      console.log('📥 开始下载视频流...');
       const videoResp = await fetch(videoUrl);
+      
+      item.currentStep = '正在下载音频流...';
+      console.log('📥 开始下载音频流...');
       const audioResp = await fetch(audioUrl);
+      
+      console.log('📊 流下载响应状态:', {
+        videoOk: videoResp.ok,
+        videoStatus: videoResp.status,
+        audioOk: audioResp.ok,
+        audioStatus: audioResp.status
+      });
+      
       if (!videoResp.ok || !audioResp.ok) throw new Error('音视频流下载失败');
+      
+      item.currentStep = '正在处理视频数据...';
+      console.log('📦 转换为Blob对象...');
+      showToast('正在处理视频流数据，请稍候...', 'info');
+      
+      // 分步处理，避免UI阻塞
+      console.log('📦 处理视频流...');
       const videoBlob = await videoResp.blob();
+      
+      item.currentStep = '正在处理音频数据...';
+      console.log('📦 处理音频流...');  
       const audioBlob = await audioResp.blob();
-      showToast('正在合并B站音视频...', 'info');
-      const mergedBlob = await remux(videoBlob, audioBlob);
-      const filename = item.response.filename || 'bilibili_merge.mp4';
-      downloadFile(mergedBlob, filename);
-      item.status = 'done';
-      item.progress = 100;
-    } else {
-      // 其它平台/单流，保持原有逻辑
-      if (item.response.url) {
-        const response = await fetch(item.response.url);
-        if (!response.ok) throw new Error('文件下载失败');
-        const blob = await response.blob();
-        const filename = item.response.filename || 'download';
-        downloadFile(blob, filename);
+      
+      item.currentStep = '数据处理完成，准备合并...';
+      console.log('✅ 流数据处理完成');
+      
+      console.log('📊 Blob信息:', {
+        videoSize: (videoBlob.size / 1024 / 1024).toFixed(2) + 'MB',
+        audioSize: (audioBlob.size / 1024 / 1024).toFixed(2) + 'MB',
+        videoType: videoBlob.type,
+        audioType: audioBlob.type
+      });
+      
+      console.log('📥 视频和音频流下载完成，开始合并...');
+      showToast(`正在合并${service}音视频...`, 'info');
+      
+      item.currentStep = '正在初始化视频处理引擎...';
+      console.log('🔄 调用remux函数...');
+      showToast('正在初始化视频处理引擎...', 'info');
+      try {
+        const mergedBlob = await remux(videoBlob, audioBlob, (step: string) => {
+          item.currentStep = step; // remux函数中会传递步骤信息
+        });
+        
+        item.currentStep = '合并完成，准备下载...';
+        console.log('✅ remux合并完成，文件大小:', (mergedBlob.size / 1024 / 1024).toFixed(2) + 'MB');
+        showToast('视频合并完成！准备下载...', 'success');
+        
+        const filename = item.response.filename || `${service}_merged.mp4`;
+        
+        item.currentStep = '正在启动下载...';
+        console.log(`✅ ${service}视频合并完成，开始下载:`, filename);
+        downloadFile(mergedBlob, filename);
+        
         item.status = 'done';
-        item.progress = 100;
-      } else {
-        throw new Error('无可用下载链接');
+        item.currentStep = '下载完成！';
+        console.log(`🎉 ${service}视频处理完全完成！`);
+      } catch (remuxError) {
+        console.error('❌ remux合并过程出错:', remuxError);
+        throw remuxError;
       }
+      
+    } else if ((item.response as any).tunnel && Array.isArray((item.response as any).tunnel)) {
+      // 处理其他平台的多流情况（不需要合并的）
+      console.log('🎵 检测到多流响应，直接下载所有流...');
+      item.currentStep = '正在下载多个文件...';
+      const tunnelUrls = (item.response as any).tunnel;
+      
+      for (let i = 0; i < tunnelUrls.length; i++) {
+        item.currentStep = `正在下载第 ${i+1}/${tunnelUrls.length} 个文件...`;
+        const url = tunnelUrls[i];
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`下载流 ${i+1} 失败`);
+        const blob = await response.blob();
+        const filename = `${item.response.filename || 'media'}_${i+1}.${i === 0 ? 'mp4' : 'mp3'}`;
+        downloadFile(blob, filename);
+      }
+      
+      item.status = 'done';
+      item.currentStep = '所有文件下载完成！';
+      
+    } else if (item.response.url) {
+      // 处理单文件下载
+      console.log('📁 检测到单文件下载...');
+      item.currentStep = '正在下载文件...';
+      const response = await fetch(item.response.url);
+      if (!response.ok) throw new Error('文件下载失败');
+      
+      item.currentStep = '正在处理文件数据...';
+      const blob = await response.blob();
+      const filename = item.response.filename || 'download';
+      
+      item.currentStep = '正在启动下载...';
+      downloadFile(blob, filename);
+      item.status = 'done';
+      item.currentStep = '下载完成！';
+      
+    } else {
+      throw new Error('无可用下载链接');
     }
+    
+    console.log('✅ 队列项目处理完成');
+    
   } catch (error) {
-    console.error('Error processing queue item:', error);
+    console.error('❌ 队列项目处理失败:', error);
     item.status = 'error';
-    item.progress = 0;
+    item.currentStep = '处理失败：' + (error instanceof Error ? error.message : '未知错误');
     showToast(error instanceof Error ? error.message : '队列处理失败', 'error');
   }
 }
 
 // 监听队列，自动处理新任务
 watch(processingQueue, (newQueue, oldQueue) => {
-  const addedItems = newQueue.filter((newItem: QueuedItem) => !oldQueue.some((oldItem: QueuedItem) => oldItem.id === newItem.id));
-  addedItems.forEach((item: QueuedItem) => {
-    if (item.status === 'queued') {
-      processQueueItem(item);
-    }
+  console.log('👀 [App] 队列监听器触发');
+  console.log('📈 [App] 队列变化:', {
+    oldLength: oldQueue.length,
+    newLength: newQueue.length,
+    change: newQueue.length - oldQueue.length
   });
+  
+  const addedItems = newQueue.filter((newItem: QueuedItem) => !oldQueue.some((oldItem: QueuedItem) => oldItem.id === newItem.id));
+  
+  console.log('🆕 [App] 检测到新增项目数量:', addedItems.length);
+  
+  if (addedItems.length > 0) {
+    addedItems.forEach((item: QueuedItem, index: number) => {
+      console.log(`🎯 [App] 处理新增项目 ${index + 1}/${addedItems.length}:`, {
+        id: item.id,
+        status: item.status,
+        service: (item.response as any).service,
+        type: (item.response as any).type
+      });
+      
+      if (item.status === 'queued') {
+        console.log(`🚀 [App] 启动处理队列项目 ID: ${item.id}`);
+        processQueueItem(item);
+      } else {
+        console.log(`⏸️ [App] 跳过非queued状态的项目 ID: ${item.id}, 状态: ${item.status}`);
+      }
+    });
+  } else {
+    console.log('🤔 [App] 没有检测到新增项目，可能是状态更新');
+  }
 }, { deep: true });
 
 // 支持的平台列表
@@ -362,6 +502,37 @@ onMounted(() => {
   
   console.log('Cobalt Vue 应用已启动')
 })
+
+function addToQueue({ response, request }: { response: any, request: any }) {
+  console.log('📥 [App] addToQueue函数被调用');
+  console.log('📊 [App] 接收到的响应数据:', {
+    status: response.status,
+    service: response.service,
+    type: response.type,
+    hasTunnel: !!response.tunnel,
+    tunnelLength: Array.isArray(response.tunnel) ? response.tunnel.length : 'not-array'
+  });
+  
+  // 生成唯一 id（number 类型）
+  const id = Date.now();
+  const queueItem = {
+    id,
+    response,
+    status: 'queued' as const,
+    progress: 0
+  };
+  
+  console.log('🆔 [App] 生成队列项目ID:', id);
+  console.log('📋 [App] 当前队列长度:', processingQueue.value.length);
+  
+  processingQueue.value.push(queueItem);
+  
+  console.log('✅ [App] 队列项目已添加，新队列长度:', processingQueue.value.length);
+  
+  // 🔥 修复：直接在这里启动处理，避免watch监听器的时机问题
+  console.log('🚀 [App] 直接启动队列项目处理，避免监听器延迟');
+  processQueueItem(queueItem);
+}
 </script>
 
 <template>
@@ -448,6 +619,7 @@ onMounted(() => {
                 @show-toast="showToast"
                 @open-preview="openPreview"
                 @open-picker="openPicker"
+                @add-to-queue="addToQueue"
               />
             </div>
           </div>
@@ -559,11 +731,42 @@ onMounted(() => {
       </div>
       <div class="space-y-3 max-h-64 overflow-y-auto pr-2">
         <div v-for="item in processingQueue" :key="item.id" class="bg-slate-900/70 p-3 rounded-lg">
-          <p class="text-sm text-white truncate mb-2 font-medium" :title="item.response.filename">{{ item.response.filename }}</p>
-          <div class="w-full bg-slate-700 rounded-full h-2.5">
-            <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: item.progress + '%' }"></div>
+          <!-- 文件名 -->
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-sm text-white truncate font-medium flex-1" :title="item.response.filename">
+              {{ item.response.filename || '未知文件' }}
+            </p>
+            <!-- 状态图标 -->
+            <div class="flex-shrink-0 ml-2">
+              <Loader2 v-if="item.status === 'processing'" class="w-4 h-4 text-blue-400 animate-spin" />
+              <CheckCircle v-else-if="item.status === 'done'" class="w-4 h-4 text-green-400" />
+              <XCircle v-else-if="item.status === 'error'" class="w-4 h-4 text-red-400" />
+              <div v-else class="w-4 h-4 rounded-full bg-slate-600"></div>
+            </div>
           </div>
-          <p class="text-xs text-slate-400 mt-1 text-right">{{ item.status }}...</p>
+          
+          <!-- 当前步骤描述 -->
+          <div class="flex items-center space-x-2">
+            <!-- 状态点动画 -->
+            <div v-if="item.status === 'processing'" class="flex space-x-1">
+              <div class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
+              <div class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+              <div class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+            </div>
+            <div v-else-if="item.status === 'done'" class="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+            <div v-else-if="item.status === 'error'" class="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
+            <div v-else class="w-1.5 h-1.5 bg-slate-500 rounded-full"></div>
+            
+            <!-- 步骤文字 -->
+            <p class="text-xs flex-1" :class="{
+              'text-blue-300': item.status === 'processing',
+              'text-green-300': item.status === 'done', 
+              'text-red-300': item.status === 'error',
+              'text-slate-400': item.status === 'queued'
+            }">
+              {{ item.currentStep || (item.status === 'queued' ? '等待处理...' : item.status + '...') }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

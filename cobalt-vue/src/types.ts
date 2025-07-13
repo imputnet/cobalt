@@ -2,16 +2,24 @@
 
 export interface CobaltApiRequest {
     url: string;
-    vQuality?: 'max' | '1080' | '720' | '480' | '360' | '240' | '144';
-    filenamePattern?: 'classic' | 'pretty' | 'basic' | 'nerdy';
-    isAudioOnly?: boolean;
-    isNoTTWatermark?: boolean;
-    isTTFullAudio?: boolean;
-    dubLang?: boolean;
+    // 修复：按照官方API schema的格式
+    videoQuality?: 'max' | '4320' | '2160' | '1440' | '1080' | '720' | '480' | '360' | '240' | '144';
+    filenameStyle?: 'classic' | 'pretty' | 'basic' | 'nerdy';
     disableMetadata?: boolean;
-    localProcessing?: 'preferred' | 'required' | 'disabled';
+    localProcessing?: 'disabled' | 'preferred' | 'forced';
     alwaysProxy?: boolean;
-    downloadMode?: 'video' | 'audio' | 'mute';
+    downloadMode?: 'auto' | 'audio' | 'mute';
+    audioFormat?: 'best' | 'mp3' | 'ogg' | 'wav' | 'opus';
+    subtitleLang?: string;
+    audioBitrate?: '320' | '256' | '128' | '96' | '64' | '8';
+    tiktokFullAudio?: boolean;
+    youtubeDubLang?: string;
+    youtubeBetterAudio?: boolean;
+    youtubeVideoCodec?: 'h264' | 'av1' | 'vp9';
+    youtubeVideoContainer?: 'auto' | 'mp4' | 'webm' | 'mkv';
+    youtubeHLS?: boolean;
+    allowH265?: boolean;
+    convertGif?: boolean;
 }
 
 export interface CobaltResponse {
@@ -24,7 +32,7 @@ export interface CobaltResponse {
     picker?: {
         type: string;
         options: any[];
-    }
+    } | any[];
 }
 
 export interface QueuedItem {
@@ -32,4 +40,5 @@ export interface QueuedItem {
     status: 'queued' | 'processing' | 'done' | 'error';
     response: CobaltResponse;
     progress?: number;
+    currentStep?: string; // 当前处理步骤描述
 } 

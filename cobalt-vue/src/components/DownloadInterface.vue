@@ -363,32 +363,31 @@ const handleDownload = async () => {
       videoQuality: settings.save?.videoQuality
     })
     
-    // 构建API请求，完全按照原版web/src/lib/api/saving-handler.ts的格式
+    // 构建API请求，完全按照官方API schema的格式
     const requestData: CobaltApiRequest = {
       url: urlInput.value.trim(),
-      
-      localProcessing: 'preferred', // 强制启用客户端处理
-      
+      localProcessing: 'preferred',
       alwaysProxy: settings.save?.alwaysProxy || false,
-      downloadMode: settings.save?.downloadMode || 'auto',
-      
-      subtitleLang: settings.save?.subtitleLang || 'none',
-      filenameStyle: settings.save?.filenameStyle || 'basic',
+      // 修复：downloadMode只支持 ["auto", "audio", "mute"]，将 "video" 转换为 "auto"
+      downloadMode: (['audio', 'mute'].includes(settings.save?.downloadMode)
+        ? settings.save?.downloadMode
+        : 'auto') as 'auto' | 'audio' | 'mute',
       disableMetadata: settings.save?.disableMetadata || false,
-      
+      // 修复：字段名应该是 videoQuality，不是 vQuality
+      videoQuality: (settings.save?.videoQuality as 'max' | '1080' | '720' | '480' | '360' | '240' | '144') || '1080',
+      // 修复：字段名应该是 filenameStyle，不是 filenamePattern
+      filenameStyle: (settings.save?.filenameStyle as 'classic' | 'pretty' | 'basic' | 'nerdy') || 'basic',
       audioFormat: settings.save?.audioFormat || 'mp3',
+      subtitleLang: settings.save?.subtitleLang || 'none',
       audioBitrate: settings.save?.audioBitrate || '128',
       tiktokFullAudio: settings.save?.tiktokFullAudio || false,
       youtubeDubLang: settings.save?.youtubeDubLang || 'original',
       youtubeBetterAudio: settings.save?.youtubeBetterAudio || false,
-      
-      videoQuality: settings.save?.videoQuality || '1080',
       youtubeVideoCodec: settings.save?.youtubeVideoCodec || 'h264',
       youtubeVideoContainer: settings.save?.youtubeVideoContainer || 'auto',
       youtubeHLS: settings.save?.youtubeHLS || false,
-      
       allowH265: settings.save?.allowH265 || false,
-      convertGif: settings.save?.convertGif || true
+      convertGif: settings.save?.convertGif ?? true
     }
     
     console.log('构建的请求数据:', requestData)
@@ -424,7 +423,33 @@ const handleDownload = async () => {
 
     // 处理不同类型的响应
     if (response.status === 'local-processing') {
-      emit('add-to-queue', { response: response, request: {} })
+      console.log('🎬 [DownloadInterface] 检测到local-processing响应，准备添加到队列');
+      console.log('🔍 [DownloadInterface] 响应详情:', {
+        service: response.service,
+        type: response.type,
+        hasTunnel: !!response.tunnel,
+        tunnelLength: Array.isArray(response.tunnel) ? response.tunnel.length : 'not-array',
+        hasPicker: !!response.picker,
+        isPickerArray: Array.isArray(response.picker)
+      });
+      
+      if (Array.isArray(response.picker)) {
+        console.log('📋 [DownloadInterface] 检测到picker数组，转换格式后添加到队列');
+        const patchedResponse = {
+          ...response,
+          picker: {
+            type: 'default',
+            options: response.picker
+          } as { type: string; options: any[] }
+        };
+        emit('add-to-queue', { response: patchedResponse, request: {} });
+      } else {
+        console.log('🎯 [DownloadInterface] 直接添加到处理队列');
+        emit('add-to-queue', { response, request: {} });
+      }
+      
+      emit('showToast', '已添加到处理队列，正在准备下载...', 'info');
+      console.log('✅ [DownloadInterface] add-to-queue事件已发送');
     } else if (response.status === 'redirect' && response.url) {
       emit('showToast', '检测到直接链接，显示预览', 'info')
       

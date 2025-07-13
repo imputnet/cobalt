@@ -1,7 +1,0 @@
-{
-    "title": "drag or select a file",
-    "title.multiple": "drag or select files",
-    "title.drop": "drop the file here!",
-    "title.drop.multiple": "drop the files here!",
-    "accept": "supported formats: {{ formats }}."
-}

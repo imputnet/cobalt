@@ -1,0 +1,50 @@
+{
+    "name": "@imput/cobalt-api",
+    "description": "save what you love",
+    "version": "11.3.1",
+    "author": "imput",
+    "exports": "./src/cobalt.js",
+    "type": "module",
+    "engines": {
+        "node": ">=18"
+    },
+    "scripts": {
+        "start": "API_EXTERNAL_PROXY=http://127.0.0.1:1087 node src/cobalt",
+        "test": "node src/util/test",
+        "token:jwt": "node src/util/generate-jwt-secret"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/imputnet/cobalt.git"
+    },
+    "license": "AGPL-3.0",
+    "bugs": {
+        "url": "https://github.com/imputnet/cobalt/issues"
+    },
+    "homepage": "https://github.com/imputnet/cobalt#readme",
+    "dependencies": {
+        "@datastructures-js/priority-queue": "^6.3.1",
+        "@imput/psl": "^2.0.4",
+        "@imput/version-info": "workspace:^",
+        "@imput/youtubei.js": "^14.0.0",
+        "content-disposition-header": "0.6.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "express": "^4.21.2",
+        "express-rate-limit": "^7.4.1",
+        "ffmpeg-static": "^5.1.0",
+        "hls-parser": "^0.10.7",
+        "ipaddr.js": "2.2.0",
+        "mime": "^4.0.4",
+        "nanoid": "^5.0.9",
+        "set-cookie-parser": "2.6.0",
+        "undici": "^6.21.3",
+        "url-pattern": "1.0.3",
+        "zod": "^3.23.8"
+    },
+    "optionalDependencies": {
+        "freebind": "^0.2.2",
+        "rate-limit-redis": "^4.2.0",
+        "redis": "^4.7.0"
+    }
+}

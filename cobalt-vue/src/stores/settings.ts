@@ -5,19 +5,19 @@ import { api } from '@/lib/api'
 export interface CobaltSettings {
   // 下载设置
   save: {
-    downloadMode: 'auto' | 'audio' | 'mute'
+    downloadMode: 'auto' | 'audio' | 'mute'  // 修复：移除 video，使用 auto
     videoQuality: string
-    audioFormat: string
+    audioFormat: 'best' | 'mp3' | 'ogg' | 'wav' | 'opus'  // 修复：使用具体的字符串字面量类型
     filenameStyle: string
     disableMetadata: boolean
     localProcessing: string
     alwaysProxy: boolean
-    audioBitrate: string
+    audioBitrate: '320' | '256' | '128' | '96' | '64' | '8'  // 修复：使用具体的字符串字面量类型
     tiktokFullAudio: boolean
     youtubeDubLang: string
     youtubeBetterAudio: boolean
-    youtubeVideoCodec: string
-    youtubeVideoContainer: string
+    youtubeVideoCodec: 'h264' | 'av1' | 'vp9'  // 修复：使用具体的字符串字面量类型
+    youtubeVideoContainer: 'auto' | 'mp4' | 'webm' | 'mkv'  // 修复：使用具体的字符串字面量类型
     youtubeHLS: boolean
     allowH265: boolean
     convertGif: boolean
@@ -49,7 +49,7 @@ export interface CobaltSettings {
 // 默认设置，参考原版web的defaults
 const defaultSettings: CobaltSettings = {
   save: {
-    downloadMode: 'auto',
+    downloadMode: 'auto',  // 修复：使用 auto 而不是 video
     videoQuality: '1080',
     audioFormat: 'mp3',
     filenameStyle: 'basic',
