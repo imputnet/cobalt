@@ -1,11 +1,29 @@
-import ffmpeg from "ffmpeg-static";
-import { spawn } from "child_process";
+// import ffmpeg from "ffmpeg-static";
+import { spawn, exec } from "child_process";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
 import { destroyInternalStream } from "./manage.js";
 import { hlsExceptions } from "../processing/service-config.js";
 import { closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
+
+// 在模块加载时执行一次ffmpeg版本检查，用于诊断
+/*
+exec('ffmpeg -version', { env: { ...process.env, PATH: `/opt/homebrew/bin:${process.env.PATH}` } }, (error, stdout, stderr) => {
+    if (error) {
+        console.error(`[FFMPEG DIAGNOSTIC] FFMPEG NOT FOUND OR FAILED: ${error.message}`);
+        return;
+    }
+    console.log(`[FFMPEG DIAGNOSTIC] ffmpeg -version stdout:\n${stdout}`);
+    if (stderr) {
+        console.error(`[FFMPEG DIAGNOSTIC] ffmpeg -version stderr:\n${stderr}`);
+    }
+});
+*/
+
+// Use system FFmpeg instead of ffmpeg-static due to macOS compatibility issues
+// const ffmpeg = '/opt/homebrew/bin/ffmpeg'; // 移除硬编码路径，让系统自动在PATH中寻找ffmpeg
+const ffmpeg = 'ffmpeg';
 
 const metadataTags = new Set([
     "album",
@@ -75,6 +93,10 @@ const render = async (res, streamInfo, ffargs, estimateMultiplier) => {
                 'inherit', 'inherit', 'inherit',
                 'pipe'
             ],
+            env: {
+                ...process.env,
+                PATH: `/opt/homebrew/bin:${process.env.PATH}`
+            }
         });
 
         const [,,, muxOutput] = process.stdio;
@@ -136,11 +158,9 @@ const remux = async (streamInfo, res) => {
     }
 
     if (streamInfo.type !== 'mute' && streamInfo.isHLS && hlsExceptions.has(streamInfo.service)) {
-        if (streamInfo.service === 'youtube' && format === 'webm') {
-            args.push('-c:a', 'libopus');
-        } else {
-            args.push('-c:a', 'aac', '-bsf:a', 'aac_adtstoasc');
-        }
+        // The 'aac_adtstoasc' bitstream filter can cause issues with some ffmpeg versions.
+        // We will still re-encode to AAC to ensure compatibility, but without the problematic filter.
+        args.push('-c:a', 'aac');
     }
 
     if (streamInfo.metadata) {

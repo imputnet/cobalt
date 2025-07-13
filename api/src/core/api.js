@@ -39,8 +39,8 @@ const corsConfig = env.corsWildcard ? {} : {
     optionsSuccessStatus: 200
 }
 
-const fail = (res, code, context) => {
-    const { status, body } = createResponse("error", { code, context });
+const fail = async (res, code, context) => {
+    const { status, body } = await createResponse("error", { code, context });
     res.status(status).json(body);
 }
 
@@ -65,8 +65,8 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
 
     const serverInfo = getServerInfo();
 
-    const handleRateExceeded = (_, res) => {
-        const { body } = createResponse("error", {
+    const handleRateExceeded = async (_, res) => {
+        const { body } = await createResponse("error", {
             code: "error.api.rate_exceeded",
             context: {
                 limit: env.rateLimitWindow
@@ -195,9 +195,9 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     app.post('/', apiLimiter);
     app.use('/', express.json({ limit: 1024 }));
 
-    app.use('/', (err, _, res, next) => {
+    app.use('/', async (err, _, res, next) => {
         if (err) {
-            const { status, body } = createResponse("error", {
+            const { status, body } = await createResponse("error", {
                 code: "error.api.invalid_body",
             });
             return res.status(status).json(body);
@@ -292,20 +292,30 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         const sec = String(req.query.sec);
         const iv = String(req.query.iv);
 
+        console.log(`[TUNNEL] Request received - ID: ${id}`);
+
         const checkQueries = id && exp && sig && sec && iv;
         const checkBaseLength = id.length === 21 && exp.length === 13;
         const checkSafeLength = sig.length === 43 && sec.length === 43 && iv.length === 22;
 
+        console.log(`[TUNNEL] Validation - queries: ${checkQueries}, baseLength: ${checkBaseLength}, safeLength: ${checkSafeLength}`);
+
         if (!checkQueries || !checkBaseLength || !checkSafeLength) {
+            console.log(`[TUNNEL] Validation failed, returning 400`);
             return res.status(400).end();
         }
 
         if (req.query.p) {
+            console.log(`[TUNNEL] Ping request, returning 200`);
             return res.status(200).end();
         }
 
+        console.log(`[TUNNEL] Verifying stream...`);
         const streamInfo = await verifyStream(id, sig, exp, sec, iv);
+        console.log(`[TUNNEL] Stream verification result:`, streamInfo);
+        
         if (!streamInfo?.service) {
+            console.log(`[TUNNEL] Stream verification failed, status: ${streamInfo.status}`);
             return res.status(streamInfo.status).end();
         }
 
@@ -313,6 +323,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             streamInfo.range = req.headers['range'];
         }
 
+        console.log(`[TUNNEL] Starting stream with type: ${streamInfo.type}`);
         return stream(res, streamInfo);
     });
 

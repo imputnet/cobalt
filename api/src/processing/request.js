@@ -4,7 +4,7 @@ import ipaddr from "ipaddr.js";
 import { apiSchema } from "./schema.js";
 import { createProxyTunnels, createStream } from "../stream/manage.js";
 
-export function createResponse(responseType, responseData) {
+export async function createResponse(responseType, responseData) {
     const internalError = (code) => {
         return {
             status: 500,
@@ -45,8 +45,10 @@ export function createResponse(responseType, responseData) {
 
             case "tunnel":
                 response = {
-                    url: createStream(responseData),
-                    filename: responseData?.filename
+                    url: await createStream(responseData),
+                    filename: responseData?.filename,
+                    // 传递originalUrl给前端用于直接预览
+                    originalUrl: responseData?.originalUrl
                 }
                 break;
 
@@ -54,7 +56,7 @@ export function createResponse(responseType, responseData) {
                 response = {
                     type: responseData?.type,
                     service: responseData?.service,
-                    tunnel: createProxyTunnels(responseData),
+                    tunnel: await createProxyTunnels(responseData),
 
                     output: {
                         type: mime.getType(responseData?.filename) || undefined,

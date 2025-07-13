@@ -52,12 +52,12 @@ export default async function({ host, patternMatch, params, authType }) {
             isAudioMuted = params.downloadMode === "mute";
 
         if (!testers[host]) {
-            return createResponse("error", {
+            return await createResponse("error", {
                 code: "error.api.service.unsupported"
             });
         }
         if (!(testers[host](patternMatch))) {
-            return createResponse("error", {
+            return await createResponse("error", {
                 code: "error.api.link.unsupported",
                 context: {
                     service: friendlyServiceName(host),
@@ -269,7 +269,7 @@ export default async function({ host, patternMatch, params, authType }) {
                 break;
 
             default:
-                return createResponse("error", {
+                return await createResponse("error", {
                     code: "error.api.service.unsupported"
                 });
         }
@@ -280,7 +280,7 @@ export default async function({ host, patternMatch, params, authType }) {
         }
 
         if (r.error && r.critical) {
-            return createResponse("critical", {
+            return await createResponse("critical", {
                 code: `error.api.${r.error}`,
             })
         }
@@ -305,7 +305,7 @@ export default async function({ host, patternMatch, params, authType }) {
                     break;
             }
 
-            return createResponse("error", {
+            return await createResponse("error", {
                 code: `error.api.${r.error}`,
                 context,
             })
@@ -335,7 +335,7 @@ export default async function({ host, patternMatch, params, authType }) {
             localProcessing,
         })
     } catch {
-        return createResponse("error", {
+        return await createResponse("error", {
             code: "error.api.fetch.critical",
             context: {
                 service: friendlyServiceName(host),
