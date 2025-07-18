@@ -20,8 +20,8 @@ importers:
         specifier: workspace:^
         version: link:../packages/version-info
       '@imput/youtubei.js':
-        specifier: ^14.0.0
-        version: 14.0.0
+        specifier: ^14.0.1
+        version: 14.0.1
       content-disposition-header:
         specifier: 0.6.0
         version: 0.6.0
@@ -563,8 +563,8 @@ packages:
   '@imput/psl@2.0.4':
     resolution: {integrity: sha512-vuy76JX78/DnJegLuJoLpMmw11JTA/9HvlIADg/f8dDVXyxbh0jnObL0q13h+WvlBO4Gk26Pu8sUa7/h0JGQig==}
 
-  '@imput/youtubei.js@14.0.0':
-    resolution: {integrity: sha512-YvTnh53URPlzsmMzqF/DFHZyR9HrpgoWYHzEOklx5OCkwk1/0F/CrO9gqArXw/1oI6GjaTS2CqBd1CzyFZB07A==}
+  '@imput/youtubei.js@14.0.1':
+    resolution: {integrity: sha512-m1/5JEQOYnhUZDluQCD8W5eGZAkMsz79PZUzFFgQlc74noj5xiC45ytQXl1tYNnN9mLQ042S5B/yY8C58Rqipw==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2428,7 +2428,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  '@imput/youtubei.js@14.0.0':
+  '@imput/youtubei.js@14.0.1':
     dependencies:
       '@bufbuild/protobuf': 2.2.5
       jintr: 3.3.1
