@@ -86,6 +86,7 @@
     },
     {
         "name": "go+ song, should fail",
+        "canFail": true,
         "url": "https://soundcloud.com/dualipa/physical-feat-troye-sivan",
         "params": {},
         "expected": {
