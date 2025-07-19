@@ -1,0 +1,44 @@
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  background-color: #f0f0f0;
+  min-width: 250px; /* Ensure sidepanel has some minimum width */
+}
+
+h1 {
+  color: #333;
+  font-size: 1.2em; /* Slightly smaller h1 for a side panel */
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+p {
+  color: #555;
+  font-size: 0.9em; /* Slightly smaller p for a side panel */
+  margin-bottom: 5px;
+}
+
+#videoUrl {
+  width: calc(100% - 22px); /* Adjust width considering padding/border */
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Important for width calculation */
+}
+
+#downloadButton {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%; /* Make button full width */
+  font-size: 1em;
+  margin-top: 5px; /* Added margin-top */
+}
+
+#downloadButton:hover {
+  background-color: #0056b3;
+}
