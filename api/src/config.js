@@ -1,5 +1,5 @@
 import { getVersion } from "@imput/version-info";
-import { loadEnvs, validateEnvs } from "./core/env.js";
+import { loadEnvs, validateEnvs, onEnvChanged } from "./core/env.js";
 
 const version = await getVersion();
 
@@ -18,10 +18,18 @@ export const updateEnv = (newEnv) => {
     newEnv.tunnelPort = env.tunnelPort;
 
     for (const key in env) {
+        if (key === 'subscribe') {
+            continue;
+        }
+
         if (String(env[key]) !== String(newEnv[key])) {
             changes.push(key);
         }
         env[key] = newEnv[key];
+    }
+
+    if (changes.length) {
+        onEnvChanged(changes);
     }
 
     return changes;

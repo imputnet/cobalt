@@ -10,6 +10,30 @@ import { Green, Yellow } from "../misc/console-text.js";
 const forceLocalProcessingOptions = ["never", "session", "always"];
 const youtubeHlsOptions = ["never", "key", "always"];
 
+const changeCallbacks = {};
+
+export const onEnvChanged = (changes) => {
+    for (const key of changes) {
+        if (changeCallbacks[key]) {
+            changeCallbacks[key].map(fn => {
+                try { fn() } catch {}
+            });
+        }
+    }
+}
+
+const subscribe = (keys, fn) => {
+    keys = [keys].flat();
+
+    for (const key of keys) {
+        if (key in currentEnv && key !== 'subscribe') {
+            changeCallbacks[key] ??= [];
+            changeCallbacks[key].push(fn);
+            fn();
+        } else throw `invalid env key ${key}`;
+    }
+}
+
 export const loadEnvs = (env = process.env) => {
     const allServices = new Set(Object.keys(services));
     const disabledServices = env.DISABLED_SERVICES?.split(',') || [];
@@ -87,6 +111,8 @@ export const loadEnvs = (env = process.env) => {
 
         envFile: env.API_ENV_FILE,
         envRemoteReloadInterval: 300,
+
+        subscribe,
     };
 }
 
