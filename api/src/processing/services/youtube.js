@@ -1,7 +1,7 @@
 import HLS from "hls-parser";
 
 import { fetch } from "undici";
-import { Innertube, Session } from "@imput/youtubei.js";
+import { Innertube, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
@@ -224,7 +224,7 @@ export default async function (o) {
 
     let info;
     try {
-        info = await yt.getBasicInfo(o.id, innertubeClient);
+        info = await yt.getBasicInfo(o.id, { client: innertubeClient });
     } catch (e) {
         if (e?.info) {
             let errorInfo;
