@@ -15,7 +15,7 @@ const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12
 
 let keys = {}, reader = null;
 
-const ALLOWED_KEYS = new Set(['name', 'ips', 'userAgents', 'limit']);
+const ALLOWED_KEYS = new Set(['name', 'ips', 'userAgents', 'limit', 'allowedServices']);
 
 /* Expected format pseudotype:
 ** type KeyFileContents = Record<
@@ -24,7 +24,8 @@ const ALLOWED_KEYS = new Set(['name', 'ips', 'userAgents', 'limit']);
 **        name?: string,
 **        limit?: number | "unlimited",
 **        ips?: CIDRString[],
-**        userAgents?: string[]
+**        userAgents?: string[],
+**        allowedServices?: "all" | string[],
 **    }
 ** >;
 */
@@ -77,6 +78,19 @@ const validateKeys = (input) => {
                 throw "`userAgents` in details contains an invalid user agent: " + invalid_ua;
             }
         }
+
+        if (details.allowedServices) {
+            if (Array.isArray(details.allowedServices)) {
+                const invalid_services = details.allowedServices.some(
+                    service => !env.allServices.has(service)
+                );
+                if (invalid_services) {
+                    throw "`allowedServices` in details contains an invalid service";
+                }
+            } else if (details.allowedServices !== "all") {
+                throw "details object contains value for `allowedServices` which is not an array or `all`";
+            }
+        }
     });
 }
 
@@ -111,6 +125,14 @@ const formatKeys = (keyData) => {
 
         if (data.userAgents) {
             formatted[key].userAgents = data.userAgents.map(generateWildcardRegex);
+        }
+
+        if (data.allowedServices) {
+            if (Array.isArray(data.allowedServices)) {
+                formatted[key].allowedServices = new Set(data.allowedServices);
+            } else {
+                formatted[key].allowedServices = data.allowedServices;
+            }
         }
     }
 
@@ -229,4 +251,16 @@ export const setup = (url) => {
             }
         });
     }
+}
+
+export const getAllowedServices = (key) => {
+    if (typeof key !== "string") return;
+
+    const allowedServices = keys[key.toLowerCase()]?.allowedServices;
+    if (!allowedServices) return;
+
+    if (allowedServices === "all") {
+        return env.allServices;
+    }
+    return allowedServices;
 }

@@ -9,13 +9,18 @@ const getEnv = (_key: string) => {
     }
 }
 
+const getEnvBool = (key: string) => {
+    const value = getEnv(key);
+    return value && ['1', 'true'].includes(value.toLowerCase());
+}
+
 const variables = {
     HOST: getEnv('HOST'),
     PLAUSIBLE_HOST: getEnv('PLAUSIBLE_HOST'),
     PLAUSIBLE_ENABLED: getEnv('HOST') && getEnv('PLAUSIBLE_HOST'),
     DEFAULT_API: getEnv('DEFAULT_API'),
-    // temporary variable until webcodecs features are ready for testing
-    ENABLE_WEBCODECS: !!getEnv('ENABLE_WEBCODECS'),
+    ENABLE_WEBCODECS: getEnvBool('ENABLE_WEBCODECS'),
+    ENABLE_DEPRECATED_YOUTUBE_HLS: getEnvBool('ENABLE_DEPRECATED_YOUTUBE_HLS'),
 }
 
 const contacts = {

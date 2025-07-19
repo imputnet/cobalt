@@ -1,7 +1,13 @@
 import LibAVWrapper from "$lib/libav";
 import type { FileInfo } from "$lib/types/libav";
 
-const ffmpeg = async (variant: string, files: File[], args: string[], output: FileInfo) => {
+const ffmpeg = async (
+    variant: string,
+    files: File[],
+    args: string[],
+    output: FileInfo,
+    yesthreads: boolean = false,
+) => {
     if (!(files && output && args)) {
         self.postMessage({
             cobaltFFmpegWorker: {
@@ -25,7 +31,7 @@ const ffmpeg = async (variant: string, files: File[], args: string[], output: Fi
         })
     });
 
-    ff.init({ variant });
+    ff.init({ variant, yesthreads });
 
     const error = (code: string) => {
         self.postMessage({
@@ -62,6 +68,14 @@ const ffmpeg = async (variant: string, files: File[], args: string[], output: Fi
 
         if (!file_info?.format) {
             return error("queue.ffmpeg.no_input_format");
+        }
+
+        // handle the edge case when a video doesn't have an audio track
+        // but user still tries to extract it
+        if (files.length === 1 && file_info.streams?.length === 1) {
+            if (output.type?.startsWith("audio") && file_info.streams[0].codec_type !== "audio") {
+                return error("queue.ffmpeg.no_audio_channel");
+            }
         }
 
         self.postMessage({
@@ -114,6 +128,6 @@ const ffmpeg = async (variant: string, files: File[], args: string[], output: Fi
 self.onmessage = async (event: MessageEvent) => {
     const ed = event.data.cobaltFFmpegWorker;
     if (ed?.variant && ed?.files && ed?.args && ed?.output) {
-        await ffmpeg(ed.variant, ed.files, ed.args, ed.output);
+        await ffmpeg(ed.variant, ed.files, ed.args, ed.output, ed.yesthreads);
     }
 }

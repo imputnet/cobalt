@@ -159,7 +159,8 @@ type KeyFileContents = Record<
         name?: string,
         limit?: number | "unlimited",
         ips?: (CIDRString | IPString)[],
-        userAgents?: string[]
+        userAgents?: string[],
+        allowedServices?: "all" | string[],
     }
 >;
 ```
@@ -178,6 +179,11 @@ where *`UUIDv4String`* is a stringified version of a UUIDv4 identifier.
 - **`userAgents`** contains an array of allowed user agents, with support for wildcards (e.g. *`["cobaltbot/1.0", "Mozilla/5.0 * Chrome/*"]`*).
     - when specified, requests with a `user-agent` that does not appear in this array will be rejected.
     - when omitted, any user agent can be specified to make requests with that API key.
+
+- **`allowedServices`** is an array of allowed services or `"all"`.
+    - when `"all"` is specified, the key will be able to access all supported services, even if they're globally disabled via `DISABLED_SERVICES`.
+    - when an array of services is specified, the key will be able to access only the services included in the array.
+    - when omitted, the key will use the global list of supported services.
 
 - if both `ips` and `userAgents` are set, the tokens will be limited by both parameters.
 - if cobalt detects any problem with your key file, it will be ignored and a warning will be printed to the console.

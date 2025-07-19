@@ -1,8 +1,9 @@
 <script lang="ts">
+    import env from "$lib/env";
     import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
 
-    import { videoQualityOptions } from "$lib/types/settings";
+    import { videoQualityOptions, youtubeVideoContainerOptions } from "$lib/types/settings";
     import { youtubeVideoCodecOptions } from "$lib/types/settings";
 
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
@@ -11,9 +12,9 @@
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
 
     const codecTitles = {
-        h264: "h264 (mp4)",
-        av1: "av1 (webm)",
-        vp9: "vp9 (webm)",
+        h264: "h264 + aac",
+        av1: "av1 + opus",
+        vp9: "vp9 + opus",
     }
 </script>
 
@@ -55,19 +56,41 @@
 </SettingsCategory>
 
 <SettingsCategory
-    sectionId="youtube-hls"
-    title={$t("settings.video.youtube.hls")}
-    disabled={$settings.save.youtubeVideoCodec === "av1"}
-    beta
+    sectionId="youtube-container"
+    title={$t("settings.video.youtube.container")}
 >
-    <SettingsToggle
-        settingContext="save"
-        settingId="youtubeHLS"
-        title={$t("settings.video.youtube.hls.title")}
-        description={$t("settings.video.youtube.hls.description")}
-        disabled={$settings.save.youtubeVideoCodec === "av1"}
-    />
+    <Switcher
+        big={true}
+        description={$t("settings.video.youtube.container.description")}
+    >
+        {#each youtubeVideoContainerOptions as value}
+            <SettingsButton
+                settingContext="save"
+                settingId="youtubeVideoContainer"
+                settingValue={value}
+            >
+                {value}
+            </SettingsButton>
+        {/each}
+    </Switcher>
 </SettingsCategory>
+
+{#if env.ENABLE_DEPRECATED_YOUTUBE_HLS}
+    <SettingsCategory
+        sectionId="youtube-hls"
+        title={$t("settings.video.youtube.hls")}
+        disabled={$settings.save.youtubeVideoCodec === "av1"}
+        beta
+    >
+        <SettingsToggle
+            settingContext="save"
+            settingId="youtubeHLS"
+            title={$t("settings.video.youtube.hls.title")}
+            description={$t("settings.video.youtube.hls.description")}
+            disabled={$settings.save.youtubeVideoCodec === "av1"}
+        />
+    </SettingsCategory>
+{/if}
 
 <SettingsCategory sectionId="h265" title={$t("settings.video.h265")}>
     <SettingsToggle

@@ -6,6 +6,8 @@ import { handleHlsPlaylist, isHlsResponse, probeInternalHLSTunnel } from "./inte
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
 const min = (a, b) => a < b ? a : b;
 
+const serviceNeedsChunks = new Set(["youtube", "vk"]);
+
 async function* readChunks(streamInfo, size) {
     let read = 0n, chunksSinceTransplant = 0;
     while (read < size) {
@@ -15,7 +17,7 @@ async function* readChunks(streamInfo, size) {
 
         const chunk = await request(streamInfo.url, {
             headers: {
-                ...getHeaders('youtube'),
+                ...getHeaders(streamInfo.service),
                 Range: `bytes=${read}-${read + CHUNK_SIZE}`
             },
             dispatcher: streamInfo.dispatcher,
@@ -48,7 +50,7 @@ async function* readChunks(streamInfo, size) {
     }
 }
 
-async function handleYoutubeStream(streamInfo, res) {
+async function handleChunkedStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
     const cleanup = () => (res.end(), closeRequest(streamInfo.controller));
 
@@ -56,7 +58,7 @@ async function handleYoutubeStream(streamInfo, res) {
         let req, attempts = 3;
         while (attempts--) {
             req = await fetch(streamInfo.url, {
-                headers: getHeaders('youtube'),
+                headers: getHeaders(streamInfo.service),
                 method: 'HEAD',
                 dispatcher: streamInfo.dispatcher,
                 signal
@@ -146,8 +148,8 @@ export function internalStream(streamInfo, res) {
         streamInfo.headers.delete('icy-metadata');
     }
 
-    if (streamInfo.service === 'youtube' && !streamInfo.isHLS) {
-        return handleYoutubeStream(streamInfo, res);
+    if (serviceNeedsChunks.has(streamInfo.service) && !streamInfo.isHLS) {
+        return handleChunkedStream(streamInfo, res);
     }
 
     return handleGenericStream(streamInfo, res);

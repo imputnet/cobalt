@@ -39,6 +39,10 @@ export const getBranch = async () => {
         return process.env.CF_PAGES_BRANCH;
     }
 
+    if (process.env.WORKERS_CI_BRANCH) {
+        return process.env.WORKERS_CI_BRANCH;
+    }
+
     return (await readGit('.git/HEAD'))
             ?.replace(/^ref: refs\/heads\//, '')
             ?.trim();

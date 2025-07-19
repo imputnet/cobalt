@@ -50,7 +50,42 @@ async function fromRawURL(id) {
     }
 }
 
-export default async function({ id }) {
+async function getTranscript(id) {
+    const gql = await fetch(`https://www.loom.com/graphql`, {
+        method: "POST",
+        headers: craftHeaders(id),
+        body: JSON.stringify({
+            operationName: "FetchVideoTranscriptForFetchTranscript",
+            variables: {
+                videoId: id,
+                password: null,
+            },
+            query: `
+                query FetchVideoTranscriptForFetchTranscript($videoId: ID!, $password: String) {
+                    fetchVideoTranscript(videoId: $videoId, password: $password) {
+                        ... on VideoTranscriptDetails {
+                        captions_source_url
+                        language
+                        __typename
+                        }
+                        ... on GenericError {
+                        message
+                        __typename
+                        }
+                        __typename
+                    }
+                }`,
+        })
+    })
+    .then(r => r.status === 200 && r.json())
+    .catch(() => {});
+
+    if (gql?.data?.fetchVideoTranscript?.captions_source_url?.includes('.vtt?')) {
+        return gql.data.fetchVideoTranscript.captions_source_url;
+    }
+}
+
+export default async function({ id, subtitleLang }) {
     let url = await fromTranscodedURL(id);
     url ??= await fromRawURL(id);
 
@@ -58,8 +93,15 @@ export default async function({ id }) {
         return { error: "fetch.empty" }
     }
 
+    let subtitles;
+    if (subtitleLang) {
+        const transcript = await getTranscript(id);
+        if (transcript) subtitles = transcript;
+    }
+
     return {
         urls: url,
+        subtitles,
         filename: `loom_${id}.mp4`,
         audioFilename: `loom_${id}_audio`
     }

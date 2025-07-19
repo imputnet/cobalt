@@ -1,7 +1,7 @@
 import HLS from "hls-parser";
 
 import { fetch } from "undici";
-import { Innertube, Session } from "youtubei.js";
+import { Innertube, Session } from "@imput/youtubei.js";
 
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
@@ -87,6 +87,83 @@ const cloneInnertube = async (customFetch, useSession) => {
     return yt;
 }
 
+const getHlsVariants = async (hlsManifest, dispatcher) => {
+    if (!hlsManifest) {
+        return { error: "youtube.no_hls_streams" };
+    }
+
+    const fetchedHlsManifest =
+        await fetch(hlsManifest, { dispatcher })
+            .then(r => r.status === 200 ? r.text() : undefined)
+            .catch(() => {});
+
+    if (!fetchedHlsManifest) {
+        return { error: "youtube.no_hls_streams" };
+    }
+
+    const variants = HLS.parse(fetchedHlsManifest).variants.sort(
+        (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
+    );
+
+    if (!variants || variants.length === 0) {
+        return { error: "youtube.no_hls_streams" };
+    }
+
+    return variants;
+}
+
+const getSubtitles = async (info, dispatcher, subtitleLang) => {
+    const preferredCap = info.captions.caption_tracks.find(caption =>
+        caption.kind !== 'asr' && caption.language_code.startsWith(subtitleLang)
+    );
+
+    const captionsUrl = preferredCap?.base_url;
+    if (!captionsUrl) return;
+
+    if (!captionsUrl.includes("exp=xpe")) {
+        let url = new URL(captionsUrl);
+        url.searchParams.set('fmt', 'vtt');
+
+        return {
+            url: url.toString(),
+            language: preferredCap.language_code,
+        }
+    }
+
+    // if we have exp=xpe in the url, then captions are
+    // locked down and can't be accessed without a yummy potoken,
+    // so instead we just use subtitles from HLS
+
+    const hlsVariants = await getHlsVariants(
+        info.streaming_data.hls_manifest_url,
+        dispatcher
+    );
+    if (hlsVariants?.error) return;
+
+    // all variants usually have the same set of subtitles
+    const hlsSubtitles = hlsVariants[0]?.subtitles;
+    if (!hlsSubtitles?.length) return;
+
+    const preferredHls = hlsSubtitles.find(
+        subtitle => subtitle.language.startsWith(subtitleLang)
+    );
+
+    if (!preferredHls) return;
+
+    const fetchedHlsSubs =
+        await fetch(preferredHls.uri, { dispatcher })
+            .then(r => r.status === 200 ? r.text() : undefined)
+            .catch(() => {});
+
+    const parsedSubs = HLS.parse(fetchedHlsSubs);
+    if (!parsedSubs) return;
+
+    return {
+        url: parsedSubs.segments[0]?.uri,
+        language: preferredHls.language,
+    }
+}
+
 export default async function (o) {
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
@@ -94,7 +171,7 @@ export default async function (o) {
     let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
 
     // HLS playlists from the iOS client don't contain the av1 video format.
-    if (useHLS && o.format === "av1") {
+    if (useHLS && o.codec === "av1") {
         useHLS = false;
     }
 
@@ -104,17 +181,23 @@ export default async function (o) {
 
     // iOS client doesn't have adaptive formats of resolution >1080p,
     // so we use the WEB_EMBEDDED client instead for those cases
-    const useSession =
+    let useSession =
         env.ytSessionServer && (
             (
                 !useHLS
                 && innertubeClient === "IOS"
                 && (
-                    (quality > 1080 && o.format !== "h264")
-                    || (quality > 1080 && o.format !== "vp9")
+                    (quality > 1080 && o.codec !== "h264")
+                    || (quality > 1080 && o.codec !== "vp9")
                 )
             )
         );
+
+    // we can get subtitles reliably only from the iOS client
+    if (o.subtitleLang) {
+        innertubeClient = "IOS";
+        useSession = false;
+    }
 
     if (useSession) {
         innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
@@ -222,37 +305,16 @@ export default async function (o) {
         return videoQualities.find(qual => qual >= shortestSide);
     }
 
-    let video, audio, dubbedLanguage,
-        codec = o.format || "h264", itag = o.itag;
+    let video, audio, subtitles, dubbedLanguage,
+        codec = o.codec || "h264", itag = o.itag;
 
     if (useHLS) {
-        const hlsManifest = info.streaming_data.hls_manifest_url;
-
-        if (!hlsManifest) {
-            return { error: "youtube.no_hls_streams" };
-        }
-
-        const fetchedHlsManifest = await fetch(hlsManifest, {
-            dispatcher: o.dispatcher,
-        }).then(r => {
-            if (r.status === 200) {
-                return r.text();
-            } else {
-                throw new Error("couldn't fetch the HLS playlist");
-            }
-        }).catch(() => { });
-
-        if (!fetchedHlsManifest) {
-            return { error: "youtube.no_hls_streams" };
-        }
-
-        const variants = HLS.parse(fetchedHlsManifest).variants.sort(
-            (a, b) => Number(b.bandwidth) - Number(a.bandwidth)
+        const variants = await getHlsVariants(
+            info.streaming_data.hls_manifest_url,
+            o.dispatcher
         );
 
-        if (!variants || variants.length === 0) {
-            return { error: "youtube.no_hls_streams" };
-        }
+        if (variants?.error) return variants;
 
         const matchHlsCodec = codecs => (
             codecs.includes(hlsCodecList[codec].videoCodec)
@@ -403,6 +465,13 @@ export default async function (o) {
 
             if (!video) video = sorted_formats[codec].bestVideo;
         }
+
+        if (o.subtitleLang && !o.isAudioOnly && info.captions?.caption_tracks?.length) {
+            const videoSubtitles = await getSubtitles(info, o.dispatcher, o.subtitleLang);
+            if (videoSubtitles) {
+                subtitles = videoSubtitles;
+            }
+        }
     }
 
     if (video?.drm_families || audio?.drm_families) {
@@ -424,6 +493,10 @@ export default async function (o) {
                 fileMetadata.date = descItems[4].replace("Released on: ", '').trim();
             }
         }
+    }
+
+    if (subtitles) {
+        fileMetadata.sublanguage = subtitles.language;
     }
 
     const filenameAttributes = {
@@ -459,6 +532,15 @@ export default async function (o) {
             urls = audio.decipher(innertube.session.player);
         }
 
+        let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
+        const testMaxCover = await fetch(cover, { dispatcher: o.dispatcher })
+            .then(r => r.status === 200)
+            .catch(() => {});
+
+        if (!testMaxCover) {
+            cover = basicInfo.thumbnail?.[0]?.url;
+        }
+
         return {
             type: "audio",
             isAudioOnly: true,
@@ -467,7 +549,10 @@ export default async function (o) {
             fileMetadata,
             bestAudio,
             isHLS: useHLS,
-            originalRequest
+            originalRequest,
+
+            cover,
+            cropCover: basicInfo.author.endsWith("- Topic"),
         }
     }
 
@@ -477,7 +562,7 @@ export default async function (o) {
         if (useHLS) {
             resolution = normalizeQuality(video.resolution);
             filenameAttributes.resolution = `${video.resolution.width}x${video.resolution.height}`;
-            filenameAttributes.extension = hlsCodecList[codec].container;
+            filenameAttributes.extension = o.container === "auto" ? hlsCodecList[codec].container : o.container;
 
             video = video.uri;
             audio = audio.uri;
@@ -488,7 +573,7 @@ export default async function (o) {
             });
 
             filenameAttributes.resolution = `${video.width}x${video.height}`;
-            filenameAttributes.extension = codecList[codec].container;
+            filenameAttributes.extension = o.container === "auto" ? codecList[codec].container : o.container;
 
             if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
                 video = video.decipher(innertube.session.player);
@@ -508,6 +593,7 @@ export default async function (o) {
                 video,
                 audio,
             ],
+            subtitles: subtitles?.url,
             filenameAttributes,
             fileMetadata,
             isHLS: useHLS,

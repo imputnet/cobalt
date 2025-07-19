@@ -76,7 +76,7 @@ const getVideo = async (ownerId, videoId, accessKey) => {
     return video;
 }
 
-export default async function ({ ownerId, videoId, accessKey, quality }) {
+export default async function ({ ownerId, videoId, accessKey, quality, subtitleLang }) {
     const token = await getToken();
     if (!token) return { error: "fetch.fail" };
 
@@ -125,8 +125,20 @@ export default async function ({ ownerId, videoId, accessKey, quality }) {
         title: video.title.trim(),
     }
 
+    let subtitles;
+    if (subtitleLang && video.subtitles?.length) {
+        const subtitle = video.subtitles.find(
+            s => s.title.endsWith(".vtt") && s.lang.startsWith(subtitleLang)
+        );
+        if (subtitle) {
+            subtitles = subtitle.url;
+            fileMetadata.sublanguage = subtitleLang;
+        }
+    }
+
     return {
         urls: url,
+        subtitles,
         fileMetadata,
         filenameAttributes: {
             service: "vk",

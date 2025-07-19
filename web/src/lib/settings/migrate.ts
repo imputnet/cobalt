@@ -5,8 +5,9 @@ import type {
     CobaltSettingsV3,
     CobaltSettingsV4,
     CobaltSettingsV5,
+    CobaltSettingsV6,
 } from "$lib/types/settings";
-import { getBrowserLanguage } from "$lib/settings/youtube-lang";
+import { getBrowserLanguage } from "$lib/settings/audio-sub-language";
 
 type Migrator = (s: AllPartialSettingsWithSchema) => AllPartialSettingsWithSchema;
 
@@ -75,6 +76,20 @@ const migrations: Record<number, Migrator> = {
                 out.accessibility ??= {};
                 out.accessibility.reduceTransparency = settings.appearance.reduceTransparency;
                 delete settings.appearance.reduceTransparency;
+            }
+        }
+
+        return out as AllPartialSettingsWithSchema;
+    },
+
+    [6]: (settings: AllPartialSettingsWithSchema) => {
+        const out = settings as RecursivePartial<CobaltSettingsV6>;
+        out.schemaVersion = 6;
+
+        if (settings?.save) {
+            if ("localProcessing" in settings.save) {
+                out.save!.localProcessing =
+                    settings.save.localProcessing ? "preferred" : "disabled";
             }
         }
 

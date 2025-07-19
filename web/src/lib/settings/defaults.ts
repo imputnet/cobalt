@@ -3,7 +3,7 @@ import { defaultLocale } from "$lib/i18n/translations";
 import type { CobaltSettings } from "$lib/types/settings";
 
 const defaultSettings: CobaltSettings = {
-    schemaVersion: 5,
+    schemaVersion: 6,
     advanced: {
         debug: false,
         useWebCodecs: false,
@@ -22,7 +22,8 @@ const defaultSettings: CobaltSettings = {
     },
     save: {
         alwaysProxy: false,
-        localProcessing: device.supports.defaultLocalProcessing || false,
+        localProcessing:
+            device.supports.defaultLocalProcessing ? "preferred" : "disabled",
         audioBitrate: "128",
         audioFormat: "mp3",
         disableMetadata: false,
@@ -33,7 +34,9 @@ const defaultSettings: CobaltSettings = {
         tiktokFullAudio: false,
         convertGif: true,
         videoQuality: "1080",
+        subtitleLang: "none",
         youtubeVideoCodec: "h264",
+        youtubeVideoContainer: "auto",
         youtubeDubLang: "original",
         youtubeHLS: false,
         youtubeBetterAudio: false,

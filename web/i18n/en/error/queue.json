@@ -2,6 +2,8 @@
     "no_final_file": "no final file output",
     "worker_didnt_start": "couldn't start a processing worker",
 
+    "generic_error": "processing worker crashed, see console for details",
+
     "fetch.crashed": "fetch worker crashed, see console for details",
     "fetch.bad_response": "couldn't access the file tunnel",
     "fetch.no_file_reader": "couldn't write a file to cache",
@@ -15,5 +17,6 @@
     "ffmpeg.no_input_type": "the file's type isn't supported",
     "ffmpeg.crashed": "ffmpeg worker crashed, see console for details",
     "ffmpeg.no_render": "ffmpeg render is empty, something very odd happened",
-    "ffmpeg.no_args": "ffmpeg worker didn't get required arguments"
+    "ffmpeg.no_args": "ffmpeg worker didn't get required arguments",
+    "ffmpeg.no_audio_channel": "this video has no audio track, nothing to do"
 }

@@ -1,4 +1,5 @@
-import stream from "./types.js";
+import proxy from "./proxy.js";
+import ffmpeg from "./ffmpeg.js";
 
 import { closeResponse } from "./shared.js";
 import { internalStream } from "./internal.js";
@@ -7,23 +8,21 @@ export default async function(res, streamInfo) {
     try {
         switch (streamInfo.type) {
             case "proxy":
-                return await stream.proxy(streamInfo, res);
+                return await proxy(streamInfo, res);
 
             case "internal":
                 return await internalStream(streamInfo.data, res);
 
             case "merge":
-                return await stream.merge(streamInfo, res);
-
             case "remux":
             case "mute":
-                return await stream.remux(streamInfo, res);
+                return await ffmpeg.remux(streamInfo, res);
 
             case "audio":
-                return await stream.convertAudio(streamInfo, res);
+                return await ffmpeg.convertAudio(streamInfo, res);
 
             case "gif":
-                return await stream.convertGif(streamInfo, res);
+                return await ffmpeg.convertGif(streamInfo, res);
         }
 
         closeResponse(res);

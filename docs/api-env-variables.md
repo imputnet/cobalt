@@ -34,9 +34,9 @@ this document is not final and will expand over time. feel free to improve it!
 | RATELIMIT_WINDOW         | `60`    | `120`         |
 | RATELIMIT_MAX            | `20`    | `30`          |
 | SESSION_RATELIMIT_WINDOW | `60`    | `60`          |
-| SESSION_RATELIMIT        | `10`    | `10`          |
+| SESSION_RATELIMIT_MAX    | `10`    | `10`          |
 | TUNNEL_RATELIMIT_WINDOW  | `60`    | `60`          |
-| TUNNEL_RATELIMIT         | `40`    | `10`          |
+| TUNNEL_RATELIMIT_MAX     | `40`    | `10`          |
 
 [*view details*](#limits)
 
@@ -61,6 +61,7 @@ this document is not final and will expand over time. feel free to improve it!
 | YOUTUBE_SESSION_SERVER           | `http://localhost:8080/` |
 | YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
 | YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
+| ENABLE_DEPRECATED_YOUTUBE_HLS    | `key`                    |
 
 [*view details*](#service-specific)
 
@@ -106,11 +107,10 @@ comma-separated list which disables certain services from being used.
 the value is a string of cobalt-supported services.
 
 ### FORCE_LOCAL_PROCESSING
-the value is a string: `never` (default), `session`, or `always`.
-
-when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
-
-when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
+the value is a string: `never` (default), `session`, or `always`:
+- when the var is not defined or set to `never`, all requests will be able to set a preference via `localProcessing` in POST requests.
+- when set to `session`, only requests from session (Bearer token) clients will be forced to use on-device processing.
+- when set to `always`, all requests will be forced to use on-device processing, no matter the preference.
 
 ### API_ENV_FILE
 the URL or local path to a `key=value`-style environment variable file. this is used for dynamically reloading environment variables. **not all environment variables are able to be updated by this.** (e.g. the ratelimiters are instantiated when starting cobalt, and cannot be changed)
@@ -171,7 +171,7 @@ rate limit time window for session creation requests, in **seconds**.
 
 the value is a number.
 
-### SESSION_RATELIMIT
+### SESSION_RATELIMIT_MAX
 amount of session requests to be allowed within the time window of `SESSION_RATELIMIT_WINDOW`.
 
 the value is a number.
@@ -181,7 +181,7 @@ rate limit time window for tunnel (proxy/stream) requests, in **seconds**.
 
 the value is a number.
 
-### TUNNEL_RATELIMIT
+### TUNNEL_RATELIMIT_MAX
 amount of tunnel requests to be allowed within the time window of `TUNNEL_RATELIMIT_WINDOW`.
 
 the value is a number.
@@ -256,3 +256,9 @@ the value is a string.
 when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively impact the rate limit of a secondary youtube client with a session.
 
 the value is a number, either `0` or `1`.
+
+### ENABLE_DEPRECATED_YOUTUBE_HLS
+the value is a string: `never` (default), `key`, or `always`:
+- when the var is not defined or set to `never`, `youtubeHLS` in POST requests will be ignored.
+- when set to `key`, only requests from api-key clients will be able to use `youtubeHLS` in POST requests.
+- when set to `always`, all requests will be able to use `youtubeHLS` in POST requests.

@@ -41,7 +41,10 @@ export function createStream(obj) {
             audioFormat: obj.audioFormat,
 
             isHLS: obj.isHLS || false,
-            originalRequest: obj.originalRequest
+            originalRequest: obj.originalRequest,
+
+            // url to a subtitle file
+            subtitles: obj.subtitles,
         };
 
     // FIXME: this is now a Promise, but it is not awaited
@@ -79,17 +82,39 @@ export function createProxyTunnels(info) {
         urls = [urls];
     }
 
+    const tunnelTemplate = {
+        type: "proxy",
+        headers: info?.headers,
+        requestIP: info?.requestIP,
+    }
+
     for (const url of urls) {
         proxyTunnels.push(
             createStream({
+                ...tunnelTemplate,
                 url,
-                type: "proxy",
-
                 service: info?.service,
-                headers: info?.headers,
-                requestIP: info?.requestIP,
+                originalRequest: info?.originalRequest,
+            })
+        );
+    }
 
-                originalRequest: info?.originalRequest
+    if (info.subtitles) {
+        proxyTunnels.push(
+            createStream({
+                ...tunnelTemplate,
+                url: info.subtitles,
+                service: `${info?.service}-subtitles`,
+            })
+        );
+    }
+
+    if (info.cover) {
+        proxyTunnels.push(
+            createStream({
+                ...tunnelTemplate,
+                url: info.cover,
+                service: `${info?.service}-cover`,
             })
         );
     }
@@ -111,7 +136,7 @@ export function getInternalTunnelFromURL(url) {
     return getInternalTunnel(id);
 }
 
-export function createInternalStream(url, obj = {}) {
+export function createInternalStream(url, obj = {}, isSubtitles) {
     assert(typeof url === 'string');
 
     let dispatcher = obj.dispatcher;
@@ -132,9 +157,12 @@ export function createInternalStream(url, obj = {}) {
         headers = new Map(Object.entries(obj.headers));
     }
 
+    // subtitles don't need special treatment unlike big media files
+    const service = isSubtitles ? `${obj.service}-subtitles` : obj.service;
+
     internalStreamCache.set(streamID, {
         url,
-        service: obj.service,
+        service,
         headers,
         controller,
         dispatcher,
@@ -244,6 +272,14 @@ function wrapStream(streamInfo) {
             );
         }
     } else throw 'invalid urls';
+
+    if (streamInfo.subtitles) {
+        streamInfo.subtitles = createInternalStream(
+            streamInfo.subtitles,
+            streamInfo,
+            /*isSubtitles=*/true
+        );
+    }
 
     return streamInfo;
 }

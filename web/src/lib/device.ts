@@ -28,6 +28,7 @@ const device = {
         directDownload: false,
         haptics: false,
         defaultLocalProcessing: false,
+        multithreading: false,
     },
     userAgent: "sveltekit server",
 }
@@ -38,7 +39,7 @@ if (browser) {
     const iPhone = ua.includes("iphone os");
     const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
 
-    const iosVersion = Number(ua.match(/iphone os (\d+)_/)?.[1]);
+    const iosVersion = Number(ua.match(/version\/(\d+)/)?.[1]);
     const modernIOS = iPhone && iosVersion >= 18;
 
     const iOS = iPhone || iPad;
@@ -83,10 +84,9 @@ if (browser) {
         // so they're enabled only on ios 18+ for now
         haptics: modernIOS,
 
-        // enable local processing by default on
-        // desktop, ios 18+, and firefox on android
-        defaultLocalProcessing: !device.is.mobile || modernIOS ||
-                                (device.is.android && !device.browser.chrome),
+        // enable local processing by default everywhere but android chrome
+        defaultLocalProcessing: !(device.is.android && device.browser.chrome),
+        multithreading: !iOS || iosVersion >= 18,
     };
 
     device.userAgent = navigator.userAgent;

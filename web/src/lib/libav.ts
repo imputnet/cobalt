@@ -32,7 +32,6 @@ export default class LibAVWrapper {
             this.libav = constructor({
                 ...options,
                 variant: undefined,
-                yesthreads: true,
                 base: '/_libav'
             });
         }

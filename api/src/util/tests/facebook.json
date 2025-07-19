@@ -1,7 +1,7 @@
 [
     {
         "name": "direct video with username and id",
-        "url": "https://web.facebook.com/100048111287134/videos/1157798148685638/",
+        "url": "https://web.facebook.com/100071784061914/videos/588631943886661/",
         "params": {},
         "expected": {
             "code": 200,

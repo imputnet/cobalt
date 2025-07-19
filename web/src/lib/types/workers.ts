@@ -1,7 +1,7 @@
 import type { FileInfo } from "$lib/types/libav";
 import type { UUID } from "./queue";
 
-export const resultFileTypes = ["video", "audio", "image"] as const;
+export const resultFileTypes = ["video", "audio", "image", "file"] as const;
 
 export type CobaltPipelineResultFileType = typeof resultFileTypes[number];
 

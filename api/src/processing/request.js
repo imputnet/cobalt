@@ -11,7 +11,7 @@ export function createResponse(responseType, responseData) {
             body: {
                 status: "error",
                 error: {
-                    code: code || "error.api.fetch.critical",
+                    code: code || "error.api.fetch.critical.core",
                 },
                 critical: true
             }
@@ -60,12 +60,15 @@ export function createResponse(responseType, responseData) {
                         type: mime.getType(responseData?.filename) || undefined,
                         filename: responseData?.filename,
                         metadata: responseData?.fileMetadata || undefined,
+                        subtitles: !!responseData?.subtitles || undefined,
                     },
 
                     audio: {
                         copy: responseData?.audioCopy,
                         format: responseData?.audioFormat,
                         bitrate: responseData?.audioBitrate,
+                        cover: !!responseData?.cover || undefined,
+                        cropCover: !!responseData?.cropCover || undefined,
                     },
 
                     isHLS: responseData?.isHLS,
@@ -108,11 +111,16 @@ export function createResponse(responseType, responseData) {
             }
         }
     } catch {
-        return internalError()
+        return internalError();
     }
 }
 
 export function normalizeRequest(request) {
+    // TODO: remove after backwards compatibility period
+    if ("localProcessing" in request && typeof request.localProcessing === "boolean") {
+        request.localProcessing = request.localProcessing ? "preferred" : "disabled";
+    }
+
     return apiSchema.safeParseAsync(request).catch(() => (
         { success: false }
     ));

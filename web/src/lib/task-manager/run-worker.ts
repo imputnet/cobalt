@@ -1,4 +1,5 @@
 import { get } from "svelte/store";
+import { device } from "$lib/device";
 import { queue, itemError } from "$lib/state/task-manager/queue";
 
 import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
@@ -42,6 +43,7 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
                     workerArgs.ffargs,
                     workerArgs.output,
                     worker,
+                    device.supports.multithreading,
                     /*resetStartCounter=*/true,
                 );
             } else {

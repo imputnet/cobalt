@@ -17,7 +17,7 @@ function aliasURL(url) {
             if (url.pathname.startsWith('/live/') || url.pathname.startsWith('/shorts/')) {
                 url.pathname = '/watch';
                 // parts := ['', 'live' || 'shorts', id, ...rest]
-                url.search = `?v=${encodeURIComponent(parts[2])}`
+                url.search = `?v=${encodeURIComponent(parts[2])}`;
             }
             break;
 
@@ -61,23 +61,23 @@ function aliasURL(url) {
 
         case "b23":
             if (url.hostname === 'b23.tv' && parts.length === 2) {
-                url = new URL(`https://bilibili.com/_shortLink/${parts[1]}`)
+                url = new URL(`https://bilibili.com/_shortLink/${parts[1]}`);
             }
             break;
 
         case "dai":
             if (url.hostname === 'dai.ly' && parts.length === 2) {
-                url = new URL(`https://dailymotion.com/video/${parts[1]}`)
+                url = new URL(`https://dailymotion.com/video/${parts[1]}`);
             }
             break;
 
         case "facebook":
         case "fb":
             if (url.searchParams.get('v')) {
-                url = new URL(`https://web.facebook.com/user/videos/${url.searchParams.get('v')}`)
+                url = new URL(`https://web.facebook.com/user/videos/${url.searchParams.get('v')}`);
             }
             if (url.hostname === 'fb.watch') {
-                url = new URL(`https://web.facebook.com/_shortLink/${parts[1]}`)
+                url = new URL(`https://web.facebook.com/_shortLink/${parts[1]}`);
             }
             break;
 
@@ -91,6 +91,9 @@ function aliasURL(url) {
         case "vkvideo":
             if (services.vk.altDomains.includes(url.hostname)) {
                 url.hostname = 'vk.com';
+            }
+            if (url.searchParams.get('z')) {
+                url = new URL(`https://vk.com/${url.searchParams.get('z')}`);
             }
             break;
 
@@ -106,7 +109,7 @@ function aliasURL(url) {
                 url.pathname = `/share/${idPart.slice(-32)}`;
             }
             break;
-            
+
         case "redd":
             /* reddit short video links can be treated by changing https://v.redd.it/<id>
             to https://reddit.com/video/<id>.*/
@@ -196,7 +199,7 @@ export function normalizeURL(url) {
     );
 }
 
-export function extract(url) {
+export function extract(url, enabledServices = env.enabledServices) {
     if (!(url instanceof URL)) {
         url = new URL(url);
     }
@@ -207,7 +210,7 @@ export function extract(url) {
         return { error: "link.invalid" };
     }
 
-    if (!env.enabledServices.has(host)) {
+    if (!enabledServices.has(host)) {
         // show a different message when youtube is disabled on official instances
         // as it only happens when shit hits the fan
         if (new URL(env.apiURL).hostname.endsWith(".imput.net") && host === "youtube") {

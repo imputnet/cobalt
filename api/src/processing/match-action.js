@@ -4,8 +4,9 @@ import { createResponse } from "./request.js";
 import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
+import { convertLanguageCode } from "../misc/language-codes.js";
 
-const extraProcessingTypes = ["merge", "remux", "mute", "audio", "gif"];
+const extraProcessingTypes = new Set(["merge", "remux", "mute", "audio", "gif"]);
 
 export default function({
     r,
@@ -19,7 +20,7 @@ export default function({
     requestIP,
     audioBitrate,
     alwaysProxy,
-    localProcessing
+    localProcessing,
 }) {
     let action,
         responseType = "tunnel",
@@ -31,7 +32,10 @@ export default function({
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
             requestIP,
-            originalRequest: r.originalRequest
+            originalRequest: r.originalRequest,
+            subtitles: r.subtitles,
+            cover: !disableMetadata ? r.cover : false,
+            cropCover: !disableMetadata ? r.cropCover : false,
         },
         params = {};
 
@@ -143,7 +147,9 @@ export default function({
 
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
-                        params = { type: "merge" }
+                        params = { type: "merge" };
+                    } else if (r.subtitles) {
+                        params = { type: "remux" };
                     } else {
                         responseType = "redirect";
                     }
@@ -157,10 +163,24 @@ export default function({
                     }
                     break;
 
-                case "ok":
+                case "loom":
+                    if (r.subtitles) {
+                        params = { type: "remux" };
+                    } else {
+                        responseType = "redirect";
+                    }
+                    break;
+
                 case "vk":
                 case "tiktok":
+                    params = {
+                        type: r.subtitles ? "remux" : "proxy"
+                    };
+                    break;
+
+                case "ok":
                 case "xiaohongshu":
+                case "newgrounds":
                     params = { type: "proxy" };
                     break;
 
@@ -170,7 +190,6 @@ export default function({
                 case "pinterest":
                 case "streamable":
                 case "snapchat":
-                case "loom":
                 case "twitch":
                     responseType = "redirect";
                     break;
@@ -178,7 +197,7 @@ export default function({
             break;
 
         case "audio":
-            if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
+            if (audioIgnore.has(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
                     code: "error.api.service.audio_not_supported"
                 })
@@ -226,6 +245,7 @@ export default function({
         defaultParams.filename += `.${audioFormat}`;
     }
 
+    // alwaysProxy is set to true in match.js if localProcessing is forced
     if (alwaysProxy && responseType === "redirect") {
         responseType = "tunnel";
         params.type = "proxy";
@@ -233,8 +253,27 @@ export default function({
 
     // TODO: add support for HLS
     // (very painful)
-    if (localProcessing && !params.isHLS && extraProcessingTypes.includes(params.type)) {
-        responseType = "local-processing";
+    if (!params.isHLS && responseType !== "picker") {
+        const isPreferredWithExtra =
+            localProcessing === "preferred" && extraProcessingTypes.has(params.type);
+
+        if (localProcessing === "forced" || isPreferredWithExtra) {
+            responseType = "local-processing";
+        }
+    }
+
+    // extractors usually return ISO 639-1 language codes,
+    // but video players expect ISO 639-2, so we convert them here
+    const sublanguage = defaultParams.fileMetadata?.sublanguage;
+    if (sublanguage && sublanguage.length !== 3) {
+        const code = convertLanguageCode(sublanguage);
+        if (code) {
+            defaultParams.fileMetadata.sublanguage = code;
+        } else {
+            // if a language code couldn't be converted,
+            // then we don't want it at all
+            delete defaultParams.fileMetadata.sublanguage;
+        }
     }
 
     return createResponse(

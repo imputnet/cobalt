@@ -15,13 +15,7 @@
 
     "import.body": "importing unknown or corrupted files may unexpectedly alter or break cobalt functionality. only import files that you've personally exported and haven't modified. if you were asked to import this file by someone - don't do it.\n\nwe are not responsible for any harm caused by importing unknown setting files.",
 
-    "api.override.title": "processing instance override",
-    "api.override.body": "{{ value }} is now the processing instance. if you don't trust it, press \"cancel\" and it'll be ignored.\n\nyou can change your choice later in processing settings.",
-
     "safety.custom_instance.body": "custom instances can potentially pose privacy & safety risks.\n\nbad instances can:\n1. redirect you away from cobalt and try to scam you.\n2. log all information about your requests, store it forever, and use it to track you.\n3. serve you malicious files (such as malware).\n4. force you to watch ads, or make you pay for downloading.\n\nafter this point, we can't protect you. please be mindful of what instances to use and always trust your gut. if anything feels off, come back to this page, reset the custom instance, and report it to us on github.",
-
-    "processing.ongoing": "cobalt is currently processing media in this tab. going away will abort it. are you sure you want to do this?",
-    "processing.title.ongoing": "processing will be cancelled",
 
     "clear_cache.title": "clear all cache?",
     "clear_cache.body": "all files from the processing queue will be removed and on-device features will take longer to load. this action is immediate and irreversible."

@@ -19,6 +19,9 @@ importers:
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
+      '@imput/youtubei.js':
+        specifier: ^14.0.0
+        version: 14.0.0
       content-disposition-header:
         specifier: 0.6.0
         version: 0.6.0
@@ -53,14 +56,11 @@ importers:
         specifier: 2.6.0
         version: 2.6.0
       undici:
-        specifier: ^5.19.1
-        version: 5.28.4
+        specifier: ^6.21.3
+        version: 6.21.3
       url-pattern:
         specifier: 1.0.3
         version: 1.0.3
-      youtubei.js:
-        specifier: ^13.4.0
-        version: 13.4.0
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -101,11 +101,11 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       '@imput/libav.js-encode-cli':
-        specifier: 6.7.7
-        version: 6.7.7
+        specifier: 6.8.7
+        version: 6.8.7
       '@imput/libav.js-remux-cli':
-        specifier: ^6.5.7
-        version: 6.5.7
+        specifier: ^6.8.7
+        version: 6.8.7
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
@@ -554,14 +554,17 @@ packages:
     resolution: {integrity: sha512-c7hNEllBlenFTHBky65mhq8WD2kbN9Q6gk0bTk8lSBvc554jpXSkST1iePudpt7+A/AQvuHs9EMqjHDXMY1lrA==}
     engines: {node: '>=18.18'}
 
-  '@imput/libav.js-encode-cli@6.7.7':
-    resolution: {integrity: sha512-sy0g+IvVHo6pdbfdpAEN8i+LLw2fz5EE+PeX5FZiAOxrA5svmALZtaWtDavTbQ69Yl9vTQB2jZCR2x/NyZndmQ==}
+  '@imput/libav.js-encode-cli@6.8.7':
+    resolution: {integrity: sha512-kWZmCwDYOQVSFu1ARsFfd5P0HqEx5TlhDMZFM/o8cWvMv7okCZWzKRMlEvw3EEGkxWkXUsgcf6F65wQEOE/08A==}
 
-  '@imput/libav.js-remux-cli@6.5.7':
-    resolution: {integrity: sha512-41ld+R5aEwllKdbiszOoCf+K614/8bnuheTZnqjgZESwDtX07xu9O8GO0m/Cpsm7O2CyqPZa1qzDx6BZVO15DQ==}
+  '@imput/libav.js-remux-cli@6.8.7':
+    resolution: {integrity: sha512-EXyRSaIGDSLs98dFxPsRPWOr0G/cNWPKe94u0Ch4/ZwopDVfi7Z0utekluhowUns09LJ5RN9BuCZwc6slMcaLg==}
 
   '@imput/psl@2.0.4':
     resolution: {integrity: sha512-vuy76JX78/DnJegLuJoLpMmw11JTA/9HvlIADg/f8dDVXyxbh0jnObL0q13h+WvlBO4Gk26Pu8sUa7/h0JGQig==}
+
+  '@imput/youtubei.js@14.0.0':
+    resolution: {integrity: sha512-YvTnh53URPlzsmMzqF/DFHZyR9HrpgoWYHzEOklx5OCkwk1/0F/CrO9gqArXw/1oI6GjaTS2CqBd1CzyFZB07A==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2080,6 +2083,10 @@ packages:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
     engines: {node: '>=14.0'}
 
+  undici@6.21.3:
+    resolution: {integrity: sha512-gBLkYIlEnSp8pFbT64yFgGE6UIB9tAkhukC23PmMDCe5Nd+cRqKxSjw5y54MK2AZMgZfJWMaNE4nYUHgi1XEOw==}
+    engines: {node: '>=18.17'}
+
   unist-util-stringify-position@2.0.3:
     resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
 
@@ -2180,9 +2187,6 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-  youtubei.js@13.4.0:
-    resolution: {integrity: sha512-+fmIZU/dWAjsROONrASy1REwVpy6umAPVuoNLr/4iNmZXl84LyBef0n3hrd1Vn9035EuINToGyQcBmifwUEemA==}
 
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
@@ -2396,7 +2400,8 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@fastify/busboy@2.1.1': {}
+  '@fastify/busboy@2.1.1':
+    optional: true
 
   '@fontsource/ibm-plex-mono@5.0.13': {}
 
@@ -2415,13 +2420,20 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.1': {}
 
-  '@imput/libav.js-encode-cli@6.7.7': {}
+  '@imput/libav.js-encode-cli@6.8.7': {}
 
-  '@imput/libav.js-remux-cli@6.5.7': {}
+  '@imput/libav.js-remux-cli@6.8.7': {}
 
   '@imput/psl@2.0.4':
     dependencies:
       punycode: 2.3.1
+
+  '@imput/youtubei.js@14.0.0':
+    dependencies:
+      '@bufbuild/protobuf': 2.2.5
+      jintr: 3.3.1
+      tslib: 2.6.3
+      undici: 6.21.3
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3960,6 +3972,9 @@ snapshots:
   undici@5.28.4:
     dependencies:
       '@fastify/busboy': 2.1.1
+    optional: true
+
+  undici@6.21.3: {}
 
   unist-util-stringify-position@2.0.3:
     dependencies:
@@ -4034,13 +4049,6 @@ snapshots:
     optional: true
 
   yocto-queue@0.1.0: {}
-
-  youtubei.js@13.4.0:
-    dependencies:
-      '@bufbuild/protobuf': 2.2.5
-      jintr: 3.3.1
-      tslib: 2.6.3
-      undici: 5.28.4
 
   zimmerframe@1.1.2: {}
 

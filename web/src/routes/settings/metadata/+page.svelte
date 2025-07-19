@@ -1,6 +1,8 @@
 <script lang="ts">
+    import settings from "$lib/state/settings";
     import { t } from "$lib/i18n/translations";
 
+    import { namedSubtitleLanguages } from "$lib/settings/audio-sub-language";
     import { filenameStyleOptions, savingMethodOptions } from "$lib/types/settings";
 
     import SettingsCategory from "$components/settings/SettingsCategory.svelte";
@@ -8,6 +10,9 @@
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
     import SettingsToggle from "$components/buttons/SettingsToggle.svelte";
     import FilenamePreview from "$components/settings/FilenamePreview.svelte";
+    import SettingsDropdown from "$components/settings/SettingsDropdown.svelte";
+
+    const displayLangs = namedSubtitleLanguages($t);
 </script>
 
 <SettingsCategory sectionId="filename" title={$t("settings.metadata.filename")}>
@@ -42,6 +47,21 @@
             </SettingsButton>
         {/each}
     </Switcher>
+</SettingsCategory>
+
+<SettingsCategory
+    sectionId="subtitles"
+    title={$t("settings.subtitles")}
+>
+    <SettingsDropdown
+        title={$t("settings.subtitles.title")}
+        description={$t("settings.subtitles.description")}
+        items={displayLangs}
+        settingContext="save"
+        settingId="subtitleLang"
+        selectedOption={$settings.save.subtitleLang}
+        selectedTitle={displayLangs[$settings.save.subtitleLang]}
+    />
 </SettingsCategory>
 
 <SettingsCategory

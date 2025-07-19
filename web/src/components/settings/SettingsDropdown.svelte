@@ -42,7 +42,7 @@
             </h4>
             <div class="right-side">
                 <span class="selector-current" aria-hidden="true">
-                    {selectedTitle.split("(", 2)[0]}
+                    {selectedTitle?.split("(", 2)[0]}
                 </span>
                 <IconSelector />
             </div>

@@ -18,7 +18,7 @@ function extractBestQuality(dashData) {
 }
 
 async function com_download(id) {
-    let html = await fetch(`https://bilibili.com/video/${id}`, {
+    const html = await fetch(`https://bilibili.com/video/${id}`, {
         headers: {
             "user-agent": genericUserAgent
         }
@@ -34,7 +34,10 @@ async function com_download(id) {
         return { error: "fetch.empty" };
     }
 
-    let streamData = JSON.parse(html.split('<script>window.__playinfo__=')[1].split('</script>')[0]);
+    const streamData = JSON.parse(
+        html.split('<script>window.__playinfo__=')[1].split('</script>')[0]
+    );
+
     if (streamData.data.timelength > env.durationLimit * 1000) {
         return { error: "content.too_long" };
     }
@@ -48,7 +51,6 @@ async function com_download(id) {
         urls: [video.baseUrl, audio.baseUrl],
         audioFilename: `bilibili_${id}_audio`,
         filename: `bilibili_${id}_${video.width}x${video.height}.mp4`,
-        isHLS: true
     };
 }
 

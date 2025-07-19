@@ -52,14 +52,15 @@ export const CobaltFileMetadataKeys = [
     'artist',
     'album_artist',
     'track',
-    'date'
+    'date',
+    'sublanguage',
 ];
 
 export type CobaltFileMetadata = Record<
     typeof CobaltFileMetadataKeys[number], string | undefined
 >;
 
-export type CobaltLocalProcessingType = 'merge' | 'mute' | 'audio' | 'gif' | 'remux';
+export type CobaltLocalProcessingType = 'merge' | 'mute' | 'audio' | 'gif' | 'remux' | 'proxy';
 
 export type CobaltLocalProcessingResponse = {
     status: CobaltResponseType.LocalProcessing,
@@ -72,12 +73,15 @@ export type CobaltLocalProcessingResponse = {
         type: string, // mimetype
         filename: string,
         metadata?: CobaltFileMetadata,
+        subtitles?: boolean,
     },
 
     audio?: {
         copy: boolean,
         format: string,
         bitrate: string,
+        cover?: boolean,
+        cropCover?: boolean,
     },
 
     isHLS?: boolean,

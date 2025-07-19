@@ -4,28 +4,28 @@ import { ffmpegMetadataArgs } from "$lib/util";
 import { createDialog } from "$lib/state/dialogs";
 import { addItem } from "$lib/state/task-manager/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
+import { uuid } from "$lib/util";
 
 import type { CobaltQueueItem } from "$lib/types/queue";
 import type { CobaltCurrentTasks } from "$lib/types/task-manager";
-import type { CobaltPipelineItem, CobaltPipelineResultFileType } from "$lib/types/workers";
+import { resultFileTypes, type CobaltPipelineItem, type CobaltPipelineResultFileType } from "$lib/types/workers";
 import type { CobaltLocalProcessingResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
 export const getMediaType = (type: string) => {
-    const kind = type.split('/')[0];
+    const kind = type.split('/')[0] as CobaltPipelineResultFileType;
 
-    // can't use .includes() here for some reason
-    if (kind === "video" || kind === "audio" || kind === "image") {
+    if (resultFileTypes.includes(kind)) {
         return kind;
     }
 }
 
 export const createRemuxPipeline = (file: File) => {
-    const parentId = crypto.randomUUID();
+    const parentId = uuid();
     const mediaType = getMediaType(file.type);
 
     const pipeline: CobaltPipelineItem[] = [{
         worker: "remux",
-        workerId: crypto.randomUUID(),
+        workerId: uuid(),
         parentId,
         workerArgs: {
             files: [file],
@@ -54,14 +54,6 @@ export const createRemuxPipeline = (file: File) => {
     }
 }
 
-const mediaIcons: { [key: string]: CobaltPipelineResultFileType } = {
-    merge: "video",
-    mute: "video",
-    audio: "audio",
-    gif: "image",
-    remux: "video"
-}
-
 const makeRemuxArgs = (info: CobaltLocalProcessingResponse) => {
     const ffargs = ["-c:v", "copy"];
 
@@ -69,6 +61,13 @@ const makeRemuxArgs = (info: CobaltLocalProcessingResponse) => {
         ffargs.push("-c:a", "copy");
     } else if (info.type === "mute") {
         ffargs.push("-an");
+    }
+
+    if (info.output.subtitles) {
+        ffargs.push(
+            "-c:s",
+            info.output.filename.endsWith(".mp4") ? "mov_text" : "webvtt"
+        );
     }
 
     ffargs.push(
@@ -83,11 +82,27 @@ const makeAudioArgs = (info: CobaltLocalProcessingResponse) => {
         return;
     }
 
-    const ffargs = [
-        "-vn",
+    const ffargs = [];
+
+    if (info.audio.cover && info.audio.format === "mp3") {
+        ffargs.push(
+            "-map", "0",
+            "-map", "1",
+            ...(info.audio.cropCover ? [
+                "-c:v", "mjpeg",
+                "-vf", "scale=-1:720,crop=720:720",
+            ] : [
+                "-c:v", "copy",
+            ]),
+        );
+    } else {
+        ffargs.push("-vn");
+    }
+
+    ffargs.push(
         ...(info.audio.copy ? ["-c:a", "copy"] : ["-b:a", `${info.audio.bitrate}k`]),
         ...(info.output.metadata ? ffmpegMetadataArgs(info.output.metadata) : [])
-    ];
+    );
 
     if (info.audio.format === "mp3" && info.audio.bitrate === "8") {
         ffargs.push("-ar", "12000");
@@ -140,7 +155,7 @@ export const createSavePipeline = (
         return showError("pipeline.missing_response_data");
     }
 
-    const parentId = oldTaskId || crypto.randomUUID();
+    const parentId = oldTaskId || uuid();
     const pipeline: CobaltPipelineItem[] = [];
 
     // reverse is needed for audio (second item) to be downloaded first
@@ -149,7 +164,7 @@ export const createSavePipeline = (
     for (const tunnel of tunnels) {
         pipeline.push({
             worker: "fetch",
-            workerId: crypto.randomUUID(),
+            workerId: uuid(),
             parentId,
             workerArgs: {
                 url: tunnel,
@@ -157,43 +172,45 @@ export const createSavePipeline = (
         });
     }
 
-    let ffargs: string[];
-    let workerType: 'encode' | 'remux';
+    if (info.type !== "proxy") {
+        let ffargs: string[];
+        let workerType: 'encode' | 'remux';
 
-    if (["merge", "mute", "remux"].includes(info.type)) {
-        workerType = "remux";
-        ffargs = makeRemuxArgs(info);
-    } else if (info.type === "audio") {
-        const args = makeAudioArgs(info);
+        if (["merge", "mute", "remux"].includes(info.type)) {
+            workerType = "remux";
+            ffargs = makeRemuxArgs(info);
+        } else if (info.type === "audio") {
+            const args = makeAudioArgs(info);
 
-        if (!args) {
+            if (!args) {
+                return showError("pipeline.missing_response_data");
+            }
+
+            workerType = "encode";
+            ffargs = args;
+        } else if (info.type === "gif") {
+            workerType = "encode";
+            ffargs = makeGifArgs();
+        } else {
+            console.error("unknown work type: " + info.type);
             return showError("pipeline.missing_response_data");
         }
 
-        workerType = "encode";
-        ffargs = args;
-    } else if (info.type === "gif") {
-        workerType = "encode";
-        ffargs = makeGifArgs();
-    } else {
-        console.error("unknown work type: " + info.type);
-        return showError("pipeline.missing_response_data");
-    }
-
-    pipeline.push({
-        worker: workerType,
-        workerId: crypto.randomUUID(),
-        parentId,
-        dependsOn: pipeline.map(w => w.workerId),
-        workerArgs: {
-            files: [],
-            ffargs,
-            output: {
-                type: info.output.type,
-                format: info.output.filename.split(".").pop(),
+        pipeline.push({
+            worker: workerType,
+            workerId: uuid(),
+            parentId,
+            dependsOn: pipeline.map(w => w.workerId),
+            workerArgs: {
+                files: [],
+                ffargs,
+                output: {
+                    type: info.output.type,
+                    format: info.output.filename.split(".").pop(),
+                },
             },
-        },
-    });
+        });
+    }
 
     addItem({
         id: parentId,
@@ -203,7 +220,7 @@ export const createSavePipeline = (
         originalRequest: request,
         filename: info.output.filename,
         mimeType: info.output.type,
-        mediaType: mediaIcons[info.type],
+        mediaType: getMediaType(info.output.type) || "file",
     });
 
     openQueuePopover();

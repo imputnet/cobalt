@@ -43,7 +43,7 @@ export const testers = {
         pattern.id?.length <= 6,
 
     "tiktok": pattern =>
-        pattern.postId?.length <= 21 || pattern.shortLink?.length <= 13,
+        pattern.postId?.length <= 21 || pattern.shortLink?.length <= 21,
 
     "tumblr": pattern =>
         pattern.id?.length < 21
@@ -79,4 +79,7 @@ export const testers = {
     "xiaohongshu": pattern =>
         pattern.id?.length <= 24 && pattern.token?.length <= 64
         || pattern.shareId?.length <= 24,
+
+    "newgrounds": pattern =>
+        pattern.id?.length <= 12 || pattern.audioId?.length <= 12,
 }

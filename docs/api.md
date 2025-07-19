@@ -68,28 +68,30 @@ you can read [the api schema](/api/src/processing/schema.js) directly from code 
 all keys except for `url` are optional. value options are separated by `/`.
 
 #### general
-| key                    | type      | description/value                                               | default    |
-|:-----------------------|:----------|:----------------------------------------------------------------|:-----------|
-| `url`                  | `string`  | source URL                                                      | *required* |
-| `audioBitrate`         | `string`  | `320 / 256 / 128 / 96 / 64 / 8` (kbps)                          | `128`      |
-| `audioFormat`          | `string`  | `best / mp3 / ogg / wav / opus`                                 | `mp3`      |
-| `downloadMode`         | `string`  | `auto / audio / mute`                                           | `auto`     |
-| `filenameStyle`        | `string`  | `classic / pretty / basic / nerdy`                              | `basic`    |
-| `videoQuality`         | `string`  | `max / 4320 / 2160 / 1440 / 1080 / 720 / 480 / 360 / 240 / 144` | `1080`     |
-| `disableMetadata`      | `boolean` | title, artist, and other info will not be added to the file     | `false`    |
-| `alwaysProxy`          | `boolean` | always tunnel all files, even when not necessary                | `false`    |
-| `localProcessing`      | `boolean` | remux/transcode files locally instead of the server             | `false`    |
+| key               | type      | description/value                                               | default    |
+|:------------------|:----------|:----------------------------------------------------------------|:-----------|
+| `url`             | `string`  | source URL                                                      | *required* |
+| `audioBitrate`    | `string`  | `320 / 256 / 128 / 96 / 64 / 8` (kbps)                          | `128`      |
+| `audioFormat`     | `string`  | `best / mp3 / ogg / wav / opus`                                 | `mp3`      |
+| `downloadMode`    | `string`  | `auto / audio / mute`                                           | `auto`     |
+| `filenameStyle`   | `string`  | `classic / pretty / basic / nerdy`                              | `basic`    |
+| `videoQuality`    | `string`  | `max / 4320 / 2160 / 1440 / 1080 / 720 / 480 / 360 / 240 / 144` | `1080`     |
+| `disableMetadata` | `boolean` | title, artist, and other info will not be added to the file     | `false`    |
+| `alwaysProxy`     | `boolean` | always tunnel all files, even when not necessary                | `false`    |
+| `localProcessing` | `string`  | `disabled / preferred / forced`                                 | `disabled` |
+| `subtitleLang`    | `string`  | any valid ISO 639-1 language code                               | *none*     |
 
 #### service-specific options
-| key                    | type      | description/value                                 | default |
-|:-----------------------|:----------|:--------------------------------------------------|:--------|
-| `youtubeVideoCodec`    | `string`  | `h264 / av1 / vp9`                                | `h264`  |
-| `youtubeDubLang`       | `string`  | any valid language code, such as: `en` or `zh-CN` | *none*  |
-| `convertGif`           | `boolean` | convert twitter gifs to the actual GIF format     | `true`  |
-| `allowH265`            | `boolean` | allow H265/HEVC videos from tiktok/xiaohongshu    | `false` |
-| `tiktokFullAudio`      | `boolean` | download the original sound used in a video       | `false` |
-| `youtubeBetterAudio`   | `boolean` | prefer higher quality youtube audio if possible   | `false` |
-| `youtubeHLS`           | `boolean` | use HLS formats when downloading from youtube     | `false` |
+| key                     | type      | description/value                                 | default |
+|:------------------------|:----------|:--------------------------------------------------|:--------|
+| `youtubeVideoCodec`     | `string`  | `h264 / av1 / vp9`                                | `h264`  |
+| `youtubeVideoContainer` | `string`  | `auto / mp4 / webm / mkv`                         | `auto`  |
+| `youtubeDubLang`        | `string`  | any valid ISO 639-1 language code                 | *none*  |
+| `convertGif`            | `boolean` | convert twitter gifs to the actual GIF format     | `true`  |
+| `allowH265`             | `boolean` | allow H265/HEVC videos from tiktok/xiaohongshu    | `false` |
+| `tiktokFullAudio`       | `boolean` | download the original sound used in a video       | `false` |
+| `youtubeBetterAudio`    | `boolean` | prefer higher quality youtube audio if possible   | `false` |
+| `youtubeHLS`            | `boolean` | use HLS formats when downloading from youtube     | `false` |
 
 ### response
 body type: `application/json`
@@ -120,11 +122,12 @@ the response will always be a JSON object containing the `status` key, which is 
 | `isHLS`      | `boolean`  | whether the output is in HLS format (optional)                |
 
 #### output object
-| key        | type     | value                                                                             |
-|:-----------|:---------|:----------------------------------------------------------------------------------|
-| `type`     | `string` | mime type of the output file                                                      |
-| `filename` | `string` | filename of the output file                                                       |
-| `metadata` | `object` | metadata associated with the file (optional, [see below](#outputmetadata-object)) |
+| key         | type      | value                                                                             |
+|:------------|:----------|:----------------------------------------------------------------------------------|
+| `type`      | `string`  | mime type of the output file                                                      |
+| `filename`  | `string`  | filename of the output file                                                       |
+| `metadata`  | `object`  | metadata associated with the file (optional, [see below](#outputmetadata-object)) |
+| `subtitles` | `boolean` | whether tunnels include a subtitle file                                           |
 
 #### output.metadata object
 all keys in this table are optional.
@@ -140,13 +143,16 @@ all keys in this table are optional.
 | `album_artist` | `string` | album's artist or creator name             |
 | `track`        | `string` | track number or position in album          |
 | `date`         | `string` | release date or creation date              |
+| `sublanguage`  | `string` | subtitle language code (ISO 639-2)         |
 
 #### audio object
-| key       | type      | value                                      |
-|:----------|:----------|:-------------------------------------------|
-| `copy`    | `boolean` | defines whether audio codec data is copied |
-| `format`  | `string`  | output audio format                        |
-| `bitrate` | `string`  | preferred bitrate of audio format          |
+| key         | type      | value                                                      |
+|:------------|:----------|:-----------------------------------------------------------|
+| `copy`      | `boolean` | defines whether audio codec data is copied                 |
+| `format`    | `string`  | output audio format                                        |
+| `bitrate`   | `string`  | preferred bitrate of audio format                          |
+| `cover`     | `boolean` | whether tunnels include a cover art file (optional)        |
+| `cropCover` | `boolean` | whether cover art should be cropped to a square (optional) |
 
 ### picker response
 | key             | type     | value                                                                                          |

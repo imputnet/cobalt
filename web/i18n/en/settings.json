@@ -10,9 +10,6 @@
     "page.local": "local processing",
     "page.accessibility": "accessibility",
 
-    "section.general": "general",
-    "section.save": "save",
-
     "theme": "theme",
     "theme.auto": "auto",
     "theme.light": "light",
@@ -31,8 +28,11 @@
     "video.quality.144": "144p",
     "video.quality.description": "if preferred video quality isn't available, next best is picked instead.",
 
-    "video.youtube.codec": "youtube codec and container",
+    "video.youtube.codec": "preferred youtube video codec",
     "video.youtube.codec.description": "h264: best compatibility, average quality. max quality is 1080p. \nav1: best quality and efficiency. supports 8k & HDR. \nvp9: same quality as av1, but file is ~2x bigger. supports 4k & HDR.\n\nav1 and vp9 aren't widely supported, you might have to use additional software to play/edit them. cobalt picks next best codec if preferred one isn't available.",
+
+    "video.youtube.container": "youtube file container",
+    "video.youtube.container.description": "when \"auto\" is selected, cobalt will pick the best container automatically depending on selected codec: mp4 for h264; webm for vp9/av1.",
 
     "video.youtube.hls": "youtube hls formats",
     "video.youtube.hls.title": "prefer hls for video & audio",
@@ -63,6 +63,11 @@
     "audio.youtube.dub.description": "cobalt will use a dubbed audio track for selected language if it's available. if not, original will be used instead.",
     "youtube.dub.original": "original",
 
+    "subtitles": "subtitles",
+    "subtitles.title": "preferred subtitle language",
+    "subtitles.description": "cobalt will add subtitles to the downloaded file in the preferred language if they're available.\n\nsome services don't have a language selection, and if that's the case, cobalt will add the only available subtitle track if you have any language selected.",
+    "subtitles.none": "none",
+
     "audio.youtube.better_audio": "youtube audio quality",
     "audio.youtube.better_audio.title": "prefer better quality",
     "audio.youtube.better_audio.description": "cobalt will try to pick highest quality audio in audio mode. it may not be available depending on youtube's response, current traffic, and server status. custom instances may not support this option.",
@@ -80,6 +85,8 @@
 
     "metadata.filename.preview.video": "Video Title - Video Author",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
+    "filename.preview_desc.video": "video file preview",
+    "filename.preview_desc.audio": "audio file preview",
 
     "metadata.file": "file metadata",
     "metadata.disable.title": "disable file metadata",
@@ -138,9 +145,11 @@
     "advanced.settings_data": "settings data",
     "advanced.local_storage": "local storage",
 
-    "local.saving": "media processing",
-    "local.saving.title": "download & process media locally",
-    "local.saving.description": "when downloading media, remuxing and transcoding will be done on-device instead of the cloud. you'll see detailed progress in the processing queue. processing instances may enforce this feature to save resources.\n\nexclusive on-device features are not affected by this toggle, they always run locally.",
+    "local.saving": "local media processing",
+    "local.saving.description": "when downloading media, remuxing and transcoding will be done on-device instead of the cloud. you'll see detailed progress in the processing queue.\n\ndisabled: local processing will not be used. processing instances can enforce local processing, so this option may not have effect.\npreferred: media that requires extra processing will be downloaded through the processing queue, but the rest of media will be downloaded by your browser's download manager.\nforced: all media will always be proxied and downloaded through the processing queue.\n\nexclusive on-device features are not affected by this setting, they always run locally.",
+    "local.saving.disabled": "disabled",
+    "local.saving.preferred": "preferred",
+    "local.saving.forced": "forced",
 
     "local.webcodecs": "webcodecs",
     "local.webcodecs.title": "use webcodecs for on-device processing",

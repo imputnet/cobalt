@@ -46,7 +46,7 @@
         padding: 8px 12px 8px 8px;
         pointer-events: all;
         gap: 8px;
-        margin-right: 71px;
+        margin: 0 64px;
         margin-top: calc(env(safe-area-inset-top) + 8px);
         box-shadow:
             var(--button-box-shadow),
@@ -81,7 +81,7 @@
         display: flex;
         flex-direction: column;
         text-align: start;
-        font-size: 13px;
+        font-size: 12.5px;
     }
 
     .subtext {

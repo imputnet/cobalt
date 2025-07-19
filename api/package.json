@@ -1,7 +1,7 @@
 {
     "name": "@imput/cobalt-api",
     "description": "save what you love",
-    "version": "11.1",
+    "version": "11.3.1",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -26,6 +26,7 @@
         "@datastructures-js/priority-queue": "^6.3.1",
         "@imput/psl": "^2.0.4",
         "@imput/version-info": "workspace:^",
+        "@imput/youtubei.js": "^14.0.0",
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
@@ -37,9 +38,8 @@
         "mime": "^4.0.4",
         "nanoid": "^5.0.9",
         "set-cookie-parser": "2.6.0",
-        "undici": "^5.19.1",
+        "undici": "^6.21.3",
         "url-pattern": "1.0.3",
-        "youtubei.js": "^13.4.0",
         "zod": "^3.23.8"
     },
     "optionalDependencies": {

@@ -1,7 +1,7 @@
 import UrlPattern from "url-pattern";
 
-export const audioIgnore = ["vk", "ok", "loom"];
-export const hlsExceptions = ["dailymotion", "vimeo", "rutube", "bsky", "youtube"];
+export const audioIgnore = new Set(["vk", "ok", "loom"]);
+export const hlsExceptions = new Set(["dailymotion", "vimeo", "rutube", "bsky", "youtube"]);
 
 export const services = {
     bilibili: {
@@ -73,6 +73,12 @@ export const services = {
             "pin/:id/:garbage",
             "url_shortener/:shortLink"
         ],
+    },
+    newgrounds: {
+        patterns: [
+            "portal/view/:id",
+            "audio/listen/:audioId",
+        ]
     },
     reddit: {
         patterns: [
@@ -186,12 +192,13 @@ export const services = {
         patterns: [
             "video:ownerId_:videoId",
             "clip:ownerId_:videoId",
-            "clips:duplicate?z=clip:ownerId_:videoId",
-            "videos:duplicate?z=video:ownerId_:videoId",
             "video:ownerId_:videoId_:accessKey",
             "clip:ownerId_:videoId_:accessKey",
-            "clips:duplicate?z=clip:ownerId_:videoId_:accessKey",
-            "videos:duplicate?z=video:ownerId_:videoId_:accessKey"
+
+            // links with a duplicate author id and/or zipper query param
+            "clips:duplicateId",
+            "videos:duplicateId",
+            "search/video"
         ],
         subdomains: ["m"],
         altDomains: ["vkvideo.ru", "vk.ru"],

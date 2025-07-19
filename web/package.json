@@ -1,6 +1,6 @@
 {
     "name": "@imput/cobalt-web",
-    "version": "11.0.2",
+    "version": "11.3",
     "type": "module",
     "private": true,
     "scripts": {
@@ -27,8 +27,8 @@
         "@eslint/js": "^9.5.0",
         "@fontsource/ibm-plex-mono": "^5.0.13",
         "@fontsource/redaction-10": "^5.0.2",
-        "@imput/libav.js-encode-cli": "6.7.7",
-        "@imput/libav.js-remux-cli": "^6.5.7",
+        "@imput/libav.js-encode-cli": "6.8.7",
+        "@imput/libav.js-remux-cli": "^6.8.7",
         "@imput/version-info": "workspace:^",
         "@sveltejs/adapter-static": "^3.0.6",
         "@sveltejs/kit": "^2.20.7",
