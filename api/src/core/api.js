@@ -337,10 +337,15 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     randomizeCiphers();
     setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
 
-    env.subscribe('externalProxy', () => {
+    env.subscribe(['externalProxy', 'httpProxyValues'], () => {
         // TODO: remove env.externalProxy in a future version
+        const options = {};
+        if (env.externalProxy) {
+            options.httpProxy = env.externalProxy;
+        }
+
         setGlobalDispatcher(
-            new EnvHttpProxyAgent({ httpProxy: env.externalProxy || undefined })
+            new EnvHttpProxyAgent(options)
         );
     });
 

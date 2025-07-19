@@ -10,6 +10,10 @@ import { Green, Yellow } from "../misc/console-text.js";
 const forceLocalProcessingOptions = ["never", "session", "always"];
 const youtubeHlsOptions = ["never", "key", "always"];
 
+const httpProxyVariables = ["NO_PROXY", "HTTP_PROXY", "HTTPS_PROXY"].flatMap(
+    k => [ k, k.toLowerCase() ]
+);
+
 const changeCallbacks = {};
 
 const onEnvChanged = (changes) => {
@@ -42,6 +46,18 @@ export const loadEnvs = (env = process.env) => {
             return e;
         }
     }));
+
+    // we need to copy the proxy envs (HTTP_PROXY, HTTPS_PROXY)
+    // back into process.env, so that EnvHttpProxyAgent can pick
+    // them up later
+    for (const key of httpProxyVariables) {
+        const value = env[key] ?? canonicalEnv[key];
+        if (value !== undefined) {
+            process.env[key] = env[key];
+        } else {
+            delete process.env[key];
+        }
+    }
 
     return {
         apiURL: env.API_URL || '',
@@ -78,6 +94,9 @@ export const loadEnvs = (env = process.env) => {
             && parseInt(env.PROCESSING_PRIORITY),
 
         externalProxy: env.API_EXTERNAL_PROXY,
+
+        // used only for comparing against old values when envs are being updated
+        httpProxyValues: httpProxyVariables.map(k => String(env[k])).join(''),
 
         turnstileSitekey: env.TURNSTILE_SITEKEY,
         turnstileSecret: env.TURNSTILE_SECRET,
@@ -202,7 +221,8 @@ const wrapReload = (contents) => {
         for (const key of changes) {
             const value = currentEnv[key];
             const isSecret = key.toLowerCase().includes('apikey')
-                          || key.toLowerCase().includes('secret');
+                          || key.toLowerCase().includes('secret')
+                          || key === 'httpProxyValues';
 
             if (!value) {
                 console.log(`    removed: ${key}`);

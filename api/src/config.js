@@ -3,12 +3,12 @@ import { loadEnvs, validateEnvs } from "./core/env.js";
 
 const version = await getVersion();
 
+const canonicalEnv = Object.freeze(structuredClone(process.env));
 const env = loadEnvs();
 
 const genericUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
 const cobaltUserAgent = `cobalt/${version} (+https://github.com/imputnet/cobalt)`;
 
-export const canonicalEnv = Object.freeze(structuredClone(process.env));
 export const setTunnelPort = (port) => env.tunnelPort = port;
 export const isCluster = env.instanceCount > 1;
 export const updateEnv = (newEnv) => {
@@ -35,6 +35,7 @@ await validateEnvs(env);
 
 export {
     env,
+    canonicalEnv,
     genericUserAgent,
     cobaltUserAgent,
 }
