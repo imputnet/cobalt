@@ -12,7 +12,7 @@ const youtubeHlsOptions = ["never", "key", "always"];
 
 const changeCallbacks = {};
 
-export const onEnvChanged = (changes) => {
+const onEnvChanged = (changes) => {
     for (const key of changes) {
         if (changeCallbacks[key]) {
             changeCallbacks[key].map(fn => {
@@ -195,6 +195,8 @@ const wrapReload = (contents) => {
         if (changes.length === 0) {
             return;
         }
+
+        onEnvChanged(changes);
 
         console.log(`${Green('[✓]')} envs reloaded successfully!`);
         for (const key of changes) {
