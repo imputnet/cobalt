@@ -124,7 +124,7 @@ defines the local address for the api instance. if you are using a docker contai
 the value is a local IP address.
 
 ### API_EXTERNAL_PROXY
-URL of the proxy that will be passed to [`ProxyAgent`](https://undici.nodejs.org/#/docs/api/ProxyAgent) and used for all external requests. HTTP(S) only.
+URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) and used for all external requests. HTTP(S) only.
 
 if some feature breaks when using a proxy, please make a new issue about it!
 

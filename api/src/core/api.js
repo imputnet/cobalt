@@ -1,7 +1,7 @@
 import cors from "cors";
 import http from "node:http";
 import rateLimit from "express-rate-limit";
-import { setGlobalDispatcher, ProxyAgent } from "undici";
+import { setGlobalDispatcher, EnvHttpProxyAgent } from "undici";
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
 
 import jwt from "../security/jwt.js";
@@ -337,9 +337,10 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     randomizeCiphers();
     setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
 
-    if (env.externalProxy) {
-        setGlobalDispatcher(new ProxyAgent(env.externalProxy))
-    }
+    // TODO: remove env.externalProxy in a future version
+    setGlobalDispatcher(
+        new EnvHttpProxyAgent({ httpProxy: env.externalProxy || undefined })
+    );
 
     http.createServer(app).listen({
         port: env.apiPort,
