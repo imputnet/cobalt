@@ -132,10 +132,6 @@ the value is a local IP address.
 ### HTTP_PROXY, HTTPS_PROXY, NO_PROXY
 URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) for proxying external requests. if some cobalt functionality breaks when using a proxy, please [make a new issue](https://github.com/imputnet/cobalt/issues) about it!
 
-> [!NOTE]
-> `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` can't be automatically updated by changing the `API_ENV_FILE` file yet.
-you'll have to restart cobalt to apply changes.
-
 quoted from [undici docs](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent):
 > When `HTTP_PROXY` and `HTTPS_PROXY` are set, `HTTP_PROXY` is used for HTTP requests and `HTTPS_PROXY` is used for HTTPS requests. If only `HTTP_PROXY` is set, `HTTP_PROXY` is used for both HTTP and HTTPS requests. If only `HTTPS_PROXY` is set, it is only used for HTTPS requests.
 
