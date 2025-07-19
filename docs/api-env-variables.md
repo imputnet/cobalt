@@ -21,8 +21,14 @@ this document is not final and will expand over time. feel free to improve it!
 | name                | default   | value example                         |
 |:--------------------|:----------|:--------------------------------------|
 | API_LISTEN_ADDRESS  | `0.0.0.0` | `127.0.0.1`                           |
-| API_EXTERNAL_PROXY  |           | `http://user:password@127.0.0.1:8080` |
 | FREEBIND_CIDR       |           | `2001:db8::/32`                       |
+
+#### undici proxy vars
+| name        | value example                         |
+|:------------|:--------------------------------------|
+| HTTP_PROXY  | `http://user:password@10.0.0.1:1337/` |
+| HTTPS_PROXY | `https://10.0.0.2:1337/`              |
+| NO_PROXY    | `localhost`                           |
 
 [*view details*](#networking)
 
@@ -123,10 +129,27 @@ defines the local address for the api instance. if you are using a docker contai
 
 the value is a local IP address.
 
-### API_EXTERNAL_PROXY
-URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) and used for all external requests. HTTP(S) only.
+### HTTP_PROXY, HTTPS_PROXY, NO_PROXY
+URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) for proxying external requests. if some cobalt functionality breaks when using a proxy, please [make a new issue](https://github.com/imputnet/cobalt/issues) about it!
 
-if some feature breaks when using a proxy, please make a new issue about it!
+> [!NOTE]
+> `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` can't be automatically updated by changing the `API_ENV_FILE` file yet.
+you'll have to restart cobalt to apply changes.
+
+quoted from [undici docs](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent):
+> When `HTTP_PROXY` and `HTTPS_PROXY` are set, `HTTP_PROXY` is used for HTTP requests and `HTTPS_PROXY` is used for HTTPS requests. If only `HTTP_PROXY` is set, `HTTP_PROXY` is used for both HTTP and HTTPS requests. If only `HTTPS_PROXY` is set, it is only used for HTTPS requests.
+
+> `NO_PROXY` is a comma or space-separated list of hostnames that should not be proxied. The list may contain leading wildcard characters (`*`). If `NO_PROXY` is set, the EnvHttpProxyAgent() will bypass the proxy for requests to hosts that match the list. If `NO_PROXY` is set to `"*"`, the EnvHttpProxyAgent() will bypass the proxy for all requests.
+
+the value is a string:
+- `HTTP_PROXY`/`HTTPS_PROXY`: URL or hostname.
+- `NO_PROXY`: comma or space-separated list of hostnames.
+
+### API_EXTERNAL_PROXY (deprecated)
+> [!WARNING]
+> this env variable is deprecated and will be removed in a future release. please update your configuration to use `HTTP_PROXY` or `HTTPS_PROXY`, as mentioned above.
+
+URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) and used for proxying external requests. HTTP(S) only.
 
 the value is a URL.
 
