@@ -135,6 +135,8 @@ export const loadEnvs = (env = process.env) => {
     };
 }
 
+let loggedProxyWarning = false;
+
 export const validateEnvs = async (env) => {
     if (env.sessionEnabled && env.jwtSecret.length < 16) {
         throw new Error("JWT_SECRET env is too short (must be at least 16 characters long)");
@@ -170,6 +172,15 @@ export const validateEnvs = async (env) => {
 
     if (env.externalProxy && env.freebindCIDR) {
         throw new Error('freebind is not available when external proxy is enabled')
+    }
+
+    if (env.externalProxy && !loggedProxyWarning) {
+        console.error('API_EXTERNAL_PROXY is deprecated and will be removed in a future release.');
+        console.error('Use HTTP_PROXY or HTTPS_PROXY instead.');
+        console.error('You can read more about the new proxy variables in docs/api-env-variables.md\n');
+
+        // prevent the warning from being printed on every env validation
+        loggedProxyWarning = true;
     }
 
     return env;
