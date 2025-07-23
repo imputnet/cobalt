@@ -59,8 +59,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3
       youtubei.js:
-        specifier: 15.0.0
-        version: 15.0.0
+        specifier: 15.0.1
+        version: 15.0.1
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -2185,8 +2185,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  youtubei.js@15.0.0:
-    resolution: {integrity: sha512-giPZREn+q0z8Jr45NUcJUXE7QA2+UD2jx5FR+ULdnexvtHg5uQZr9Am8aYcECPKzbBNe6ksBD1yT4SKNbhpRqA==}
+  youtubei.js@15.0.1:
+    resolution: {integrity: sha512-2slapqJS5NuXKHvcACEknyVz0AjH/TrXaOhDM0q2twQKa54kCmfj+7B/2nGfd20uzAe29zW1ejk2qOc4ABuGkg==}
 
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
@@ -4043,11 +4043,10 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  youtubei.js@15.0.0:
+  youtubei.js@15.0.1:
     dependencies:
       '@bufbuild/protobuf': 2.2.5
       jintr: 3.3.1
-      tslib: 2.6.3
       undici: 6.21.3
 
   zimmerframe@1.1.2: {}
