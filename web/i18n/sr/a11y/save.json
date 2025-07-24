@@ -1,0 +1,12 @@
+{
+    "link_area": "поље за унос везе",
+    "link_area.turnstile": "поље за унос везе. провера да ли сте робот.",
+    "clear_input": "очисти унис",
+    "download": "преузми",
+    "download.think": "обрада везе…",
+    "download.check": "потврђивање преузимања…",
+    "download.done": "преузимање завршено",
+    "download.error": "грешка при преузимању",
+    "tutorial.shortcut.photos": "додај пречицу за фотографије",
+    "tutorial.shortcut.files": "додај пречицу за датотеке"
+}
