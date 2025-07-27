@@ -1,0 +1,22 @@
+{
+    "paste": "wklej",
+    "mute": "wycisz",
+    "tutorial.intro": "aby wygodnie zapisywać multimedia na ios, musisz użyć skrótu siri z arkusza udostępniania.",
+    "services.title_show": "pokaż wspierane usługi",
+    "paste.long": "wklej i pobierz",
+    "input.placeholder": "wklej link tutaj",
+    "terms.note.agreement": "kontynuując, zgadzasz się na",
+    "terms.note.link": "warunki i etykietę użytkowania",
+    "services.title": "wspierane usługi",
+    "services.title_hide": "ukryj wspierane usługi",
+    "services.disclaimer": "cobalt nie jest powiązany z żadną usługą wymienioną powyżej.",
+    "tutorial.title": "jak zapisać na ios?",
+    "tutorial.step.1": "dodaj skróty siri:",
+    "tutorial.step.2": "kliknij przycisk \"udostępnij\" w dialogu zapisywania cobalta.",
+    "tutorial.step.3": "wybierz odpowiedni skrót w arkuszu udostępniania.",
+    "tutorial.outro": "te skróty będą działać tylko z aplikacji cobalta, udostępnianie linków z innych aplikacji nie zadziała.",
+    "tutorial.shortcut.photos": "do zdjęć",
+    "tutorial.shortcut.files": "do plików",
+    "audio": "audio",
+    "auto": "automatyczny"
+}

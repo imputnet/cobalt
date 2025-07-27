@@ -1,0 +1,4 @@
+{
+    "button.next": "przejdź do starszego dziennika zmian ({{ value }})",
+    "button.previous": "przejdź do nowszego dziennika zmian ({{ value }})"
+}

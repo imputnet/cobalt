@@ -1,0 +1,12 @@
+{
+    "download": "pobierz",
+    "link_area.turnstile": "obszar wprowadzenia linku. sprawdzanie czy nie jesteś robotem.",
+    "link_area": "obszar wprowadzenia linku",
+    "download.think": "przetwarzanie linku...",
+    "download.error": "błąd pobierania",
+    "tutorial.shortcut.photos": "dodaj skrót do zdjęć",
+    "tutorial.shortcut.files": "dodaj skrót do plików",
+    "download.done": "rozpoczęto pobieranie",
+    "download.check": "weryfikowanie pobierania...",
+    "clear_input": "wyczyść pole"
+}
