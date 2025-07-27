@@ -1,0 +1,22 @@
+{
+    "auto": "otomatik",
+    "mute": "sustur",
+    "audio": "yalnız ses",
+    "input.placeholder": "bağlantıyı buraya yapıştırın",
+    "terms.note.agreement": "devam ederek kullanım şartları ve etik kurallarını kabul edersiniz",
+    "terms.note.link": "oku",
+    "services.title": "desteklenen hizmetler",
+    "services.title_show": "desteklenen hizmetleri göster",
+    "services.title_hide": "desteklenen hizmetleri gizle",
+    "services.disclaimer": "cobalt, aşağıda belirtilen hizmetlerin herhangi biri ile bağlı değildir.",
+    "tutorial.title": "ios'te nasıl kaydedilir?",
+    "tutorial.intro": "ios'te dosyaları rahatça kaydetmek için, paylaş menüsünden bir siri kestirmesi kullanmanız gerekir.",
+    "tutorial.step.1": "siri kestirmesini ekle:",
+    "tutorial.step.2": "cobalt'ın kaydetme kutucuğunda \"paylaş'a\" basın.",
+    "tutorial.step.3": "paylaş menüsünden uygun kestirmeyi seçin.",
+    "tutorial.outro": "bu kestirmeler sadece cobalt uygulamasında çalışır. başka uygulamalardan bağlantılarla çalışmaz.",
+    "tutorial.shortcut.photos": "galeriye",
+    "tutorial.shortcut.files": "dosyalara",
+    "paste": "yapıştır",
+    "paste.long": "yapıştır ve indir"
+}

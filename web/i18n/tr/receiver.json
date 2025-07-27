@@ -1,0 +1,5 @@
+{
+    "title": "bir dosya sürükleyin veya seçin",
+    "title.drop": "dosyayı buraya sürükleyin!",
+    "accept": "desteklenen formatlar: {{ formats }}."
+}
