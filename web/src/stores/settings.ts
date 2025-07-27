@@ -10,7 +10,7 @@ export interface CobaltSettings {
     audioFormat: 'best' | 'mp3' | 'ogg' | 'wav' | 'opus'  // 修复：使用具体的字符串字面量类型
     filenameStyle: string
     disableMetadata: boolean
-    localProcessing: string
+    localProcessing: 'disabled' | 'preferred' | 'forced'  // 用户可选择
     alwaysProxy: boolean
     audioBitrate: '320' | '256' | '128' | '96' | '64' | '8'  // 修复：使用具体的字符串字面量类型
     tiktokFullAudio: boolean
@@ -54,8 +54,8 @@ const defaultSettings: CobaltSettings = {
     audioFormat: 'mp3',
     filenameStyle: 'basic',
     disableMetadata: false,
-    localProcessing: 'disabled',  // 修改为disabled，让API服务器处理合并
-    alwaysProxy: false,
+    localProcessing: 'forced',     // 强制前端处理，完全避免服务器合并
+    alwaysProxy: false,  // 强制关闭代理，恢复直接URL下载
     audioBitrate: '128',
     tiktokFullAudio: false,
     youtubeDubLang: 'original',
@@ -94,7 +94,7 @@ export const saveStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle')
 const saveSettingsToStorage = async (settingsData: CobaltSettings) => {
   try {
     saveStatus.value = 'saving'
-    localStorage.setItem('cobalt-vue-settings', JSON.stringify(settingsData))
+    localStorage.setItem('snapmedia-web-settings', JSON.stringify(settingsData))
     applySettings(settingsData)
     saveStatus.value = 'saved'
     
@@ -154,13 +154,23 @@ const applySettings = (settingsData: CobaltSettings) => {
 // 从localStorage加载设置
 export const loadSettings = () => {
   try {
-    const savedSettings = localStorage.getItem('cobalt-vue-settings')
+    const savedSettings = localStorage.getItem('snapmedia-web-settings')
     if (savedSettings) {
       const parsed = JSON.parse(savedSettings)
       // 深度合并，确保新增的设置项有默认值
       const merged = mergeSettings(defaultSettings, parsed)
+      
+      // 智能升级：为新用户设置前端处理，保留现有用户的选择
+      if (merged.save && !merged.save.hasOwnProperty('localProcessing')) {
+        merged.save.localProcessing = 'forced'  // 新用户默认前端处理
+        console.log('🔧 [Settings] 新用户设置：localProcessing → forced (前端处理)')
+      }
+      
       Object.assign(settings, merged)
       applySettings(settings)
+      
+      // 自动保存升级后的设置
+      saveSettingsToStorage(settings)
     } else {
       // 首次使用，应用默认设置
       applySettings(settings)
@@ -191,7 +201,7 @@ const mergeSettings = (defaults: any, saved: any): any => {
 // 重置设置
 export const resetSettings = () => {
   Object.assign(settings, defaultSettings)
-  localStorage.removeItem('cobalt-vue-settings')
+  localStorage.removeItem('snapmedia-web-settings')
   applySettings(settings)
 }
 

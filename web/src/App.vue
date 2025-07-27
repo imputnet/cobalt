@@ -308,54 +308,113 @@ async function processQueueItem(item: QueuedItem) {
       tunnelLength: Array.isArray((item.response as any).tunnel) ? (item.response as any).tunnel.length : 'not-array'
     });
     
-    // 检测需要remux合并的平台（B站、YouTube等）
+    // 检测需要remux合并的平台和条件
     const service = (item.response as any).service;
-    const needsRemux = (
-      service === 'bilibili' || 
-      service === 'youtube' || 
-      (item.response.filename && (item.response.filename.startsWith('bilibili_') || item.response.filename.startsWith('youtube_')))
-    );
+    const hasDualStreams = (item.response as any).tunnel && Array.isArray((item.response as any).tunnel) && (item.response as any).tunnel.length === 2;
     
-    console.log('🔍 [processQueueItem] 服务检测:', {
+    // 简化判断：有双流就合并（不限制平台）
+    const shouldRemux = hasDualStreams;
+    
+    console.log('🔍 [processQueueItem] 前端合并检查:', {
       service,
-      needsRemux,
+      responseStatus: item.response.status,
       hasTunnel: !!(item.response as any).tunnel,
-      tunnelLength: Array.isArray((item.response as any).tunnel) ? (item.response as any).tunnel.length : 'not-array'
+      tunnelLength: Array.isArray((item.response as any).tunnel) ? (item.response as any).tunnel.length : 'not-array',
+      hasDualStreams,
+      shouldRemux,
+      filename: item.response.filename
     });
     
-    if (needsRemux && (item.response as any).tunnel && Array.isArray((item.response as any).tunnel) && (item.response as any).tunnel.length === 2) {
-      console.log(`🎬 检测到${service}双流，开始remux处理...`);
-      item.currentStep = `检测到${service}分离流，准备下载...`;
+          // 前端智能合并：检测到双流就合并
+      if (shouldRemux) {
+      console.log(`🎬 检测到${service}双流，开始前端合并...`);
+      item.currentStep = `检测到${service}分离流，准备前端合并...`;
       
-      const [videoUrl, audioUrl] = (item.response as any).tunnel;
+      const tunnelArray = (item.response as any).tunnel;
+      const [videoUrl, audioUrl] = tunnelArray;
       
       console.log('🔗 获取到流URL:', {
+        service,
+        tunnelCount: tunnelArray.length,
+        videoUrl: videoUrl?.substring(0, 150) + '...',
+        audioUrl: audioUrl?.substring(0, 150) + '...',
+        hasValidUrls: !!(videoUrl && audioUrl)
+      });
+      
+      if (!videoUrl || !audioUrl) {
+        throw new Error('音视频流URL获取失败');
+      }
+      
+      showToast('🚀 浏览器智能处理：正在下载音视频流...', 'info');
+      
+      item.currentStep = '正在下载视频流...';
+      console.log('📥 开始下载视频流...', {
+        url: videoUrl?.substring(0, 150) + '...',
+        urlLength: videoUrl?.length
+      });
+      
+      // 智能下载方式：检测URL类型并使用合适的下载方法
+      console.log(`📺 [${service}] 开始下载流...`);
+      
+      // 检测是否为代理URL，使用不同的fetch选项
+      const isProxyUrl = (url: string) => url && url.includes('/tunnel?');
+      const videoIsProxy = isProxyUrl(videoUrl);
+      const audioIsProxy = isProxyUrl(audioUrl);
+      
+      console.log('🔗 URL类型检测:', {
+        videoIsProxy,
+        audioIsProxy,
         videoUrl: videoUrl?.substring(0, 100) + '...',
         audioUrl: audioUrl?.substring(0, 100) + '...'
       });
       
-      showToast('正在下载视频和音频流...', 'info');
+      // 为代理URL设置特殊的fetch选项
+      const fetchOptions: RequestInit = {
+        mode: 'cors' as RequestMode,
+        credentials: 'same-origin' as RequestCredentials,
+        headers: {
+          'Accept': '*/*',
+        }
+      };
       
-      item.currentStep = '正在下载视频流...';
-      console.log('📥 开始下载视频流...');
-      const videoResp = await fetch(videoUrl);
+      const videoResp = await fetch(videoUrl, videoIsProxy ? fetchOptions : undefined);
       
       item.currentStep = '正在下载音频流...';
       console.log('📥 开始下载音频流...');
-      const audioResp = await fetch(audioUrl);
+      const audioResp = await fetch(audioUrl, audioIsProxy ? fetchOptions : undefined);
       
       console.log('📊 流下载响应状态:', {
         videoOk: videoResp.ok,
         videoStatus: videoResp.status,
+        videoStatusText: videoResp.statusText,
+        videoContentLength: videoResp.headers.get('content-length'),
+        videoContentType: videoResp.headers.get('content-type'),
         audioOk: audioResp.ok,
-        audioStatus: audioResp.status
+        audioStatus: audioResp.status,
+        audioStatusText: audioResp.statusText,
+        audioContentLength: audioResp.headers.get('content-length'),
+        audioContentType: audioResp.headers.get('content-type')
       });
       
-      if (!videoResp.ok || !audioResp.ok) throw new Error('音视频流下载失败');
+      if (!videoResp.ok || !audioResp.ok) {
+        console.error('❌ 流下载失败详情:', {
+          videoError: !videoResp.ok ? {
+            status: videoResp.status,
+            statusText: videoResp.statusText,
+            url: videoUrl?.substring(0, 100) + '...'
+          } : null,
+          audioError: !audioResp.ok ? {
+            status: audioResp.status,
+            statusText: audioResp.statusText,
+            url: audioUrl?.substring(0, 100) + '...'
+          } : null
+        });
+        throw new Error(`音视频流下载失败 - Video: ${videoResp.status}, Audio: ${audioResp.status}`);
+      }
       
       item.currentStep = '正在处理视频数据...';
       console.log('📦 转换为Blob对象...');
-      showToast('正在处理视频流数据，请稍候...', 'info');
+      showToast('📦 浏览器智能处理：正在解析音视频数据...', 'info');
       
       // 分步处理，避免UI阻塞
       console.log('📦 处理视频流...');
@@ -376,7 +435,7 @@ async function processQueueItem(item: QueuedItem) {
       });
       
       console.log('📥 视频和音频流下载完成，开始合并...');
-      showToast(`正在合并${service}音视频...`, 'info');
+      showToast(`🎬 浏览器智能合并：正在处理${service}音视频...`, 'info');
       
       item.currentStep = '正在初始化视频处理引擎...';
       console.log('🔄 调用remux函数...');
@@ -388,7 +447,7 @@ async function processQueueItem(item: QueuedItem) {
         
         item.currentStep = '合并完成，准备下载...';
         console.log('✅ remux合并完成，文件大小:', (mergedBlob.size / 1024 / 1024).toFixed(2) + 'MB');
-        showToast('视频合并完成！准备下载...', 'success');
+        showToast('✨ 浏览器合并完成！准备下载...', 'success');
         
         const filename = item.response.filename || `${service}_merged.mp4`;
         
@@ -400,13 +459,41 @@ async function processQueueItem(item: QueuedItem) {
         item.currentStep = '下载完成！';
         console.log(`🎉 ${service}视频处理完全完成！`);
       } catch (remuxError) {
-        console.error('❌ remux合并过程出错:', remuxError);
-        throw remuxError;
+        console.error('❌ 浏览器合并失败，启用降级方案:', remuxError);
+        
+        if (videoBlob.size > 0 && audioBlob.size > 0) {
+          // 如果文件下载成功但合并失败，分别下载
+          showToast('⚠️ 浏览器合并失败，将分别下载视频和音频', 'warning');
+          
+          item.currentStep = '合并失败，正在分别下载视频和音频...';
+          console.log('🔄 启用降级方案：分别下载视频和音频文件');
+          
+          const baseFilename = item.response.filename?.replace(/\.[^/.]+$/, '') || `${service}_video`;
+          
+          // 下载视频文件
+          item.currentStep = '正在下载视频文件...';
+          downloadFile(videoBlob, `${baseFilename}_video.mp4`);
+          
+          // 下载音频文件  
+          item.currentStep = '正在下载音频文件...';
+          downloadFile(audioBlob, `${baseFilename}_audio.m4a`);
+          
+          item.status = 'done';
+          item.currentStep = '已分别下载视频和音频文件';
+          showToast('✅ 已分别下载视频和音频文件', 'success');
+          console.log(`🎉 ${service}视频降级下载完成！`);
+          
+        } else {
+          // 文件下载就失败了
+          showToast('❌ 音视频文件下载失败', 'error');
+          item.status = 'error';
+          item.currentStep = '下载失败：无法获取音视频文件';
+        }
       }
       
     } else if ((item.response as any).tunnel && Array.isArray((item.response as any).tunnel)) {
-      // 处理其他平台的多流情况（不需要合并的）
-      console.log('🎵 检测到多流响应，直接下载所有流...');
+      // 处理其他多流情况（非双流的多个文件）
+      console.log('🎵 检测到多流响应，分别下载所有流...');
       item.currentStep = '正在下载多个文件...';
       const tunnelUrls = (item.response as any).tunnel;
       
@@ -500,7 +587,7 @@ onMounted(() => {
   loadSettings()
   initializeAPI()
   
-  console.log('Cobalt Vue 应用已启动')
+  console.log('SnapMedia Vue 应用已启动')
 })
 
 function addToQueue({ response, request }: { response: any, request: any }) {
@@ -681,12 +768,12 @@ function addToQueue({ response, request }: { response: any, request: any }) {
             <div>
               <span>基于开源项目 </span>
               <a 
-                href="https://github.com/imputnet/cobalt" 
+                                    href="https://github.com/MapleShaw/cobalt" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="text-pink-400 hover:text-pink-300 transition-colors"
               >
-                Cobalt
+                SnapMedia
               </a>
               <span> 构建</span>
             </div>
@@ -826,7 +913,7 @@ function addToQueue({ response, request }: { response: any, request: any }) {
                   <span v-else>视频预览不可用</span>
                 </p>
                 <p class="text-xs mt-1 text-gray-300">
-                  <span v-if="previewData.tunnel[0].includes('/tunnel?')">Cobalt代理可能需要特殊处理</span>
+                  <span v-if="previewData.tunnel[0].includes('/tunnel?')">SnapMedia代理可能需要特殊处理</span>
                   <span v-else>某些平台视频需要直接下载</span>
                 </p>
                 <p class="text-xs text-pink-300 mt-2">点击下方按钮直接下载</p>
@@ -836,7 +923,7 @@ function addToQueue({ response, request }: { response: any, request: any }) {
             <!-- 视频加载中的提示 -->
             <div v-if="!videoError" class="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               <span v-if="previewData.tunnel[0].includes('/tunnel?')">
-                🔄 通过Cobalt代理加载...
+                🔄 通过SnapMedia代理加载...
               </span>
               <span v-else>
                 🎬 视频加载中...

@@ -1,4 +1,4 @@
-// Cobalt API 客户端
+// SnapMedia API 客户端
 export interface CobaltApiResponse {
   status: 'error' | 'redirect' | 'tunnel' | 'picker' | 'local-processing'
   url?: string
@@ -81,7 +81,7 @@ export class CobaltAPI {
 
       console.log('API响应状态:', response.status)
 
-      // Cobalt API设计：成功=200，所有错误=400但包含有效JSON
+      // SnapMedia API设计：成功=200，所有错误=400但包含有效JSON
       if (response.status === 200 || response.status === 400) {
         try {
           const result = await response.json()

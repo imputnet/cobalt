@@ -32,6 +32,6 @@ if (env.apiURL) {
     runAPI(express, app, __dirname, cluster.isPrimary);
 } else {
     console.log(
-        Red("API_URL env variable is missing, cobalt api can't start.")
+        Red("API_URL env variable is missing, SnapMedia api can't start.")
     )
 }

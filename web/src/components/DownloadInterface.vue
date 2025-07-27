@@ -366,8 +366,8 @@ const handleDownload = async () => {
     // 构建API请求，完全按照官方API schema的格式
     const requestData: CobaltApiRequest = {
       url: urlInput.value.trim(),
-      localProcessing: 'preferred',
-      alwaysProxy: settings.save?.alwaysProxy || false,
+      localProcessing: urlInput.value.includes('youtube.com') || urlInput.value.includes('youtu.be') ? 'disabled' : ((settings.save?.localProcessing as 'disabled' | 'preferred' | 'forced') || 'forced'),
+      alwaysProxy: false,  // 修复：强制关闭代理，确保返回直接URL
       // 修复：downloadMode只支持 ["auto", "audio", "mute"]，将 "video" 转换为 "auto"
       downloadMode: (['audio', 'mute'].includes(settings.save?.downloadMode)
         ? settings.save?.downloadMode
@@ -390,8 +390,13 @@ const handleDownload = async () => {
       convertGif: settings.save?.convertGif ?? true
     }
     
-    console.log('构建的请求数据:', requestData)
-    console.log('🔧 强制启用服务器处理 - localProcessing: disabled (YouTube视频将在服务器合并)')
+    console.log('🚀 [DownloadInterface] 发送到API的请求数据:', {
+      url: requestData.url,
+      localProcessing: requestData.localProcessing,
+      downloadMode: requestData.downloadMode,
+      videoQuality: requestData.videoQuality
+    })
+    console.log('✨ 前端智能处理 - localProcessing:', requestData.localProcessing, '(音视频将在浏览器合并，减轻服务器压力)')
 
     console.log('开始下载，使用设置:', {
       apiUrl: getCurrentApiURL(),

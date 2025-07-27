@@ -110,16 +110,15 @@
               </select>
             </div>
 
-            <!-- 本地处理选项 -->
+            <!-- YouTube 处理方式 -->
             <div>
-              <label class="setting-label">视频处理方式</label>
+              <label class="setting-label">YouTube 处理方式</label>
               <select v-model="settings.save.localProcessing" class="glass-select">
-                <option value="disabled">服务器处理 (推荐)</option>
-                <option value="preferred">本地处理 (高级)</option>
+                <option value="forced">浏览器合并 (推荐)</option>
+                <option value="disabled">服务器合并 (备用)</option>
               </select>
               <p class="text-sm text-gray-400 mt-1">
-                服务器处理：下载完整的合并文件<br>
-                本地处理：下载分离的视频和音频文件
+                如果 YouTube 下载出现问题，可尝试切换到服务器合并
               </p>
             </div>
 
@@ -397,7 +396,7 @@ const exportSettings = () => {
     
     const link = document.createElement('a')
     link.href = url
-    link.download = `cobalt-settings-${new Date().toISOString().split('T')[0]}.json`
+          link.download = `snapmedia-settings-${new Date().toISOString().split('T')[0]}.json`
     link.click()
     
     URL.revokeObjectURL(url)
