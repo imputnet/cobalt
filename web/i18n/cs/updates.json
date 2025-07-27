@@ -1,0 +1,4 @@
+{
+    "button.next": "přejít na starší seznam změn ({{ value }})",
+    "button.previous": "přejít na novější seznam změn ({{ value }})"
+}
