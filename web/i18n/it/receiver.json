@@ -1,0 +1,5 @@
+{
+    "title": "trascina o seleziona un file",
+    "title.drop": "lascia qua il file!",
+    "accept": "formati supportati: {{ formats }}."
+}
