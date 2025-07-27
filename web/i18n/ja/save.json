@@ -1,0 +1,21 @@
+{
+    "paste": "ペースト",
+    "paste.long": "ペーストしてダウンロード",
+    "auto": "自動",
+    "audio": "オーディオ",
+    "mute": "ミュート",
+    "terms.note.link": "利用規約と倫理規定",
+    "services.title": "サポートされているサービス",
+    "services.title_show": "サポートされているサービスを表示",
+    "services.title_hide": "サポートされているサービスを非表示",
+    "services.disclaimer": "cobalt は上記のいずれのサービスとも提携していません。",
+    "tutorial.title": "iOS ではどのように保存するのですか？",
+    "tutorial.intro": "iOSでメディアを快適に保存するには、共有シートから Siri ショートカットを使用する必要があります。",
+    "tutorial.step.1": "コンパニオン Siri ショートカットを追加:",
+    "tutorial.step.3": "共有シートでそれぞれのショートカットを選択します。",
+    "tutorial.step.2": "Cobalt の保存ダイアログの「共有」ボタンを押します。",
+    "tutorial.outro": "これらのショートカットは cobalt アプリからのみ機能し、他のアプリからのリンクの共有は機能しません。",
+    "label.community_instance": "コミュニティインスタンス",
+    "tutorial.shortcut.photos": "写真へ",
+    "tutorial.shortcut.files": "ファイルへ"
+}
