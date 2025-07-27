@@ -1,0 +1,12 @@
+{
+    "link_area": "link beviteli részleg",
+    "link_area.turnstile": "link beviteli részleg. éppen nézzük, hogy nem vagy-e robot.",
+    "download": "letöltés",
+    "download.check": "letöltése ellenőrzése...",
+    "download.error": "letöltési hiba",
+    "tutorial.shortcut.photos": "fotó hozzáadási parancs",
+    "clear_input": "bevitel törlése",
+    "download.done": "letöltés kész",
+    "download.think": "link feldolgozása...",
+    "tutorial.shortcut.files": "fájl hozzáadási parancs"
+}
