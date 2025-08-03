@@ -7,6 +7,14 @@ import Toast from '@/components/Toast.vue'
 import { loadSettings, initializeAPI } from '@/stores/settings'
 import type { CobaltResponse, QueuedItem } from '@/types';
 import { remux } from './lib/remuxer';
+import { useSeo } from '@/composables/useSeo'
+
+// SEO 和 Analytics 设置
+const { trackEvent, trackPageView } = useSeo({
+  title: 'SnapMedia - 跨平台媒体下载工具 | 支持YouTube、TikTok、Instagram等15+平台',
+  description: 'SnapMedia是一款免费的跨平台媒体下载工具，支持YouTube、TikTok、Instagram、Twitter、Bilibili等15+热门平台的视频、音频下载。快速、安全、无水印。',
+  canonical: 'https://www.snapmedia.app/'
+})
 
 // 响应式状态
 const showSettings = ref(false)
@@ -666,6 +674,22 @@ function addToQueue({ response, request }: { response: any, request: any }) {
   processingQueue.value.push(queueItem);
   
   console.log('✅ [App] 队列项目已添加，新队列长度:', processingQueue.value.length);
+  
+  // Google Analytics 事件追踪 - 下载开始
+  trackEvent('download_started', {
+    platform: response.service || 'unknown',
+    file_type: response.type || 'unknown',
+    processing_type: response.status,
+    has_filename: !!response.filename,
+    enhanced_filename: !!enhancedFilename,
+    url_domain: (() => {
+      try {
+        return new URL(request.url).hostname;
+      } catch {
+        return 'unknown';
+      }
+    })()
+  });
   
   // 🔥 修复：直接在这里启动处理，避免watch监听器的时机问题
   console.log('🚀 [App] 直接启动队列项目处理，避免监听器延迟');

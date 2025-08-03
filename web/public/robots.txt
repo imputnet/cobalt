@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# 禁止访问特定文件类型
+Disallow: *.json
+Disallow: *.js.map
+Disallow: *.css.map
+
+# 允许访问静态资源
+Allow: /favicon.ico
+Allow: /apple-touch-icon.png
+Allow: /favicon-32x32.png
+Allow: /favicon-16x16.png
+Allow: /og-image.png
+
+# 网站地图位置
+Sitemap: https://www.snapmedia.app/sitemap.xml
+
+# 爬取延迟（可选，对大型网站有用）
+Crawl-delay: 1 

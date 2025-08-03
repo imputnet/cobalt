@@ -36,6 +36,28 @@ export default defineConfig(({ mode }) => {
     worker: {
       format: 'es'
     },
+    // 构建优化
+    build: {
+      // 启用 gzip 压缩
+      reportCompressedSize: true,
+      // 代码分割优化
+      rollupOptions: {
+        output: {
+          // 分离第三方库
+          manualChunks: {
+            'vue-vendor': ['vue', 'vue-router', 'pinia'],
+            'ui-vendor': ['lucide-vue-next', '@headlessui/vue'],
+            'utils-vendor': ['@vueuse/core']
+          },
+          // 文件命名优化（有利于缓存）
+          chunkFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]'
+        }
+      },
+      // 启用压缩
+      minify: 'terser',
+    },
     // 配置HTTPS headers for SharedArrayBuffer (FFmpeg需要)
     server: {
       headers: {
