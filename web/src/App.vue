@@ -600,11 +600,62 @@ function addToQueue({ response, request }: { response: any, request: any }) {
     tunnelLength: Array.isArray(response.tunnel) ? response.tunnel.length : 'not-array'
   });
   
+  // 智能文件名提取逻辑
+  let enhancedFilename = response.filename;
+  
+  if (!enhancedFilename || enhancedFilename.trim() === '') {
+    // 尝试从原始URL提取文件名
+    try {
+      const url = new URL(request.url);
+      const pathname = url.pathname;
+      const segments = pathname.split('/').filter(Boolean);
+      
+      if (segments.length > 0) {
+        // 获取路径的最后一段作为基础名称
+        let urlBaseName = segments[segments.length - 1];
+        
+        // 移除常见的查询参数标识符
+        urlBaseName = urlBaseName.replace(/[?&].*$/, '');
+        
+        if (urlBaseName && urlBaseName.length > 0) {
+          enhancedFilename = urlBaseName;
+        }
+      }
+    } catch (error) {
+      console.log('URL 解析失败，使用服务名称生成文件名');
+    }
+    
+    // 如果仍然没有文件名，使用服务名称和时间戳
+    if (!enhancedFilename || enhancedFilename.trim() === '') {
+      const service = response.service || '媒体';
+      const timestamp = new Date().toISOString().slice(0, 16).replace(/[-:]/g, '');
+      enhancedFilename = `${service}_${timestamp}`;
+    }
+  }
+  
+  // 确保文件名不会太长（限制在50个字符以内）
+  if (enhancedFilename.length > 50) {
+    const extension = enhancedFilename.split('.').pop();
+    const baseName = enhancedFilename.replace(/\.[^/.]+$/, '');
+    if (extension && baseName.length > 47) {
+      enhancedFilename = baseName.slice(0, 47) + '...' + (extension ? `.${extension}` : '');
+    }
+  }
+  
+  console.log('📝 [App] 文件名处理:', {
+    原始: response.filename,
+    增强后: enhancedFilename,
+    原始URL: request.url
+  });
+  
   // 生成唯一 id（number 类型）
   const id = Date.now();
   const queueItem = {
     id,
-    response,
+    response: {
+      ...response,
+      filename: enhancedFilename  // 使用增强的文件名
+    },
     status: 'queued' as const,
     progress: 0
   };
@@ -649,19 +700,17 @@ function addToQueue({ response, request }: { response: any, request: any }) {
         <!-- Logo - 左上角 -->
         <div class="absolute top-6 left-6 flex items-center space-x-3 z-20">
           <div class="relative">
-            <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-pink-500/30">
-              <!-- SnapMedia Logo - 简约下载图标 -->
-              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <!-- 简约下载箭头 -->
-                <path d="M12 2C13.1 2 14 2.9 14 4V12L17.5 8.5C18.3 7.7 19.7 7.7 20.5 8.5C21.3 9.3 21.3 10.7 20.5 11.5L13.1 18.9C12.5 19.5 11.5 19.5 10.9 18.9L3.5 11.5C2.7 10.7 2.7 9.3 3.5 8.5C4.3 7.7 5.7 7.7 6.5 8.5L10 12V4C10 2.9 10.9 2 12 2Z"/>
-                <!-- 底部基线 -->
-                <path d="M4 20C4 19.4 4.4 19 5 19H19C19.6 19 20 19.4 20 20C20 20.6 19.6 21 19 21H5C4.4 21 4 20.6 4 20Z"/>
-              </svg>
-            </div>
+            <!-- SnapMedia Logo - 使用 logo.png -->
+            <img 
+              src="@/assets/logo.png" 
+              alt="SnapMedia Logo" 
+              class="w-12 h-12 object-contain"
+            />
             <!-- 霓虹光环 -->
             <div class="absolute inset-0 w-12 h-12 bg-pink-500/40 rounded-xl blur-md -z-10 animate-pulse"></div>
           </div>
-          <div>
+          <!-- 仅在中等屏幕及以上显示文字 -->
+          <div class="hidden md:block">
             <h2 class="text-xl font-bold bg-gradient-to-r from-white via-pink-200 to-pink-300 bg-clip-text text-transparent">
               SnapMedia
             </h2>
@@ -671,37 +720,35 @@ function addToQueue({ response, request }: { response: any, request: any }) {
         <!-- 设置按钮 - 右上角 -->
         <button
           @click="showSettings = !showSettings"
-          class="absolute top-6 right-6 flex items-center space-x-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-white/10 
+          class="absolute top-6 right-6 flex items-center space-x-2 px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-slate-800/50 border border-white/10 
                  hover:bg-slate-700/50 transition-colors text-slate-300 hover:text-white z-20"
         >
-          <Settings class="w-5 h-5" />
-          <span class="hidden sm:inline">设置</span>
+          <Settings class="w-4 h-4 sm:w-5 sm:h-5" />
+          <span class="hidden sm:inline text-sm sm:text-base">设置</span>
         </button>
         
         <!-- 主标题区域 - 居中，增加顶部间距 -->
-        <div class="max-w-4xl mx-auto pt-24 text-center">
-          <div class="space-y-6 mb-8">
-            <!-- 主标题 -->
-            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-pink-200 to-pink-300 bg-clip-text text-transparent">
-              跨平台媒体下载工具
-            </h1>
+        <div class="max-w-4xl mx-auto pt-24 text-center px-4">
+          <!-- 主标题 -->
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-pink-200 to-pink-300 bg-clip-text text-transparent">
+            跨平台媒体下载工具
+          </h1>
 
-            <!-- 副口号 -->
-            <p class="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
-              一键获取你喜爱的内容
-              <br>
-              <span class="text-base text-slate-400 font-medium">快速 • 安全 • 多平台支持</span>
-            </p>
-          </div>
+          <!-- 副口号 -->
+          <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mt-6">
+            一键获取你喜爱的内容
+            <br>
+            <span class="text-sm sm:text-base text-slate-400 font-medium">快速 • 安全 • 多平台支持</span>
+          </p>
         </div>
       </header>
 
       <!-- 主要内容 -->
       <main class="flex-1 pb-8 space-y-6">
         <!-- 下载界面 - 居中显示 -->
-        <div class="px-6">
+        <div class="px-4 sm:px-6">
           <div class="max-w-4xl mx-auto">
-            <div class="bg-slate-900/40 backdrop-blur-xl rounded-3xl border border-white/10 p-8 shadow-2xl">
+            <div class="bg-slate-900/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 p-4 sm:p-8 shadow-2xl">
               <DownloadInterface
                 @show-toast="showToast"
                 @open-preview="openPreview"
@@ -820,8 +867,12 @@ function addToQueue({ response, request }: { response: any, request: any }) {
         <div v-for="item in processingQueue" :key="item.id" class="bg-slate-900/70 p-3 rounded-lg">
           <!-- 文件名 -->
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-white truncate font-medium flex-1" :title="item.response.filename">
-              {{ item.response.filename || '未知文件' }}
+            <p 
+              class="text-sm text-white truncate font-medium flex-1 cursor-help" 
+              :title="item.response.filename || `来源：${(item.response as any).service || '未知平台'}`"
+              :class="{ 'text-gray-400': !item.response.filename }"
+            >
+              {{ item.response.filename || `${(item.response as any).service || '未知平台'} 媒体文件` }}
             </p>
             <!-- 状态图标 -->
             <div class="flex-shrink-0 ml-2">

@@ -45,8 +45,21 @@ export interface CobaltApiRequest {
 }
 
 export class CobaltAPI {
-  private baseURL: string = 'http://localhost:9000/'
+  private baseURL: string
   private timeout: number = 30000
+
+  constructor() {
+    // 调试环境变量读取
+    console.log('环境变量调试:', {
+      VITE_DEFAULT_API: import.meta.env.VITE_DEFAULT_API,
+      WEB_DEFAULT_API: import.meta.env.WEB_DEFAULT_API,
+      NODE_ENV: import.meta.env.NODE_ENV,
+      MODE: import.meta.env.MODE
+    })
+    
+    this.baseURL = import.meta.env.VITE_DEFAULT_API || import.meta.env.WEB_DEFAULT_API || 'http://localhost:9000/'
+    console.log('最终使用的 baseURL:', this.baseURL)
+  }
 
   setBaseURL(url: string) {
     // 确保URL以/结尾，参考原版web的实现

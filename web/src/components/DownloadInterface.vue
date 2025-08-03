@@ -2,7 +2,7 @@
   <!-- 移除外层glass-container，改为更简单的布局 -->
   <div class="download-interface">
     <!-- URL 输入框和下载按钮 -->
-    <div class="glass-container p-6">
+    <div class="glass-container p-6 mt-6">
       <div class="flex items-center space-x-3">
         <!-- URL 输入框 -->
         <div class="flex-1 relative">
@@ -78,34 +78,34 @@
     </div>
 
     <!-- 下载模式选择和高级设置 -->
-    <div class="flex items-center justify-between mt-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
       <!-- 下载模式选择 -->
-      <div class="flex items-center space-x-1">
+      <div class="flex flex-wrap items-center gap-2 sm:gap-1">
         <button
           v-for="mode in downloadModes"
           :key="mode.value"
           @click="setDownloadMode(mode.value)"
           :class="[
-            'download-mode-btn',
+            'download-mode-btn-mobile',
             settings.save.downloadMode === mode.value ? 'active' : ''
           ]"
           :disabled="isProcessing"
         >
-          <component :is="mode.icon" class="w-5 h-5" />
-          <span>{{ mode.label }}</span>
+          <component :is="mode.icon" class="w-4 h-4 sm:w-5 sm:h-5" />
+          <span class="text-sm sm:text-base">{{ mode.label }}</span>
         </button>
       </div>
       
       <!-- 高级设置按钮 -->
       <button
         @click="toggleAdvanced"
-        class="glass-btn glass-btn-secondary flex items-center space-x-2"
+        class="glass-btn glass-btn-secondary flex items-center justify-center sm:justify-start space-x-2 w-full sm:w-auto py-3 sm:py-2"
         :disabled="isProcessing"
       >
-        <Settings class="w-5 h-5" />
-        <span>高级设置</span>
+        <Settings class="w-4 h-4 sm:w-5 sm:h-5" />
+        <span class="text-sm sm:text-base">高级设置</span>
         <ChevronDown
-          class="w-4 h-4 transition-transform duration-200"
+          class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200"
           :class="{ 'rotate-180': showAdvanced }"
         />
       </button>
@@ -348,6 +348,28 @@ const showPickerSelection = (response: any) => {
   emit('open-picker', response)
 }
 
+// 智能选择处理方式的函数
+const getProcessingMode = (url: string, userSetting: string) => {
+  // 检测平台类型
+  const isYouTube = url.includes('youtube.com') || url.includes('youtu.be')
+  const isBilibili = url.includes('bilibili.com') || url.includes('b23.tv')
+  
+  // 如果用户选择了明确的处理方式（非auto），优先使用用户设置
+  if (userSetting && ['forced', 'disabled', 'preferred'].includes(userSetting)) {
+    console.log(`🎯 使用用户设置的处理方式: ${userSetting}`)
+    return userSetting as 'disabled' | 'preferred' | 'forced'
+  }
+  
+  // auto 或空值时使用平台默认策略
+  if (isYouTube || isBilibili) {
+    console.log(`🎬 检测到 ${isYouTube ? 'YouTube' : 'Bilibili'}，默认使用浏览器合并`)
+    return 'forced'  // YouTube 和 Bilibili 默认前端合并
+  } else {
+    console.log('🌐 其他平台，默认使用服务器合并')
+    return 'disabled' // 其他平台默认服务器合并
+  }
+}
+
 const handleDownload = async () => {
   if (!canDownload.value) return
 
@@ -363,11 +385,19 @@ const handleDownload = async () => {
       videoQuality: settings.save?.videoQuality
     })
     
+    // 智能选择处理方式
+    const processingMode = getProcessingMode(
+      urlInput.value.trim(), 
+      settings.save?.localProcessing
+    )
+    
     // 构建API请求，完全按照官方API schema的格式
     const requestData: CobaltApiRequest = {
       url: urlInput.value.trim(),
-      localProcessing: urlInput.value.includes('youtube.com') || urlInput.value.includes('youtu.be') ? 'disabled' : ((settings.save?.localProcessing as 'disabled' | 'preferred' | 'forced') || 'forced'),
-      alwaysProxy: false,  // 修复：强制关闭代理，确保返回直接URL
+      // 使用智能选择的处理方式
+      localProcessing: processingMode,
+      // 使用用户设置的代理选项
+      alwaysProxy: settings.save?.alwaysProxy || false,
       // 修复：downloadMode只支持 ["auto", "audio", "mute"]，将 "video" 转换为 "auto"
       downloadMode: (['audio', 'mute'].includes(settings.save?.downloadMode)
         ? settings.save?.downloadMode

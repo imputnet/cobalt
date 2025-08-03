@@ -14,6 +14,23 @@ TypeScript cannot handle type information for `.vue` imports by default, so we r
 
 See [Vite Configuration Reference](https://vite.dev/config/).
 
+## Environment Configuration
+
+Create a `.env.local` file in the web directory to configure the API server URL:
+
+```bash
+# API 服务器地址配置
+VITE_DEFAULT_API=http://localhost:9000/
+# 或者使用
+WEB_DEFAULT_API=http://localhost:9000/
+
+# 生产环境示例
+# VITE_DEFAULT_API=https://your-api-domain.com/
+# WEB_DEFAULT_API=https://your-api-domain.com/
+```
+
+If no environment variable is set, the application will default to `http://localhost:9000/`.
+
 ## Project Setup
 
 ```sh

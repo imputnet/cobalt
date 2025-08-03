@@ -10,7 +10,7 @@ export interface CobaltSettings {
     audioFormat: 'best' | 'mp3' | 'ogg' | 'wav' | 'opus'  // 修复：使用具体的字符串字面量类型
     filenameStyle: string
     disableMetadata: boolean
-    localProcessing: 'disabled' | 'preferred' | 'forced'  // 用户可选择
+    localProcessing: 'disabled' | 'preferred' | 'forced' | 'auto'  // 用户可选择
     alwaysProxy: boolean
     audioBitrate: '320' | '256' | '128' | '96' | '64' | '8'  // 修复：使用具体的字符串字面量类型
     tiktokFullAudio: boolean
@@ -54,8 +54,8 @@ const defaultSettings: CobaltSettings = {
     audioFormat: 'mp3',
     filenameStyle: 'basic',
     disableMetadata: false,
-    localProcessing: 'forced',     // 强制前端处理，完全避免服务器合并
-    alwaysProxy: false,  // 强制关闭代理，恢复直接URL下载
+    localProcessing: 'auto',     // 自动根据平台选择：YouTube/Bilibili用浏览器合并，其他用服务器合并
+    alwaysProxy: false,  // 默认直接下载，需要时可开启代理
     audioBitrate: '128',
     tiktokFullAudio: false,
     youtubeDubLang: 'original',
@@ -237,6 +237,15 @@ export const getCurrentApiURL = () => {
   if (settings.processing.enableCustomInstances && customURL.length > 0) {
     return new URL(customURL).origin + '/'
   }
+  
+  // 优先使用环境变量，然后使用默认值
+  const envApiUrl = import.meta.env.VITE_DEFAULT_API || import.meta.env.WEB_DEFAULT_API
+  if (envApiUrl) {
+    console.log('使用环境变量中的 API URL:', envApiUrl)
+    return envApiUrl.endsWith('/') ? envApiUrl : envApiUrl + '/'
+  }
+  
+  console.log('使用默认 API URL: http://localhost:9000/')
   return 'http://localhost:9000/'
 }
 

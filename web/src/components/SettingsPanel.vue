@@ -110,15 +110,20 @@
               </select>
             </div>
 
-            <!-- YouTube 处理方式 -->
+            <!-- 媒体处理方式 -->
             <div>
-              <label class="setting-label">YouTube 处理方式</label>
+              <label class="setting-label">媒体处理方式</label>
               <select v-model="settings.save.localProcessing" class="glass-select">
-                <option value="forced">浏览器合并 (推荐)</option>
-                <option value="disabled">服务器合并 (备用)</option>
+                <option value="auto">智能选择 (推荐)</option>
+                <option value="forced">始终浏览器合并</option>
+                <option value="disabled">始终服务器合并</option>
+                <option value="preferred">智能混合模式</option>
               </select>
               <p class="text-sm text-gray-400 mt-1">
-                如果 YouTube 下载出现问题，可尝试切换到服务器合并
+                🎯 <strong>智能选择</strong>：YouTube、Bilibili 用浏览器合并，其他平台用服务器合并<br>
+                🔧 <strong>浏览器合并</strong>：所有平台都在浏览器中合成视频和音频（速度快，占用内存）<br>
+                🌐 <strong>服务器合并</strong>：所有平台都在服务器端合成（节省内存，可能较慢）<br>
+                ⚡ <strong>混合模式</strong>：根据文件类型智能选择处理方式
               </p>
             </div>
 
@@ -144,14 +149,14 @@
                 <span>转换GIF为MP4</span>
               </label>
 
-              <label class="setting-checkbox">
+              <label class="setting-checkbox" :title="'开启后，所有下载都会通过服务器代理，可以解决某些区域限制问题，但下载速度可能较慢'">
                 <input
                   v-model="settings.save.alwaysProxy"
                   type="checkbox"
                   class="sr-only"
                 />
                 <div class="checkbox-custom"></div>
-                <span>总是使用代理</span>
+                <span>总是使用代理 🌐</span>
               </label>
 
               <label class="setting-checkbox">
@@ -163,6 +168,16 @@
                 <div class="checkbox-custom"></div>
                 <span>YouTube更好音质</span>
               </label>
+            </div>
+            
+            <!-- 代理设置说明 -->
+            <div class="mt-3 p-3 bg-slate-800/50 rounded-lg">
+              <p class="text-xs text-gray-400">
+                💡 <strong>代理设置说明：</strong><br>
+                • 🚀 <strong>直接模式</strong>（默认）：从源站直接下载，速度最快<br>
+                • 🛡️ <strong>代理模式</strong>：通过服务器中转，可绕过防盗链和区域限制，但速度较慢<br>
+                • 📋 <strong>使用场景</strong>：下载失败、区域限制、防盗链阻止时开启代理
+              </p>
             </div>
           </div>
         </section>
