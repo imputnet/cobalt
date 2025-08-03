@@ -815,12 +815,12 @@ function addToQueue({ response, request }: { response: any, request: any }) {
             <div>
               <span>基于开源项目 </span>
               <a 
-                                    href="https://github.com/MapleShaw/cobalt" 
+                                    href="https://github.com/imputnet/cobalt" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="text-pink-400 hover:text-pink-300 transition-colors"
               >
-                SnapMedia
+              Cobalt
               </a>
               <span> 构建</span>
             </div>
