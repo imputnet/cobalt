@@ -55,8 +55,8 @@ export default defineConfig(({ mode }) => {
           assetFileNames: 'assets/[name]-[hash].[ext]'
         }
       },
-      // 启用压缩
-      minify: 'terser',
+      // 使用 esbuild 压缩（比 terser 更快，无需额外依赖）
+      minify: 'esbuild',
     },
     // 配置HTTPS headers for SharedArrayBuffer (FFmpeg需要)
     server: {
