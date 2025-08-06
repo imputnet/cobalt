@@ -1,0 +1,6 @@
+{
+    "import.invalid": "tento soubor nemá platné nastavení cobaltu pro import. je to určitě ten správný soubor?",
+    "tunnel.probe": "tento tunel jsem nemohl ověřit. tvůj prohlížeč nebo konfigurace sítě může blokovat přístup k jednomu ze serverů cobaltu. ověř, zda nemáš žádné podivné rozšíření prohlížeče?",
+    "import.no_data": "ze souboru nelze načíst žádná nastavení. je to určitě ten správný soubor?",
+    "import.unknown": "nepodařilo se mi načíst data ze souboru. může být poškozený nebo ve špatném formátu. zde je chyba, kterou jsem dostal:\n\n{{ value }}"
+}
