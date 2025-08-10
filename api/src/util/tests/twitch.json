@@ -29,5 +29,14 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "clip (mobile subdomain)",
+        "url": "https://m.twitch.tv/rtgame/clip/TubularInventiveSardineCorgiDerp-PM47mJQQ2vsL5B5G",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
     }
 ]
