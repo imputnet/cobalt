@@ -165,6 +165,7 @@ export const services = {
     twitch: {
         patterns: [":channel/clip/:clip"],
         tld: "tv",
+        subdomains: ["clips", "www", "m"],
     },
     twitter: {
         patterns: [
