@@ -1,0 +1,20 @@
+[
+    {
+        "name": "tv show video",
+        "url": "https://www.ntv.ru/peredacha/dacha_otvet/m18960/o806491",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "newsfeed video",
+        "url": "https://www.ntv.ru/video/2483380",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    }
+]

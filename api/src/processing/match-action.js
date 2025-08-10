@@ -191,6 +191,7 @@ export default function({
                 case "streamable":
                 case "snapchat":
                 case "twitch":
+                case "ntv":
                     responseType = "redirect";
                     break;
             }
