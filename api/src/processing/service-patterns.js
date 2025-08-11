@@ -1,7 +1,9 @@
 export const testers = {
     "bilibili": pattern =>
-        pattern.comId?.length <= 12 || pattern.comShortLink?.length <= 16
-        || pattern.tvId?.length <= 24,
+        (pattern.comId?.length <= 12 && pattern.partId?.length <= 3) ||
+        (pattern.comId?.length <= 12 && !pattern.partId) ||
+        pattern.comShortLink?.length <= 16 ||
+        pattern.tvId?.length <= 24,
 
     "dailymotion": pattern => pattern.id?.length <= 32,
 

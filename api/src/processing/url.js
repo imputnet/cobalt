@@ -147,6 +147,7 @@ function cleanURL(url) {
                 limitQuery('v');
             }
             break;
+        case "bilibili":
         case "rutube":
             if (url.searchParams.get('p')) {
                 limitQuery('p');
