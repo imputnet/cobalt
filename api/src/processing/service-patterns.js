@@ -50,7 +50,8 @@ export const testers = {
         || (pattern.id?.length < 21 && pattern.user?.length <= 32),
 
     "twitch": pattern =>
-        pattern.channel && pattern.clip?.length <= 100,
+        pattern.channel && pattern.clip?.length <= 100
+        || pattern.type === 'videos' && pattern.videoId?.length >= 1,
 
     "twitter": pattern =>
         pattern.id?.length < 20,

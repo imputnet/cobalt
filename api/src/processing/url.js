@@ -51,6 +51,9 @@ function aliasURL(url) {
             if (url.hostname === 'clips.twitch.tv' && parts.length >= 2) {
                 url = new URL(`https://twitch.tv/_/clip/${parts[1]}`);
             }
+            if ((url.hostname === 'www.twitch.tv' && url.pathname.includes('/videos/')) && parts.length === 3) {
+                url = new URL(`https://twitch.tv/videos/${parts[2]}`);
+            }
             break;
 
         case "bilibili":

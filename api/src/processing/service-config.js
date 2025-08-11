@@ -163,7 +163,10 @@ export const services = {
         subdomains: "*",
     },
     twitch: {
-        patterns: [":channel/clip/:clip"],
+        patterns: [
+            ":channel/clip/:clip",
+            ":type/:videoId"
+        ],
         tld: "tv",
         subdomains: ["clips", "www", "m"],
     },
