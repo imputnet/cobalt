@@ -36,14 +36,53 @@ export default async function(o) {
         audioFilename: `pinterest_${id}_audio`
     }
 
-    const imageLink = [...html.matchAll(imageRegex)]
-                    .map(([, link]) => link)
-                    .find(a => a.endsWith('.jpg') || a.endsWith('.gif'));
+    const allImageMatches = [...html.matchAll(imageRegex)];
+    
+    if (allImageMatches.length === 0) {
+        return { error: "fetch.empty" };
+    }
 
-    const imageType = imageLink.endsWith(".gif") ? "gif" : "jpg"
+    // Step 1: Get the first image (always main content)
+    const firstImageUrl = allImageMatches[0][1];
+    
+    // Step 2: Extract the image hash/identifier
+    const hashMatch = firstImageUrl.match(/\/([0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{32})\.(jpg|gif)/);
+    
+    if (!hashMatch) {
+        // Fallback to first image if we can't parse the hash
+        const imageType = firstImageUrl.endsWith(".gif") ? "gif" : "jpg";
+        return {
+            urls: firstImageUrl,
+            isPhoto: true,
+            filename: `pinterest_${id}.${imageType}`
+        };
+    }
+    
+    const imageHash = hashMatch[1]; // e.g., "7c/0a/1c/7c0a1c5f1c999a4a67f3c5b847da093c"
+    const extension = hashMatch[2];
+    
+    // Step 3: Find all variations of this specific image
+    const sameImageUrls = allImageMatches
+        .map(([, url]) => url)
+        .filter(url => url.includes(imageHash))
+        .filter(url => url.endsWith(`.${extension}`));
+    
+    // Step 4: Sort by quality and take the best
+    const bestQualityUrl = sameImageUrls.sort((a, b) => {
+        const getQualityScore = (url) => {
+            if (url.includes('/originals/')) return 4;
+            if (url.includes('/736x/')) return 3;
+            if (url.includes('/474x/')) return 2;
+            if (url.includes('/236x/')) return 1;
+            return 0;
+        };
+        return getQualityScore(b) - getQualityScore(a);
+    })[0];
+    
+    const imageType = extension;
 
-    if (imageLink) return {
-        urls: imageLink,
+    if (bestQualityUrl) return {
+        urls: bestQualityUrl,
         isPhoto: true,
         filename: `pinterest_${id}.${imageType}`
     }
