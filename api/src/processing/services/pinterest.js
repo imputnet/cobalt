@@ -2,7 +2,7 @@ import { genericUserAgent } from "../../config.js";
 import { resolveRedirectingURL } from "../url.js";
 
 const videoRegex = /"url":"(https:\/\/v1\.pinimg\.com\/videos\/.*?)"/g;
-const imageRegex = /src="(https:\/\/i\.pinimg\.com\/.*\.(jpg|gif))"/g;
+const imageRegex = /src="(https:\/\/i\.pinimg\.com\/(?:\d+x|orig)\/[0-9a-f/]{41}\.(jpg|gif))"/g;
 const notFoundRegex = /"__typename"\s*:\s*"PinNotFound"/;
 
 export default async function(o) {
@@ -39,6 +39,21 @@ export default async function(o) {
     const allImageMatches = [...html.matchAll(imageRegex)];
     
     if (allImageMatches.length === 0) {
+        // Fallback to broader regex if precise one finds nothing
+        const fallbackRegex = /src="(https:\/\/i\.pinimg\.com\/.*\.(jpg|gif))"/g;
+        const fallbackMatches = [...html.matchAll(fallbackRegex)];
+        
+        if (fallbackMatches.length > 0) {
+            // Use first fallback image
+            const fallbackUrl = fallbackMatches[0][1];
+            const imageType = fallbackUrl.endsWith(".gif") ? "gif" : "jpg";
+            return {
+                urls: fallbackUrl,
+                isPhoto: true,
+                filename: `pinterest_${id}.${imageType}`
+            };
+        }
+        
         return { error: "fetch.empty" };
     }
 
@@ -46,7 +61,7 @@ export default async function(o) {
     const firstImageUrl = allImageMatches[0][1];
     
     // Step 2: Extract the image hash/identifier
-    const hashMatch = firstImageUrl.match(/\/([0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{32})\.(jpg|gif)/);
+    const hashMatch = firstImageUrl.match(/\/(?:\d+x|orig)\/([0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{32})\.(jpg|gif)/);
     
     if (!hashMatch) {
         // Fallback to first image if we can't parse the hash
@@ -70,10 +85,15 @@ export default async function(o) {
     // Step 4: Sort by quality and take the best
     const bestQualityUrl = sameImageUrls.sort((a, b) => {
         const getQualityScore = (url) => {
-            if (url.includes('/originals/')) return 4;
-            if (url.includes('/736x/')) return 3;
-            if (url.includes('/474x/')) return 2;
-            if (url.includes('/236x/')) return 1;
+            // Check for originals (highest quality)
+            if (url.includes('/orig/')) return Infinity;
+            
+            // Extract resolution number (e.g., "736" from "/736x/")
+            const resolutionMatch = url.match(/\/(\d+)x\//);
+            if (resolutionMatch) {
+                return parseInt(resolutionMatch[1], 10);
+            }
+            
             return 0;
         };
         return getQualityScore(b) - getQualityScore(a);
