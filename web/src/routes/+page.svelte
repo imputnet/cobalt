@@ -17,7 +17,6 @@
         id="cobalt-save"
         tabindex="-1"
         data-first-focus
-        data-focus-ring-hidden
     >
         <Meowbalt emotion="smile" />
         <Omnibox />
@@ -47,9 +46,9 @@
     #terms-note {
         bottom: 0;
         color: var(--gray);
-        font-size: 13px;
+        font-size: 12px;
         text-align: center;
-        padding-bottom: var(--padding);
+        padding-bottom: 6px;
         font-weight: 500;
     }
 

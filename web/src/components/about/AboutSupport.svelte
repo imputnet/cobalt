@@ -38,7 +38,7 @@
 </script>
 
 <button
-    class="support-card"
+    class="button support-card"
     role="link"
     on:click={() => {
         openURL(externalLink);
@@ -68,7 +68,6 @@
     .support-card {
         padding: var(--padding);
         gap: 4px;
-        height: fit-content;
 
         text-align: start;
         flex-direction: column;

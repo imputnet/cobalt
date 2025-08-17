@@ -1,5 +1,5 @@
+import defaults from "$lib/settings/defaults";
 import type { CobaltSettings } from "$lib/types/settings";
-import defaults from "./defaults";
 
 export default function lazySettingGetter(settings: CobaltSettings) {
     // Returns the setting value only if it differs from the default.

@@ -16,5 +16,14 @@
     "save": "save",
     "export": "export",
     "yes": "yes",
-    "no": "no"
+    "no": "no",
+    "clear": "clear",
+    "show_input": "show input",
+    "hide_input": "hide input",
+    "restore_input": "restore input",
+    "clear_input": "clear input",
+    "clear_cache": "clear cache",
+    "remove": "remove",
+    "retry": "retry",
+    "delete": "delete"
 }

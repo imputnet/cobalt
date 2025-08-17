@@ -15,7 +15,43 @@ const resolutionMatch = {
     "426": 240
 }
 
-const requestApiInfo = (videoId, password) => {
+const genericHeaders = {
+    Accept: 'application/vnd.vimeo.*+json; version=3.4.10',
+    'User-Agent': 'com.vimeo.android.videoapp (Google, Pixel 7a, google, Android 16/36 Version 11.8.1) Kotlin VimeoNetworking/3.12.0',
+    Authorization: 'Basic NzRmYTg5YjgxMWExY2JiNzUwZDg1MjhkMTYzZjQ4YWYyOGEyZGJlMTp4OGx2NFd3QnNvY1lkamI2UVZsdjdDYlNwSDUrdm50YzdNNThvWDcwN1JrenJGZC9tR1lReUNlRjRSVklZeWhYZVpRS0tBcU9YYzRoTGY2Z1dlVkJFYkdJc0dMRHpoZWFZbU0reDRqZ1dkZ1diZmdIdGUrNUM5RVBySlM0VG1qcw==',
+    'Accept-Language': 'en',
+}
+
+let bearer = '';
+
+const getBearer = async (refresh = false) => {
+    if (bearer && !refresh) return bearer;
+
+    const oauthResponse = await fetch(
+        'https://api.vimeo.com/oauth/authorize/client',
+        {
+            method: 'POST',
+            body: new URLSearchParams({
+                scope: 'private public create edit delete interact upload purchased stats',
+                grant_type: 'client_credentials',
+            }).toString(),
+            headers: {
+                ...genericHeaders,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }
+    )
+    .then(a => a.json())
+    .catch(() => {});
+
+    if (!oauthResponse || !oauthResponse.access_token) {
+        return;
+    }
+
+    return bearer = oauthResponse.access_token;
+}
+
+const requestApiInfo = (bearerToken, videoId, password) => {
     if (password) {
         videoId += `:${password}`
     }
@@ -24,10 +60,8 @@ const requestApiInfo = (videoId, password) => {
         `https://api.vimeo.com/videos/${videoId}`,
         {
             headers: {
-                Accept: 'application/vnd.vimeo.*+json; version=3.4.2',
-                'User-Agent': 'Vimeo/10.19.0 (com.vimeo; build:101900.57.0; iOS 17.5.1) Alamofire/5.9.0 VimeoNetworking/5.0.0',
-                Authorization: 'Basic MTMxNzViY2Y0NDE0YTQ5YzhjZTc0YmU0NjVjNDQxYzNkYWVjOWRlOTpHKzRvMmgzVUh4UkxjdU5FRW80cDNDbDhDWGR5dVJLNUJZZ055dHBHTTB4V1VzaG41bEx1a2hiN0NWYWNUcldSSW53dzRUdFRYZlJEZmFoTTArOTBUZkJHS3R4V2llYU04Qnl1bERSWWxUdXRidjNqR2J4SHFpVmtFSUcyRktuQw==',
-                'Accept-Language': 'en'
+                ...genericHeaders,
+                Authorization: `Bearer ${bearerToken}`,
             }
         }
     )
@@ -40,7 +74,7 @@ const compareQuality = (rendition, requestedQuality) => {
     return Math.abs(quality - requestedQuality);
 }
 
-const getDirectLink = (data, quality) => {
+const getDirectLink = async (data, quality, subtitleLang) => {
     if (!data.files) return;
 
     const match = data.files
@@ -56,8 +90,23 @@ const getDirectLink = (data, quality) => {
 
     if (!match) return;
 
+    let subtitles;
+    if (subtitleLang && data.config_url) {
+        const config = await fetch(data.config_url)
+                    .then(r => r.json())
+                    .catch(() => {});
+
+        if (config && config.request?.text_tracks?.length) {
+            subtitles = config.request.text_tracks.find(
+                t => t.lang.startsWith(subtitleLang)
+            );
+            subtitles = new URL(subtitles.url, "https://player.vimeo.com/").toString();
+        }
+    }
+
     return {
         urls: match.link,
+        subtitles,
         filenameAttributes: {
             resolution: `${match.width}x${match.height}`,
             qualityLabel: match.rendition,
@@ -136,14 +185,33 @@ export default async function(obj) {
     if (quality < 240) quality = 240;
     if (!quality || obj.isAudioOnly) quality = 9000;
 
-    const info = await requestApiInfo(obj.id, obj.password);
+    const bearerToken = await getBearer();
+    if (!bearerToken) {
+        return { error: "fetch.fail" };
+    }
+
+    let info = await requestApiInfo(bearerToken, obj.id, obj.password);
     let response;
+
+    // auth error, try to refresh the token
+    if (info?.error_code === 8003) {
+        const newBearer = await getBearer(true);
+        if (!newBearer) {
+            return { error: "fetch.fail" };
+        }
+        info = await requestApiInfo(newBearer, obj.id, obj.password);
+    }
+
+    // if there's still no info, then return a generic error
+    if (!info || info.error_code) {
+        return { error: "fetch.empty" };
+    }
 
     if (obj.isAudioOnly) {
         response = await getHLS(info.config_url, { ...obj, quality });
     }
 
-    if (!response) response = getDirectLink(info, quality);
+    if (!response) response = await getDirectLink(info, quality, obj.subtitleLang);
     if (!response) response = { error: "fetch.empty" };
 
     if (response.error) {
@@ -154,6 +222,10 @@ export default async function(obj) {
         title: info.name,
         artist: info.user.name,
     };
+
+    if (response.subtitles) {
+        fileMetadata.sublanguage = obj.subtitleLang;
+    }
 
     return merge(
         {

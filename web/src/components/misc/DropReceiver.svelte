@@ -1,17 +1,29 @@
 <script lang="ts">
-    export let id: string;
-    export let classes = "";
+    import type { Snippet } from "svelte";
 
-    export let draggedOver = false;
-    export let file: File | undefined;
+    type Props = {
+        id: string;
+        draggedOver?: boolean;
+        files: FileList | undefined;
+        onDrop: () => {};
+        children?: Snippet;
+    };
+
+    let {
+        id,
+        draggedOver = $bindable(false),
+        files = $bindable(),
+        onDrop,
+        children,
+    }: Props = $props();
 
     const dropHandler = async (ev: DragEvent) => {
         draggedOver = false;
         ev.preventDefault();
 
-        if (ev?.dataTransfer?.files.length === 1) {
-            file = ev.dataTransfer.files[0];
-            return file;
+        if (ev?.dataTransfer?.files && ev?.dataTransfer?.files.length > 0) {
+            files = ev.dataTransfer.files;
+            onDrop();
         }
     };
 
@@ -23,16 +35,15 @@
 
 <div
     {id}
-    class={classes}
     role="region"
-    on:drop={(ev) => dropHandler(ev)}
-    on:dragover={(ev) => dragOverHandler(ev)}
-    on:dragend={() => {
+    ondrop={(ev) => dropHandler(ev)}
+    ondragover={(ev) => dragOverHandler(ev)}
+    ondragend={() => {
         draggedOver = false;
     }}
-    on:dragleave={() => {
+    ondragleave={() => {
         draggedOver = false;
     }}
 >
-    <slot></slot>
+    {@render children?.()}
 </div>

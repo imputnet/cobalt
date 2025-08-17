@@ -1,17 +1,22 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-
+    import { onMount, type Snippet } from "svelte";
     import type { Optional } from "$lib/types/generic";
 
     import Skeleton from "$components/misc/Skeleton.svelte";
 
-    export let version: string;
-    export let title: string = "";
-    export let date: string = "";
-    export let banner: Optional<{ file: string; alt: string }> = undefined;
-    export let skeleton = false;
+    type Props = {
+        version: string;
+        title?: string;
+        date?: string;
+        banner?: Optional<{ file: string; alt: string }>;
+        skeleton?: boolean;
+        children?: Snippet
+    };
 
-    let bannerLoaded = false;
+    const { version, title, date, banner, skeleton, children }: Props = $props();
+
+    let bannerLoaded = $state(false);
+    let hideSkeleton = $state(false);
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -26,6 +31,15 @@
         ].join(" ");
     };
 
+    const loaded = () => {
+        bannerLoaded = true;
+
+        // remove the skeleton after the image is done fading in
+        setTimeout(() => {
+            hideSkeleton = true;
+        }, 200)
+    }
+
     onMount(() => {
         const to_focus: HTMLElement | null =
             document.querySelector("[data-first-focus]");
@@ -39,7 +53,6 @@
             <div
                 class="changelog-version"
                 data-first-focus
-                data-focus-ring-hidden
                 tabindex="-1"
             >
                 {version}
@@ -47,7 +60,7 @@
             <div class="changelog-date">
                 {#if skeleton}
                     <Skeleton width="8em" height="16px" />
-                {:else}
+                {:else if date}
                     {formatDate(date)}
                 {/if}
             </div>
@@ -60,21 +73,22 @@
     </div>
     <div class="changelog-content">
         {#if banner}
-            <img
-                src={`/update-banners/${banner.file}`}
-                alt={banner.alt}
-                class:loading={!bannerLoaded}
-                on:load={() => bannerLoaded = true}
-                class="changelog-banner"
-            />
-
-            <Skeleton class="big changelog-banner" hidden={bannerLoaded} />
+            <div class="changelog-banner-container">
+                <img
+                    src={`/update-banners/${banner.file}`}
+                    alt={banner.alt}
+                    class:loading={!bannerLoaded}
+                    onload={loaded}
+                    class="changelog-banner"
+                />
+                <Skeleton class="big changelog-banner" hidden={hideSkeleton} />
+            </div>
         {/if}
 
         {#if skeleton}
             <Skeleton class="big changelog-banner" width="100%" />
         {/if}
-        <div class="changelog-body long-text-noto">
+        <div class="changelog-body long-text">
             {#if skeleton}
                 {#each { length: 3 + Math.random() * 5 } as _}
                     <p>
@@ -85,7 +99,7 @@
                     </p>
                 {/each}
             {:else}
-                <slot></slot>
+                {@render children?.()}
             {/if}
         </div>
     </div>
@@ -138,19 +152,37 @@
         -webkit-user-select: text;
     }
 
-    :global(.changelog-banner) {
-        display: block;
+    .changelog-banner-container {
         object-fit: cover;
         max-height: 350pt;
         min-height: 180pt;
         width: 100%;
         aspect-ratio: 16/9;
+        position: relative;
+    }
+
+    :global(.changelog-banner) {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16/9;
         border-radius: var(--padding);
         pointer-events: all;
+
+        opacity: 1;
+        transition: opacity 0.15s;
+
+        position: absolute;
+        z-index: 2;
+    }
+
+    :global(.skeleton.changelog-banner) {
+        z-index: 1;
+        position: relative;
     }
 
     .changelog-banner.loading {
-        display: none;
+        opacity: 0;
     }
 
     .changelog-content {

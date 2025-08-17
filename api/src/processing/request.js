@@ -1,7 +1,8 @@
+import mime from "mime";
 import ipaddr from "ipaddr.js";
 
-import { createStream } from "../stream/manage.js";
 import { apiSchema } from "./schema.js";
+import { createProxyTunnels, createStream } from "../stream/manage.js";
 
 export function createResponse(responseType, responseData) {
     const internalError = (code) => {
@@ -10,7 +11,7 @@ export function createResponse(responseType, responseData) {
             body: {
                 status: "error",
                 error: {
-                    code: code || "error.api.fetch.critical",
+                    code: code || "error.api.fetch.critical.core",
                 },
                 critical: true
             }
@@ -49,6 +50,44 @@ export function createResponse(responseType, responseData) {
                 }
                 break;
 
+            case "local-processing":
+                response = {
+                    type: responseData?.type,
+                    service: responseData?.service,
+                    tunnel: createProxyTunnels(responseData),
+
+                    output: {
+                        type: mime.getType(responseData?.filename) || undefined,
+                        filename: responseData?.filename,
+                        metadata: responseData?.fileMetadata || undefined,
+                        subtitles: !!responseData?.subtitles || undefined,
+                    },
+
+                    audio: {
+                        copy: responseData?.audioCopy,
+                        format: responseData?.audioFormat,
+                        bitrate: responseData?.audioBitrate,
+                        cover: !!responseData?.cover || undefined,
+                        cropCover: !!responseData?.cropCover || undefined,
+                    },
+
+                    isHLS: responseData?.isHLS,
+                }
+
+                if (!response.audio.format) {
+                    if (response.type === "audio") {
+                        // audio response without a format is invalid
+                        return internalError();
+                    }
+                    delete response.audio;
+                }
+
+                if (!response.output.type || !response.output.filename) {
+                    // response without a type or filename is invalid
+                    return internalError();
+                }
+                break;
+
             case "picker":
                 response = {
                     picker: responseData?.picker,
@@ -72,24 +111,28 @@ export function createResponse(responseType, responseData) {
             }
         }
     } catch {
-        return internalError()
+        return internalError();
     }
 }
 
 export function normalizeRequest(request) {
+    // TODO: remove after backwards compatibility period
+    if ("localProcessing" in request && typeof request.localProcessing === "boolean") {
+        request.localProcessing = request.localProcessing ? "preferred" : "disabled";
+    }
+
     return apiSchema.safeParseAsync(request).catch(() => (
         { success: false }
     ));
 }
 
-export function getIP(req) {
+export function getIP(req, prefix = 56) {
     const strippedIP = req.ip.replace(/^::ffff:/, '');
     const ip = ipaddr.parse(strippedIP);
     if (ip.kind() === 'ipv4') {
         return strippedIP;
     }
 
-    const prefix = 56;
     const v6Bytes = ip.toByteArray();
           v6Bytes.fill(0, prefix / 8);
 

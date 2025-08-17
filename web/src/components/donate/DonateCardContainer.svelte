@@ -43,26 +43,27 @@
         letter-spacing: -0.3px;
     }
 
-    :global(.donate-card button:not(:focus-visible)) {
+    :global(.donate-card button) {
         box-shadow: none;
     }
 
-    :global(.donate-card button:active) {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
     @media (hover: hover) {
-        :global(.donate-card button:hover) {
+        :global(.donate-card button:hover:not(.selected):not(.scroll-button)) {
             background: rgba(255, 255, 255, 0.1);
         }
     }
 
-    :global(.donate-card button.selected) {
-        background: rgba(255, 255, 255, 0.15);
+    :global(.donate-card button:active:not(.selected):not(.scroll-button)) {
+        background: rgba(255, 255, 255, 0.125);
     }
 
-    :global(.donate-card button.selected:not(:focus-visible)) {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) inset !important;
+    :global(.donate-card button.selected) {
+        background: rgba(255, 255, 255, 0.15);
+        cursor: default;
+    }
+
+    :global(.donate-card button.selected) {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) inset;
     }
 
     :global(.donate-card-subtitle) {

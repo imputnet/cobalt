@@ -4,8 +4,24 @@ import { createResponse } from "./request.js";
 import { audioIgnore } from "./service-config.js";
 import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
+import { convertLanguageCode } from "../misc/language-codes.js";
 
-export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disableMetadata, filenameStyle, twitterGif, requestIP, audioBitrate, alwaysProxy }) {
+const extraProcessingTypes = new Set(["merge", "remux", "mute", "audio", "gif"]);
+
+export default function({
+    r,
+    host,
+    audioFormat,
+    isAudioOnly,
+    isAudioMuted,
+    disableMetadata,
+    filenameStyle,
+    convertGif,
+    requestIP,
+    audioBitrate,
+    alwaysProxy,
+    localProcessing,
+}) {
     let action,
         responseType = "tunnel",
         defaultParams = {
@@ -15,13 +31,17 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             filename: r.filenameAttributes ?
                     createFilename(r.filenameAttributes, filenameStyle, isAudioOnly, isAudioMuted) : r.filename,
             fileMetadata: !disableMetadata ? r.fileMetadata : false,
-            requestIP
+            requestIP,
+            originalRequest: r.originalRequest,
+            subtitles: r.subtitles,
+            cover: !disableMetadata ? r.cover : false,
+            cropCover: !disableMetadata ? r.cropCover : false,
         },
         params = {};
 
     if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
-    else if (r.isGif && twitterGif) action = "gif";
+    else if (r.isGif && convertGif) action = "gif";
     else if (isAudioOnly) action = "audio";
     else if (isAudioMuted) action = "muteVideo";
     else if (r.isHLS) action = "hls";
@@ -47,7 +67,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             });
 
         case "photo":
-            responseType = "redirect";
+            params = { type: "proxy" };
             break;
 
         case "gif":
@@ -83,6 +103,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "twitter":
                 case "snapchat":
                 case "bsky":
+                case "xiaohongshu":
                     params = { picker: r.picker };
                     break;
 
@@ -102,6 +123,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                             filename: `${r.audioFilename}.${audioFormat}`,
                             isAudioOnly: true,
                             audioFormat,
+                            audioBitrate
                         })
                     }
                     break;
@@ -125,7 +147,9 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
 
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
-                        params = { type: "merge" }
+                        params = { type: "merge" };
+                    } else if (r.subtitles) {
+                        params = { type: "remux" };
                     } else {
                         responseType = "redirect";
                     }
@@ -139,9 +163,24 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                     }
                     break;
 
-                case "ok":
+                case "loom":
+                    if (r.subtitles) {
+                        params = { type: "remux" };
+                    } else {
+                        responseType = "redirect";
+                    }
+                    break;
+
                 case "vk":
                 case "tiktok":
+                    params = {
+                        type: r.subtitles ? "remux" : "proxy"
+                    };
+                    break;
+
+                case "ok":
+                case "xiaohongshu":
+                case "newgrounds":
                     params = { type: "proxy" };
                     break;
 
@@ -151,7 +190,6 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
                 case "pinterest":
                 case "streamable":
                 case "snapchat":
-                case "loom":
                 case "twitch":
                     responseType = "redirect";
                     break;
@@ -159,7 +197,7 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
             break;
 
         case "audio":
-            if (audioIgnore.includes(host) || (host === "reddit" && r.typeId === "redirect")) {
+            if (audioIgnore.has(host) || (host === "reddit" && r.typeId === "redirect")) {
                 return createResponse("error", {
                     code: "error.api.service.audio_not_supported"
                 })
@@ -207,10 +245,39 @@ export default function({ r, host, audioFormat, isAudioOnly, isAudioMuted, disab
         defaultParams.filename += `.${audioFormat}`;
     }
 
+    // alwaysProxy is set to true in match.js if localProcessing is forced
     if (alwaysProxy && responseType === "redirect") {
         responseType = "tunnel";
         params.type = "proxy";
     }
 
-    return createResponse(responseType, {...defaultParams, ...params})
+    // TODO: add support for HLS
+    // (very painful)
+    if (!params.isHLS && responseType !== "picker") {
+        const isPreferredWithExtra =
+            localProcessing === "preferred" && extraProcessingTypes.has(params.type);
+
+        if (localProcessing === "forced" || isPreferredWithExtra) {
+            responseType = "local-processing";
+        }
+    }
+
+    // extractors usually return ISO 639-1 language codes,
+    // but video players expect ISO 639-2, so we convert them here
+    const sublanguage = defaultParams.fileMetadata?.sublanguage;
+    if (sublanguage && sublanguage.length !== 3) {
+        const code = convertLanguageCode(sublanguage);
+        if (code) {
+            defaultParams.fileMetadata.sublanguage = code;
+        } else {
+            // if a language code couldn't be converted,
+            // then we don't want it at all
+            delete defaultParams.fileMetadata.sublanguage;
+        }
+    }
+
+    return createResponse(
+        responseType,
+        { ...defaultParams, ...params }
+    );
 }

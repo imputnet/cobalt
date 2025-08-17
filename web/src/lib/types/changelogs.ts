@@ -1,5 +1,3 @@
-import type { SvelteComponent } from "svelte"
-
 export interface ChangelogMetadata {
     title: string,
     date: string,
@@ -14,6 +12,6 @@ export interface MarkdownMetadata {
 };
 
 export type ChangelogImport = {
-    default: SvelteComponent,
+    default: ConstructorOfATypedSvelteComponent,
     metadata: ChangelogMetadata
 };

@@ -5,6 +5,7 @@
         Id extends keyof CobaltSettings[Context]
     "
 >
+    import { hapticSwitch } from "$lib/haptics";
     import settings, { updateSetting } from "$lib/state/settings";
     import type { CobaltSettings } from "$lib/types/settings";
 
@@ -31,17 +32,18 @@
     aria-hidden={disabled}
 >
     <button
-        class="toggle-container"
+        class="button toggle-container"
         role="switch"
         aria-checked={isEnabled}
-        disabled={disabled}
-        on:click={() =>
+        {disabled}
+        on:click={() => {
+            hapticSwitch();
             updateSetting({
                 [settingContext]: {
                     [settingId]: !isEnabled,
-                }
-            })
-        }
+                },
+            });
+        }}
     >
         <h4 class="toggle-title">{title}</h4>
         <Toggle enabled={isEnabled} />
@@ -81,5 +83,12 @@
         padding: calc(var(--switcher-padding) * 2) 16px;
         border-radius: var(--border-radius);
         overflow: scroll;
+        transition: box-shadow 0.1s;
+    }
+
+    .toggle-container:active {
+        box-shadow:
+            var(--button-box-shadow),
+            0 0 0 1.5px var(--button-stroke) inset;
     }
 </style>

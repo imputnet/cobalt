@@ -1,25 +1,28 @@
 import cors from "cors";
 import http from "node:http";
 import rateLimit from "express-rate-limit";
-import { setGlobalDispatcher, ProxyAgent } from "undici";
+import { setGlobalDispatcher, EnvHttpProxyAgent } from "undici";
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
 
 import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
 import match from "../processing/match.js";
 
-import { env, isCluster, setTunnelPort } from "../config.js";
+import { env } from "../config.js";
 import { extract } from "../processing/url.js";
-import { Green, Bright, Cyan } from "../misc/console-text.js";
+import { Bright, Cyan } from "../misc/console-text.js";
 import { hashHmac } from "../security/secrets.js";
 import { createStore } from "../store/redis-ratelimit.js";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 import { verifyTurnstileToken } from "../security/turnstile.js";
 import { friendlyServiceName } from "../processing/service-alias.js";
-import { verifyStream, getInternalStream } from "../stream/manage.js";
+import { verifyStream } from "../stream/manage.js";
 import { createResponse, normalizeRequest, getIP } from "../processing/request.js";
+import { setupTunnelHandler } from "./itunnel.js";
+
 import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
+import * as YouTubeSession from "../processing/helpers/youtube-session.js";
 
 const git = {
     branch: await getBranch(),
@@ -45,35 +48,38 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const startTime = new Date();
     const startTimestamp = startTime.getTime();
 
-    const serverInfo = JSON.stringify({
-        cobalt: {
-            version: version,
-            url: env.apiURL,
-            startTime: `${startTimestamp}`,
-            durationLimit: env.durationLimit,
-            turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
-            services: [...env.enabledServices].map(e => {
-                return friendlyServiceName(e);
-            }),
-        },
-        git,
-    })
+    const getServerInfo = () => {
+        return JSON.stringify({
+            cobalt: {
+                version: version,
+                url: env.apiURL,
+                startTime: `${startTimestamp}`,
+                turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
+                services: [...env.enabledServices].map(e => {
+                    return friendlyServiceName(e);
+                }),
+            },
+            git,
+        });
+    }
+
+    const serverInfo = getServerInfo();
 
     const handleRateExceeded = (_, res) => {
-        const { status, body } = createResponse("error", {
+        const { body } = createResponse("error", {
             code: "error.api.rate_exceeded",
             context: {
                 limit: env.rateLimitWindow
             }
         });
-        return res.status(status).json(body);
+        return res.status(429).json(body);
     };
 
     const keyGenerator = (req) => hashHmac(getIP(req), 'rate').toString('base64url');
 
     const sessionLimiter = rateLimit({
-        windowMs: 60000,
-        limit: 10,
+        windowMs: env.sessionRateLimitWindow * 1000,
+        limit: env.sessionRateLimit,
         standardHeaders: 'draft-6',
         legacyHeaders: false,
         keyGenerator,
@@ -89,19 +95,19 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         keyGenerator: req => req.rateLimitKey || keyGenerator(req),
         store: await createStore('api'),
         handler: handleRateExceeded
-    })
+    });
 
     const apiTunnelLimiter = rateLimit({
-        windowMs: env.rateLimitWindow * 1000,
-        limit: (req) => req.rateLimitMax || env.rateLimitMax,
+        windowMs: env.tunnelRateLimitWindow * 1000,
+        limit: env.tunnelRateLimitMax,
         standardHeaders: 'draft-6',
         legacyHeaders: false,
-        keyGenerator: req => req.rateLimitKey || keyGenerator(req),
+        keyGenerator: req => keyGenerator(req),
         store: await createStore('tunnel'),
         handler: (_, res) => {
-            return res.sendStatus(429)
+            return res.sendStatus(429);
         }
-    })
+    });
 
     app.set('trust proxy', ['loopback', 'uniquelocal']);
 
@@ -150,6 +156,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, `error.api.auth.key.${error}`);
         }
 
+        req.authType = "key";
         return next();
     });
 
@@ -173,11 +180,12 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
-            if (!jwt.verify(token)) {
+            if (!jwt.verify(token, getIP(req, 32))) {
                 return fail(res, "error.api.auth.jwt.invalid");
             }
 
             req.rateLimitKey = hashHmac(token, 'rate');
+            req.authType = "session";
         } catch {
             return fail(res, "error.api.generic");
         }
@@ -219,7 +227,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
 
         try {
-            res.json(jwt.generate());
+            res.json(jwt.generate(getIP(req, 32)));
         } catch {
             return fail(res, "error.api.generic");
         }
@@ -237,11 +245,15 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, "error.api.invalid_body");
         }
 
-        const parsed = extract(normalizedRequest.url);
+        const parsed = extract(
+            normalizedRequest.url,
+            APIKeys.getAllowedServices(req.rateLimitKey),
+        );
 
         if (!parsed) {
             return fail(res, "error.api.link.invalid");
         }
+
         if ("error" in parsed) {
             let context;
             if (parsed?.context) {
@@ -255,13 +267,23 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 host: parsed.host,
                 patternMatch: parsed.patternMatch,
                 params: normalizedRequest,
+                authType: req.authType ?? "none",
             });
 
             res.status(result.status).json(result.body);
         } catch {
             fail(res, "error.api.generic");
         }
-    })
+    });
+
+    app.use('/tunnel', cors({
+        methods: ['GET'],
+        exposedHeaders: [
+            'Estimated-Content-Length',
+            'Content-Disposition'
+        ],
+        ...corsConfig,
+    }));
 
     app.get('/tunnel', apiTunnelLimiter, async (req, res) => {
         const id = String(req.query.id);
@@ -292,35 +314,11 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         }
 
         return stream(res, streamInfo);
-    })
-
-    const itunnelHandler = (req, res) => {
-        if (!req.ip.endsWith('127.0.0.1')) {
-            return res.sendStatus(403);
-        }
-
-        if (String(req.query.id).length !== 21) {
-            return res.sendStatus(400);
-        }
-
-        const streamInfo = getInternalStream(req.query.id);
-        if (!streamInfo) {
-            return res.sendStatus(404);
-        }
-
-        streamInfo.headers = new Map([
-            ...(streamInfo.headers || []),
-            ...Object.entries(req.headers)
-        ]);
-
-        return stream(res, { type: 'internal', ...streamInfo });
-    };
-
-    app.get('/itunnel', itunnelHandler);
+    });
 
     app.get('/', (_, res) => {
         res.type('json');
-        res.status(200).send(serverInfo);
+        res.status(200).send(env.envFile ? getServerInfo() : serverInfo);
     })
 
     app.get('/favicon.ico', (req, res) => {
@@ -339,13 +337,17 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     randomizeCiphers();
     setInterval(randomizeCiphers, 1000 * 60 * 30); // shuffle ciphers every 30 minutes
 
-    if (env.externalProxy) {
-        if (env.freebindCIDR) {
-            throw new Error('Freebind is not available when external proxy is enabled')
+    env.subscribe(['externalProxy', 'httpProxyValues'], () => {
+        // TODO: remove env.externalProxy in a future version
+        const options = {};
+        if (env.externalProxy) {
+            options.httpProxy = env.externalProxy;
         }
 
-        setGlobalDispatcher(new ProxyAgent(env.externalProxy))
-    }
+        setGlobalDispatcher(
+            new EnvHttpProxyAgent(options)
+        );
+    });
 
     http.createServer(app).listen({
         port: env.apiPort,
@@ -354,7 +356,7 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     }, () => {
         if (isPrimary) {
             console.log(`\n` +
-                Bright(Cyan("cobalt ")) + Bright("API ^ω⁠^") + "\n" +
+                Bright(Cyan("cobalt ")) + Bright("API ^ω^") + "\n" +
 
                 "~~~~~~\n" +
                 Bright("version: ") + version + "\n" +
@@ -376,19 +378,11 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         if (env.cookiePath) {
             Cookies.setup(env.cookiePath);
         }
+
+        if (env.ytSessionServer) {
+            YouTubeSession.setup();
+        }
     });
 
-    if (isCluster) {
-        const istreamer = express();
-        istreamer.get('/itunnel', itunnelHandler);
-        const server = istreamer.listen({
-            port: 0,
-            host: '127.0.0.1',
-            exclusive: true
-        }, () => {
-            const { port } = server.address();
-            console.log(`${Green('[✓]')} cobalt sub-instance running on 127.0.0.1:${port}`);
-            setTunnelPort(port);
-        });
-    }
+    setupTunnelHandler();
 }

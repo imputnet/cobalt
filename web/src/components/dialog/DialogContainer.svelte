@@ -16,9 +16,14 @@
         if (dialogParent) {
             closing = true;
             open = false;
+
+            // wait 150ms for the closing animation to finish
             setTimeout(() => {
-                dialogParent.close();
-                killDialog();
+                // check if dialog parent is still present
+                if (dialogParent) {
+                    dialogParent.close();
+                    killDialog();
+                }
             }, 150);
         }
     };

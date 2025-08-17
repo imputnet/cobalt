@@ -20,15 +20,23 @@ export const apiSchema = z.object({
 
     filenameStyle: z.enum(
         ["classic", "pretty", "basic", "nerdy"]
-    ).default("classic"),
+    ).default("basic"),
 
     youtubeVideoCodec: z.enum(
         ["h264", "av1", "vp9"]
     ).default("h264"),
 
+    youtubeVideoContainer: z.enum(
+        ["auto", "mp4", "webm", "mkv"]
+    ).default("auto"),
+
     videoQuality: z.enum(
         ["max", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144"]
     ).default("1080"),
+
+    localProcessing: z.enum(
+        ["disabled", "preferred", "forced"]
+    ).default("disabled"),
 
     youtubeDubLang: z.string()
                      .min(2)
@@ -36,16 +44,21 @@ export const apiSchema = z.object({
                      .regex(/^[0-9a-zA-Z\-]+$/)
                      .optional(),
 
-    // TODO: remove this variable as it's no longer used
-    // and is kept for schema compatibility reasons
-    youtubeDubBrowserLang: z.boolean().default(false),
+    subtitleLang: z.string()
+                     .min(2)
+                     .max(8)
+                     .regex(/^[0-9a-zA-Z\-]+$/)
+                     .optional(),
+
+    disableMetadata: z.boolean().default(false),
+
+    allowH265: z.boolean().default(false),
+    convertGif: z.boolean().default(true),
+    tiktokFullAudio: z.boolean().default(false),
 
     alwaysProxy: z.boolean().default(false),
-    disableMetadata: z.boolean().default(false),
-    tiktokFullAudio: z.boolean().default(false),
-    tiktokH265: z.boolean().default(false),
-    twitterGif: z.boolean().default(true),
 
     youtubeHLS: z.boolean().default(false),
+    youtubeBetterAudio: z.boolean().default(false),
 })
 .strict();

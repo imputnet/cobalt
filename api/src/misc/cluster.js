@@ -13,7 +13,8 @@ export const supportsReusePort = async () => {
             server.on('error', (err) => (server.close(), reject(err)));
         });
 
-        return true;
+        const [major, minor] = process.versions.node.split('.').map(Number);
+        return major > 23 || (major === 23 && minor >= 1);
     } catch {
         return false;
     }

@@ -1,0 +1,60 @@
+[
+    {
+        "name": "video (might have expired)",
+        "url": "https://www.xiaohongshu.com/explore/685e63e1000000000b02ee3b?xsec_token=ABN8EQJCDMPcFX9RRggeIPSHLIJ8zkGceFDyBewLGUz30=",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "picker with multiple live photos (might have expired)",
+        "url": "https://www.xiaohongshu.com/explore/687128a2000000001203d94c?xsec_token=CBlDi5QDXDWZu2uUmbUrpKwg8lEL3uC10mc59lGf43r9w=",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "one photo (might have expired)",
+        "url": "https://www.xiaohongshu.com/explore/64726b99000000000800e115?xsec_token=ABoD3qPHqVZolCfS-J8UP9QQaPXZ6Z6PVyODrhaiUg27U=",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "short link (might have expired)",
+        "url": "https://xhslink.com/m/2wAnaTkLRc1",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "wrong note id",
+        "url": "https://www.xiaohongshu.com/discovery/item/6789065911100000210035fc?source=webshare&xhsshare=pc_web&xsec_token=CBustnz_Twf1BSybpe5-D-BzUb-Bx28DPLb418TN9S9Kk&xsec_source=pc_share",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "short link, wrong id",
+        "url": "https://xhslink.com/a/aaaaaa",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    }
+]

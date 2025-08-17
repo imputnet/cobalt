@@ -85,6 +85,8 @@
         -webkit-backdrop-filter: blur(7px);
 
         opacity: 0;
+
+        will-change: opacity;
         transition: opacity 0.2s;
     }
 
@@ -105,19 +107,21 @@
         align-items: center;
 
         background: var(--popup-bg);
-        box-shadow:
-            0 0 0 2px var(--popup-stroke) inset,
-            0 0 60px 10px var(--popup-bg);
+        box-shadow: 0 0 0 2px var(--popup-stroke) inset;
         border-radius: 29px;
+
+        filter: drop-shadow(0 0 40px var(--button));
 
         padding: var(--dialog-padding);
 
         position: relative;
-        will-change: transform;
+        will-change: transform, opacity, filter;
     }
 
     :global(dialog.open .dialog-body) {
         animation: modal-in 0.35s;
+        animation-delay: 0.06s;
+        animation-fill-mode: backwards;
     }
 
     :global(dialog.closing .dialog-body) {
@@ -136,7 +140,11 @@
 
         :global(dialog .dialog-body) {
             margin-bottom: calc(
-                var(--padding) / 2 + env(safe-area-inset-bottom)
+                var(--padding) + calc(
+                    env(safe-area-inset-bottom) - 15px * sign(
+                        env(safe-area-inset-bottom)
+                    )
+                )
             ) !important;
             box-shadow: 0 0 0 2px var(--popup-stroke) inset;
         }
@@ -147,11 +155,11 @@
             transform: scale(0.8);
             opacity: 0;
         }
-        30% {
+        35% {
             opacity: 1;
         }
         50% {
-            transform: scale(1.005);
+            transform: scale(1.01);
         }
         100% {
             transform: scale(1);
@@ -177,7 +185,7 @@
         1% {
             transform: translateY(200px);
         }
-        30% {
+        35% {
             opacity: 1;
         }
         50% {

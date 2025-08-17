@@ -4,6 +4,6 @@
     export { a };
 </script>
 
-<div class="long-text-noto about">
+<div class="long-text about">
     <slot></slot>
 </div>

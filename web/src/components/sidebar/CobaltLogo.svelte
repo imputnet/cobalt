@@ -11,10 +11,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: calc(var(--padding) * 2);
+        padding: calc(var(--sidebar-tab-padding) * 2);
 
         /* accommodate space for scaling animation */
-        padding-bottom: calc(var(--padding) * 2 - var(--sidebar-inner-padding));
+        padding-bottom: calc(var(--sidebar-tab-padding) * 2 - var(--sidebar-inner-padding));
+    }
+
+    #cobalt-logo :global(path) {
+        fill: var(--sidebar-highlight);
     }
 
     @media screen and (max-width: 535px) {

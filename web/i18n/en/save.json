@@ -10,7 +10,7 @@
     "services.title": "supported services",
     "services.title_show": "show supported services",
     "services.title_hide": "hide supported services",
-    "services.disclaimer": "cobalt is not affiliated with any of the services listed above.",
+    "services.disclaimer": "support for a service does not imply affiliation, endorsement, or any form of support other than technical compatibility.",
 
     "tutorial.title": "how to save on ios?",
     "tutorial.intro": "to save media conveniently on ios, you'll need to use a companion siri shortcut from the share sheet.",
@@ -21,5 +21,7 @@
     "tutorial.shortcut.photos": "to photos",
     "tutorial.shortcut.files": "to files",
 
-    "label.community_instance": "community instance"
+    "label.community_instance": "community instance",
+
+    "tooltip.captcha": "cloudflare turnstile is checking if you're not a bot, please wait!"
 }

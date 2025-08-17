@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { t, locales } from "$lib/i18n/translations";
     import settings from "$lib/state/settings";
 
+    import { device } from "$lib/device";
     import { themeOptions } from "$lib/types/settings";
+    import { t, locales } from "$lib/i18n/translations";
 
     import Switcher from "$components/buttons/Switcher.svelte";
     import SettingsButton from "$components/buttons/SettingsButton.svelte";
@@ -54,20 +55,13 @@
     />
 </SettingsCategory>
 
-<SettingsCategory
-    sectionId="accessibility"
-    title={$t("settings.accessibility")}
->
-    <SettingsToggle
-        settingContext="appearance"
-        settingId="reduceTransparency"
-        title={$t("settings.accessibility.transparency.title")}
-        description={$t("settings.accessibility.transparency.description")}
-    />
-    <SettingsToggle
-        settingContext="appearance"
-        settingId="reduceMotion"
-        title={$t("settings.accessibility.motion.title")}
-        description={$t("settings.accessibility.motion.description")}
-    />
-</SettingsCategory>
+{#if device.is.mobile}
+    <SettingsCategory sectionId="tabs" title={$t("settings.tabs")}>
+        <SettingsToggle
+            settingContext="appearance"
+            settingId="hideRemuxTab"
+            title={$t("settings.tabs.hide_remux")}
+            description={$t("settings.tabs.hide_remux.description")}
+        />
+    </SettingsCategory>
+{/if}

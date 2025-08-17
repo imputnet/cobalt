@@ -48,7 +48,7 @@
     {/if}
 
     <svelte:component this={icon} />
-    {$t(`tabs.${name}`)}
+    <span class="tab-title">{$t(`tabs.${name}`)}</span>
 </a>
 
 <style>
@@ -58,7 +58,7 @@
         align-items: center;
         text-align: center;
         gap: 3px;
-        padding: var(--padding) 3px;
+        padding: var(--sidebar-tab-padding) 3px;
         color: var(--sidebar-highlight);
         font-size: var(--sidebar-font-size);
         opacity: 0.75;
@@ -108,6 +108,14 @@
         opacity: 0.7;
     }
 
+    .tab-title {
+        white-space: nowrap;
+    }
+
+    .sidebar-tab:active:not(.active) {
+        opacity: 1;
+    }
+
     @keyframes pressButton {
         0% {
             transform: scale(0.9);
@@ -121,14 +129,23 @@
     }
 
     @media (hover: hover) {
-        .sidebar-tab:active:not(.active) {
-            opacity: 1;
-            background-color: var(--sidebar-hover);
+        .sidebar-tab:hover:not(.active) {
+            background-color: var(--button-hover-transparent);
+        }
+
+        .sidebar-tab:active:not(.active),
+        .sidebar-tab:focus:hover:not(.active) {
+            background-color: var(--button-press-transparent);
         }
 
         .sidebar-tab:hover:not(.active) {
             opacity: 1;
-            background-color: var(--sidebar-hover);
+        }
+
+        .sidebar-tab:active:not(.active),
+        .sidebar-tab:focus:hover:not(.active) {
+            opacity: 1;
+            box-shadow: 0 0 0 1px var(--sidebar-stroke) inset;
         }
     }
 

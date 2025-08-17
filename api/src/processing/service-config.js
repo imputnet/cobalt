@@ -1,7 +1,7 @@
 import UrlPattern from "url-pattern";
 
-export const audioIgnore = ["vk", "ok", "loom"];
-export const hlsExceptions = ["dailymotion", "vimeo", "rutube", "bsky", "youtube"];
+export const audioIgnore = new Set(["vk", "ok", "loom"]);
+export const hlsExceptions = new Set(["dailymotion", "vimeo", "rutube", "bsky", "youtube"]);
 
 export const services = {
     bilibili: {
@@ -35,13 +35,25 @@ export const services = {
     },
     instagram: {
         patterns: [
-            "reels/:postId",
-            ":username/reel/:postId",
-            "reel/:postId",
             "p/:postId",
-            ":username/p/:postId",
             "tv/:postId",
-            "stories/:username/:storyId"
+            "reel/:postId",
+            "reels/:postId",
+            "stories/:username/:storyId",
+
+            /*
+                share & username links use the same url pattern,
+                so we test the share pattern first, cuz id type is different.
+                however, if someone has the "share" username and the user
+                somehow gets a link of this ancient style, it's joever.
+            */
+
+            "share/:shareId",
+            "share/p/:shareId",
+            "share/reel/:shareId",
+
+            ":username/p/:postId",
+            ":username/reel/:postId",
         ],
         altDomains: ["ddinstagram.com"],
     },
@@ -62,10 +74,31 @@ export const services = {
             "url_shortener/:shortLink"
         ],
     },
+    newgrounds: {
+        patterns: [
+            "portal/view/:id",
+            "audio/listen/:audioId",
+        ]
+    },
     reddit: {
         patterns: [
+            "comments/:id",
+
+            "r/:sub/comments/:id",
             "r/:sub/comments/:id/:title",
-            "user/:user/comments/:id/:title"
+            "r/:sub/comments/:id/comment/:commentId",
+
+            "user/:user/comments/:id",
+            "user/:user/comments/:id/:title",
+            "user/:user/comments/:id/comment/:commentId",
+
+            "r/u_:user/comments/:id",
+            "r/u_:user/comments/:id/:title",
+            "r/u_:user/comments/:id/comment/:commentId",
+
+            "r/:sub/s/:shareId",
+
+            "video/:shortId",
         ],
         subdomains: "*",
     },
@@ -89,6 +122,7 @@ export const services = {
             "add/:username",
             "u/:username",
             "t/:shortLink",
+            "o/:spotlightId",
         ],
         subdomains: ["t", "story"],
     },
@@ -111,12 +145,13 @@ export const services = {
     tiktok: {
         patterns: [
             ":user/video/:postId",
+            "i18n/share/video/:postId",
             ":shortLink",
             "t/:shortLink",
             ":user/photo/:postId",
             "v/:postId.html"
         ],
-        subdomains: ["vt", "vm", "m"],
+        subdomains: ["vt", "vm", "m", "t"],
     },
     tumblr: {
         patterns: [
@@ -130,6 +165,7 @@ export const services = {
     twitch: {
         patterns: [":channel/clip/:clip"],
         tld: "tv",
+        subdomains: ["clips", "www", "m"],
     },
     twitter: {
         patterns: [
@@ -148,7 +184,8 @@ export const services = {
             ":id",
             "video/:id",
             ":id/:password",
-            "/channels/:user/:id"
+            "/channels/:user/:id",
+            "groups/:groupId/videos/:id"
         ],
         subdomains: ["player"],
     },
@@ -156,21 +193,31 @@ export const services = {
         patterns: [
             "video:ownerId_:videoId",
             "clip:ownerId_:videoId",
-            "clips:duplicate?z=clip:ownerId_:videoId",
-            "videos:duplicate?z=video:ownerId_:videoId",
             "video:ownerId_:videoId_:accessKey",
             "clip:ownerId_:videoId_:accessKey",
-            "clips:duplicate?z=clip:ownerId_:videoId_:accessKey",
-            "videos:duplicate?z=video:ownerId_:videoId_:accessKey"
+
+            // links with a duplicate author id and/or zipper query param
+            "clips:duplicateId",
+            "videos:duplicateId",
+            "search/video"
         ],
         subdomains: ["m"],
         altDomains: ["vkvideo.ru", "vk.ru"],
+    },
+    xiaohongshu: {
+        patterns: [
+            "explore/:id?xsec_token=:token",
+            "discovery/item/:id?xsec_token=:token",
+            ":shareType/:shareId",
+        ],
+        altDomains: ["xhslink.com"],
     },
     youtube: {
         patterns: [
             "watch?v=:id",
             "embed/:id",
-            "watch/:id"
+            "watch/:id",
+            "v/:id"
         ],
         subdomains: ["music", "m"],
     }

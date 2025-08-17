@@ -1,9 +1,12 @@
 {
-    "link_area": "зона вставки ссылки",
-    "clear_input": "clear input",
+    "link_area": "поле ввода ссылки",
+    "clear_input": "очистить поле ввода",
     "download": "скачать",
     "download.think": "обрабатываю ссылку...",
     "download.check": "проверяю загрузку...",
-    "download.done": "загрузка завершена!",
-    "download.error": "ошибка загрузки"
+    "download.done": "загрузка завершена",
+    "download.error": "ошибка загрузки",
+    "link_area.turnstile": "поле ввода ссылки. проверяю, что ты не робот.",
+    "tutorial.shortcut.photos": "добавить команду \"в фото\"",
+    "tutorial.shortcut.files": "добавить команду \"в файлы\""
 }

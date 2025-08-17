@@ -9,11 +9,18 @@ const getEnv = (_key: string) => {
     }
 }
 
+const getEnvBool = (key: string) => {
+    const value = getEnv(key);
+    return value && ['1', 'true'].includes(value.toLowerCase());
+}
+
 const variables = {
     HOST: getEnv('HOST'),
     PLAUSIBLE_HOST: getEnv('PLAUSIBLE_HOST'),
     PLAUSIBLE_ENABLED: getEnv('HOST') && getEnv('PLAUSIBLE_HOST'),
     DEFAULT_API: getEnv('DEFAULT_API'),
+    ENABLE_WEBCODECS: getEnvBool('ENABLE_WEBCODECS'),
+    ENABLE_DEPRECATED_YOUTUBE_HLS: getEnvBool('ENABLE_DEPRECATED_YOUTUBE_HLS'),
 }
 
 const contacts = {
@@ -32,12 +39,12 @@ const donate = {
     stripe: "https://donate.stripe.com/3cs2cc6ew1Qda4wbII",
     liberapay: "https://liberapay.com/imput/donate",
     crypto: {
-        ethereum: "0x4B4cF23051c78c7A7E0eA09d39099621c46bc302",
-        monero: "4B1SNB6s8Pq1hxjNeKPEe8Qa8EP3zdL16Sqsa7QDoJcUecKQzEj9BMxWnEnTGu12doKLJBKRDUqnn6V9qfSdXpXi3Nw5Uod",
-        solana: "LJx4mxhvLJqDs65u4kxNgoKYGbZFfGCKGQjNApvfB7h",
-        litecoin: "ltc1qvp0xhrk2m7pa6p6z844qcslfyxv4p3vf95rhna",
-        bitcoin: "bc1qlvcnlnyzfsgnuxyxsv3k0p0q0yln0azjpadyx4",
-        ton: "UQA3SO-hHZq1oCCT--u6or6ollB8fd2o52aD8mXiLk9iDZd3",
+        ethereum: "0xDA47A671B2411468E8320916C3e57D2F60FE7197",
+        monero: "463y93PsQDTYGVPAHUNcjiYDsxWjn7bL2FS9GYXjetEH5XEoNKB7kCHHQXsuoebbSv8RqGspo61pxhMQQrudDky2AfTGbs3",
+        solana: "BWPQpPvSyfauUm1BwmV55qE1vJT56Pc6qHrNFzCmtmFJ",
+        litecoin: "ltc1qfdemqtfsj7pgnfmtv7n5agtrh0yzwk2pzgr96y",
+        bitcoin: "bc1qeqd27qknt3fwvuzpvv2ne730klggggwcqm43yq",
+        ton: "UQBosUGIkvZcV8k02bdm-lRFLXrlr1A_sdO1FnXhAsUOLx1S",
     },
     other: {
         boosty: "https://boosty.to/wukko/donate",
@@ -55,7 +62,7 @@ const docs = {
     apiLicense: "https://github.com/imputnet/cobalt/blob/main/api/LICENSE",
 };
 
-const defaultApiURL = "https://api.cobalt.tools";
+const officialApiURL = "https://api.cobalt.tools";
 
-export { donate, defaultApiURL, contacts, partners, siriShortcuts, docs };
+export { donate, officialApiURL, contacts, partners, siriShortcuts, docs };
 export default variables;

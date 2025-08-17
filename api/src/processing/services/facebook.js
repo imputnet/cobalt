@@ -8,8 +8,8 @@ const headers = {
     'Sec-Fetch-Site': 'none',
 }
 
-const resolveUrl = (url) => {
-    return fetch(url, { headers })
+const resolveUrl = (url, dispatcher) => {
+    return fetch(url, { headers, dispatcher })
         .then(r => {
             if (r.headers.get('location')) {
                 return decodeURIComponent(r.headers.get('location'));
@@ -23,13 +23,13 @@ const resolveUrl = (url) => {
         .catch(() => false);
 }
 
-export default async function({ id, shareType, shortLink }) {
+export default async function({ id, shareType, shortLink, dispatcher }) {
     let url = `https://web.facebook.com/i/videos/${id}`;
 
     if (shareType) url = `https://web.facebook.com/share/${shareType}/${id}`;
-    if (shortLink) url = await resolveUrl(`https://fb.watch/${shortLink}`);
+    if (shortLink) url = await resolveUrl(`https://fb.watch/${shortLink}`, dispatcher);
 
-    const html = await fetch(url, { headers })
+    const html = await fetch(url, { headers, dispatcher })
         .then(r => r.text())
         .catch(() => false);
 

@@ -30,4 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - run: pnpm i --frozen-lockfile && node api/src/util/test run-tests-for ${{ matrix.service }}
+      - run: pnpm i --frozen-lockfile
+      - run: node api/src/util/test run-tests-for ${{ matrix.service }}
+        env:
+          HTTP_PROXY: ${{ secrets.API_EXTERNAL_PROXY }}
+          TEST_IGNORE_SERVICES: ${{ vars.TEST_IGNORE_SERVICES }}
