@@ -114,7 +114,7 @@ if you want to use your instance outside of web interface, you'll need an api ke
 >
 > if api keys leak, you'll have to update/remove all UUIDs to revoke them.
 
-1. create a `keys.json` file following [the schema and example here](/docs//run-an-instance.md#api-key-file-format).
+1. create a `keys.json` file following [the schema and example here](/docs/run-an-instance.md#api-key-file-format).
 
 2. expose the `keys.json` to the docker container:
 ```yml

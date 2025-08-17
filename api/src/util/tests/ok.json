@@ -5,7 +5,10 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "tunnel"
+            "status": "tunnel",
+            "stream": {
+                "code": 200
+            }
         }
     }
 ]

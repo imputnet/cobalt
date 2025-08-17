@@ -39,7 +39,7 @@ const env = {
     turnstileSitekey: process.env.TURNSTILE_SITEKEY,
     turnstileSecret: process.env.TURNSTILE_SECRET,
     jwtSecret: process.env.JWT_SECRET,
-    jwtLifetime: process.env.JWT_EXPIRY || 120,
+    jwtLifetime: (process.env.JWT_EXPIRY && parseInt(process.env.JWT_EXPIRY)) || 120,
 
     sessionEnabled: process.env.TURNSTILE_SITEKEY
                         && process.env.TURNSTILE_SECRET
