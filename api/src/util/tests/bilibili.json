@@ -56,5 +56,14 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "bilibili.com link with part id",
+        "url": "https://www.bilibili.com/video/BV1uo4y1K72s?spm_id_from=333.788.videopod.episodes&p=6",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
     }
 ]
