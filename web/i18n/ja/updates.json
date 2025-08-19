@@ -1,0 +1,4 @@
+{
+    "button.next": "前のアップデートを見る ({{ value }})",
+    "button.previous": "新しい変更履歴へ移動 ({{ value }})"
+}
