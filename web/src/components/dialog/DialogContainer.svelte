@@ -6,6 +6,7 @@
 
     export let id: string;
     export let dismissable = true;
+    export let onclose: (e: Event) => void = () => {}
 
     let dialogParent: HTMLDialogElement;
 
@@ -36,7 +37,7 @@
     }
 </script>
 
-<dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open>
+<dialog id="dialog-{id}" bind:this={dialogParent} class:closing class:open {onclose}>
     <slot></slot>
     <DialogBackdropClose closeFunc={dismissable ? close : () => {}} />
 </dialog>
