@@ -1,7 +1,7 @@
 <div align="center">
     <br/>
     <p>
-        <img src="web/static/favicon.png" title="SnapMedia" alt="SnapMedia logo" width="100" />
+        <img src="web/public/android-chrome-192x192.png" title="SnapMedia" alt="SnapMedia logo" width="100" />
     </p>
     <p>
         best way to save what you love
@@ -11,15 +11,8 @@
         </a>
     </p>
     <p>
-        <a href="https://discord.gg/pQPt8HBUPu">
-            💬 community discord server
-        </a>
-        <br/>
-        <a href="https://x.com/justusecobalt">
+        <a href="https://x.com/msjiaozhu">
             🐦 twitter
-        </a>
-        <a href="https://bsky.app/profile/cobalt.tools">
-            🦋 bluesky
         </a>
     </p>
     <br/>
