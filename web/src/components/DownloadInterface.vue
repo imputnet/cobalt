@@ -13,7 +13,7 @@
             @keydown.enter="handleDownload"
             :disabled="isProcessing"
             type="text"
-            placeholder="粘贴视频链接..."
+            :placeholder="t('downloadInterface.placeholder')"
             class="glass-input w-full"
             :class="{
               'border-pink-500/50 bg-pink-500/10': urlStatus === 'invalid' && urlInput.length > 0,
@@ -92,7 +92,7 @@
           :disabled="isProcessing"
         >
           <component :is="mode.icon" class="w-4 h-4 sm:w-5 sm:h-5" />
-          <span class="text-sm sm:text-base">{{ mode.label }}</span>
+                            <span class="text-sm sm:text-base">{{ t(`downloadModes.${mode.value}`) }}</span>
         </button>
       </div>
       
@@ -103,7 +103,7 @@
         :disabled="isProcessing"
       >
         <Settings class="w-4 h-4 sm:w-5 sm:h-5" />
-        <span class="text-sm sm:text-base">高级设置</span>
+        <span class="text-sm sm:text-base">{{ t('advancedSettings.title') }}</span>
         <ChevronDown
           class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200"
           :class="{ 'rotate-180': showAdvanced }"
@@ -119,38 +119,38 @@
       <!-- 视频质量 -->
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="setting-label">视频质量</label>
+          <label class="setting-label">{{ t('advancedSettings.videoQuality') }}</label>
           <select v-model="settings.save.videoQuality" class="glass-select">
-            <option value="max">最高</option>
-            <option value="2160">4K (2160p)</option>
-            <option value="1440">2K (1440p)</option>
-            <option value="1080">1080p</option>
-            <option value="720">720p</option>
-            <option value="480">480p</option>
-            <option value="360">360p</option>
+            <option value="max">{{ t('advancedSettings.qualities.max') }}</option>
+            <option value="2160">{{ t('advancedSettings.qualities.2160') }}</option>
+            <option value="1440">{{ t('advancedSettings.qualities.1440') }}</option>
+            <option value="1080">{{ t('advancedSettings.qualities.1080') }}</option>
+            <option value="720">{{ t('advancedSettings.qualities.720') }}</option>
+            <option value="480">{{ t('advancedSettings.qualities.480') }}</option>
+            <option value="360">{{ t('advancedSettings.qualities.360') }}</option>
           </select>
         </div>
 
         <div>
-          <label class="setting-label">音频格式</label>
+          <label class="setting-label">{{ t('advancedSettings.audioFormat') }}</label>
           <select v-model="settings.save.audioFormat" class="glass-select">
-            <option value="best">最佳</option>
-            <option value="mp3">MP3</option>
-            <option value="ogg">OGG</option>
-            <option value="wav">WAV</option>
-            <option value="opus">OPUS</option>
+            <option value="best">{{ t('advancedSettings.audioFormats.best') }}</option>
+            <option value="mp3">{{ t('advancedSettings.audioFormats.mp3') }}</option>
+            <option value="ogg">{{ t('advancedSettings.audioFormats.ogg') }}</option>
+            <option value="wav">{{ t('advancedSettings.audioFormats.wav') }}</option>
+            <option value="opus">{{ t('advancedSettings.audioFormats.opus') }}</option>
           </select>
         </div>
       </div>
 
       <!-- 文件名样式 -->
       <div>
-        <label class="setting-label">文件名样式</label>
+        <label class="setting-label">{{ t('advancedSettings.filenameStyle') }}</label>
         <select v-model="settings.save.filenameStyle" class="glass-select">
-          <option value="classic">经典 (完整信息)</option>
-          <option value="basic">简洁 (标题_质量)</option>
-          <option value="pretty">美观 (仅标题)</option>
-          <option value="nerdy">技术 (详细信息)</option>
+          <option value="classic">{{ t('advancedSettings.filenameStyles.classic') }}</option>
+          <option value="basic">{{ t('advancedSettings.filenameStyles.basic') }}</option>
+          <option value="pretty">{{ t('advancedSettings.filenameStyles.pretty') }}</option>
+          <option value="nerdy">{{ t('advancedSettings.filenameStyles.nerdy') }}</option>
         </select>
       </div>
 
@@ -163,7 +163,7 @@
             class="sr-only"
           />
           <div class="checkbox-custom"></div>
-          <span>禁用元数据</span>
+          <span>{{ t('advancedSettings.disableMetadata') }}</span>
         </label>
 
         <label class="setting-checkbox">
@@ -173,7 +173,7 @@
             class="sr-only"
           />
           <div class="checkbox-custom"></div>
-          <span>转换GIF为MP4</span>
+          <span>{{ t('advancedSettings.convertGif') }}</span>
         </label>
       </div>
     </div>
@@ -186,6 +186,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { 
   Download, 
   Music, 
@@ -204,11 +205,14 @@ import { api } from '@/lib/api'
 import { settings, loadSettings, getCurrentApiURL } from '@/stores/settings'
 import type { CobaltApiRequest, CobaltResponse } from '@/types'
 
+// i18n 设置
+const { t } = useI18n()
+
 // 下载模式配置
 const downloadModes = [
-  { value: 'auto' as const, label: '自动', icon: Sparkles },
-  { value: 'audio' as const, label: '音频', icon: Music },
-  { value: 'mute' as const, label: '静音', icon: VolumeX }
+  { value: 'auto' as const, icon: Sparkles },
+  { value: 'audio' as const, icon: Music },
+  { value: 'mute' as const, icon: VolumeX }
 ]
 
 // 响应式状态
@@ -238,13 +242,13 @@ const downloadButtonIcon = computed(() => {
 })
 
 const downloadButtonText = computed(() => {
-  if (isProcessing.value) return '处理中...'
+  if (isProcessing.value) return t('downloadInterface.processing')
   if (!canDownload.value) {
-    if (urlInput.value.length === 0) return '请输入链接'
-    if (urlStatus.value === 'invalid') return '链接无效'
-    return '准备下载'
+    if (urlInput.value.length === 0) return t('downloadInterface.pleaseEnterUrl')
+    if (urlStatus.value === 'invalid') return t('downloadInterface.invalidUrl')
+    return t('downloadInterface.readyToDownload')
   }
-  return '开始下载'
+  return t('downloadInterface.downloadButton')
 })
 
 // 方法
@@ -374,7 +378,7 @@ const handleDownload = async () => {
   if (!canDownload.value) return
 
   isProcessing.value = true
-  emit('showToast', '正在处理请求...', 'info')
+  emit('showToast', t('toast.processing'), 'info')
 
   try {
     // 调试settings状态
@@ -483,10 +487,10 @@ const handleDownload = async () => {
         emit('add-to-queue', { response, request: {} });
       }
       
-      emit('showToast', '已添加到处理队列，正在准备下载...', 'info');
+      emit('showToast', t('toast.addedToQueue'), 'info');
       console.log('✅ [DownloadInterface] add-to-queue事件已发送');
     } else if (response.status === 'redirect' && response.url) {
-      emit('showToast', '检测到直接链接，显示预览', 'info')
+      emit('showToast', t('toast.directLink'), 'info')
       
       // 将redirect响应转换为预览格式
       const previewResponse = {
@@ -509,7 +513,7 @@ const handleDownload = async () => {
       })
       
     } else if (response.status === 'tunnel' && response.url) {
-      emit('showToast', '检测到单文件下载，显示预览', 'info')
+      emit('showToast', t('toast.singleFile'), 'info')
       
       // 将tunnel响应转换为预览格式
       const previewResponse = {
@@ -533,7 +537,7 @@ const handleDownload = async () => {
       })
       
     } else if (response.status === 'picker' && response.picker) {
-      emit('showToast', '发现多个文件，请选择下载', 'info')
+      emit('showToast', t('toast.multipleFiles'), 'info')
       
       // 显示picker选择界面
       showPickerSelection(response)
@@ -542,20 +546,20 @@ const handleDownload = async () => {
       console.error('API返回错误:', response.error)
       
       const errorMessages: Record<string, string> = {
-        'link.invalid': '链接无效或不支持',
-        'link.unsupported': '不支持的平台',
-        'content.too_long': '视频时长超过限制',
-        'content.unavailable': '内容不可用或已被删除',
-        'rate_limit': '请求过于频繁，请稍后再试',
-        'api.fetch.timeout': '请求超时，请检查网络连接',
-        'api.fetch.error': '网络错误，请稍后再试',
-        'api.fetch.fail': '该平台暂时被阻止访问，请稍后再试',
-        'api.fetch.status': 'API服务器错误',
-        'error.api.header.accept': 'API请求格式错误',
-        'error.api.fetch.short_link': 'Facebook短链接暂不支持，请使用完整的Facebook链接'
+        'link.invalid': t('errors.invalidLink'),
+        'link.unsupported': t('errors.unsupportedPlatform'),
+        'content.too_long': t('errors.contentTooLong'),
+        'content.unavailable': t('errors.contentUnavailable'),
+        'rate_limit': t('errors.rateLimited'),
+        'api.fetch.timeout': t('errors.timeout'),
+        'api.fetch.error': t('errors.networkError'),
+        'api.fetch.fail': t('errors.fetchFailed'),
+        'api.fetch.status': t('errors.serverError'),
+        'error.api.header.accept': t('errors.headerError'),
+        'error.api.fetch.short_link': t('errors.facebookShortLink')
       }
       
-      const errorMessage = errorMessages[response.error.code] || `API错误: ${response.error.code || 'unknown'} - ${response.error.context || '获取视频信息失败，请检查链接是否正确'}`
+      const errorMessage = errorMessages[response.error.code] || `${t('errors.unknownResponse')}: ${response.error.code || 'unknown'} - ${response.error.context || t('errors.downloadFailed')}`
       throw new Error(errorMessage)
     } else {
       // 🔍 通用处理逻辑 - 尝试从任何可能的字段中提取下载URL
@@ -606,7 +610,7 @@ const handleDownload = async () => {
           responseType: response.status
         })
       } else {
-        throw new Error(`未知的响应格式: ${JSON.stringify(response)}`)
+        throw new Error(`${t('errors.unknownResponse')}: ${JSON.stringify(response)}`)
       }
     }
 
@@ -622,7 +626,7 @@ const handleDownload = async () => {
       })
     }
     
-    const errorMessage = error instanceof Error ? error.message : '下载失败，请重试'
+    const errorMessage = error instanceof Error ? error.message : t('errors.downloadFailed')
     emit('showToast', errorMessage, 'error')
   } finally {
     isProcessing.value = false

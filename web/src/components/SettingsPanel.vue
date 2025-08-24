@@ -30,7 +30,7 @@
                 'text-slate-800'
               ]">
             <Settings class="w-6 h-6 mr-3" />
-            设置
+            {{ t('settings.title') }}
           </h2>
           <button
             @click="closePanel"
@@ -50,12 +50,12 @@
         
         <!-- 下载设置 -->
         <section>
-          <h3 class="section-title">下载设置</h3>
+          <h3 class="section-title">{{ t('settings.downloadSettings') }}</h3>
           <div class="space-y-6">
             
             <!-- 默认下载模式 -->
             <div>
-              <label class="setting-label">默认下载模式</label>
+              <label class="setting-label">{{ t('settings.defaultDownloadMode') }}</label>
               <div class="flex space-x-2 mt-2">
                 <button
                   v-for="mode in downloadModes"
@@ -67,7 +67,7 @@
                   ]"
                 >
                   <component :is="mode.icon" class="w-5 h-5" />
-                  <span>{{ mode.label }}</span>
+                  <span>{{ t(`downloadModes.${mode.value}`) }}</span>
                 </button>
               </div>
             </div>
@@ -75,55 +75,51 @@
             <!-- 视频质量和音频格式 -->
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="setting-label">默认视频质量</label>
+                <label class="setting-label">{{ t('settings.defaultVideoQuality') }}</label>
                 <select v-model="settings.save.videoQuality" class="glass-select">
-                  <option value="max">最高</option>
-                  <option value="2160">4K (2160p)</option>
-                  <option value="1440">2K (1440p)</option>
-                  <option value="1080">1080p</option>
-                  <option value="720">720p</option>
-                  <option value="480">480p</option>
-                  <option value="360">360p</option>
+                  <option value="max">{{ t('advancedSettings.qualities.max') }}</option>
+                  <option value="2160">{{ t('advancedSettings.qualities.2160') }}</option>
+                  <option value="1440">{{ t('advancedSettings.qualities.1440') }}</option>
+                  <option value="1080">{{ t('advancedSettings.qualities.1080') }}</option>
+                  <option value="720">{{ t('advancedSettings.qualities.720') }}</option>
+                  <option value="480">{{ t('advancedSettings.qualities.480') }}</option>
+                  <option value="360">{{ t('advancedSettings.qualities.360') }}</option>
                 </select>
               </div>
 
               <div>
-                <label class="setting-label">默认音频格式</label>
+                <label class="setting-label">{{ t('settings.defaultAudioFormat') }}</label>
                 <select v-model="settings.save.audioFormat" class="glass-select">
-                  <option value="best">最佳</option>
-                  <option value="mp3">MP3</option>
-                  <option value="ogg">OGG</option>
-                  <option value="wav">WAV</option>
-                  <option value="opus">OPUS</option>
+                  <option value="best">{{ t('advancedSettings.audioFormats.best') }}</option>
+                  <option value="mp3">{{ t('advancedSettings.audioFormats.mp3') }}</option>
+                  <option value="ogg">{{ t('advancedSettings.audioFormats.ogg') }}</option>
+                  <option value="wav">{{ t('advancedSettings.audioFormats.wav') }}</option>
+                  <option value="opus">{{ t('advancedSettings.audioFormats.opus') }}</option>
                 </select>
               </div>
             </div>
 
             <!-- 文件名样式 -->
             <div>
-              <label class="setting-label">文件名样式</label>
+              <label class="setting-label">{{ t('settings.defaultFilenameStyle') }}</label>
               <select v-model="settings.save.filenameStyle" class="glass-select">
-                <option value="classic">经典 (完整信息)</option>
-                <option value="basic">简洁 (标题_质量)</option>
-                <option value="pretty">美观 (仅标题)</option>
-                <option value="nerdy">技术 (详细信息)</option>
+                <option value="classic">{{ t('advancedSettings.filenameStyles.classic') }}</option>
+                <option value="basic">{{ t('advancedSettings.filenameStyles.basic') }}</option>
+                <option value="pretty">{{ t('advancedSettings.filenameStyles.pretty') }}</option>
+                <option value="nerdy">{{ t('advancedSettings.filenameStyles.nerdy') }}</option>
               </select>
             </div>
 
             <!-- 媒体处理方式 -->
             <div>
-              <label class="setting-label">媒体处理方式</label>
+              <label class="setting-label">{{ t('settings.mediaProcessingMode') }}</label>
               <select v-model="settings.save.localProcessing" class="glass-select">
-                <option value="auto">智能选择 (推荐)</option>
-                <option value="forced">始终浏览器合并</option>
-                <option value="disabled">始终服务器合并</option>
-                <option value="preferred">智能混合模式</option>
+                <option value="auto">{{ t('settings.processingModes.auto') }}</option>
+                <option value="forced">{{ t('settings.processingModes.forced') }}</option>
+                <option value="disabled">{{ t('settings.processingModes.disabled') }}</option>
+                <option value="preferred">{{ t('settings.processingModes.preferred') }}</option>
               </select>
-              <p class="text-sm text-gray-400 mt-1">
-                🎯 <strong>智能选择</strong>：YouTube、Bilibili 用浏览器合并，其他平台用服务器合并<br>
-                🔧 <strong>浏览器合并</strong>：所有平台都在浏览器中合成视频和音频（速度快，占用内存）<br>
-                🌐 <strong>服务器合并</strong>：所有平台都在服务器端合成（节省内存，可能较慢）<br>
-                ⚡ <strong>混合模式</strong>：根据文件类型智能选择处理方式
+              <p class="text-sm text-gray-400 mt-1" v-html="t('settings.processingDescription')">
               </p>
             </div>
 
@@ -136,7 +132,7 @@
                   class="sr-only"
                 />
                 <div class="checkbox-custom"></div>
-                <span>禁用元数据</span>
+                <span>{{ t('advancedSettings.disableMetadata') }}</span>
               </label>
 
               <label class="setting-checkbox">
@@ -146,7 +142,7 @@
                   class="sr-only"
                 />
                 <div class="checkbox-custom"></div>
-                <span>转换GIF为MP4</span>
+                <span>{{ t('advancedSettings.convertGif') }}</span>
               </label>
 
               <label class="setting-checkbox" :title="'开启后，所有下载都会通过服务器代理，可以解决某些区域限制问题，但下载速度可能较慢'">
@@ -156,7 +152,7 @@
                   class="sr-only"
                 />
                 <div class="checkbox-custom"></div>
-                <span>总是使用代理 🌐</span>
+                <span>{{ t('settings.alwaysProxy') }}</span>
               </label>
 
               <label class="setting-checkbox">
@@ -166,17 +162,13 @@
                   class="sr-only"
                 />
                 <div class="checkbox-custom"></div>
-                <span>YouTube更好音质</span>
+                <span>{{ t('settings.youtubeBetterAudio') }}</span>
               </label>
             </div>
             
             <!-- 代理设置说明 -->
             <div class="mt-3 p-3 bg-slate-800/50 rounded-lg">
-              <p class="text-xs text-gray-400">
-                💡 <strong>代理设置说明：</strong><br>
-                • 🚀 <strong>直接模式</strong>（默认）：从源站直接下载，速度最快<br>
-                • 🛡️ <strong>代理模式</strong>：通过服务器中转，可绕过防盗链和区域限制，但速度较慢<br>
-                • 📋 <strong>使用场景</strong>：下载失败、区域限制、防盗链阻止时开启代理
+              <p class="text-xs text-gray-400" v-html="t('settings.proxyDescription')">
               </p>
             </div>
           </div>
@@ -184,22 +176,22 @@
 
         <!-- 界面设置 -->
         <section>
-          <h3 class="section-title">界面设置</h3>
+          <h3 class="section-title">{{ t('settings.interfaceSettings') }}</h3>
           <div class="space-y-6">
             
             <!-- 主题 -->
             <div>
-              <label class="setting-label">主题</label>
+              <label class="setting-label">{{ t('settings.theme') }}</label>
               <select v-model="settings.appearance.theme" class="glass-select">
-                <option value="dark">深色</option>
-                <option value="light">浅色</option>
-                <option value="auto">跟随系统</option>
+                <option value="dark">{{ t('settings.themes.dark') }}</option>
+                <option value="light">{{ t('settings.themes.light') }}</option>
+                <option value="auto">{{ t('settings.themes.auto') }}</option>
               </select>
             </div>
 
             <!-- 霓虹强度 -->
             <div>
-              <label class="setting-label">霓虹效果强度: {{ settings.appearance.neonIntensity }}%</label>
+              <label class="setting-label">{{ t('settings.neonIntensity') }}: {{ settings.appearance.neonIntensity }}%</label>
               <input
                 v-model.number="settings.appearance.neonIntensity"
                 type="range"
@@ -220,14 +212,14 @@
                 class="sr-only"
               />
               <div class="checkbox-custom"></div>
-              <span>启用动画效果</span>
+              <span>{{ t('settings.enableAnimations') }}</span>
             </label>
           </div>
         </section>
 
         <!-- API设置 -->
         <section>
-          <h3 class="section-title">API设置</h3>
+          <h3 class="section-title">{{ t('settings.apiSettings') }}</h3>
           <div class="space-y-6">
             
             <!-- 自定义API -->
@@ -238,12 +230,12 @@
                 class="sr-only"
               />
               <div class="checkbox-custom"></div>
-              <span>使用自定义API服务器</span>
+              <span>{{ t('settings.useCustomApi') }}</span>
             </label>
 
             <!-- API服务器地址 -->
             <div v-if="settings.processing.enableCustomInstances">
-              <label class="setting-label">API服务器地址</label>
+              <label class="setting-label">{{ t('settings.apiServerUrl') }}</label>
               <input
                 v-model="settings.processing.customInstanceURL"
                 type="text"
@@ -251,13 +243,13 @@
                 class="glass-input"
               />
               <p class="text-sm text-gray-400 mt-1">
-                默认: http://localhost:9000/
+                {{ t('settings.apiServerDefault') }}
               </p>
             </div>
 
             <!-- 请求超时 -->
             <div>
-              <label class="setting-label">请求超时 (秒)</label>
+              <label class="setting-label">{{ t('settings.requestTimeout') }}</label>
               <input
                 v-model.number="settings.processing.requestTimeout"
                 type="number"
@@ -271,7 +263,7 @@
 
         <!-- 其他设置 -->
         <section>
-          <h3 class="section-title">其他设置</h3>
+          <h3 class="section-title">{{ t('settings.otherSettings') }}</h3>
           <div class="space-y-6">
             
             <label class="setting-checkbox">
@@ -281,7 +273,7 @@
                 class="sr-only"
               />
               <div class="checkbox-custom"></div>
-              <span>自动检测剪贴板链接</span>
+              <span>{{ t('settings.autoDetectClipboard') }}</span>
             </label>
 
             <label class="setting-checkbox">
@@ -291,28 +283,28 @@
                 class="sr-only"
               />
               <div class="checkbox-custom"></div>
-              <span>显示开发者信息</span>
+              <span>{{ t('settings.showDevInfo') }}</span>
             </label>
           </div>
         </section>
 
         <!-- 操作按钮 -->
         <section>
-          <h3 class="section-title">数据管理</h3>
+          <h3 class="section-title">{{ t('settings.dataManagement') }}</h3>
           <div class="flex flex-wrap gap-3">
             <button @click="exportSettings" class="glass-btn glass-btn-secondary">
               <Download class="w-5 h-5" />
-              <span>导出设置</span>
+              <span>{{ t('settings.exportSettings') }}</span>
             </button>
             
             <button @click="importSettings" class="glass-btn glass-btn-secondary">
               <Upload class="w-5 h-5" />
-              <span>导入设置</span>
+              <span>{{ t('settings.importSettings') }}</span>
             </button>
             
             <button @click="resetToDefaults" class="glass-btn text-pink-400 border-pink-500/30 hover:bg-pink-500/10">
               <RotateCcw class="w-5 h-5" />
-              <span>重置设置</span>
+              <span>{{ t('settings.resetSettings') }}</span>
             </button>
           </div>
         </section>
@@ -338,6 +330,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { 
   Settings, 
   X, 
@@ -353,6 +346,9 @@ import {
 } from 'lucide-vue-next'
 
 import { settings, saveStatus, resetSettings } from '@/stores/settings'
+
+// i18n 设置
+const { t } = useI18n()
 
 // Props
 interface Props {
@@ -385,9 +381,9 @@ const statusIcon = computed(() => {
 
 const statusText = computed(() => {
   switch (saveStatus.value) {
-    case 'saving': return '保存中...'
-    case 'saved': return '已保存'
-    case 'error': return '保存失败'
+    case 'saving': return t('settings.saving')
+    case 'saved': return t('settings.saved')
+    case 'error': return t('settings.saveError')
     default: return ''
   }
 })
@@ -436,7 +432,7 @@ const importSettings = () => {
         Object.assign(settings, importedSettings)
       } catch (error) {
         console.error('导入设置失败:', error)
-        alert('导入失败：文件格式不正确')
+        alert(t('settings.importError'))
       }
     }
     reader.readAsText(file)
@@ -446,7 +442,7 @@ const importSettings = () => {
 }
 
 const resetToDefaults = () => {
-  if (confirm('确定要重置所有设置吗？这将清除所有自定义配置。')) {
+  if (confirm(t('settings.confirmReset'))) {
     resetSettings()
   }
 }
