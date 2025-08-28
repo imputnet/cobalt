@@ -8,6 +8,23 @@ if you need help with installing docker, you can find more information here:
 - [how to install docker](https://docs.docker.com/engine/install/)
 - [how to install docker compose](https://docs.docker.com/compose/install/)
 
+## how to build and run you docker packages:
+1. clone repository:
+    ```git
+    git clone https://github.com/imputnet/cobalt.git
+    ```
+2. go to cobalt folder:
+    ```sh
+    cd cobalt
+    ```
+3. build docker image:
+    ```
+    docker build -f Dockerfile.instance -t cobalt-instance .
+    ```
+4. run docker conainer:
+    ```
+    docker run -d -p 9000:9000 -e API_URL="YOU_URL" cobalt-instance
+    ```
 ## how to run a cobalt docker package:
 1. create a folder for cobalt config file, something like this:
     ```sh

@@ -6,6 +6,9 @@ the cobalt frontend is a static web app built with
 - to run the dev environment, run `pnpm run dev`.
 - to make the release build of the frontend, run `pnpm run build`.
 
+## run with use docker
+- build images `docker build --build-arg WEB_DEFAULT_API="YOUR_INSTANCE_URL" -t cobalt-client .` 
+- run docker container `docker run -d -p 3000:80 cobalt-client` 
 ## environment variables
 the frontend has several build-time environment variables for configuring various features. to use
 them, you must specify them when building the frontend (or running a vite server for development).

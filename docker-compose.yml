@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.instance
+    container_name: cobalt-api
+    ports:
+      - "9000:9000"
+    environment:
+      API_URL: "http://localhost:9000"
+    restart: unless-stopped
+
+  client :
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: cobalt-client
+    ports:
+      - "3000:80"
+    environment:
+      WEB_HOST: "localhost:3000"
+    restart: unless-stopped
+    depends_on:
+      - api

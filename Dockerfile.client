@@ -1,0 +1,21 @@
+FROM node:24-alpine AS base
+WORKDIR /app
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+# replace https://api.url.example/ with your api instance's urldo
+ENV WEB_DEFAULT_API="https://api.url.example/"
+
+FROM base AS build-client
+WORKDIR /app
+COPY . /app
+WORKDIR /app/web
+RUN corepack enable && apk add --no-cache python3 alpine-sdk
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install
+RUN pnpm run build
+
+FROM nginx:alpine AS frontend
+WORKDIR /app
+COPY --from=build-client /app/web/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

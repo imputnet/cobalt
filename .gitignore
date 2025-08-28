@@ -15,8 +15,5 @@ build
 cookies.json
 keys.json
 
-# docker
-docker-compose.yml
-
 # ide
 .vscode
