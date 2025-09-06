@@ -1,0 +1,10 @@
+{
+    "link_area": "リンクを入力してください",
+    "link_area.turnstile": "リンク入力エリア。あなたがロボットでないか確認中です。",
+    "clear_input": "削除",
+    "download": "ダウンロード",
+    "download.think": "リンクを処理しています。。。",
+    "download.error": "エラーが発生しました",
+    "tutorial.shortcut.photos": "写真のショートカットを追加",
+    "tutorial.shortcut.files": "ファイルのショートカットを追加"
+}

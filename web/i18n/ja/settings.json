@@ -1,0 +1,23 @@
+{
+    "page.privacy": "プライバシー",
+    "page.appearance": "外観",
+    "page.video": "ビデオ",
+    "page.audio": "オーディオ",
+    "page.instances": "インスタンス",
+    "theme": "テーマ",
+    "theme.auto": "オート",
+    "theme.light": "ライト",
+    "theme.dark": "ダーク",
+    "video.quality.max": "8k+",
+    "theme.description": "自動テーマは、あなたのデバイスの表示モードに応じて、明るいテーマと暗いテーマを切り替える。",
+    "video.quality": "ビデオ品質",
+    "video.quality.480": "480p",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.720": "720p",
+    "video.quality.1080": "1080p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "選択した画質が利用できない場合は次に近い画質が適用されます。"
+}

@@ -1,0 +1,6 @@
+{
+    "import.unknown": "impossible de charger les données du fichier. il peut être corrompu ou dans un mauvais format. voici l'erreur que j'ai obtenue :\n\n{{ value }}",
+    "import.no_data": "il n'y a rien à charger à partir du fichier. êtes-vous sûr que c'est le bon ?",
+    "import.invalid": "votre fichier ne contient pas de paramètres cobalt valides à importer. êtes-vous sûr que c'est le bon ?",
+    "tunnel.probe": "impossible de vérifier si vous pouvez télécharger ce fichier. réessayez dans quelques secondes !"
+}

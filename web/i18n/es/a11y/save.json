@@ -1,0 +1,12 @@
+{
+    "download.think": "procesando el enlace...",
+    "download": "descargar",
+    "download.check": "verificando descarga...",
+    "download.done": "descarga completa",
+    "download.error": "error al descargar",
+    "tutorial.shortcut.photos": "añadir acceso directo a fotos",
+    "tutorial.shortcut.files": "añadir acceso directo a archivos",
+    "clear_input": "borrar entrada",
+    "link_area": "zona de entrada de enlaces",
+    "link_area.turnstile": "zona de entrada de enlaces. verificando que no eres un robot."
+}

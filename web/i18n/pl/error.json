@@ -1,0 +1,6 @@
+{
+    "tunnel.probe": "nie można zweryfikować, czy można pobrać ten plik. spróbuj ponownie za kilka sekund!",
+    "import.no_data": "nie ma nic do wczytania z pliku. jesteś pewien, że to ten właściwy?",
+    "import.invalid": "twój plik nie ma prawidłowych ustawień cobalta do zaimportowania. czy jesteś pewien, że jest to prawidłowy plik?",
+    "import.unknown": "nie można załadować danych z pliku. może być uszkodzony lub w złym formacie. oto błąd, który otrzymałem:\n\n{{ value }}"
+}

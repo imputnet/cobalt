@@ -1,0 +1,12 @@
+{
+    "link_area": "oblast pro zadávání odkazů",
+    "clear_input": "vymazat vstup",
+    "download": "stáhnout",
+    "download.think": "zpracovávám odkaz...",
+    "download.check": "ověřuji stáhnutí...",
+    "download.done": "stahování hotovo",
+    "tutorial.shortcut.photos": "přidat zkratku pro fotografie",
+    "tutorial.shortcut.files": "přidat zkratku pro soubory",
+    "download.error": "chyba při stahování",
+    "link_area.turnstile": "oblast pro zadávání odkazů. kontrolujeme, zda nejste robot."
+}

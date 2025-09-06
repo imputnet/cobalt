@@ -1,0 +1,22 @@
+{
+    "paste": "coller",
+    "paste.long": "coller et télécharger",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "muet",
+    "input.placeholder": "colle le lien ici",
+    "terms.note.link": "les conditions et l'éthique d'utilisation",
+    "terms.note.agreement": "en continuant, tu acceptes",
+    "services.title_show": "afficher les services pris en charge",
+    "services.title_hide": "masquer les services pris en charge",
+    "tutorial.title": "comment enregistrer sur ios ?",
+    "tutorial.intro": "pour enregistrer des médias de manière pratique sur ios, vous devrez utiliser un raccourci siri compagnon dans le menu de partage.",
+    "tutorial.step.1": "ajoutez les raccourcis siri compagnons :",
+    "tutorial.step.2": "appuyez sur le bouton \"partager\" dans la boîte de dialogue d'enregistrement de cobalt.",
+    "tutorial.step.3": "sélectionnez le raccourci respectif dans le menu de partage.",
+    "tutorial.shortcut.photos": "vers les photos",
+    "tutorial.shortcut.files": "aux fichiers",
+    "services.title": "services pris en charge",
+    "tutorial.outro": "ces raccourcis ne fonctionneront que depuis l'application cobalt, le partage de liens depuis d'autres applications ne fonctionnera pas.",
+    "services.disclaimer": "cobalt n'est affilié à aucun des services listés ci-dessus."
+}
