@@ -1,0 +1,13 @@
+{
+    "link_area": "link eingabe",
+    "link_area.turnstile": "link eingabe. prüft, ob du kein roboter bist.",
+    "clear_input": "eingabe löschen",
+    "download": "herunterladen",
+    "download.think": "verarbeitet den link...",
+    "download.check": "download prüfen...",
+    "download.done": "download abgeschlossen",
+    "download.error": "download fehlgeschlagen",
+
+    "tutorial.shortcut.photos": "fotos-shortcut hinzufügen",
+    "tutorial.shortcut.files": "dateien-shortcut hinzufügen"
+}
