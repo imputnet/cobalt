@@ -3,12 +3,12 @@ import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
 
-const graphqlURL = 'https://api.x.com/graphql/I9GDzyCGZL2wSoYFFrrTVw/TweetResultByRestId';
+const graphqlURL = 'https://api.x.com/graphql/4Siu98E55GquhG52zHdY5w/TweetDetail';
 const tokenURL = 'https://api.x.com/1.1/guest/activate.json';
 
-const tweetFeatures = JSON.stringify({"creator_subscriptions_tweet_preview_api_enabled":true,"communities_web_enable_tweet_community_results_fetch":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"articles_preview_enabled":true,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"creator_subscriptions_quote_tweet_preview_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"rweb_video_timestamps_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"rweb_tipjar_consumption_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_enhance_cards_enabled":false});
+const tweetFeatures = JSON.stringify({"rweb_video_screen_enabled":false,"payments_enabled":false,"rweb_xchat_enabled":false,"profile_label_improvements_pcf_label_in_post_enabled":true,"rweb_tipjar_consumption_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"premium_content_api_read_enabled":false,"communities_web_enable_tweet_community_results_fetch":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_grok_analyze_button_fetch_trends_enabled":false,"responsive_web_grok_analyze_post_followups_enabled":true,"responsive_web_jetfuel_frame":true,"responsive_web_grok_share_attachment_enabled":true,"articles_preview_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"responsive_web_grok_show_grok_translated_post":false,"responsive_web_grok_analysis_button_from_backend":true,"creator_subscriptions_quote_tweet_preview_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_grok_image_annotation_enabled":true,"responsive_web_grok_imagine_annotation_enabled":true,"responsive_web_grok_community_note_auto_translation_is_enabled":false,"responsive_web_enhance_cards_enabled":false});
 
-const tweetFieldToggles = JSON.stringify({"withArticleRichContentState":true,"withArticlePlainText":false,"withGrokAnalyze":false});
+const tweetFieldToggles = JSON.stringify({"withArticleRichContentState":true,"withArticlePlainText":false,"withGrokAnalyze":false,"withDisallowedReplyControls":false});
 
 const commonHeaders = {
     "user-agent": genericUserAgent,
@@ -100,10 +100,14 @@ const requestTweet = async(dispatcher, tweetId, token, cookie) => {
 
     graphqlTweetURL.searchParams.set('variables',
         JSON.stringify({
-            tweetId,
-            withCommunity: false,
-            includePromotedContent: false,
-            withVoice: false
+            focalTweetId: tweetId,
+            with_rux_injections: false,
+            rankingMode: "Relevance",
+            includePromotedContent: true,
+            withCommunity: true,
+            withQuickPromoteEligibilityTweetFields: true,
+            withBirdwatchNotes: true,
+            withVoice: true
         })
     );
     graphqlTweetURL.searchParams.set('features', tweetFeatures);
@@ -129,24 +133,48 @@ const requestTweet = async(dispatcher, tweetId, token, cookie) => {
     return result
 }
 
-const extractGraphqlMedia = async (tweet, dispatcher, id, guestToken, cookie) => {
-    let tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
+const parseCard = (cardOuter) => {
+    const card = JSON.parse(
+      (cardOuter?.legacy?.binding_values[0].value
+       || cardOuter?.binding_values?.unified_card)?.string_value,
+    );
+
+    if (!["video_website", "image_website"].includes(card?.type)
+        || !card?.media_entities
+        || card?.component_objects?.media_1?.type !== "media") {
+      return;
+    }
+
+    const mediaId = card.component_objects?.media_1?.data?.id;
+    return [card.media_entities[mediaId]];
+};
+
+const extractGraphqlMedia = async (thread, dispatcher, id, guestToken, cookie) => {
+    const addInsn = thread?.data?.threaded_conversation_with_injections_v2?.instructions?.find(
+        insn => insn.type === 'TimelineAddEntries'
+    );
+
+    const tweetResult = addInsn?.entries?.find(
+        entry => entry.entryId === `tweet-${id}`
+    )?.content?.itemContent?.tweet_results?.result;
+
+    let tweetTypename = tweetResult?.__typename;
 
     if (!tweetTypename) {
         return { error: "fetch.empty" }
     }
 
-    if (tweetTypename === "TweetUnavailable") {
-        const reason = tweet?.data?.tweetResult?.result?.reason;
-        switch(reason) {
-            case "Protected":
-                return { error: "content.post.private" };
-            case "NsfwLoggedOut":
-                if (cookie) {
-                    tweet = await requestTweet(dispatcher, id, guestToken, cookie);
-                    tweet = await tweet.json();
-                    tweetTypename = tweet?.data?.tweetResult?.result?.__typename;
-                } else return { error: "content.post.age" };
+    if (tweetTypename === "TweetUnavailable" || tweetTypename === "TweetTombstone") {
+        const reason = tweetResult?.result?.reason;
+        if (reason === 'Protected') {
+            return { error: "content.post.private" };
+        } else if (reason === "NsfwLoggedOut" || tweetResult?.tombstone?.text?.text?.startsWith('Age-restricted')) {
+            if (!cookie) {
+                return { error: "content.post.age" };
+            }
+
+            const tweet = await requestTweet(dispatcher, id, guestToken, cookie).then(t => t.json());
+            return extractGraphqlMedia(tweet, dispatcher, id, guestToken);
         }
     }
 
@@ -154,8 +182,7 @@ const extractGraphqlMedia = async (tweet, dispatcher, id, guestToken, cookie) =>
         return { error: "content.post.unavailable" }
     }
 
-    let tweetResult = tweet.data.tweetResult.result,
-        baseTweet = tweetResult.legacy,
+    let baseTweet = tweetResult.legacy,
         repostedTweet = baseTweet?.retweeted_status_result?.result.legacy.extended_entities;
 
     if (tweetTypename === "TweetWithVisibilityResults") {
@@ -164,81 +191,51 @@ const extractGraphqlMedia = async (tweet, dispatcher, id, guestToken, cookie) =>
     }
 
     if (tweetResult.card?.legacy?.binding_values?.length) {
-        const card = JSON.parse(tweetResult.card.legacy.binding_values[0].value?.string_value);
-
-        if (!["video_website", "image_website"].includes(card?.type) ||
-            !card?.media_entities ||
-            card?.component_objects?.media_1?.type !== "media") {
-            return;
-        }
-
-        const mediaId = card.component_objects?.media_1?.data?.id;
-        return [card.media_entities[mediaId]];
+        return parseCard(tweetResult.card);
     }
 
     return (repostedTweet?.media || baseTweet?.extended_entities?.media);
 }
 
-const testResponse = (result) => {
-    const contentLength = result.headers.get("content-length");
-
-    if (!contentLength || contentLength === '0') {
-        return false;
-    }
-
-    if (!result.headers.get("content-type").startsWith("application/json")) {
-        return false;
-    }
-
-    return true;
-}
-
 export default async function({ id, index, toGif, dispatcher, alwaysProxy, subtitleLang }) {
     const cookie = await getCookie('twitter');
-
-    let syndication = false;
 
     let guestToken = await getGuestToken(dispatcher);
     if (!guestToken) return { error: "fetch.fail" };
 
-    // for now we assume that graphql api will come back after some time,
-    // so we try it first
-
     let tweet = await requestTweet(dispatcher, id, guestToken);
 
-    // get new token & retry if old one expired
-    if ([403, 429].includes(tweet.status)) {
-        guestToken = await getGuestToken(dispatcher, true);
-        if (cookie) {
-            tweet = await requestTweet(dispatcher, id, guestToken, cookie);
-        } else {
-            tweet = await requestTweet(dispatcher, id, guestToken);
+    if ([403, 404, 429].includes(tweet.status)) {
+        // get new token & retry if old one expired
+        if ([403, 429].includes(tweet.status)) {
+            guestToken = await getGuestToken(dispatcher, true);
         }
+        tweet = await requestTweet(dispatcher, id, guestToken, cookie);
     }
 
-    const testGraphql = testResponse(tweet);
+    let media;
+    try {
+        tweet = await tweet.json();
+        media = await extractGraphqlMedia(tweet, dispatcher, id, guestToken, cookie);
+    } catch {}
 
     // if graphql requests fail, then resort to tweet embed api
-    if (!testGraphql) {
-        syndication = true;
-        tweet = await requestSyndication(dispatcher, id);
+    if (!media || 'error' in media) {
+        try {
+            tweet = await requestSyndication(dispatcher, id);
+            tweet = await tweet.json();
 
-        const testSyndication = testResponse(tweet);
+            if (tweet?.card) {
+                media = parseCard(tweet.card);
+            }
+        } catch {}
 
-        // if even syndication request failed, then cry out loud
-        if (!testSyndication) {
-            return { error: "fetch.fail" };
-        }
+        media = tweet?.mediaDetails ?? media;
     }
 
-    tweet = await tweet.json();
-
-    let media =
-        syndication
-            ? tweet.mediaDetails
-            : await extractGraphqlMedia(tweet, dispatcher, id, guestToken, cookie);
-
-    if (!media) return { error: "fetch.empty" };
+    if (!media || 'error' in media) {
+        return { error: media?.error || "fetch.empty" };
+    }
 
     // check if there's a video at given index (/video/<index>)
     if (index >= 0 && index < media?.length) {
