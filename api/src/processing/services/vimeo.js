@@ -1,6 +1,7 @@
 import HLS from "hls-parser";
 import { env } from "../../config.js";
 import { merge } from '../../misc/utils.js';
+import { getCookie } from "../cookie/manager.js";
 
 const resolutionMatch = {
     "3840": 2160,
@@ -25,7 +26,8 @@ const genericHeaders = {
 let bearer = '';
 
 const getBearer = async (refresh = false) => {
-    if (bearer && !refresh) return bearer;
+    const cookie = getCookie('vimeo_bearer')?.values?.()?.access_token;
+    if ((bearer || cookie) && !refresh) return bearer || cookie;
 
     const oauthResponse = await fetch(
         'https://api.vimeo.com/oauth/authorize/client',
