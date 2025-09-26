@@ -8,8 +8,6 @@ import { sveltePreprocess } from "svelte-preprocess";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-    // Consult https://kit.svelte.dev/docs/integrations#preprocessors
-    // for more information about preprocessors
     extensions: [".svelte", ".md"],
     preprocess: [
         {
@@ -17,34 +15,32 @@ const config = {
             markup: ({ content: code }) => {
                 code = code.replace(
                     /<div id="svelte-announcer" [\s\S]*?<\/div>/,
-                    '{null}'
+                    "{null}"
                 );
 
-                return { code }
+                return { code };
             }
         },
         sveltePreprocess(),
         mdsvex({
-            extensions: ['.md'],
+            extensions: [".md"],
             layout: {
                 about: join(
                     dirname(fileURLToPath(import.meta.url)),
-                    '/src/components/misc/AboutPageWrapper.svelte'
+                    "/src/components/misc/AboutPageWrapper.svelte"
                 ),
                 changelogs: join(
                     dirname(fileURLToPath(import.meta.url)),
-                    '/src/components/changelog/ChangelogEntryWrapper.svelte'
+                    "/src/components/changelog/ChangelogEntryWrapper.svelte"
                 )
             }
         })
     ],
     kit: {
         adapter: adapter({
-            // default options are shown. On some platforms
-            // these options are set automatically — see below
-            pages: 'build',
-            assets: 'build',
-            fallback: '404.html',
+            pages: "public",
+            assets: "public",
+            fallback: "404.html",
             precompress: false,
             strict: true
         }),
@@ -70,18 +66,14 @@ const config = {
                     "self",
                     "wasm-unsafe-eval",
                     "challenges.cloudflare.com",
-
-                    // eslint-disable-next-line no-undef
-                    process.env.WEB_PLAUSIBLE_HOST ? process.env.WEB_PLAUSIBLE_HOST : "",
-
-                    // hash of the theme preloader in app.html
-                    "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s=",
+                    process.env.WEB_PLAUSIBLE_HOST
+                        ? process.env.WEB_PLAUSIBLE_HOST
+                        : "",
+                    "sha256-g67gIjM3G8yMbjbxyc3QUoVsKhdxgcQzCmSKXiZZo6s="
                 ],
 
                 "script-src-attr": [
                     "unsafe-hashes",
-                    // hash of inline img event call
-                    // see: https://github.com/sveltejs/svelte/issues/14014
                     "sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I="
                 ],
 
@@ -89,7 +81,7 @@ const config = {
             }
         },
         env: {
-            publicPrefix: 'WEB_'
+            publicPrefix: "WEB_"
         },
         version: {
             pollInterval: 60000
@@ -98,8 +90,8 @@ const config = {
             relative: false
         },
         alias: {
-            $components: 'src/components',
-            $i18n: 'i18n',
+            $components: "src/components",
+            $i18n: "i18n"
         }
     }
 };
