@@ -99,6 +99,7 @@ export default function({
         case "picker":
             responseType = "picker";
             switch (host) {
+                case "substack":
                 case "instagram":
                 case "twitter":
                 case "snapchat":

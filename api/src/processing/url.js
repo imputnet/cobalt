@@ -117,6 +117,9 @@ function aliasURL(url) {
                 url = new URL(`https://www.reddit.com/video/${parts[1]}`);
             }
             break;
+        case "substack":
+            url = new URL(url.href)
+            break;
     }
 
     return url;
