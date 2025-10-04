@@ -221,6 +221,10 @@ export const services = {
             "v/:id"
         ],
         subdomains: ["music", "m"],
+    },
+    sora: {
+        patterns: ["p/:postId"],
+        altDomains: ["sora.chatgpt.com"]
     }
 }
 

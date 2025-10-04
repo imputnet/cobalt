@@ -30,6 +30,7 @@ import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import xiaohongshu from "./services/xiaohongshu.js";
 import newgrounds from "./services/newgrounds.js";
+import sora from "./services/sora.js";
 
 let freebind;
 
@@ -275,6 +276,14 @@ export default async function({ host, patternMatch, params, authType }) {
                     quality: params.videoQuality,
                 });
                 break;
+
+            case "sora":
+              r = await sora({
+                postId: patternMatch.postId,
+                quality: params.videoQuality,
+                isAudioOnly,
+              });
+              break;
 
             default:
                 return createResponse("error", {

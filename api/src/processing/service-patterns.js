@@ -87,4 +87,7 @@ export const testers = {
 
     "youtube": pattern =>
         pattern.id?.length <= 11,
+
+    "sora": pattern =>
+        pattern.postId?.length <= 64,
 }

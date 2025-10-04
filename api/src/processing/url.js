@@ -110,6 +110,12 @@ function aliasURL(url) {
             }
             break;
 
+        case "chatgpt":
+            if (url.hostname === 'sora.chatgpt.com') {
+                url.hostname = 'sora.com';
+            }
+            break;
+
         case "redd":
             /* reddit short video links can be treated by changing https://v.redd.it/<id>
             to https://reddit.com/video/<id>.*/
