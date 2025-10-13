@@ -7,6 +7,23 @@ import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
 import { getYouTubeSession } from "../helpers/youtube-session.js";
 
+// https://github.com/LuanRT/YouTube.js/pull/1052
+Platform.shim.eval = async (data, env) => {
+  const properties = [];
+
+  if (env.n) {
+    properties.push(`n: exportedVars.nFunction("${env.n}")`)
+  }
+
+  if (env.sig) {
+    properties.push(`sig: exportedVars.sigFunction("${env.sig}")`)
+  }
+
+  const code = `${data.output}\nreturn { ${properties.join(', ')} }`;
+
+  return new Function(code)();
+}
+
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
 
 let innertube, lastRefreshedAt;
