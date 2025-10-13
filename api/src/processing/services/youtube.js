@@ -1,7 +1,7 @@
 import HLS from "hls-parser";
 
-import { fetch } from "undici";
-import { Innertube, Session } from "youtubei.js";
+import { fetch, Request } from "undici";
+import { Innertube, Platform, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
@@ -206,10 +206,24 @@ export default async function (o) {
     let yt;
     try {
         yt = await cloneInnertube(
-            (input, init) => fetch(input, {
-                ...init,
-                dispatcher: o.dispatcher
-            }),
+            (input, init) => {
+                const url = typeof input === 'string'
+                          ? new URL(input)
+                          : input instanceof URL
+                            ? input
+                            : new URL(input.url);
+
+                const request = new Request(
+                    url,
+                    input instanceof Platform.shim.Request
+                    ? input : undefined
+                );
+
+                return fetch(request, {
+                    ...init,
+                    dispatcher: o.dispatcher
+                });
+            },
             useSession
         );
     } catch (e) {
