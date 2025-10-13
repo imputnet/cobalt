@@ -560,7 +560,7 @@ export default async function (o) {
         }
 
         if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
-            urls = audio.decipher(innertube.session.player);
+            urls = await audio.decipher(innertube.session.player);
         }
 
         let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
@@ -607,8 +607,8 @@ export default async function (o) {
             filenameAttributes.extension = o.container === "auto" ? codecList[codec].container : o.container;
 
             if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
-                video = video.decipher(innertube.session.player);
-                audio = audio.decipher(innertube.session.player);
+                video = await video.decipher(innertube.session.player);
+                audio = await audio.decipher(innertube.session.player);
             } else {
                 video = video.url;
                 audio = audio.url;
