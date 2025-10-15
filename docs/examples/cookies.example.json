@@ -13,5 +13,8 @@
     ],
     "youtube": [
         "cookie=<replace_this>; b=<replace_this>"
+    ],
+    "vimeo": [
+        "access_token=<replace_this>"
     ]
 }
