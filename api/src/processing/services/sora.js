@@ -61,7 +61,7 @@ export default async function (obj) {
 }
 
 async function handlePostUrl(postId, obj) {
-  const targetUrl = `https://sora.com/p/${postId}`;
+  const targetUrl = `https://sora.chatgpt.com/p/${postId}`;
 
   const res = await fetchWithRetry(targetUrl, {
     headers: {
@@ -90,61 +90,42 @@ async function handlePostUrl(postId, obj) {
 
   const html = await res.text();
 
-  // Extract video URL from HTML and script tags
+  // Extract video URL from og:video meta tag
   let videoUrl;
   let title;
 
-  // Look for video URLs in various patterns within the HTML and script content
-  const videoPatterns = [
-    /https:\/\/videos\.openai\.com\/vg-assets\/[^"'>\s]+\.mp4[^"'>\s]*/g,
-    /"(https:\/\/videos\.openai\.com\/vg-assets\/[^"]+\.mp4[^"]*)"/g,
-    /'(https:\/\/videos\.openai\.com\/vg-assets\/[^']+\.mp4[^']*)'/g,
-    /\\u[\da-f]{4}(https:\/\/videos\.openai\.com\/vg-assets\/[^\\]+\.mp4)/gi,
-    /(https:\/\/videos\.openai\.com\/[^"'>\s\\]+\.mp4)/gi,
-  ];
-
-  // First try to find video URL in the main HTML
-  for (const pattern of videoPatterns) {
-    const match = html.match(pattern);
-    if (match) {
-      videoUrl = match[0].replace(/^["']|["']$/g, ""); // Remove quotes
-      break;
-    }
+  const ogVideoMatch = html.match(
+    /<meta\s+property=["']og:video["']\s+content=["']([^"']+)["']/i,
+  );
+  if (ogVideoMatch) {
+    videoUrl = ogVideoMatch[1];
+    // Decode HTML entities in the URL
+    videoUrl = videoUrl
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'");
   }
 
-  // If not found, search through script tags more thoroughly
+  // Fallback: search for video URLs in HTML if og:video not found
   if (!videoUrl) {
-    const scriptMatches = html.match(/<script[^>]*>(.*?)<\/script>/gs);
-    if (scriptMatches) {
-      for (const script of scriptMatches) {
-        // Try each pattern on script content
-        for (const pattern of videoPatterns) {
-          const matches = script.match(pattern);
-          if (matches) {
-            for (const match of matches) {
-              let candidate = match.replace(/^["']|["']$/g, "");
-              // Handle escaped characters
-              candidate = candidate.replace(/\\u[\da-f]{4}/gi, "");
-              candidate = candidate.replace(/\\\//g, "/");
+    const videoPatterns = [
+      // Match URLs with various path structures (az/vg-assets, vg-assets, etc.)
+      /(https:\/\/videos\.openai\.com\/[^"'>\s\\]+\.mp4[^"'>\s]*)/g,
+      /"(https:\/\/videos\.openai\.com\/[^"]+\.mp4[^"]*)"/g,
+      /'(https:\/\/videos\.openai\.com\/[^']+\.mp4[^']*)'/g,
+    ];
 
-              if (
-                candidate.includes("videos.openai.com") &&
-                candidate.includes(".mp4")
-              ) {
-                videoUrl = candidate;
-                break;
-              }
-            }
-            if (videoUrl) break;
-          }
-        }
-        if (videoUrl) break;
+    for (const pattern of videoPatterns) {
+      const match = html.match(pattern);
+      if (match) {
+        videoUrl = match[0].replace(/^["']|["']$/g, ""); // Remove quotes
+        break;
       }
     }
   }
 
   // Extract title from HTML title tag
-  const titleMatch = html.match(/<title>([^<]+)<\/title>/);
+  const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
   if (titleMatch) {
     title = titleMatch[1].replace(" - Sora", "").replace(" | Sora", "").trim();
   }
