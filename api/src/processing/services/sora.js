@@ -99,11 +99,14 @@ async function handlePostUrl(postId, obj) {
   );
   if (ogVideoMatch) {
     videoUrl = ogVideoMatch[1];
-    // Decode HTML entities in the URL
-    videoUrl = videoUrl
-      .replace(/&amp;/g, "&")
-      .replace(/&quot;/g, '"')
-      .replace(/&#x27;/g, "'");
+    if (videoUrl.includes('&')) {
+      videoUrl = videoUrl
+        .replace(/&quot;/g, '"')
+        .replace(/&#x27;/g, "'")
+        .replace(/&#39;/g, "'")
+        // Do &amp; last to avoid double-decoding
+        .replace(/&amp;/g, "&");
+    }
   }
 
   // Fallback: search for video URLs in HTML if og:video not found
@@ -130,8 +133,8 @@ async function handlePostUrl(postId, obj) {
     title = titleMatch[1].replace(" - Sora", "").replace(" | Sora", "").trim();
   }
 
-  // Decode HTML entities if present
-  if (videoUrl) {
+  // Decode HTML entities if present (only for fallback URLs that weren't already decoded)
+  if (videoUrl && !ogVideoMatch) {
     videoUrl = videoUrl.replace(/&amp;/g, "&");
   }
 
