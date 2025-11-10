@@ -48,11 +48,25 @@ export const getBranch = async () => {
             ?.trim();
 }
 
-export const getRemote = async () => {
-    let remote = (await readGit('.git/config'))
-                    ?.split('\n')
-                    ?.find(line => line.includes('url = '))
-                    ?.split('url = ')[1];
+export const getRemote = async (branch) => {
+    branch = branch ?? await getBranch();
+    function fail(){
+        throw 'could not parse remote';
+    }
+
+    const gitConfig = await readGit('.git/config')
+    const remoteName = gitConfig.match(
+        new RegExp(`\\[branch "${branch}"\\][\\s]*?remote = (.+)`)
+    )
+    if (!remoteName) {
+        fail();
+    }
+    const remoteURL = gitConfig.match(
+        new RegExp(`\\[remote "${remoteName[1].trim()}"\\][\\s]*?url = (.+)`)
+    )
+    if (!remoteURL) fail();
+
+    let remote = remoteURL[1].trim()
 
     if (remote?.startsWith('git@')) {
         remote = remote.split(':')[1];
@@ -63,7 +77,7 @@ export const getRemote = async () => {
     remote = remote?.replace(/\.git$/, '');
 
     if (!remote) {
-        throw 'could not parse remote';
+        fail();
     }
 
     return remote;
