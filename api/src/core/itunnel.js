@@ -40,6 +40,7 @@ const streamTunnel = (req, res) => {
 
 export const setupTunnelHandler = () => {
     const tunnelHandler = express();
+    tunnelHandler.disable("x-powered-by");
 
     tunnelHandler.get('/itunnel', streamTunnel);
 
