@@ -56,7 +56,7 @@ export const openURL = (url: string) => {
         return alert('error: invalid url!');
     }
 
-    const open = window.open(url, "_blank");
+    const open = window.open(url, "_blank", "noopener,noreferrer");
 
     /* if new tab got blocked by user agent, show a saving dialog */
     if (!open) {
