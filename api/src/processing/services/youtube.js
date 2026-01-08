@@ -44,6 +44,9 @@ const hlsCodecList = {
 
 const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDROID'];
 
+// Fallback clients to try if primary fails (ordered by reliability)
+const fallbackClients = ['IOS', 'ANDROID', 'YTMUSIC_ANDROID'];
+
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
 const cloneInnertube = async (customFetch, useSession) => {
@@ -95,7 +98,7 @@ const getHlsVariants = async (hlsManifest, dispatcher) => {
     const fetchedHlsManifest =
         await fetch(hlsManifest, { dispatcher })
             .then(r => r.status === 200 ? r.text() : undefined)
-            .catch(() => {});
+            .catch(() => { });
 
     if (!fetchedHlsManifest) {
         return { error: "youtube.no_hls_streams" };
@@ -153,7 +156,7 @@ const getSubtitles = async (info, dispatcher, subtitleLang) => {
     const fetchedHlsSubs =
         await fetch(preferredHls.uri, { dispatcher })
             .then(r => r.status === 200 ? r.text() : undefined)
-            .catch(() => {});
+            .catch(() => { });
 
     const parsedSubs = HLS.parse(fetchedHlsSubs);
     if (!parsedSubs) return;
@@ -223,25 +226,45 @@ export default async function (o) {
     }
 
     let info;
-    try {
-        info = await yt.getBasicInfo(o.id, { client: innertubeClient });
-    } catch (e) {
-        if (e?.info) {
-            let errorInfo;
-            try { errorInfo = JSON.parse(e?.info); } catch {}
+    let lastError;
 
-            if (errorInfo?.reason === "This video is private") {
-                return { error: "content.video.private" };
+    // Try primary client first, then fallback clients
+    const clientsToTry = [innertubeClient, ...fallbackClients.filter(c => c !== innertubeClient)];
+
+    for (const client of clientsToTry) {
+        try {
+            info = await yt.getBasicInfo(o.id, { client });
+            if (info?.streaming_data) {
+                innertubeClient = client;
+                break;
             }
+        } catch (e) {
+            lastError = e;
+
+            // Don't retry on definitive errors
+            if (e?.info) {
+                let errorInfo;
+                try { errorInfo = JSON.parse(e?.info); } catch { }
+                if (errorInfo?.reason === "This video is private") {
+                    return { error: "content.video.private" };
+                }
+            }
+            if (e?.message === "This video is unavailable") {
+                return { error: "content.video.unavailable" };
+            }
+            continue;
+        }
+    }
+
+    // If no client succeeded
+    if (!info?.streaming_data) {
+        if (lastError?.info) {
+            let errorInfo;
+            try { errorInfo = JSON.parse(lastError?.info); } catch { }
             if (["INVALID_ARGUMENT", "UNAUTHENTICATED"].includes(errorInfo?.error?.status)) {
                 return { error: "youtube.api_error" };
             }
         }
-
-        if (e?.message === "This video is unavailable") {
-            return { error: "content.video.unavailable" };
-        }
-
         return { error: "fetch.fail" };
     }
 
@@ -535,7 +558,7 @@ export default async function (o) {
         let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
         const testMaxCover = await fetch(cover, { dispatcher: o.dispatcher })
             .then(r => r.status === 200)
-            .catch(() => {});
+            .catch(() => { });
 
         if (!testMaxCover) {
             cover = basicInfo.thumbnail?.[0]?.url;
