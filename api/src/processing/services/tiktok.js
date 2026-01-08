@@ -1,7 +1,7 @@
 import Cookie from "../cookie/cookie.js";
 
 import { extract, normalizeURL } from "../url.js";
-import { genericUserAgent } from "../../config.js";
+import { cobaltUserAgent } from "../../config.js";
 import { updateCookie } from "../cookie/manager.js";
 import { createStream } from "../../stream/manage.js";
 import { convertLanguageCode } from "../../misc/language-codes.js";
@@ -16,7 +16,7 @@ export default async function(obj) {
         let html = await fetch(`${shortDomain}${obj.shortLink}`, {
             redirect: "manual",
             headers: {
-                "user-agent": genericUserAgent.split(' Chrome/1')[0]
+                "user-agent": cobaltUserAgent,
             }
         }).then(r => r.text()).catch(() => {});
 
@@ -35,7 +35,7 @@ export default async function(obj) {
     // should always be /video/, even for photos
     const res = await fetch(`https://www.tiktok.com/@i/video/${postId}`, {
         headers: {
-            "user-agent": genericUserAgent,
+            "user-agent": cobaltUserAgent,
             cookie,
         }
     })
