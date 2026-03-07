@@ -77,12 +77,20 @@ const cloneInnertube = async (customFetch, useSession) => {
     }
 
     if (!innertube || shouldRefreshPlayer) {
+        let player_id;
+        if (env.ytPlayerIds) {
+            player_id = env.ytPlayerIds[
+                Math.floor(Math.random() * env.ytPlayerIds.length)
+            ];
+        }
+
         innertube = await Innertube.create({
             fetch: customFetch,
             retrieve_player,
             cookie,
             po_token: useSession ? sessionTokens?.potoken : undefined,
             visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
+            player_id,
         });
         lastRefreshedAt = +new Date();
     }
