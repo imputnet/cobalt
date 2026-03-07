@@ -1,4 +1,5 @@
 import HLS from "hls-parser";
+import ivm from "isolated-vm";
 
 import { fetch, Request } from "undici";
 import { Innertube, Platform, Session } from "youtubei.js";
@@ -8,20 +9,29 @@ import { getCookie } from "../cookie/manager.js";
 import { getYouTubeSession } from "../helpers/youtube-session.js";
 
 // https://github.com/LuanRT/YouTube.js/pull/1052
-Platform.shim.eval = async (data, env) => {
-  const properties = [];
+Platform.shim.eval = async (data, envData) => {
+  const isolate = new ivm.Isolate();
 
-  if (env.n) {
-    properties.push(`n: exportedVars.nFunction("${env.n}")`)
+  try {
+    const context = await isolate.createContext();
+    const jail = context.global;
+    const properties = [];
+
+    if (envData.n) {
+      await jail.set('__n_input', envData.n);
+      properties.push('n: exportedVars.nFunction(__n_input)');
+    }
+    if (envData.sig) {
+      await jail.set('__sig_input', envData.sig);
+      properties.push('sig: exportedVars.sigFunction(__sig_input)');
+    }
+
+    const code = `${data.output}\n({ ${properties.join(', ')} })`;
+    const script = await isolate.compileScript(code);
+    return await script.run(context, { copy: true, timeout: 5000 });
+  } finally {
+    isolate.dispose();
   }
-
-  if (env.sig) {
-    properties.push(`sig: exportedVars.sigFunction("${env.sig}")`)
-  }
-
-  const code = `${data.output}\nreturn { ${properties.join(', ')} }`;
-
-  return new Function(code)();
 }
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
