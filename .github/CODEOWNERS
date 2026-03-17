@@ -1,0 +1,10 @@
+
+# =============================================================================
+# Workflow Security - Require review for workflow changes
+# =============================================================================
+# Any changes to workflow files require review from the infrastructure team
+# This prevents malicious workflow modifications that could leak secrets
+
+/.github/workflows/ @imputnet/infrastructure
+/.github/workflows/ai-pr-reviewer.yml @imputnet/infrastructure @imputnet/security
+/.github/workflows/sprint-automation.yml @imputnet/infrastructure @imputnet/security

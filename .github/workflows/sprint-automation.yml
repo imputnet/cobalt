@@ -1,120 +1,433 @@
+# =============================================================================
+# Sprint & Task Automation - Security-Hardened Workflow
+# =============================================================================
+# Purpose: Automate sprint management, issue attribution, and progress tracking
+#
+# Security Features:
+# - All actions pinned to full-length commit SHA (supply chain protection)
+# - Prevents infinite loops via bot commit detection
+# - Uses intermediate env vars for untrusted input (injection protection)
+# - Fork detection to prevent unauthorized execution
+# - Minimal permissions following least-privilege principle
+# - Idempotent operations with existence checks
+#
+# Features:
+# - Dynamic milestone detection (not hardcoded)
+# - PR size labeling with categorization
+# - Sprint digest generation with proper git handling
+# - Issue status management with idempotency
+# - Merge queue compatible
+# =============================================================================
+
 name: Sprint & Task Automation
+run-name: "Sprint Automation for ${{ github.event_name }} by @${{ github.actor }}"
 
 on:
-  push:
-    branches-ignore: [main, master, staging, develop]
+  # Trigger on PR events for attribution and digest
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, reopened, closed]
+    branches: [main, master]
+  
+  # Trigger on push to feature branches for status updates
+  push:
+    branches:
+      - 'feat/**'
+      - 'fix/**'
+      - 'refactor/**'
+      - 'chore/**'
+      - 'bug/**'
+      - 'feature/**'
+  
+  # Manual trigger for testing/debugging
+  workflow_dispatch:
 
-permissions:
-  pull-requests: write
-  issues: write
-  contents: write
+# =============================================================================
+# Concurrency Control - Prevents race conditions and parallel execution storms
+# =============================================================================
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name || github.run_id }}
+  cancel-in-progress: true
+
+# =============================================================================
+# Default Permissions - Deny everything by default, grant per-job
+# =============================================================================
+permissions: {}
 
 jobs:
-  analyze-and-attribute:
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+  # ===========================================================================
+  # Sprint Attribution Job - Handles milestone assignment and issue linking
+  # ===========================================================================
+  sprint-attribution:
+    name: Sprint Attribution & Issue Linking
+    runs-on: ubuntu-22.04
+    
+    # Security: Skip on forks and bot commits (prevents infinite loops)
+    if: |
+      github.repository_owner == 'imputnet' &&
+      !contains(github.event.head_commit.author.name || '', 'github-actions') &&
+      !contains(github.event.head_commit.message || '', '[skip sprint]')
+    
+    # Minimal permissions for this job
+    permissions:
+      pull-requests: write
+      issues: write
+      contents: read
+    
+    timeout-minutes: 5
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      # ========================================================================
+      # Step 1: Checkout Repository (minimal depth)
+      # ========================================================================
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
-          fetch-depth: 0
-
-      - name: Sprint Attribution & Task Identification
-        uses: actions/github-script@v7
+          fetch-depth: 1
+          persist-credentials: false
+      
+      # ========================================================================
+      # Step 2: Sprint Attribution & Milestone Assignment
+      # ========================================================================
+      - name: Process Sprint Attribution
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        env:
+          # Security: Pass untrusted inputs via env vars (prevents injection)
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          PR_TITLE: ${{ github.event.pull_request.title || '' }}
+          PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+          PR_BODY: ${{ github.event.pull_request.body || '' }}
+          EVENT_ACTION: ${{ github.event.action || '' }}
+          IS_CREATED: ${{ github.event.created || 'false' }}
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const branchName = context.payload.ref ? context.payload.ref.replace('refs/heads/', '') : context.payload.pull_request.head.ref;
-            const prTitle = context.payload.pull_request ? context.payload.pull_request.title : '';
-            const prNumber = context.payload.pull_request ? context.payload.pull_request.number : null;
-
-            // Regex to find issue IDs like #123 or 123 in branch names (e.g., feat/123-login)
-            const issueMatch = branchName.match(/(?:#|issue-|feat\/|fix\/|refactor\/)(\d+)/) || prTitle.match(/#(\d+)/);
-            const issueNumber = issueMatch ? parseInt(issueMatch[1]) : null;
-
-            console.log(`Branch: ${branchName}`);
-            console.log(`Detected Issue ID: ${issueNumber}`);
-
-            // 1. Assign current milestone (number 2: 8.0) to PR/Issue
-            const MILESTONE_NUMBER = 2; 
-
-            if (prNumber) {
-              await github.rest.issues.update({
+            const core = require('@actions/core');
+            
+            try {
+              // =================================================================
+              // Extract Issue References
+              // =================================================================
+              const branchName = process.env.BRANCH_NAME || '';
+              const prTitle = process.env.PR_TITLE || '';
+              const prBody = process.env.PR_BODY || '';
+              const prNumber = parseInt(process.env.PR_NUMBER) || null;
+              const eventAction = process.env.EVENT_ACTION || '';
+              const isCreated = process.env.IS_CREATED === 'true';
+              
+              core.info(`Processing: Branch="${branchName}", PR#${prNumber}, Action=${eventAction}`);
+              
+              // Comprehensive regex for issue detection
+              // Matches: #123, issue-123, feat/123-, fix/123-, etc.
+              const issuePatterns = [
+                /(?:^|[^a-zA-Z0-9])(?:#|issue-|feat\/|fix\/|refactor\/|chore\/|bug\/|feature\/|hotfix\/)(\d+)(?:[^0-9]|$)/i,
+                /(?:fixes?|closes?|resolves?|refs?|references?):?\s*#(\d+)/i,
+                /\(#(\d+)\)/,
+              ];
+              
+              let issueNumber = null;
+              const searchText = `${branchName} ${prTitle} ${prBody}`;
+              
+              for (const pattern of issuePatterns) {
+                const match = searchText.match(pattern);
+                if (match) {
+                  issueNumber = parseInt(match[1], 10);
+                  core.info(`Found issue reference: #${issueNumber}`);
+                  break;
+                }
+              }
+              
+              // =================================================================
+              // Dynamic Milestone Detection
+              // =================================================================
+              core.info('Fetching open milestones...');
+              const { data: milestones } = await github.rest.issues.listMilestones({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: prNumber,
-                milestone: MILESTONE_NUMBER
+                state: 'open',
+                sort: 'due_on',
+                direction: 'asc',
+                per_page: 10
               });
-              console.log(`Assigned milestone ${MILESTONE_NUMBER} to PR #${prNumber}`);
-            }
-
-            if (issueNumber) {
-              try {
-                await github.rest.issues.update({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issueNumber,
-                  milestone: MILESTONE_NUMBER
-                });
-                console.log(`Assigned milestone ${MILESTONE_NUMBER} to Issue #${issueNumber}`);
-
-                // 2. Add 'in-progress' label to identified issue if branch just created or PR opened
-                if (context.payload.action === 'opened' || (context.payload.ref && context.payload.created)) {
-                   await github.rest.issues.addLabels({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: issueNumber,
-                    labels: ['status: in-progress']
-                  });
+              
+              if (milestones.length === 0) {
+                core.warning('No open milestones found. Skipping milestone assignment.');
+              } else {
+                // Find nearest due milestone, or fallback to first open
+                const now = new Date();
+                const nearestMilestone = milestones
+                  .filter(m => m.due_on && new Date(m.due_on) >= now)
+                  .sort((a, b) => new Date(a.due_on) - new Date(b.due_on))[0] 
+                  || milestones[0];
+                
+                core.info(`Selected milestone: "${nearestMilestone.title}" (#${nearestMilestone.number})`);
+                
+                // =================================================================
+                // Assign Milestone to PR
+                // =================================================================
+                if (prNumber) {
+                  try {
+                    await github.rest.issues.update({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: prNumber,
+                      milestone: nearestMilestone.number
+                    });
+                    core.info(`✅ Assigned milestone to PR #${prNumber}`);
+                  } catch (error) {
+                    core.warning(`Failed to assign milestone to PR: ${error.message}`);
+                  }
                 }
-              } catch (e) {
-                console.log(`Failed to update issue #${issueNumber}: ${e.message}`);
+                
+                // =================================================================
+                // Assign Milestone to Linked Issue
+                // =================================================================
+                if (issueNumber) {
+                  try {
+                    // Check current issue state
+                    const { data: issue } = await github.rest.issues.get({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issueNumber
+                    });
+                    
+                    // Assign milestone
+                    await github.rest.issues.update({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issueNumber,
+                      milestone: nearestMilestone.number
+                    });
+                    core.info(`✅ Assigned milestone to Issue #${issueNumber}`);
+                    
+                    // =================================================================
+                    // Update Issue Status Label (Idempotent)
+                    // =================================================================
+                    if (eventAction === 'opened' || isCreated) {
+                      const currentLabels = issue.labels.map(l => l.name);
+                      
+                      if (!currentLabels.includes('status: in-progress')) {
+                        await github.rest.issues.addLabels({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          issue_number: issueNumber,
+                          labels: ['status: in-progress']
+                        });
+                        core.info(`✅ Added 'status: in-progress' to Issue #${issueNumber}`);
+                      } else {
+                        core.info(`ℹ️ Issue #${issueNumber} already has 'status: in-progress'`);
+                      }
+                    }
+                  } catch (error) {
+                    if (error.status === 404) {
+                      core.warning(`Issue #${issueNumber} not found`);
+                    } else {
+                      core.warning(`Failed to update Issue #${issueNumber}: ${error.message}`);
+                    }
+                  }
+                }
               }
+              
+              // =================================================================
+              // Output Summary
+              // =================================================================
+              core.info('\n📊 Sprint Attribution Summary:');
+              core.info(`   Issue Detected: ${issueNumber ? `#${issueNumber}` : 'None'}`);
+              core.info(`   PR Number: ${prNumber || 'N/A'}`);
+              
+            } catch (error) {
+              core.setFailed(`Workflow failed: ${error.message}`);
+              throw error;
             }
-
+  
+  # ===========================================================================
+  # PR Size Labeler Job - Categorizes PRs by size for sprint planning
+  # ===========================================================================
   label-pr-size:
-    if: github.event_name == 'pull_request' && github.event.action != 'closed'
-    runs-on: ubuntu-latest
+    name: Label PR Size
+    runs-on: ubuntu-22.04
+    
+    # Only run on PR events (not closed)
+    if: |
+      github.repository_owner == 'imputnet' &&
+      github.event_name == 'pull_request' &&
+      github.event.action != 'closed'
+    
+    permissions:
+      pull-requests: write
+      contents: read
+    
+    timeout-minutes: 3
+    
     steps:
-      - name: PR Size Labeler
-        uses: pascalgn/size-label-action@v0.5.5
+      - name: Label PR Size
+        uses: pascalgn/size-label-action@f8f197ad30904a703cf8cf2c7c6797834ae909a4  # v0.5.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          sizes: '{ "0": "XS", "20": "S", "100": "M", "500": "L", "1000": "XL" }'
-
-  sprint-digest-update:
-    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
+          sizes: >
+            {
+              "0": "size: XS",
+              "20": "size: S",
+              "100": "size: M",
+              "500": "size: L",
+              "1000": "size: XL"
+            }
+  
+  # ===========================================================================
+  # Sprint Digest Job - Records merged PRs for sprint retrospectives
+  # ===========================================================================
+  update-sprint-digest:
+    name: Update Sprint Digest
+    runs-on: ubuntu-22.04
+    needs: sprint-attribution
+    
+    # Only run when PR is merged (merge queue compatible)
+    if: |
+      github.repository_owner == 'imputnet' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true
+    
+    permissions:
+      contents: write
+      pull-requests: read
+    
+    timeout-minutes: 5
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Append to Sprint Digest
-        shell: bash
+      # ========================================================================
+      # Step 1: Checkout with Token for Push Access
+      # ========================================================================
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 2  # Need parent commit for diff stats
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      # ========================================================================
+      # Step 2: Update Sprint Digest (with race condition handling)
+      # ========================================================================
+      - name: Update Sprint Digest
+        env:
+          # Security: Pass untrusted inputs via env vars
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+          PR_BODY: ${{ github.event.pull_request.body || '' }}
+          MERGE_COMMIT_SHA: ${{ github.event.pull_request.merge_commit_sha }}
         run: |
-          DATE=$(date +'%Y-%m-%d')
-          TITLE="${{ github.event.pull_request.title }}"
-          URL="${{ github.event.pull_request.html_url }}"
-          USER="${{ github.event.pull_request.user.login }}"
+          set -euo pipefail
           
-          # Ensure file exists
-          if [ ! -f SPRINT-DIGEST.md ]; then
-            echo "# Sprint Activity Digest" > SPRINT-DIGEST.md
-            echo "A living history of changes in this sprint." >> SPRINT-DIGEST.md
+          # Sanitize inputs for shell safety
+          DATE=$(date -u +'%Y-%m-%d')
+          TITLE="${PR_TITLE//"/\\\"}"  # Escape quotes
+          URL="${PR_URL}"
+          USER="${PR_USER}"
+          PR_NUM="${PR_NUMBER}"
+          
+          echo "📅 Date: $DATE"
+          echo "📝 PR: #$PR_NUM - $TITLE"
+          echo "👤 Author: @$USER"
+          
+          # =================================================================
+          # Create or Update Sprint Digest
+          # =================================================================
+          DIGEST_FILE="SPRINT-DIGEST.md"
+          
+          # Initialize file if it doesn't exist
+          if [ ! -f "$DIGEST_FILE" ]; then
+            echo "# 📊 Sprint Activity Digest" > "$DIGEST_FILE"
+            echo "" >> "$DIGEST_FILE"
+            echo "Auto-generated record of sprint progress." >> "$DIGEST_FILE"
+            echo "" >> "$DIGEST_FILE"
+            echo "<!-- Last updated: $DATE -->" >> "$DIGEST_FILE"
+            echo "" >> "$DIGEST_FILE"
           fi
           
-          # Append change
-          echo "" >> SPRINT-DIGEST.md
-          echo "### $DATE: $TITLE" >> SPRINT-DIGEST.md
-          echo "- **Author**: @$USER" >> SPRINT-DIGEST.md
-          echo "- **Link**: $URL" >> SPRINT-DIGEST.md
-          echo "- **Impact**: $(git diff --shortstat HEAD^ HEAD)" >> SPRINT-DIGEST.md
+          # Check for duplicate entry (idempotency)
+          if grep -q "PR #$PR_NUM" "$DIGEST_FILE"; then
+            echo "ℹ️ PR #$PR_NUM already recorded in digest. Skipping."
+            exit 0
+          fi
           
-          # Commit back
+          # Get diff stats using GitHub API (more reliable than git diff)
+          DIFF_STATS=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUM}" | \
+            jq -r '[.additions, .deletions, .changed_files] | @tsv' 2>/dev/null || echo "0 0 0")
+          
+          ADDITIONS=$(echo "$DIFF_STATS" | cut -f1)
+          DELETIONS=$(echo "$DIFF_STATS" | cut -f2)
+          FILES_CHANGED=$(echo "$DIFF_STATS" | cut -f3)
+          
+          # =================================================================
+          # Append Entry to Digest
+          # =================================================================
+          {
+            echo ""
+            echo "---"
+            echo ""
+            echo "### [$DATE] PR #$PR_NUM: $TITLE"
+            echo ""
+            echo "- **Author**: [@$USER](https://github.com/$USER)"
+            echo "- **Link**: $URL"
+            echo "- **Commit**: \`${MERGE_COMMIT_SHA:0:7}\`"
+            echo "- **Changes**: +$ADDITIONS / -$DELETIONS lines across $FILES_CHANGED files"
+            echo ""
+          } >> "$DIGEST_FILE"
+          
+          echo "✅ Updated $DIGEST_FILE"
+          
+          # =================================================================
+          # Commit with Race Condition Handling
+          # =================================================================
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add SPRINT-DIGEST.md
-          git commit -m "docs: update sprint digest for PR #${{ github.event.pull_request.number }}"
-          git push
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Stage changes
+          git add "$DIGEST_FILE"
+          
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "ℹ️ No changes to commit"
+            exit 0
+          fi
+          
+          # Commit with [skip sprint] to prevent infinite loop
+          git commit -m "docs(sprint): record PR #$PR_NUM in digest [skip sprint]"
+          
+          # Pull with rebase to handle race conditions
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if git pull --rebase origin ${{ github.ref_name }}; then
+              break
+            fi
+            
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            echo "⚠️ Pull failed, retrying ($RETRY_COUNT/$MAX_RETRIES)..."
+            sleep 2
+          done
+          
+          if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+            echo "❌ Failed to pull after $MAX_RETRIES attempts"
+            exit 1
+          fi
+          
+          # Push
+          git push origin HEAD:${{ github.ref_name }}
+          
+          echo "✅ Successfully updated sprint digest"
+      
+      # ========================================================================
+      # Step 3: Post Summary
+      # ========================================================================
+      - name: Post-Run Summary
+        if: always()
+        run: |
+          echo "## Sprint Digest Update" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **PR**: #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY

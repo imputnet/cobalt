@@ -7,30 +7,70 @@ on:
       - api/**
       - packages/**
 
+permissions: {} # Default deny all
+
 jobs:
   check-services:
     name: test service functionality
     runs-on: ubuntu-latest
     outputs:
       services: ${{ steps.checkServices.outputs.service_list }}
+    timeout-minutes: 10
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - id: checkServices
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
+        with:
+          version: latest
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install dependencies and get services
+        id: checkServices
         run: pnpm i --frozen-lockfile && echo "service_list=$(node api/src/util/test get-services)" >> "$GITHUB_OUTPUT"
 
   test-services:
     needs: check-services
     runs-on: ubuntu-latest
+    timeout-minutes: 15 # Longer timeout for service tests
+
     strategy:
       fail-fast: false
       matrix:
         service: ${{ fromJson(needs.check-services.outputs.services) }}
+
     name: "test service: ${{ matrix.service }}"
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
+        with:
+          version: latest
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
       - run: pnpm i --frozen-lockfile
+
       - run: node api/src/util/test run-tests-for ${{ matrix.service }}
         env:
           HTTP_PROXY: ${{ secrets.API_EXTERNAL_PROXY }}

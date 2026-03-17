@@ -1,0 +1,139 @@
+# =============================================================================
+# AI PR Reviewer - Security-Hardened Workflow
+# =============================================================================
+# Purpose: Automated AI-powered code review using PR-Agent via OpenRouter
+# 
+# Security Features:
+# - All actions pinned to full-length commit SHA (supply chain protection)
+# - Concurrency limits to prevent runaway costs
+# - Timeout limits to prevent hanging jobs
+# - Minimal permissions following least-privilege principle
+# - Fork detection to prevent unauthorized execution
+# - Command allowlist for issue_comment triggers
+# - Secrets passed via 'with:' instead of env (better log redaction)
+#
+# Cost Controls:
+# - Skips 'synchronize' events (prevents 5x cost per active PR)
+# - Concurrency group limits parallel executions
+# - Only runs on target repository (no forks)
+# =============================================================================
+
+name: AI PR Reviewer
+run-name: "AI Review for PR #${{ github.event.pull_request.number || 'N/A' }} by @${{ github.actor }}"
+
+on:
+  # Trigger on PR open/reopen only - NOT synchronize (too expensive)
+  pull_request:
+    types: [opened, reopened]
+    branches: [main, master]
+  
+  # Trigger on issue comments with explicit command allowlist
+  issue_comment:
+    types: [created]
+  
+  # Manual trigger for testing/debugging
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review (optional)'
+        required: false
+        type: string
+
+# =============================================================================
+# Concurrency Control - Prevents runaway costs and parallel execution storms
+# =============================================================================
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false  # Let existing reviews complete
+
+# =============================================================================
+# Default Permissions - Deny everything by default, grant per-job
+# =============================================================================
+permissions: {}
+
+jobs:
+  # ===========================================================================
+  # PR Agent Review Job
+  # ===========================================================================
+  pr_agent_review:
+    name: AI Code Review
+    runs-on: ubuntu-22.04  # Pinned runner version for reproducibility
+    
+    # Security: Skip execution on forks to prevent secret leakage
+    if: |
+      github.repository_owner == 'imputnet' && (
+        (github.event_name == 'pull_request') ||
+        (github.event_name == 'workflow_dispatch') ||
+        (
+          github.event_name == 'issue_comment' &&
+          github.event.issue.pull_request &&
+          contains(fromJSON('["/review", "/describe", "/improve", "/ask", "/update_changelog"]'), github.event.comment.body)
+        )
+      )
+    
+    # Job-specific minimal permissions
+    permissions:
+      pull-requests: write      # Required to post review comments
+      contents: read            # Required to read PR diff
+    
+    # Timeout: Prevent hanging jobs from burning minutes
+    timeout-minutes: 10
+    
+    steps:
+      # ========================================================================
+      # Step 1: Checkout Repository (minimal depth for PR review)
+      # ========================================================================
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 10  # Sufficient for PR context without full clone
+          persist-credentials: false  # Security: Don't persist git credentials
+      
+      # ========================================================================
+      # Step 2: Mask OpenRouter API Key (defense in depth)
+      # ========================================================================
+      - name: Mask Secrets
+        run: |
+          echo "::add-mask::${{ secrets.OPENROUTER_API_KEY }}"
+      
+      # ========================================================================
+      # Step 3: Run PR-Agent with Security-Hardened Configuration
+      # ========================================================================
+      - name: AI Code Review
+        id: pr_agent
+        uses: Codium-ai/pr-agent@78db2c096752bff9a272e2999420dfd9492a918f  # v0.26.0
+        # NOTE: Using 'with:' for secrets provides better log redaction than env:
+        with:
+          # LLM Configuration
+          OPENAI_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENAI_API_BASE: "https://openrouter.ai/api/v1"
+          CONFIG_MODEL: "anthropic/claude-3.5-sonnet"
+          OPENAI_CUSTOM_HEADERS: '{"HTTP-Referer": "https://github.com/imputnet/cobalt", "X-Title": "PR-Agent"}'
+          
+          # PR Description Settings
+          PR_DESCRIPTION_PUBLISH_DESCRIPTION_AS_COMMENT: "true"
+          
+          # Code Suggestions Settings
+          PR_CODE_SUGGESTIONS_MAX_SUGGESTIONS: "5"
+          
+          # Security: Disable potentially risky features
+          CONFIG_ENABLE_CUSTOM_MODELS: "false"
+          
+          # Cost Control: Limit tokens
+          CONFIG_MAX_TOKENS: "8000"
+        
+        # Error handling: Continue on failure but mark as neutral
+        continue-on-error: true
+      
+      # ========================================================================
+      # Step 4: Post-Run Summary
+      # ========================================================================
+      - name: Post-Run Summary
+        if: always()
+        run: |
+          echo "## AI PR Review Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Event**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **PR**: #${{ github.event.pull_request.number || inputs.pr_number || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ steps.pr_agent.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY

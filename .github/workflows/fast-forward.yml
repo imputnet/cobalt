@@ -1,7 +1,11 @@
 name: fast-forward
+
 on:
   issue_comment:
     types: [created, edited]
+
+permissions: {} # Default deny all
+
 jobs:
   fast-forward:
     # Only run if the comment contains the /fast-forward command.
@@ -10,13 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
-      pull-requests: write
-      issues: write
+      contents: write # Minimal permissions for fast-forward operation
+      pull-requests: read
+
+    timeout-minutes: 5 # Prevent runaway jobs
 
     steps:
       - name: Fast forwarding
-        uses: sequoia-pgp/fast-forward@v1
+        uses: sequoia-pgp/fast-forward@abbab24f3c0f57b2653d8797472ff12dd7cbc0ed # v1.0.0 (SHA pinned for supply chain security)
         with:
           merge: true
-          comment: 'on-error'
+          comment: on-error

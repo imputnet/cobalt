@@ -20,3 +20,21 @@ docker-compose.yml
 
 # ide
 .vscode
+
+# ============================================
+# KILOCODE CONFIGURATION - Generated artifacts
+# ============================================
+# Never commit vendored dependencies or lockfiles
+# in the .kilocode directory. These should be
+# installed on-demand or managed at project level.
+.kilocode/node_modules/
+.kilocode/bun.lock
+.kilocode/package-lock.json
+.kilocode/pnpm-lock.yaml
+.kilocode/yarn.lock
+
+# Local AI configuration may contain API keys
+.kilocode/local-ai/config.json
+
+# Shell auto-launch may contain sensitive paths
+.kilocode/shell/auto-launch.json
