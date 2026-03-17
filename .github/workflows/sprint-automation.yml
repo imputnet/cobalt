@@ -1,0 +1,120 @@
+name: Sprint & Task Automation
+
+on:
+  push:
+    branches-ignore: [main, master, staging, develop]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  pull-requests: write
+  issues: write
+  contents: write
+
+jobs:
+  analyze-and-attribute:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sprint Attribution & Task Identification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = context.payload.ref ? context.payload.ref.replace('refs/heads/', '') : context.payload.pull_request.head.ref;
+            const prTitle = context.payload.pull_request ? context.payload.pull_request.title : '';
+            const prNumber = context.payload.pull_request ? context.payload.pull_request.number : null;
+
+            // Regex to find issue IDs like #123 or 123 in branch names (e.g., feat/123-login)
+            const issueMatch = branchName.match(/(?:#|issue-|feat\/|fix\/|refactor\/)(\d+)/) || prTitle.match(/#(\d+)/);
+            const issueNumber = issueMatch ? parseInt(issueMatch[1]) : null;
+
+            console.log(`Branch: ${branchName}`);
+            console.log(`Detected Issue ID: ${issueNumber}`);
+
+            // 1. Assign current milestone (number 2: 8.0) to PR/Issue
+            const MILESTONE_NUMBER = 2; 
+
+            if (prNumber) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                milestone: MILESTONE_NUMBER
+              });
+              console.log(`Assigned milestone ${MILESTONE_NUMBER} to PR #${prNumber}`);
+            }
+
+            if (issueNumber) {
+              try {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  milestone: MILESTONE_NUMBER
+                });
+                console.log(`Assigned milestone ${MILESTONE_NUMBER} to Issue #${issueNumber}`);
+
+                // 2. Add 'in-progress' label to identified issue if branch just created or PR opened
+                if (context.payload.action === 'opened' || (context.payload.ref && context.payload.created)) {
+                   await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issueNumber,
+                    labels: ['status: in-progress']
+                  });
+                }
+              } catch (e) {
+                console.log(`Failed to update issue #${issueNumber}: ${e.message}`);
+              }
+            }
+
+  label-pr-size:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR Size Labeler
+        uses: pascalgn/size-label-action@v0.5.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          sizes: '{ "0": "XS", "20": "S", "100": "M", "500": "L", "1000": "XL" }'
+
+  sprint-digest-update:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Append to Sprint Digest
+        shell: bash
+        run: |
+          DATE=$(date +'%Y-%m-%d')
+          TITLE="${{ github.event.pull_request.title }}"
+          URL="${{ github.event.pull_request.html_url }}"
+          USER="${{ github.event.pull_request.user.login }}"
+          
+          # Ensure file exists
+          if [ ! -f SPRINT-DIGEST.md ]; then
+            echo "# Sprint Activity Digest" > SPRINT-DIGEST.md
+            echo "A living history of changes in this sprint." >> SPRINT-DIGEST.md
+          fi
+          
+          # Append change
+          echo "" >> SPRINT-DIGEST.md
+          echo "### $DATE: $TITLE" >> SPRINT-DIGEST.md
+          echo "- **Author**: @$USER" >> SPRINT-DIGEST.md
+          echo "- **Link**: $URL" >> SPRINT-DIGEST.md
+          echo "- **Impact**: $(git diff --shortstat HEAD^ HEAD)" >> SPRINT-DIGEST.md
+          
+          # Commit back
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add SPRINT-DIGEST.md
+          git commit -m "docs: update sprint digest for PR #${{ github.event.pull_request.number }}"
+          git push
