@@ -9,24 +9,12 @@ import { getCookie } from "../cookie/manager.js";
 import { getYouTubeSession } from "../helpers/youtube-session.js";
 
 // https://github.com/LuanRT/YouTube.js/pull/1052
-Platform.shim.eval = async (data, envData) => {
+Platform.shim.eval = async (data) => {
   const isolate = new ivm.Isolate();
 
   try {
     const context = await isolate.createContext();
-    const jail = context.global;
-    const properties = [];
-
-    if (envData.n) {
-      await jail.set('__n_input', envData.n);
-      properties.push('n: exportedVars.nFunction(__n_input)');
-    }
-    if (envData.sig) {
-      await jail.set('__sig_input', envData.sig);
-      properties.push('sig: exportedVars.sigFunction(__sig_input)');
-    }
-
-    const code = `${data.output}\n({ ${properties.join(', ')} })`;
+    const code = `(() => { ${data.output} })()`;
     const script = await isolate.compileScript(code);
     return await script.run(context, { copy: true, timeout: 5000 });
   } finally {
