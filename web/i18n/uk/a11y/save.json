@@ -1,0 +1,12 @@
+{
+    "link_area": "поле для посилання",
+    "link_area.turnstile": "поле для посилання. перевіряємо, що ви не робот.",
+    "clear_input": "очистити поле",
+    "download": "завантажити",
+    "download.think": "обробляємо посилання...",
+    "download.check": "перевіряємо завантаження...",
+    "download.done": "завантаження завершено",
+    "download.error": "помилка завантаження",
+    "tutorial.shortcut.photos": "додати команду \"фото\"",
+    "tutorial.shortcut.files": "додати команду \"файли\""
+}

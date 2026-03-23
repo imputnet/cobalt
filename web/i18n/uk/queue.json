@@ -1,0 +1,13 @@
+{
+    "title": "черга обробки",
+    "stub": "поки тут порожньо, лише ми з тобою.\nспробуй щось завантажити!",
+    "state.waiting": "у черзі",
+    "state.retrying": "повторна спроба",
+    "state.starting": "запуск",
+    "state.starting.fetch": "запуск завантаження",
+    "state.starting.remux": "запуск ремукс",
+    "state.starting.encode": "запуск транскодування",
+    "state.running.remux": "виконується ремукс",
+    "state.running.fetch": "завантаження",
+    "state.running.encode": "транскодування"
+}

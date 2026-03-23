@@ -1,0 +1,4 @@
+{
+    "button.next": "до старіших змін ({{ value }})",
+    "button.previous": "до новіших змін ({{ value }})"
+}
