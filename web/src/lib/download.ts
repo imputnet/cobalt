@@ -1,6 +1,7 @@
 import { get } from "svelte/store";
 
 import settings from "$lib/state/settings";
+import { fallbackUrl } from "$lib/state/omnibox";
 
 import { device } from "$lib/device";
 import { t } from "$lib/i18n/translations";
@@ -58,13 +59,8 @@ export const openURL = (url: string) => {
 
     const open = window.open(url, "_blank", "noopener,noreferrer");
 
-    /* if new tab got blocked by user agent, show a saving dialog */
-    if (!open) {
-        return openSavingDialog({
-            url,
-            body: get(t)("dialog.saving.blocked")
-        });
-    }
+    /* if the new tab got blocked by the user agent, let the caller decide */
+    return !!open;
 }
 
 export const shareURL = async (url: string) => {
@@ -132,7 +128,11 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
                 return shareURL(url);
             } else if (pref === "download" && device.supports.directDownload
                     && !(device.is.iOS && urlType === "redirect")) {
-                return openURL(url);
+                const opened = openURL(url);
+                if (!opened) {
+                    fallbackUrl.set(url);
+                }
+                return;
             } else if (pref === "copy" && !file) {
                 return copyURL(url);
             }
