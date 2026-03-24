@@ -7,7 +7,7 @@ import { get } from "svelte/store";
 import { t } from "$lib/i18n/translations";
 import { downloadFile } from "$lib/download";
 import { createDialog } from "$lib/state/dialogs";
-import { downloadButtonState } from "$lib/state/omnibox";
+import { downloadButtonState, fallbackUrl } from "$lib/state/omnibox";
 import { createSavePipeline } from "$lib/task-manager/queue";
 
 import type { CobaltSaveRequestBody } from "$lib/types/api";
@@ -19,6 +19,8 @@ type SavingHandlerArgs = {
 }
 
 export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerArgs) => {
+    /* reset inline popup-blocked fallback message for each new request */
+    fallbackUrl.set("");
     downloadButtonState.set("think");
 
     const error = (errorText: string) => {
