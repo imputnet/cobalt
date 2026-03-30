@@ -97,12 +97,6 @@ function aliasURL(url) {
             }
             break;
 
-        case "xhslink":
-            if (url.hostname === 'xhslink.com' && parts.length === 3) {
-                url = new URL(`https://www.xiaohongshu.com/${parts[1]}/${parts[2]}`);
-            }
-            break;
-
         case "loom":
             const idPart = parts[parts.length - 1];
             if (idPart.length > 32) {
@@ -156,11 +150,6 @@ function cleanURL(url) {
         case "twitter":
             if (url.searchParams.get('post_id')) {
                 limitQuery('post_id');
-            }
-            break;
-        case "xiaohongshu":
-            if (url.searchParams.get('xsec_token')) {
-                limitQuery('xsec_token');
             }
             break;
     }

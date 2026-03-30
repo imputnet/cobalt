@@ -37,7 +37,6 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 | twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
 | vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
-| xiaohongshu       | ✅            | ✅         | ✅         | ➖         | ➖              |
 | youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
 
 | emoji   | meaning                 |
