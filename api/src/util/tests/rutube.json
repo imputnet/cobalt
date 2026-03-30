@@ -20,15 +20,6 @@
         }
     },
     {
-        "name": "russian region lock",
-        "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
-        "params": {},
-        "expected": {
-            "code": 400,
-            "status": "error"
-        }
-    },
-    {
         "name": "vertical video",
         "url": "https://rutube.ru/video/18a281399b96f9184c647455a86f6724/",
         "params": {},
@@ -88,7 +79,17 @@
         }
     },
     {
-        "name": "region locked video, should fail",
+        "name": "russian region lock",
+        "url": "https://rutube.ru/video/b521653b4f71ece57b8ff54e57ca9b82/",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "region locked video",
         "canFail": true,
         "url": "https://rutube.ru/video/e7ac82708cc22bd068a3bf6a7004d1b1/",
         "params": {},
