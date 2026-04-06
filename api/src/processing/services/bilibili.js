@@ -1,4 +1,4 @@
-import { genericUserAgent, env } from "../../config.js";
+import { env } from "../../config.js";
 import { resolveRedirectingURL } from "../url.js";
 
 // TO-DO: higher quality downloads (currently requires an account)
@@ -26,7 +26,7 @@ async function com_download(id, partId) {
 
     const html = await fetch(url, {
         headers: {
-            "user-agent": genericUserAgent
+            "user-agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
         }
     })
     .then(r => r.text())

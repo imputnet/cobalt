@@ -22,7 +22,7 @@
         copyData = "",
     }: Props = $props();
 
-    const sectionURL = `${page.url.origin}${page.url.pathname}#${sectionId}`;
+    const sectionURL = $derived(`${page.url.origin}${page.url.pathname}#${sectionId}`);
 
     let copied = $state(false);
 </script>

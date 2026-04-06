@@ -69,7 +69,7 @@
                             if (file) {
                                 return openFile(file);
                             } else if (url) {
-                                return openURL(url);
+                                return openURL(url, true);
                             }
                         }}
                     >

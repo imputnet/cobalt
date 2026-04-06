@@ -68,6 +68,7 @@ this document is not final and will expand over time. feel free to improve it!
 | YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
 | YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
 | ENABLE_DEPRECATED_YOUTUBE_HLS    | `key`                    |
+| YOUTUBE_PLAYER_ID                | `abcdefff`               |
 
 [*view details*](#service-specific)
 
@@ -268,6 +269,13 @@ the value is a URL.
 
 ### YOUTUBE_SESSION_INNERTUBE_CLIENT
 innertube client that's compatible with botguard's (web) `poToken` and `visitor_data`.
+
+the value is a string.
+
+### YOUTUBE_PLAYER_ID
+a comma-separated-list of player IDs to use for youtube fetching.
+if defined, cobalt chooses one of them at each client initialization, otherwise
+defaults to the current latest player ID.
 
 the value is a string.
 

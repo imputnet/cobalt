@@ -13,7 +13,7 @@ const delta = (a, b) => Math.abs(a - b);
 export default async function(obj) {
     if (obj.yappyId) {
         const yappy = await requestJSON(
-            `https://rutube.ru/pangolin/api/web/yappy/yappypage/?client=wdp&videoId=${obj.yappyId}&page=1&page_size=15`
+            `https://rutube.ru/pangolin/api/web/yappy/v4/yappypage/?client=wdp&videoId=${obj.yappyId}&page=1&page_size=1`
         )
         const yappyURL = yappy?.results?.find(r => r.id === obj.yappyId)?.link;
         if (!yappyURL) return { error: "fetch.empty" };
