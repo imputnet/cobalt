@@ -69,8 +69,8 @@ importers:
         version: 4.3.6
     optionalDependencies:
       freebind:
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.2.3
+        version: 0.2.3
       rate-limit-redis:
         specifier: ^4.3.1
         version: 4.3.1(express-rate-limit@8.3.2(express@4.22.1))
@@ -549,10 +549,6 @@ packages:
   '@eslint/plugin-kit@0.4.1':
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@fastify/busboy@2.1.1':
-    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
-    engines: {node: '>=14'}
 
   '@fontsource/ibm-plex-mono@5.2.7':
     resolution: {integrity: sha512-MKAb8qV+CaiMQn2B0dIi1OV3565NYzp3WN5b4oT6LTkk+F0jR6j0ZN+5BKJiIhffDC3rtBULsYZE65+0018z9w==}
@@ -1364,8 +1360,9 @@ packages:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
 
-  freebind@0.2.2:
-    resolution: {integrity: sha512-H3PdpY9gMa46ra2CkDLZxAqvJiiazb5ZpQcvmOriB0cPVRzFSi+pXY/m3mN31tkZhE/0D4O+pCGTMezh/jwLnw==}
+  freebind@0.2.3:
+    resolution: {integrity: sha512-Afp55ViSTLtImq8jeCFSVtc6tekWD6dtJMXhAeQKjsz4ffN8oKlp0s8KbEpc4Zw9mQe0eYkUDBaa3jJqp/VLMg==}
+    engines: {node: '>=18.17'}
 
   fresh@0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
@@ -2163,10 +2160,6 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
-  undici@5.29.0:
-    resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
-    engines: {node: '>=14.0'}
-
   undici@6.24.1:
     resolution: {integrity: sha512-sC+b0tB1whOCzbtlx20fx3WgCXwkW627p4EA9uM+/tNNPkSS+eSEld6pAs9nDv7WbY1UUljBMYPtu9BCOrCWKA==}
     engines: {node: '>=18.17'}
@@ -2500,9 +2493,6 @@ snapshots:
     dependencies:
       '@eslint/core': 0.17.0
       levn: 0.4.1
-
-  '@fastify/busboy@2.1.1':
-    optional: true
 
   '@fontsource/ibm-plex-mono@5.2.7': {}
 
@@ -3336,11 +3326,11 @@ snapshots:
 
   forwarded@0.2.0: {}
 
-  freebind@0.2.2:
+  freebind@0.2.3:
     dependencies:
       ipaddr.js: 2.1.0
       syscall-napi: 0.0.6
-      undici: 5.29.0
+      undici: 6.24.1
     optional: true
 
   fresh@0.5.2: {}
@@ -4071,11 +4061,6 @@ snapshots:
   ufo@1.6.1: {}
 
   undici-types@7.18.2: {}
-
-  undici@5.29.0:
-    dependencies:
-      '@fastify/busboy': 2.1.1
-    optional: true
 
   undici@6.24.1: {}
 

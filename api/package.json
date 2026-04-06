@@ -44,7 +44,7 @@
         "zod": "^4.2.1"
     },
     "optionalDependencies": {
-        "freebind": "^0.2.2",
+        "freebind": "^0.2.3",
         "rate-limit-redis": "^4.3.1",
         "redis": "^5.11.0"
     }
