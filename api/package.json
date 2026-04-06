@@ -30,7 +30,7 @@
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",
         "express": "^4.22.1",
-        "express-rate-limit": "^8.2.1",
+        "express-rate-limit": "^8.3.2",
         "ffmpeg-static": "^5.3.0",
         "hls-parser": "^0.16.0",
         "ipaddr.js": "2.3.0",
@@ -38,7 +38,7 @@
         "mime": "^4.1.0",
         "nanoid": "^5.1.6",
         "set-cookie-parser": "2.7.2",
-        "undici": "^6.22.0",
+        "undici": "^6.24.1",
         "url-pattern": "1.0.3",
         "youtubei.js": "17.0.1",
         "zod": "^4.2.1"
@@ -46,6 +46,6 @@
     "optionalDependencies": {
         "freebind": "^0.2.2",
         "rate-limit-redis": "^4.3.1",
-        "redis": "^4.7.1"
+        "redis": "^5.11.0"
     }
 }

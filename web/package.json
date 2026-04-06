@@ -24,14 +24,14 @@
     },
     "homepage": "https://cobalt.tools/",
     "devDependencies": {
-        "@eslint/js": "^9.39.2",
+        "@eslint/js": "^9.39.4",
         "@fontsource/ibm-plex-mono": "^5.2.7",
         "@fontsource/redaction-10": "^5.2.5",
         "@imput/libav.js-encode-cli": "6.8.7",
         "@imput/libav.js-remux-cli": "^6.8.7",
         "@imput/version-info": "workspace:^",
         "@sveltejs/adapter-static": "^3.0.10",
-        "@sveltejs/kit": "^2.49.2",
+        "@sveltejs/kit": "^2.55.0",
         "@sveltejs/vite-plugin-svelte": "^6.2.1",
         "@tabler/icons-svelte": "3.6.0",
         "@types/fluent-ffmpeg": "^2.1.28",
@@ -39,11 +39,11 @@
         "@vitejs/plugin-basic-ssl": "^2.1.0",
         "compare-versions": "^6.1.1",
         "dotenv": "^17.2.3",
-        "eslint": "^9.39.2",
-        "glob": "^13.0.0",
+        "eslint": "^9.39.4",
+        "glob": "^13.0.6",
         "mdsvex": "^0.12.6",
         "mime": "^4.1.0",
-        "svelte": "^5.46.0",
+        "svelte": "^5.55.1",
         "svelte-check": "^4.3.5",
         "svelte-preprocess": "^6.0.3",
         "svelte-sitemap": "2.7.1",
@@ -52,7 +52,7 @@
         "tslib": "^2.8.1",
         "turnstile-types": "^1.2.3",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.50.1",
-        "vite": "^7.3.0"
+        "typescript-eslint": "^8.58.0",
+        "vite": "^7.3.1"
     }
 }
