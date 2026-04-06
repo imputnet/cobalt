@@ -1,0 +1,7 @@
+{
+    "bullet.purpose.description": "Remux は、時刻情報の欠落などファイルコンテナの問題を修正します。Vegas Pro や Windows Media Player などの古いソフトウェアとの互換性を高めるのに役立ちます。",
+    "bullet.purpose.title": "remux は何をしますか?",
+    "bullet.explainer.title": "どのように機能しますか？",
+    "bullet.explainer.description": "Remux は、既存のコーデックデータを新しいメディアコンテナにコピーします。ロスレスで、メディアデータは再エンコードされません。",
+    "bullet.privacy.title": "デバイス上での処理"
+}

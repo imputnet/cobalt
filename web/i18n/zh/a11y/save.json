@@ -1,0 +1,12 @@
+{
+    "link_area.turnstile": "链接输入区。正在检查你是不是机器人。",
+    "link_area": "链接输入区",
+    "clear_input": "清除输入",
+    "download": "下载",
+    "download.think": "处理链接...",
+    "download.check": "验证下载...",
+    "download.done": "下载完成",
+    "download.error": "下载错误",
+    "tutorial.shortcut.photos": "添加照片快捷方式",
+    "tutorial.shortcut.files": "快捷指令文件指令"
+}

@@ -1,0 +1,12 @@
+{
+    "clear_input": "elimina input",
+    "download": "scarica",
+    "link_area": "area di input del link",
+    "link_area.turnstile": "area di input del link. sto controllando se sei un robot.",
+    "download.think": "processo il link...",
+    "download.check": "verifico download...",
+    "download.done": "download completato",
+    "download.error": "errore nel download",
+    "tutorial.shortcut.photos": "scorciatoia per aggiungere foto",
+    "tutorial.shortcut.files": "scorciatoia per aggiungere file"
+}
