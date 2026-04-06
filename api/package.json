@@ -1,7 +1,7 @@
 {
     "name": "@imput/cobalt-api",
     "description": "save what you love",
-    "version": "11.7",
+    "version": "11.7.1",
     "author": "imput",
     "exports": "./src/cobalt.js",
     "type": "module",
@@ -46,6 +46,6 @@
     "optionalDependencies": {
         "freebind": "^0.2.3",
         "rate-limit-redis": "^4.3.1",
-        "redis": "^5.11.0"
+        "redis": "4.7.1"
     }
 }
