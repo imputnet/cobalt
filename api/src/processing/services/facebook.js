@@ -37,11 +37,11 @@ export default async function({ id, shareType, shortLink, dispatcher }) {
     if (!html) return { error: "fetch.fail" };
 
     const urls = [];
-    const hd = html.match('"browser_native_hd_url":(".*?")');
-    const sd = html.match('"browser_native_sd_url":(".*?")');
+    const hd = html.match('"browser_native_hd_url":(null|".*?")');
+    const sd = html.match('"browser_native_sd_url":(null|".*?")');
 
-    if (hd?.[1]) urls.push(JSON.parse(hd[1]));
-    if (sd?.[1]) urls.push(JSON.parse(sd[1]));
+    if (hd?.[1] && hd[1] !== 'null') urls.push(JSON.parse(hd[1]));
+    if (sd?.[1] && sd[1] !== 'null') urls.push(JSON.parse(sd[1]));
 
     if (!urls.length) {
         return { error: "fetch.empty" };
