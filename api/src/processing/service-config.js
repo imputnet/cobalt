@@ -163,6 +163,13 @@ export const services = {
         ],
         subdomains: "*",
     },
+    substack: {
+    patterns: [
+        "@:user/note/:noteId", 
+        ":user/p/:noteId"      
+    ],
+    subdomains: "*", 
+},
     twitch: {
         patterns: [":channel/clip/:clip"],
         tld: "tv",

@@ -29,10 +29,12 @@ import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
 import newgrounds from "./services/newgrounds.js";
+import substack from "./services/substack.js";
+
 
 let freebind;
 
-export default async function({ host, patternMatch, params, authType }) {
+export default async function({ host, patternMatch, params, authType }) {    
     const { url } = params;
     assert(url instanceof URL);
     let dispatcher, requestIP;
@@ -73,8 +75,7 @@ export default async function({ host, patternMatch, params, authType }) {
             youtubeHLS = false;
         }
 
-        const subtitleLang =
-            params.subtitleLang !== "none" ? params.subtitleLang : undefined;
+        const subtitleLang =params.subtitleLang !== "none" ? params.subtitleLang : undefined;   
 
         switch (host) {
             case "twitter":
@@ -264,6 +265,12 @@ export default async function({ host, patternMatch, params, authType }) {
                     ...patternMatch,
                     quality: params.videoQuality,
                 });
+                break;
+
+            case "substack":
+                console.log(url);
+                
+                r = await substack({ url });
                 break;
 
             default:

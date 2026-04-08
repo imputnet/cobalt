@@ -83,4 +83,8 @@ export const testers = {
 
     "youtube": pattern =>
         pattern.id?.length <= 11,
+    
+    "substack": pattern =>
+    pattern.user?.length <= 30 && pattern.noteId?.length <= 20,
+
 }
