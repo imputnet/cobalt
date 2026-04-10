@@ -11,11 +11,8 @@
     sectionId="general"
 />
 
-cobalt's privacy policy is simple: we don't collect or store anything about you.
-what you do is solely your business, not ours or anyone else's.
+the privacy policy is only applicable on an unmodified instance of ferrum.
 
-these terms are applicable only when using the official cobalt instance.
-in other cases, you may need to contact the instance hoster for accurate info.
 </section>
 
 <section id="local">
@@ -35,11 +32,11 @@ they are explicitly marked as such whenever applicable.
     sectionId="saving"
 />
 
-when using saving functionality, cobalt may need to proxy or remux/transcode files.
+when using saving functionality, ferrum may need to proxy or remux/transcode files.
 if that's the case, then a temporary tunnel is created for this purpose
 and minimal required information about the media is stored for 90 seconds.
 
-on an unmodified & official cobalt instance,
+on an unmodified ferrum instance,
 **all tunnel data is encrypted with a key that only the end user has access to**.
 
 encrypted tunnel data may include:
@@ -51,16 +48,16 @@ encrypted tunnel data may include:
 
 this data is irreversibly purged from server's RAM after 90 seconds.
 no one has access to cached tunnel data, even instance owners,
-as long as cobalt's source code is not modified.
+as long as ferrum's source code is not modified.
 
 media data from tunnels is never stored/cached anywhere.
 everything is processed live, even during remuxing and transcoding.
-cobalt tunnels function like an anonymous proxy.
+ferrum tunnels function like an anonymous proxy.
 
 if your device supports local processing,
 then encrypted tunnel info includes way less info, because it's returned to client instead.
 
-see the [related source code on github](https://github.com/imputnet/cobalt/tree/main/api/src/stream)
+see the [related source code on github](https://github.com/yeenbean/ferrum/tree/main/api/src/stream)
 to learn more about how it works.
 </section>
 
@@ -84,9 +81,9 @@ keys are generated uniquely for each requested tunnel.
 />
 
 we use [plausible](https://plausible.io/) to get an approximate number
-of active cobalt users, fully anonymously. no identifiable information about
+of active ferrum users, fully anonymously. no identifiable information about
 you or your requests is ever stored. all data is anonymized and aggregated.
-we self-host and manage the [plausible instance](https://{env.PLAUSIBLE_HOST}/) that cobalt uses.
+we self-host and manage the [plausible instance](https://{env.PLAUSIBLE_HOST}/) that ferrum uses.
 
 plausible doesn't use cookies and is fully compliant with GDPR, CCPA, and PECR.
 

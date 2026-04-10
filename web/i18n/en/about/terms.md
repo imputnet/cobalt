@@ -9,7 +9,7 @@
     sectionId="general"
 />
 
-these terms are applicable only when using the official cobalt instance.
+these terms are applicable only when using an unmodified ferrum instance.
 in other cases, you may need to contact the instance hoster for accurate info.
 </section>
 
@@ -42,18 +42,4 @@ make sure you don't violate any terms or licenses.
 when used in educational purposes, always cite sources and credit original creators.
 
 fair use and credits benefit everyone.
-</section>
-
-<section id="abuse">
-<SectionHeading
-    title={$t("about.heading.abuse")}
-    sectionId="abuse"
-/>
-
-we have no way of detecting abusive behavior automatically because cobalt is fully anonymous.
-however, you can report such activities to us via email and we'll do our best to comply manually: abuse[at]imput.net
-
-**this email is not intended for user support, you will not get a response if your concern is not related to abuse.**
-
-if you're experiencing issues, you can reach out for support via any preferred method on [the community page](/about/community).
 </section>

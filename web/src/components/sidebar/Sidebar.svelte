@@ -38,7 +38,7 @@
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab name="settings" path={settingsLink} icon={IconSettings} />
-            <SidebarTab name="donate" path="/donate" icon={IconHeart} />
+            <!-- <SidebarTab name="donate" path="/donate" icon={IconHeart} /> -->
             <SidebarTab name="updates" path="/updates" icon={IconComet} />
             <SidebarTab name="about" path={aboutLink} icon={IconInfoCircle} />
         </div>

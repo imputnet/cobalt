@@ -12,7 +12,7 @@
     let loaded = $state(false);
 </script>
 
-<img
+<!-- <img
     class="meowbalt {emotion}"
     class:loaded={loaded || forceLoaded}
     onload={() => (loaded = true)}
@@ -20,7 +20,7 @@
     height="152"
     alt={$t("general.meowbalt")}
     aria-hidden="true"
-/>
+/> -->
 
 <style>
     .meowbalt {

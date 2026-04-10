@@ -6,6 +6,16 @@
     import BetaTesters from "$components/misc/BetaTesters.svelte";
 </script>
 
+<section id="ferrum">
+<SectionHeading
+    title="ferrum"
+    sectionId="ferrum"
+/>
+
+ferrum is a fork of cobalt made to make self-hosting a little easier. the core functionality is the same but we've ripped out the branding in accordance with the license.
+
+since the original authors have put in all the hard work, we've left the rest of this page as-is.
+
 <section id="imput">
 <SectionHeading
     title="imput"

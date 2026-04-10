@@ -28,12 +28,12 @@
                 icon={IconComet}
                 iconColor="blue"
             />
-            <PageNavTab
+            <!-- <PageNavTab
                 path="/about/community"
                 title={$t("about.page.community")}
                 icon={IconUsersGroup}
                 iconColor="purple"
-            />
+            /> -->
         </PageNavSection>
 
         <PageNavSection>
