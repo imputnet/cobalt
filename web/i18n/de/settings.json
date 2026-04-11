@@ -1,0 +1,152 @@
+{
+    "page.appearance": "darstellung",
+    "page.privacy": "datenschutz",
+    "page.video": "video",
+    "page.audio": "audio",
+    "page.metadata": "metadaten",
+    "page.advanced": "erweitert",
+    "page.debug": "info für nerds",
+    "page.instances": "instanzen",
+    "page.local": "lokale verarbeitung",
+    "page.accessibility": "barrierefreiheit",
+
+    "section.general": "allgemein",
+    "section.save": "speichern",
+
+    "theme": "design",
+    "theme.auto": "automatisch",
+    "theme.light": "hell",
+    "theme.dark": "dunkel",
+    "theme.description": "automatisches design wechselt zwischen hellen und dunklen designs je nach der anzeigeart deines geräts.",
+
+    "video.quality": "videoqualität",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "wenn die bevorzugte videoqualität nicht verfügbar ist, wird stattdessen die nächstbeste ausgewählt.",
+
+    "video.youtube.codec": "youtube codec und container",
+    "video.youtube.codec.description": "h264: beste kompatibilität, durchschnittliche qualität. maximale qualität ist 1080p. \nav1: beste qualität und effizienz. unterstützt 8k & hdr. \nvp9: gleiche qualität wie av1, aber datei ist ~2x größer. unterstützt 4k & hdr.\n\nav1 und vp9 sind nicht weit verbreitet unterstützt, du musst möglicherweise zusätzliche software verwenden, um sie abzuspielen/bearbeiten. cobalt wählt den nächstbesten codec, wenn der bevorzugte nicht verfügbar ist.",
+
+    "video.youtube.hls": "youtube hls formate",
+    "video.youtube.hls.title": "hls für video & audio bevorzugen",
+    "video.youtube.hls.description": "nur h264 und vp9 codecs sind in diesem modus verfügbar. original audio codec ist aac, es wird für kompatibilität neu kodiert, audioqualität kann etwas schlechter sein als beim nicht-hls gegenstück.\n\ndiese option ist experimentell, sie könnte in zukunft verschwinden oder sich ändern.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "schleifenvideos zu gif konvertieren",
+    "video.twitter.gif.description": "gif-konvertierung ist ineffizient, konvertierte datei kann unangenehm groß und von niedriger qualität sein.",
+
+    "video.h265": "hocheffizienter video codec",
+    "video.h265.title": "h265 für videos erlauben",
+    "video.h265.description": "erlaubt das herunterladen von videos von plattformen wie tiktok und xiaohongshu in höherer qualität auf kosten der kompatibilität.",
+
+    "audio.format": "audio format",
+    "audio.format.best": "beste",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "alle formate außer \"beste\" werden aus dem quellformat konvertiert, es wird einige qualitätsverluste geben. wenn \"beste\" format ausgewählt ist, wird das audio wann immer möglich in seinem originalformat belassen.",
+
+    "audio.bitrate": "audio bitrate",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "bitrate wird nur angewendet, wenn audio in ein verlustbehaftetes format konvertiert wird. cobalt kann die quell-audioqualität nicht verbessern, daher kann die auswahl einer bitrate über 128kbps die dateigröße ohne hörbaren unterschied aufblähen. wahrgenommene qualität kann je nach format variieren.",
+
+    "audio.youtube.dub": "youtube audio spur",
+    "audio.youtube.dub.title": "bevorzugte synchronisationssprache",
+    "audio.youtube.dub.description": "cobalt wird eine synchronisierte audio spur für die ausgewählte sprache verwenden, wenn sie verfügbar ist. wenn nicht, wird stattdessen das original verwendet.",
+    "youtube.dub.original": "original",
+
+    "audio.youtube.better_audio": "youtube audioqualität",
+    "audio.youtube.better_audio.title": "bessere qualität bevorzugen",
+    "audio.youtube.better_audio.description": "cobalt wird versuchen, die höchste audioqualität im audio-modus auszuwählen. es könnte je nach youtubes antwort, aktuellem verkehr und serverstatus nicht verfügbar sein. benutzerdefinierte instanzen unterstützen diese option möglicherweise nicht.",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "original sound herunterladen",
+    "audio.tiktok.original.description": "cobalt wird den sound aus dem video ohne jegliche änderungen durch den autor des posts herunterladen.",
+
+    "metadata.filename": "dateiname stil",
+    "metadata.filename.classic": "klassisch",
+    "metadata.filename.basic": "einfach",
+    "metadata.filename.pretty": "schön",
+    "metadata.filename.nerdy": "nerdy",
+    "metadata.filename.description": "dateiname stil wird nur für dateien verwendet, die von cobalt getunnelt werden. einige dienste unterstützen keine anderen dateiname stile als klassisch.",
+
+    "metadata.filename.preview.video": "Video Titel - Video Autor",
+    "metadata.filename.preview.audio": "Audio Titel - Audio Autor",
+
+    "metadata.file": "datei metadaten",
+    "metadata.disable.title": "datei metadaten deaktivieren",
+    "metadata.disable.description": "titel, künstler und andere informationen werden nicht zur datei hinzugefügt.",
+
+    "saving.title": "speichermethode",
+    "saving.ask": "fragen",
+    "saving.download": "herunterladen",
+    "saving.share": "teilen",
+    "saving.copy": "kopieren",
+    "saving.description": "bevorzugte art, die datei oder den link von cobalt zu speichern. wenn die bevorzugte methode nicht verfügbar ist oder etwas schiefgeht, wird cobalt dich fragen, was als nächstes zu tun ist.",
+
+    "accessibility.visual": "visuell",
+    "accessibility.haptics": "haptik",
+    "accessibility.behavior": "verhalten",
+
+    "accessibility.transparency.title": "visuelle transparenz reduzieren",
+    "accessibility.transparency.description": "transparenz von oberflächen wird reduziert und alle blur-effekte werden deaktiviert. kann auch ui-leistung auf weniger leistungsstarken geräten verbessern.",
+    "accessibility.motion.title": "bewegung reduzieren",
+    "accessibility.motion.description": "animationen und übergänge werden wann immer möglich deaktiviert.",
+    "accessibility.haptics.title": "haptik deaktivieren",
+    "accessibility.haptics.description": "alle haptischen effekte werden deaktiviert.",
+    "accessibility.auto_queue.title": "warteschlange nicht automatisch öffnen",
+    "accessibility.auto_queue.description": "die verarbeitungswarteschlange wird nicht automatisch geöffnet, wenn ein neues element hinzugefügt wird. fortschritt wird weiterhin angezeigt und du kannst sie weiterhin manuell öffnen.",
+
+    "language": "sprache",
+    "language.auto.title": "automatische auswahl",
+    "language.auto.description": "cobalt wird die standardsprache deines browsers verwenden, wenn eine übersetzung verfügbar ist. wenn nicht, wird stattdessen englisch verwendet.",
+    "language.preferred.title": "bevorzugte sprache",
+    "language.preferred.description": "diese sprache wird verwendet, wenn automatische auswahl deaktiviert ist. jeder text, der nicht übersetzt ist, wird auf englisch angezeigt.\n\neinige sprachen verwenden community-gestützte übersetzungen, sie könnten ungenau oder unvollständig sein.",
+
+    "privacy.analytics": "anonyme verkehrsanalysen",
+    "privacy.analytics.title": "nicht zu analysen beitragen",
+    "privacy.analytics.description": "anonyme verkehrsanalysen sind nötig, um eine ungefähre anzahl aktiver cobalt-nutzer zu erhalten. keine identifizierbaren informationen über dich werden jemals gespeichert. alle verarbeiteten daten werden anonymisiert und aggregiert.\n\nwir verwenden eine selbst gehostete plausible instanz, die keine cookies verwendet und vollständig mit gdpr, ccpa und pecr konform ist.",
+    "privacy.analytics.learnmore": "erfahre mehr über plausibles engagement für datenschutz.",
+
+    "privacy.tunnel": "tunneling",
+    "privacy.tunnel.title": "dateien immer tunneln",
+    "privacy.tunnel.description": "cobalt wird deine ip-adresse, browser-info und lokale netzwerkbeschränkungen umgehen. wenn aktiviert, haben dateien auch lesbare dateinamen, die sonst kauderwelsch wären.",
+
+    "advanced.debug": "debug",
+    "advanced.debug.title": "features für nerds aktivieren",
+    "advanced.debug.description": "gibt dir einfachen zugriff auf app-info, die für debugging nützlich sein kann. das aktivieren beeinträchtigt die funktionalität von cobalt in keiner weise.",
+
+    "processing.community": "community instanzen",
+    "processing.enable_custom.title": "einen benutzerdefinierten verarbeitungsserver verwenden",
+    "processing.enable_custom.description": "cobalt wird eine benutzerdefinierte verarbeitungsinstanz verwenden, wenn du dich dafür entscheidest. obwohl cobalt einige sicherheitsmaßnahmen hat, sind wir nicht verantwortlich für schäden, die über eine community-instanz entstehen, da wir keine kontrolle über sie haben.\n\nsei achtsam bei der auswahl der instanzen und stelle sicher, dass sie von menschen gehostet werden, denen du vertraust.",
+
+    "processing.access_key": "instanz zugriffsschlüssel",
+    "processing.access_key.title": "einen instanz zugriffsschlüssel verwenden",
+    "processing.access_key.description": "cobalt wird diesen schlüssel verwenden, um anfragen an die verarbeitungsinstanz zu stellen, anstatt anderer authentifizierungsmethoden. stelle sicher, dass die instanz api-schlüssel unterstützt!",
+
+    "processing.custom_instance.input.alt_text": "benutzerdefinierte instanz domain",
+    "processing.access_key.input.alt_text": "u-u-i-d zugriffsschlüssel",
+
+    "advanced.settings_data": "einstellungsdaten",
+    "advanced.local_storage": "lokaler speicher",
+
+    "local.saving": "medienverarbeitung",
+    "local.saving.title": "medien lokal herunterladen & verarbeiten",
+    "local.saving.description": "beim herunterladen von medien werden remuxing und transcoding auf dem gerät anstatt in der cloud durchgeführt. du siehst detaillierten fortschritt in der verarbeitungswarteschlange. verarbeitungsinstanzen können diese funktion erzwingen, um ressourcen zu sparen.\n\nexklusive on-device funktionen sind von diesem schalter nicht betroffen, sie laufen immer lokal.",
+
+    "local.webcodecs": "webcodecs",
+    "local.webcodecs.title": "webcodecs für on-device verarbeitung verwenden",
+    "local.webcodecs.description": "beim dekodieren oder kodieren von dateien wird cobalt versuchen, webcodecs zu verwenden. diese funktion ermöglicht gpu-beschleunigte verarbeitung von mediendateien, was bedeutet, dass alle dekodierung & kodierung viel schneller sein werden.\n\ndie verfügbarkeit und stabilität dieser funktion hängt von den fähigkeiten deines geräts und browsers ab. sachen könnten kaputt gehen oder nicht richtig funktionieren.",
+
+    "tabs": "navigation",
+    "tabs.hide_remux": "remux tab ausblenden",
+    "tabs.hide_remux.description": "wenn du das remux-tool nicht verwendest, kannst du es aus der navigationsleiste ausblenden."
+}
