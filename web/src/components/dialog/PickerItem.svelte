@@ -50,6 +50,7 @@
             downloadFile({
                 url: item.url,
                 urlType: isTunnel ? "tunnel" : "redirect",
+                id: number
             });
         }
     }}
@@ -92,6 +93,10 @@
         outline: var(--focus-ring);
         outline-offset: var(--focus-ring-offset);
         border-radius: inherit;
+    }
+
+    :global(.picker-item-active) {
+        opacity: 0.5;
     }
 
     :global(.picker-image) {
