@@ -8,6 +8,9 @@ export const testers = {
     "bsky": pattern =>
         pattern.user?.length <= 128 && pattern.post?.length <= 128,
 
+    "darkibox": pattern =>
+        pattern.id?.length <= 12,
+
     "dailymotion": pattern => pattern.id?.length <= 32,
 
     "facebook": pattern =>
