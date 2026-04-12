@@ -20,6 +20,13 @@ export const services = {
         ],
         tld: "app",
     },
+    darkibox: {
+        patterns: [
+            ":id",
+            "d/:id",
+            "embed-:id.html",
+        ],
+    },
     dailymotion: {
         patterns: ["video/:id"],
     },
