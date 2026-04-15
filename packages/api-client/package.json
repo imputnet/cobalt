@@ -8,8 +8,8 @@
     "author": "imput <meow@imput.net>",
     "license": "MIT",
     "devDependencies": {
-        "prettier": "3.3.3",
-        "tsup": "^8.3.0",
-        "typescript": "^5.4.5"
+        "prettier": "3.7.4",
+        "tsup": "^8.5.1",
+        "typescript": "^5.9.3"
     }
 }

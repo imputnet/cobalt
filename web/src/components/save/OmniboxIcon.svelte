@@ -8,7 +8,11 @@
 
     let { loading }: Props = $props();
 
-    let animated = $state(loading);
+    let animated = $state(false);
+
+    $effect(() => {
+        animated = loading;
+    });
 
     /*
         initial spinner state is equal to loading state,
