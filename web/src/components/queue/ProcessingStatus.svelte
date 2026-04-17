@@ -59,18 +59,24 @@
         padding: 7px;
         border-radius: 30px;
 
-        filter: drop-shadow(0 0 3px var(--button-elevated-hover));
+        background: var(--glass-bg-light);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border-light);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
         transition:
             background-color 0.2s,
-            transform 0.2s;
+            transform 0.2s,
+            box-shadow 0.2s;
 
         will-change: transform, background-color;
     }
 
     #processing-status:focus-visible {
-        outline: 2px solid var(--secondary);
+        outline: 2px solid var(--orange);
         outline-offset: 2px;
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
     }
 
     #processing-status:active {
@@ -78,20 +84,21 @@
     }
 
     #processing-status.completed {
-        box-shadow: 0 0 0 2px var(--blue) inset;
+        border-color: var(--orange);
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
     }
 
     :global([data-theme="light"]) #processing-status.completed {
-        background-color: #e0eeff;
+        background-color: rgba(249, 115, 22, 0.1);
     }
 
     :global([data-theme="dark"]) #processing-status.completed {
-        background-color: #1f3249;
+        background-color: rgba(249, 115, 22, 0.15);
     }
 
     .icon-holder {
         display: flex;
-        background-color: var(--button-elevated-hover);
+        background: var(--glass-bg-medium);
         padding: 2px;
         border-radius: 20px;
         transition: background-color 0.2s;
@@ -106,7 +113,7 @@
     }
 
     .completed .icon-holder {
-        background-color: var(--blue);
+        background: var(--gradient-orange);
     }
 
     .completed .icon-holder :global(svg) {
@@ -123,7 +130,7 @@
     }
 
     #progress-ring circle {
-        stroke: var(--blue);
+        stroke: var(--orange);
         stroke-width: 4;
         stroke-dashoffset: 0;
     }

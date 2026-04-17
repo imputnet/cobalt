@@ -16,8 +16,16 @@
 
 <style>
     #clear-button {
-        padding: 3px;
+        padding: 4px;
         border-radius: 100%;
+        background: var(--glass-bg-light);
+        border: 1px solid var(--glass-border-light);
+        transition: all 0.2s ease;
+    }
+
+    #clear-button:hover {
+        background: rgba(249, 115, 22, 0.15);
+        border-color: rgba(249, 115, 22, 0.3);
     }
 
     #clear-button :global(svg) {
@@ -26,5 +34,10 @@
         stroke-width: 2px;
         stroke: var(--secondary);
         will-change: transform;
+        transition: stroke 0.2s ease;
+    }
+
+    #clear-button:hover :global(svg) {
+        stroke: var(--orange);
     }
 </style>

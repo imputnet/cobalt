@@ -239,25 +239,26 @@
         flex-direction: column;
         max-width: 640px;
         width: 100%;
-        gap: 6px;
+        gap: 8px;
         position: relative;
     }
 
     #input-container {
-        --input-padding: 10px;
+        --input-padding: 12px;
         display: flex;
-        box-shadow: 0 0 0 1.5px rgba(34, 211, 238, 0.3) inset;
-        /* webkit can't render the 1.5px box shadow properly,
-           so we duplicate the border as outline to fix it visually */
-        outline: 1.5px solid rgba(34, 211, 238, 0.3);
-        outline-offset: -1.5px;
+        background: var(--glass-bg);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border);
+        box-shadow: 
+            0 0 0 1px rgba(249, 115, 22, 0.15) inset,
+            0 4px 24px rgba(0, 0, 0, 0.2);
         border-radius: var(--border-radius);
         align-items: center;
         gap: var(--input-padding);
         font-size: 14px;
         flex: 1;
-        background: var(--button);
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     #input-container:not(.clear-visible) :global(#clear-button) {
@@ -286,13 +287,15 @@
     }
 
     #input-container.focused {
-        box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
-        outline: #22d3ee 2px solid;
-        outline-offset: -1px;
+        border-color: var(--orange);
+        box-shadow: 
+            0 0 0 1px rgba(249, 115, 22, 0.3) inset,
+            0 0 30px rgba(249, 115, 22, 0.2),
+            0 4px 24px rgba(0, 0, 0, 0.2);
     }
 
     #input-container.focused :global(#input-icons svg) {
-        stroke: var(--secondary);
+        stroke: var(--orange);
     }
 
     #input-container.downloadable :global(#input-icons svg) {
@@ -305,7 +308,7 @@
         margin: 0;
         padding: var(--input-padding) 0;
         padding-left: calc(var(--input-padding) + 28px);
-        height: 18px;
+        height: 20px;
 
         align-items: center;
 
@@ -345,9 +348,6 @@
     #action-container {
         display: flex;
         flex-direction: row;
-    }
-
-    #action-container {
         justify-content: space-between;
     }
 
@@ -357,14 +357,15 @@
 
     #instance-label {
         font-size: 13px;
-        color: var(--gray);
+        color: var(--orange);
         font-weight: 500;
+        opacity: 0.8;
     }
 
     @media screen and (max-width: 440px) {
         #action-container {
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
 
         #action-container :global(.button) {

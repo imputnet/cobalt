@@ -14,8 +14,14 @@
     #cobalt-logo img {
         width: 60px;
         height: auto;
-        filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.4));
+        filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.5));
         pointer-events: none;
+        transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    #cobalt-logo:hover img {
+        filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.7));
+        transform: scale(1.05);
     }
 
     @media screen and (max-width: 535px) {

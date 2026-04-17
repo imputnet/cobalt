@@ -137,9 +137,11 @@
     .picker-type {
         position: absolute;
         color: var(--white);
-        background: rgba(0, 0, 0, 0.5);
-        width: 24px;
-        height: 24px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        width: 26px;
+        height: 26px;
         z-index: 3;
 
         display: flex;
@@ -150,7 +152,8 @@
         top: 6px;
         left: 6px;
 
-        border-radius: 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
 
         pointer-events: none;
     }

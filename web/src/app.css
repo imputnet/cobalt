@@ -1,61 +1,73 @@
 :root {
     --primary: #0a0a0f;
-    --secondary: #e1e1e1;
+    --secondary: #f5f5f5;
 
     --white: #ffffff;
-    --gray: #6b7280;
+    --gray: #9ca3af;
 
     --red: #ef4444;
     --medium-red: #dc2626;
     --dark-red: #b91c1c;
     --green: #10b981;
-    --blue: #22d3ee;
-    --cyan: #22d3ee;
-    --cyan-glow: rgba(34, 211, 238, 0.3);
+    --blue: #3b82f6;
+    --cyan: #f97316;
+    --cyan-glow: rgba(249, 115, 22, 0.35);
     --magenta: #ec4899;
     --purple: #8b5cf6;
-    --orange: #f59e0b;
+    --orange: #f97316;
+    --amber: #f59e0b;
 
-    --focus-ring: solid 2px var(--cyan);
+    /* Glassmorphism Variables */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-light: rgba(255, 255, 255, 0.08);
+    --glass-bg-medium: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-border-light: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(16px);
+    --glass-blur-heavy: blur(24px);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --glass-shadow-light: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+    --focus-ring: solid 2px var(--orange);
     --focus-ring-offset: -2px;
 
-    --button: #111118;
-    --button-hover: #1a1a24;
-    --button-press: #222230;
-    --button-active-hover: #22d3ee;
+    --button: rgba(255, 255, 255, 0.06);
+    --button-hover: rgba(249, 115, 22, 0.15);
+    --button-press: rgba(249, 115, 22, 0.25);
+    --button-active-hover: #f97316;
 
-    --button-hover-transparent: rgba(34, 211, 238, 0.08);
-    --button-press-transparent: rgba(34, 211, 238, 0.12);
-    --button-stroke: rgba(34, 211, 238, 0.1);
-    --button-text: #e1e1e1;
-    --button-box-shadow: 0 0 0 1px var(--button-stroke) inset;
+    --button-hover-transparent: rgba(249, 115, 22, 0.1);
+    --button-press-transparent: rgba(249, 115, 22, 0.18);
+    --button-stroke: rgba(249, 115, 22, 0.2);
+    --button-text: #f5f5f5;
+    --button-box-shadow: 0 0 0 1px var(--glass-border-light) inset;
 
-    --button-elevated: #181820;
-    --button-elevated-hover: #1f1f2a;
-    --button-elevated-press: #282835;
-    --button-elevated-shimmer: #2a2a38;
+    --button-elevated: rgba(255, 255, 255, 0.08);
+    --button-elevated-hover: rgba(249, 115, 22, 0.12);
+    --button-elevated-press: rgba(249, 115, 22, 0.2);
+    --button-elevated-shimmer: rgba(249, 115, 22, 0.15);
 
-    --popover-glow: rgba(34, 211, 238, 0.15);
+    --popover-glow: rgba(249, 115, 22, 0.2);
 
-    --popup-bg: #0f0f16;
-    --popup-stroke: rgba(34, 211, 238, 0.12);
+    --popup-bg: rgba(15, 15, 22, 0.85);
+    --popup-stroke: rgba(249, 115, 22, 0.15);
 
-    --dialog-backdrop: rgba(0, 0, 0, 0.6);
+    --dialog-backdrop: rgba(0, 0, 0, 0.7);
 
-    --sidebar-bg: #08080c;
-    --sidebar-highlight: #22d3ee;
-    --sidebar-stroke: rgba(34, 211, 238, 0.08);
+    --sidebar-bg: rgba(8, 8, 12, 0.9);
+    --sidebar-highlight: #f97316;
+    --sidebar-stroke: rgba(249, 115, 22, 0.12);
 
-    --content-border: rgba(34, 211, 238, 0.06);
+    --content-border: rgba(249, 115, 22, 0.08);
     --content-border-thickness: 1px;
 
-    --input-border: #22d3ee;
+    --input-border: #f97316;
 
-    --toggle-bg: #2a2a35;
-    --toggle-bg-enabled: #22d3ee;
+    --toggle-bg: rgba(255, 255, 255, 0.1);
+    --toggle-bg-enabled: #f97316;
 
     --padding: 12px;
-    --border-radius: 11px;
+    --border-radius: 14px;
 
     --sidebar-width: 80px;
     --sidebar-font-size: 11px;
@@ -99,52 +111,62 @@
         var(--button-elevated-shimmer),
         var(--button-elevated)
     );
+
+    /* Gradient accents */
+    --gradient-orange: linear-gradient(135deg, #f97316 0%, #f59e0b 100%);
+    --gradient-glow: linear-gradient(135deg, rgba(249, 115, 22, 0.3) 0%, rgba(245, 158, 11, 0.2) 100%);
 }
 
 [data-theme="dark"] {
     --primary: #0a0a0f;
-    --secondary: #e1e1e1;
+    --secondary: #f5f5f5;
 
-    --gray: #6b7280;
+    --gray: #9ca3af;
 
-    --blue: #22d3ee;
-    --cyan: #22d3ee;
-    --cyan-glow: rgba(34, 211, 238, 0.3);
+    --blue: #3b82f6;
+    --cyan: #f97316;
+    --cyan-glow: rgba(249, 115, 22, 0.35);
     --green: #10b981;
 
-    --button: #111118;
-    --button-hover: #1a1a24;
-    --button-press: #222230;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-light: rgba(255, 255, 255, 0.08);
+    --glass-bg-medium: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-border-light: rgba(255, 255, 255, 0.1);
 
-    --button-active-hover: #22d3ee;
+    --button: rgba(255, 255, 255, 0.06);
+    --button-hover: rgba(249, 115, 22, 0.15);
+    --button-press: rgba(249, 115, 22, 0.25);
 
-    --button-hover-transparent: rgba(34, 211, 238, 0.08);
-    --button-press-transparent: rgba(34, 211, 238, 0.12);
-    --button-stroke: rgba(34, 211, 238, 0.1);
-    --button-text: #e1e1e1;
-    --button-box-shadow: 0 0 0 1px var(--button-stroke) inset;
+    --button-active-hover: #f97316;
 
-    --button-elevated: #181820;
-    --button-elevated-hover: #1f1f2a;
-    --button-elevated-press: #282835;
+    --button-hover-transparent: rgba(249, 115, 22, 0.1);
+    --button-press-transparent: rgba(249, 115, 22, 0.18);
+    --button-stroke: rgba(249, 115, 22, 0.2);
+    --button-text: #f5f5f5;
+    --button-box-shadow: 0 0 0 1px var(--glass-border-light) inset;
 
-    --popover-glow: rgba(34, 211, 238, 0.15);
+    --button-elevated: rgba(255, 255, 255, 0.08);
+    --button-elevated-hover: rgba(249, 115, 22, 0.12);
+    --button-elevated-press: rgba(249, 115, 22, 0.2);
 
-    --popup-bg: #0f0f16;
-    --popup-stroke: rgba(34, 211, 238, 0.12);
+    --popover-glow: rgba(249, 115, 22, 0.2);
 
-    --dialog-backdrop: rgba(0, 0, 0, 0.6);
+    --popup-bg: rgba(15, 15, 22, 0.85);
+    --popup-stroke: rgba(249, 115, 22, 0.15);
 
-    --sidebar-bg: #08080c;
-    --sidebar-highlight: #22d3ee;
-    --sidebar-stroke: rgba(34, 211, 238, 0.08);
+    --dialog-backdrop: rgba(0, 0, 0, 0.7);
 
-    --content-border: rgba(34, 211, 238, 0.06);
+    --sidebar-bg: rgba(8, 8, 12, 0.9);
+    --sidebar-highlight: #f97316;
+    --sidebar-stroke: rgba(249, 115, 22, 0.12);
 
-    --input-border: #22d3ee;
+    --content-border: rgba(249, 115, 22, 0.08);
 
-    --toggle-bg: #2a2a35;
-    --toggle-bg-enabled: #22d3ee;
+    --input-border: #f97316;
+
+    --toggle-bg: rgba(255, 255, 255, 0.1);
+    --toggle-bg-enabled: #f97316;
 
     --sidebar-mobile-gradient: linear-gradient(
         90deg,
@@ -189,6 +211,8 @@ body {
     height: 100vh;
     overflow: hidden;
     overscroll-behavior-y: none;
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+    background-attachment: fixed;
 }
 
 * {
@@ -206,17 +230,22 @@ body {
 
 ::selection {
     color: var(--primary);
-    background: #22d3ee;
+    background: #f97316;
 }
 
 a {
     color: inherit;
     text-underline-offset: 3px;
     -webkit-touch-callout: none;
+    transition: color 0.2s ease;
 }
 
 a:visited {
     color: inherit;
+}
+
+a:hover {
+    color: var(--orange);
 }
 
 svg,
@@ -228,15 +257,19 @@ button, .button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 13px;
-    gap: 6px;
+    padding: 8px 16px;
+    gap: 8px;
     border: none;
     border-radius: var(--border-radius);
-    font-size: 14.5px;
+    font-size: 14px;
     cursor: pointer;
-    background-color: var(--button);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     color: var(--button-text);
-    box-shadow: var(--button-box-shadow);
+    box-shadow: var(--button-box-shadow), var(--glass-shadow-light);
+    border: 1px solid var(--glass-border-light);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :focus-visible {
@@ -248,6 +281,7 @@ a:focus-visible,
 select:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
 }
 
 a:not(.sidebar-tab):not(.subnav-tab):focus-visible {
@@ -256,12 +290,15 @@ a:not(.sidebar-tab):not(.subnav-tab):focus-visible {
 }
 
 .button.elevated {
-    background-color: var(--button-elevated);
+    background: var(--glass-bg-light);
+    border: 1px solid var(--glass-border);
 }
 
 .button.active {
     color: var(--primary);
-    background-color: var(--secondary);
+    background: var(--gradient-orange);
+    border-color: transparent;
+    box-shadow: 0 0 24px rgba(249, 115, 22, 0.4);
 }
 
 /* important is used because active class is toggled by state */
@@ -269,41 +306,47 @@ a:not(.sidebar-tab):not(.subnav-tab):focus-visible {
 .button.active:focus-visible,
 a.active:focus-visible {
     color: var(--white) !important;
-    background-color: var(--blue) !important;
+    background: var(--orange) !important;
 }
 
 @media (hover: hover) {
     .button:hover {
-        background-color: var(--button-hover);
+        background: var(--button-hover);
+        border-color: rgba(249, 115, 22, 0.3);
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
+        transform: translateY(-1px);
     }
 
     .button.elevated:not(.color):hover {
-        background-color: var(--button-elevated-hover);
+        background: var(--button-elevated-hover);
     }
 
     .button.active:not(.color):hover {
-        background-color: var(--button-active-hover);
+        background: linear-gradient(135deg, #fb923c 0%, #fbbf24 100%);
+        box-shadow: 0 0 28px rgba(249, 115, 22, 0.5);
     }
 }
 
 .button:active {
-    background-color: var(--button-press);
+    background: var(--button-press);
+    transform: translateY(0);
 }
 
 .button.elevated:not(.color):active {
-    background-color: var(--button-elevated-press);
+    background: var(--button-elevated-press);
 }
 
 .button.elevated {
-    box-shadow: none;
+    box-shadow: var(--glass-shadow-light);
 }
 
 .button.active:not(.color):active {
-    background-color: var(--button-active-hover);
+    background: var(--button-active-hover);
 }
 
 button[disabled] {
     cursor: default;
+    opacity: 0.5;
 }
 
 /* workaround for typing into inputs being ignored on iPadOS 15 */
@@ -414,11 +457,11 @@ h6 {
     line-height: 1.3;
     margin-block-end: -0.3rem;
     padding: 6px 0;
-    border-bottom: 1.5px solid var(--button-elevated-hover);
+    border-bottom: 1.5px solid var(--glass-border);
 }
 
 .long-text img {
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 table,
@@ -430,12 +473,14 @@ th {
     border-collapse: collapse;
     text-align: center;
     padding: 3px 8px;
+    border-color: var(--glass-border);
 }
 
 code {
-    background: var(--button-elevated);
-    padding: 1px 4px;
-    border-radius: 4px;
+    background: var(--glass-bg-medium);
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--glass-border-light);
 }
 
 tr td:first-child,
@@ -475,4 +520,45 @@ tr th:first-child {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Glassmorphism utility classes */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+}
+
+.glass-light {
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--border-radius);
+}
+
+.glass-heavy {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-heavy);
+    -webkit-backdrop-filter: var(--glass-blur-heavy);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--glass-shadow);
+}
+
+.glow-orange {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+}
+
+.accent-text {
+    color: var(--orange);
+}
+
+.accent-gradient {
+    background: var(--gradient-orange);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }

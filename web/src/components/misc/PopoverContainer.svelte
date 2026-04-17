@@ -23,11 +23,14 @@
         display: flex;
         flex-direction: column;
         border-radius: 18px;
-        background: var(--button);
-        box-shadow: var(--button-box-shadow);
+        background: var(--glass-bg-medium);
+        backdrop-filter: var(--glass-blur-heavy);
+        -webkit-backdrop-filter: var(--glass-blur-heavy);
+        border: 1px solid var(--glass-border);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 40px rgba(249, 115, 22, 0.1);
 
-        filter: drop-shadow(0 0 8px var(--popover-glow))
-            drop-shadow(0 0 10px var(--popover-glow));
         position: relative;
         padding: var(--padding);
         gap: 6px;
