@@ -1,0 +1,12 @@
+{
+    "link_area": "منطقة إدخال الرابط",
+    "link_area.turnstile": "منطقة إدخال الرابط. التحقق من أنك لست روبوت.",
+    "clear_input": "مسح الإدخال",
+    "download": "تحميل",
+    "download.think": "جاري معالجة الرابط...",
+    "download.check": "التحقق من التحميل...",
+    "download.done": "تم التحميل",
+    "download.error": "خطأ في التحميل",
+    "tutorial.shortcut.photos": "إضافة اختصار الصور",
+    "tutorial.shortcut.files": "إضافة اختصار الملفات"
+}
