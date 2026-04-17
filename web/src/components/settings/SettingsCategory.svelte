@@ -71,10 +71,10 @@
             box-shadow: none;
         }
         10% {
-            box-shadow: 0 0 0 3.5px var(--blue) inset;
+            box-shadow: 0 0 0 3.5px var(--orange) inset;
         }
         20%, 50% {
-            box-shadow: 0 0 0 3px var(--blue) inset;
+            box-shadow: 0 0 0 3px var(--orange) inset, 0 0 20px rgba(249, 115, 22, 0.2);
         }
         100% {
             box-shadow: none;
@@ -86,7 +86,7 @@
             box-shadow: none;
         }
         10%, 50% {
-            box-shadow: 0 0 0 3px var(--blue) inset;
+            box-shadow: 0 0 0 3px var(--orange) inset;
         }
         100% {
             box-shadow: none;

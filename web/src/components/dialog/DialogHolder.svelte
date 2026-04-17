@@ -81,13 +81,13 @@
 
         background-color: var(--dialog-backdrop);
 
-        backdrop-filter: blur(7px);
-        -webkit-backdrop-filter: blur(7px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
 
         opacity: 0;
 
         will-change: opacity;
-        transition: opacity 0.2s;
+        transition: opacity 0.25s ease;
     }
 
     #dialog-backdrop.visible {
@@ -100,17 +100,22 @@
     }
 
     :global(.dialog-body) {
-        --dialog-padding: 18px;
+        --dialog-padding: 20px;
 
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        background: var(--popup-bg);
-        box-shadow: 0 0 0 2px var(--popup-stroke) inset;
-        border-radius: 29px;
+        background: var(--glass-bg-medium);
+        backdrop-filter: var(--glass-blur-heavy);
+        -webkit-backdrop-filter: var(--glass-blur-heavy);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
 
-        filter: drop-shadow(0 0 40px var(--button));
+        box-shadow: 
+            0 0 0 1px rgba(249, 115, 22, 0.1) inset,
+            0 8px 40px rgba(0, 0, 0, 0.4),
+            0 0 60px rgba(249, 115, 22, 0.1);
 
         padding: var(--dialog-padding);
 
@@ -146,7 +151,9 @@
                     )
                 )
             ) !important;
-            box-shadow: 0 0 0 2px var(--popup-stroke) inset;
+            box-shadow: 
+                0 0 0 1px rgba(249, 115, 22, 0.15) inset,
+                0 8px 40px rgba(0, 0, 0, 0.4);
         }
     }
 

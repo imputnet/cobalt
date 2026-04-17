@@ -58,21 +58,25 @@
     }
 
     .switcher.big {
-        background: var(--button);
-        box-shadow: var(--button-box-shadow);
+        background: var(--glass-bg);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border-light);
+        box-shadow: var(--glass-shadow-light);
         padding: var(--switcher-padding);
         gap: calc(var(--switcher-padding) - 1.5px);
     }
 
     .switcher :global(.button.active) {
         pointer-events: none;
-        background: #22d3ee;
+        background: var(--gradient-orange);
         color: var(--primary);
-        box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+        border-color: transparent;
     }
 
     .switcher :global(.button.active:hover) {
-        background: #22d3ee;
+        background: var(--gradient-orange);
     }
 
     .switcher.big :global(.button) {

@@ -268,9 +268,9 @@
 
     .processing-item {
         width: 100%;
-        padding: 8px 0;
-        gap: 8px;
-        border-bottom: 1.5px var(--button-elevated) solid;
+        padding: 10px 0;
+        gap: 10px;
+        border-bottom: 1px var(--glass-border-light) solid;
     }
 
     .processing-type {
@@ -360,14 +360,16 @@
         .file-actions {
             position: absolute;
             right: 0;
-            background-color: var(--button);
+            background: linear-gradient(90deg, transparent, var(--glass-bg-medium) 20%);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             height: 90%;
             padding-left: 18px;
 
             transform: translateX(5px);
 
             opacity: 0;
-            transition: opacity 0.15s, transform 0.15s;
+            transition: opacity 0.2s ease, transform 0.2s ease;
 
             mask-image: linear-gradient(
                 90deg,
@@ -412,8 +414,15 @@
     .action-button {
         padding: 8px;
         height: auto;
+        background: var(--glass-bg-light);
+        border: 1px solid var(--glass-border-light);
         box-shadow: none;
-        transition: opacity 0.2s;
+        transition: all 0.2s ease;
+    }
+
+    .action-button:hover {
+        background: var(--button-hover);
+        border-color: rgba(249, 115, 22, 0.3);
     }
 
     .action-button :global(svg) {

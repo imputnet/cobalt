@@ -54,10 +54,14 @@
     }
 
     #sidebar {
-        background: var(--sidebar-bg);
+        background: var(--glass-bg);
+        backdrop-filter: var(--glass-blur-heavy);
+        -webkit-backdrop-filter: var(--glass-blur-heavy);
+        border-right: 1px solid var(--glass-border-light);
         height: 100vh;
         width: calc(var(--sidebar-width) + var(--sidebar-inner-padding) * 2);
         position: sticky;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
     }
 
     #sidebar-tabs {
@@ -84,6 +88,9 @@
             align-items: flex-start;
             z-index: 3;
             padding: var(--sidebar-inner-padding) 0;
+            border-right: none;
+            border-top: 1px solid var(--glass-border-light);
+            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
         }
 
         #sidebar::before {

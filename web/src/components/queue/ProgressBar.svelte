@@ -34,14 +34,15 @@
 <style>
     .file-progress {
         width: 100%;
-        background-color: var(--button-elevated);
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border-light);
     }
 
     .file-progress,
     .file-progress .progress {
         height: 6px;
         border-radius: 10px;
-        transition: width 0.1s;
+        transition: width 0.15s ease;
     }
 
     .file-progress :global(.indeterminate-progress) {
@@ -49,6 +50,7 @@
     }
 
     .file-progress .progress {
-        background-color: var(--blue);
+        background: var(--gradient-orange);
+        box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
     }
 </style>

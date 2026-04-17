@@ -72,6 +72,12 @@
         stroke: var(--gray);
         stroke-width: 2px;
         will-change: transform;
+        transition: stroke 0.25s ease;
+    }
+
+    .loading #input-icons :global(svg),
+    #input-icons.loading :global(svg) {
+        stroke: var(--orange);
     }
 
     .input-icon {

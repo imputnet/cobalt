@@ -200,11 +200,16 @@
 
         position: absolute;
         left: var(--back-padding);
+        border-radius: var(--border-radius);
+        transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+        color: var(--orange);
     }
 
     .back-button:active {
         background: var(--button-hover-transparent);
-        border-radius: var(--border-radius);
     }
 
     .back-button :global(svg) {
