@@ -5,11 +5,16 @@
         "pnpm": ">=9"
     },
     "dependencies": {
+        "@fontsource/ibm-plex-mono": "^5.2.7",
+        "@fontsource/redaction-10": "^5.2.5",
         "@sveltejs/adapter-static": "^3.0.10",
         "@sveltejs/kit": "^2.55.0",
+        "compare-versions": "^6.1.1",
         "dotenv": "^17.2.3",
         "mdsvex": "^0.12.6",
         "svelte-preprocess": "^6.0.3",
+        "sveltekit-i18n": "^2.4.2",
+        "ts-deepmerge": "^7.0.3",
         "vite": "^7.3.1"
     },
     "devDependencies": {
