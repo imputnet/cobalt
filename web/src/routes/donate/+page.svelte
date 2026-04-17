@@ -80,9 +80,9 @@
     }
 
     :global([data-theme="dark"]) #donate-page {
-        --donate-border-opacity: 0.05;
-        --donate-gradient-start: #111111;
-        --donate-gradient-end: #2a2a2a;
+        --donate-border-opacity: 0.08;
+        --donate-gradient-start: #0a0a0f;
+        --donate-gradient-end: #111118;
     }
 
     #support-options {

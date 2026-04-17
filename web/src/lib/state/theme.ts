@@ -43,11 +43,11 @@ export default derived(
 
 export const statusBarColors = {
     mobile: {
-        dark: "#000000",
-        light: "#ffffff"
+        dark: "#08080c",
+        light: "#08080c"
     },
     desktop: {
-        dark: "#131313",
-        light: "#f4f4f4"
+        dark: "#08080c",
+        light: "#08080c"
     }
 }

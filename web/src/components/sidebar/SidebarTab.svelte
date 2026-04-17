@@ -85,13 +85,14 @@
     }
 
     .sidebar-tab.active {
-        color: var(--sidebar-bg);
+        color: var(--primary);
         background: var(--sidebar-highlight);
         opacity: 1;
         transform: none;
         transition: none;
         animation: pressButton 0.3s;
         cursor: default;
+        box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
     }
 
     .sidebar-tab:not(.active):active {

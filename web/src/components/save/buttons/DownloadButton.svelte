@@ -82,9 +82,10 @@
         box-shadow: none;
         transform: none;
 
-        border-left: 1.5px var(--input-border) solid;
+        border-left: 1.5px rgba(34, 211, 238, 0.3) solid;
         border-top-right-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
+        color: #22d3ee;
     }
 
     #download-button:dir(rtl) {
@@ -92,7 +93,7 @@
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
 
-        border-right: 1.5px var(--input-border) solid;
+        border-right: 1.5px rgba(34, 211, 238, 0.3) solid;
         border-top-left-radius: var(--border-radius);
         border-bottom-left-radius: var(--border-radius);
 
@@ -118,12 +119,13 @@
     }
 
     :global(#input-container.focused) #download-button {
-        border-left: 2px var(--secondary) solid;
+        border-left: 2px #22d3ee solid;
+        color: #22d3ee;
     }
 
     :global(#input-container.focused) #download-button:dir(rtl) {
         border-left: 0;
-        border-right: 2px var(--secondary) solid;
+        border-right: 2px #22d3ee solid;
     }
 
     @media (hover: hover) {

@@ -26,13 +26,13 @@
                 path="/about/general"
                 title={$t("about.page.general")}
                 icon={IconComet}
-                iconColor="blue"
+                iconColor="cyan"
             />
             <PageNavTab
                 path="/about/community"
                 title={$t("about.page.community")}
                 icon={IconUsersGroup}
-                iconColor="purple"
+                iconColor="cyan"
             />
         </PageNavSection>
 
@@ -41,19 +41,19 @@
                 path="/about/privacy"
                 title={$t("about.page.privacy")}
                 icon={IconLock}
-                iconColor="blue"
+                iconColor="cyan"
             />
             <PageNavTab
                 path="/about/terms"
                 title={$t("about.page.terms")}
                 icon={IconChecklist}
-                iconColor="green"
+                iconColor="cyan"
             />
             <PageNavTab
                 path="/about/credits"
                 title={$t("about.page.credits")}
                 icon={IconHeartHandshake}
-                iconColor="magenta"
+                iconColor="cyan"
             />
         </PageNavSection>
     </svelte:fragment>

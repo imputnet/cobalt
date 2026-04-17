@@ -246,16 +246,18 @@
     #input-container {
         --input-padding: 10px;
         display: flex;
-        box-shadow: 0 0 0 1.5px var(--input-border) inset;
+        box-shadow: 0 0 0 1.5px rgba(34, 211, 238, 0.3) inset;
         /* webkit can't render the 1.5px box shadow properly,
            so we duplicate the border as outline to fix it visually */
-        outline: 1.5px solid var(--input-border);
+        outline: 1.5px solid rgba(34, 211, 238, 0.3);
         outline-offset: -1.5px;
         border-radius: var(--border-radius);
         align-items: center;
         gap: var(--input-padding);
         font-size: 14px;
         flex: 1;
+        background: var(--button);
+        transition: all 0.2s ease;
     }
 
     #input-container:not(.clear-visible) :global(#clear-button) {
@@ -284,8 +286,8 @@
     }
 
     #input-container.focused {
-        box-shadow: none;
-        outline: var(--secondary) 2px solid;
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        outline: #22d3ee 2px solid;
         outline-offset: -1px;
     }
 

@@ -1,9 +1,5 @@
-<script>
-    import IconCobalt from "$components/icons/Cobalt.svelte";
-</script>
-
 <div id="cobalt-logo">
-    <IconCobalt />
+    <img src="/abkdarrk-logo.png" alt="Abkdarrk-URL" />
 </div>
 
 <style>
@@ -11,14 +7,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: calc(var(--sidebar-tab-padding) * 2);
-
-        /* accommodate space for scaling animation */
-        padding-bottom: calc(var(--sidebar-tab-padding) * 2 - var(--sidebar-inner-padding));
+        padding: calc(var(--sidebar-tab-padding) * 1.5);
+        padding-bottom: calc(var(--sidebar-tab-padding) * 1.5 - var(--sidebar-inner-padding));
     }
 
-    #cobalt-logo :global(path) {
-        fill: var(--sidebar-highlight);
+    #cobalt-logo img {
+        width: 60px;
+        height: auto;
+        filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.4));
+        pointer-events: none;
     }
 
     @media screen and (max-width: 535px) {
