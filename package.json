@@ -5,6 +5,7 @@
         "pnpm": ">=9"
     },
     "dependencies": {
+        "@fontsource/ibm-plex-mono": "^5.2.7",
         "@sveltejs/adapter-static": "^3.0.10",
         "@sveltejs/kit": "^2.55.0",
         "dotenv": "^17.2.3",
