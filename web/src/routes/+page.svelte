@@ -2,6 +2,7 @@
     import { t } from "$lib/i18n/translations";
 
     import Omnibox from "$components/save/Omnibox.svelte";
+    import AnimatedVisualization from "$components/visualization/AnimatedVisualization.svelte";
 </script>
 
 <svelte:head>
@@ -19,6 +20,10 @@
             <img src="/abkdarrk-logo.png" alt="Abkdarrk-URL" id="brand-logo" />
             <h1 id="brand-title">Abkdarrk-URL</h1>
             <p id="brand-sub">{$t("general.embed.description")}</p>
+        </div>
+
+        <div id="visualization-wrapper">
+            <AnimatedVisualization />
         </div>
 
         <div id="input-wrapper">
@@ -49,8 +54,24 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        max-width: 680px;
+        max-width: 800px;
         gap: 28px;
+    }
+
+    /* visualization wrapper */
+    #visualization-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 20px;
+        margin-top: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+        #visualization-wrapper {
+            padding-right: 0;
+            justify-content: center;
+        }
     }
 
     /* brand block */
