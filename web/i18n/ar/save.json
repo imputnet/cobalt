@@ -1,0 +1,27 @@
+{
+    "paste": "لصق",
+    "paste.long": "لصق وتحميل",
+    "auto": "تلقائي",
+    "audio": "صوت",
+    "mute": "بدون صوت",
+    "input.placeholder": "الصق الرابط هنا",
+    "terms.note.agreement": "بالمتابعة، أنت توافق على",
+    "terms.note.link": "شروط الاستخدام والأخلاقيات",
+    "services.title": "الخدمات المدعومة",
+    "services.title_show": "إظهار الخدمات المدعومة",
+    "services.title_hide": "إخفاء الخدمات المدعومة",
+    "services.disclaimer": "دعم الخدمة لا يعني الانتماء أو الموافقة أو أي شكل من الدعم غير التوافق الفني.",
+
+    "tutorial.title": "كيفية الحفظ على iOS؟",
+    "tutorial.intro": "لحفظ الوسائط بسهولة على iOS، ستحتاج إلى استخدام اختصار Siri مصاحب من ورقة المشاركة.",
+    "tutorial.step.1": "أضف اختصارات Siri المصاحبة:",
+    "tutorial.step.2": "اضغط على زر \"مشاركة\" في حوار حفظ أبكدرك.",
+    "tutorial.step.3": "حدد الاختصار المناسب في ورقة المشاركة.",
+    "tutorial.outro": "هذه الاختصارات ستعمل فقط من تطبيق أبكدرك، مشاركة الروابط من تطبيقات أخرى لن تعمل.",
+    "tutorial.shortcut.photos": "إلى الصور",
+    "tutorial.shortcut.files": "إلى الملفات",
+
+    "label.community_instance": "نسخة المجتمع",
+
+    "tooltip.captcha": "Cloudflare Turnstile يتحقق من أنك لست روبوت، يرجى الانتظار!"
+}
