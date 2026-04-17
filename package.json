@@ -3,5 +3,11 @@
     "packageManager": "pnpm@9.6.0",
     "engines": {
         "pnpm": ">=9"
+    },
+    "dependencies": {
+        "@sveltejs/adapter-static": "^3.0.10",
+        "dotenv": "^17.2.3",
+        "mdsvex": "^0.12.6",
+        "svelte-preprocess": "^6.0.3"
     }
 }

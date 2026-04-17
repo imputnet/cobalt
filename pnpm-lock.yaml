@@ -6,7 +6,20 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      '@sveltejs/adapter-static':
+        specifier: ^3.0.10
+        version: 3.0.10(@sveltejs/kit@2.55.0(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.1)(vite@7.3.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)))(svelte@5.55.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)))
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.4.0
+      mdsvex:
+        specifier: ^0.12.6
+        version: 0.12.7(svelte@5.55.1)
+      svelte-preprocess:
+        specifier: ^6.0.3
+        version: 6.0.3(postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.8))(postcss@8.5.8)(svelte@5.55.1)(typescript@5.9.3)
 
   api:
     dependencies:
