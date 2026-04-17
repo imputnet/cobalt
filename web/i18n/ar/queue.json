@@ -1,0 +1,16 @@
+{
+    "title": "قائمة المعالجة",
+    "stub": "لا شيء هنا حتى الآن، نحن فقط اثنين.\nحاول تحميل شيء ما!",
+
+    "state.waiting": "في الانتظار",
+    "state.retrying": "إعادة المحاولة",
+    "state.starting": "جاري البدء",
+
+    "state.starting.fetch": "جاري بدء التحميل",
+    "state.starting.remux": "جاري بدء إعادة الضغط",
+    "state.starting.encode": "جاري بدء النسخ",
+
+    "state.running.remux": "إعادة الضغط",
+    "state.running.fetch": "جاري التحميل",
+    "state.running.encode": "جاري النسخ"
+}

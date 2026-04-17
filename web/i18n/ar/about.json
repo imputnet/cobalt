@@ -1,0 +1,33 @@
+{
+    "page.general": "ما هو أبكدرك؟",
+    "page.community": "المجتمع والدعم",
+    "page.privacy": "سياسة الخصوصية",
+    "page.terms": "الشروط والأخلاقيات",
+    "page.credits": "شكر وتراخيص",
+
+    "heading.general": "الشروط العامة",
+    "heading.licenses": "التراخيص",
+    "heading.summary": "أفضل طريقة لحفظ ما تحبه",
+    "heading.privacy_efficiency": "الخصوصية والكفاءة الرائدة",
+    "heading.community": "مجتمع مفتوح",
+    "heading.local": "معالجة محلية",
+    "heading.saving": "الحفظ",
+    "heading.encryption": "التشفير",
+    "heading.plausible": "تحليلات حركة المرور المجهولة",
+    "heading.cloudflare": "خصوصية وأمان الويب",
+    "heading.responsibility": "مسؤوليات المستخدم",
+    "heading.abuse": "الإبلاغ عن الإساءة",
+    "heading.motivation": "الحافز",
+    "heading.testers": "مختبرو بيتا",
+    "heading.partners": "الشركاء",
+
+    "support.github": "تحقق من كود أبكدرك المصدري، أو ساهم في التغييرات، أو أبلغ عن المشاكل",
+    "support.discord": "دردش مع المجتمع والمطورين حول أبكدرك أو اطلب المساعدة",
+    "support.twitter": "تابع تحديثات وتطور أبكدرك في خط الزمن على تويتر",
+    "support.telegram": "ابقَ على اطلاع بأحدث تحديثات أبكدرك عبر قناة تيليجرام",
+    "support.bluesky": "تابع تحديثات وتطور أبكدرك على موجز بلوسكاي الخاص بك",
+
+    "support.description.issue": "إذا كنت تريد الإبلاغ عن خلل أو مشكلة متكررة أخرى، يرجى القيام بذلك على جيثاب.",
+    "support.description.help": "استخدم ديسكورد لأي أسئلة أخرى. صف المشكلة بشكل صحيح في #cobalt-support وإلا لن يتمكن أحد من مساعدتك.",
+    "support.description.best-effort": "جميع الدعم بأفضل جهد وليس مضمونًا، قد يستغرق الرد بعض الوقت."
+}
