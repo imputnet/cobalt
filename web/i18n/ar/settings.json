@@ -1,0 +1,61 @@
+{
+    "page.appearance": "المظهر",
+    "page.privacy": "الخصوصية",
+    "page.video": "الفيديو",
+    "page.audio": "الصوت",
+    "page.metadata": "البيانات الوصفية",
+    "page.advanced": "متقدم",
+    "page.debug": "معلومات للمحترفين",
+    "page.instances": "المثيلات",
+    "page.local": "المعالجة المحلية",
+    "page.accessibility": "إمكانية الوصول",
+
+    "theme": "المظهر",
+    "theme.auto": "تلقائي",
+    "theme.light": "فاتح",
+    "theme.dark": "داكن",
+    "theme.description": "يتبديل المظهر التلقائي بين المظهر الفاتح والداكن حسب وضع العرض على جهازك.",
+
+    "video.quality": "جودة الفيديو",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+
+    "audio.format": "صيغة الصوت",
+    "audio.format.best": "الأفضل",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+
+    "audio.bitrate": "معدل البت للصوت",
+    "audio.bitrate.kbps": "كيلوبايت/ثانية",
+
+    "subtitles": "الترجمات",
+    "subtitles.none": "بدون",
+
+    "language": "اللغة",
+    "language.auto.title": "اختيار تلقائي",
+    "language.auto.description": "سيستخدم أبكدرك لغة المتصفح الافتراضية إذا كانت الترجمة متاحة. وإلا، سيتم استخدام الإنجليزية.",
+
+    "saving.title": "طريقة الحفظ",
+    "saving.ask": "اسأل",
+    "saving.download": "تحميل",
+    "saving.share": "مشاركة",
+    "saving.copy": "نسخ",
+
+    "accessibility.visual": "بصري",
+    "accessibility.haptics": "التحس",
+    "accessibility.behavior": "السلوك",
+
+    "accessibility.transparency.title": "تقليل الشفافية البصرية",
+    "accessibility.motion.title": "تقليل الحركة",
+    "accessibility.haptics.title": "تعطيل التحس",
+    "accessibility.auto_queue.title": "عدم فتح قائمة الانتظار تلقائيًا"
+}

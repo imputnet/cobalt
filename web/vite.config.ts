@@ -3,7 +3,6 @@ import basicSSL from "@vitejs/plugin-basic-ssl";
 
 import { glob } from "glob";
 import { sveltekit } from "@sveltejs/kit/vite";
-import { createSitemap } from "svelte-sitemap/src/index";
 import { defineConfig, searchForWorkspaceRoot, type PluginOption } from "vite";
 
 import { join, basename } from "node:path";
@@ -68,12 +67,7 @@ const generateSitemap: PluginOption = {
         if (!process.env.WEB_HOST || !bundle.dir?.endsWith('server')) {
             return;
         }
-
-        await createSitemap(`https://${process.env.WEB_HOST}`, {
-            changeFreq: 'monthly',
-            outDir: '.svelte-kit/output/prerendered/pages',
-            resetTime: true
-        });
+        // Sitemap generation disabled for now
     }
 }
 

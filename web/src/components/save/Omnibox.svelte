@@ -198,33 +198,6 @@
     </div>
 
     <div id="action-container">
-        <Switcher>
-            <SettingsButton
-                settingContext="save"
-                settingId="downloadMode"
-                settingValue="auto"
-            >
-                <IconSparkles />
-                {$t("save.auto")}
-            </SettingsButton>
-            <SettingsButton
-                settingContext="save"
-                settingId="downloadMode"
-                settingValue="audio"
-            >
-                <IconMusic />
-                {$t("save.audio")}
-            </SettingsButton>
-            <SettingsButton
-                settingContext="save"
-                settingId="downloadMode"
-                settingValue="mute"
-            >
-                <IconMute />
-                {$t("save.mute")}
-            </SettingsButton>
-        </Switcher>
-
         <ActionButton id="paste" click={pasteClipboard}>
             <IconClipboard />
             <span id="paste-desktop-text">{$t("save.paste")}</span>
@@ -237,9 +210,9 @@
     #omnibox {
         display: flex;
         flex-direction: column;
-        max-width: 640px;
+        max-width: 100%;
         width: 100%;
-        gap: 8px;
+        gap: 10px;
         position: relative;
     }
 
@@ -348,7 +321,7 @@
     #action-container {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
 
     #paste-mobile-text {

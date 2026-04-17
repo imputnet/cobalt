@@ -6,8 +6,17 @@
     },
     "dependencies": {
         "@sveltejs/adapter-static": "^3.0.10",
+        "@sveltejs/kit": "^2.55.0",
         "dotenv": "^17.2.3",
         "mdsvex": "^0.12.6",
-        "svelte-preprocess": "^6.0.3"
+        "svelte-preprocess": "^6.0.3",
+        "vite": "^7.3.1"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-basic-ssl": "^2.3.0",
+        "glob": "^13.0.6",
+        "mime": "^4.1.0",
+        "svelte-sitemap": "^3.1.0",
+        "typescript": "^5.9.3"
     }
 }
