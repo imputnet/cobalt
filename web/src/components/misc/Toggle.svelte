@@ -39,6 +39,7 @@
 
     .toggle.enabled {
         background: var(--toggle-bg-enabled);
+        box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
     }
 
     .toggle.enabled .toggle-switcher {

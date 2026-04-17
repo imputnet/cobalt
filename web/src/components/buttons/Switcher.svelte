@@ -66,10 +66,13 @@
 
     .switcher :global(.button.active) {
         pointer-events: none;
+        background: #22d3ee;
+        color: var(--primary);
+        box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
     }
 
     .switcher :global(.button.active:hover) {
-        background: var(--secondary);
+        background: #22d3ee;
     }
 
     .switcher.big :global(.button) {

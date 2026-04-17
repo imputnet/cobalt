@@ -6,7 +6,7 @@
     export let path: string;
     export let title: string;
     export let icon: ConstructorOfATypedSvelteComponent;
-    export let iconColor: "gray" | "blue" | "green" | "magenta" | "purple" | "orange" = "gray";
+    export let iconColor: "gray" | "blue" | "green" | "magenta" | "purple" | "orange" | "cyan" = "gray";
 
     $: isActive = $page.url.pathname === path;
 </script>
@@ -113,9 +113,10 @@
     }
 
     .subnav-tab.active {
-        background: var(--secondary);
+        background: #22d3ee;
         color: var(--primary);
         cursor: default;
+        box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
     }
 
     .subnav-tab-text {
