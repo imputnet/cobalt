@@ -1,0 +1,319 @@
+# Instincts generated from https://github.com/Abdullakala/cobalt
+# Generated: 2026-04-17T13:29:50.681Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: cobalt-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/Abdullakala/cobalt
+---
+
+# Cobalt Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat
+
+## Evidence
+
+- 2 commits analyzed
+- Detected conventional commit pattern
+- Examples: feat: update branding and redesign UI with cyan/turquoise theme, feat: add systematic diagnostics and summary reports
+
+---
+id: cobalt-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/Abdullakala/cobalt
+---
+
+# Cobalt Commit Length
+
+## Action
+
+Write moderate-length commit messages (~58 characters)
+
+## Evidence
+
+- Average commit message length: 58 chars
+- Based on 2 commits
+
+---
+id: cobalt-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Abdullakala/cobalt
+---
+
+# Cobalt Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: cobalt-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Abdullakala/cobalt
+---
+
+# Cobalt Export Style
+
+## Action
+
+Prefer default exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: default
+
+---
+id: cobalt-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/Abdullakala/cobalt
+---
+
+# Cobalt Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: 
+
+---
+id: cobalt-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/Abdullakala/cobalt
+---
+
+# Cobalt Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: cobalt-instinct-file-naming
+trigger: "When creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct File Naming
+
+## Action
+
+Name the file using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.files
+
+---
+id: cobalt-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Function Naming
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions
+
+---
+id: cobalt-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes
+
+---
+id: cobalt-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants
+
+---
+id: cobalt-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Import Style
+
+## Action
+
+Use absolute import paths
+
+## Evidence
+
+- Pattern in importStyle
+
+---
+id: cobalt-instinct-export-style
+trigger: "When exporting modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Export Style
+
+## Action
+
+Use default exports
+
+## Evidence
+
+- Pattern in exportStyle
+
+---
+id: cobalt-instinct-commit-format
+trigger: "When writing a commit message for a new feature"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Commit Format
+
+## Action
+
+Start the commit message with 'feat:' followed by a concise description
+
+## Evidence
+
+- Seen in commit: feat: update branding and redesign UI with cyan/turquoise theme
+- Seen in commit: feat: add systematic diagnostics and summary reports
+- Pattern in commits.prefixes
+
+---
+id: cobalt-instinct-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Commit Length
+
+## Action
+
+Keep the commit message around 58 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength
+
+---
+id: cobalt-instinct-test-location
+trigger: "When adding new tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from source files
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+
+---
+id: cobalt-instinct-module-organization
+trigger: "When organizing code modules"
+confidence: 0.7
+domain: architecture
+source: repo-analysis
+source_repo: Abdullakala/cobalt
+---
+
+# Cobalt Instinct Module Organization
+
+## Action
+
+Group modules by type
+
+## Evidence
+
+- Pattern in architecture.moduleOrganization
+
