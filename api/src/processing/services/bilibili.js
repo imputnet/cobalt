@@ -17,6 +17,40 @@ function extractBestQuality(dashData) {
     return [ bestVideo, bestAudio ];
 }
 
+function extractStreamDataFromHTML(html) {
+    const rawStreamData = html.split('<script>window.__playinfo__=')[1]?.split('</script>')[0];
+    if (!rawStreamData) return;
+
+    const data = JSON.parse(rawStreamData);
+    if (data.code !== 0) return;
+
+    return data; 
+}
+
+async function fetchStreamDataFromAPI(html) {
+    // initial state has required aid and cid (bvid doesn't seem to be required)
+    const initialStateHtml = html.split('<script>window.__INITIAL_STATE__=')[1]?.split(';(function()')[0];
+    if (!initialStateHtml) return;
+    const { aid, bvid, cid } = JSON.parse(initialStateHtml);
+    
+    const params = new URLSearchParams({
+        aid,
+        bvid,
+        cid,
+        fnval: 4048, // unlocks higher qualities
+    })
+
+    const playinfo = await fetch(`https://api.bilibili.com/x/player/wbi/playurl?${params.toString()}`, {
+        headers: {
+            "referer": `https://www.bilibili.com/video/${bvid}/`,
+            "user-agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)"
+        }
+    }).then(r => r.json()).catch(() => {});
+    if (!playinfo || playinfo.code !== 0) return;
+    
+    return playinfo;
+}
+
 async function com_download(id, partId) {
     const url = new URL(`https://bilibili.com/video/${id}`);
 
@@ -36,13 +70,12 @@ async function com_download(id, partId) {
         return { error: "fetch.fail" }
     }
 
-    if (!(html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"'))) {
+    let streamData = extractStreamDataFromHTML(html)
+        ?? await fetchStreamDataFromAPI(html);
+
+    if (!streamData) {
         return { error: "fetch.empty" };
     }
-
-    const streamData = JSON.parse(
-        html.split('<script>window.__playinfo__=')[1].split('</script>')[0]
-    );
 
     if (streamData.data.timelength > env.durationLimit * 1000) {
         return { error: "content.too_long" };
