@@ -8,6 +8,7 @@ import { setGlobalDispatcher, EnvHttpProxyAgent, ProxyAgent } from "undici";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 
 import { services } from "../processing/service-config.js";
+import { setupTunnelHandler } from "../core/itunnel.js";
 
 const getTestPath = service => path.join('./src/util/tests/', `./${service}.json`);
 const getTests = (service) => loadJSON(getTestPath(service));
@@ -78,6 +79,8 @@ env.streamLifespan = 10000;
 env.apiURL = 'http://x/';
 randomizeCiphers();
 
+await setupTunnelHandler();
+
 const action = process.argv[2];
 switch (action) {
     case "get-services":
@@ -134,3 +137,5 @@ switch (action) {
             if (fails) console.log(`${Bright(service)} fails: ${fails}`);
         }
 }
+
+process.exit(process.exitCode ?? 0);

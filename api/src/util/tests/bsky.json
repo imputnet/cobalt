@@ -76,6 +76,16 @@
         }
     },
     {
+        "name": "video-only HLS (gif-presentation)",
+        "url": "https://bsky.app/profile/yungkhan.bsky.social/post/3mkt7ph5z3s2z",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel",
+            "minBytes": 1024
+        }
+    },
+    {
         "name": "several images",
         "url": "https://bsky.app/profile/did:plc:rai7s6su2sy22ss7skouedl7/post/3kzxuxbiul626",
         "params": {},

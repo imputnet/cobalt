@@ -49,13 +49,16 @@ export const setupTunnelHandler = () => {
     tunnelHandler.use((_, __, res, ____) => res.socket.end());
 
 
-    const server = tunnelHandler.listen({
-        port: 0,
-        host: '127.0.0.1',
-        exclusive: true
-    }, () => {
-        const { port } = server.address();
-        console.log(`${Green('[✓]')} internal tunnel handler running on 127.0.0.1:${port}`);
-        setTunnelPort(port);
+    return new Promise((resolve) => {
+        const server = tunnelHandler.listen({
+            port: 0,
+            host: '127.0.0.1',
+            exclusive: true
+        }, () => {
+            const { port } = server.address();
+            console.log(`${Green('[✓]')} internal tunnel handler running on 127.0.0.1:${port}`);
+            setTunnelPort(port);
+            resolve(server);
+        });
     });
 }
