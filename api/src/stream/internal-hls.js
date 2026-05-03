@@ -73,6 +73,8 @@ export async function handleHlsPlaylist(streamInfo, req, res) {
 
     hlsPlaylist = HLS.stringify(hlsPlaylist);
 
+    // itunnel URLs have no .m3u8 extension, so ffmpeg can't detect HLS unless we set the MIME type
+    res.setHeader('content-type', 'application/vnd.apple.mpegurl');
     res.send(hlsPlaylist);
 }
 
