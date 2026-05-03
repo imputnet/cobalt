@@ -79,7 +79,8 @@ env.streamLifespan = 10000;
 env.apiURL = 'http://x/';
 randomizeCiphers();
 
-await setupTunnelHandler();
+const tunnelServer = await setupTunnelHandler();
+tunnelServer.unref();
 
 const action = process.argv[2];
 switch (action) {
@@ -137,5 +138,3 @@ switch (action) {
             if (fails) console.log(`${Bright(service)} fails: ${fails}`);
         }
 }
-
-process.exit(process.exitCode ?? 0);
