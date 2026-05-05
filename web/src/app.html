@@ -3,18 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
-        <meta name="application-name" content="cobalt">
-        <meta name="og:type" content="article">
-        <meta name="twitter:card" content="summary">
+        <meta name="application-name" content="SnapSave">
+        <meta name="og:type" content="website">
+        <meta property="og:site_name" content="SnapSave">
+        <meta name="twitter:card" content="summary_large_image">
 
         %sveltekit.head%
 
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-title" content="cobalt">
+        <meta name="apple-mobile-web-app-title" content="SnapSave">
 
         <meta name="darkreader-lock">
-        <meta name="color-scheme" content="only light">
+        <meta name="color-scheme" content="dark light">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <link rel="icon" href="%sveltekit.assets%/favicon.png">
         <link rel="apple-touch-icon" sizes="180x180" href="%sveltekit.assets%/icons/apple-touch-icon.png">
@@ -30,16 +35,16 @@
 
         <style>
             body, #body-dark {
-                background-color: black;
+                background-color: #0B0F19;
             }
 
             #body-light {
-                background-color: white;
+                background-color: #F0F4FF;
             }
 
             @media (prefers-color-scheme: light) {
                 body {
-                    background-color: white;
+                    background-color: #F0F4FF;
                 }
             }
 

@@ -108,7 +108,7 @@
         class="donate-card-subtitle share-footer-link"
         class:centered={expanded}
     >
-        cobalt.tools
+        snapssave.com
     </div>
 </DonateCardContainer>
 

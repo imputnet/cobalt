@@ -16,14 +16,14 @@
     "unreachable": "couldn't connect to the processing instance. check your internet connection and try again!",
     "timed_out": "the processing instance took too long to respond. it may be overwhelmed at the moment, try again in a few seconds!",
     "rate_exceeded": "you're making too many requests. try again in {{ limit }} seconds.",
-    "capacity": "cobalt is at capacity and can't process your request at the moment. try again in a few seconds!",
+    "capacity": "SnapSave is at capacity and can't process your request at the moment. try again in a few seconds!",
 
     "generic": "something went wrong and i couldn't get anything for you, try again in a few seconds. if the issue sticks, please report it!",
     "unknown_response": "couldn't read the response from the processing instance. this is probably caused by the web app being out of date. reload the app and try again!",
     "invalid_body": "couldn't send the request to the processing instance. this is probably caused by the web app being out of date. reload the app and try again!",
 
     "service.unsupported": "this service is not supported yet. have you pasted the right link?",
-    "service.disabled": "this service is generally supported by cobalt, but it's disabled on this processing instance. try a link from another service!",
+    "service.disabled": "this service is generally supported by SnapSave, but it's disabled on this processing instance. try a link from another service!",
     "service.audio_not_supported": "this service doesn't support audio extraction. try a link from another service!",
 
     "link.invalid": "your link is invalid or this service is not supported yet. have you pasted the right link?",
@@ -45,13 +45,13 @@
     "content.video.region": "this video is region locked, and the processing instance is in a different location. try a different link!",
 
     "content.region": "this content is region locked, and the processing instance is in a different location. try a different link!",
-    "content.paid": "this content requires purchase. cobalt can't download paid content. try a different link!",
+    "content.paid": "this content requires purchase. SnapSave can't download paid content. try a different link!",
 
     "content.post.unavailable": "couldn't find anything about this post. its visibility may be limited or it may not exist. make sure your link works and try again in a few seconds!",
     "content.post.private": "couldn't get anything about this post because it's from a private account. try a different link!",
     "content.post.age": "this post is age-restricted, so i can't access it anonymously. try again or try a different link!",
 
-    "youtube.no_matching_format": "youtube didn't return any acceptable formats. cobalt may not support them or they're re-encoding on youtube's side. try again a bit later, but if this issue sticks, please report it!",
+    "youtube.no_matching_format": "youtube didn't return any acceptable formats. SnapSave may not support them or they're re-encoding on youtube's side. try again a bit later, but if this issue sticks, please report it!",
     "youtube.decipher": "youtube updated its decipher algorithm and i couldn't extract the info about the video. try again in a few seconds, but if this issue sticks, please report it!",
     "youtube.login": "couldn't get this video because youtube asked the processing instance to prove that it's not a bot. try again in a few seconds, but if it still doesn't work, please report this issue!",
     "youtube.token_expired": "couldn't get this video because the youtube token expired and wasn't refreshed. try again in a few seconds, but if it still doesn't work, please report this issue!",

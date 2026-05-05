@@ -1,6 +1,7 @@
 {
-    "name": "cobalt",
-    "short_name": "cobalt",
+    "name": "SnapSave",
+    "short_name": "SnapSave",
+    "description": "Download videos from Instagram, TikTok, YouTube and more instantly.",
     "start_url": "/",
     "icons": [
         {
@@ -71,7 +72,7 @@
             "url": "u"
         }
     },
-    "theme_color": "#000000",
-    "background_color": "#000000",
+    "theme_color": "#0B0F19",
+    "background_color": "#0B0F19",
     "display": "standalone"
 }

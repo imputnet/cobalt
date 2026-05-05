@@ -9,7 +9,7 @@ const defaultSettings: CobaltSettings = {
         useWebCodecs: false,
     },
     appearance: {
-        theme: "auto",
+        theme: "dark",
         language: defaultLocale,
         autoLanguage: true,
         hideRemuxTab: false,

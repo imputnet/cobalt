@@ -2,10 +2,6 @@
     import "../app.css";
     import "../fonts/noto-mono-cobalt.css";
 
-    import "@fontsource/ibm-plex-mono/400.css";
-    import "@fontsource/ibm-plex-mono/400-italic.css";
-    import "@fontsource/ibm-plex-mono/500.css";
-
     import { onMount } from "svelte";
     import { page } from "$app/stores";
     import { updated } from "$app/stores";
@@ -59,6 +55,9 @@
 <svelte:head>
     <meta name="description" content={$t("general.embed.description")} />
     <meta property="og:description" content={$t("general.embed.description")} />
+    <meta name="twitter:description" content={$t("general.embed.description")} />
+    <meta property="og:image" content="https://snapssave.com/og-image.png" />
+    <meta name="twitter:image" content="https://snapssave.com/og-image.png" />
 
     {#if env.HOST}
         <meta
@@ -182,10 +181,10 @@
     }
 
     @media screen and (max-width: 535px) {
-        /* dark navbar cuz it looks better on mobile */
+        /* dark navbar on mobile for brand consistency */
         :global([data-theme="light"]) {
-            --sidebar-bg: #000000;
-            --sidebar-highlight: var(--primary);
+            --sidebar-bg: #0B0F19;
+            --sidebar-highlight: #3B82F6;
         }
 
         #cobalt {

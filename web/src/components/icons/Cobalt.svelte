@@ -1,4 +1,12 @@
-<svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 15.6363L0 12.8594L9.47552 8.293L0 3.14038L0 0.363525L12.8575 7.4908V9.21862L0 15.6363Z" fill="white"/>
-    <path d="M11.1425 15.6363V12.8594L20.6181 8.293L11.1425 3.14038V0.363525L24 7.4908V9.21862L11.1425 15.6363Z" fill="white"/>
+<!-- SnapSave brand icon: gradient square with download arrow -->
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="30" height="30" rx="8" fill="url(#ss-grad)"/>
+    <path d="M15 7v11M11 14l4 4 4-4M8 22h14"
+          stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <defs>
+        <linearGradient id="ss-grad" x1="0" y1="0" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3B82F6"/>
+            <stop offset="1" stop-color="#6366F1"/>
+        </linearGradient>
+    </defs>
 </svg>

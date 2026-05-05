@@ -1,59 +1,60 @@
 :root {
-    --primary: #ffffff;
-    --secondary: #000000;
+    /* SnapSave Light Theme */
+    --primary: #F0F4FF;
+    --secondary: #0F172A;
 
     --white: #ffffff;
-    --gray: #75757e;
+    --gray: #6B7280;
 
-    --red: #ed2236;
-    --medium-red: #ce3030;
-    --dark-red: #d61c2e;
-    --green: #30bd1b;
-    --blue: #2f8af9;
-    --magenta: #eb445a;
-    --purple: #5857d4;
-    --orange: #f19a38;
+    --red: #DC2626;
+    --medium-red: #B91C1C;
+    --dark-red: #991B1B;
+    --green: #16A34A;
+    --blue: #2563EB;
+    --magenta: #DB2777;
+    --purple: #4F46E5;
+    --orange: #D97706;
 
     --focus-ring: solid 2px var(--blue);
     --focus-ring-offset: -2px;
 
-    --button: #f4f4f4;
-    --button-hover: #ededed;
-    --button-press: #e8e8e8;
-    --button-active-hover: #2a2a2a;
+    --button: #E2E8F8;
+    --button-hover: #D5DDEF;
+    --button-press: #C9D4E8;
+    --button-active-hover: #1E293B;
 
-    --button-hover-transparent: rgba(0, 0, 0, 0.06);
-    --button-press-transparent: rgba(0, 0, 0, 0.09);
-    --button-stroke: rgba(0, 0, 0, 0.06);
-    --button-text: #282828;
+    --button-hover-transparent: rgba(15, 23, 42, 0.06);
+    --button-press-transparent: rgba(15, 23, 42, 0.1);
+    --button-stroke: rgba(15, 23, 42, 0.08);
+    --button-text: #1E293B;
     --button-box-shadow: 0 0 0 1px var(--button-stroke) inset;
 
-    --button-elevated: #e3e3e3;
-    --button-elevated-hover: #dadada;
-    --button-elevated-press: #d3d3d3;
-    --button-elevated-shimmer: #ededed;
+    --button-elevated: #D1DCF0;
+    --button-elevated-hover: #C4D2EA;
+    --button-elevated-press: #B8C8E2;
+    --button-elevated-shimmer: #DCE6F5;
 
-    --popover-glow: var(--button-stroke);
+    --popover-glow: rgba(37, 99, 235, 0.1);
 
-    --popup-bg: #f1f1f1;
-    --popup-stroke: rgba(0, 0, 0, 0.08);
+    --popup-bg: #EBF0FC;
+    --popup-stroke: rgba(15, 23, 42, 0.08);
 
-    --dialog-backdrop: rgba(255, 255, 255, 0.3);
+    --dialog-backdrop: rgba(240, 244, 255, 0.4);
 
-    --sidebar-bg: var(--button);
-    --sidebar-highlight: var(--secondary);
-    --sidebar-stroke: rgba(0, 0, 0, 0.04);
+    --sidebar-bg: #E2E8F8;
+    --sidebar-highlight: #2563EB;
+    --sidebar-stroke: rgba(15, 23, 42, 0.05);
 
-    --content-border: rgba(0, 0, 0, 0.03);
+    --content-border: rgba(15, 23, 42, 0.04);
     --content-border-thickness: 1px;
 
-    --input-border: #adadb7;
+    --input-border: #94A3B8;
 
     --toggle-bg: var(--input-border);
-    --toggle-bg-enabled: var(--secondary);
+    --toggle-bg-enabled: #2563EB;
 
     --padding: 12px;
-    --border-radius: 11px;
+    --border-radius: 12px;
 
     --sidebar-width: 80px;
     --sidebar-font-size: 11px;
@@ -77,11 +78,10 @@
     /* used for fading the tab bar on scroll */
     --sidebar-mobile-gradient: linear-gradient(
         90deg,
-        rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0) 5%,
-        rgba(0, 0, 0, 0) 50%,
-        rgba(0, 0, 0, 0) 95%,
-        rgba(0, 0, 0, 0.9) 100%
+        rgba(226, 232, 248, 0.95) 0%,
+        rgba(226, 232, 248, 0) 5%,
+        rgba(226, 232, 248, 0) 95%,
+        rgba(226, 232, 248, 0.95) 100%
     );
 
     --skeleton-gradient: linear-gradient(
@@ -100,61 +100,63 @@
 }
 
 [data-theme="dark"] {
-    --primary: #000000;
-    --secondary: #e1e1e1;
+    /* SnapSave Dark Theme */
+    --primary: #0B0F19;
+    --secondary: #F9FAFB;
 
-    --gray: #818181;
+    --gray: #9CA3AF;
 
-    --blue: #2a7ce1;
-    --green: #37aa42;
+    --blue: #3B82F6;
+    --green: #22C55E;
+    --purple: #6366F1;
 
-    --button: #191919;
-    --button-hover: #242424;
-    --button-press: #2a2a2a;
+    --button: #1F2937;
+    --button-hover: #273548;
+    --button-press: #2D3D55;
 
-    --button-active-hover: #f9f9f9;
+    --button-active-hover: #F9FAFB;
 
-    --button-hover-transparent: rgba(225, 225, 225, 0.1);
-    --button-press-transparent: rgba(225, 225, 225, 0.15);
-    --button-stroke: rgba(255, 255, 255, 0.05);
-    --button-text: #e1e1e1;
+    --button-hover-transparent: rgba(249, 250, 251, 0.07);
+    --button-press-transparent: rgba(249, 250, 251, 0.11);
+    --button-stroke: rgba(255, 255, 255, 0.07);
+    --button-text: #F9FAFB;
     --button-box-shadow: 0 0 0 1px var(--button-stroke) inset;
 
-    --button-elevated: #282828;
-    --button-elevated-hover: #2f2f2f;
-    --button-elevated-press: #343434;
+    --button-elevated: #243349;
+    --button-elevated-hover: #2A3C57;
+    --button-elevated-press: #304462;
+    --button-elevated-shimmer: #2E3F5C;
 
-    --popover-glow: rgba(135, 135, 135, 0.12);
+    --popover-glow: rgba(59, 130, 246, 0.15);
 
-    --popup-bg: #191919;
+    --popup-bg: #111827;
     --popup-stroke: rgba(255, 255, 255, 0.08);
 
-    --dialog-backdrop: rgba(0, 0, 0, 0.3);
+    --dialog-backdrop: rgba(0, 0, 0, 0.55);
 
-    --sidebar-bg: #131313;
-    --sidebar-highlight: var(--secondary);
-    --sidebar-stroke: rgba(255, 255, 255, 0.04);
+    --sidebar-bg: #111827;
+    --sidebar-highlight: #3B82F6;
+    --sidebar-stroke: rgba(255, 255, 255, 0.05);
 
-    --content-border: rgba(255, 255, 255, 0.045);
+    --content-border: rgba(255, 255, 255, 0.05);
 
-    --input-border: #383838;
+    --input-border: #374151;
 
-    --toggle-bg: var(--input-border);
-    --toggle-bg-enabled: #8a8a8a;
+    --toggle-bg: #374151;
+    --toggle-bg-enabled: #3B82F6;
 
     --sidebar-mobile-gradient: linear-gradient(
         90deg,
-        rgba(19, 19, 19, 0.9) 0%,
-        rgba(19, 19, 19, 0) 5%,
-        rgba(19, 19, 19, 0) 50%,
-        rgba(19, 19, 19, 0) 95%,
-        rgba(19, 19, 19, 0.9) 100%
+        rgba(17, 24, 39, 0.95) 0%,
+        rgba(17, 24, 39, 0) 5%,
+        rgba(17, 24, 39, 0) 95%,
+        rgba(17, 24, 39, 0.95) 100%
     );
 
     --skeleton-gradient: linear-gradient(
         90deg,
         var(--button),
-        var(--button-hover),
+        var(--button-elevated),
         var(--button)
     );
 
@@ -188,7 +190,7 @@ body {
 }
 
 * {
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     user-select: none;
     scrollbar-width: none;
     -webkit-user-select: none;
@@ -366,7 +368,7 @@ h6 {
 .long-text *:not(h1, h2, h3, h4, h5, h6) {
     line-height: 1.8;
     font-size: 14.5px;
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "Inter", system-ui, sans-serif;
     user-select: text;
     -webkit-user-select: text;
 }

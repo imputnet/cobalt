@@ -12,7 +12,7 @@
     sectionId="imput"
 />
 
-cobalt is made with love and care by [imput](https://imput.net/) ❤️
+SnapSave is made with love and care by [imput](https://imput.net/) ❤️
 
 we're a small team of two guys, but we work really hard to make great software that benefits everyone.
 if you like our work, please consider supporting it on the [donate page](/donate)!
@@ -25,7 +25,7 @@ if you like our work, please consider supporting it on the [donate page](/donate
 />
 
 huge shout-out to our testers for testing updates early and making sure they're stable.
-they also helped us ship cobalt 10!
+they also helped us ship SnapSave 10!
 <BetaTesters />
 
 all links are external and lead to their personal websites or social media.
@@ -37,7 +37,7 @@ all links are external and lead to their personal websites or social media.
     sectionId="partners"
 />
 
-a portion of cobalt's processing infrastructure
+a portion of SnapSave's processing infrastructure
 is provided by our long-standing partner, [royalehosting.net]({partners.royalehosting})!
 </section>
 
@@ -47,9 +47,9 @@ is provided by our long-standing partner, [royalehosting.net]({partners.royaleho
     sectionId="meowbalt"
 />
 
-meowbalt is cobalt's speedy mascot, a very expressive cat who loves fast internet.
+meowbalt is SnapSave's speedy mascot, a very expressive cat who loves fast internet.
 
-all amazing art of meowbalt that you see in cobalt
+all amazing art of meowbalt that you see in SnapSave
 was made by [GlitchyPSI](https://glitchypsi.xyz/).
 he's also the original creator of the character.
 
@@ -72,9 +72,9 @@ if you create fan art of meowbalt, please share it in
     sectionId="licenses"
 />
 
-cobalt api (processing server) code is open source and licensed under [AGPL-3.0]({docs.apiLicense}).
+SnapSave api (processing server) code is open source and licensed under [AGPL-3.0]({docs.apiLicense}).
 
-cobalt frontend code is [source first](https://sourcefirst.com/) and is licensed under [CC-BY-NC-SA 4.0]({docs.webLicense}).
+SnapSave frontend code is [source first](https://sourcefirst.com/) and is licensed under [CC-BY-NC-SA 4.0]({docs.webLicense}).
 
 we had to make frontend source first to stop grifters from profiting off our work
 & from creating malicious clones that deceive people and hurt our public identity.
