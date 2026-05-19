@@ -103,6 +103,7 @@ export default function({
                 case "twitter":
                 case "snapchat":
                 case "bsky":
+                case "threads":
                     params = { picker: r.picker };
                     break;
 
@@ -190,6 +191,7 @@ export default function({
                 case "streamable":
                 case "snapchat":
                 case "twitch":
+                case "threads":
                     responseType = "redirect";
                     break;
             }
