@@ -143,6 +143,13 @@ export const services = {
             "s/:id"
         ],
     },
+    threads: {
+        patterns: [
+            "@:user/post/:postId",
+            "@:user/post/:postId/media"
+        ],
+        altDomains: ["threads.net"],
+    },
     tiktok: {
         patterns: [
             ":user/video/:postId",
