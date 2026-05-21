@@ -1,0 +1,126 @@
+[
+    {
+        "name": "single video post",
+        "url": "https://www.threads.com/@mds/post/DObJvDoDkQI",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "single video post (with /media suffix)",
+        "url": "https://www.threads.com/@threads/post/C04KN6fODek/media",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "single photo post",
+        "url": "https://www.threads.com/@mosseri/post/DDupwppSjcp",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "GIF post",
+        "url": "https://www.threads.com/@sabrina_lugara/post/C1ChyVKLzna",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video post, audio only",
+        "url": "https://www.threads.com/@mds/post/DObJvDoDkQI",
+        "canFail": true,
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video post, muted",
+        "url": "https://www.threads.com/@mds/post/DObJvDoDkQI",
+        "canFail": true,
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "threads.net domain link",
+        "url": "https://www.threads.net/@mds/post/DObJvDoDkQI",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video post with tracking query",
+        "url": "https://www.threads.com/@mds/post/DObJvDoDkQI?xmt=AQF0blabla",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "reshare ('use media') — video lives under quoted_attachment_post",
+        "url": "https://www.threads.com/@tahitinui_sovereignty/post/DYkLxYWjbnR",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "repost — video lives under linked_inline_media",
+        "url": "https://www.threads.com/@collinrealestateri/post/DYYEwRSD53Z",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "non-existent post",
+        "url": "https://www.threads.com/@mds/post/XXXXXXXXXXX",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error"
+        }
+    },
+    {
+        "name": "malformed oversized id (rejected before network)",
+        "url": "https://www.threads.com/@mds/post/AAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.link.unsupported"
+        }
+    }
+]

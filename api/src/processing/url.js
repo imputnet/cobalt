@@ -111,6 +111,14 @@ function aliasURL(url) {
                 url = new URL(`https://www.reddit.com/video/${parts[1]}`);
             }
             break;
+
+        case "threads":
+            /* the threads service is keyed on the .com tld; rewrite the
+            ** legacy threads.net domain so those links resolve too. */
+            if (host.tld === 'net') {
+                url = new URL(`https://www.threads.com${url.pathname}${url.search}`);
+            }
+            break;
     }
 
     return url;
