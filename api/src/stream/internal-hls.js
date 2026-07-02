@@ -69,7 +69,7 @@ export async function probeInternalHLSTunnel(streamInfo) {
     let segments;
     try {
         segments = parser.getMediaSegments(manifestText);
-    } catch (e) {
+    } catch {
         return -1;
     }
 
