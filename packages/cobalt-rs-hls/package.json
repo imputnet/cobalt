@@ -1,0 +1,21 @@
+{
+  "name": "@imput/cobalt-rs-hls",
+  "version": "11.7.0",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "name": "cobalt-rs-hls",
+    "triples": {
+      "defaults": true,
+      "additional": []
+    }
+  },
+  "scripts": {
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.0.0"
+  }
+}

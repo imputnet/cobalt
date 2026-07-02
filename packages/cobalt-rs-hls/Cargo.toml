@@ -1,0 +1,16 @@
+[package]
+edition = "2021"
+name = "cobalt-rs-hls"
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { version = "2.16.2", default-features = false, features = ["napi4"] }
+napi-derive = "2.16.2"
+m3u8-rs = "6.0.0"
+url = "2.5.0"
+
+[build-dependencies]
+napi-build = "2.1.3"

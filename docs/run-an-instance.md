@@ -39,6 +39,7 @@ requirements:
 - node.js >= 18
 - git
 - pnpm
+- rust (cargo) for the high-performance HLS parsing module
 
 1. clone the repo: `git clone https://github.com/imputnet/cobalt`.
 2. go to api directory: `cd cobalt/api`.
