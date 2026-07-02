@@ -20,3 +20,7 @@ docker-compose.yml
 
 # ide
 .vscode
+
+# rust
+target/
+*.node

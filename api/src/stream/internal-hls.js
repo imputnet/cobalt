@@ -1,6 +1,6 @@
-import HLS from "hls-parser";
 import { createInternalStream } from "./manage.js";
 import { request } from "undici";
+import { HlsParser } from "@imput/cobalt-rs-hls";
 
 function getURL(url) {
     try {
@@ -8,50 +8,6 @@ function getURL(url) {
     } catch {
         return null;
     }
-}
-
-function transformObject(streamInfo, hlsObject) {
-    if (hlsObject === undefined) {
-        return (object) => transformObject(streamInfo, object);
-    }
-
-    let fullUrl;
-    if (getURL(hlsObject.uri)) {
-        fullUrl = new URL(hlsObject.uri);
-    } else {
-        fullUrl = new URL(hlsObject.uri, streamInfo.url);
-    }
-
-    if (fullUrl.hostname !== '127.0.0.1') {
-        hlsObject.uri = createInternalStream(fullUrl.toString(), streamInfo);
-
-        if (hlsObject.map) {
-            hlsObject.map = transformObject(streamInfo, hlsObject.map);
-        }
-    }
-
-    return hlsObject;
-}
-
-function transformMasterPlaylist(streamInfo, hlsPlaylist) {
-    const makeInternalStream = transformObject(streamInfo);
-
-    const makeInternalVariants = (variant) => {
-        variant = transformObject(streamInfo, variant);
-        variant.video = variant.video.map(makeInternalStream);
-        variant.audio = variant.audio.map(makeInternalStream);
-        return variant;
-    };
-    hlsPlaylist.variants = hlsPlaylist.variants.map(makeInternalVariants);
-
-    return hlsPlaylist;
-}
-
-function transformMediaPlaylist(streamInfo, hlsPlaylist) {
-    const makeInternalSegments = transformObject(streamInfo);
-    hlsPlaylist.segments = hlsPlaylist.segments.map(makeInternalSegments);
-    hlsPlaylist.prefetchSegments = hlsPlaylist.prefetchSegments.map(makeInternalSegments);
-    return hlsPlaylist;
 }
 
 const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegURL"];
@@ -64,16 +20,14 @@ export function isHlsResponse(req, streamInfo) {
 }
 
 export async function handleHlsPlaylist(streamInfo, req, res) {
-    let hlsPlaylist = await req.body.text();
-    hlsPlaylist = HLS.parse(hlsPlaylist);
+    const playlistContent = await req.body.text();
 
-    hlsPlaylist = hlsPlaylist.isMasterPlaylist
-        ? transformMasterPlaylist(streamInfo, hlsPlaylist)
-        : transformMediaPlaylist(streamInfo, hlsPlaylist);
+    const parser = new HlsParser(streamInfo.url);
+    const result = parser.handleHlsPlaylist(playlistContent, (uri) => {
+        return createInternalStream(uri, streamInfo);
+    });
 
-    hlsPlaylist = HLS.stringify(hlsPlaylist);
-
-    res.send(hlsPlaylist);
+    res.send(result);
 }
 
 async function getSegmentSize(url, config) {
@@ -109,15 +63,23 @@ export async function probeInternalHLSTunnel(streamInfo) {
     const config = { headers, dispatcher, signal, maxRedirections: 16 };
 
     const manifestResponse = await fetch(url, config);
+    const manifestText = await manifestResponse.text();
 
-    const manifest = HLS.parse(await manifestResponse.text());
-    if (manifest.segments.length === 0)
+    const parser = new HlsParser(streamInfo.url);
+    let segments;
+    try {
+        segments = parser.getMediaSegments(manifestText);
+    } catch (e) {
+        return -1;
+    }
+
+    if (!segments || segments.length === 0)
         return -1;
 
     const segmentSamples = await Promise.all(
         Array(5).fill().map(async () => {
-            const manifestIdx = Math.floor(Math.random() * manifest.segments.length);
-            const randomSegment = manifest.segments[manifestIdx];
+            const manifestIdx = Math.floor(Math.random() * segments.length);
+            const randomSegment = segments[manifestIdx];
             if (!randomSegment.uri)
                 throw "segment is missing URI";
 
@@ -135,7 +97,7 @@ export async function probeInternalHLSTunnel(streamInfo) {
     );
 
     const averageBitrate = segmentSamples.reduce((a, b) => a + b) / segmentSamples.length;
-    const totalDuration = manifest.segments.reduce((acc, segment) => acc + segment.duration, 0);
+    const totalDuration = segments.reduce((acc, segment) => acc + segment.duration, 0);
 
     return averageBitrate * totalDuration;
 }

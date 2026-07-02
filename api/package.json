@@ -26,6 +26,7 @@
         "@datastructures-js/priority-queue": "^6.3.5",
         "@imput/psl": "^2.0.4",
         "@imput/version-info": "workspace:^",
+        "@imput/cobalt-rs-hls": "workspace:*",
         "content-disposition-header": "0.6.0",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",
