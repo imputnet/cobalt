@@ -21,7 +21,7 @@ const exposeLibAV: PluginOption = (() => {
                 const filename = basename(req.url).split('?')[0];
                 if (!filename) return next();
 
-                const [file] = await glob(join(IMPUT_MODULE_DIR, '/**/dist/', filename));
+                const [file] = await glob(`*/dist/${filename}`, { cwd: IMPUT_MODULE_DIR, absolute: true });
                 if (!file) return next();
 
                 const fileType = mime.getType(filename);
