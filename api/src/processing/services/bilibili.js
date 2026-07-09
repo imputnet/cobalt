@@ -1,7 +1,15 @@
-import { env } from "../../config.js";
+import { env, genericUserAgent } from "../../config.js";
 import { resolveRedirectingURL } from "../url.js";
 
 // TO-DO: higher quality downloads (currently requires an account)
+
+const BILIBILI_HEADERS = {
+    "user-agent": genericUserAgent,
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "en-US,en;q=0.9",
+    "referer": "https://www.bilibili.com/",
+    "origin": "https://www.bilibili.com",
+};
 
 function getBest(content) {
     return content?.filter(v => v.baseUrl || v.url)
@@ -17,38 +25,82 @@ function extractBestQuality(dashData) {
     return [ bestVideo, bestAudio ];
 }
 
-async function com_download(id, partId) {
-    const url = new URL(`https://bilibili.com/video/${id}`);
+async function getVideoInfo(bvid) {
+    const url = new URL('https://api.bilibili.com/x/web-interface/view');
+    url.searchParams.set('bvid', bvid);
 
-    if (partId) {
-        url.searchParams.set('p', partId);
-    }
-
-    const html = await fetch(url, {
-        headers: {
-            "user-agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
-        }
+    const json = await fetch(url, {
+        headers: BILIBILI_HEADERS,
     })
-    .then(r => r.text())
+    .then(r => r.json())
     .catch(() => {});
 
-    if (!html) {
-        return { error: "fetch.fail" }
+    if (!json || json.code !== 0 || !json?.data) {
+        return { error: "fetch.fail" };
     }
 
-    if (!(html.includes('<script>window.__playinfo__=') && html.includes('"video_codecid"'))) {
+    const data = json.data;
+    return {
+        aid: data.aid,
+        bvid: data.bvid,
+        title: data.title,
+        duration: data.duration,
+        pages: data.pages?.map(p => ({
+            cid: p.cid,
+            page: p.page,
+            part: p.part,
+            duration: p.duration,
+        })) || [],
+    };
+}
+
+async function getPlayinfo(bvid, cid) {
+    const url = new URL('https://api.bilibili.com/x/player/playurl');
+    url.searchParams.set('bvid', bvid);
+    url.searchParams.set('cid', cid);
+    url.searchParams.set('fnval', '16');
+    url.searchParams.set('fnver', '0');
+    url.searchParams.set('qn', '64');
+
+    const json = await fetch(url, {
+        headers: BILIBILI_HEADERS,
+    })
+    .then(r => r.json())
+    .catch(() => {});
+
+    if (!json || json.code !== 0 || !json?.data?.dash) {
         return { error: "fetch.empty" };
     }
 
-    const streamData = JSON.parse(
-        html.split('<script>window.__playinfo__=')[1].split('</script>')[0]
-    );
+    return { streamData: json.data };
+}
 
-    if (streamData.data.timelength > env.durationLimit * 1000) {
+async function com_download(id, partId) {
+    const info = await getVideoInfo(id);
+    if (info.error) return { error: info.error };
+
+    if (!info.pages?.length) {
+        return { error: "fetch.empty" };
+    }
+
+    const targetPage = partId
+        ? info.pages.find(p => String(p.page) === String(partId))
+        : info.pages[0];
+
+    if (!targetPage) {
+        return { error: "content.video.unavailable" };
+    }
+
+    const playinfo = await getPlayinfo(id, targetPage.cid);
+    if (playinfo.error) return { error: playinfo.error };
+
+    const { streamData } = playinfo;
+
+    if (streamData.timelength > env.durationLimit * 1000) {
         return { error: "content.too_long" };
     }
 
-    const [ video, audio ] = extractBestQuality(streamData.data.dash);
+    const [ video, audio ] = extractBestQuality(streamData.dash);
     if (!video || !audio) {
         return { error: "fetch.empty" };
     }
@@ -62,6 +114,7 @@ async function com_download(id, partId) {
         urls: [video.baseUrl, audio.baseUrl],
         audioFilename: `${filenameBase}_audio`,
         filename: `${filenameBase}_${video.width}x${video.height}.mp4`,
+        headers: BILIBILI_HEADERS,
     };
 }
 
