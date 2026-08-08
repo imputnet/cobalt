@@ -31,6 +31,24 @@
         }
     },
     {
+        "name": "clip without title",
+        "url": "https://vk.com/clip-227182972_456239182",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "clip without title or description",
+        "url": "https://vk.com/clip-219815090_456243369",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "video, defaults",
         "url": "https://vk.com/video-57274055_456239399",
         "params": {},
