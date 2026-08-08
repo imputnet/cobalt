@@ -125,9 +125,11 @@ export default async function ({ ownerId, videoId, accessKey, quality, subtitleL
 
     if (!url) return { error: "fetch.fail" };
 
-    const fileMetadata = {
-        title: video.title.trim(),
-    }
+    const title = video.title?.trim()
+        || video.description?.trim().split(/\r?\n/, 1)[0]
+        || `vk_${ownerId}_${videoId}`;
+
+    const fileMetadata = { title }
 
     let subtitles;
     if (subtitleLang && video.subtitles?.length) {
