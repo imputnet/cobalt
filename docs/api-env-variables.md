@@ -260,6 +260,8 @@ the value is a number, either `0` or `1`.
 ### CUSTOM_INNERTUBE_CLIENT
 innertube client that will be used instead of the default one.
 
+`VISIONOS` is available as an alternative for videos whose media URLs are rejected with the default client. It does not work for every video (for example, made-for-kids videos). The default remains `IOS`.
+
 the value is a string.
 
 ### YOUTUBE_SESSION_SERVER
