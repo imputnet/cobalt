@@ -17,7 +17,7 @@ function extractBestQuality(dashData) {
     return [ bestVideo, bestAudio ];
 }
 
-async function com_download(id, partId) {
+async function com_downloadLegacy(id, partId) {
     const url = new URL(`https://bilibili.com/video/${id}`);
 
     if (partId) {
@@ -60,6 +60,76 @@ async function com_download(id, partId) {
 
     return {
         urls: [video.baseUrl, audio.baseUrl],
+        audioFilename: `${filenameBase}_audio`,
+        filename: `${filenameBase}_${video.width}x${video.height}.mp4`,
+    };
+}
+
+const bilibiliHeaders = {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
+    "referer": "https://www.bilibili.com/",
+    "accept": "application/json,text/plain,*/*",
+};
+
+async function bilibiliAPI(path, params) {
+    const url = new URL(`https://api.bilibili.com${path}`);
+    for (const [key, value] of Object.entries(params)) {
+        url.searchParams.set(key, value);
+    }
+
+    const payload = await fetch(url, { headers: bilibiliHeaders })
+        .then(response => response.json())
+        .catch(() => {});
+
+    if (payload?.code !== 0 || !payload.data) {
+        return;
+    }
+
+    return payload.data;
+}
+
+async function com_download(id, partId) {
+    const identity = id.toLowerCase().startsWith("av")
+        ? { aid: id.slice(2) }
+        : { bvid: id };
+    const detail = await bilibiliAPI("/x/web-interface/view", identity);
+    const pages = detail?.pages || [];
+    const page = partId ? pages[Number(partId) - 1] : pages[0];
+    const cid = page?.cid || detail?.cid;
+
+    if (!cid) {
+        return com_downloadLegacy(id, partId);
+    }
+
+    const streamData = await bilibiliAPI("/x/player/playurl", {
+        ...identity,
+        cid,
+        qn: "127",
+        fnval: "4048",
+        fourk: "1",
+    });
+
+    if (!streamData?.dash) {
+        return com_downloadLegacy(id, partId);
+    }
+
+    if (detail.duration > env.durationLimit) {
+        return { error: "content.too_long" };
+    }
+
+    const [video, audio] = extractBestQuality(streamData.dash);
+    if (!video || !audio) {
+        return { error: "fetch.empty" };
+    }
+
+    let filenameBase = `bilibili_${detail.bvid || id}`;
+    if (partId) {
+        filenameBase += `_${partId}`;
+    }
+
+    return {
+        urls: [video.baseUrl, audio.baseUrl],
+        headers: bilibiliHeaders,
         audioFilename: `${filenameBase}_audio`,
         filename: `${filenameBase}_${video.width}x${video.height}.mp4`,
     };
