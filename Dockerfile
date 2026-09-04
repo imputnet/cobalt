@@ -18,7 +18,10 @@ FROM base AS api
 WORKDIR /app
 
 COPY --from=build --chown=node:node /prod/api /app
-RUN mkdir -p /app/.git && echo "n/a" > /app/.git/HEAD
+RUN mkdir -p /app/.git/logs && \
+      printf 'ref: refs/heads/main\n' > /app/.git/HEAD && \
+      printf '0000000000000000000000000000000000000000 a636575b09de1fc55d9b8cd98cac88f5f2f16b42 deploy <build@render>\n' > /app/.git/logs/HEAD && \
+      printf '[remote "origin"]\n\turl = https://github.com/alexcohan69-eng/cobalt.git\n' > /app/.git/config
 
 USER node
 
