@@ -48,6 +48,15 @@ export function createResponse(responseType, responseData) {
                     url: createStream(responseData),
                     filename: responseData?.filename
                 }
+                if (responseData?.type === "captions") {
+                    response.text = responseData.captionFormat === "txt"
+                        ? response.url
+                        : createStream({
+                            ...responseData,
+                            captionFormat: "txt",
+                            filename: responseData.captionTextFilename,
+                        });
+                }
                 break;
 
             case "local-processing":

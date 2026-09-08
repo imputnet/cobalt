@@ -31,6 +31,18 @@
         }
     },
     {
+        "name": "standalone transcript",
+        "url": "https://www.loom.com/share/aa3d8b08bee74d05af5b42989e9f33e9",
+        "params": {
+            "downloadMode": "captions",
+            "captionFormat": "txt"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "video with no transcodedUrl",
         "url": "https://www.loom.com/share/aa3d8b08bee74d05af5b42989e9f33e9",
         "params": {},

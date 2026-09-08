@@ -1,5 +1,10 @@
 import HLS from "hls-parser";
 import { env } from "../../config.js";
+import {
+    createCaptionResponse,
+    selectCaptionTrack,
+    captionSelectionError,
+} from "../helpers/captions.js";
 
 async function requestJSON(url) {
     try {
@@ -12,6 +17,8 @@ const delta = (a, b) => Math.abs(a - b);
 
 export default async function(obj) {
     if (obj.yappyId) {
+        if (obj.isCaptionOnly) return captionSelectionError([]);
+
         const yappy = await requestJSON(
             `https://rutube.ru/pangolin/api/web/yappy/v4/yappypage/?client=wdp&videoId=${obj.yappyId}&page=1&page_size=1`
         )
@@ -39,6 +46,30 @@ export default async function(obj) {
 
     if (play.detail || !play.video_balancer) return { error: "fetch.empty" };
     if (play.live_streams?.hls) return { error: "content.video.live" };
+
+    if (obj.isCaptionOnly) {
+        const tracks = (play.captions || [])
+            .filter(caption => ["webvtt", "srt"].includes(caption.format))
+            .map(caption => ({
+                url: caption.file,
+                language: caption.code,
+                sourceFormat: caption.format === "webvtt" ? "vtt" : "srt",
+            }));
+        const caption = selectCaptionTrack(tracks, obj.captionLanguage);
+        if (!caption) return captionSelectionError(tracks);
+
+        return createCaptionResponse({
+            url: caption.url,
+            format: obj.captionFormat,
+            sourceFormat: caption.sourceFormat,
+            language: caption.language,
+            service: "rutube",
+            id: obj.id,
+            title: play.title?.trim(),
+            author: play.author?.name?.trim(),
+            source: `https://rutube.ru/video/${obj.id}/`,
+        });
+    }
 
     if (play.duration > env.durationLimit * 1000)
         return { error: "content.too_long" };

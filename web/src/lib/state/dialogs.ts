@@ -2,6 +2,7 @@ import { readable, type Updater } from "svelte/store";
 import type { DialogInfo } from "$lib/types/dialog";
 
 let update: (_: Updater<DialogInfo[]>) => void;
+let nextId = 0;
 
 export default readable<DialogInfo[]>(
     [],
@@ -10,14 +11,15 @@ export default readable<DialogInfo[]>(
 
 export function createDialog(newData: DialogInfo) {
     update((popups) => {
-        popups.push(newData);
+        popups.push({ ...newData, id: `${newData.id}-${nextId++}` });
         return popups;
     });
 }
 
-export function killDialog() {
+export function killDialog(id?: string) {
     update((popups) => {
-        popups.pop()
+        const index = id ? popups.findIndex(popup => popup.id === id) : popups.length - 1;
+        if (index >= 0) popups.splice(index, 1);
         return popups;
     });
 }

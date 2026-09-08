@@ -7,9 +7,11 @@ import {
     themeOptions,
     videoQualityOptions,
     youtubeVideoCodecOptions,
+    captionFormatOptions,
+    transcriptMethodOptions,
     type PartialSettings,
 } from '$lib/types/settings';
-import { youtubeDubLanguages } from '$lib/settings/audio-sub-language';
+import { subtitleLanguages, youtubeDubLanguages } from '$lib/settings/audio-sub-language';
 
 function validateTypes(input: unknown, reference = defaultSettings as unknown) {
     if (typeof input === 'undefined')
@@ -77,6 +79,9 @@ export function validateSettings(settings: PartialSettings) {
         && validateLiterals([
             [ settings?.appearance?.theme      , themeOptions ],
             [ settings?.save?.downloadMode     , downloadModeOptions ],
+            [ settings?.save?.captionFormat    , captionFormatOptions ],
+            [ settings?.save?.captionLang      , subtitleLanguages ],
+            [ settings?.save?.transcriptMethod , transcriptMethodOptions ],
             [ settings?.save?.filenameStyle    , filenameStyleOptions ],
             [ settings?.save?.videoQuality     , videoQualityOptions ],
             [ settings?.save?.youtubeVideoCodec, youtubeVideoCodecOptions ],

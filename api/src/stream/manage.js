@@ -45,6 +45,10 @@ export function createStream(obj) {
 
             // url to a subtitle file
             subtitles: obj.subtitles,
+
+            captionFormat: obj.captionFormat,
+            captionSourceFormat: obj.captionSourceFormat,
+            captionMetadata: obj.captionMetadata,
         };
 
     // FIXME: this is now a Promise, but it is not awaited
@@ -259,17 +263,32 @@ const transplantTunnel = async function (dispatcher) {
 function wrapStream(streamInfo) {
     const url = streamInfo.urls;
 
+    const createWrappedStream = resource => {
+        if (typeof resource === "string") {
+            return createInternalStream(resource, streamInfo, streamInfo.type === "captions");
+        }
+        if (streamInfo.type !== "captions" || typeof resource?.url !== "string") {
+            throw "invalid url";
+        }
+        return createInternalStream(
+            resource.url,
+            {
+                ...streamInfo,
+                headers: { ...streamInfo.headers, ...resource.headers },
+            },
+            true
+        );
+    };
+
     if (streamInfo.originalRequest) {
         streamInfo.transplant = transplantTunnel.bind(streamInfo);
     }
 
     if (typeof url === 'string') {
-        streamInfo.urls = createInternalStream(url, streamInfo);
+        streamInfo.urls = createWrappedStream(url);
     } else if (Array.isArray(url)) {
         for (const idx in streamInfo.urls) {
-            streamInfo.urls[idx] = createInternalStream(
-                streamInfo.urls[idx], streamInfo
-            );
+            streamInfo.urls[idx] = createWrappedStream(streamInfo.urls[idx]);
         }
     } else throw 'invalid urls';
 

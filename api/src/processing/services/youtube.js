@@ -7,6 +7,12 @@ import { Innertube, Platform, Session } from "youtubei.js";
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
 import { getYouTubeSession } from "../helpers/youtube-session.js";
+import {
+    captionSegmentResources,
+    createCaptionResponse,
+    selectCaptionTrack,
+    captionSelectionError,
+} from "../helpers/captions.js";
 
 // https://github.com/LuanRT/YouTube.js/pull/1052
 Platform.shim.eval = async (data) => {
@@ -135,12 +141,14 @@ const getHlsVariants = async (hlsManifest, dispatcher) => {
     return variants;
 }
 
-const getSubtitles = async (info, dispatcher, subtitleLang) => {
-    const preferredCap = info.captions.caption_tracks.find(caption =>
-        caption.kind !== 'asr' && caption.language_code.startsWith(subtitleLang)
-    );
+const captionTracks = info => (info.captions?.caption_tracks || []).map(track => ({
+    url: track.base_url,
+    language: track.language_code,
+    automatic: track.kind === "asr",
+}));
 
-    const captionsUrl = preferredCap?.base_url;
+const getSubtitles = async (info, dispatcher, preferredCap, allSegments = false) => {
+    const captionsUrl = preferredCap?.url;
     if (!captionsUrl) return;
 
     if (!captionsUrl.includes("exp=xpe")) {
@@ -149,7 +157,7 @@ const getSubtitles = async (info, dispatcher, subtitleLang) => {
 
         return {
             url: url.toString(),
-            language: preferredCap.language_code,
+            language: preferredCap.language,
         }
     }
 
@@ -158,7 +166,7 @@ const getSubtitles = async (info, dispatcher, subtitleLang) => {
     // so instead we just use subtitles from HLS
 
     const hlsVariants = await getHlsVariants(
-        info.streaming_data.hls_manifest_url,
+        info.streaming_data?.hls_manifest_url,
         dispatcher
     );
     if (hlsVariants?.error) return;
@@ -167,22 +175,28 @@ const getSubtitles = async (info, dispatcher, subtitleLang) => {
     const hlsSubtitles = hlsVariants[0]?.subtitles;
     if (!hlsSubtitles?.length) return;
 
-    const preferredHls = hlsSubtitles.find(
-        subtitle => subtitle.language.startsWith(subtitleLang)
+    const preferredHls = selectCaptionTrack(
+        hlsSubtitles.map(subtitle => ({ ...subtitle, url: subtitle.uri })),
+        preferredCap.language
     );
 
     if (!preferredHls) return;
 
+    const playlistURL = new URL(preferredHls.uri, info.streaming_data.hls_manifest_url).toString();
     const fetchedHlsSubs =
-        await fetch(preferredHls.uri, { dispatcher })
+        await fetch(playlistURL, { dispatcher })
             .then(r => r.status === 200 ? r.text() : undefined)
             .catch(() => {});
 
+    if (!fetchedHlsSubs) return;
     const parsedSubs = HLS.parse(fetchedHlsSubs);
-    if (!parsedSubs) return;
+    if (!parsedSubs?.segments?.length) return;
+    const urls = allSegments
+        ? captionSegmentResources(parsedSubs.segments, playlistURL)
+        : new URL(parsedSubs.segments[0].uri, playlistURL).toString();
 
     return {
-        url: parsedSubs.segments[0]?.uri,
+        url: urls,
         language: preferredHls.language,
     }
 }
@@ -217,7 +231,7 @@ export default async function (o) {
         );
 
     // we can get subtitles reliably only from the iOS client
-    if (o.subtitleLang) {
+    if (o.subtitleLang || o.isCaptionOnly) {
         innertubeClient = "IOS";
         useSession = false;
     }
@@ -324,7 +338,7 @@ export default async function (o) {
         return { error: "content.video.live" };
     }
 
-    if (basicInfo.duration > env.durationLimit) {
+    if (!o.isCaptionOnly && basicInfo.duration > env.durationLimit) {
         return { error: "content.too_long" };
     }
 
@@ -335,6 +349,26 @@ export default async function (o) {
             error: "fetch.fail",
             critical: true
         }
+    }
+
+    if (o.isCaptionOnly) {
+        const tracks = captionTracks(info);
+        const selectedTrack = selectCaptionTrack(tracks, o.captionLanguage || o.subtitleLang);
+        if (!selectedTrack) return captionSelectionError(tracks);
+
+        const captions = await getSubtitles(info, o.dispatcher, selectedTrack, true);
+        if (!captions?.url) return { error: "captions.unavailable" };
+
+        return createCaptionResponse({
+            url: captions.url,
+            format: o.captionFormat,
+            language: captions.language,
+            service: "youtube",
+            id: o.id,
+            title: basicInfo.title.trim(),
+            author: basicInfo.author.replace("- Topic", "").trim(),
+            source: `https://www.youtube.com/watch?v=${o.id}`,
+        });
     }
 
     const normalizeQuality = res => {
@@ -504,7 +538,9 @@ export default async function (o) {
         }
 
         if (o.subtitleLang && !o.isAudioOnly && info.captions?.caption_tracks?.length) {
-            const videoSubtitles = await getSubtitles(info, o.dispatcher, o.subtitleLang);
+            const videoSubtitles = await getSubtitles(
+                info, o.dispatcher, selectCaptionTrack(captionTracks(info), o.subtitleLang, false)
+            );
             if (videoSubtitles) {
                 subtitles = videoSubtitles;
             }

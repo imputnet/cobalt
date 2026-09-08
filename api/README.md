@@ -15,35 +15,37 @@ you can read [the api documentation here](/docs/api.md).
 this list is not final and keeps expanding over time!
 if the desired service isn't supported yet, feel free to create an appropriate issue (or a pull request 👀).
 
-| service           | video + audio | only audio | only video | metadata | rich file names |
-| :--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
-| bilibili          | ✅            | ✅         | ✅         | ➖         | ➖              |
-| bluesky           | ✅            | ✅         | ✅         | ➖         | ➖              |
-| dailymotion       | ✅            | ✅         | ✅         | ✅         | ✅              |
-| instagram         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| facebook          | ✅            | ❌         | ✅         | ➖         | ➖              |
-| loom              | ✅            | ❌         | ✅         | ✅         | ➖              |
-| newgrounds        | ✅            | ✅         | ✅         | ✅         | ✅              |
-| ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
-| pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |
-| rutube            | ✅            | ✅         | ✅         | ✅         | ✅              |
-| snapchat          | ✅            | ✅         | ✅         | ➖         | ➖              |
-| soundcloud        | ➖            | ✅         | ➖         | ✅         | ✅              |
-| streamable        | ✅            | ✅         | ✅         | ➖         | ➖              |
-| tiktok            | ✅            | ✅         | ✅         | ❌         | ❌              |
-| tumblr            | ✅            | ✅         | ✅         | ➖         | ➖              |
-| twitch clips      | ✅            | ✅         | ✅         | ✅         | ✅              |
-| twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
-| vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
-| youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
+| service           | video + audio | only audio | only video | transcript only | metadata | rich file names |
+| :--------         | :-----------: | :--------: | :--------: | :-------------: | :------: | :-------------: |
+| bilibili          | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| bluesky           | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| dailymotion       | ✅            | ✅         | ✅         | ❌              | ✅         | ✅              |
+| instagram         | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| facebook          | ✅            | ❌         | ✅         | ❌              | ➖         | ➖              |
+| loom              | ✅            | ❌         | ✅         | ✅              | ✅         | ➖              |
+| newgrounds        | ✅            | ✅         | ✅         | ❌              | ✅         | ✅              |
+| ok.ru             | ✅            | ❌         | ✅         | ❌              | ✅         | ✅              |
+| pinterest         | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| reddit            | ✅            | ✅         | ✅         | ❌              | ❌         | ❌              |
+| rutube            | ✅            | ✅         | ✅         | ✅              | ✅         | ✅              |
+| snapchat          | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| soundcloud        | ➖            | ✅         | ➖         | ❌              | ✅         | ✅              |
+| streamable        | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| tiktok            | ✅            | ✅         | ✅         | ✅              | ❌         | ❌              |
+| tumblr            | ✅            | ✅         | ✅         | ❌              | ➖         | ➖              |
+| twitch clips      | ✅            | ✅         | ✅         | ❌              | ✅         | ✅              |
+| twitter/x         | ✅            | ✅         | ✅         | ✅              | ➖         | ➖              |
+| vimeo             | ✅            | ✅         | ✅         | ✅              | ✅         | ✅              |
+| vk videos & clips | ✅            | ❌         | ✅         | ✅              | ✅         | ✅              |
+| youtube           | ✅            | ✅         | ✅         | ✅              | ✅         | ✅              |
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
 | ✅      | supported               |
 | ➖      | unreasonable/impossible |
 | ❌      | not supported           |
+
+standalone transcript downloads are supported for marked services with `downloadMode: "captions"`.
 
 ### additional notes or features (per service)
 | service    | notes or features                                                                                                    |

@@ -1,5 +1,6 @@
 import proxy from "./proxy.js";
 import ffmpeg from "./ffmpeg.js";
+import captions from "./captions.js";
 
 import { closeResponse } from "./shared.js";
 import { internalStream } from "./internal.js";
@@ -9,6 +10,9 @@ export default async function(res, streamInfo) {
         switch (streamInfo.type) {
             case "proxy":
                 return await proxy(streamInfo, res);
+
+            case "captions":
+                return await captions(streamInfo, res);
 
             case "internal":
                 return await internalStream(streamInfo.data, res);

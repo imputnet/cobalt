@@ -15,8 +15,12 @@ export const apiSchema = z.object({
     ).default("mp3"),
 
     downloadMode: z.enum(
-        ["auto", "audio", "mute"]
+        ["auto", "audio", "mute", "captions"]
     ).default("auto"),
+
+    captionFormat: z.enum(
+        ["txt", "vtt", "srt", "md"]
+    ).default("txt"),
 
     filenameStyle: z.enum(
         ["classic", "pretty", "basic", "nerdy"]
@@ -45,6 +49,12 @@ export const apiSchema = z.object({
                      .optional(),
 
     subtitleLang: z.string()
+                     .min(2)
+                     .max(8)
+                     .regex(/^[0-9a-zA-Z\-]+$/)
+                     .optional(),
+
+    captionLanguage: z.string()
                      .min(2)
                      .max(8)
                      .regex(/^[0-9a-zA-Z\-]+$/)

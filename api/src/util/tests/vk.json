@@ -62,6 +62,19 @@
         }
     },
     {
+        "name": "standalone transcript",
+        "url": "https://vkvideo.ru/video-26006257_456245538",
+        "params": {
+            "downloadMode": "captions",
+            "captionFormat": "txt",
+            "captionLanguage": "ru"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "ancient video (fallback to 240p)",
         "url": "https://vk.com/video-1959_28496479",
         "params": {},

@@ -3,7 +3,7 @@ import { defaultLocale } from "$lib/i18n/translations";
 import type { CobaltSettings } from "$lib/types/settings";
 
 const defaultSettings: CobaltSettings = {
-    schemaVersion: 6,
+    schemaVersion: 7,
     advanced: {
         debug: false,
         useWebCodecs: false,
@@ -28,6 +28,9 @@ const defaultSettings: CobaltSettings = {
         audioFormat: "mp3",
         disableMetadata: false,
         downloadMode: "auto",
+        captionFormat: "txt",
+        captionLang: "none",
+        transcriptMethod: "download",
         filenameStyle: "basic",
         savingMethod: "download",
         allowH265: false,

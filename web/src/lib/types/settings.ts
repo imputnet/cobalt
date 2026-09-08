@@ -4,16 +4,19 @@ import type { CobaltSettingsV3 } from "$lib/types/settings/v3";
 import type { CobaltSettingsV4 } from "$lib/types/settings/v4";
 import type { CobaltSettingsV5 } from "$lib/types/settings/v5";
 import type { CobaltSettingsV6 } from "$lib/types/settings/v6";
+import type { CobaltSettingsV7 } from "$lib/types/settings/v7";
 
 export * from "$lib/types/settings/v2";
 export * from "$lib/types/settings/v3";
 export * from "$lib/types/settings/v4";
 export * from "$lib/types/settings/v5";
 export * from "$lib/types/settings/v6";
+export * from "$lib/types/settings/v7";
+export { downloadModeOptions } from "$lib/types/settings/v7";
 
-export type CobaltSettings = CobaltSettingsV6;
+export type CobaltSettings = CobaltSettingsV7;
 
-export type AnyCobaltSettings = CobaltSettingsV5 | CobaltSettingsV4 | CobaltSettingsV3 | CobaltSettingsV2 | CobaltSettings;
+export type AnyCobaltSettings = CobaltSettingsV6 | CobaltSettingsV5 | CobaltSettingsV4 | CobaltSettingsV3 | CobaltSettingsV2 | CobaltSettings;
 
 export type PartialSettings = RecursivePartial<CobaltSettings>;
 

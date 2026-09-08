@@ -7,6 +7,7 @@ import { testers } from "./service-patterns.js";
 import matchAction from "./match-action.js";
 
 import { friendlyServiceName } from "./service-alias.js";
+import { captionOnlyServices } from "./service-config.js";
 
 import bilibili from "./services/bilibili.js";
 import reddit from "./services/reddit.js";
@@ -49,7 +50,8 @@ export default async function({ host, patternMatch, params, authType }) {
     try {
         let r,
             isAudioOnly = params.downloadMode === "audio",
-            isAudioMuted = params.downloadMode === "mute";
+            isAudioMuted = params.downloadMode === "mute",
+            isCaptionOnly = params.downloadMode === "captions";
 
         if (!testers[host]) {
             return createResponse("error", {
@@ -62,6 +64,12 @@ export default async function({ host, patternMatch, params, authType }) {
                 context: {
                     service: friendlyServiceName(host),
                 }
+            });
+        }
+
+        if (isCaptionOnly && !captionOnlyServices.has(host)) {
+            return createResponse("error", {
+                code: "error.api.service.captions_not_supported"
             });
         }
 
@@ -84,7 +92,10 @@ export default async function({ host, patternMatch, params, authType }) {
                     toGif: !!params.convertGif,
                     alwaysProxy: params.alwaysProxy,
                     dispatcher,
-                    subtitleLang
+                    subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage || subtitleLang,
+                    captionFormat: params.captionFormat,
                 });
                 break;
 
@@ -95,6 +106,9 @@ export default async function({ host, patternMatch, params, authType }) {
                     accessKey: patternMatch.accessKey,
                     quality: params.videoQuality,
                     subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage || subtitleLang,
+                    captionFormat: params.captionFormat,
                 });
                 break;
 
@@ -121,9 +135,12 @@ export default async function({ host, patternMatch, params, authType }) {
                     dubLang: params.youtubeDubLang,
                     youtubeHLS,
                     subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage,
+                    captionFormat: params.captionFormat,
                 }
 
-                if (url.hostname === "music.youtube.com" || isAudioOnly) {
+                if (!isCaptionOnly && (url.hostname === "music.youtube.com" || isAudioOnly)) {
                     fetchInfo.quality = "1080";
                     fetchInfo.codec = "vp9";
                     fetchInfo.isAudioOnly = true;
@@ -153,6 +170,9 @@ export default async function({ host, patternMatch, params, authType }) {
                     h265: params.allowH265,
                     alwaysProxy: params.alwaysProxy,
                     subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage || subtitleLang,
+                    captionFormat: params.captionFormat,
                 });
                 break;
 
@@ -171,6 +191,9 @@ export default async function({ host, patternMatch, params, authType }) {
                     quality: params.videoQuality,
                     isAudioOnly,
                     subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage || subtitleLang,
+                    captionFormat: params.captionFormat,
                 });
                 break;
 
@@ -223,6 +246,9 @@ export default async function({ host, patternMatch, params, authType }) {
                     quality: params.videoQuality,
                     isAudioOnly,
                     subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage || subtitleLang,
+                    captionFormat: params.captionFormat,
                 });
                 break;
 
@@ -241,6 +267,9 @@ export default async function({ host, patternMatch, params, authType }) {
                 r = await loom({
                     id: patternMatch.id,
                     subtitleLang,
+                    isCaptionOnly,
+                    captionLanguage: params.captionLanguage || subtitleLang,
+                    captionFormat: params.captionFormat,
                 });
                 break;
 
@@ -284,7 +313,7 @@ export default async function({ host, patternMatch, params, authType }) {
         }
 
         if (r.error) {
-            let context;
+            let context = r.context;
             switch(r.error) {
                 case "content.too_long":
                     context = {

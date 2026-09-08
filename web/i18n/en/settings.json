@@ -65,8 +65,19 @@
 
     "subtitles": "subtitles",
     "subtitles.title": "preferred subtitle language",
-    "subtitles.description": "cobalt will add subtitles to the downloaded file in the preferred language if they're available.\n\nsome services don't have a language selection, and if that's the case, cobalt will add the only available subtitle track if you have any language selected.",
+    "subtitles.description": "cobalt will add subtitles to downloaded media in the preferred language when they're available.",
     "subtitles.none": "none",
+    "captions": "transcripts",
+    "captions.format": "transcript file format",
+    "captions.format.description": "plain text and markdown omit timestamps. webvtt and subrip keep caption timing.",
+    "captions.format.txt": "plain text (.txt)",
+    "captions.format.vtt": "webvtt (.vtt)",
+    "captions.format.srt": "subrip (.srt)",
+    "captions.format.md": "markdown (.md)",
+    "captions.method": "transcript saving method",
+    "captions.method.description": "how to save transcripts from the save button. \"ask\" shows both options every time.",
+    "captions.language": "preferred transcript language",
+    "captions.language.description": "pick a preferred transcript language, or let cobalt choose an available track automatically. if your preferred language isn't available, cobalt will ask before downloading another language.",
 
     "audio.youtube.better_audio": "youtube audio quality",
     "audio.youtube.better_audio.title": "prefer better quality",
@@ -157,5 +168,6 @@
 
     "tabs": "navigation",
     "tabs.hide_remux": "hide the remux tab",
-    "tabs.hide_remux.description": "if you don't use the remux tool, you can hide it from the navigation bar."
+    "tabs.hide_remux.description": "if you don't use the remux tool, you can hide it from the navigation bar.",
+    "captions.language.automatic": "automatic"
 }

@@ -11,6 +11,7 @@ import { downloadButtonState } from "$lib/state/omnibox";
 import { createSavePipeline } from "$lib/task-manager/queue";
 
 import type { CobaltSaveRequestBody } from "$lib/types/api";
+import type { DialogButton } from "$lib/types/dialog";
 
 type SavingHandlerArgs = {
     url?: string,
@@ -18,18 +19,19 @@ type SavingHandlerArgs = {
     oldTaskId?: string
 }
 
-export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerArgs) => {
+export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerArgs): Promise<void> => {
     downloadButtonState.set("think");
 
-    const error = (errorText: string) => {
+    const error = (errorText: string, retry?: DialogButton) => {
         return createDialog({
             id: "save-error",
             type: "small",
             meowbalt: "error",
             buttons: [
+                ...(retry ? [retry] : []),
                 {
                     text: get(t)("button.gotit"),
-                    main: true,
+                    main: !retry,
                     action: () => {},
                 },
             ],
@@ -41,7 +43,7 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
 
     if (!request && !url) return;
 
-    const selectedRequest = request || {
+    const selectedRequest = request ? { ...request } : {
         url: url!,
 
         // not lazy cuz default depends on device capabilities
@@ -49,6 +51,7 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
 
         alwaysProxy: getSetting("save", "alwaysProxy"),
         downloadMode: getSetting("save", "downloadMode"),
+        captionFormat: getSetting("save", "captionFormat"),
 
         subtitleLang: getSetting("save", "subtitleLang"),
         filenameStyle: getSetting("save", "filenameStyle"),
@@ -69,6 +72,15 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
         convertGif: getSetting("save", "convertGif"),
     }
 
+    if (!request && selectedRequest.downloadMode === "captions") {
+        // Transcript preferences are independent of embedded media subtitles.
+        delete selectedRequest.subtitleLang;
+        const captionLang = getSetting("save", "captionLang");
+        if (captionLang && captionLang !== "none") {
+            selectedRequest.captionLanguage = captionLang;
+        }
+    }
+
     const response = await API.request(selectedRequest);
 
     if (!response) {
@@ -79,8 +91,23 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
     if (response.status === "error") {
         downloadButtonState.set("error");
 
+        const canRetry = selectedRequest.downloadMode === "captions"
+            && [
+                "error.api.captions.language_unavailable",
+                "error.api.youtube.caption_language_unavailable",
+            ].includes(response.error.code);
         return error(
-            get(t)(response.error.code, response?.error?.context)
+            get(t)(response.error.code, response?.error?.context),
+            canRetry ? {
+                text: get(t)("button.download.transcript_any_language"),
+                main: true,
+                action: () => {
+                    const retry = { ...selectedRequest };
+                    delete retry.captionLanguage;
+                    delete retry.subtitleLang;
+                    return savingHandler({ request: retry, oldTaskId });
+                },
+            } : undefined,
         );
     }
 
@@ -103,6 +130,12 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
 
             return downloadFile({
                 url: response.url,
+                method: selectedRequest.downloadMode === "captions"
+                    ? get(settings).save.transcriptMethod
+                    : undefined,
+                copyTextURL: selectedRequest.downloadMode === "captions"
+                    ? response.text || response.url
+                    : undefined,
             });
         } else {
             downloadButtonState.set("error");

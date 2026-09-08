@@ -4,7 +4,7 @@
 </script>
 
 {#if !browser}
-    <noscript style="display: contents">
+    <noscript>
         <div id="nojs-ack">
             <SmallDialog
                 id="nojs-dialog"

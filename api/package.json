@@ -11,6 +11,7 @@
     "scripts": {
         "start": "node src/cobalt",
         "test": "node src/util/test",
+        "test:unit": "node --test src/processing/helpers/tests/*.test.js",
         "token:jwt": "node src/util/generate-jwt-secret"
     },
     "repository": {

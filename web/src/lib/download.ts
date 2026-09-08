@@ -8,11 +8,14 @@ import { createDialog } from "$lib/state/dialogs";
 
 import type { DialogInfo } from "$lib/types/dialog";
 import type { CobaltFileUrlType } from "$lib/types/api";
+import type { CobaltSettings } from "$lib/types/settings";
 
 type DownloadFileParams = {
     url?: string,
     file?: File,
     urlType?: CobaltFileUrlType,
+    copyTextURL?: string,
+    method?: CobaltSettings['save']['transcriptMethod'],
 }
 
 type SavingDialogParams = {
@@ -20,15 +23,17 @@ type SavingDialogParams = {
     file?: File,
     body?: string,
     urlType?: CobaltFileUrlType,
+    copyTextURL?: string,
 }
 
-const openSavingDialog = ({ url, file, body, urlType }: SavingDialogParams) => {
+const openSavingDialog = ({ url, file, body, urlType, copyTextURL }: SavingDialogParams) => {
     const dialogData: DialogInfo = {
         type: "saving",
         id: "saving",
         file,
         url,
         urlType,
+        copyTextURL,
     }
     if (body) dialogData.bodyText = body;
 
@@ -75,13 +80,20 @@ export const copyURL = async (url: string) => {
     return await navigator?.clipboard?.writeText(url);
 }
 
-export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
+export const copyTextFromURL = async (url: string) => {
+    if (!navigator?.clipboard?.writeText) throw new Error("clipboard unavailable");
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("couldn't fetch transcript");
+    return await navigator.clipboard.writeText(await response.text());
+}
+
+export const downloadFile = async ({ url, file, urlType, copyTextURL, method }: DownloadFileParams) => {
     if (!url && !file) throw new Error("attempted to download void");
 
-    const pref = get(settings).save.savingMethod;
+    const pref = method ?? get(settings).save.savingMethod;
 
     if (pref === "ask") {
-        return openSavingDialog({ url, file, urlType });
+        return openSavingDialog({ url, file, urlType, copyTextURL });
     }
 
     /*
@@ -100,7 +112,8 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
             url,
             file,
             body: get(t)("dialog.saving.timeout"),
-            urlType
+            urlType,
+            copyTextURL,
         });
     }
 
@@ -134,10 +147,12 @@ export const downloadFile = ({ url, file, urlType }: DownloadFileParams) => {
                     && !(device.is.iOS && urlType === "redirect")) {
                 return openURL(url);
             } else if (pref === "copy" && !file) {
-                return copyURL(url);
+                return copyTextURL
+                    ? await copyTextFromURL(copyTextURL)
+                    : await copyURL(url);
             }
         }
     } catch { /* catch & ignore */ }
 
-    return openSavingDialog({ url, file, urlType });
+    return openSavingDialog({ url, file, urlType, copyTextURL });
 }

@@ -1,4 +1,9 @@
 import { genericUserAgent } from "../../config.js";
+import {
+    createCaptionResponse,
+    selectCaptionTrack,
+    captionSelectionError,
+} from "../helpers/captions.js";
 
 const craftHeaders = id => ({
     "user-agent": genericUserAgent,
@@ -80,12 +85,39 @@ async function getTranscript(id) {
     .then(r => r.status === 200 && r.json())
     .catch(() => {});
 
-    if (gql?.data?.fetchVideoTranscript?.captions_source_url?.includes('.vtt?')) {
-        return gql.data.fetchVideoTranscript.captions_source_url;
+    const transcript = gql?.data?.fetchVideoTranscript;
+    if (transcript?.captions_source_url?.includes('.vtt?')) {
+        return {
+            url: transcript.captions_source_url,
+            language: transcript.language,
+        };
     }
 }
 
-export default async function({ id, subtitleLang }) {
+export default async function({
+    id,
+    subtitleLang,
+    isCaptionOnly,
+    captionLanguage,
+    captionFormat,
+}) {
+    if (isCaptionOnly) {
+        const transcript = await getTranscript(id);
+        const tracks = transcript ? [transcript] : [];
+        if (!selectCaptionTrack(tracks, captionLanguage)) {
+            return captionSelectionError(tracks);
+        }
+
+        return createCaptionResponse({
+            url: transcript.url,
+            format: captionFormat,
+            language: transcript.language,
+            service: "loom",
+            id,
+            source: `https://www.loom.com/share/${id}`,
+        });
+    }
+
     let url = await fromTranscodedURL(id);
     url ??= await fromRawURL(id);
 
@@ -96,7 +128,7 @@ export default async function({ id, subtitleLang }) {
     let subtitles;
     if (subtitleLang) {
         const transcript = await getTranscript(id);
-        if (transcript) subtitles = transcript;
+        if (transcript) subtitles = transcript.url;
     }
 
     return {

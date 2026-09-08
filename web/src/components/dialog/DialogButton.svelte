@@ -55,7 +55,9 @@
 
     .popup-button {
         width: 100%;
-        height: 40px;
+        min-height: 40px;
+        height: auto;
+        padding-block: 8px;
         transition: 0.2s opacity;
     }
 

@@ -32,6 +32,7 @@
     import IconMusic from "$components/icons/Music.svelte";
     import IconSparkles from "$components/icons/Sparkles.svelte";
     import IconClipboard from "$components/icons/Clipboard.svelte";
+    import IconFileText from "@tabler/icons-svelte/IconFileText.svelte";
 
     let linkInput: Optional<HTMLInputElement>;
 
@@ -222,6 +223,14 @@
             >
                 <IconMute />
                 {$t("save.mute")}
+            </SettingsButton>
+            <SettingsButton
+                settingContext="save"
+                settingId="downloadMode"
+                settingValue="captions"
+            >
+                <IconFileText />
+                {$t("save.captions")}
             </SettingsButton>
         </Switcher>
 

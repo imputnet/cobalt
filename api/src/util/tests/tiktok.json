@@ -9,6 +9,19 @@
         }
     },
     {
+        "name": "standalone English transcript",
+        "url": "https://www.tiktok.com/@tedtoks/video/7168241231892319531",
+        "params": {
+            "downloadMode": "captions",
+            "captionFormat": "txt",
+            "captionLanguage": "en"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "images",
         "url": "https://www.tiktok.com/@matryoshk4/video/7231234675476532526",
         "params": {},

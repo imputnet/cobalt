@@ -34,12 +34,16 @@ export default function({
             requestIP,
             originalRequest: r.originalRequest,
             subtitles: r.subtitles,
+            captionFormat: r.captionFormat,
+            captionSourceFormat: r.captionSourceFormat,
+            captionMetadata: !disableMetadata ? r.captionMetadata : {},
             cover: !disableMetadata ? r.cover : false,
             cropCover: !disableMetadata ? r.cropCover : false,
         },
         params = {};
 
-    if (r.isPhoto) action = "photo";
+    if (r.isCaptionOnly) action = "captions";
+    else if (r.isPhoto) action = "photo";
     else if (r.picker) action = "picker"
     else if (r.isGif && convertGif) action = "gif";
     else if (isAudioOnly) action = "audio";
@@ -69,6 +73,37 @@ export default function({
         case "photo":
             params = { type: "proxy" };
             break;
+
+        case "captions": {
+            const extension = r.captionFormat;
+            const language = r.captionLanguage;
+            const baseName = createFilename(
+                {
+                    ...r.filenameAttributes,
+                    extension,
+                    qualityLabel: language,
+                },
+                filenameStyle,
+                false,
+                false
+            );
+            const textName = createFilename(
+                {
+                    ...r.filenameAttributes,
+                    extension: "txt",
+                    qualityLabel: language,
+                },
+                filenameStyle,
+                false,
+                false
+            );
+            params = {
+                type: "captions",
+                filename: baseName,
+                captionTextFilename: textName,
+            };
+            break;
+        }
 
         case "gif":
             params = { type: "gif" };
@@ -252,7 +287,7 @@ export default function({
 
     // TODO: add support for HLS
     // (very painful)
-    if (!params.isHLS && responseType !== "picker") {
+    if (action !== "captions" && !params.isHLS && responseType !== "picker") {
         const isPreferredWithExtra =
             localProcessing === "preferred" && extraProcessingTypes.has(params.type);
 

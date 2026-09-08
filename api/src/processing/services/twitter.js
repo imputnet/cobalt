@@ -2,6 +2,12 @@ import HLS from "hls-parser";
 import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 import { getCookie, updateCookie } from "../cookie/manager.js";
+import {
+    captionSegmentResources,
+    createCaptionResponse,
+    selectCaptionTrack,
+    captionSelectionError,
+} from "../helpers/captions.js";
 
 const graphqlURL = 'https://api.x.com/graphql/4Siu98E55GquhG52zHdY5w/TweetDetail';
 const tokenURL = 'https://api.x.com/1.1/guest/activate.json';
@@ -207,7 +213,17 @@ const extractGraphqlMedia = async (thread, dispatcher, id, guestToken, cookie) =
     return (repostedTweet?.media || baseTweet?.extended_entities?.media);
 }
 
-export default async function({ id, index, toGif, dispatcher, alwaysProxy, subtitleLang }) {
+export default async function({
+    id,
+    index,
+    toGif,
+    dispatcher,
+    alwaysProxy,
+    subtitleLang,
+    isCaptionOnly,
+    captionLanguage,
+    captionFormat,
+}) {
     const cookie = await getCookie('twitter');
 
     let guestToken = await getGuestToken(dispatcher);
@@ -260,28 +276,54 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy, subti
         url, filename,
     });
 
-    const extractSubtitles = async (hlsUrl) => {
+    const getSubtitleTracks = async hlsUrl => {
         const mainHls = await fetch(hlsUrl).then(r => r.text()).catch(() => {});
-        if (!mainHls) return;
+        if (!mainHls) return [];
+        return (HLS.parse(mainHls)?.variants?.[0]?.subtitles || []).map(subtitle => ({
+            url: new URL(subtitle.uri, hlsUrl).toString(),
+            language: subtitle.language,
+        }));
+    };
 
-        const subtitle = HLS.parse(mainHls)?.variants[0]?.subtitles?.find(
-            s => s.language.startsWith(subtitleLang)
-        );
+    const resolveSubtitle = async (subtitle, allSegments = false) => {
         if (!subtitle) return;
-
-        const subtitleUrl = new URL(subtitle.uri, hlsUrl).toString();
-        const subtitleHls = await fetch(subtitleUrl).then(r => r.text());
+        const subtitleHls = await fetch(subtitle.url).then(r => r.text()).catch(() => {});
         if (!subtitleHls) return;
 
-        const finalSubtitlePath = HLS.parse(subtitleHls)?.segments?.[0].uri;
-        if (!finalSubtitlePath) return;
-
-        const finalSubtitleUrl = new URL(finalSubtitlePath, hlsUrl).toString();
-
+        const segments = HLS.parse(subtitleHls)?.segments;
+        if (!segments?.length) return;
+        const urls = allSegments
+            ? captionSegmentResources(segments, subtitle.url)
+            : new URL(segments[0].uri, subtitle.url).toString();
         return {
-            url: finalSubtitleUrl,
+            url: urls,
             language: subtitle.language,
         };
+    };
+
+    if (isCaptionOnly) {
+        const tracks = [];
+        for (const mediaItem of media) {
+            if (mediaItem.type !== "video") continue;
+            const hlsVariant = mediaItem.video_info?.variants?.find(
+                variant => variant.content_type === "application/x-mpegURL"
+            );
+            if (hlsVariant) tracks.push(...await getSubtitleTracks(hlsVariant.url));
+        }
+        const selected = selectCaptionTrack(tracks, captionLanguage);
+        if (!selected) return captionSelectionError(tracks);
+        const subtitles = await resolveSubtitle(selected, true);
+        if (!subtitles) return { error: "captions.unavailable" };
+
+        return createCaptionResponse({
+            url: subtitles.url,
+            format: captionFormat,
+            language: subtitles.language,
+            service: "twitter",
+            id,
+            source: `https://x.com/i/status/${id}`,
+            headers: { "user-agent": genericUserAgent },
+        });
     }
 
     switch (media?.length) {
@@ -308,7 +350,9 @@ export default async function({ id, index, toGif, dispatcher, alwaysProxy, subti
                     v => v.content_type === "application/x-mpegURL"
                 );
                 if (hlsVariant) {
-                    const { url, language } = await extractSubtitles(hlsVariant.url) || {};
+                    const { url, language } = await resolveSubtitle(selectCaptionTrack(
+                        await getSubtitleTracks(hlsVariant.url), subtitleLang
+                    )) || {};
                     subtitles = url;
                     if (language) fileMetadata = { sublanguage: language };
                 }

@@ -22,6 +22,19 @@
         }
     },
     {
+        "name": "standalone English transcript",
+        "url": "https://vimeo.com/76979871",
+        "params": {
+            "downloadMode": "captions",
+            "captionFormat": "txt",
+            "captionLanguage": "en"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "1080p dash parcel",
         "url": "https://vimeo.com/967252742",
         "params": {

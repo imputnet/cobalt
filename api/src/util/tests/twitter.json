@@ -11,6 +11,20 @@
         }
     },
     {
+        "name": "standalone English transcript",
+        "url": "https://twitter.com/TwitterA11y/status/1395427851860684801",
+        "canFail": true,
+        "params": {
+            "downloadMode": "captions",
+            "captionFormat": "txt",
+            "captionLanguage": "en"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "video with mobile web mediaviewer",
         "url": "https://twitter.com/X/status/1697304622749086011/mediaViewer?currentTweet=1697304622749086011&currentTweetUser=X&currentTweet=1697304622749086011&currentTweetUser=X",
         "params": {},

@@ -25,6 +25,7 @@
     "service.unsupported": "this service is not supported yet. have you pasted the right link?",
     "service.disabled": "this service is generally supported by cobalt, but it's disabled on this processing instance. try a link from another service!",
     "service.audio_not_supported": "this service doesn't support audio extraction. try a link from another service!",
+    "service.captions_not_supported": "this service doesn't support standalone transcripts.",
 
     "link.invalid": "your link is invalid or this service is not supported yet. have you pasted the right link?",
     "link.unsupported": "{{ service }} is supported, but i couldn't recognize your link. have you pasted the right one?",
@@ -59,5 +60,9 @@
     "youtube.api_error": "youtube updated something about its api and i couldn't get any info about this video. try again in a few seconds, but if this issue sticks, please report it!",
     "youtube.disabled_main_instance": "youtube downloading is disabled on the main instance due to restrictions from youtube's side and infinite maintenance cost at scale.\n\nwe apologize for the inconvenience and encourage you to host your own API instance for this.",
     "youtube.drm": "this youtube video is protected by widevine DRM, so i can't download it. try a different link!",
-    "youtube.no_session_tokens": "couldn't get required session tokens for youtube. this may be caused by a restriction on youtube's side. try again in a few seconds, but if this issue sticks, please report it!"
+    "youtube.no_session_tokens": "couldn't get required session tokens for youtube. this may be caused by a restriction on youtube's side. try again in a few seconds, but if this issue sticks, please report it!",
+    "youtube.captions_unavailable": "this video doesn't have any captions i can download.",
+    "youtube.caption_language_unavailable": "this video doesn't have captions in the selected language. available languages: {{ languages }}.",
+    "captions.unavailable": "this video doesn't have any captions i can download.",
+    "captions.language_unavailable": "this video doesn't have captions in your preferred language. you can download an available transcript instead."
 }

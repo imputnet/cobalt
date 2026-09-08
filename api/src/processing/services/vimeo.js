@@ -2,6 +2,11 @@ import HLS from "hls-parser";
 import { env } from "../../config.js";
 import { merge } from '../../misc/utils.js';
 import { getCookie } from "../cookie/manager.js";
+import {
+    createCaptionResponse,
+    selectCaptionTrack,
+    captionSelectionError,
+} from "../helpers/captions.js";
 
 const resolutionMatch = {
     "3840": 2160,
@@ -76,6 +81,15 @@ const compareQuality = (rendition, requestedQuality) => {
     return Math.abs(quality - requestedQuality);
 }
 
+const getPlayerConfig = (id, password) => {
+    const url = new URL(`https://player.vimeo.com/video/${id}/config`);
+    if (password) url.searchParams.set("h", password);
+
+    return fetch(url)
+        .then(r => r.json())
+        .catch(() => {});
+}
+
 const getDirectLink = async (data, quality, subtitleLang) => {
     if (!data.files) return;
 
@@ -102,7 +116,9 @@ const getDirectLink = async (data, quality, subtitleLang) => {
             subtitles = config.request.text_tracks.find(
                 t => t.lang.startsWith(subtitleLang)
             );
-            subtitles = new URL(subtitles.url, "https://player.vimeo.com/").toString();
+            if (subtitles) {
+                subtitles = new URL(subtitles.url, "https://player.vimeo.com/").toString();
+            }
         }
     }
 
@@ -183,6 +199,28 @@ const getHLS = async (configURL, obj) => {
 }
 
 export default async function(obj) {
+    if (obj.isCaptionOnly) {
+        const config = await getPlayerConfig(obj.id, obj.password);
+        if (!config) return { error: "fetch.fail" };
+        const tracks = (config.request?.text_tracks || []).map(track => ({
+            url: track.url,
+            language: track.lang,
+        }));
+        const track = selectCaptionTrack(tracks, obj.captionLanguage);
+        if (!track) return captionSelectionError(tracks);
+
+        return createCaptionResponse({
+            url: new URL(track.url, "https://player.vimeo.com/").toString(),
+            format: obj.captionFormat,
+            language: track.language,
+            service: "vimeo",
+            id: obj.id,
+            title: config.video?.title,
+            author: config.video?.owner?.name,
+            source: `https://vimeo.com/${obj.id}`,
+        });
+    }
+
     let quality = obj.quality === "max" ? 9000 : Number(obj.quality);
     if (quality < 240) quality = 240;
     if (!quality || obj.isAudioOnly) quality = 9000;

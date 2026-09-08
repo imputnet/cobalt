@@ -73,7 +73,9 @@ all keys except for `url` are optional. value options are separated by `/`.
 | `url`             | `string`  | source URL                                                      | *required* |
 | `audioBitrate`    | `string`  | `320 / 256 / 128 / 96 / 64 / 8` (kbps)                          | `128`      |
 | `audioFormat`     | `string`  | `best / mp3 / ogg / wav / opus`                                 | `mp3`      |
-| `downloadMode`    | `string`  | `auto / audio / mute`                                           | `auto`     |
+| `downloadMode`    | `string`  | `auto / audio / mute / captions`                                | `auto`     |
+| `captionFormat`   | `string`  | `txt / vtt / srt / md`                                          | `txt`      |
+| `captionLanguage` | `string`  | any valid ISO 639-1 language code                               | *none*     |
 | `filenameStyle`   | `string`  | `classic / pretty / basic / nerdy`                              | `basic`    |
 | `videoQuality`    | `string`  | `max / 4320 / 2160 / 1440 / 1080 / 720 / 480 / 360 / 240 / 144` | `1080`     |
 | `disableMetadata` | `boolean` | title, artist, and other info will not be added to the file     | `false`    |
@@ -93,6 +95,44 @@ all keys except for `url` are optional. value options are separated by `/`.
 | `youtubeBetterAudio`    | `boolean` | prefer higher quality youtube audio if possible   | `false` |
 | `youtubeHLS`            | `boolean` | use HLS formats when downloading from youtube     | `false` |
 
+#### standalone captions
+
+set `downloadMode` to `captions` to download a caption or transcript file without
+downloading video or audio. supported services are listed in the
+[api readme](/api/README.md#supported-services).
+
+`captionLanguage` selects the caption language, falling back to `subtitleLang` when
+omitted. if both are omitted, cobalt chooses an available track. when a service
+identifies automatic captions, manually provided tracks take priority.
+
+when a language is provided, an exact match takes priority over compatible regional
+variants, with manual captions preferred within each tier. explicitly requested
+writing systems are preserved, so `zh-Hant` will not fall back to `zh-Hans`.
+
+if captions exist but none match, the api returns
+`error.api.captions.language_unavailable`. omit both language fields to retry with an
+available track. if no downloadable tracks exist, the error is
+`error.api.captions.unavailable`.
+
+`txt` and `md` produce readable transcripts without timestamps. `vtt` preserves the
+original webvtt cues, while `srt` converts those cues to the subrip format.
+
+example request:
+
+```json
+{
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "downloadMode": "captions",
+    "captionFormat": "txt",
+    "subtitleLang": "en"
+}
+```
+
+the response is a regular [`tunnel`](#tunnelredirect-response) whose filename uses
+the selected extension. caption tunnels use the same expiry and signature checks as
+media tunnels. caption responses also include a `text` tunnel for copying a plain,
+untimed transcript. for `txt` requests, `url` and `text` are the same.
+
 ### response
 body type: `application/json`
 
@@ -109,6 +149,7 @@ the response will always be a JSON object containing the `status` key, which is 
 | `status`     | `string` | `tunnel / redirect`                                        |
 | `url`        | `string` | url for the cobalt tunnel, or redirect to an external link |
 | `filename`   | `string` | cobalt-generated filename for the file being downloaded    |
+| `text`       | `string` | plain-text transcript tunnel for caption responses (optional) |
 
 ### local processing response
 | key          | type       | value                                                         |
@@ -186,6 +227,7 @@ all keys in this table are optional.
 |:-------------|:---------|:----------------------------------------------------------------------------|
 | `service`    | `string` | origin service (optional)                                                   |
 | `limit`      | `number` | the maximum downloadable video duration or the rate limit window (optional) |
+| `languages`  | `string[]` | available caption languages when the requested language is missing (optional) |
 
 ## POST `/session`
 used for generating JWT tokens, if enabled. currently, cobalt only supports

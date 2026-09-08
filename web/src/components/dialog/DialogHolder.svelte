@@ -15,7 +15,7 @@
 -->
 <div id="dialog-holder">
     <NoScriptDialog />
-    {#each $dialogs as dialog}
+    {#each $dialogs as dialog (dialog.id)}
         {#if dialog.type === "small"}
             <SmallDialog {...dialog} />
         {:else if dialog.type === "picker"}

@@ -5,6 +5,7 @@
     import { hapticConfirm } from "$lib/haptics";
     import {
         copyURL,
+        copyTextFromURL,
         openURL,
         shareURL,
         openFile,
@@ -33,10 +34,12 @@
     export let url: string = "";
     export let file: File | undefined = undefined;
     export let urlType: CobaltFileUrlType | undefined = undefined;
+    export let copyTextURL = "";
 
     let close: () => void;
 
     let copied = false;
+    let copyFailed = false;
 
     $: if (copied) {
         setTimeout(() => {
@@ -103,15 +106,24 @@
                         elevated
                         click={async () => {
                             if (!copied) {
-                                copyURL(url);
-                                hapticConfirm();
-                                copied = true;
+                                try {
+                                    if (copyTextURL) {
+                                        await copyTextFromURL(copyTextURL);
+                                    } else {
+                                        await copyURL(url);
+                                    }
+                                    hapticConfirm();
+                                    copied = true;
+                                    copyFailed = false;
+                                } catch {
+                                    copyFailed = true;
+                                }
                             }
                         }}
                         ariaLabel={copied ? $t("button.copied") : ""}
                     >
-                        <CopyIcon check={copied} />
-                        {$t("button.copy")}
+                        <CopyIcon check={copied} regularIcon={!!copyTextURL} />
+                        {$t(copyTextURL ? "button.copy.text" : "button.copy")}
                     </VerticalActionButton>
                 {/if}
             </div>
@@ -123,6 +135,12 @@
             {#if bodyText}
                 <div class="body-text">
                     {bodyText}
+                </div>
+            {/if}
+
+            {#if copyFailed}
+                <div class="body-text">
+                    {$t("dialog.saving.copy_failed")}
                 </div>
             {/if}
         </div>

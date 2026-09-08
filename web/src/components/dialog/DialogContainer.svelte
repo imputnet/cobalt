@@ -22,7 +22,7 @@
                 // check if dialog parent is still present
                 if (dialogParent) {
                     dialogParent.close();
-                    killDialog();
+                    killDialog(id);
                 }
             }, 150);
         }

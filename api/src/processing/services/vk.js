@@ -1,4 +1,9 @@
 import { env } from "../../config.js";
+import {
+    createCaptionResponse,
+    selectCaptionTrack,
+    captionSelectionError,
+} from "../helpers/captions.js";
 
 const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240", "144"];
 
@@ -80,7 +85,16 @@ const getVideo = async (ownerId, videoId, accessKey) => {
     return video;
 }
 
-export default async function ({ ownerId, videoId, accessKey, quality, subtitleLang }) {
+export default async function ({
+    ownerId,
+    videoId,
+    accessKey,
+    quality,
+    subtitleLang,
+    isCaptionOnly,
+    captionLanguage,
+    captionFormat,
+}) {
     const token = await getToken();
     if (!token) return { error: "fetch.fail" };
 
@@ -101,6 +115,26 @@ export default async function ({ ownerId, videoId, accessKey, quality, subtitleL
             return { error: "fetch.empty" };
         }
         return { error: "content.video.unavailable" };
+    }
+
+    if (isCaptionOnly) {
+        const tracks = (video.subtitles || [])
+            .filter(subtitle => subtitle.title?.endsWith(".vtt"))
+            .map(subtitle => ({ url: subtitle.url, language: subtitle.lang }));
+        const subtitle = selectCaptionTrack(tracks, captionLanguage);
+        if (!subtitle) return captionSelectionError(tracks);
+
+        const id = `${ownerId}_${videoId}${accessKey ? `_${accessKey}` : ''}`;
+        return createCaptionResponse({
+            url: subtitle.url,
+            format: captionFormat,
+            language: subtitle.language,
+            service: "vk",
+            id,
+            title: video.title?.trim(),
+            source: `https://vk.com/video${id}`,
+            headers: { "user-agent": vkClientAgent },
+        });
     }
 
     if (!video.files || !video.duration) {

@@ -6,6 +6,7 @@ import type {
     CobaltSettingsV4,
     CobaltSettingsV5,
     CobaltSettingsV6,
+    CobaltSettingsV7,
 } from "$lib/types/settings";
 import { getBrowserLanguage } from "$lib/settings/audio-sub-language";
 
@@ -93,6 +94,12 @@ const migrations: Record<number, Migrator> = {
             }
         }
 
+        return out as AllPartialSettingsWithSchema;
+    },
+
+    [7]: (settings: AllPartialSettingsWithSchema) => {
+        const out = settings as RecursivePartial<CobaltSettingsV7>;
+        out.schemaVersion = 7;
         return out as AllPartialSettingsWithSchema;
     },
 };

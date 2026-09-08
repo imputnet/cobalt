@@ -12,6 +12,7 @@ waitport() {
 }
 
 test_api() {
+    pnpm run --prefix api test:unit
     waitport 3000
     curl -m 3 http://localhost:3000/
     API_RESPONSE=$(curl -m 10 http://localhost:3000/ \

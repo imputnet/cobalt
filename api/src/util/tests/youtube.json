@@ -240,5 +240,19 @@
             "code": 200,
             "status": "tunnel"
         }
+    },
+    {
+        "name": "standalone English transcript",
+        "url": "https://www.youtube.com/watch?v=vPwaXytZcgI",
+        "canFail": true,
+        "params": {
+            "downloadMode": "captions",
+            "captionFormat": "txt",
+            "subtitleLang": "en"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
     }
 ]
