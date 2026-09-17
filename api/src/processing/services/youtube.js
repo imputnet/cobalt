@@ -2,7 +2,7 @@ import HLS from "hls-parser";
 import ivm from "isolated-vm";
 
 import { fetch, Request } from "undici";
-import { Innertube, Platform, Session } from "youtubei.js";
+import { Constants, Innertube, Platform, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
@@ -61,7 +61,7 @@ const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDR
 
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
-const cloneInnertube = async (customFetch, useSession) => {
+const cloneInnertube = async (customFetch, useSession, clientContext) => {
     const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
 
     const rawCookie = getCookie('youtube');
@@ -93,8 +93,16 @@ const cloneInnertube = async (customFetch, useSession) => {
         lastRefreshedAt = +new Date();
     }
 
+    const context = clientContext ? {
+        ...innertube.session.context,
+        client: {
+            ...innertube.session.context.client,
+            ...clientContext,
+        },
+    } : innertube.session.context;
+
     const session = new Session(
-        innertube.session.context,
+        context,
         innertube.session.api_key,
         innertube.session.api_version,
         innertube.session.account_index,
@@ -226,6 +234,14 @@ export default async function (o) {
         innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
     }
 
+    const customClient = Constants.SUPPORTED_CLIENTS.includes(innertubeClient)
+        ? undefined
+        : { clientName: innertubeClient, ...env.customInnertubeContext };
+
+    const needsPlayer = (format) => customClient
+        ? !format.url
+        : !clientsWithNoCipher.includes(innertubeClient);
+
     let yt;
     try {
         yt = await cloneInnertube(
@@ -247,7 +263,8 @@ export default async function (o) {
                     dispatcher: o.dispatcher
                 });
             },
-            useSession
+            useSession,
+            customClient
         );
     } catch (e) {
         if (e === "no_session_tokens") {
@@ -261,7 +278,7 @@ export default async function (o) {
 
     let info;
     try {
-        info = await yt.getBasicInfo(o.id, { client: innertubeClient });
+        info = await yt.getBasicInfo(o.id, { client: customClient ? undefined : innertubeClient });
     } catch (e) {
         if (e?.info) {
             let errorInfo;
@@ -565,7 +582,7 @@ export default async function (o) {
             urls = audio.uri;
         }
 
-        if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
+        if (needsPlayer(audio) && innertube) {
             urls = await audio.decipher(innertube.session.player);
         }
 
@@ -612,7 +629,7 @@ export default async function (o) {
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = o.container === "auto" ? codecList[codec].container : o.container;
 
-            if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
+            if (needsPlayer(video) && innertube) {
                 video = await video.decipher(innertube.session.player);
                 audio = await audio.decipher(innertube.session.player);
             } else {

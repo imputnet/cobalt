@@ -7,6 +7,17 @@ import { isURL } from "../misc/utils.js";
 import * as cluster from "../misc/cluster.js";
 import { Green, Yellow } from "../misc/console-text.js";
 
+const parseCustomInnertubeContext = (value) => {
+    if (!value) return;
+
+    try {
+        return JSON.parse(value);
+    } catch {
+        console.error("CUSTOM_INNERTUBE_CONTEXT is invalid. Expected a json object.\n");
+        throw new Error("Invalid CUSTOM_INNERTUBE_CONTEXT");
+    }
+}
+
 const forceLocalProcessingOptions = ["never", "session", "always"];
 const youtubeHlsOptions = ["never", "key", "always"];
 
@@ -117,6 +128,7 @@ export const loadEnvs = (env = process.env) => {
         enabledServices,
 
         customInnertubeClient: env.CUSTOM_INNERTUBE_CLIENT,
+        customInnertubeContext: parseCustomInnertubeContext(env.CUSTOM_INNERTUBE_CONTEXT),
         ytSessionServer: env.YOUTUBE_SESSION_SERVER,
         ytSessionReloadInterval: 300,
         ytSessionInnertubeClient: env.YOUTUBE_SESSION_INNERTUBE_CLIENT,
@@ -153,9 +165,12 @@ export const validateEnvs = async (env) => {
         throw new Error('SO_REUSEPORT is not supported');
     }
 
-    if (env.customInnertubeClient && !Constants.SUPPORTED_CLIENTS.includes(env.customInnertubeClient)) {
+    if (env.customInnertubeClient
+        && !Constants.SUPPORTED_CLIENTS.includes(env.customInnertubeClient)
+        && !env.customInnertubeContext) {
         console.error("CUSTOM_INNERTUBE_CLIENT is invalid. Provided client is not supported.");
-        console.error(`Supported clients are: ${Constants.SUPPORTED_CLIENTS.join(', ')}\n`);
+        console.error(`Supported clients are: ${Constants.SUPPORTED_CLIENTS.join(', ')}`);
+        console.error("to use any other client, describe it in CUSTOM_INNERTUBE_CONTEXT.\n");
         throw new Error("Invalid CUSTOM_INNERTUBE_CLIENT");
     }
 

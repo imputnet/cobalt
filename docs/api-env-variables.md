@@ -64,6 +64,7 @@ this document is not final and will expand over time. feel free to improve it!
 | name                             | value example            |
 |:---------------------------------|:-------------------------|
 | CUSTOM_INNERTUBE_CLIENT          | `IOS`                    |
+| CUSTOM_INNERTUBE_CONTEXT         | `{"clientVersion":"1.00"}` |
 | YOUTUBE_SESSION_SERVER           | `http://localhost:8080/` |
 | YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
 | YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
@@ -260,7 +261,26 @@ the value is a number, either `0` or `1`.
 ### CUSTOM_INNERTUBE_CLIENT
 innertube client that will be used instead of the default one.
 
-the value is a string.
+the value is a string. a client that youtubei.js doesn't support can be used
+too, as long as `CUSTOM_INNERTUBE_CONTEXT` describes it.
+
+### CUSTOM_INNERTUBE_CONTEXT
+innertube client info, merged into the client context of every request.
+required when `CUSTOM_INNERTUBE_CLIENT` is a client youtubei.js doesn't
+support, optional otherwise (use it to bump a client version, for example).
+
+the value is a json object, whose keys are the ones innertube expects in
+`context.client`:
+
+```
+CUSTOM_INNERTUBE_CLIENT=SOME_CLIENT
+CUSTOM_INNERTUBE_CONTEXT={"clientVersion":"1.00","deviceMake":"...","deviceModel":"...","osName":"...","osVersion":"...","userAgent":"..."}
+```
+
+which client is worth using changes over time: some need a PO token or the
+player script for their format urls to work, and some don't. up-to-date client
+configs can be found in yt-dlp's `yt_dlp/extractor/youtube/_base.py`
+(`INNERTUBE_CLIENTS`).
 
 ### YOUTUBE_SESSION_SERVER
 URL to an instance of [yt-session-generator](https://github.com/imputnet/yt-session-generator). used for automatically pulling `poToken` & `visitor_data` for youtube. can be local or remote.
