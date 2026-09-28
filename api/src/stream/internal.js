@@ -1,6 +1,6 @@
 import { request } from "undici";
 import { Readable } from "node:stream";
-import { closeRequest, getHeaders, pipe } from "./shared.js";
+import { closeRequest, closeResponse, getHeaders, pipe } from "./shared.js";
 import { handleHlsPlaylist, isHlsResponse, probeInternalHLSTunnel } from "./internal-hls.js";
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
@@ -9,31 +9,37 @@ const min = (a, b) => a < b ? a : b;
 const serviceNeedsChunks = new Set(["youtube", "vk"]);
 
 async function* readChunks(streamInfo, size) {
-    let read = 0n, chunksSinceTransplant = 0;
+    let read = 0n;
     while (read < size) {
         if (streamInfo.controller.signal.aborted) {
             throw new Error("controller aborted");
         }
 
-        const chunk = await request(streamInfo.url, {
-            headers: {
-                ...getHeaders(streamInfo.service),
-                Range: `bytes=${read}-${read + CHUNK_SIZE}`
-            },
-            dispatcher: streamInfo.dispatcher,
-            signal: streamInfo.controller.signal,
-            maxRedirections: 4
-        });
+        let chunk, attempts = 0;
+        while (true) {
+            chunk = await request(streamInfo.url, {
+                headers: {
+                    ...getHeaders(streamInfo.service),
+                    Range: `bytes=${read}-${read + CHUNK_SIZE}`
+                },
+                dispatcher: streamInfo.dispatcher,
+                signal: streamInfo.controller.signal,
+                maxRedirections: 4
+            });
 
-        if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.transplant) {
-            chunksSinceTransplant = 0;
-            try {
+            if (chunk.statusCode === 403 && streamInfo.transplant && attempts++ < 3) {
+                await chunk.body.dump();
                 await streamInfo.transplant(streamInfo.dispatcher);
                 continue;
-            } catch {}
-        }
+            }
 
-        chunksSinceTransplant++;
+            if (chunk.statusCode !== 200 && chunk.statusCode !== 206) {
+                await chunk.body.dump();
+                throw new Error(`media request failed with status ${chunk.statusCode}`);
+            }
+
+            break;
+        }
 
         const expected = min(CHUNK_SIZE, size - read);
         const received = BigInt(chunk.headers['content-length']);
@@ -52,11 +58,18 @@ async function* readChunks(streamInfo, size) {
 
 async function handleChunkedStream(streamInfo, res) {
     const { signal } = streamInfo.controller;
-    const cleanup = () => (res.end(), closeRequest(streamInfo.controller));
+    const cleanup = () => {
+        if (!res.headersSent) {
+            res.removeHeader('content-length');
+            res.removeHeader('content-type');
+        }
+        closeResponse(res);
+        closeRequest(streamInfo.controller);
+    };
 
     try {
-        let req, attempts = 3;
-        while (attempts--) {
+        let req;
+        for (let attempts = 0; ; attempts++) {
             req = await fetch(streamInfo.url, {
                 headers: getHeaders(streamInfo.service),
                 method: 'HEAD',
@@ -65,13 +78,8 @@ async function handleChunkedStream(streamInfo, res) {
             });
 
             streamInfo.url = req.url;
-            if (req.status === 403 && streamInfo.transplant) {
-                try {
-                    await streamInfo.transplant(streamInfo.dispatcher);
-                } catch {
-                    break;
-                }
-            } else break;
+            if (req.status !== 403 || !streamInfo.transplant || attempts >= 3) break;
+            await streamInfo.transplant(streamInfo.dispatcher);
         }
 
         const size = BigInt(req.headers.get('content-length'));
