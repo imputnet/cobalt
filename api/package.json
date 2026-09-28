@@ -6,7 +6,7 @@
     "exports": "./src/cobalt.js",
     "type": "module",
     "engines": {
-        "node": ">=18.17"
+        "node": ">=20"
     },
     "scripts": {
         "start": "node src/cobalt",
@@ -40,7 +40,7 @@
         "set-cookie-parser": "2.7.2",
         "undici": "^6.24.1",
         "url-pattern": "1.0.3",
-        "youtubei.js": "17.0.1",
+        "youtubei.js": "18.1.0",
         "zod": "^4.2.1"
     },
     "optionalDependencies": {

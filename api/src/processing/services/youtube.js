@@ -23,7 +23,6 @@ Platform.shim.eval = async (data) => {
 }
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
-
 let innertube, lastRefreshedAt;
 
 const codecList = {
@@ -57,7 +56,10 @@ const hlsCodecList = {
     }
 }
 
-const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDROID'];
+const clientsWithNoCipher = [
+    'IOS', 'ANDROID', 'ANDROID_VR', 'VISIONOS',
+    'YTSTUDIO_ANDROID', 'YTMUSIC_ANDROID'
+];
 
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 

@@ -43,14 +43,14 @@ export function getHeaders(service) {
         .reduce((p, [key, val]) => ({ ...p, [key]: String(val) }), {})
 }
 
-export function pipe(from, to, done) {
+export function pipe(from, to, done, options) {
     from.on('error', done)
         .on('close', done);
 
     to.on('error', done)
       .on('close', done);
 
-    from.pipe(to);
+    from.pipe(to, options);
 }
 
 export async function estimateTunnelLength(streamInfo, multiplier = 1.1) {
