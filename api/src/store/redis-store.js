@@ -26,11 +26,14 @@ export default class RedisStore extends Store {
     async _get(key) {
         await this.#connected;
 
-        const valueType = await this.#client.get(this.#keyOf(key) + '_t');
-        const value = await this.#client.get(
-            commandOptions({ returnBuffers: true }),
-            this.#keyOf(key)
-        );
+        const redisKey = this.#keyOf(key);
+        const [valueType, value] = await Promise.all([
+            this.#client.get(redisKey + '_t'),
+            this.#client.get(
+                commandOptions({ returnBuffers: true }),
+                redisKey
+            )
+        ]);
 
         if (!value) {
             return null;
