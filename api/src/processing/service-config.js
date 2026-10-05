@@ -4,6 +4,13 @@ export const audioIgnore = new Set(["vk", "ok", "loom"]);
 export const hlsExceptions = new Set(["dailymotion", "vimeo", "rutube", "bsky", "youtube"]);
 
 export const services = {
+    alipay: {
+        patterns: [
+            "video/:contentId",
+            "_shortLink/:shortLink"
+        ],
+        subdomains: ["render", "ur"],
+    },
     bilibili: {
         patterns: [
             "video/:comId",

@@ -1,0 +1,31 @@
+[
+    {
+        "name": "short link video",
+        "url": "https://ur.lepudding.com/_3Je3KhPExzQMlHZRvuBgcd",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "short link video (muted)",
+        "url": "https://ur.lepudding.com/_3Je3KhPExzQMlHZRvuBgcd",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "content id link",
+        "url": "https://alipay.com/video/20260913OB020010038324417829",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    }
+]

@@ -97,6 +97,23 @@ function aliasURL(url) {
             }
             break;
 
+        case "lepudding":
+            if (url.hostname === 'ur.lepudding.com' && parts.length === 2) {
+                url = new URL(`https://alipay.com/_shortLink/${
+                    encodeURIComponent(parts[1])
+                }`);
+            }
+            break;
+
+        case "alipay":
+            if (url.pathname.endsWith('/video-share.html')) {
+                const contentId = url.search.match(/contentId(?:%253D|%3D|=)([A-Za-z0-9]+)/)?.[1];
+                if (contentId) {
+                    url = new URL(`https://alipay.com/video/${contentId}`);
+                }
+            }
+            break;
+
         case "loom":
             const idPart = parts[parts.length - 1];
             if (idPart.length > 32) {

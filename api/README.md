@@ -17,6 +17,7 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 
 | service           | video + audio | only audio | only video | metadata | rich file names |
 | :--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
+| alipay            | ✅            | ❌         | ✅         | ✅         | ➖              |
 | bilibili          | ✅            | ✅         | ✅         | ➖         | ➖              |
 | bluesky           | ✅            | ✅         | ✅         | ➖         | ➖              |
 | dailymotion       | ✅            | ✅         | ✅         | ✅         | ✅              |

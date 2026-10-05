@@ -22,6 +22,10 @@ export const testers = {
         pattern.shareId?.length <= 16 ||
         (pattern.username?.length <= 30 && pattern.storyId?.length <= 24),
 
+    "alipay": pattern =>
+        pattern.contentId?.length <= 40 ||
+        pattern.shortLink?.length <= 40,
+
     "loom": pattern =>
         pattern.id?.length <= 32,
 

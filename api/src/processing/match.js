@@ -25,6 +25,7 @@ import twitch from "./services/twitch.js";
 import rutube from "./services/rutube.js";
 import dailymotion from "./services/dailymotion.js";
 import snapchat from "./services/snapchat.js";
+import alipay from "./services/alipay.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
@@ -235,6 +236,10 @@ export default async function({ host, patternMatch, params, authType }) {
                     ...patternMatch,
                     alwaysProxy: params.alwaysProxy,
                 });
+                break;
+
+            case "alipay":
+                r = await alipay(patternMatch);
                 break;
 
             case "loom":
