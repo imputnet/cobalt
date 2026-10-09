@@ -26,6 +26,7 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 | newgrounds        | ✅            | ✅         | ✅         | ✅         | ✅              |
 | ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
 | pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| pr0gramm (pr0.app)| ✅            | ✅         | ✅         | ➖         | ✅              |
 | reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |
 | rutube            | ✅            | ✅         | ✅         | ✅         | ✅              |
 | snapchat          | ✅            | ✅         | ✅         | ➖         | ➖              |
@@ -51,6 +52,7 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 | instagram  | supports reels, photos, and videos. lets you pick what to save from multi-media posts.                               |
 | facebook   | supports public accessible videos content only.                                                                      |
 | pinterest  | supports photos, gifs, videos and stories.                                                                           |
+| pr0gramm   | supports images and videos, in the h264 and vp9 variants that the site itself offers. also accepts pr0.app links.    |
 | reddit     | supports gifs and videos.                                                                                            |
 | snapchat   | supports spotlights and stories. lets you pick what to save from stories.                                            |
 | rutube     | supports yappy & private links.                                                                                      |

@@ -36,6 +36,10 @@ export const testers = {
         pattern.id?.length <= 128 ||
         pattern.shortLink?.length <= 32,
 
+    "pr0gramm": pattern =>
+        // item ids are numeric and can be anywhere up to int64
+        pattern.id?.length <= 19 && /^\d+$/.test(pattern.id || ""),
+
     "reddit": pattern =>
         pattern.id?.length <= 16 && !pattern.sub && !pattern.user ||
         (pattern.sub?.length <= 22 && pattern.id?.length <= 16) ||

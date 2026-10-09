@@ -31,6 +31,12 @@ function aliasURL(url) {
             }
             break;
 
+        case "pr0":
+            if (services.pr0gramm.altDomains.includes(url.hostname)) {
+                url.hostname = 'pr0gramm.com';
+            }
+            break;
+
         case "pin":
             if (url.hostname === 'pin.it' && parts.length === 2) {
                 url = new URL(`https://pinterest.com/url_shortener/${
