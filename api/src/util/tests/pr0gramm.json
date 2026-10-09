@@ -1,0 +1,118 @@
+[
+    {
+        "name": "video",
+        "url": "https://pr0gramm.com/top/7167415",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video on pr0.app",
+        "url": "https://pr0.app/top/7167415",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video, quality capped at 360p",
+        "url": "https://pr0gramm.com/top/7167415",
+        "params": {
+            "videoQuality": "360"
+        },
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video, muted",
+        "url": "https://pr0gramm.com/top/7167415",
+        "params": {
+            "downloadMode": "mute"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "video, audio only",
+        "url": "https://pr0gramm.com/top/7167415",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "photo",
+        "url": "https://pr0gramm.com/top/7167378",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "photo on pr0.app",
+        "url": "https://pr0.app/top/7167378",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "photo whose fullsize path is stale",
+        "url": "https://pr0gramm.com/top/7167411",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "user link",
+        "url": "https://pr0gramm.com/user/dex0r/7167415",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "arbitrary path with an item id",
+        "url": "https://pr0gramm.com/quatsch/foobar/7167415",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "non numeric id",
+        "url": "https://pr0gramm.com/top/dex0r",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.link.unsupported"
+        }
+    },
+    {
+        "name": "inexistent item",
+        "url": "https://pr0gramm.com/top/999999999",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.fetch.empty"
+        }
+    }
+]

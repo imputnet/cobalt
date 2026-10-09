@@ -75,6 +75,19 @@ export const services = {
             "url_shortener/:shortLink"
         ],
     },
+    pr0gramm: {
+        /* pr0gramm.com and pr0.app share the same url layout, and an item link
+           is *always* "…/<item id>" — no matter whether it was shared from a
+           feed (/top/<id>, /new/<id>, /junk/<id>), a profile
+           (/user/<user>/<id>) or a collection (/collections/<name>/<id>).
+
+           pr0.app additionally redirects unknown path segments to /new/<id>
+           (it puts that into its og:url meta tag), so the pattern stays as
+           permissive as pr0gramm itself and the id is validated numerially in
+           service-patterns.js instead. */
+        patterns: ["**/:id"],
+        altDomains: ["pr0.app"],
+    },
     newgrounds: {
         patterns: [
             "portal/view/:id",

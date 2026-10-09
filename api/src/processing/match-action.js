@@ -183,6 +183,13 @@ export default function({
                     params = { type: "proxy" };
                     break;
 
+                /* pr0gramm media is served over plain cdn urls, so both a
+                   redirect and a tunnel work. the redirect is preferred and
+                   `alwaysProxy` turns it into a tunnel when needed. */
+                case "pr0gramm":
+                    responseType = "redirect";
+                    break;
+
                 case "facebook":
                 case "instagram":
                 case "tumblr":
