@@ -9,7 +9,7 @@
     import { t } from "$lib/i18n/translations";
 
     import dialogs from "$lib/state/dialogs";
-    import { link } from "$lib/state/omnibox";
+    import { link, fallbackUrl } from "$lib/state/omnibox";
     import { hapticSwitch } from "$lib/haptics";
     import { updateSetting } from "$lib/state/settings";
     import { savingHandler } from "$lib/api/saving-handler";
@@ -233,6 +233,14 @@
     </div>
 </div>
 
+{#if $fallbackUrl}
+    <div id="fallback-open">
+        <a href={$fallbackUrl} target="_blank" rel="noopener noreferrer">
+            {$t("dialog.saving.manual_open")}
+        </a>
+    </div>
+{/if}
+
 <style>
     #omnibox {
         display: flex;
@@ -357,6 +365,17 @@
         font-size: 13px;
         color: var(--gray);
         font-weight: 500;
+    }
+
+    #fallback-open {
+        font-size: 13px;
+        color: var(--gray);
+        font-weight: 500;
+    }
+
+    #fallback-open a {
+        color: inherit;
+        text-decoration: underline;
     }
 
     @media screen and (max-width: 440px) {
