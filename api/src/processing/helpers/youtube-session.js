@@ -9,6 +9,10 @@ const defaultAgent = new Agent();
 let session;
 
 const validateSession = (sessionResponse) => {
+    sessionResponse.visitor_data ??= sessionResponse.contentBinding;
+    sessionResponse.potoken ??= sessionResponse.poToken;
+    sessionResponse.updated ??= new Date().getTime();
+
     if (!sessionResponse.potoken) {
         throw "no poToken in session response";
     }
@@ -33,11 +37,11 @@ const updateSession = (newSession) => {
 
 const loadSession = async () => {
     const sessionServerUrl = new URL(env.ytSessionServer);
-    sessionServerUrl.pathname = "/token";
+    sessionServerUrl.pathname = "/get_pot";
 
     const newSession = await fetch(
         sessionServerUrl,
-        { dispatcher: defaultAgent }
+        { method: 'POST', dispatcher: defaultAgent }
     ).then(a => a.json());
 
     validateSession(newSession);

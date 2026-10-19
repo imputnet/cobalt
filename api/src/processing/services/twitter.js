@@ -37,9 +37,19 @@ function needsFixing(media) {
 }
 
 function bestQuality(arr) {
-    return arr.filter(v => v.content_type === "video/mp4")
+    return stripVideoURL(
+        arr.filter(v => v.content_type === "video/mp4")
         .reduce((a, b) => Number(a?.bitrate) > Number(b?.bitrate) ? a : b)
         .url
+    );
+}
+
+function stripVideoURL(maybeUrl) {
+    if (maybeUrl) {
+        const url = new URL(maybeUrl);
+        url.searchParams.delete('tag');
+        return url.toString();
+    }
 }
 
 let _cachedToken;

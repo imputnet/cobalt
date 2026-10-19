@@ -1,11 +1,26 @@
 import HLS from "hls-parser";
+import ivm from "isolated-vm";
 
-import { fetch } from "undici";
-import { Innertube, Session } from "youtubei.js";
+import { fetch, Request } from "undici";
+import { Innertube, Platform, Session } from "youtubei.js";
 
 import { env } from "../../config.js";
 import { getCookie } from "../cookie/manager.js";
 import { getYouTubeSession } from "../helpers/youtube-session.js";
+
+// https://github.com/LuanRT/YouTube.js/pull/1052
+Platform.shim.eval = async (data) => {
+  const isolate = new ivm.Isolate();
+
+  try {
+    const context = await isolate.createContext();
+    const code = `(() => { ${data.output} })()`;
+    const script = await isolate.compileScript(code);
+    return await script.run(context, { copy: true, timeout: 5000 });
+  } finally {
+    isolate.dispose();
+  }
+}
 
 const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
 
@@ -60,12 +75,20 @@ const cloneInnertube = async (customFetch, useSession) => {
     }
 
     if (!innertube || shouldRefreshPlayer) {
+        let player_id;
+        if (env.ytPlayerIds) {
+            player_id = env.ytPlayerIds[
+                Math.floor(Math.random() * env.ytPlayerIds.length)
+            ];
+        }
+
         innertube = await Innertube.create({
             fetch: customFetch,
             retrieve_player,
             cookie,
             po_token: useSession ? sessionTokens?.potoken : undefined,
             visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
+            player_id,
         });
         lastRefreshedAt = +new Date();
     }
@@ -206,10 +229,24 @@ export default async function (o) {
     let yt;
     try {
         yt = await cloneInnertube(
-            (input, init) => fetch(input, {
-                ...init,
-                dispatcher: o.dispatcher
-            }),
+            (input, init) => {
+                const url = typeof input === 'string'
+                          ? new URL(input)
+                          : input instanceof URL
+                            ? input
+                            : new URL(input.url);
+
+                const request = new Request(
+                    url,
+                    input instanceof Platform.shim.Request
+                    ? input : undefined
+                );
+
+                return fetch(request, {
+                    ...init,
+                    dispatcher: o.dispatcher
+                });
+            },
             useSession
         );
     } catch (e) {
@@ -529,7 +566,7 @@ export default async function (o) {
         }
 
         if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
-            urls = audio.decipher(innertube.session.player);
+            urls = await audio.decipher(innertube.session.player);
         }
 
         let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
@@ -576,8 +613,8 @@ export default async function (o) {
             filenameAttributes.extension = o.container === "auto" ? codecList[codec].container : o.container;
 
             if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
-                video = video.decipher(innertube.session.player);
-                audio = audio.decipher(innertube.session.player);
+                video = await video.decipher(innertube.session.player);
+                audio = await audio.decipher(innertube.session.player);
             } else {
                 video = video.url;
                 audio = audio.url;

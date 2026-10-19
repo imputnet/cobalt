@@ -2,14 +2,15 @@ import { env } from "../../config.js";
 
 const resolutions = ["2160", "1440", "1080", "720", "480", "360", "240", "144"];
 
-const oauthUrl = "https://oauth.vk.com/oauth/get_anonym_token";
-const apiUrl = "https://api.vk.com/method";
+const authUrl = "https://api.vk.ru/method/auth.getAnonymToken";
+const videoApiUrl = "https://api.vkvideo.ru/method/video.get";
 
 const clientId = "51552953";
 const clientSecret = "qgr0yWwXCrsxA1jnRtRX";
+const clientVersion = "5.274";
 
 // used in stream/shared.js for accessing media files
-export const vkClientAgent = "com.vk.vkvideo.prod/822 (iPhone, iOS 16.7.7, iPhone10,4, Scale/2.0) SAK/1.119";
+export const vkClientAgent = "com.vk.vkvideo.prod/1955 (iPhone, iOS 16.7.15, iPhone10,4, Scale/2.0) SAK/1.135";
 
 const cachedToken = {
     token: "",
@@ -24,10 +25,11 @@ const getToken = async () => {
 
     const randomDeviceId = crypto.randomUUID().toUpperCase();
 
-    const anonymOauth = new URL(oauthUrl);
+    const anonymOauth = new URL(authUrl);
     anonymOauth.searchParams.set("client_id", clientId);
     anonymOauth.searchParams.set("client_secret", clientSecret);
     anonymOauth.searchParams.set("device_id", randomDeviceId);
+    anonymOauth.searchParams.set("v", clientVersion);
 
     const oauthResponse = await fetch(anonymOauth.toString(), {
         headers: {
@@ -39,11 +41,13 @@ const getToken = async () => {
         }
     });
 
-    if (!oauthResponse) return;
+    if (!oauthResponse || !oauthResponse.response) return;
 
-    if (oauthResponse?.token && oauthResponse?.expired_at && typeof oauthResponse?.expired_at === "number") {
-        cachedToken.token = oauthResponse.token;
-        cachedToken.expiry = oauthResponse.expired_at;
+    const res = oauthResponse.response;
+
+    if (res.token && res.expired_at && typeof res.expired_at === "number") {
+        cachedToken.token = res.token;
+        cachedToken.expiry = res.expired_at;
         cachedToken.device_id = randomDeviceId;
     }
 
@@ -53,7 +57,7 @@ const getToken = async () => {
 }
 
 const getVideo = async (ownerId, videoId, accessKey) => {
-    const video = await fetch(`${apiUrl}/video.get`, {
+    const video = await fetch(videoApiUrl, {
         method: "POST",
         headers: {
             "content-type": "application/x-www-form-urlencoded; charset=utf-8",
@@ -63,7 +67,7 @@ const getVideo = async (ownerId, videoId, accessKey) => {
             anonymous_token: cachedToken.token,
             device_id: cachedToken.device_id,
             lang: "en",
-            v: "5.244",
+            v: clientVersion,
             videos: `${ownerId}_${videoId}${accessKey ? `_${accessKey}` : ''}`
         }).toString()
     })

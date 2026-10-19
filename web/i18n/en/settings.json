@@ -44,7 +44,7 @@
 
     "video.h265": "high efficiency video codec",
     "video.h265.title": "allow h265 for videos",
-    "video.h265.description": "allows downloading videos from platforms like tiktok and xiaohongshu in higher quality at cost of compatibility.",
+    "video.h265.description": "allows downloading videos from platforms like tiktok in higher quality at cost of compatibility.",
 
     "audio.format": "audio format",
     "audio.format.best": "best",

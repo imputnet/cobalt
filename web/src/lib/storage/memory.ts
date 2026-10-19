@@ -4,7 +4,7 @@ import { uuid } from "$lib/util";
 export class MemoryStorage extends AbstractStorage {
     #chunkSize: number;
     #actualSize: number = 0;
-    #chunks: Uint8Array[] = [];
+    #chunks: Uint8Array<ArrayBuffer>[] = [];
 
     constructor(chunkSize: number) {
         super();
@@ -33,7 +33,7 @@ export class MemoryStorage extends AbstractStorage {
     async res() {
         // if we didn't need as much space as we allocated for some reason,
         // shrink the buffers so that we don't inflate the file with zeroes
-        const outputView: Uint8Array[] = [];
+        const outputView: Uint8Array<ArrayBuffer>[] = [];
 
         for (let i = 0; i < this.#chunks.length; ++i) {
             outputView.push(

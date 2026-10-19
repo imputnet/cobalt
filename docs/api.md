@@ -88,7 +88,7 @@ all keys except for `url` are optional. value options are separated by `/`.
 | `youtubeVideoContainer` | `string`  | `auto / mp4 / webm / mkv`                         | `auto`  |
 | `youtubeDubLang`        | `string`  | any valid ISO 639-1 language code                 | *none*  |
 | `convertGif`            | `boolean` | convert twitter gifs to the actual GIF format     | `true`  |
-| `allowH265`             | `boolean` | allow H265/HEVC videos from tiktok/xiaohongshu    | `false` |
+| `allowH265`             | `boolean` | allow H265/HEVC videos from tiktok                | `false` |
 | `tiktokFullAudio`       | `boolean` | download the original sound used in a video       | `false` |
 | `youtubeBetterAudio`    | `boolean` | prefer higher quality youtube audio if possible   | `false` |
 | `youtubeHLS`            | `boolean` | use HLS formats when downloading from youtube     | `false` |

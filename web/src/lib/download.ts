@@ -52,7 +52,7 @@ export const shareFile = async (file: File) => {
     });
 }
 
-export const openURL = (url: string) => {
+export const openURL = (url: string, hasDialog = false) => {
     if (!['http:', 'https:'].includes(new URL(url).protocol)) {
         return alert('error: invalid url!');
     }

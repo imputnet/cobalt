@@ -59,7 +59,7 @@
     },
     {
         "name": "bilibili.com link with part id",
-        "url": "https://www.bilibili.com/video/BV1uo4y1K72s?spm_id_from=333.788.videopod.episodes&p=6",
+        "url": "https://www.bilibili.com/video/BV1bK411W797?p=3&spm_id_from=333.788.videopod.episodes",
         "params": {},
         "expected": {
             "code": 200,

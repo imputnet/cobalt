@@ -23,7 +23,7 @@
         onImport,
     }: Props = $props();
 
-    let selectorStringMultiple = maxFileNumber > 1 ? ".multiple" : "";
+    const selectorStringMultiple = $derived(maxFileNumber > 1 ? ".multiple" : "");
 
     let fileInput: HTMLInputElement;
 

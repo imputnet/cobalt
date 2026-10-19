@@ -22,13 +22,16 @@
     let imageLoaded = $state(false);
     let hideSkeleton = $state(false);
 
-    let validUrl = false;
-    try {
-        new URL(item.url);
-        validUrl = true;
-    } catch {}
+    const validUrl = $derived.by(() => {
+        try {
+            new URL(item.url);
+            return true;
+        } catch {
+            return false;
+        }
+    });
 
-    const isTunnel = validUrl && new URL(item.url).pathname === "/tunnel";
+    const isTunnel = $derived(validUrl && new URL(item.url).pathname === "/tunnel");
 
     const loaded = () => {
         imageLoaded = true;

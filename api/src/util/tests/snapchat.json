@@ -9,15 +9,6 @@
         }
     },
     {
-        "name": "shortlinked spotlight",
-        "url": "https://t.snapchat.com/4ZsiBLDi",
-        "params": {},
-        "expected": {
-            "code": 200,
-            "status": "redirect"
-        }
-    },
-    {
         "name": "story",
         "url": "https://www.snapchat.com/add/bazerkmakane",
         "params": {},

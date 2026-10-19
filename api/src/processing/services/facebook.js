@@ -24,9 +24,9 @@ const resolveUrl = (url, dispatcher) => {
 }
 
 export default async function({ id, shareType, shortLink, dispatcher }) {
-    let url = `https://web.facebook.com/i/videos/${id}`;
+    let url = `https://www.facebook.com/reel/${id}`;
 
-    if (shareType) url = `https://web.facebook.com/share/${shareType}/${id}`;
+    if (shareType) url = `https://www.facebook.com/share/${shareType}/${id}`;
     if (shortLink) url = await resolveUrl(`https://fb.watch/${shortLink}`, dispatcher);
 
     const html = await fetch(url, { headers, dispatcher })
