@@ -23,6 +23,17 @@
         }
     },
     {
+        "name": "public song with only aac hls transcodings (mp3)",
+        "url": "https://soundcloud.com/forss/flickermood",
+        "params": {
+            "audioFormat": "mp3"
+        },
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
         "name": "private song",
         "url": "https://soundcloud.com/user-798052861/asdasdasdsdsd/s-9TqZ7edLJ90",
         "params": {

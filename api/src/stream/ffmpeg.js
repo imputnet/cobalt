@@ -167,8 +167,11 @@ const convertAudio = async (streamInfo, res) => {
         args.push('-vbr', 'off');
     }
 
-    if (streamInfo.audioFormat === 'mp4a') {
-        args.push('-movflags', 'frag_keyframe+empty_moov');
+    // the ipod muxer can't write to a pipe without fragmenting. on long
+    // audio-only input, frag_keyframe output doesn't decode cleanly,
+    // so fragment by duration (1s) instead
+    if (streamInfo.audioFormat === 'm4a') {
+        args.push('-movflags', 'empty_moov', '-frag_duration', '1000000');
     }
 
     if (streamInfo.metadata) {

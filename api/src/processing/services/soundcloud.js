@@ -43,6 +43,10 @@ async function findClientID() {
     } catch {}
 }
 
+// e.g. "aac_160k" -> 160, anything without a bitrate suffix -> 0
+const presetBitrate = (entry) =>
+    Number(entry?.preset?.match(/_(\d+)k$/)?.[1]) || 0;
+
 const findBestForPreset = (transcodings, preset) => {
     let inferior;
     for (const entry of transcodings) {
@@ -57,7 +61,10 @@ const findBestForPreset = (transcodings, preset) => {
                 return entry;
             }
 
-            inferior = entry;
+            // prefer the highest bitrate when there are several (e.g. aac_160k & aac_96k)
+            if (!inferior || presetBitrate(entry) >= presetBitrate(inferior)) {
+                inferior = entry;
+            }
         }
     }
 
@@ -121,6 +128,12 @@ export default async function(obj) {
     if (mp3Media && (obj.format === "mp3" || !selectedStream)) {
         selectedStream = mp3Media;
         bestAudio = "mp3"
+    }
+
+    // newer uploads often only have (unencrypted) aac hls transcodings
+    if (!selectedStream) {
+        selectedStream = findBestForPreset(json.media.transcodings, "aac");
+        bestAudio = "m4a";
     }
 
     if (!selectedStream) {
