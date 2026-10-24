@@ -176,6 +176,16 @@
         }
     },
     {
+        "name": "premium-only video",
+        "url": "https://www.youtube.com/watch?v=sMJ8bRN2dak",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.content.video.premium"
+        }
+    },
+    {
         "name": "broken audioOnly download",
         "url": "https://www.youtube.com/watch?v=ink80Al5nbw",
         "params": {

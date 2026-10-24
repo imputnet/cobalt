@@ -310,6 +310,10 @@ export default async function (o) {
             if (playability?.error_screen?.reason?.text === "Private video") {
                 return { error: "content.video.private" }
             }
+            // e.g. "This video is only available to Music Premium members"
+            if (playability?.reason?.includes("Premium members")) {
+                return { error: "content.video.premium" }
+            }
             break;
 
         case "AGE_VERIFICATION_REQUIRED":

@@ -43,6 +43,7 @@
     "content.video.private": "this video is private, so i can't access it. change its visibility or try another one!",
     "content.video.age": "this video is age-restricted, so i can't access it anonymously. try again or try a different link!",
     "content.video.region": "this video is region locked, and the processing instance is in a different location. try a different link!",
+    "content.video.premium": "this video is only available to {{ service }} premium members, so i can't access it. try a different link!",
 
     "content.region": "this content is region locked, and the processing instance is in a different location. try a different link!",
     "content.paid": "this content requires purchase. cobalt can't download paid content. try a different link!",

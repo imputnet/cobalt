@@ -297,6 +297,7 @@ export default async function({ host, patternMatch, params, authType }) {
                 case "fetch.critical":
                 case "link.unsupported":
                 case "content.video.unavailable":
+                case "content.video.premium":
                     context = {
                         service: friendlyServiceName(host),
                     }
