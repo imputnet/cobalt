@@ -23,7 +23,7 @@
         "params": {},
         "expected": {
             "code": 200,
-            "status": "redirect"
+            "status": "picker"
         }
     },
     {
@@ -44,6 +44,33 @@
         "expected": {
             "code": 200,
             "status": "tunnel"
+        }
+    },
+    {
+        "name": "multi-image post",
+        "url": "https://www.tumblr.com/attonitos-gloria/831493577877094400/we-the-people-again-and-again-and-again-and-a",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "single image post with text",
+        "url": "https://www.tumblr.com/kosmogrl/831545911926767616/we-got-november-next-week",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "10-image post",
+        "url": "https://www.tumblr.com/humanoidhistory/831460578564423680/kaz-aizawa-box-art-for-nes-games-1988-1991",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
         }
     }
 ]

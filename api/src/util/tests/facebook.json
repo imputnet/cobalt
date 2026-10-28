@@ -43,5 +43,23 @@
             "code": 200,
             "status": "redirect"
         }
+    },
+    {
+        "name": "photo post",
+        "url": "https://www.facebook.com/photo/?fbid=1270547115300126&set=pb.100070345475708.-2207520000",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "photo post with story_fbid",
+        "url": "https://www.facebook.com/photo.php?fbid=1270547115300126&set=a.301410178880496.122345.100070345475708&story_fbid=pfbid02XvYqPnDmUgkRr1cTBhjLPzaWKzCUeNKFsQBz3d5S4LtYqPEMPqwxVhGRqL8ZbVEgl",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
     }
 ]

@@ -141,6 +141,11 @@ function cleanURL(url) {
                 limitQuery('v');
             }
             break;
+        case "facebook":
+            if (url.searchParams.get('fbid')) {
+                limitQuery('fbid');
+            }
+            break;
         case "bilibili":
         case "rutube":
             if (url.searchParams.get('p')) {

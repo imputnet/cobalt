@@ -29,7 +29,9 @@ export const services = {
             ":username/videos/:caption/:id",
             ":username/videos/:id",
             "reel/:id",
-            "share/:shareType/:id"
+            "share/:shareType/:id",
+            "photo?fbid=:photoId",
+            "photo.php?fbid=:photoId"
         ],
         subdomains: ["web", "m"],
         altDomains: ["fb.watch"],

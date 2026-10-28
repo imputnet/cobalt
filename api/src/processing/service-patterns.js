@@ -15,7 +15,8 @@ export const testers = {
         pattern.username?.length <= 30 ||
         pattern.caption?.length <= 255 ||
         pattern.id?.length <= 20 && !pattern.shareType ||
-        pattern.id?.length <= 20 && pattern.shareType?.length === 1,
+        pattern.id?.length <= 20 && pattern.shareType?.length === 1 ||
+        pattern.photoId?.length <= 100,
 
     "instagram": pattern =>
         pattern.postId?.length <= 48 ||

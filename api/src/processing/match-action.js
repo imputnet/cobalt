@@ -103,6 +103,7 @@ export default function({
                 case "twitter":
                 case "snapchat":
                 case "bsky":
+                case "tumblr":
                     params = { picker: r.picker };
                     break;
 
