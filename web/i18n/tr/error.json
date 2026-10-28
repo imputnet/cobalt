@@ -1,0 +1,11 @@
+{
+    "import.no_data": "bu dosyadan yüklenecek ayar bulunamadı. doğru dosya olduğundan emin misiniz?",
+    "import.invalid": "bu dosya içe aktarılacak geçerli cobalt ayarları içermiyor. doğru dosya olduğundan emin misiniz?",
+    "import.unknown": "dosyadan veriler yüklenemedi. bozuk veya yanlış biçimde olabilir. alınan hata:\n\n{{ value }}",
+
+    "tunnel.probe": "bu tünel test edilemedi. tarayıcınız veya ağ yapılandırmanız cobalt sunucularından birine erişimi engelliyor olabilir. garip tarayıcı eklentileriniz olmadığından emin misiniz?",
+
+    "captcha_too_long": "cloudflare turnstile bot olmadığınızı kontrol ederken çok uzun sürdü. tekrar deneyin, ancak yine çok uzun sürerse şunları deneyebilirsiniz: garip tarayıcı eklentilerini devre dışı bırakmak, ağ değiştirmek, farklı bir tarayıcı kullanmak veya cihazınızda kötü amaçlı yazılım kontrolü yapmak.",
+
+    "pipeline.missing_response_data": "işleme sunucusu gerekli dosya bilgisini döndürmedi, bu nedenle yerel işleme hattı oluşturulamıyor. birkaç saniye içinde tekrar deneyin ve devam ederse sorunu bildirin!"
+}

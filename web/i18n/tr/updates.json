@@ -1,0 +1,4 @@
+{
+    "button.next": "daha eski sürüm notuna git ({{ value }})",
+    "button.previous": "daha yeni sürüm notuna git ({{ value }})"
+}

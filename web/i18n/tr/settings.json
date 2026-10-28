@@ -1,0 +1,161 @@
+{
+    "page.appearance": "görünüm",
+    "page.privacy": "gizlilik",
+    "page.video": "video",
+    "page.audio": "ses",
+    "page.metadata": "üstveri",
+    "page.advanced": "gelişmiş",
+    "page.debug": "teknik bilgiler",
+    "page.instances": "sunucular",
+    "page.local": "yerel işleme",
+    "page.accessibility": "erişilebilirlik",
+
+    "theme": "tema",
+    "theme.auto": "otomatik",
+    "theme.light": "açık",
+    "theme.dark": "koyu",
+    "theme.description": "otomatik tema, cihazınızın ekran moduna göre açık ve koyu temalar arasında geçiş yapar.",
+
+    "video.quality": "video kalitesi",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "tercih edilen video kalitesi mevcut değilse, yerine bir sonraki en iyi kalite seçilir.",
+
+    "video.youtube.codec": "tercih edilen youtube video kodeği",
+    "video.youtube.codec.description": "h264: en iyi uyumluluk, ortalama kalite. maksimum kalite 1080p'dir.\nav1: en iyi kalite ve verimlilik. 8k ve HDR destekler.\nvp9: av1 ile aynı kalite, ancak dosya ~2 kat daha büyüktür. 4k ve HDR destekler.\n\nav1 ve vp9 yaygın olarak desteklenmez, oynatmak/düzenlemek için ek yazılımlar kullanmanız gerekebilir. tercih edilen kodek mevcut değilse cobalt en iyi sonraki seçeneği belirler.",
+
+    "video.youtube.container": "youtube dosya kapsayıcısı",
+    "video.youtube.container.description": "\"otomatik\" seçildiğinde cobalt, seçilen kodeğe bağlı olarak en iyi kapsayıcıyı otomatik seçer: h264 için mp4; vp9/av1 için webm.",
+
+    "video.youtube.hls": "youtube hls biçimleri",
+    "video.youtube.hls.title": "video ve ses için hls'yi tercih et",
+    "video.youtube.hls.description": "bu modda yalnızca h264 ve vp9 kodekleri mevcuttur. orijinal ses kodeği aac'dir, uyumluluk için yeniden kodlanır, ses kalitesi HLS dışı muadiline göre biraz daha düşük olabilir.\n\nbu seçenek deneyseldir, gelecekte kaldırılabilir veya değiştirilebilir.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "döngüsel videoları GIF'e dönüştür",
+    "video.twitter.gif.description": "GIF dönüşümü verimsizdir, dönüştürülen dosya aşırı büyük ve düşük kaliteli olabilir.",
+
+    "video.h265": "yüksek verimli video kodeği",
+    "video.h265.title": "videolar için h265'e izin ver",
+    "video.h265.description": "tiktok gibi platformlardan videoların uyumluluk pahasına daha yüksek kalitede indirilmesine izin verir.",
+
+    "audio.format": "ses biçimi",
+    "audio.format.best": "en iyi",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "\"en iyi\" dışındaki tüm biçimler kaynak biçimden dönüştürülür, biraz kalite kaybı olacaktır. \"en iyi\" biçim seçildiğinde ses, mümkün olduğunda orijinal biçiminde korunur.",
+
+    "audio.bitrate": "ses bit hızı",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "bit hızı yalnızca ses kayıplı bir biçime dönüştürüldüğünde uygulanır. cobalt kaynak ses kalitesini artıramaz, bu nedenle 128kbps üzerinde bir bit hızı seçmek işitilebilir bir fark olmadan dosya boyutunu büyütebilir.",
+
+    "audio.youtube.dub": "youtube ses izi",
+    "audio.youtube.dub.title": "tercih edilen seslendirme dili",
+    "audio.youtube.dub.description": "cobalt mevcutsa seçilen dil için seslendirilmiş ses izini kullanır. aksi takdirde orijinal dil kullanılır.",
+    "youtube.dub.original": "orijinal",
+
+    "subtitles": "altyazılar",
+    "subtitles.title": "tercih edilen altyazı dili",
+    "subtitles.description": "cobalt mevcut olmaları durumunda indirilen dosyaya tercih edilen dilde altyazı ekler.\n\nbazı servislerde dil seçimi yoktur; bu durumda cobalt herhangi bir dil seçtiyseniz mevcut olan tek altyazı izini ekler.",
+    "subtitles.none": "yok",
+
+    "audio.youtube.better_audio": "youtube ses kalitesi",
+    "audio.youtube.better_audio.title": "daha iyi kaliteyi tercih et",
+    "audio.youtube.better_audio.description": "cobalt ses modunda en yüksek kaliteli sesi seçmeye çalışır. youtube yanıtına, mevcut trafiğe ve sunucu durumuna bağlı olarak mevcut olmayabilir. özel sunucular bu seçeneği desteklemeyebilir.",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "orijinal sesi indir",
+    "audio.tiktok.original.description": "cobalt videodaki sesi gönderi sahibi tarafından herhangi bir değişiklik yapılmadan indirir.",
+
+    "metadata.filename": "dosya adı stili",
+    "metadata.filename.classic": "klasik",
+    "metadata.filename.basic": "temel",
+    "metadata.filename.pretty": "şık",
+    "metadata.filename.nerdy": "detaylı",
+    "metadata.filename.description": "dosya adı stili yalnızca cobalt tarafından tünellenen dosyalar için kullanılır. bazı servisler klasik dışındaki dosya adı stillerini desteklemez.",
+
+    "metadata.filename.preview.video": "Video Başlığı - Video Yazarı",
+    "metadata.filename.preview.audio": "Ses Başlığı - Ses Yazarı",
+    "filename.preview_desc.video": "video dosyası önizlemesi",
+    "filename.preview_desc.audio": "ses dosyası önizlemesi",
+
+    "metadata.file": "dosya üstverisi",
+    "metadata.disable.title": "dosya üstverisini devre dışı bırak",
+    "metadata.disable.description": "başlık, sanatçı ve diğer bilgiler dosyaya eklenmeyecektir.",
+
+    "saving.title": "kaydetme yöntemi",
+    "saving.ask": "sor",
+    "saving.download": "indir",
+    "saving.share": "paylaş",
+    "saving.copy": "kopyala",
+    "saving.description": "cobalt'tan dosya veya bağlantı kaydetmenin tercih edilen yolu. tercih edilen yöntem kullanılamıyorsa veya bir sorun çıkarsa cobalt sonra ne yapılacağını soracaktır.",
+
+    "accessibility.visual": "görsel",
+    "accessibility.haptics": "dokunsal geri bildirim",
+    "accessibility.behavior": "davranış",
+
+    "accessibility.transparency.title": "görsel saydamlığı azalt",
+    "accessibility.transparency.description": "yüzeylerin saydamlığı azaltılacak ve tüm bulanıklık efektleri devre dışı bırakılacaktır. daha az güçlü cihazlarda kullanıcı arayüzü performansını artırabilir.",
+    "accessibility.motion.title": "hareketi azalt",
+    "accessibility.motion.description": "mümkün olan yerlerde animasyonlar ve geçişler devre dışı bırakılacaktır.",
+    "accessibility.haptics.title": "dokunsal geri bildirimi devre dışı bırak",
+    "accessibility.haptics.description": "tüm dokunsal efektler devre dışı bırakılacaktır.",
+    "accessibility.auto_queue.title": "kuyruğu otomatik olarak açma",
+    "accessibility.auto_queue.description": "kuyruğa yeni bir öğe eklendiğinde işleme kuyruğu otomatik olarak açılmayacaktır. ilerleme yine de görüntülenecek ve manuel olarak açabileceksiniz.",
+
+    "language": "dil",
+    "language.auto.title": "otomatik seçim",
+    "language.auto.description": "çeviri mevcutsa cobalt tarayıcınızın varsayılan dilini kullanır. değilse türkçe kullanılacaktır.",
+    "language.preferred.title": "tercih edilen dil",
+    "language.preferred.description": "otomatik seçim devre dışı bırakıldığında bu dil kullanılacaktır. çevrilmemiş metinler türkçe gösterilecektir.\n\nbazı diller topluluk kaynaklı çeviriler kullanır, eksik veya hatalı olabilirler.",
+
+    "privacy.analytics": "anonim trafik analitiği",
+    "privacy.analytics.title": "analitiklere katkıda bulunma",
+    "privacy.analytics.description": "yaklaşık aktif cobalt kullanıcısı sayısını öğrenmek için anonim trafik analitiği gereklidir. sizinle ilgili hiçbir kişisel bilgi saklanmaz. işlenen tüm veriler anonimleştirilir ve birleştirilir.\n\nçerez kullanmayan, GDPR, CCPA ve PECR ile tam uyumlu kendi barındırdığımız plausible örneğini kullanıyoruz.",
+    "privacy.analytics.learnmore": "plausible'ın gizlilik taahhüdü hakkında daha fazla bilgi edinin.",
+
+    "privacy.tunnel": "tünelleme",
+    "privacy.tunnel.title": "dosyaları her zaman tünelle",
+    "privacy.tunnel.description": "cobalt ip adresinizi, tarayıcı bilgilerinizi gizleyecek ve yerel ağ kısıtlamalarını baypas edecektir. etkinleştirildiğinde dosyalar, aksi takdirde anlamsız olacak okunabilir dosya adlarına sahip olur.",
+
+    "advanced.debug": "hata ayıklama",
+    "advanced.debug.title": "teknik özellikleri etkinleştir",
+    "advanced.debug.description": "hata ayıklama için yararlı olabilecek uygulama bilgilerine kolay erişim sağlar. bunu etkinleştirmek cobalt işlevselliğini hiçbir şekilde etkilemez.",
+
+    "processing.community": "topluluk sunucuları",
+    "processing.enable_custom.title": "özel bir işleme sunucusu kullan",
+    "processing.enable_custom.description": "seçerseniz cobalt özel bir işleme sunucusu kullanır. cobalt bazı güvenlik önlemlerine sahip olsa da, denetimimiz altında olmadıkları için topluluk sunucuları aracılığıyla verilen zararlardan sorumlu değiliz.\n\nlütfen hangi sunucuları kullandığınıza dikkat edin ve güvendiğiniz kişiler tarafından barındırıldıklarından emin olun.",
+
+    "processing.access_key": "sunucu erişim anahtarı",
+    "processing.access_key.title": "bir sunucu erişim anahtarı kullan",
+    "processing.access_key.description": "cobalt diğer kimlik doğrulama yöntemleri yerine işleme sunucusuna istek yapmak için bu anahtarı kullanır. sunucunun api anahtarlarını desteklediğinden emin olun!",
+
+    "processing.custom_instance.input.alt_text": "özel sunucu alan adı",
+    "processing.access_key.input.alt_text": "u-u-i-d erişim anahtarı",
+
+    "advanced.settings_data": "ayar verileri",
+    "advanced.local_storage": "yerel depolama",
+
+    "local.saving": "yerel medya işleme",
+    "local.saving.description": "medya indirirken yeniden ambalajlama ve yeniden kodlama bulut yerine cihazda yapılacaktır. işleme kuyruğunda ayrıntılı ilerlemeyi göreceksiniz.\n\ndevre dışı: yerel işleme kullanılmayacaktır. işleme sunucuları yerel işlemeyi zorunlu kılabilir, bu nedenle bu seçeneğin etkisi olmayabilir.\ntercih edilen: ekstra işleme gerektiren medyalar işleme kuyruğu aracılığıyla indirilir, ancak geri kalan medyalar tarayıcınızın indirme yöneticisi tarafından indirilir.\nzorunlu: tüm medyalar her zaman vekil sunucu üzerinden aktarılır ve işleme kuyruğu aracılığıyla indirilir.\n\ncihaza özel özellikler bu ayardan etkilenmez, her zaman yerel olarak çalışırlar.",
+    "local.saving.disabled": "devre dışı",
+    "local.saving.preferred": "tercih edilen",
+    "local.saving.forced": "zorunlu",
+
+    "local.webcodecs": "webcodecs",
+    "local.webcodecs.title": "cihaz içi işleme için webcodecs kullan",
+    "local.webcodecs.description": "cobalt dosyaları kodlarken veya çözerken webcodecs kullanmayı dener. bu özellik medya dosyalarının GPU hızlandırmalı işlenmesine olanak tanır, yani kod çözme ve kodlama çok daha hızlı olacaktır.\n\nbu özelliğin kullanılabilirliği ve kararlılığı cihazınızın ve tarayıcınızın yeteneklerine bağlıdır. bazı şeyler bozulabilir veya düzgün çalışmayabilir.",
+
+    "tabs": "gezinme",
+    "tabs.hide_remux": "remux sekmesini gizle",
+    "tabs.hide_remux.description": "remux aracını kullanmıyorsanız gezinme çubuğundan gizleyebilirsiniz."
+}

@@ -1,0 +1,16 @@
+{
+    "title": "işleme kuyruğu",
+    "stub": "henüz burada bir şey yok, sadece ikimiz varız.\nbir şeyler indirmeyi deneyin!",
+
+    "state.waiting": "kuyrukta",
+    "state.retrying": "tekrar deneniyor",
+    "state.starting": "başlatılıyor",
+
+    "state.starting.fetch": "indirme başlatılıyor",
+    "state.starting.remux": "yeniden ambalajlama (remux) başlatılıyor",
+    "state.starting.encode": "yeniden kodlama başlatılıyor",
+
+    "state.running.remux": "yeniden ambalajlanıyor",
+    "state.running.fetch": "indiriliyor",
+    "state.running.encode": "yeniden kodlanıyor"
+}

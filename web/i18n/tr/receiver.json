@@ -1,0 +1,7 @@
+{
+    "title": "sürükleyin veya bir dosya seçin",
+    "title.multiple": "sürükleyin veya dosyalar seçin",
+    "title.drop": "dosyayı buraya bırakın!",
+    "title.drop.multiple": "dosyaları buraya bırakın!",
+    "accept": "desteklenen biçimler: {{ formats }}."
+}

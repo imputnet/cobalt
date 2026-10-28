@@ -1,0 +1,27 @@
+{
+    "paste": "yapıştır",
+    "paste.long": "yapıştır ve indir",
+    "auto": "otomatik",
+    "audio": "ses",
+    "mute": "sessiz",
+    "input.placeholder": "bağlantıyı buraya yapıştırın",
+    "terms.note.agreement": "devam ederek şunları kabul etmiş olursunuz:",
+    "terms.note.link": "kullanım şartları ve etiği",
+    "services.title": "desteklenen servisler",
+    "services.title_show": "desteklenen servisleri göster",
+    "services.title_hide": "desteklenen servisleri gizle",
+    "services.disclaimer": "bir servisin desteklenmesi, teknik uyumluluk dışında herhangi bir ortaklık, onay veya destek anlamına gelmez.",
+
+    "tutorial.title": "ios'ta nasıl kaydedilir?",
+    "tutorial.intro": "medyayı ios'ta rahatça kaydetmek için paylaşım menüsünden bir siri kestirmesi kullanmanız gerekecektir.",
+    "tutorial.step.1": "yardımcı siri kestirmelerini ekleyin:",
+    "tutorial.step.2": "cobalt kaydetme penceresindeki \"paylaş\" düğmesine basın.",
+    "tutorial.step.3": "paylaşım menüsünden ilgili kestirmeyi seçin.",
+    "tutorial.outro": "bu kestirmeler yalnızca cobalt uygulamasından çalışır, diğer uygulamalardan bağlantı paylaşmak çalışmayacaktır.",
+    "tutorial.shortcut.photos": "fotoğraflara",
+    "tutorial.shortcut.files": "dosyalara",
+
+    "label.community_instance": "topluluk sunucusu",
+
+    "tooltip.captcha": "cloudflare turnstile robot olmadığınızı doğruluyor, lütfen bekleyin!"
+}

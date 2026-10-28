@@ -1,0 +1,63 @@
+{
+    "auth.jwt.missing": "erişim belirteci eksik olduğu için işleme sunucusuyla kimlik doğrulanamadı. birkaç saniye içinde tekrar deneyin veya sayfayı yenileyin!",
+    "auth.jwt.invalid": "erişim belirteci geçersiz olduğu için işleme sunucusuyla kimlik doğrulanamadı. birkaç saniye içinde tekrar deneyin veya sayfayı yenileyin!",
+    "auth.turnstile.missing": "captcha çözümü eksik olduğu için işleme sunucusuyla kimlik doğrulanamadı. birkaç saniye içinde tekrar deneyin veya sayfayı yenileyin!",
+    "auth.turnstile.invalid": "captcha çözümü geçersiz olduğu için işleme sunucusuyla kimlik doğrulanamadı. birkaç saniye içinde tekrar deneyin veya sayfayı yenileyin!",
+
+    "auth.key.missing": "bu işleme sunucusunu kullanmak için bir erişim anahtarı gerekiyor ancak eksik. sunucu ayarlarından ekleyin!",
+    "auth.key.not_api_key": "bu işleme sunucusunu kullanmak için bir erişim anahtarı gerekiyor ancak eksik. sunucu ayarlarından ekleyin!",
+
+    "auth.key.invalid": "erişim anahtarı geçersiz. sunucu ayarlarından sıfırlayın ve geçerli bir anahtar kullanın!",
+    "auth.key.not_found": "kullandığınız erişim anahtarı bulunamadı. bu sunucunun anahtarınıza sahip olduğundan emin misiniz?",
+    "auth.key.invalid_ip": "ip adresiniz ayrıştırılamadı. bir şeyler çok yanlış gitti. bu sorunu bildirin!",
+    "auth.key.ip_not_allowed": "ip adresinizin bu erişim anahtarını kullanmasına izin verilmiyor. farklı bir sunucu veya ağ kullanın!",
+    "auth.key.ua_not_allowed": "tarayıcı bilginizin (user agent) bu erişim anahtarını kullanmasına izin verilmiyor. farklı bir istemci veya cihaz kullanın!",
+
+    "unreachable": "işleme sunucusuna bağlanılamadı. internet bağlantınızı kontrol edip tekrar deneyin!",
+    "timed_out": "işleme sunucusunun yanıt vermesi çok uzun sürdü. şu anda yoğun olabilir, birkaç saniye içinde tekrar deneyin!",
+    "rate_exceeded": "çok fazla istek yapıyorsunuz. {{ limit }} saniye içinde tekrar deneyin.",
+    "capacity": "cobalt şu anda tam kapasitede ve isteğinizi işleyemiyor. birkaç saniye içinde tekrar deneyin!",
+
+    "generic": "bir şeyler ters gitti ve sizin için hiçbir şey alınamadı, birkaç saniye içinde tekrar deneyin. sorun devam ederse lütfen bildirin!",
+    "unknown_response": "işleme sunucusundan gelen yanıt okunamadı. bu muhtemelen web uygulamasının güncel olmamasından kaynaklanıyor. uygulamayı yenileyip tekrar deneyin!",
+    "invalid_body": "istek işleme sunucusuna gönderilemedi. bu muhtemelen web uygulamasının güncel olmamasından kaynaklanıyor. uygulamayı yenileyip tekrar deneyin!",
+
+    "service.unsupported": "bu servis henüz desteklenmiyor. doğru bağlantıyı yapıştırdınız mı?",
+    "service.disabled": "bu servis genel olarak cobalt tarafından destekleniyor ancak bu işleme sunucusunda devre dışı bırakılmış. başka bir servisten bağlantı deneyin!",
+    "service.audio_not_supported": "bu servis ses ayıklamayı desteklemiyor. başka bir servisten bağlantı deneyin!",
+
+    "link.invalid": "bağlantınız geçersiz veya bu servis henüz desteklenmiyor. doğru bağlantıyı yapıştırdınız mı?",
+    "link.unsupported": "{{ service }} destekleniyor ancak bağlantınız tanınamadı. doğru bağlantıyı yapıştırdınız mı?",
+
+    "fetch.fail": "{{ service }} servisinden bilgi alınırken bir şeyler ters gitti. bu sorun devam ederse lütfen bildirin!",
+    "fetch.critical": "{{ service }} modülü tanınmayan bir hata döndürdü. birkaç saniye içinde tekrar deneyin, sorun devam ederse lütfen bildirin!",
+    "fetch.critical.core": "çekirdek modüllerden biri tanınmayan bir hata döndürdü. birkaç saniye içinde tekrar deneyin, sorun devam ederse lütfen bildirin!",
+    "fetch.empty": "indirilebilecek herhangi bir medya bulunamadı. doğru bağlantıyı yapıştırdığınızdan emin misiniz?",
+    "fetch.rate": "işleme sunucusu {{ service }} tarafından oran sınırına takıldı. birkaç saniye içinde tekrar deneyin!",
+    "fetch.short_link": "kısa bağlantıdan bilgi alınamadı. çalıştığından emin misiniz? çalışıyorsa ve hala bu hatayı alıyorsanız lütfen bildirin!",
+
+    "content.too_long": "istediğiniz medya çok uzun. bu sunucudaki süre sınırı {{ limit }} dakikadır. daha kısa bir şey deneyin!",
+
+    "content.video.unavailable": "bu videoya erişilemiyor. {{ service }} tarafında kısıtlanmış olabilir. farklı bir bağlantı deneyin!",
+    "content.video.live": "bu video şu anda canlı yayında, bu yüzden henüz indirilemez. canlı yayının bitmesini bekleyip tekrar deneyin!",
+    "content.video.private": "bu video gizli, bu yüzden erişilemiyor. görünürlüğünü değiştirin veya başka bir tane deneyin!",
+    "content.video.age": "bu video yaş kısıtlamalı, bu yüzden anonim olarak erişilemiyor. tekrar deneyin veya farklı bir bağlantı deneyin!",
+    "content.video.region": "bu video bölge kilitli ve işleme sunucusu farklı bir konumda. farklı bir bağlantı deneyin!",
+
+    "content.region": "bu içerik bölge kilitli ve işleme sunucusu farklı bir konumda. farklı bir bağlantı deneyin!",
+    "content.paid": "bu içerik satın alma gerektiriyor. cobalt ücretli içerikleri indiremez. farklı bir bağlantı deneyin!",
+
+    "content.post.unavailable": "bu gönderi hakkında hiçbir şey bulunamadı. görünürlüğü sınırlı olabilir veya mevcut olmayabilir. bağlantınızın çalıştığından emin olun ve birkaç saniye içinde tekrar deneyin!",
+    "content.post.private": "gizli bir hesaptan olduğu için bu gönderi hakkında hiçbir şey alınamadı. farklı bir bağlantı deneyin!",
+    "content.post.age": "bu gönderi yaş kısıtlamalı, bu yüzden anonim olarak erişilemiyor. tekrar deneyin veya farklı bir bağlantı deneyin!",
+
+    "youtube.no_matching_format": "youtube kabul edilebilir herhangi bir biçim döndürmedi. cobalt bunları desteklemiyor olabilir veya youtube tarafında yeniden kodlanıyor olabilirler. biraz sonra tekrar deneyin, sorun devam ederse lütfen bildirin!",
+    "youtube.decipher": "youtube şifre çözme algoritmasını güncelledi ve video hakkındaki bilgiler ayıklanamadı. birkaç saniye içinde tekrar deneyin, sorun devam ederse lütfen bildirin!",
+    "youtube.login": "youtube işleme sunucusundan bot olmadığını kanıtlamasını istediği için bu video alınamadı. birkaç saniye içinde tekrar deneyin, hala çalışmıyorsa lütfen bildirin!",
+    "youtube.token_expired": "youtube belirtecinin süresi dolduğu ve yenilenmediği için bu video alınamadı. birkaç saniye içinde tekrar deneyin, hala çalışmıyorsa lütfen bildirin!",
+    "youtube.no_hls_streams": "bu video için eşleşen HLS akışı bulunamadı. HLS olmadan indirmeyi deneyin!",
+    "youtube.api_error": "youtube api'sinde bir şeyleri güncelledi ve bu video hakkında bilgi alınamadı. birkaç saniye içinde tekrar deneyin, sorun devam ederse lütfen bildirin!",
+    "youtube.disabled_main_instance": "youtube indirmeleri, youtube tarafındaki kısıtlamalar ve ölçekteki sonsuz bakım maliyetleri nedeniyle ana sunucuda devre dışı bırakılmıştır.\n\nrahatsızlıktan dolayı özür dileriz ve bunun için kendi API sunucunuzu barındırmanızı tavsiye ederiz.",
+    "youtube.drm": "bu youtube videosu widevine DRM ile korunmaktadır, bu yüzden indirilemez. farklı bir bağlantı deneyin!",
+    "youtube.no_session_tokens": "youtube için gerekli oturum belirteçleri alınamadı. bu youtube tarafındaki bir kısıtlamadan kaynaklanıyor olabilir. birkaç saniye içinde tekrar deneyin, sorun devam ederse lütfen bildirin!"
+}

@@ -1,0 +1,22 @@
+{
+    "reset_settings.title": "tüm ayarlar sıfırlansın mı?",
+    "reset_settings.body": "tüm ayarları sıfırlamak istediğinizden emin misiniz? bu işlem anında gerçekleşir ve geri alınamaz.",
+
+    "picker.title": "kaydedilecek öğeyi seçin",
+    "picker.description.desktop": "kaydetmek için bir öğeye tıklayın. görseller sağ tık menüsüyle de kaydedilebilir.",
+    "picker.description.phone": "kaydetmek için bir öğeye basın. görseller uzun basılarak da kaydedilebilir.",
+    "picker.description.ios": "bir kestirmeyle kaydetmek için öğeye basın. görseller uzun basılarak da kaydedilebilir.",
+
+    "saving.title": "nasıl kaydedeceğinizi seçin",
+    "saving.blocked": "cobalt dosyayı yeni bir sekmede açmaya çalıştı ancak tarayıcınız bunu engelledi. bir dahaki sefere bunun olmasını önlemek için cobalt için açılır pencerelere izin verebilirsiniz.",
+    "saving.timeout": "cobalt dosyayı otomatik olarak kaydetmeye çalıştı ancak tarayıcınız durdurdu. tercih ettiğiniz yöntemi manuel olarak seçmelisiniz.",
+
+    "safety.title": "önemli güvenlik bildirimi",
+
+    "import.body": "bilinmeyen veya bozuk dosyaları içe aktarmak cobalt işlevselliğini beklenmedik şekilde değiştirebilir veya bozabilir. yalnızca kişisel olarak dışa aktardığınız ve değiştirmediğiniz dosyaları içe aktarın. bu dosyayı biri içe aktarmanızı istediyse - yapmayın.\n\nbilinmeyen ayar dosyalarının içe aktarılmasından kaynaklanan zararlardan sorumlu değiliz.",
+
+    "safety.custom_instance.body": "özel sunucular potansiyel olarak gizlilik ve güvenlik riskleri oluşturabilir.\n\nkötü sunucular şunları yapabilir:\n1. sizi cobalt'tan başka bir yere yönlendirip dolandırmaya çalışabilir.\n2. istekleriniz hakkındaki tüm bilgileri günlüğe kaydedebilir, sonsuza kadar saklayabilir ve sizi takip etmek için kullanabilir.\n3. size zararlı dosyalar (kötü amaçlı yazılım gibi) sunabilir.\n4. sizi reklam izlemeye zorlayabilir veya indirme için ücret talep edebilir.\n\nbu noktadan sonra sizi koruyamayız. lütfen hangi sunucuları kullanacağınıza dikkat edin ve her zaman hislerinize güvenin. ters giden bir şey hissederseniz bu sayfaya geri dönün, özel sunucuyu sıfırlayın ve bunu github üzerinden bize bildirin.",
+
+    "clear_cache.title": "tüm önbellek temizlensin mi?",
+    "clear_cache.body": "işleme kuyruğundaki tüm dosyalar kaldırılacak ve cihaz içi özelliklerin yüklenmesi daha uzun sürecektir. bu işlem anında gerçekleşir ve geri alınamaz."
+}

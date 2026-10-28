@@ -1,0 +1,22 @@
+{
+    "no_final_file": "nihai dosya çıktısı yok",
+    "worker_didnt_start": "işleme çalışanı başlatılamadı",
+
+    "generic_error": "işleme çalışanı çöktü, ayrıntılar için konsola bakın",
+
+    "fetch.crashed": "indirme çalışanı çöktü, ayrıntılar için konsola bakın",
+    "fetch.bad_response": "dosya tüneline erişilemedi",
+    "fetch.no_file_reader": "önbelleğe dosya yazılamadı",
+    "fetch.empty_tunnel": "dosya tüneli boş, birkaç dakika içinde tekrar deneyin",
+    "fetch.corrupted_file": "dosya tamamen indirilemedi, tekrar deneyin",
+    "fetch.network_error": "indirme işlemi bir ağ sorunu nedeniyle kesintiye uğradı",
+
+    "ffmpeg.probe_failed": "bu dosya incelenemedi, desteklenmiyor veya bozuk olabilir",
+    "ffmpeg.out_of_memory": "yeterli kullanılabilir bellek yok, devam edilemiyor",
+    "ffmpeg.no_input_format": "dosya biçimi desteklenmiyor",
+    "ffmpeg.no_input_type": "dosya türü desteklenmiyor",
+    "ffmpeg.crashed": "ffmpeg çalışanı çöktü, ayrıntılar için konsola bakın",
+    "ffmpeg.no_render": "ffmpeg çıktısı boş, çok garip bir şey oldu",
+    "ffmpeg.no_args": "ffmpeg çalışanı gerekli bağımsız değişkenleri almadı",
+    "ffmpeg.no_audio_channel": "bu videoda ses izi yok, yapılacak bir şey yok"
+}

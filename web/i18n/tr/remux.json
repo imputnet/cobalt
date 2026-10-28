@@ -1,0 +1,8 @@
+{
+    "bullet.purpose.title": "remux (yeniden ambalajlama) ne yapar?",
+    "bullet.purpose.description": "remux, eksik zaman bilgisi gibi dosya kapsayıcısındaki sorunları düzeltir. vegas pro ve windows media player gibi eski yazılımlarla uyumluluğu artırmaya yardımcı olur.",
+    "bullet.explainer.title": "nasıl çalışır?",
+    "bullet.explainer.description": "remux işlemi, mevcut kodek verilerini alır ve yeni bir medya kapsayıcısına kopyalar. kayıpsızdır; medya verisi yeniden kodlanmaz.",
+    "bullet.privacy.title": "cihaz içi işleme",
+    "bullet.privacy.description": "cobalt dosyaları yerel olarak yeniden ambalajlar. dosyalar asla cihazınızdan ayrılmaz, bu nedenle işleme neredeyse anında gerçekleşir."
+}

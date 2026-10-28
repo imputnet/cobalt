@@ -1,0 +1,5 @@
+{
+    "status.default": "kuyruk işleniyor",
+    "status.completed": "kuyruk işleniyor. tüm görevler tamamlandı.",
+    "status.ongoing": "kuyruk işleniyor. devam eden görevler."
+}
