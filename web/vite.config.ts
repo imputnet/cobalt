@@ -1,13 +1,12 @@
 import mime from "mime";
 import basicSSL from "@vitejs/plugin-basic-ssl";
 
-import { glob } from "glob";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { createSitemap } from "svelte-sitemap/src/index";
 import { defineConfig, searchForWorkspaceRoot, type PluginOption } from "vite";
 
 import { join, basename } from "node:path";
-import { createReadStream } from "node:fs";
+import { createReadStream, existsSync } from "node:fs";
 import { cp, readdir, mkdir } from "node:fs/promises";
 
 const exposeLibAV: PluginOption = (() => {
@@ -21,14 +20,23 @@ const exposeLibAV: PluginOption = (() => {
                 const filename = basename(req.url).split('?')[0];
                 if (!filename) return next();
 
-                const [file] = await glob(join(IMPUT_MODULE_DIR, '/**/dist/', filename));
-                if (!file) return next();
+                // glob can't be used here: on windows join() emits
+                // backslashes that glob treats as escape characters,
+                // so the pattern never matches and every libav asset
+                // 404s (breaks the local processing pipeline in dev)
+                const modules = await readdir(IMPUT_MODULE_DIR);
+                for (const module of modules) {
+                    const file = join(IMPUT_MODULE_DIR, module, 'dist', filename);
+                    if (!existsSync(file)) continue;
 
-                const fileType = mime.getType(filename);
-                if (!fileType) return next();
+                    const fileType = mime.getType(filename);
+                    if (!fileType) continue;
 
-                res.setHeader('Content-Type', fileType);
-                return createReadStream(file).pipe(res);
+                    res.setHeader('Content-Type', fileType);
+                    return createReadStream(file).pipe(res);
+                }
+
+                return next();
             });
         },
         generateBundle: async (options) => {
@@ -113,6 +121,11 @@ export default defineConfig({
         }
     },
     server: {
+        // basic-ssl would otherwise turn the dev server into https with a
+        // self-signed cert, which embedded browsers that can't skip cert
+        // warnings (e.g. Electron guest views) refuse to load; set WEB_HTTPS=1
+        // to get the https dev server back
+        https: process.env.WEB_HTTPS === "1" ? {} : false,
         headers: {
             "Cross-Origin-Opener-Policy": "same-origin",
             "Cross-Origin-Embedder-Policy": "require-corp"

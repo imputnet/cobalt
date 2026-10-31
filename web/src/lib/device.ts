@@ -86,7 +86,12 @@ if (browser) {
 
         // enable local processing by default everywhere but android chrome
         defaultLocalProcessing: !(device.is.android && device.browser.chrome),
-        multithreading: !iOS || iosVersion >= 18,
+
+        // the multithreaded libav variant needs SharedArrayBuffer, which
+        // only exists in cross-origin isolated contexts; without this
+        // check the ffmpeg worker hangs or misreports a probe failure
+        // (e.g. embedded browsers that ignore COOP/COEP headers)
+        multithreading: self.crossOriginIsolated && (!iOS || iosVersion >= 18),
     };
 
     device.userAgent = navigator.userAgent;

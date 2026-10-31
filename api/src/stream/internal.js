@@ -166,7 +166,9 @@ export async function probeInternalTunnel(streamInfo) {
         };
 
         if (streamInfo.isHLS) {
-            return probeInternalHLSTunnel({
+            // awaited so a probe rejection (e.g. the 3s timeout) is caught
+            // here instead of failing the download that asked for an estimate
+            return await probeInternalHLSTunnel({
                 ...streamInfo,
                 signal,
                 headers

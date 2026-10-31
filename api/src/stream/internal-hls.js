@@ -73,6 +73,26 @@ export async function handleHlsPlaylist(streamInfo, req, res) {
 
     hlsPlaylist = HLS.stringify(hlsPlaylist);
 
+    // the playlist body has been rewritten, so response headers copied
+    // from upstream no longer describe what we're sending. this matters
+    // to ffmpeg: it detects m3u8 playlists by url extension or by
+    // content-type, and it trusts content-range when figuring out the
+    // size of the response. upstream headers (e.g. bluesky's cdn serves
+    // playlists as application/octet-stream) made it refuse to parse
+    // the playlist and output nothing, so we replace them all here.
+    res.status(200);
+    res.setHeader('content-type', 'application/vnd.apple.mpegurl');
+    for (const name of [
+        'content-range',
+        'content-encoding',
+        'etag',
+        'last-modified',
+        'accept-ranges',
+        'vary'
+    ]) {
+        res.removeHeader(name);
+    }
+
     res.send(hlsPlaylist);
 }
 
