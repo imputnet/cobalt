@@ -1,4 +1,3 @@
-import { Constants } from "youtubei.js";
 import { services } from "../processing/service-config.js";
 import { updateEnv, canonicalEnv, env as currentEnv } from "../config.js";
 
@@ -116,12 +115,10 @@ export const loadEnvs = (env = process.env) => {
         allServices,
         enabledServices,
 
-        customInnertubeClient: env.CUSTOM_INNERTUBE_CLIENT,
-        ytSessionServer: env.YOUTUBE_SESSION_SERVER,
-        ytSessionReloadInterval: 300,
-        ytSessionInnertubeClient: env.YOUTUBE_SESSION_INNERTUBE_CLIENT,
         ytAllowBetterAudio: env.YOUTUBE_ALLOW_BETTER_AUDIO !== "0",
-        ytPlayerIds: env.YOUTUBE_PLAYER_ID?.split(',')?.map(p => p.trim()),
+
+        // youtube extraction engine: "ytubedl" (vendored pure-JS engine) | "off"
+        youtubeEngine: env.YOUTUBE_ENGINE ?? "ytubedl",
 
         // "never" | "session" | "always"
         forceLocalProcessing: env.FORCE_LOCAL_PROCESSING ?? "never",
@@ -153,10 +150,8 @@ export const validateEnvs = async (env) => {
         throw new Error('SO_REUSEPORT is not supported');
     }
 
-    if (env.customInnertubeClient && !Constants.SUPPORTED_CLIENTS.includes(env.customInnertubeClient)) {
-        console.error("CUSTOM_INNERTUBE_CLIENT is invalid. Provided client is not supported.");
-        console.error(`Supported clients are: ${Constants.SUPPORTED_CLIENTS.join(', ')}\n`);
-        throw new Error("Invalid CUSTOM_INNERTUBE_CLIENT");
+    if (env.youtubeEngine && !["ytubedl", "off"].includes(env.youtubeEngine)) {
+        throw new Error("Invalid YOUTUBE_ENGINE");
     }
 
     if (env.forceLocalProcessing && !forceLocalProcessingOptions.includes(env.forceLocalProcessing)) {

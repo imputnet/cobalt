@@ -59,5 +59,6 @@
     "youtube.api_error": "youtube updated something about its api and i couldn't get any info about this video. try again in a few seconds, but if this issue sticks, please report it!",
     "youtube.disabled_main_instance": "youtube downloading is disabled on the main instance due to restrictions from youtube's side and infinite maintenance cost at scale.\n\nwe apologize for the inconvenience and encourage you to host your own API instance for this.",
     "youtube.drm": "this youtube video is protected by widevine DRM, so i can't download it. try a different link!",
-    "youtube.no_session_tokens": "couldn't get required session tokens for youtube. this may be caused by a restriction on youtube's side. try again in a few seconds, but if this issue sticks, please report it!"
+    "youtube.no_session_tokens": "couldn't get required session tokens for youtube. this may be caused by a restriction on youtube's side. try again in a few seconds, but if this issue sticks, please report it!",
+    "youtube.engine": "the youtube download engine on this processing instance is unavailable or failed to start. this is an instance-side issue — try again later or report it to the instance owner!"
 }

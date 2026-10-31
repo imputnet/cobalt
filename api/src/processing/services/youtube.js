@@ -1,30 +1,8 @@
 import HLS from "hls-parser";
-import ivm from "isolated-vm";
-
-import { fetch, Request } from "undici";
-import { Innertube, Platform, Session } from "youtubei.js";
+import { fetch } from "undici";
 
 import { env } from "../../config.js";
-import { getCookie } from "../cookie/manager.js";
-import { getYouTubeSession } from "../helpers/youtube-session.js";
-
-// https://github.com/LuanRT/YouTube.js/pull/1052
-Platform.shim.eval = async (data) => {
-  const isolate = new ivm.Isolate();
-
-  try {
-    const context = await isolate.createContext();
-    const code = `(() => { ${data.output} })()`;
-    const script = await isolate.compileScript(code);
-    return await script.run(context, { copy: true, timeout: 5000 });
-  } finally {
-    isolate.dispose();
-  }
-}
-
-const PLAYER_REFRESH_PERIOD = 1000 * 60 * 15; // ms
-
-let innertube, lastRefreshedAt;
+import { callYTubeDL } from "../helpers/ytubedl.js";
 
 const codecList = {
     h264: {
@@ -53,61 +31,36 @@ const hlsCodecList = {
     vp9: {
         videoCodec: "vp09",
         audioCodec: "mp4a",
-        container: "webm"
+        container: "mp4"
     }
 }
 
-const clientsWithNoCipher = ['IOS', 'ANDROID', 'YTSTUDIO_ANDROID', 'YTMUSIC_ANDROID'];
-
 const videoQualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
-const cloneInnertube = async (customFetch, useSession) => {
-    const shouldRefreshPlayer = lastRefreshedAt + PLAYER_REFRESH_PERIOD < new Date();
-
-    const rawCookie = getCookie('youtube');
-    const cookie = rawCookie?.toString();
-
-    const sessionTokens = getYouTubeSession();
-    const retrieve_player = Boolean(sessionTokens || cookie);
-
-    if (useSession && env.ytSessionServer && !sessionTokens?.potoken) {
-        throw "no_session_tokens";
+const engineError = result => {
+    switch (result?.errorClass) {
+        case "AgeRestrictedContentException":
+            return "content.video.age";
+        case "PrivateContentException":
+            return "content.video.private";
+        case "GeographicRestrictionException":
+        case "UnsupportedContentInCountryException":
+            return "content.video.region";
+        case "PaidContentException":
+        case "YoutubeMusicPremiumContentException":
+            return "content.paid";
+        case "ContentNotAvailableException":
+        case "AccountTerminatedException":
+            return "content.video.unavailable";
+        case "ContentNotSupportedException":
+            return "youtube.no_matching_format";
+        case "DrmException":
+            return "youtube.drm";
+        case "ReCaptchaException":
+            return "fetch.rate";
+        default:
+            return "youtube.engine";
     }
-
-    if (!innertube || shouldRefreshPlayer) {
-        let player_id;
-        if (env.ytPlayerIds) {
-            player_id = env.ytPlayerIds[
-                Math.floor(Math.random() * env.ytPlayerIds.length)
-            ];
-        }
-
-        innertube = await Innertube.create({
-            fetch: customFetch,
-            retrieve_player,
-            cookie,
-            po_token: useSession ? sessionTokens?.potoken : undefined,
-            visitor_data: useSession ? sessionTokens?.visitor_data : undefined,
-            player_id,
-        });
-        lastRefreshedAt = +new Date();
-    }
-
-    const session = new Session(
-        innertube.session.context,
-        innertube.session.api_key,
-        innertube.session.api_version,
-        innertube.session.account_index,
-        innertube.session.config_data,
-        innertube.session.player,
-        cookie,
-        customFetch ?? innertube.session.http.fetch,
-        innertube.session.cache,
-        sessionTokens?.potoken
-    );
-
-    const yt = new Innertube(session);
-    return yt;
 }
 
 const getHlsVariants = async (hlsManifest, dispatcher) => {
@@ -135,221 +88,91 @@ const getHlsVariants = async (hlsManifest, dispatcher) => {
     return variants;
 }
 
-const getSubtitles = async (info, dispatcher, subtitleLang) => {
-    const preferredCap = info.captions.caption_tracks.find(caption =>
-        caption.kind !== 'asr' && caption.language_code.startsWith(subtitleLang)
-    );
+const stripTags = html => html
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'");
 
-    const captionsUrl = preferredCap?.base_url;
-    if (!captionsUrl) return;
+const isOriginalTrack = entry =>
+    entry.audioTrackType === "ORIGINAL"
+    || (entry.audioTrackName || "").toLowerCase().includes("original");
 
-    if (!captionsUrl.includes("exp=xpe")) {
-        let url = new URL(captionsUrl);
-        url.searchParams.set('fmt', 'vtt');
-
-        return {
-            url: url.toString(),
-            language: preferredCap.language_code,
-        }
+export default async function (o, { engineCall = callYTubeDL } = {}) {
+    if (env.youtubeEngine === "off") {
+        return { error: "service.unsupported" };
     }
 
-    // if we have exp=xpe in the url, then captions are
-    // locked down and can't be accessed without a yummy potoken,
-    // so instead we just use subtitles from HLS
-
-    const hlsVariants = await getHlsVariants(
-        info.streaming_data.hls_manifest_url,
-        dispatcher
-    );
-    if (hlsVariants?.error) return;
-
-    // all variants usually have the same set of subtitles
-    const hlsSubtitles = hlsVariants[0]?.subtitles;
-    if (!hlsSubtitles?.length) return;
-
-    const preferredHls = hlsSubtitles.find(
-        subtitle => subtitle.language.startsWith(subtitleLang)
-    );
-
-    if (!preferredHls) return;
-
-    const fetchedHlsSubs =
-        await fetch(preferredHls.uri, { dispatcher })
-            .then(r => r.status === 200 ? r.text() : undefined)
-            .catch(() => {});
-
-    const parsedSubs = HLS.parse(fetchedHlsSubs);
-    if (!parsedSubs) return;
-
-    return {
-        url: parsedSubs.segments[0]?.uri,
-        language: preferredHls.language,
-    }
-}
-
-export default async function (o) {
     const quality = o.quality === "max" ? 9000 : Number(o.quality);
 
-    let useHLS = o.youtubeHLS;
-    let innertubeClient = o.innertubeClient || env.customInnertubeClient || "IOS";
+    // the engine only parses 11-char ids; short ones would fall through to its
+    // direct-URL provider and surface as a misleading engine failure
+    if (!/^[A-Za-z0-9_-]{11}$/.test(o.id)) {
+        return { error: "content.video.unavailable" };
+    }
 
-    // HLS playlists from the iOS client don't contain the av1 video format.
+    let useHLS = o.youtubeHLS;
+    let codec = o.codec || "h264";
+
+    // HLS playlists don't contain the av1 video format.
     if (useHLS && o.codec === "av1") {
         useHLS = false;
     }
 
-    if (useHLS) {
-        innertubeClient = "IOS";
-    }
-
-    // iOS client doesn't have adaptive formats of resolution >1080p,
-    // so we use the WEB_EMBEDDED client instead for those cases
-    let useSession =
-        env.ytSessionServer && (
-            (
-                !useHLS
-                && innertubeClient === "IOS"
-                && (
-                    (quality > 1080 && o.codec !== "h264")
-                    || (quality > 1080 && o.codec !== "vp9")
-                )
-            )
-        );
-
-    // we can get subtitles reliably only from the iOS client
-    if (o.subtitleLang) {
-        innertubeClient = "IOS";
-        useSession = false;
-    }
-
-    if (useSession) {
-        innertubeClient = env.ytSessionInnertubeClient || "WEB_EMBEDDED";
-    }
-
-    let yt;
+    let result;
     try {
-        yt = await cloneInnertube(
-            (input, init) => {
-                const url = typeof input === 'string'
-                          ? new URL(input)
-                          : input instanceof URL
-                            ? input
-                            : new URL(input.url);
+        result = await engineCall(`https://www.youtube.com/watch?v=${o.id}`, {
+            dispatcher: o.dispatcher,
+        });
+    } catch (e) {
+        // the adapter resolves instead of rejecting, so a throw here means
+        // the adapter itself is broken
+        console.error("[youtube] engine call failed:", e?.message || e);
+        return { error: "youtube.engine" };
+    }
 
-                const request = new Request(
-                    url,
-                    input instanceof Platform.shim.Request
-                    ? input : undefined
-                );
-
-                return fetch(request, {
-                    ...init,
-                    dispatcher: o.dispatcher
-                });
-            },
-            useSession
+    if (!result.ok) {
+        console.error(
+            "[youtube] engine extraction failed:",
+            result.errorClass, "-", result.error
         );
-    } catch (e) {
-        if (e === "no_session_tokens") {
-            return { error: "youtube.no_session_tokens" };
-        } else if (e.message?.endsWith("decipher algorithm")) {
-            return { error: "youtube.decipher" }
-        } else if (e.message?.includes("refresh access token")) {
-            return { error: "youtube.token_expired" }
-        } else throw e;
+        return { error: engineError(result) };
     }
 
-    let info;
-    try {
-        info = await yt.getBasicInfo(o.id, { client: innertubeClient });
-    } catch (e) {
-        if (e?.info) {
-            let errorInfo;
-            try { errorInfo = JSON.parse(e?.info); } catch {}
-
-            if (errorInfo?.reason === "This video is private") {
-                return { error: "content.video.private" };
-            }
-            if (["INVALID_ARGUMENT", "UNAUTHENTICATED"].includes(errorInfo?.error?.status)) {
-                return { error: "youtube.api_error" };
-            }
-        }
-
-        if (e?.message === "This video is unavailable") {
-            return { error: "content.video.unavailable" };
-        }
-
-        return { error: "fetch.fail" };
-    }
-
-    if (!info) return { error: "fetch.fail" };
-
-    const playability = info.playability_status;
-    const basicInfo = info.basic_info;
-
-    switch (playability.status) {
-        case "LOGIN_REQUIRED":
-            if (playability.reason.endsWith("bot")) {
-                return { error: "youtube.login" }
-            }
-            if (playability.reason.endsWith("age") || playability.reason.endsWith("inappropriate for some users.")) {
-                return { error: "content.video.age" }
-            }
-            if (playability?.error_screen?.reason?.text === "Private video") {
-                return { error: "content.video.private" }
-            }
-            break;
-
-        case "UNPLAYABLE":
-            if (playability?.reason?.endsWith("request limit.")) {
-                return { error: "fetch.rate" }
-            }
-            if (playability?.error_screen?.subreason?.text?.endsWith("in your country")) {
-                return { error: "content.video.region" }
-            }
-            if (playability?.error_screen?.reason?.text === "Private video") {
-                return { error: "content.video.private" }
-            }
-            break;
-
-        case "AGE_VERIFICATION_REQUIRED":
-            return { error: "content.video.age" };
-    }
-
-    if (playability.status !== "OK") {
-        return { error: "content.video.unavailable" };
-    }
-
-    if (basicInfo.is_live) {
+    if (result.live) {
         return { error: "content.video.live" };
     }
 
-    if (basicInfo.duration > env.durationLimit) {
+    if (result.duration > env.durationLimit) {
         return { error: "content.too_long" };
     }
 
     // return a critical error if returned video is "Video Not Available"
     // or a similar stub by youtube
-    if (basicInfo.id !== o.id) {
+    if (result.id !== o.id) {
         return {
             error: "fetch.fail",
             critical: true
         }
     }
 
+    // degradation contract from the integration plan: when the engine has
+    // no HLS manifest for this video, fall back to the progressive path
+    // instead of failing (HLS is opt-in via the deprecated youtubeHLS param)
+    useHLS = useHLS && !!result.hls;
+
     const normalizeQuality = res => {
         const shortestSide = Math.min(res.height, res.width);
         return videoQualities.find(qual => qual >= shortestSide);
     }
 
-    let video, audio, subtitles, dubbedLanguage,
-        codec = o.codec || "h264", itag = o.itag;
+    let video, audio, subtitles, dubbedLanguage;
 
     if (useHLS) {
-        const variants = await getHlsVariants(
-            info.streaming_data.hls_manifest_url,
-            o.dispatcher
-        );
+        const variants = await getHlsVariants(result.hls, o.dispatcher);
 
         if (variants?.error) return variants;
 
@@ -397,7 +220,6 @@ export default async function (o) {
         selected.subtitles = [];
         video = selected;
     } else {
-        // i miss typescript so bad
         const sorted_formats = {
             h264: {
                 video: [],
@@ -419,33 +241,42 @@ export default async function (o) {
             },
         }
 
-        const checkFormat = (format, pCodec) => format.content_length &&
-            (format.mime_type.includes(codecList[pCodec].videoCodec)
-                || format.mime_type.includes(codecList[pCodec].audioCodec));
+        // match the union of mimeType + codec against codec family aliases
+        // (the adapter emits family aliases so vp9's full InnerTube name
+        // "vp09.…" never hides a matchable format)
+        const codecHay = entry => `${entry.mimeType} ${entry.codec ?? ""}`;
 
-        // sort formats & weed out bad ones
-        info.streaming_data.adaptive_formats.sort((a, b) =>
-            Number(b.bitrate) - Number(a.bitrate)
-        ).forEach(format => {
-            Object.keys(codecList).forEach(yCodec => {
-                const matchingItag = slot => !itag?.[slot] || itag[slot] === format.itag;
-                const sorted = sorted_formats[yCodec];
-                const goodFormat = checkFormat(format, yCodec);
-                if (!goodFormat) return;
+        const checkFormat = (entry, pCodec) => entry.contentLength > 0
+            && entry.deliveryMethod === "PROGRESSIVE_HTTP"
+            && (codecHay(entry).includes(codecList[pCodec].videoCodec)
+                || codecHay(entry).includes(codecList[pCodec].audioCodec));
 
-                if (format.has_video && matchingItag('video')) {
-                    sorted.video.push(format);
-                    if (!sorted.bestVideo)
-                        sorted.bestVideo = format;
-                }
+        const sortInto = (entries, kind) => entries
+            .sort((a, b) => Number(b.bitrate) - Number(a.bitrate))
+            .forEach(entry => {
+                Object.keys(codecList).forEach(yCodec => {
+                    const matchingItag = slot => !o.itag?.[slot] || o.itag[slot] === entry.itag;
+                    const sorted = sorted_formats[yCodec];
+                    if (!checkFormat(entry, yCodec)) return;
 
-                if (format.has_audio && matchingItag('audio')) {
-                    sorted.audio.push(format);
-                    if (!sorted.bestAudio)
-                        sorted.bestAudio = format;
-                }
-            })
-        });
+                    if (kind === "video" && matchingItag('video')) {
+                        sorted.video.push(entry);
+                        if (!sorted.bestVideo)
+                            sorted.bestVideo = entry;
+                    }
+
+                    if (kind === "audio" && matchingItag('audio')) {
+                        sorted.audio.push(entry);
+                        if (!sorted.bestAudio)
+                            sorted.bestAudio = entry;
+                    }
+                })
+            });
+
+        // old cobalt never used muxed formats, and OTF/DASH entries
+        // (manifestUrl set) can't be merged either
+        sortInto(result.videoOnly ?? [], "video");
+        sortInto(result.audio ?? [], "audio");
 
         const noBestMedia = () => {
             const vid = sorted_formats[codec]?.bestVideo;
@@ -468,20 +299,22 @@ export default async function (o) {
 
         audio = sorted_formats[codec].bestAudio;
 
-        if (audio?.audio_track && !audio?.is_original) {
-            audio = sorted_formats[codec].audio.find(i =>
-                i?.is_original
-            );
+        if (audio && !isOriginalTrack(audio)) {
+            audio = sorted_formats[codec].audio.find(isOriginalTrack) || audio;
         }
 
         if (o.dubLang) {
+            // sorted.audio is bitrate-descending, so the first match
+            // is the highest bitrate dubbed track
             const dubbedAudio = sorted_formats[codec].audio.find(i =>
-                i.language?.startsWith(o.dubLang) && i.audio_track
+                ((i.audioTrackId || "").startsWith(o.dubLang)
+                    || (i.audioLocale || "").startsWith(o.dubLang))
+                && !isOriginalTrack(i)
             );
 
-            if (dubbedAudio && !dubbedAudio?.is_original) {
+            if (dubbedAudio) {
                 audio = dubbedAudio;
-                dubbedLanguage = dubbedAudio.language;
+                dubbedLanguage = dubbedAudio.audioLocale || dubbedAudio.audioTrackId;
             }
         }
 
@@ -503,25 +336,29 @@ export default async function (o) {
             if (!video) video = sorted_formats[codec].bestVideo;
         }
 
-        if (o.subtitleLang && !o.isAudioOnly && info.captions?.caption_tracks?.length) {
-            const videoSubtitles = await getSubtitles(info, o.dispatcher, o.subtitleLang);
-            if (videoSubtitles) {
-                subtitles = videoSubtitles;
+        if (o.subtitleLang && !o.isAudioOnly && result.subtitles?.length) {
+            // manual captions only
+            const preferredSub = result.subtitles.find(sub =>
+                !sub.auto && (sub.language || "").startsWith(o.subtitleLang)
+            );
+
+            if (preferredSub) {
+                subtitles = {
+                    url: preferredSub.url,
+                    language: preferredSub.language,
+                }
             }
         }
     }
 
-    if (video?.drm_families || audio?.drm_families) {
-        return { error: "youtube.drm" };
-    }
-
     const fileMetadata = {
-        title: basicInfo.title.trim(),
-        artist: basicInfo.author.replace("- Topic", "").trim()
+        title: (result.title || "").trim(),
+        artist: (result.uploader || "").replace("- Topic", "").trim()
     }
 
-    if (basicInfo?.short_description?.startsWith("Provided to YouTube by")) {
-        const descItems = basicInfo.short_description.split("\n\n", 5);
+    const description = stripTags(result.description || "");
+    if (description.startsWith("Provided to YouTube by")) {
+        const descItems = description.split("\n\n", 5);
 
         if (descItems.length === 5) {
             fileMetadata.album = descItems[2];
@@ -544,7 +381,7 @@ export default async function (o) {
         youtubeDubName: dubbedLanguage || false,
     }
 
-    itag = {
+    const itag = {
         video: video?.itag,
         audio: audio?.itag
     };
@@ -553,7 +390,6 @@ export default async function (o) {
         ...o,
         dispatcher: undefined,
         itag,
-        innertubeClient
     };
 
     if (audio && o.isAudioOnly) {
@@ -565,17 +401,13 @@ export default async function (o) {
             urls = audio.uri;
         }
 
-        if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
-            urls = await audio.decipher(innertube.session.player);
-        }
-
         let cover = `https://i.ytimg.com/vi/${o.id}/maxresdefault.jpg`;
         const testMaxCover = await fetch(cover, { dispatcher: o.dispatcher })
             .then(r => r.status === 200)
             .catch(() => {});
 
         if (!testMaxCover) {
-            cover = basicInfo.thumbnail?.[0]?.url;
+            cover = result.thumbnail;
         }
 
         return {
@@ -589,7 +421,7 @@ export default async function (o) {
             originalRequest,
 
             cover,
-            cropCover: basicInfo.author.endsWith("- Topic"),
+            cropCover: (result.uploader || "").endsWith("- Topic"),
         }
     }
 
@@ -612,13 +444,8 @@ export default async function (o) {
             filenameAttributes.resolution = `${video.width}x${video.height}`;
             filenameAttributes.extension = o.container === "auto" ? codecList[codec].container : o.container;
 
-            if (!clientsWithNoCipher.includes(innertubeClient) && innertube) {
-                video = await video.decipher(innertube.session.player);
-                audio = await audio.decipher(innertube.session.player);
-            } else {
-                video = video.url;
-                audio = audio.url;
-            }
+            video = video.url;
+            audio = audio.url;
         }
 
         filenameAttributes.qualityLabel = `${resolution}p`;

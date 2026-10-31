@@ -63,12 +63,10 @@ this document is not final and will expand over time. feel free to improve it!
 ### service-specific vars
 | name                             | value example            |
 |:---------------------------------|:-------------------------|
-| CUSTOM_INNERTUBE_CLIENT          | `IOS`                    |
-| YOUTUBE_SESSION_SERVER           | `http://localhost:8080/` |
-| YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
 | YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
 | ENABLE_DEPRECATED_YOUTUBE_HLS    | `key`                    |
-| YOUTUBE_PLAYER_ID                | `abcdefff`               |
+| YOUTUBE_ENGINE                   | `ytubedl`                |
+| YTUBEDL_COOKIES                  | `./cookies.txt`          |
 
 [*view details*](#service-specific)
 
@@ -257,30 +255,8 @@ the value is a number, either `0` or `1`.
 ## service-specific
 [*jump to the table*](#service-specific-vars)
 
-### CUSTOM_INNERTUBE_CLIENT
-innertube client that will be used instead of the default one.
-
-the value is a string.
-
-### YOUTUBE_SESSION_SERVER
-URL to an instance of [yt-session-generator](https://github.com/imputnet/yt-session-generator). used for automatically pulling `poToken` & `visitor_data` for youtube. can be local or remote.
-
-the value is a URL.
-
-### YOUTUBE_SESSION_INNERTUBE_CLIENT
-innertube client that's compatible with botguard's (web) `poToken` and `visitor_data`.
-
-the value is a string.
-
-### YOUTUBE_PLAYER_ID
-a comma-separated-list of player IDs to use for youtube fetching.
-if defined, cobalt chooses one of them at each client initialization, otherwise
-defaults to the current latest player ID.
-
-the value is a string.
-
 ### YOUTUBE_ALLOW_BETTER_AUDIO
-when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively impact the rate limit of a secondary youtube client with a session.
+when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`.
 
 the value is a number, either `0` or `1`.
 
@@ -289,3 +265,22 @@ the value is a string: `never` (default), `key`, or `always`:
 - when the var is not defined or set to `never`, `youtubeHLS` in POST requests will be ignored.
 - when set to `key`, only requests from api-key clients will be able to use `youtubeHLS` in POST requests.
 - when set to `always`, all requests will be able to use `youtubeHLS` in POST requests.
+
+### YOUTUBE_ENGINE
+the value is a string: `ytubedl` (default) or `off`:
+- when not defined or set to `ytubedl`, youtube downloads are handled by the
+  vendored [ytubedl-engine](../api/src/processing/services/vendor/ytubedl-engine/)
+  (pure JS, zero dependencies, runs in the api process).
+- when set to `off`, the youtube service returns `service.unsupported`.
+
+### YTUBEDL_COOKIES
+path to a cookies.txt file (netscape format) with youtube cookies, attached to
+all requests the youtube engine makes. unlocks age-gated videos and clears
+bot-checks on datacenter server IPs when the cookies come from a real signed-in
+session. the engine reads this variable directly.
+
+`youtube` cookies from `cookies.json` (see `COOKIE_PATH`) are used first and
+rotate per request; this variable is the fallback for instances that don't use
+`cookies.json`.
+
+the value is a path.

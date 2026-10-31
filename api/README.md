@@ -75,11 +75,13 @@ cobalt relies on ffmpeg for muxing and encoding media files. ffmpeg is absolutel
 
 you can [support ffmpeg here](https://ffmpeg.org/donations.html)!
 
-### youtube.js
-cobalt relies on **[youtube.js](https://github.com/LuanRT/YouTube.js)** for interacting with youtube's innertube api, it wouldn't have been possible without this package.
-
-you can support the developer via various methods listed on their github page!
-(linked above)
+### ytubedl-engine
+youtube extraction is handled by **ytubedl-engine**, a zero-dependency
+pure-JS engine vendored into
+[`api/src/processing/services/vendor/ytubedl-engine`](src/processing/services/vendor/ytubedl-engine).
+it speaks youtube's innertube api directly (no JVM, no external processes),
+which keeps youtube downloads working in every environment the api itself
+runs in, including the stock docker image.
 
 ### many others
 cobalt-api also depends on:
