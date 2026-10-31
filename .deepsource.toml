@@ -1,5 +1,9 @@
 version = 1
 
+# vendored third-party engines are copied verbatim and updated wholesale,
+# so they are not analyzed
+exclude_patterns = ["api/src/processing/services/vendor/**"]
+
 [[analyzers]]
 name = "javascript"
 

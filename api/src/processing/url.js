@@ -111,6 +111,12 @@ function aliasURL(url) {
                 url = new URL(`https://www.reddit.com/video/${parts[1]}`);
             }
             break;
+
+        case "threads":
+            if (host.tld === 'net') {
+                url.hostname = 'threads.com';
+            }
+            break;
     }
 
     return url;

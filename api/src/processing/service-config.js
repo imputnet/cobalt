@@ -143,6 +143,16 @@ export const services = {
             "s/:id"
         ],
     },
+    threads: {
+        patterns: [
+            "post/:postId",              // threads.com/post/CODE
+            "post/:postId/:slug",        // threads.com/post/CODE/slug
+            "t/:postId",                 // legacy share links threads.com/t/CODE
+            ":username/post/:postId",    // @user/post/CODE and user/post/CODE
+            ":username/post/:postId/:slug",
+        ],
+        altDomains: ["threads.net"],
+    },
     tiktok: {
         patterns: [
             ":user/video/:postId",

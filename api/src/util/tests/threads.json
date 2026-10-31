@@ -1,0 +1,114 @@
+[
+    {
+        "name": "video post",
+        "url": "https://www.threads.com/@ajassy/post/DRcZNKWDVlR",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "post link without user",
+        "url": "https://www.threads.com/post/DRcZNKWDVlR",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "legacy t-link",
+        "url": "https://www.threads.net/t/DRcZNKWDVlR",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "single image post",
+        "url": "https://www.threads.com/@yannlecun/post/DRQL7I2jlco",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "tunnel"
+        }
+    },
+    {
+        "name": "carousel",
+        "url": "https://www.threads.com/@mtamblyn/post/DdqEWIGAF1g",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "video post with slug",
+        "url": "https://www.threads.com/@jakhminawal/post/DeGucUNCWVS/video-funny-comedy-video-viral",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "video post without user",
+        "url": "https://www.threads.com/post/DeGucUNCWVS",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "redirect"
+        }
+    },
+    {
+        "name": "multi-item post with slug",
+        "url": "https://www.threads.com/@threads/post/DJb5OD5A-xR/some-of-the-threads-that-made-us-laugh-this-week",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "multi-item post without slug",
+        "url": "https://www.threads.com/@threads/post/DJb5OD5A-xR",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": "picker"
+        }
+    },
+    {
+        "name": "text-only post",
+        "url": "https://www.threads.com/@zuck/post/DORJoYgkXUH",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.content.post.unavailable"
+        }
+    },
+    {
+        "name": "nonexistent post",
+        "url": "https://www.threads.com/@cobalt/post/XXXXXXXXXXXXXXXXXXXX",
+        "canFail": true,
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": "error",
+            "errorCode": "error.api.content.post.unavailable"
+        }
+    }
+]
