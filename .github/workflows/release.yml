@@ -1,0 +1,52 @@
+
+jobs:
+  release:
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: version
+        name: Validate release version
+        run: |
+          version=$(node -p "require('./api/package.json').version")
+          tag_version="${GITHUB_REF_NAME#v}"
+
+          if [[ "$version" != "$tag_version" ]]; then
+            echo "tag v$tag_version does not match api/package.json version $version" >&2
+            exit 1
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Create source archive
+        run: |
+          archive="cobalt-${{ steps.version.outputs.version }}.tar.gz"
+          prefix="cobalt-${{ steps.version.outputs.version }}/"
+          git archive --format=tar.gz --prefix="$prefix" --output="$archive" "$GITHUB_SHA"
+          sha256sum "$archive" > "$archive.sha256"
+        shell: bash
+
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        name: Publish GitHub release
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          archive="cobalt-${version}.tar.gz"
+          gh release create "$GITHUB_REF_NAME" "$archive" "$archive.sha256" \
+            --verify-tag \
+            --title "cobalt ${version}" \
+            --generate-notes
+
+name: Create source release
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+permissions:
+  contents: write
