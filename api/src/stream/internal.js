@@ -166,7 +166,7 @@ export async function probeInternalTunnel(streamInfo) {
         };
 
         if (streamInfo.isHLS) {
-            return probeInternalHLSTunnel({
+            return await probeInternalHLSTunnel({
                 ...streamInfo,
                 signal,
                 headers
