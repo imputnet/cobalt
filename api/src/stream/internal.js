@@ -155,9 +155,10 @@ export function internalStream(streamInfo, res) {
     return handleGenericStream(streamInfo, res);
 }
 
-export async function probeInternalTunnel(streamInfo) {
+export async function probeInternalTunnel(streamInfo, parentSignal) {
     try {
-        const signal = AbortSignal.timeout(3000);
+        const timeout = AbortSignal.timeout(3000);
+        const signal = parentSignal ? AbortSignal.any([parentSignal, timeout]) : timeout;
         const headers = {
             ...Object.fromEntries(streamInfo.headers || []),
             ...getHeaders(streamInfo.service),

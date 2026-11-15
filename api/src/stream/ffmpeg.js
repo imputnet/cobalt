@@ -1,5 +1,6 @@
 import ffmpeg from "ffmpeg-static";
 import { spawn } from "child_process";
+import { once } from "node:events";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
@@ -57,11 +58,19 @@ const getCommand = (args) => {
 const render = async (res, streamInfo, ffargs, estimateMultiplier) => {
     let process;
     const urls = Array.isArray(streamInfo.urls) ? streamInfo.urls : [streamInfo.urls];
-    const shutdown = () => (
-        killProcess(process),
-        closeResponse(res),
-        urls.map(destroyInternalStream)
-    );
+    const probe = new AbortController();
+    let stopped = false;
+    const shutdown = () => {
+        if (stopped) return;
+        stopped = true;
+        probe.abort();
+        killProcess(process);
+        urls.forEach(destroyInternalStream);
+        if (!res.destroyed) closeResponse(res);
+    };
+
+    if (res.destroyed) return shutdown();
+    res.once('close', shutdown);
 
     try {
         const args = [
@@ -77,15 +86,23 @@ const render = async (res, streamInfo, ffargs, estimateMultiplier) => {
             ],
         });
 
+        process.once('error', shutdown);
         const [,,, muxOutput] = process.stdio;
 
         res.setHeader('Connection', 'keep-alive');
         res.setHeader('Content-Disposition', contentDisposition(streamInfo.filename));
 
-        res.setHeader(
-            'Estimated-Content-Length',
-            await estimateTunnelLength(streamInfo, estimateMultiplier)
-        );
+        // Progress estimates are optional. Start streaming if the output is
+        // ready first, and cancel any outstanding size requests.
+        const { signal } = probe;
+        const estimatedLength = await Promise.race([
+            estimateTunnelLength(streamInfo, estimateMultiplier, signal).catch(() => -1),
+            once(muxOutput, 'readable', { signal }).then(() => -1),
+        ]);
+        probe.abort();
+
+        if (stopped) return;
+        res.setHeader('Estimated-Content-Length', estimatedLength);
 
         pipe(muxOutput, res, shutdown);
 
