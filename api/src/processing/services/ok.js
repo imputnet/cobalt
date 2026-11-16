@@ -28,7 +28,12 @@ export default async function(o) {
         return { error: "fetch.empty" };
     }
 
-    videoData = JSON.parse(JSON.parse(videoData).flashvars.metadata);
+    videoData = JSON.parse(videoData).flashvars.metadata;
+
+    // metadata used to be a JSON string, it can also be an already-parsed object
+    if (typeof videoData === "string") {
+        videoData = JSON.parse(videoData);
+    }
 
     if (videoData.provider !== "UPLOADED_ODKL")
         return { error: "link.unsupported" };
