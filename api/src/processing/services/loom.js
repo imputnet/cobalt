@@ -85,9 +85,39 @@ async function getTranscript(id) {
     }
 }
 
+export async function fromSharePageHLS(id) {
+    // newer loom videos are stored as HLS-only on luna.loom.com and the
+    // transcoded-url/raw-url endpoints return 204 for them. the share page
+    // embeds a GraphQL cache with a cloudfront-signed HLS master playlist.
+    const html = await fetch(`https://www.loom.com/share/${id}`, {
+        headers: { "user-agent": genericUserAgent }
+    }).then(r => r.ok && r.text()).catch(() => {});
+
+    if (!html) return;
+
+    // find the graphql cache entry for an M3U8 signed url, then take the
+    // url value that follows it. tolerant of escaped quotes and slashes.
+    for (const entry of html.matchAll(/nullableRawCdnUrl\([^)]*M3U8[^)]*\)/g)) {
+        const window = html.slice(entry.index, entry.index + 3000);
+        const url = window.match(
+            /"url":\\?"(https:\\?\/\\?\/luna\.loom\.com[^"\\]*(?:\\.[^"\\]*)*)"/
+        )?.[1];
+
+        if (url?.includes(".m3u8")) {
+            return url.replace(/\\u0026/g, "&").replace(/\\\//g, "/");
+        }
+    }
+}
+
 export default async function({ id, subtitleLang }) {
     let url = await fromTranscodedURL(id);
     url ??= await fromRawURL(id);
+
+    let isHLS = false;
+    if (!url) {
+        url = await fromSharePageHLS(id);
+        isHLS = !!url;
+    }
 
     if (!url) {
         return { error: "fetch.empty" }
@@ -101,6 +131,7 @@ export default async function({ id, subtitleLang }) {
 
     return {
         urls: url,
+        isHLS,
         subtitles,
         filename: `loom_${id}.mp4`,
         audioFilename: `loom_${id}_audio`
