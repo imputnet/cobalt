@@ -3,7 +3,47 @@ import { genericUserAgent } from "../../config.js";
 import { createStream } from "../../stream/manage.js";
 
 const SPOTLIGHT_VIDEO_REGEX = /<link data-react-helmet="true" rel="preload" href="([^"]+)" as="video"\/>/;
+const NEXT_FLIGHT_REGEX = /self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g;
 const NEXT_DATA_REGEX = /<script id="__NEXT_DATA__" type="application\/json">({.+})<\/script><\/body><\/html>$/;
+
+// spotlight pages are now rendered with the next.js app router, so the video
+// url is only present in the serialized flight data, not in a preload tag.
+function getSpotlightFromFlightData(html, id) {
+    let flight = "";
+    for (const [, chunk] of html.matchAll(NEXT_FLIGHT_REGEX)) {
+        try {
+            flight += JSON.parse(chunk);
+        } catch {}
+    }
+
+    const marker = `"rawSnapId":${JSON.stringify(id)}`;
+    const start = flight.indexOf(marker);
+    if (start === -1) return;
+
+    // only look inside this video's own object: stop at the next video
+    // object, so a missing videoUrl can never pick up a neighbour's
+    const bodyStart = start + marker.length;
+    const nextVideo = flight.indexOf('"rawSnapId":', bodyStart);
+    const body = flight.slice(
+        bodyStart,
+        nextVideo === -1 ? bodyStart + 4096 : Math.min(nextVideo, bodyStart + 4096)
+    );
+
+    const rawURL = body.match(/"videoUrl":("(?:[^"\\]|\\.)*")/)?.[1];
+    if (!rawURL) return;
+
+    try {
+        return JSON.parse(rawURL);
+    } catch {}
+}
+
+function isCdnURL(url) {
+    try {
+        return new URL(url).hostname.endsWith(".sc-cdn.net");
+    } catch {
+        return false;
+    }
+}
 
 async function getSpotlight(id) {
     const html = await fetch(`https://www.snapchat.com/spotlight/${id}`, {
@@ -14,9 +54,10 @@ async function getSpotlight(id) {
         return { error: "fetch.fail" };
     }
 
-    const videoURL = html.match(SPOTLIGHT_VIDEO_REGEX)?.[1];
+    const videoURL = html.match(SPOTLIGHT_VIDEO_REGEX)?.[1]
+                  || getSpotlightFromFlightData(html, id);
 
-    if (videoURL && new URL(videoURL).hostname.endsWith(".sc-cdn.net")) {
+    if (videoURL && isCdnURL(videoURL)) {
         return {
             urls: videoURL,
             filename: `snapchat_${id}.mp4`,
