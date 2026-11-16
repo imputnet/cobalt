@@ -10,17 +10,69 @@ function getURL(url) {
     }
 }
 
+// decode the cloudfront policy of a signed playlist url and return the
+// resource prefixes it covers (wildcard resources up to the "*", plus
+// exact resources). anything unparsable means "covers nothing".
+function signedResourceScopes(base) {
+    try {
+        const policy = base.searchParams.get("Policy");
+        if (!policy) return [];
+
+        const text = Buffer.from(policy, "base64url").toString("utf8");
+        const doc = JSON.parse(text.slice(0, text.lastIndexOf("}") + 1));
+        const statements = Array.isArray(doc?.Statement) ? doc.Statement : [];
+
+        return statements
+            .map(st => st?.Resource)
+            .filter(r => typeof r === "string");
+    } catch {
+        return [];
+    }
+}
+
+export function isCoveredBySignature(base, child) {
+    const target = child.toString();
+
+    for (const resource of signedResourceScopes(base)) {
+        const wildcard = resource.indexOf("*");
+        if (wildcard === -1 ? target === resource : target.startsWith(resource.slice(0, wildcard))) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+export function resolveHlsUri(streamInfo, uri) {
+    if (getURL(uri)) {
+        return new URL(uri);
+    }
+
+    const fullUrl = new URL(uri, streamInfo.url);
+
+    // loom signs its master playlist with a cloudfront wildcard policy.
+    // propagate the signature query to a relative child uri only when the
+    // child is confirmed to be covered by that signature: the service is
+    // loom, the child is same-origin (a protocol-relative //other-host/...
+    // child never inherits), carries no query of its own, and its resolved
+    // url stays inside the policy's resource scope (no ../ escapes).
+    if (streamInfo.service === "loom" && !fullUrl.search) {
+        const base = getURL(streamInfo.url);
+        if (base?.search && fullUrl.origin === base.origin
+            && isCoveredBySignature(base, fullUrl)) {
+            fullUrl.search = base.search;
+        }
+    }
+
+    return fullUrl;
+}
+
 function transformObject(streamInfo, hlsObject) {
     if (hlsObject === undefined) {
         return (object) => transformObject(streamInfo, object);
     }
 
-    let fullUrl;
-    if (getURL(hlsObject.uri)) {
-        fullUrl = new URL(hlsObject.uri);
-    } else {
-        fullUrl = new URL(hlsObject.uri, streamInfo.url);
-    }
+    const fullUrl = resolveHlsUri(streamInfo, hlsObject.uri);
 
     if (fullUrl.hostname !== '127.0.0.1') {
         hlsObject.uri = createInternalStream(fullUrl.toString(), streamInfo);
@@ -54,10 +106,13 @@ function transformMediaPlaylist(streamInfo, hlsPlaylist) {
     return hlsPlaylist;
 }
 
-const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegURL"];
+const HLS_MIME_TYPES = ["application/vnd.apple.mpegurl", "audio/mpegurl", "application/x-mpegurl"];
 
 export function isHlsResponse(req, streamInfo) {
-    return HLS_MIME_TYPES.includes(req.headers['content-type'])
+    // some cdns (e.g. loom's cloudfront) append a charset parameter and
+    // mime types are case-insensitive, so compare normalized bare types
+    const contentType = req.headers['content-type']?.split(';')[0].trim().toLowerCase();
+    return HLS_MIME_TYPES.includes(contentType)
         // bluesky's cdn responds with wrong content-type for the hls playlist,
         // so we enforce it here until they fix it
         || (streamInfo.service === 'bsky' && streamInfo.url.endsWith('.m3u8'));
@@ -111,7 +166,8 @@ export async function probeInternalHLSTunnel(streamInfo) {
     const manifestResponse = await fetch(url, config);
 
     const manifest = HLS.parse(await manifestResponse.text());
-    if (manifest.segments.length === 0)
+    // master playlists have no segments, only variants
+    if (!manifest.segments?.length)
         return -1;
 
     const segmentSamples = await Promise.all(
