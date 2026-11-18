@@ -135,6 +135,21 @@ export default function instagram(obj) {
         return mediaInfo?.items?.[0];
     }
 
+    async function requestWebPost(mediaId, cookie, id, alwaysProxy) {
+        try {
+            const response = await request(`https://www.instagram.com/api/v1/media/${mediaId}/info/`, cookie);
+            const item = response?.items?.[0];
+            if (!item) return;
+            if (item.user?.is_private) return { error: 'content.post.private' };
+            if (item.media_type === 2 && !item.video_versions?.length) return;
+
+            const post = extractNewPost(item, id, alwaysProxy);
+            if (post?.urls || post?.picker?.length) return post;
+        } catch {
+            // The embed can still resolve malformed or incomplete web responses.
+        }
+    }
+
     async function requestHTML(id, cookie) {
         const data = await fetch(`https://www.instagram.com/p/${id}/embed/captioned/`, {
             headers: {
@@ -425,7 +440,8 @@ export default function instagram(obj) {
             const token = bearer?.values()?.token;
 
             // get media_id for mobile api, three methods
-            let media_id = await getMediaId(id);
+            const publicMediaId = await getMediaId(id);
+            let media_id = publicMediaId;
             if (!media_id && token) media_id = await getMediaId(id, { token });
             if (!media_id && cookie) media_id = await getMediaId(id, { cookie });
 
@@ -435,6 +451,12 @@ export default function instagram(obj) {
             // mobile api (no cookie, cookie)
             if (media_id && !hasData(data)) data = await requestMobileApi(media_id);
             if (media_id && cookie && !hasData(data)) data = await requestMobileApi(media_id, { cookie });
+
+            // web api (cookie), in case the mobile api rejects the cookie session
+            if (publicMediaId && cookie && !hasData(data)) {
+                const post = await requestWebPost(publicMediaId, cookie, id, alwaysProxy);
+                if (post) return post;
+            }
 
             // html embed (no cookie, cookie)
             if (!hasData(data)) data = await requestHTML(id);
