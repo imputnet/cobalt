@@ -53,7 +53,7 @@ export function pipe(from, to, done) {
     from.pipe(to);
 }
 
-export async function estimateTunnelLength(streamInfo, multiplier = 1.1) {
+export async function estimateTunnelLength(streamInfo, multiplier = 1.1, signal) {
     let urls = streamInfo.urls;
     if (!Array.isArray(urls)) {
         urls = [ urls ];
@@ -63,7 +63,7 @@ export async function estimateTunnelLength(streamInfo, multiplier = 1.1) {
     if (internalTunnels.some(t => !t))
         return -1;
 
-    const sizes = await Promise.all(internalTunnels.map(probeInternalTunnel));
+    const sizes = await Promise.all(internalTunnels.map(tunnel => probeInternalTunnel(tunnel, signal)));
     const estimatedSize = sizes.reduce(
         // if one of the sizes is missing, let's just make a very
         // bold guess that it's the same size as the existing one

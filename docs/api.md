@@ -237,7 +237,7 @@ endpoint for file tunnels (proxy/remux/transcode). the response is a file stream
 - `Content-Length`: file size, in bytes. returned when exact final file size is known.
 - `Estimated-Content-Length`: estimated file size, in bytes. returned when real `Content-Length` is not known.
 a rough estimate which should NOT be used for strict size verification.
-can be used to show approximate download progress in UI.
+a positive value can be used for approximate download progress. `-1` means the estimate was unavailable when streaming began. clients should show indeterminate progress in that case.
 
 ### possible HTTP status codes
 - 200: OK
