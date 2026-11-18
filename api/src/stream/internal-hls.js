@@ -77,25 +77,22 @@ export async function handleHlsPlaylist(streamInfo, req, res) {
 }
 
 async function getSegmentSize(url, config) {
-    const segmentResponse = await request(url, {
+    const { body, headers, statusCode } = await request(url, {
         ...config,
-        throwOnError: true
+        headers: { ...config.headers, range: 'bytes=0-0' }
     });
 
-    if (segmentResponse.headers['content-length']) {
-        segmentResponse.body.dump();
-        return +segmentResponse.headers['content-length'];
+    if (statusCode === 206) {
+        const size = /^bytes 0-0\/(\d+)$/i.exec(headers['content-range'])?.[1];
+        // The requested range is one byte. Bound draining even if the origin misbehaves.
+        await body.dump({ limit: 2 });
+        return Number(size);
     }
 
-    // if the response does not have a content-length
-    // header, we have to compute it ourselves
-    let size = 0;
-
-    for await (const data of segmentResponse.body) {
-        size += data.length;
-    }
-
-    return size;
+    // Origins can ignore Range. Use the full length from the headers if they
+    // supply it, and cancel the body even if the length is unknown.
+    body.on('error', () => {}).destroy();
+    return statusCode === 200 ? Number(headers['content-length']) : NaN;
 }
 
 export async function probeInternalHLSTunnel(streamInfo) {
@@ -107,35 +104,43 @@ export async function probeInternalHLSTunnel(streamInfo) {
     });
 
     const config = { headers, dispatcher, signal, maxRedirections: 16 };
-
     const manifestResponse = await fetch(url, config);
+    if (!manifestResponse.ok) {
+        await manifestResponse.body?.cancel();
+        return -1;
+    }
 
     const manifest = HLS.parse(await manifestResponse.text());
-    if (manifest.segments.length === 0)
-        return -1;
-
-    const segmentSamples = await Promise.all(
-        Array(5).fill().map(async () => {
-            const manifestIdx = Math.floor(Math.random() * manifest.segments.length);
-            const randomSegment = manifest.segments[manifestIdx];
-            if (!randomSegment.uri)
-                throw "segment is missing URI";
-
-            let segmentUrl;
-
-            if (getURL(randomSegment.uri)) {
-                segmentUrl = new URL(randomSegment.uri);
-            } else {
-                segmentUrl = new URL(randomSegment.uri, streamInfo.url);
+    const segments = manifest.segments.filter(
+        segment => segment.uri && segment.duration > 0 && !segment.gap
+    );
+    const sampleCount = Math.min(5, segments.length);
+    const sizeRequests = new Map();
+    const samples = await Promise.allSettled(
+        Array.from({ length: sampleCount }, async (_, index) => {
+            const segment = segments[Math.floor((index + 0.5) * segments.length / sampleCount)];
+            let size = segment.byterange?.length;
+            if (size === undefined) {
+                const segmentUrl = new URL(segment.uri, manifestResponse.url).href;
+                if (!sizeRequests.has(segmentUrl)) {
+                    sizeRequests.set(segmentUrl, getSegmentSize(segmentUrl, config));
+                }
+                size = await sizeRequests.get(segmentUrl);
             }
-
-            const segmentSize = await getSegmentSize(segmentUrl, config) / randomSegment.duration;
-            return segmentSize;
+            return { size, duration: segment.duration };
         })
     );
 
-    const averageBitrate = segmentSamples.reduce((a, b) => a + b) / segmentSamples.length;
-    const totalDuration = manifest.segments.reduce((acc, segment) => acc + segment.duration, 0);
+    let sampledBytes = 0, sampledDuration = 0;
+    for (const sample of samples) {
+        if (sample.status !== 'fulfilled') continue;
+        const { size, duration } = sample.value;
+        if (!Number.isFinite(size) || size <= 0) continue;
+        sampledBytes += size;
+        sampledDuration += duration;
+    }
+    if (!sampledDuration) return -1;
 
-    return averageBitrate * totalDuration;
+    const totalDuration = segments.reduce((acc, segment) => acc + segment.duration, 0);
+    return sampledBytes * (totalDuration / sampledDuration);
 }

@@ -54,6 +54,7 @@ cd "$(git rev-parse --show-toplevel)"
 pnpm install --frozen-lockfile
 
 if [ "$1" = "api" ]; then
+    node --test api/test/*.test.js
     setup_api
     test_api
     [ "$API_PID" != "" ] \
